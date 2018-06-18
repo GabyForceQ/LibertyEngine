@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3ce35929-3276-4764-8c90-09af0acf8bbb" name="Default" comment="" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="vector.d" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="594">
+              <caret line="33" column="60" selection-start-line="33" selection-start-column="60" selection-end-line="33" selection-end-column="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dub.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dub.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="D Language Module" />
+      </list>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/source/crystal/math/point.d" />
+        <option value="$PROJECT_DIR$/LICENSE" />
+        <option value="$PROJECT_DIR$/source/crystal/math/box.d" />
+        <option value="$PROJECT_DIR$/source/crystal/math/functions.d" />
+        <option value="$PROJECT_DIR$/source/crystal/math/matrix.d" />
+        <option value="$PROJECT_DIR$/source/crystal/math/quaternion.d" />
+        <option value="$PROJECT_DIR$/source/crystal/math/shapes.d" />
+        <option value="$PROJECT_DIR$/dub.json" />
+        <option value="$PROJECT_DIR$/source/crystal/math/package.d" />
+        <option value="$PROJECT_DIR$/source/crystal/math/vector.d" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="172" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="CrystalMath" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CrystalMath" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CrystalMath" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CrystalMath" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CrystalMath" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CrystalMath" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
+              <item name="math" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="X:\CrystalEngine\CrystalMath\source\crystal\math" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Build with DUB.Run DUB">
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration name="Run D App" type="DlangRunAppConfiguration" factoryName="Run D App" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="CrystalMath" />
+      <option name="additionalParams" />
+      <option name="envVars">
+        <map />
+      </option>
+      <option name="workDir" value="X:\CrystalEngine\CrystalMath" />
+      <method>
+        <option name="Make" enabled="false" />
+        <option name="RunConfigurationTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="DlangRunAppConfiguration" factoryName="Run D App" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="" />
+      <option name="additionalParams" />
+      <option name="envVars">
+        <map />
+      </option>
+      <option name="workDir" value="X:\CrystalEngine\CrystalMath" />
+    </configuration>
+    <configuration name="Compile with DMD" type="DlangRunDmdConfiguration" factoryName="Run DMD Compiler" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="CrystalMath" />
+      <option name="addSymbolicDebugInfo" value="false" />
+      <option name="addSymbolicDebugInfoC" value="false" />
+      <option name="allowDeprecated" value="false" />
+      <option name="coverageAnalysis" value="false" />
+      <option name="debug" value="false" />
+      <option name="defaultLibrary" />
+      <option name="docsFilename" />
+      <option name="docsPath" />
+      <option name="enforcePropertySyntax" value="false" />
+      <option name="functionInlining" value="false" />
+      <option name="generateDocs" value="false" />
+      <option name="generateHeader" value="false" />
+      <option name="generateJson" value="false" />
+      <option name="generateMap" value="false" />
+      <option name="generateStandardStackFrame" value="false" />
+      <option name="headerDir" />
+      <option name="headerFilename" />
+      <option name="ignorePragmas" value="false" />
+      <option name="importsPath" />
+      <option name="infoWarnings" value="false" />
+      <option name="jsonFilename" />
+      <option name="library" value="false" />
+      <option name="link" value="false" />
+      <option name="linkerArgs" />
+      <option name="listThreadLocalStorage" value="false" />
+      <option name="moduleDepsFilename" />
+      <option name="noArrayBoundsCheck" value="false" />
+      <option name="noFloatingPointReferences" value="false" />
+      <option name="noObjectFiles" value="false" />
+      <option name="noStripPaths" value="false" />
+      <option name="optimize" value="false" />
+      <option name="profile" value="false" />
+      <option name="quiet" value="false" />
+      <option name="release" value="false" />
+      <option name="stringImportsPath" />
+      <option name="symbolicLibrary" />
+      <option name="unitTest" value="false" />
+      <option name="verbose" value="false" />
+      <option name="warnings" value="false" />
+    </configuration>
+    <configuration default="true" type="DlangRunDmdConfiguration" factoryName="Run DMD Compiler" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="" />
+      <option name="addSymbolicDebugInfo" value="false" />
+      <option name="addSymbolicDebugInfoC" value="false" />
+      <option name="allowDeprecated" value="false" />
+      <option name="coverageAnalysis" value="false" />
+      <option name="debug" value="false" />
+      <option name="defaultLibrary" />
+      <option name="docsFilename" />
+      <option name="docsPath" />
+      <option name="enforcePropertySyntax" value="false" />
+      <option name="functionInlining" value="false" />
+      <option name="generateDocs" value="false" />
+      <option name="generateHeader" value="false" />
+      <option name="generateJson" value="false" />
+      <option name="generateMap" value="false" />
+      <option name="generateStandardStackFrame" value="false" />
+      <option name="headerDir" />
+      <option name="headerFilename" />
+      <option name="ignorePragmas" value="false" />
+      <option name="importsPath" />
+      <option name="infoWarnings" value="false" />
+      <option name="jsonFilename" />
+      <option name="library" value="false" />
+      <option name="link" value="false" />
+      <option name="linkerArgs" />
+      <option name="listThreadLocalStorage" value="false" />
+      <option name="moduleDepsFilename" />
+      <option name="noArrayBoundsCheck" value="false" />
+      <option name="noFloatingPointReferences" value="false" />
+      <option name="noObjectFiles" value="false" />
+      <option name="noStripPaths" value="false" />
+      <option name="optimize" value="false" />
+      <option name="profile" value="false" />
+      <option name="quiet" value="false" />
+      <option name="release" value="false" />
+      <option name="stringImportsPath" />
+      <option name="symbolicLibrary" />
+      <option name="unitTest" value="false" />
+      <option name="verbose" value="false" />
+      <option name="warnings" value="false" />
+    </configuration>
+    <configuration name="Run DUB" type="DlangRunDubConfiguration" factoryName="Build with DUB" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="CrystalMath" />
+      <option name="additionalParams" value="" />
+      <option name="buildMode" value="0" />
+      <option name="cbCombined" value="false" />
+      <option name="cbCoverage" value="false" />
+      <option name="cbForce" value="false" />
+      <option name="cbForceRemove" value="false" />
+      <option name="cbNoDeps" value="false" />
+      <option name="cbParallel" value="false" />
+      <option name="cbRdmd" value="false" />
+      <option name="cbTempBuild" value="false" />
+      <option name="envVars">
+        <map />
+      </option>
+      <option name="generalDubOptions" value="1" />
+      <option name="quiet" value="false" />
+      <option name="tfArch" value="" />
+      <option name="tfBuild" value="" />
+      <option name="tfCompiler" value="" />
+      <option name="tfConfig" value="" />
+      <option name="tfDebug" value="x86_64" />
+      <option name="tfMainFile" value="" />
+      <option name="verbose" value="false" />
+      <option name="workingDir" value="" />
+    </configuration>
+    <configuration default="true" type="DlangRunDubConfiguration" factoryName="Build with DUB" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="" />
+      <option name="additionalParams" />
+      <option name="buildMode" value="0" />
+      <option name="cbCombined" value="false" />
+      <option name="cbCoverage" value="false" />
+      <option name="cbForce" value="false" />
+      <option name="cbForceRemove" value="false" />
+      <option name="cbNoDeps" value="false" />
+      <option name="cbParallel" value="false" />
+      <option name="cbRdmd" value="false" />
+      <option name="cbTempBuild" value="false" />
+      <option name="envVars">
+        <map />
+      </option>
+      <option name="generalDubOptions" value="1" />
+      <option name="quiet" value="false" />
+      <option name="tfArch" />
+      <option name="tfBuild" />
+      <option name="tfCompiler" />
+      <option name="tfConfig" />
+      <option name="tfDebug" />
+      <option name="tfMainFile" />
+      <option name="verbose" value="false" />
+      <option name="workingDir" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <properties />
+      <listeners />
+    </configuration>
+    <list>
+      <item itemvalue="Build with DUB.Run DUB" />
+      <item itemvalue="Run D App.Run D App" />
+      <item itemvalue="Run DMD Compiler.Compile with DMD" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3ce35929-3276-4764-8c90-09af0acf8bbb" name="Default" comment="" />
+      <created>1529341526030</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1529341526030</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <layout>
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Cargo" />
+      <window_info anchor="bottom" id="Messages" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info id="Image Layers" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.21199143" />
+      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info id="Capture Tool" />
+      <window_info id="Designer" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/source/app.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/package">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/point.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/box.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/functions.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/matrix.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/quaternion.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/shapes.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12114">
+          <caret line="673" column="50" selection-start-line="673" selection-start-column="50" selection-end-line="673" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/package.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dub.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="33" column="60" selection-start-line="33" selection-start-column="60" selection-end-line="33" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -1,0 +1,10 @@
+{
+	"name": "crystal-math",
+	"targetName": "CrystalMath",
+    "targetPath": "lib",
+	"authors": [
+		"Gabriel Gheorghe"
+	],
+    "description": "A cross-platform math library for Crystal Engine, written in D.",
+	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"
+}
