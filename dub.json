@@ -1,0 +1,10 @@
+{
+	"name": "crystal-engine",
+	"targetName": "CrystalEngine",
+	"targetPath": "lib",
+	"authors": [
+		"Gabriel Gheorghe"
+	],
+	"description": "Crystal Engine, written in D.",
+	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"
+}

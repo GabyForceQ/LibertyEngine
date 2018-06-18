@@ -1,0 +1,2 @@
+23:30:15.353 [system] "C:\Program Files (x86)\dub\dub.exe" init -n --format json --type minimal
+23:30:15.478 [stderr] The target directory already contains a 'dub.json' file. Aborting.

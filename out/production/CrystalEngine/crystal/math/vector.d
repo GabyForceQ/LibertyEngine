@@ -11,11 +11,11 @@ import std.traits : isAssignable, isStaticArray, isDynamicArray;
 /// T = type of elements
 /// N = number of elements (2, 3, 4)
 struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
-	///
-	alias size = N;
-	///
-	alias type = T;
-	///
+    ///
+    alias size = N;
+    ///
+    alias type = T;
+    ///
     union {
         T[N] v;
         struct {
@@ -78,26 +78,26 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     }
 	///
 	static if (N == 2) {
-		///
-		this(T x, T y) pure nothrow @nogc @safe {
-			v[0] = x;
-			v[1] = y;
-		}
+        ///
+        this(T x, T y) pure nothrow @nogc @safe {
+            v[0] = x;
+            v[1] = y;
+        }
 	} else static if (N == 3) {
         ///
-		this(T x, T y, T z) pure nothrow @nogc @safe {
-			v[0] = x;
-			v[1] = y;
-			v[2] = z;
-		}
+        this(T x, T y, T z) pure nothrow @nogc @safe {
+            v[0] = x;
+            v[1] = y;
+            v[2] = z;
+        }
 	} else {
         ///
-		this(T x, T y, T z, T w) pure nothrow @nogc @safe {
-			v[0] = x;
-			v[1] = y;
-			v[2] = z;
-			v[3] = w;
-		}
+        this(T x, T y, T z, T w) pure nothrow @nogc @safe {
+            v[0] = x;
+            v[1] = y;
+            v[2] = z;
+            v[3] = w;
+        }
 	}
     ///
     this(T[N] arr) pure nothrow @nogc @safe {
@@ -164,12 +164,12 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     }
     /// Converts current vector to a string.
     string toString() const nothrow {
-	    try {
-		    import std.string : format;
-		    return format("%s", v);
-	    } catch (Exception e) {
-		    assert (0);
-	    }
+        try {
+            import std.string : format;
+            return format("%s", v);
+        } catch (Exception e) {
+            assert (0);
+        }
     }
     ///
     unittest {
