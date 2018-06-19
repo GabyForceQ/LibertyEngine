@@ -6,4 +6,13 @@
  * Documentation:
  * Coverage:
  */
-module crystal.math.shapes;
+module crystal.core;
+version (__NoDefaultImports__) {
+} else {
+	public {
+		import crystal.core.config;
+		import crystal.core.memory;
+		import crystal.core.securetypes;
+		import crystal.core.utils;
+	}
+}

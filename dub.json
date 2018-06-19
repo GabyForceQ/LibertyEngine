@@ -6,5 +6,10 @@
 		"Gabriel Gheorghe"
 	],
 	"description": "Crystal Engine, written in D.",
-	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"
+	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
+	"versions": [
+		"__OpenGL__",
+		"__BasicSTD__",
+        "__RowMajor__"
+	]
 }

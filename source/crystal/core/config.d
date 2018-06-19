@@ -6,4 +6,20 @@
  * Documentation:
  * Coverage:
  */
-module crystal.math.shapes;
+module crystal.core.config;
+///
+version (Windows) {
+	enum __Mobile__ = false;
+}
+///
+version (OSX) {
+	enum __Mobile__ = false;
+}
+///
+version (linux) {
+	enum __Mobile__ = false;
+}
+///
+version (Andorid) {
+	enum __Mobile__ = true;
+}
