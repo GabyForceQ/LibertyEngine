@@ -3,22 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="c1d68def-b722-4c77-a8f0-32b310641558" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CrystalEngine.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CrystalEngine.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dub.json" beforeDir="false" afterPath="$PROJECT_DIR$/dub.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dub_init_error_log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/box.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/box.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/functions.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/functions.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/package.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/engine.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/engine.d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/matrix.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/matrix.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/quaternion.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/quaternion.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/shapes.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/shapes.d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/vector.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/vector.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/box.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/box.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/functions.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/functions.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/crystal/core/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/package.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/crystal/engine.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/engine.d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/crystal/math/matrix.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/matrix.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/quaternion.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/quaternion.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/shapes.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/shapes.d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/crystal/math/vector.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/vector.d" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -30,7 +24,29 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="180">
+                <caret line="10" column="40" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ENGINE.VER" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/ENGINE.VER">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="12" selection-start-column="12" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -58,25 +74,41 @@
         <option value="$PROJECT_DIR$/source/crystal/physics/package.d" />
         <option value="$PROJECT_DIR$/source/crystal/physics/engine.d" />
         <option value="$PROJECT_DIR$/source/crystal/math/functions.d" />
-        <option value="$PROJECT_DIR$/source/crystal/math/vector.d" />
         <option value="$PROJECT_DIR$/source/crystal/core/utils.d" />
-        <option value="$PROJECT_DIR$/source/crystal/engine.d" />
-        <option value="$PROJECT_DIR$/dub.json" />
         <option value="$PROJECT_DIR$/source/crystal/core/memory.d" />
         <option value="$PROJECT_DIR$/source/crystal/core/config.d" />
-        <option value="$PROJECT_DIR$/source/crystal/math/matrix.d" />
         <option value="$PROJECT_DIR$/source/crystal/core/crystal.core.securetypes" />
         <option value="$PROJECT_DIR$/source/crystal/core/securetypes.d" />
+        <option value="$PROJECT_DIR$/dub.json" />
+        <option value="$PROJECT_DIR$/source/crystal/ui/view.d" />
+        <option value="$PROJECT_DIR$/source/crystal/ui/package.d" />
+        <option value="$PROJECT_DIR$/source/crystal/audio/device.d" />
+        <option value="$PROJECT_DIR$/source/crystal/audio/mixer.d" />
+        <option value="$PROJECT_DIR$/source/crystal/audio/package.d" />
+        <option value="$PROJECT_DIR$/source/crystal/audio/engine.d" />
+        <option value="$PROJECT_DIR$/source/crystal/engine.d" />
+        <option value="$PROJECT_DIR$/source/crystal/core/time.d" />
         <option value="$PROJECT_DIR$/source/crystal/core/package.d" />
+        <option value="$PROJECT_DIR$/source/crystal/math/vector.d" />
+        <option value="$PROJECT_DIR$/source/crystal/math/matrix.d" />
+        <option value="$PROJECT_DIR$/source/crystal/graphics/package.d" />
+        <option value="$PROJECT_DIR$/source/crystal/graphics/video/package.d" />
+        <option value="$PROJECT_DIR$/source/crystal/graphics/video/buffer.d" />
+        <option value="$PROJECT_DIR$/source/crystal/graphics/video/texture.d" />
+        <option value="$PROJECT_DIR$/source/crystal/graphics/video/vao.d" />
+        <option value="$PROJECT_DIR$/source/crystal/graphics/video/backend.d" />
+        <option value="$PROJECT_DIR$/source/crystal/graphics/video/vertex.d" />
+        <option value="$PROJECT_DIR$/source/crystal/graphics/video/shader.d" />
+        <option value="$PROJECT_DIR$/source/crystal/graphics/renderer.d" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/res/ENGINE.VER" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1066" />
+    <option name="x" value="953" />
+    <option name="width" value="974" />
+    <option name="height" value="1057" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -84,12 +116,18 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="CrystalEngine" type="b2602c69:ProjectViewProjectNode" />
               <item name="CrystalEngine" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CrystalEngine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CrystalEngine" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="CrystalEngine" type="b2602c69:ProjectViewProjectNode" />
@@ -106,9 +144,11 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="AndroidView" />
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.D" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -341,28 +381,29 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Cargo" order="3" />
-      <window_info anchor="bottom" id="Messages" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="Cargo" order="8" />
+      <window_info anchor="bottom" id="Messages" order="10" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info id="Image Layers" order="2" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.14453961" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.26980728" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.116204694" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Designer" order="3" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19083156" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Favorites" order="5" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -375,46 +416,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1764">
-          <caret line="98" column="21" lean-forward="true" selection-start-line="98" selection-start-column="21" selection-end-line="98" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dub.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dub.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="19" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dub.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/crystal.package">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/package.d">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" selection-start-column="15" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/crystal/math/package.d">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -478,9 +479,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/physics/experimental/rigidbody.d">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/physics/experimental/rigidbody.d" />
     <entry file="file://$PROJECT_DIR$/source/crystal/physics/engine.d">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -495,60 +494,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="16" lean-forward="true" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.utils">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.package">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/utils.d">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="33" column="1" lean-forward="true" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dub.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.memory">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.config">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dub_init_error_log.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.securetypes">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1566">
-          <caret line="87" column="1" selection-start-line="87" selection-start-column="1" selection-end-line="87" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.utils" />
+    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.package" />
+    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.memory" />
+    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.config" />
+    <entry file="file://$PROJECT_DIR$/dub_init_error_log.txt" />
+    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.securetypes" />
     <entry file="file://$PROJECT_DIR$/source/crystal/core/securetypes.d">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1134">
           <caret line="63" column="30" selection-start-line="63" selection-start-column="30" selection-end-line="63" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/math/matrix.d">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-576">
-          <caret line="34" column="30" selection-start-line="34" selection-start-column="30" selection-end-line="34" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -573,32 +528,194 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/crystal.graphics.package" />
+    <entry file="file://$PROJECT_DIR$/source/crystal/ui/crystal.ui.package" />
+    <entry file="file://$PROJECT_DIR$/source/crystal/ui/view.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/ui/package.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/audio/mixer.d" />
+    <entry file="file://$PROJECT_DIR$/source/crystal/audio/engine.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/audio/device.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/audio/package.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/engine.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.time" />
+    <entry file="file://$PROJECT_DIR$/source/crystal/core/utils.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/core/time.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/source/crystal/core/package.d">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        <state relative-caret-position="324">
+          <caret line="18" column="1" lean-forward="true" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dub.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="21" lean-forward="true" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2088">
+          <caret line="40" column="19" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/crystal.graphics.renderer">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/video/package.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/package.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/matrix.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2574">
+          <caret line="143" column="7" selection-start-line="143" selection-start-column="7" selection-end-line="143" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/video/buffer.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="22" column="24" lean-forward="true" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/video/backend.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="882">
+          <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/video/vertex.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="1" lean-forward="true" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/video/texture.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/video/shader.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" selection-start-line="9" selection-end-line="9" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/renderer.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1254">
+          <caret line="9" column="48" selection-start-line="9" selection-start-column="48" selection-end-line="9" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/video/vao.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="54">
-            <caret line="3" column="30" lean-forward="true" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
+          <first_editor relative-caret-position="180">
+            <caret line="10" column="40" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/engine.d">
+    <entry file="file://$PROJECT_DIR$/res/ENGINE.VER">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="13" column="33" lean-forward="true" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
+        <state>
+          <caret column="12" selection-start-column="12" selection-end-column="12" />
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

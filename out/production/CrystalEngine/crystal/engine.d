@@ -12,12 +12,12 @@ version (__NoDefaultImports__) {
 	public {
 		import crystal.ai;
 		import crystal.animation;
-		//import crystal.audio;
+		import crystal.audio;
 		import crystal.core;
-		//import crystal.graphics;
+		import crystal.graphics;
 		import crystal.math;
 		import crystal.physics;
-		//import crystal.ui;
+		import crystal.ui;
 	}
 }
 version (__BasicSTD__) {

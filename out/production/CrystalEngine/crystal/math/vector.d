@@ -21,21 +21,27 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         T[N] v;
 	    ///
         struct {
-            static if (N == 2) {
-                ///
-                T y;
-                ///
-                alias g = y;
-                ///
-                alias q = y;
-            } else static if (N == 3) {
+            ///
+            T x;
+            ///
+            alias r = x;
+            ///
+            alias p = y;
+            ///
+            T y;
+            ///
+            alias g = y;
+            ///
+            alias q = y;
+            static if (N == 3) {
                 ///
                 T z;
                 ///
                 alias b = z;
                 ///
                 alias s = z;
-            } else {
+            }
+            static if (N == 4) {
                 ///
                 T w;
                 ///

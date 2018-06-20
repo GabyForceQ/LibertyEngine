@@ -11,5 +11,13 @@
 		"__OpenGL__",
 		"__BasicSTD__",
         "__RowMajor__"
-	]
+	],
+	"dependencies": {
+		"derelict-util": "~>3.0.0-beta.2",
+		"derelict-gl3": "~>2.0.0-beta.6",
+		"derelict-sdl2": "~>3.1.0-alpha.4",
+		"derelict-assimp3": "~>2.0.0-beta.1",
+		"derelict-fi": "~>3.0.0-beta.1",
+		"stb": "~>1.1.4"
+	}
 }

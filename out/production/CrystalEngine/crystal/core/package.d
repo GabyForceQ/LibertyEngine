@@ -13,6 +13,7 @@ version (__NoDefaultImports__) {
 		import crystal.core.config;
 		import crystal.core.memory;
 		import crystal.core.securetypes;
+		import crystal.core.time;
 		import crystal.core.utils;
 	}
 }

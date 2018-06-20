@@ -6,14 +6,13 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core;
-version (__NoDefaultImports__) {
-} else {
-	public {
-		import crystal.core.config;
-		import crystal.core.memory;
-		import crystal.core.securetypes;
-		import crystal.core.time;
-		import crystal.core.utils;
-	}
+module crystal.core.time;
+import derelict.sdl2.sdl: SDL_GetTicks;
+///
+uint getTicks() {
+	return SDL_GetTicks();
+}
+///
+float getTime() {
+	return SDL_GetTicks() / 1000.0f;
 }
