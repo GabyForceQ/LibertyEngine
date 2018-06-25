@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c1d68def-b722-4c77-a8f0-32b310641558" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dub.json" beforeDir="false" afterPath="$PROJECT_DIR$/dub.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/functions.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/functions.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/matrix.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/matrix.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/vector.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/vector.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/ui/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/ui/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/renderer.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/renderer.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/functions.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/functions.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/matrix.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/matrix.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/vector.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/vector.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/ui/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/ui/package.d" afterDir="false" />
-    </list>
+    <list default="true" id="c1d68def-b722-4c77-a8f0-32b310641558" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,47 +12,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="vector.d" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="engine.d" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/crystal/core/engine.d">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-630">
-              <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="package.d" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/crystal/graphics/package.d">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="renderer.d" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/crystal/graphics/renderer.d">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="94" column="25" selection-start-line="94" selection-start-column="25" selection-end-line="94" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="matrix.d" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/crystal/math/matrix.d">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="11" column="55" lean-forward="true" selection-start-line="11" selection-start-column="55" selection-end-line="11" selection-end-column="55" />
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="306">
+                <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -147,7 +100,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="953" />
     <option name="width" value="974" />
     <option name="height" value="1057" />
@@ -443,12 +396,12 @@
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32976446" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.13811563" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1401919" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1401919" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
@@ -746,16 +699,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="306">
-            <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/crystal/core/system.d">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="205">
@@ -784,17 +727,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
+    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/renderer.d">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/engine.d">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-630">
-          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
+        <state relative-caret-position="18">
+          <caret line="26" column="57" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="57" />
         </state>
       </provider>
     </entry>
@@ -805,10 +741,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/renderer.d">
+    <entry file="file://$PROJECT_DIR$/source/crystal/core/engine.d">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="94" column="25" selection-start-line="94" selection-start-column="25" selection-end-line="94" selection-end-column="25" />
+        <state relative-caret-position="-630">
+          <caret line="20" column="35" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="306">
+            <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
