@@ -20,5 +20,3 @@ The Next Game Engine is written in D and built-up with SDL2.
 * Vulkan API Support
 
 > *Current version : v0.0.4 (dev-alpha). Do not use this framework in production until version 0.1 (scheduled for Q2 2019) is released!*
-
-##### Instructions for testing it:
