@@ -7,7 +7,7 @@
  * Coverage:
  */
 module crystal.math.functions;
-import std.traits : isIntegral, isSigned;
+import std.traits : isIntegral, isSigned, isFloatingPoint;
 public import std.math;
 //import std.math : trunc, floor, asin, acos, sin, PI;
 version( D_InlineAsm_X86 ) {
@@ -150,4 +150,27 @@ pure nothrow @nogc @safe unittest {
 	assert(nextPowerOf2(3) == 4);
 	assert(nextPowerOf2(21) == 32);
 	assert(nextPowerOf2(1000) == 1024);
+}
+/// SSE approximation of reciprocal square root.
+T inverseSqrt(T)(T x) pure nothrow @safe @nogc if (isFloatingPoint!T) {
+	version(AsmX86) {
+		static if (is(T == float)) {
+			float result;
+			asm pure nothrow @safe @nogc {
+				movss XMM0, x;
+				rsqrtss XMM0, XMM0;
+				movss result, XMM0;
+			}
+			return result;
+		} else {
+			return 1 / sqrt(x);
+		}
+	} else {
+		return 1 / sqrt(x);
+	}
+}
+///
+pure nothrow @safe @nogc unittest {
+	assert (abs(inverseSqrt!float(1) - 1) < 1e-3 );
+	assert (abs(inverseSqrt!double(1) - 1) < 1e-3 );
 }

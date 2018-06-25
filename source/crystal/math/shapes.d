@@ -12,7 +12,7 @@ import std.traits;
 import crystal.math.vector;
 import crystal.math.box;
 ///
-struct Segment(T, int N) if (T == 2 || T == 3) {
+struct Segment(T, int N) if (N == 2 || N == 3) {
 	///
 	alias PointType = Vector!(T, N);
 	///
@@ -40,13 +40,13 @@ alias Segment3I = Segment!(int, 3);
 ///
 alias Segment2F = Segment!(float, 2);
 ///
-alias Segment3I = Segment!(float, 3);
+alias Segment3F = Segment!(float, 3);
 ///
 alias Segment2D = Segment!(double, 2);
 ///
 alias Segment3D = Segment!(double, 3);
 ///
-struct Triangle(T, int N) if (T == 2 || T == 3) {
+struct Triangle(T, int N) if (N == 2 || N == 3) {
 	///
 	alias PointType = Vector!(T, N);
 	///
@@ -81,7 +81,7 @@ alias Triangle2D = Triangle!(double, 2);
 ///
 alias Triangle3D = Triangle!(double, 3);
 ///
-struct Sphere(T, int N) if (T == 2 || T == 3) {
+struct Sphere(T, int N) if (N == 2 || N == 3) {
 	///
 	alias PointType = Vector!(T, N);
 	///
@@ -136,7 +136,7 @@ alias Sphere2D = Sphere!(double, 2);
 ///
 alias Sphere3D = Sphere!(double, 3);
 ///
-struct Ray(T, int N) if (T == 2 || T == 3) {
+struct Ray(T, int N) if (N == 2 || N == 3) {
 	///
 	alias PointType = Vector!(T, N);
 	///
@@ -146,26 +146,26 @@ struct Ray(T, int N) if (T == 2 || T == 3) {
 	///
 	PointType progress(T t) pure const nothrow
 	{
-		return orig + dir * t;
+		return origin + direction * t;
 	}
 	static if (N == 3 && isFloatingPoint!T) {
 		///
 		bool intersect(Triangle!(T, 3) triangle, out T t, out T u, out T v) pure nothrow const @safe @nogc {
 			PointType edge1 = triangle.b - triangle.a;
 			PointType edge2 = triangle.c - triangle.a;
-			PointType pvec = cross(dir, edge2);
+			PointType pvec = cross(direction, edge2);
 			T det = dot(edge1, pvec);
 			if (abs(det) < T.epsilon) {
 				return false;
 			}
 			T invDet = 1 / det;
-			PointType tvec = orig - triangle.a;
+			PointType tvec = origin - triangle.a;
 			u = dot(tvec, pvec) * invDet;
 			if (u < 0 || u > 1) {
 				return false;
 			}
 			PointType qvec = cross(tvec, edge1);
-			v = dot(dir, qvec) * invDet;
+			v = dot(direction, qvec) * invDet;
 			if (v < 0.0 || u + v > 1.0) {
 				return false;
 			}
@@ -174,13 +174,13 @@ struct Ray(T, int N) if (T == 2 || T == 3) {
 		}
 		///
 		bool intersect(Plane!T plane, out PointType intersection, out T distance) pure nothrow const @safe @nogc {
-			T dp = dot(plane.n, dir);
+			T dp = dot(plane.n, direction);
 			if (abs(dp) < T.epsilon) {
 				distance = T.infinity;
 				return false;
 			}
-			distance = -(dot(plane.n, orig) - plane.d) / dp;
-			intersection = distance * dir + orig;
+			distance = -(dot(plane.n, origin) - plane.d) / dp;
+			intersection = distance * direction + origin;
 			return distance >= 0;
 		}
 	}

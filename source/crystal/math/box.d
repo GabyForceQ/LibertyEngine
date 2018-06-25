@@ -54,7 +54,6 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
 	BoundType size() pure nothrow const @safe @nogc @property {
 		return max - min;
 	}
-	
 	/// Returns center of the box.
 	BoundType center() pure nothrow const @safe @nogc @property {
 		return (min + max) / 2;
@@ -125,7 +124,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
 		assert(isSorted());
 	} do {
 		real distanceSquared = 0;
-		static foreach (i; 0..N) { {
+		static foreach (i; 0..N) {
 			if (point[i] < min[i]) {
 				distanceSquared += (point[i] - min[i]) ^^ 2;
 			}
@@ -173,9 +172,11 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
 			return o;
 		}
 		Box ret;
+		T maxOfMins = 0;
+		T minOfMaxs = 0;
 		static foreach (i; 0..N) {
-			T maxOfMins = (min.v[i] > o.min.v[i]) ? min.v[i] : o.min.v[i];
-			T minOfMaxs = (max.v[i] < o.max.v[i]) ? max.v[i] : o.max.v[i];
+			maxOfMins = (min.v[i] > o.min.v[i]) ? min.v[i] : o.min.v[i];
+			minOfMaxs = (max.v[i] < o.max.v[i]) ? max.v[i] : o.max.v[i];
 			ret.min.v[i] = maxOfMins;
 			ret.max.v[i] = minOfMaxs >= maxOfMins ? minOfMaxs : maxOfMins;
 		}
@@ -211,8 +212,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
 	}
 	///
 	Box expand(BoundType point) pure nothrow const @safe @nogc {
-		import vector = sunshine.math.vector;
-		return Box(vector.minByElem(min, point), vector.maxByElem(max, point));
+		return Box(minByElem(min, point), maxByElem(max, point));
 	}
 	///
 	Box expand(Box other) pure nothrow const @safe @nogc
@@ -227,9 +227,11 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
 			return this;
 		}
 		Box ret;
+		T minOfMins = 0;
+		T maxOfMaxs = 0;
 		static foreach (i; 0..N) {
-			T minOfMins = (min.v[i] < other.min.v[i]) ? min.v[i] : other.min.v[i];
-			T maxOfMaxs = (max.v[i] > other.max.v[i]) ? max.v[i] : other.max.v[i];
+			minOfMins = (min.v[i] < other.min.v[i]) ? min.v[i] : other.min.v[i];
+			maxOfMaxs = (max.v[i] > other.max.v[i]) ? max.v[i] : other.max.v[i];
 			ret.min.v[i] = minOfMins;
 			ret.max.v[i] = maxOfMaxs;
 		}
@@ -299,7 +301,7 @@ template Box2(T) {
 	alias Box2 = Box!(T, 2);
 }
 ///
-template box3(T) {
+template Box3(T) {
 	alias Box3 = Box!(T, 3);
 }
 ///

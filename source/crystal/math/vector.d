@@ -34,7 +34,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
             alias g = y;
             ///
             alias q = y;
-            static if (N == 3) {
+            static if (N >= 3) {
                 ///
                 T z;
                 ///
@@ -126,10 +126,37 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
             v[3] = w;
         }
     }
+	///
+	this(T all) pure nothrow @safe @nogc {
+		v[] = all;
+	}
     ///
     this(T[N] arr) pure nothrow @nogc @safe {
         v = arr; // check
     }
+	static if (N == 3) {
+		///
+		this(Vector2!T xy, T z) {
+			v[0] = xy.x;
+			v[1] = xy.y;
+			v[2] = z;
+		}
+	} else static if (N == 4) {
+		///
+		this(Vector2!T xy, Vector2!T zw) {
+			v[0] = xy.x;
+			v[1] = xy.y;
+			v[2] = zw.x;
+			v[3] = zw.y;
+		}
+		///
+		this(Vector3!T xyz, T w) {
+			v[0] = xyz.x;
+			v[1] = xyz.y;
+			v[2] = xyz.z;
+			v[3] = w;
+		}
+	}
     /// Assign a Vector from a compatible type.
     ref Vector opAssign(U)(U val) pure nothrow @nogc @safe if (isAssignable!(T, U)) {
         foreach (e; v) {
@@ -208,7 +235,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		return ret;
 	}
 	///
-	Vector opBinary(string op, U)(U rhs) pure nothrow const @safe @nogc if (is(U : Vector) || (isConvertible!U)) {
+	Vector opBinary(string op, U)(U rhs) pure nothrow const @safe @nogc { //if (is(U : Vector) || (isConvertible!U)) {
 		Vector ret;
 		static if (is(U : T)) {
 			static foreach (i; 0..N) {

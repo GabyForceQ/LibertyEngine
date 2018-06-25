@@ -1,1 +1,0 @@
-module crystal.graphics.opengl.texture;

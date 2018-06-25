@@ -149,7 +149,7 @@ struct Matrix(T, int R, int C = R, MatrixOrder O = CurrentMatrixOrder) if (R >= 
 	}
 	///
 	ColumnType column(int j) pure nothrow const @safe @nogc {
-		column_t ret;
+		ColumnType ret;
 		static foreach (i; 0..R) {
 			ret.v[i] = c[i][j];
 		}
@@ -341,7 +341,7 @@ struct Matrix(T, int R, int C = R, MatrixOrder O = CurrentMatrixOrder) if (R >= 
 				ret.c[i][j] = c[j][i];
 			}
 		}
-		return res;
+		return ret;
 	}
 	static if (isSquare && R > 2) {
 		/// Makes a diagonal matrix from a vector.
@@ -356,12 +356,13 @@ struct Matrix(T, int R, int C = R, MatrixOrder O = CurrentMatrixOrder) if (R >= 
 		}
 		/// In-place translate by (v, 1).
 		void translate(Vector!(T, R-1) v) pure nothrow @safe @nogc {
+			T _dot = 0;
 			static foreach (i; 0..R) {
-				T dot = 0;
 				static foreach (j; 0..C - 1) {
-					dot += v.v[j] * c[i][j];
+					_dot += v.v[j] * c[i][j];
 				}
-				c[i][C - 1] += dot;
+				c[i][C - 1] += _dot;
+				_dot = 0;
 			}
 		}
 		/// Make a translation matrix.

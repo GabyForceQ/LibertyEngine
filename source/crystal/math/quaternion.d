@@ -64,7 +64,7 @@ struct Quaternion(T) {
 	}
 	/// Converts a quaternion to Euler angles.
 	Vector3!T toEulerAngles() pure nothrow const @safe @nogc {
-		Matrix3!T m = cast(mat3!T)(this);
+		Matrix3!T m = cast(Matrix3!T)(this);
 		T pitch, yaw, roll;
 		T s = sqrt(m.c[0][0] * m.c[0][0] + m.c[1][0] * m.c[1][0]);
 		if (s > T.epsilon) {
@@ -151,13 +151,13 @@ struct Quaternion(T) {
 		return opEquals(conv);
 	}
 	/// Convert to a 3x3 rotation matrix.
-	U opCast(U)() pure nothrow const @safe @nogc if (isMatrixInstance!U && is(U._T : _T) && (U._R == 3) && (U._C == 3)) {
+	U opCast(U)() pure nothrow const @safe @nogc if (isMatrixInstance!U && is(U.type : type) && (U.rowCount == 3) && (U.columnCount == 3)) {
 		T norm = x*x + y*y + z*z + w*w;
 		T s = (norm > 0) ? 2 / norm : 0;
 		T xx = x * x * s, xy = x * y * s, xz = x * z * s, xw = x * w * s,
 		yy = y * y * s, yz = y * z * s, yw = y * w * s,
 		zz = z * z * s, zw = z * w * s;
-		return Matrix3!(U._T)(1 - (yy + zz), (xy - zw), (xz + yw), (xy + zw), 1 - (xx + zz), (yz - xw), (xz - yw), (yz + xw), 1 - (xx + yy));
+		return Matrix3!(U.type)(1 - (yy + zz), (xy - zw), (xz + yw), (xy + zw), 1 - (xx + zz), (yz - xw), (xz - yw), (yz + xw), 1 - (xx + yy));
 	}
 	/// Converts a to a 4x4 rotation matrix.
 	U opCast(U)() pure nothrow const @safe @nogc if (isMatrixInstance!U && is(U.type : type) && (U.rowCount == 4) && (U.columnCount == 4)) {

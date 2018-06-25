@@ -17,10 +17,24 @@ The Next 2D/3D Game Engine is written in D!
 * OpenGL 3.3 on MacOSX and Ubuntu
 * OpenGL 4.5 on Windows
 
-##### Future plans:
+##### New features:
+* Coming 07.07.2018
+
+### Instructions:
+* Coming 07.07.2018
+
+### Examples:
+* Coming 07.07.2018
+
+### Future plans:
 * Android support with LDC
 * Vulkan API Support
 * HTML5 with WebAssembly Support
-* Crystal Studio with demo projects
+* Demo projects
+* Crystal Studio with project templates
+* Multithreading systems
+* Dynamic scripts loader
+* VR/AR capabilities
+* Real-Time Ray Tracing
 
 > *Do not use this framework in production until version 0.1 (scheduled for Q2 2019) is released!*

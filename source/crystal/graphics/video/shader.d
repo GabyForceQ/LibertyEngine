@@ -10,6 +10,7 @@ module crystal.graphics.video.shader;
 import crystal.math.vector : Vector2F, Vector3F, Vector4F;
 import crystal.math.matrix: Matrix4F;
 import crystal.graphics.renderer : Renderable;
+import crystal.core.engine;
 ///
 enum ShaderType : byte {
     ///
@@ -85,4 +86,9 @@ abstract class ShaderProgram : Renderable {
     void loadUniform(string name, Vector4F vector);
     /// Load mat4 uniform using uniform name and value.
     void loadUniform(string name, Matrix4F matrix);
+    ///
+    override void render() {
+        loadUniform("projection", CoreEngine.getActiveScene().activeCamera.getProjection()); // TODO: NOT HERE? ONLY ONCE?
+        loadUniform("view", CoreEngine.getActiveScene().activeCamera.getView()); // TODO: NOT HERE? ONLY ONCE?
+    }
 }
