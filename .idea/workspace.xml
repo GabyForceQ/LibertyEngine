@@ -5,7 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/ENGINE.VER" beforeDir="false" afterPath="$PROJECT_DIR$/res/ENGINE.VER" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/box.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/box.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/crystal/math/shapes.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/shapes.d" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,11 +17,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="box.d" pinned="false" current-in-tab="true">
+      <file leaf-file-name="box.d" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/crystal/math/box.d">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="84" column="19" lean-forward="true" selection-start-line="84" selection-start-column="19" selection-end-line="84" selection-end-column="19" />
+            <state relative-caret-position="870">
+              <caret line="84" column="19" selection-start-line="84" selection-start-column="19" selection-end-line="84" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shapes.d" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/crystal/math/shapes.d">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-6324">
+              <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="450">
+                <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -50,7 +71,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/source/crystal/core/memory.d" />
         <option value="$PROJECT_DIR$/source/crystal/core/config.d" />
         <option value="$PROJECT_DIR$/source/crystal/core/crystal.core.securetypes" />
         <option value="$PROJECT_DIR$/source/crystal/core/securetypes.d" />
@@ -98,14 +118,15 @@
         <option value="$PROJECT_DIR$/source/crystal/graphics/package.d" />
         <option value="$PROJECT_DIR$/source/crystal/graphics/renderer.d" />
         <option value="$PROJECT_DIR$/source/crystal/math/quaternion.d" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/res/ENGINE.VER" />
         <option value="$PROJECT_DIR$/source/crystal/math/box.d" />
+        <option value="$PROJECT_DIR$/res/ENGINE.VER" />
+        <option value="$PROJECT_DIR$/source/crystal/math/shapes.d" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="953" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-7" />
     <option name="width" value="974" />
     <option name="height" value="1057" />
   </component>
@@ -114,6 +135,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -137,20 +161,10 @@
               <item name="source" type="462c0819:PsiDirectoryNode" />
               <item name="crystal" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="CrystalEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CrystalEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="crystal" type="462c0819:PsiDirectoryNode" />
-              <item name="math" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -402,7 +416,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1652452" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12739871" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
@@ -427,7 +441,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/crystal.core.time" />
     <entry file="file://$PROJECT_DIR$/source/crystal/core/utils.d">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -755,20 +768,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="396">
-            <caret line="22" column="36" selection-start-line="22" selection-start-column="36" selection-end-line="22" selection-end-column="36" />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/box.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="870">
+          <caret line="84" column="19" selection-start-line="84" selection-start-column="19" selection-end-line="84" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/math/box.d">
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/shapes.d">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="84" column="19" lean-forward="true" selection-start-line="84" selection-start-column="19" selection-end-line="84" selection-end-column="19" />
+        <state relative-caret-position="-6324">
+          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="450">
+            <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

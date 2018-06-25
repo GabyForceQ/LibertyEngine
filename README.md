@@ -1,23 +1,26 @@
 # CrystalEngine
-The Next Game Engine is written in D and built-up with SDL2.
-Release date for version v0.0.14: 07.07.2018!
+The Next 2D/3D Game Engine is written in D!
+
+### Upcoming Realease Notes (v0.0.14 - 07.07.2018)
 
 ##### D compiler versions supported:
-* DMD 2.080.1
+* DMD 2.081.0
 
 ##### Operating systems supported (tested):
+* MacOSX 10.13 x64 (64-bits)
 * Ubuntu 18.04 LTS x86 (32-bits)
 * Ubuntu 18.04 LTS x64 (64-bits)
-* Windows 7/8/8.1/10 x86 (32-bits)
-* Windows 7/8/8.1/10 x64 (64-bits)
+* Windows 10 x86 (32-bits)
+* Windows 10 x64 (64-bits)
 
 ##### Graphics APIs supported:
-* OpenGL 3.3 on Ubuntu
+* OpenGL 3.3 on MacOSX and Ubuntu
 * OpenGL 4.5 on Windows
 
 ##### Future plans:
-* Android support (with LDC)
-* MacOS X Support
+* Android support with LDC
 * Vulkan API Support
+* HTML5 with WebAssembly Support
+* Crystal Studio with demo projects
 
-> *Current version : v0.0.14-alpha.3 (dev-alpha). Do not use this framework in production until version 0.1 (scheduled for Q2 2019) is released!*
+> *Do not use this framework in production until version 0.1 (scheduled for Q2 2019) is released!*
