@@ -20,4 +20,4 @@ Release date for version v0.0.14: 27.06.2018!
 * MacOS X Support
 * Vulkan API Support
 
-> *Current version : v0.0.14-alpha.1 (dev-alpha). Do not use this framework in production until version 0.1 (scheduled for Q2 2019) is released!*
+> *Current version : v0.0.14-alpha.2 (dev-alpha). Do not use this framework in production until version 0.1 (scheduled for Q2 2019) is released!*
