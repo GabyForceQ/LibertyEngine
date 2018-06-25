@@ -10,9 +10,19 @@ module crystal.core;
 version (__NoDefaultImports__) {
 } else {
 	public {
+		import crystal.core.geometry;
+		import crystal.core.imaging;
+		import crystal.core.scenegraph;
+		import crystal.core.components;
 		import crystal.core.config;
+		import crystal.core.engine;
+		import crystal.core.input;
+		import crystal.core.light;
+		import crystal.core.logger;
 		import crystal.core.memory;
+		import crystal.core.model;
 		import crystal.core.securetypes;
+		import crystal.core.sprite;
 		import crystal.core.time;
 		import crystal.core.utils;
 	}
