@@ -10,6 +10,8 @@ module crystal.ui;
 version (__NoDefaultImports__) {
 } else {
 	public {
+		import crystal.ui.button;
 		import crystal.ui.view;
+		import crystal.ui.widget;
 	}
 }

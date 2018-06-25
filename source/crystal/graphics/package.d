@@ -11,5 +11,13 @@ version (__NoDefaultImports__) {
 } else {
 	public {
 		import crystal.graphics.video;
+		import crystal.graphics.opengl;
+		import crystal.graphics.vulkan;
+		import crystal.graphics.material;
+		import crystal.graphics.renderer;
+		import crystal.graphics.postprocessing;
+		import crystal.graphics.settings;
+		import crystal.graphics.shaders;
+		import crystal.graphics.util;
 	}
 }

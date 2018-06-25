@@ -8,6 +8,112 @@
  */
 module crystal.graphics.renderer;
 import crystal.math.vector : Vector2F, Vector3F;
+import crystal.graphics.util : RenderUtil;
+import crystal.graphics.video.vertex : VertexSpec;
+import crystal.graphics.video.vao : VertexArray;
+import crystal.graphics.video.buffer : VideoBuffer, BufferTarget;
+import crystal.graphics.video.shader : ShaderProgram;
+import derelict.opengl;
+import crystal.core.imaging;
+import crystal.core.engine;
+import crystal.math;
+import crystal.core.time;
+import crystal.math.vector;
+import derelict.sdl2.sdl : SDL_GL_SetSwapInterval;
+import crystal.graphics.video.backend : VideoBackend;
+import crystal.core.engine;
+import crystal.core.model;
+import crystal.graphics.material;
+//import sunshine.graphics.video.vao : VertexArrayObject;
+version (__OpenGL__) {
+	import crystal.graphics.opengl.backend : GLBackend;
+	import crystal.graphics.opengl.buffer : GLBuffer;
+	//import sunshine.graphics.opengl.vao : GLVertexArrayObject;
+	import derelict.opengl : glPolygonMode, GL_FRONT_AND_BACK, GL_LINE, GL_FILL;
+} else version (__Vulkan__) {
+	import crystal.graphics.vulkan.backend : VKBackend;
+	import crystal.graphics.vulkan.buffer : VKBuffer;
+} else version (__WASM__) {
+		import crystal.graphics.wasm.backend : WASMBackend;
+	}
+///
+class GraphicsEngine {
+	static:
+	private {
+		VideoBackend _backend;
+		bool _vsyncEnabled = false;
+		bool _wireframe = false;
+		Vector4F _color = Vector4F(1.0, 1.0, 1.0, 1.0);
+	}
+	void startService() {
+		version (__OpenGL__) {
+			_backend = new GLBackend();
+		} else version (__Vulkan__) {
+			_backend = new VKBackend();
+		} else version (__WASM__) {
+			_backend = new WASMBackend();
+		}
+	}
+	void releaseService() {
+		if (_backend !is null) {
+			_backend.destroy();
+			_backend = null;
+		}
+	}
+	void restartServic() {
+		releaseService();
+		startService();
+	}
+	///
+	VideoBackend getBackend() {
+		return _backend;
+	}
+	///
+	void render() {
+		import derelict.opengl;
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CW);
+		_backend.resizeViewport();
+		_backend.clear();
+		//_backend.enableDepthTest(); // TODO. + culling.
+		_backend.clearColor(_color.r, _color.g, _color.b, _color.a);
+		CoreEngine.getActiveScene().render();
+		_backend.swapBuffers();
+	}
+	///
+	void setVSyncEnabled(bool enabled = true) {
+		SDL_GL_SetSwapInterval(enabled); // TODO: VULKAN?
+		_vsyncEnabled = enabled;
+	}
+	///
+	bool isVSyncEnabled() nothrow {
+		return _vsyncEnabled;
+	}
+	///
+	void setWindowBackgroundColor(float r, float g, float b, float a = 1.0f) {
+		_color = Vector4F(r, g, b, a);
+	}
+	///
+	void setWindowBackgroundColor(Vector3F color, float a = 1.0f) {
+		_color = Vector4F(color, a);
+	}
+	///
+	void windowBackgroundColor(Vector4F color) {
+		_color = color;
+	}
+	///
+	void toggleWireframe() { // TODO: Vulkan.
+		version (__OpenGL__) {
+			if (!_wireframe) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			} else {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+		}
+		_wireframe = !_wireframe;
+	}
+}
 ///
 static struct Vertex {
 	Vector3F position;

@@ -8,7 +8,8 @@
  */
 module crystal.math.functions;
 import std.traits : isIntegral, isSigned;
-import std.math : trunc, floor, asin, acos, sin, PI;
+public import std.math;
+//import std.math : trunc, floor, asin, acos, sin, PI;
 version( D_InlineAsm_X86 ) {
     version = AsmX86;
 } else version( D_InlineAsm_X86_64 ) {
