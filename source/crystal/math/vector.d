@@ -235,7 +235,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		return ret;
 	}
 	///
-	Vector opBinary(string op, U)(U rhs) pure nothrow const @safe @nogc { //if (is(U : Vector) || (isConvertible!U)) {
+	Vector opBinary(string op, U)(U rhs) pure nothrow const @safe @nogc if (is(U : Vector) || (isConvertible!U)) {
 		Vector ret;
 		static if (is(U : T)) {
 			static foreach (i; 0..N) {

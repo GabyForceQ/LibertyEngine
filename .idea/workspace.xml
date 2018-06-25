@@ -3,146 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c1d68def-b722-4c77-a8f0-32b310641558" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/ai/engine.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/ai/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/animation/animator.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/animation/engine.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/animation/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/audio/device.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/audio/engine.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/audio/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/components.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/config.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/engine.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/font.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/geometry/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/geometry/shapes.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/geometry/volumes.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/imaging/bitmap.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/imaging/image.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/imaging/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/input.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/light.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/logger.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/memory.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/model.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/reflection.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/scenegraph/actor.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/scenegraph/camera.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/scenegraph/canvas.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/scenegraph/entity.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/scenegraph/node.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/scenegraph/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/scenegraph/scene.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/scenegraph/services.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/scenegraph/terrain.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/securetypes.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/sprite.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/system.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/time.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/core/utils.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/engine.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/material.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/opengl/backend.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/opengl/buffer.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/opengl/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/opengl/shader.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/opengl/texture.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/opengl/traits.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/opengl/vao.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/opengl/vertex.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/postprocessing.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/renderer.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/settings.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/shaders.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/util.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/video/backend.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/video/buffer.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/video/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/video/shader.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/video/texture.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/video/vao.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/video/vertex.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/vulkan/backend.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/vulkan/buffer.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/vulkan/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/graphics/vulkan/vao.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/box.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/functions.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/matrix.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/quaternion.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/shapes.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/math/vector.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/physics/engine.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/physics/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/ui/button.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/ui/package.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/ui/view.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CrystalEngine/crystal/ui/widget.d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/ENGINE.VER" beforeDir="false" afterPath="$PROJECT_DIR$/res/ENGINE.VER" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/ai/engine.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/ai/engine.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/ai/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/ai/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/animation/animator.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/animation/animator.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/animation/engine.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/animation/engine.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/animation/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/animation/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/audio/device.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/audio/device.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/audio/engine.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/audio/engine.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/audio/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/audio/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/components.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/components.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/geometry/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/geometry/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/geometry/shapes.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/geometry/shapes.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/geometry/volumes.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/geometry/volumes.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/imaging/bitmap.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/imaging/bitmap.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/imaging/image.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/imaging/image.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/imaging/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/imaging/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/model.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/model.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/reflection.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/reflection.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/scenegraph/actor.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/scenegraph/actor.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/scenegraph/camera.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/scenegraph/camera.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/scenegraph/canvas.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/scenegraph/canvas.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/scenegraph/entity.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/scenegraph/entity.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/scenegraph/node.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/scenegraph/node.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/scenegraph/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/scenegraph/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/scenegraph/scene.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/scenegraph/scene.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/scenegraph/services.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/scenegraph/services.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/scenegraph/terrain.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/scenegraph/terrain.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/securetypes.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/securetypes.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/core/sprite.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/core/sprite.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/engine.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/engine.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/material.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/material.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/opengl/backend.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/opengl/backend.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/opengl/buffer.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/opengl/buffer.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/opengl/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/opengl/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/opengl/shader.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/opengl/shader.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/opengl/texture.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/opengl/texture.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/opengl/traits.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/opengl/traits.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/opengl/vao.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/opengl/vao.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/opengl/vertex.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/opengl/vertex.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/postprocessing.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/postprocessing.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/settings.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/settings.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/shaders.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/shaders.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/util.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/util.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/video/shader.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/video/shader.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/vulkan/backend.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/vulkan/backend.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/vulkan/buffer.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/vulkan/buffer.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/vulkan/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/vulkan/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/graphics/vulkan/vao.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/graphics/vulkan/vao.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/box.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/box.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/functions.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/functions.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/matrix.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/matrix.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/quaternion.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/quaternion.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/shapes.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/shapes.d" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/crystal/math/vector.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/vector.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/physics/engine.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/physics/engine.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/physics/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/physics/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/ui/button.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/ui/button.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/ui/package.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/ui/package.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/ui/view.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/ui/view.d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/ui/widget.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/ui/widget.d" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -154,14 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="288">
-                <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
-              </first_editor>
-              <second_editor />
+      <file leaf-file-name="vector.d" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="612">
+              <caret line="244" column="38" lean-forward="true" selection-start-line="244" selection-start-column="38" selection-end-line="244" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -195,7 +53,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/source/crystal/graphics/postprocessing.d" />
         <option value="$PROJECT_DIR$/source/crystal/graphics/material.d" />
         <option value="$PROJECT_DIR$/source/crystal/graphics/vulkan/package.d" />
         <option value="$PROJECT_DIR$/source/crystal/graphics/vulkan/backend.d" />
@@ -246,6 +103,7 @@
         <option value="$PROJECT_DIR$/source/crystal/physics/engine.d" />
         <option value="$PROJECT_DIR$/source/crystal/physics/package.d" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/source/crystal/math/vector.d" />
       </list>
     </option>
   </component>
@@ -278,6 +136,13 @@
               <item name="CrystalEngine" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
               <item name="crystal" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CrystalEngine" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CrystalEngine" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
+              <item name="crystal" type="462c0819:PsiDirectoryNode" />
+              <item name="math" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -532,11 +397,11 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="7" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.18629551" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.18629551" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18763326" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18763326" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
@@ -560,13 +425,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source/crystal/graphics/opengl/vertex.d">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="3" selection-start-line="7" selection-start-column="3" selection-end-line="7" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/crystal/core/utils.d">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -869,6 +727,13 @@
             <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="244" column="38" lean-forward="true" selection-start-line="244" selection-start-column="38" selection-end-line="244" selection-end-column="38" />
         </state>
       </provider>
     </entry>
