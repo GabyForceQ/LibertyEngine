@@ -9,7 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="derelict-sdl2-3.1.0-alpha.4" level="project" />
     <orderEntry type="library" name="derelict-util-3.0.0-beta.2" level="project" />
-    <orderEntry type="library" name="stb-1.1.4" level="project" />
     <orderEntry type="library" name="derelict-gl3-2.0.0-beta.6" level="project" />
     <orderEntry type="library" name="derelict-fi-3.0.0-beta.1" level="project" />
     <orderEntry type="library" name="derelict-assimp3-2.0.0-beta.1" level="project" />

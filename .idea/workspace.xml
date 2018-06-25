@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c1d68def-b722-4c77-a8f0-32b310641558" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/crystal/math/vector.d" beforeDir="false" afterPath="$PROJECT_DIR$/source/crystal/math/vector.d" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CrystalEngine.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CrystalEngine.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dub.json" beforeDir="false" afterPath="$PROJECT_DIR$/dub.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/ENGINE.VER" beforeDir="false" afterPath="$PROJECT_DIR$/res/ENGINE.VER" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="vector.d" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
+      <file leaf-file-name="dub.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dub.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="244" column="38" lean-forward="true" selection-start-line="244" selection-start-column="38" selection-end-line="244" selection-end-column="38" />
+            <state relative-caret-position="396">
+              <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -53,8 +55,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/source/crystal/graphics/material.d" />
-        <option value="$PROJECT_DIR$/source/crystal/graphics/vulkan/package.d" />
         <option value="$PROJECT_DIR$/source/crystal/graphics/vulkan/backend.d" />
         <option value="$PROJECT_DIR$/source/crystal/graphics/vulkan/buffer.d" />
         <option value="$PROJECT_DIR$/source/crystal/graphics/vulkan/vao.d" />
@@ -104,11 +104,13 @@
         <option value="$PROJECT_DIR$/source/crystal/physics/package.d" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/source/crystal/math/vector.d" />
+        <option value="$PROJECT_DIR$/res/ENGINE.VER" />
+        <option value="$PROJECT_DIR$/dub.json" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="953" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-7" />
     <option name="width" value="974" />
     <option name="height" value="1057" />
   </component>
@@ -129,20 +131,7 @@
             <path>
               <item name="CrystalEngine" type="b2602c69:ProjectViewProjectNode" />
               <item name="CrystalEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CrystalEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CrystalEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="crystal" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CrystalEngine" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CrystalEngine" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="crystal" type="462c0819:PsiDirectoryNode" />
-              <item name="math" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -384,7 +373,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <frame x="-7" y="0" width="974" height="1057" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -397,11 +386,11 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="7" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.18629551" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.1881081" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18763326" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19256018" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
@@ -425,12 +414,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/utils.d">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/crystal/core/time.d">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/crystal/core/system.d">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6084">
@@ -730,10 +713,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/ENGINE.VER">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="15" selection-start-column="15" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/source/crystal/math/vector.d">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="244" column="38" lean-forward="true" selection-start-line="244" selection-start-column="38" selection-end-line="244" selection-end-column="38" />
+        <state relative-caret-position="3996">
+          <caret line="222" column="5" lean-forward="true" selection-start-line="222" selection-start-column="5" selection-end-line="222" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dub.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
         </state>
       </provider>
     </entry>
