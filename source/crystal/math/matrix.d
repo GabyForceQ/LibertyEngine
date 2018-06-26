@@ -487,7 +487,7 @@ struct Matrix(T, int R, int C = R, MatrixOrder O = CurrentMatrixOrder) if (R >= 
 			enum bool isThisColumnConvertible = is(U : ColumnType);
 		}
 	} else {
-	
+
 	}
 }
 ///
@@ -532,6 +532,8 @@ template Matrix4x3(T) {
 	alias Matrix4x3 = Matrix!(T, 4, 3);
 }
 ///
+alias Matrix2I = Matrix2!int;
+///
 alias Matrix2F = Matrix2!float;
 ///
 alias Matrix3F = Matrix3!float;
@@ -549,3 +551,125 @@ alias Matrix3x4F = Matrix3x4!float;
 alias Matrix4x2F = Matrix4x2!float;
 ///
 alias Matrix4x3F = Matrix4x3!float;
+///
+final class MatrixStack(int R, T) if (R == 3 || R == 4) {
+	private {
+		size_t _top;
+		size_t _depth;
+		MatrixType* _matrices;
+		MatrixType* _invMatrices;
+	}
+	///
+	alias MatrixType = Matrix!(T, R, R);
+	/// Creates a matrix stack.
+	this(size_t depth = 32) nothrow @trusted @nogc
+	in {
+		assert(depth > 0);
+	} do {
+		import core.stdc.stdlib : malloc;
+		size_t memory_needed = MatrixType.sizeof * depth * 2;
+		void* data = malloc(memory_needed * 2);
+		_matrices = cast(MatrixType*)data;
+		_invMatrices = cast(MatrixType*)(data + memory_needed);
+		_top = 0;
+		_depth = depth;
+		loadIdentity();
+	}
+	/// Relases the matrix stack memory.
+	~this() {
+		if (_matrices !is null) {
+			import crystal.core.memory : ensureNotInGC;
+			ensureNotInGC("MatrixStack");
+			free(_matrices);
+			_matrices = null;
+		}
+	}
+	///
+	void loadIdentity() pure nothrow @trusted @nogc {
+		_matrices[_top] = MatrixType.identity();
+		_invMatrices[_top] = MatrixType.identity();
+	}
+	///
+	void push() pure nothrow @trusted @nogc {
+		if(_top + 1 >= _depth) {
+			assert(false, "Matrix stack is full!");
+		}
+		_matrices[_top + 1] = _matrices[_top];
+		_invMatrices[_top + 1] = _invMatrices[_top];
+		_top++;
+	}
+	/// Replacement for $(D glPopMatrix).
+	void pop() pure nothrow @safe @nogc {
+		if (_top <= 0) {
+			assert(false, "Matrix stack is empty!");
+		}
+		_top--;
+	}
+
+	///
+	MatrixType top() pure const nothrow @trusted @nogc {
+		return _matrices[_top];
+	}
+	///
+	MatrixType invTop() pure const nothrow @trusted @nogc {
+		return _invMatrices[_top];
+	}
+	///
+	void setTop(MatrixType m) pure nothrow @trusted @nogc {
+		_matrices[_top] = m;
+		_invMatrices[_top] = m.inverse();
+	}
+	///
+	void mult(MatrixType m) pure nothrow @trusted @nogc {
+		mult(m, m.inverse());
+	}
+	///
+	void mult(MatrixType m, MatrixType invM) pure nothrow @trusted @nogc {
+		_matrices[_top] = _matrices[_top] * m;
+		_invMatrices[_top] = invM *_invMatrices[_top];
+	}
+	///
+	void translate(Vector!(T, R-1) v) pure nothrow @safe @nogc {
+		mult(MatrixType.translation(v), MatrixType.translation(-v));
+	}
+	///
+	void scale(Vector!(T, R-1) v) pure nothrow @safe @nogc {
+		mult(MatrixType.scaling(v), MatrixType.scaling(1 / v));
+	}
+	static if (R == 4) {
+		///
+		void rotate(T angle, Vector!(T, 3) axis) pure nothrow @safe @nogc {
+			MatrixType rot = MatrixType.rotation(angle, axis);
+			mult(rot, rot.transposed());
+		}
+		///
+		void perspective(T FOVInRadians, T aspect, T zNear, T zFar) pure nothrow @safe @nogc {
+			mult(MatrixType.perspective(FOVInRadians, aspect, zNear, zFar));
+		}
+		///
+		void orthographic(T left, T right, T bottom, T top, T near, T far) pure nothrow @safe @nogc {
+			mult(MatrixType.orthographic(left, right, bottom, top, near, far));
+		}
+		///
+		void lookAt(Vector3!T eye, Vector3!T target, Vector3!T up) pure nothrow @safe @nogc {
+			mult(MatrixType.lookAt(eye, target, up));
+		}
+	}
+}
+///
+nothrow @trusted unittest {
+    auto m = new MatrixStack!(4, double)();
+    scope(exit) destroy(m);
+    m.loadIdentity();
+    m.push();
+    m.pop();
+    m.translate(Vector3D(2.4, 3.3, 7.5));
+    m.scale(Vector3D(0.7));
+    auto t = new MatrixStack!(3, float)();
+    scope(exit) destroy(t);
+    t.loadIdentity();
+    t.push();
+    t.pop();
+    t.translate(Vector2F(1, -8));
+    t.scale(Vector2F(0.2));
+}
