@@ -85,7 +85,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		in {
 			assert(columns.length == C);
 		} do {
-			Matrix ret;
+			Matrix ret = void;
 			// todo
 			return ret;
 		}
@@ -98,7 +98,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		in {
 			assert(rows.length == R);
 		} do {
-			Matrix ret;
+			Matrix ret = void;
 			ret.row[] = rows[];
 			return ret;
 		}
@@ -110,7 +110,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		}
 		/// Returns an identity matrix.
 		static Matrix identity() pure nothrow @nogc @safe {
-			Matrix ret;
+			Matrix ret = void;
 			static foreach (i; 0 .. R) {
 				static foreach (j; 0 .. C) {
 					static if (i == j) {
@@ -129,7 +129,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		}
 		/// Returns a constant matrix.
 		static Matrix constant(U)(U x) pure nothrow @nogc @safe {
-			Matrix ret;
+			Matrix ret = void;
 			static foreach (i; 0 .. R * C) {
 				ret.v[i] = cast(T)x;
 			}
@@ -142,7 +142,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		}
 		///
 		ColumnType column(int j) pure nothrow const @safe @nogc {
-			ColumnType ret;
+			ColumnType ret = void;
 			static foreach (i; 0..R) {
 				ret.v[i] = c[i][j];
 			}
@@ -150,7 +150,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		}
 		///
 		Matrix opBinary(string op)(T factor) pure nothrow const @safe @nogc if (op == "*") {
-			Matrix ret;
+			Matrix ret = void;
 			static foreach (i; 0..R) {
 				static foreach (j; 0..C) {
 					ret.c[i][j] = c[i][j] * factor;
@@ -166,7 +166,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		}
 		///
 		ColumnType opBinary(string op)(RowType x) pure nothrow const @safe @nogc if (op == "*") {
-			ColumnType ret;
+			ColumnType ret = void;
 			static foreach (i; 0..R) {
 				T sum = 0;
 				static foreach (j; 0..C) {
@@ -178,7 +178,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		}
 		///
 		auto opBinary(string op, U)(U x) pure nothrow const @safe @nogc if (isMatrixInstance!U && (U.rowCount == C) && (op == "*")) {
-			Matrix!(T, R, U.columnCount) ret;
+			Matrix!(T, R, U.columnCount) ret = void;
 			T sum = 0;
 			static foreach (i; 0..R) {
 				static foreach (j; 0..U.columnCount) {
@@ -200,7 +200,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		}
 		///
 		Matrix opBinary(string op, U)(U rhs) pure nothrow const @safe @nogc if (op == "+" || op == "-") {
-			Matrix ret;
+			Matrix ret = void;
 			static if (is (U : Matrix)) {
 				static foreach (i; 0..R) {
 					static foreach (j; 0..C) {
@@ -243,7 +243,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		}
 		///
 		Matrix opUnary(string op)() pure nothrow const @safe @nogc if (op == "+" || op == "-" || op == "~" || op == "!") {
-			Matrix ret;
+			Matrix ret = void;
 			static foreach (i; 0..R * C) {
 				mixin("ret.v[i] = " ~ op ~ "v[i];");
 			}
@@ -260,7 +260,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			//assert ((!m2).v == [false, false, /**/ true, true]);
 		}
 		///
-		U opCast(U)() pure nothrow const @safe @nogc if (isMatrixInstance!U && U.rowCount == rowCount && U.columnCount == U.columnCount) {
+		U opCast(U)() pure nothrow const @safe @nogc if (isMatrixInstance!U && U.rowCount == rowCount && U.columnCount == columnCount) {
 			U ret = U.identity();
 			enum min_r = R < U.rowCount ? R : U.rowCount;
 			enum min_c = C < U.columnCount ? C : U.columnCount;
@@ -333,7 +333,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			Matrix inverse() pure nothrow const @safe @nogc {
 				T det = c[0][0] * (c[1][1] * c[2][2] - c[2][1] * c[1][2]) - c[0][1] * (c[1][0] * c[2][2] - c[1][2] * c[2][0]) + c[0][2] * (c[1][0] * c[2][1] - c[1][1] * c[2][0]);
 				T invDet = 1 / det;
-				Matrix ret;
+				Matrix ret = void;
 				ret.c[0][0] =  (c[1][1] * c[2][2] - c[2][1] * c[1][2]) * invDet;
 				ret.c[0][1] = -(c[0][1] * c[2][2] - c[0][2] * c[2][1]) * invDet;
 				ret.c[0][2] =  (c[0][1] * c[1][2] - c[0][2] * c[1][1]) * invDet;
@@ -388,7 +388,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 				T det3_301_013 = c[3][0] * det2_01_13 - c[3][1] * det2_01_03 + c[3][3] * det2_01_01;
 				T det3_301_023 = c[3][0] * det2_01_23 - c[3][2] * det2_01_03 + c[3][3] * det2_01_02;
 				T det3_301_123 = c[3][1] * det2_01_23 - c[3][2] * det2_01_13 + c[3][3] * det2_01_12;
-				Matrix ret;
+				Matrix ret = void;
 				ret.c[0][0] = - det3_213_123 * invDet;
 				ret.c[1][0] = + det3_213_023 * invDet;
 				ret.c[2][0] = - det3_213_013 * invDet;
@@ -413,7 +413,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		}
 		/// Returns transposed matrix.
 		Matrix!(T, C, R) transposed() pure nothrow const @safe @nogc {
-			Matrix!(T, C, R) ret;
+			Matrix!(T, C, R) ret = void;
 			static foreach (i; 0..C) {
 				static foreach (j; 0..R) {
 					ret.c[i][j] = c[j][i];
@@ -429,7 +429,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		static if (isSquare && R > 2) {
 			/// Makes a diagonal matrix from a vector.
 			static Matrix diag(Vector!(T, R) v) pure nothrow @safe @nogc {
-				Matrix ret;
+				Matrix ret = void;
 				static foreach (i; 0..R) {
 					static foreach (j; 0..C) {
 						ret.c[i][j] = (i == j) ? v.v[i] : 0;

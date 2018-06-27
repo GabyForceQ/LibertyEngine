@@ -208,7 +208,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     }
 	///
 	Vector opUnary(string op)() pure const nothrow @safe @nogc if (op == "+" || op == "-" || op == "~" || op == "!") {
-		Vector ret;
+		Vector ret = void;
 		static foreach (i; 0..N) {
 			mixin("ret.v[i] = " ~ op ~ "v[i];");
 		}
@@ -226,7 +226,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     }
 	///
 	Vector opBinary(string op, U)(U rhs) pure nothrow const @safe @nogc {
-		Vector ret;
+		Vector ret = void;
         static if (is(U : Vector)) {
             static foreach (i; 0..N) {
 				mixin("ret.v[i] = cast(T)(v[i] " ~ op ~ " rhs.v[i]);");
@@ -251,7 +251,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     }
 	///
     Vector opBinaryRight(string op, U)(U lhs) pure nothrow const @safe @nogc {
-        Vector ret;
+        Vector ret = void;
         static if (is(U : Vector)) {
             static foreach (i; 0..N) {
 		        mixin("ret.v[i] = cast(T)(lhs.v[i] " ~ op ~ " v[i]);");
@@ -303,7 +303,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 	}
 	///
 	U opCast(U)() pure nothrow const @safe @nogc if (isVector!U && U.size == size) {
-		U ret;
+		U ret = void;
 		static foreach (i; 0..N) {
 			mixin("ret.v[i] = cast(U.type)v[i];");
 		}
@@ -464,7 +464,7 @@ alias Vector4D = Vector4!double;
 /// Element-wise minimum.
 Vector!(T, N) minByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow @safe @nogc {
     import std.algorithm : min;
-    Vector!(T, N) ret;
+    Vector!(T, N) ret = void;
     static foreach (i; 0..N) {
 	    ret.v[i] = min(a.v[i], b.v[i]);
     }
@@ -473,7 +473,7 @@ Vector!(T, N) minByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) 
 /// Element-wise maximum.
 Vector!(T, N) maxByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow @safe @nogc {
     import std.algorithm : max;
-    Vector!(T, N) ret;
+    Vector!(T, N) ret = void;
     static foreach (i; 0..N) {
 	    ret.v[i] = max(a.v[i], b.v[i]);
     }
@@ -482,7 +482,7 @@ Vector!(T, N) maxByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) 
 /// Element-wise absolute value.
 Vector!(T, N) absByElem(T, int N)(const Vector!(T, N) a) pure nothrow @safe @nogc {
     import crystal.math.functions : abs;
-    Vector!(T, N) ret;
+    Vector!(T, N) ret = void;
     static foreach (i; 0..N) {
 	    ret.v[i] = abs(a.v[i]);
     }

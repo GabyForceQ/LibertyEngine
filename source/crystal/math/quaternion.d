@@ -33,7 +33,7 @@ struct Quaternion(T) {
 	/// Constructs a Quaternion from axis + angle.
 	static Quaternion fromAxis(Vector!(T, 3) axis, T angle) pure nothrow @safe @nogc {
 		import crystal.math.functions : sin, cos;
-		Quaternion q;
+		Quaternion q = void;
 		axis.normalize();
 		T cos_a = cos(angle / 2);
 		T sin_a = sin(angle / 2);
@@ -46,7 +46,7 @@ struct Quaternion(T) {
 	/// Constructs a Quaternion from Euler angles.
 	static Quaternion fromEulerAngles(T roll, T pitch, T yaw) pure nothrow @safe @nogc {
 		import crystal.math.functions : sin, cos;
-		Quaternion q;
+		Quaternion q = void;
 		T sinPitch = sin(pitch / 2);
 		T cosPitch = cos(pitch / 2);
 		T sinYaw = sin(yaw / 2);
@@ -103,7 +103,7 @@ struct Quaternion(T) {
 	}
 	/// Returns normalized quaternion.
 	Quaternion normalized() pure nothrow const @safe @nogc {
-		Quaternion ret;
+		Quaternion ret = void;
 		ret.v = v.normalized();
 		return ret;
 	}
@@ -115,7 +115,7 @@ struct Quaternion(T) {
 	}
 	/// Returns inverse of quaternion.
 	Quaternion inversed() pure nothrow const @safe @nogc {
-		Quaternion ret;
+		Quaternion ret = void;
 		ret.v = v;
 		ret.inverse();
 		return ret;
@@ -167,7 +167,7 @@ struct Quaternion(T) {
 	}
 	///
 	static Quaternion identity() pure nothrow @safe @nogc @property {
-		Quaternion q;
+		Quaternion q = void;
 		q.x = q.y = q.z = 0;
 		q.w = 1;
 		return q;
