@@ -108,6 +108,18 @@ struct Transform {
 		_modelMatrix.scale(scale);
 	}
 	///
+	Vector3F position() {
+		return _position;
+	}
+	///
+	Vector3F rotation() {
+		return _rotation;
+	}
+	///
+	Vector3F scale() {
+		return _scale;
+	}
+	///
 	ref Transform translate(float x, float y, float z) {
 		_position += Vector3F(x, y, z);
 		_modelMatrix.translate(Vector3F(x, y, z));
