@@ -296,8 +296,9 @@ struct Frustum(T) if (isFloatingPoint!T) {
 	}
 	///
 	bool contains(Vector3!T point) pure nothrow const @safe @nogc {
+		T distance = 0;
 		static foreach (i; 0..sideCount) {
-			T distance = planes[i].signedDistanceTo(point);
+			distance = planes[i].signedDistanceTo(point);
 			if (distance < 0) {
 				return false;
 			}
@@ -306,8 +307,9 @@ struct Frustum(T) if (isFloatingPoint!T) {
 	}
 	///
 	FrustumScope contains(Sphere!(T, 3) sphere) pure nothrow const @safe @nogc {
+		T distance = 0;
 		static foreach (i; 0..sideCount) {
-			T distance = planes[i].signedDistanceTo(sphere.center);
+			distance = planes[i].signedDistanceTo(sphere.center);
 			if(distance < -sphere.radius) {
 				return FrustumScope.Outside;
 			} else if (distance < sphere.radius) {
@@ -317,26 +319,28 @@ struct Frustum(T) if (isFloatingPoint!T) {
 		return FrustumScope.Inside;
 	}
 	///
-	int contains(box3!T box) pure nothrow const @safe @nogc {
+	int contains(Box3!T box) pure nothrow const @safe @nogc {
 		Vector3!T[8] corners;
 		int totalIn = 0;
+		T x, y, z;
 		static foreach (i; 0..2) {
 			static foreach (j; 0..2) {
 				static foreach (k; 0..2) {
-					auto x = i == 0 ? box.min.x : box.max.x;
-					auto y = j == 0 ? box.min.y : box.max.y;
-					auto z = k == 0 ? box.min.z : box.max.z;
+					x = i == 0 ? box.min.x : box.max.x;
+					y = j == 0 ? box.min.y : box.max.y;
+					z = k == 0 ? box.min.z : box.max.z;
 					corners[i * 4 + j * 2 + k] = Vector3!T(x, y, z);
 				}
 			}
 		}
-		static foreach (i; 0..sideCount) {
-			int inCount = vertexCount;
-			int ptIn = 1;
+		int inCount = 0, ptIn = 0;
+		static foreach (p; 0..sideCount) {
+			inCount = vertexCount;
+			ptIn = 1;
 			static foreach (i; 0..vertexCount) {
 				if (planes[p].isBack(corners[i])) {
 					ptIn = 0;
-					--inCount;
+					inCount--;
 				}
 			}
 			if (inCount == 0) {
@@ -350,6 +354,10 @@ struct Frustum(T) if (isFloatingPoint!T) {
 		return FrustumScope.Intersect;
 	}
 }
+///
+alias FrustumF = Frustum!float;
+///
+alias FrustumD = Frustum!double;
 ///
 enum isSegment(T) = is(T : Segment!U, U...);
 ///
