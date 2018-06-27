@@ -17,12 +17,6 @@ enum MatrixOrder : ubyte {
 	///
 	ColumnMajor = 0x01
 }
-version (__Lite__) {
-} else {
-	/// Number of elements of MatrixOrder enumeration (!LiteVersion).
-	enum MatrixOrderCount = __traits(allMembers, MatrixOrder).length;
-}
-//version = __RowMajor__;
 version (__RowMajor__) {
 	enum CurrentMatrixOrder = MatrixOrder.RowMajor;
 } else {

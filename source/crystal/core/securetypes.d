@@ -24,11 +24,6 @@ enum SecureLevel: ubyte {
     /// To use this Level developer should create some rules.
     Custom = 0xFF
 }
-version (__Lite__) {
-} else {
-    /// Number of elements of SecureLevel enumeration (!LiteVersion)
-    enum SecureLevelCount = __traits(allMembers, SecureLevel).length;
-}
 ///
 struct Crypted(T) {
     ///

@@ -14,8 +14,3 @@ enum Orientation : byte {
 	///
 	Vertical = 0x01
 }
-version (__Lite__) {
-} else {
-	/// Number of elements of Orientation enumeration (!LiteVersion).
-	enum OrientationCount = __traits(allMembers, Orientation).length;
-}

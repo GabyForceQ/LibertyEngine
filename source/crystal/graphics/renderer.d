@@ -136,11 +136,6 @@ enum Vendor : byte {
 	///
 	Other = -0x01
 }
-version (__Lite__) {
-} else {
-	/// Number of elements of Vendor enumeration (!LiteVersion)
-	enum VendorCount = __traits(allMembers, Vendor).length;
-}
 ///
 enum Blending : byte {
 	///
