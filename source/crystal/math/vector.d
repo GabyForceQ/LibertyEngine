@@ -7,7 +7,7 @@
  * Coverage:
  */
 module crystal.math.vector;
-import std.traits : isAssignable, isStaticArray, isDynamicArray, isFloatingPoint;
+import std.traits : isFloatingPoint;
 import crystal.math.functions;
 /// T = type of elements.
 /// N = number of elements (2, 3, 4).
@@ -103,129 +103,110 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
             assert(Vector!(T, 3).backward == Vector!(T, 3)(0, 0, -1));
         }
     }
-	///
-    static if (N == 2) {
-        ///
-        this(T x, T y) pure nothrow @nogc @safe {
-            v[0] = x;
-            v[1] = y;
-        }
-    } else static if (N == 3) {
-        ///
-        this(T x, T y, T z) pure nothrow @nogc @safe {
-            v[0] = x;
-            v[1] = y;
-            v[2] = z;
-        }
-    } else {
-        ///
-        this(T x, T y, T z, T w) pure nothrow @nogc @safe {
-            v[0] = x;
-            v[1] = y;
-            v[2] = z;
-            v[3] = w;
-        }
-    }
-	///
-	this(T all) pure nothrow @safe @nogc {
-		v[] = all;
-	}
     ///
-    this(T[N] arr) pure nothrow @nogc @safe {
-        v = arr; // check
+    this(U...)(U values) pure nothrow @safe @nogc {
+        import std.meta : allSatisfy;
+        import std.traits : isAssignable;
+        enum bool isAsgn(U) = isAssignable!(T, U);
+        static if ((U.length == N) && allSatisfy!(isAsgn, U)) {
+            static foreach (i, x; values) {
+                v[i] = x;
+            }
+        } /*else static if ((U.length == 2) && is(U[0] : Vector2!T) && is(U[1] : T) && is(this == Vector3!T)) {
+            v[0] = U[0].x;
+			v[1] = U[0].y;
+			v[2] = U[1];
+        }*/
+        else static if ((U.length == 1) && isAsgn!U && (!is(U[0] : Vector))) {
+            v[] = values[0];
+        } else static if (U.length == 1 && is(U[0] : T[])) {
+            v = values[0];
+        } else static if (U.length == 0) {
+            v[] = cast(T)0;
+        } else {
+            static assert(false, "Cannot create a vector from given arguments!");
+        }
     }
+    ///
+    pure nothrow @safe unittest {
+        auto v1 = Vector2I(4, 2);
+        assert (v1.v == [4, 2]);
+        auto v2 = Vector2I(5);
+        assert (v2.v == [5, 5]);
+        auto v3 = Vector3I([1, 2, 3]);
+        assert (v3.v == [1, 2, 3]);
+        auto v4 = Vector4I();
+        assert (v4.v == [0, 0, 0, 0]);
+        auto v5 = Vector3I(Vector2I(1, 3), 5);
+        assert (v5.v == [1, 3, 5]);
+        auto v6 = Vector4I(Vector3I(-2, 1, 3), 5);
+        assert (v6.v == [-2, 1, 3, 5]);
+        auto v7 = Vector4I(Vector2I(1, 3), Vector2I(5, 4));
+        assert (v7.v == [1, 3, 5, 4]);
+    }
+    // TODO: remove this constructors
 	static if (N == 3) {
-		///
-		this(Vector2!T xy, T z) {
-			v[0] = xy.x;
-			v[1] = xy.y;
-			v[2] = z;
-		}
+		this(Vector2!T xy, T z) { v[0] = xy.x; v[1] = xy.y; v[2] = z; }
 	} else static if (N == 4) {
-		///
-		this(Vector2!T xy, Vector2!T zw) {
-			v[0] = xy.x;
-			v[1] = xy.y;
-			v[2] = zw.x;
-			v[3] = zw.y;
-		}
-		///
-		this(Vector3!T xyz, T w) {
-			v[0] = xyz.x;
-			v[1] = xyz.y;
-			v[2] = xyz.z;
-			v[3] = w;
-		}
+		this(Vector2!T xy, Vector2!T zw) { v[0] = xy.x; v[1] = xy.y; v[2] = zw.x; v[3] = zw.y; }
+		this(Vector3!T xyz, T w) { v[0] = xyz.x; v[1] = xyz.y; v[2] = xyz.z; v[3] = w; }
 	}
     /// Assign a Vector from a compatible type.
-    ref Vector opAssign(U)(U val) pure nothrow @nogc @safe if (isAssignable!(T, U)) {
-        foreach (e; v) {
-            e = val;
+    ref Vector opAssign(U)(U rhs) pure nothrow @nogc @safe {
+        static if (is(U : Vector)) {
+            static foreach (i; 0..N) {
+                v[i] = rhs.v[i];
+            }
+        } else static if (is(U : T)) {
+            v[] = rhs;
+        } else static if (is(U : T[])) {
+            assert (rhs.length == N, "Static array's lenght must be equal to vector's length!");
+            v = rhs;
+        } else {
+            static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Vector.stringof);
         }
         return this;
     }
     ///
-    pure nothrow @nogc @safe unittest {
-        auto v = Vector!(float, 2)(0.0f, 6.78f);
-        assert (v.x == 0.0f && v.y == 6.78f);
-    }
-    /// Assign a Vector with a static array.
-    ref Vector opAssign(U)(U rhs) pure nothrow @nogc @safe if ((isStaticArray!(U) && isAssignable!(T, typeof(rhs[0])) && (rhs.length == N))) {
-        v[0..N]= rhs[0..N];
-        return this;
-    }
-    ///
-    pure nothrow @nogc @safe unittest {
-        auto v = Vector!(int, 3)([3, 4, 5]);
-        assert (v.x == 3 && v.y == 4 && v.z == 5);
-    }
-    /// Assign a Vector with a dynamic array.
-    ref Vector opAssign(U)(U rhs) pure nothrow @nogc @safe if (isDynamicArray!(U) && isAssignable!(T, typeof(rhs[0])))
-    //in(rhs.length == N, "rhs lenght must be equal to current vector size") 2.081.0
-    in {
-        assert (rhs.length == N, "rhs lenght must be equal to current vector size");
-    } do {
-        v[0..N] = rhs[0..N];
-        return this;
+    pure nothrow @safe unittest {
+        auto v1 = Vector3I();
+        v1 = Vector3I(7, 8, 9);
+        assert (v1.v == [7, 8, 9]);
+        auto v2 = Vector2F();
+        v2 = 3.4f;
+        assert (v2.v == [3.4f, 3.4f]);
+        auto v3 = Vector4I();
+        v3 = [1, 3, 5, -6];
+        assert (v3.v == [1, 3, 5, -6]);
     }
     ///
-    pure nothrow @nogc @safe unittest {
-        // TODO
-    }
-    /// Assign from a direct convertible Vector.
-    ref Vector opAssign(U)(U rhs) pure nothrow @nogc @safe if (is(U : Vector)) {
-        v[] = rhs.v[];
-        return this;
+    bool opEquals(U)(U rhs) pure nothrow const @safe @nogc {
+        static if (is(U : Vector)) {
+            static foreach (i; 0..N) {
+                if (v[i] != rhs.v[i]) {
+                    return false;
+                }
+            }
+        } else static if (is(U : T)) {
+            static foreach (i; 0..N) {
+                if (v[i] != rhs) {
+                    return false;
+                }
+            }
+        } else {
+            static assert (0, "Cannot compare a variable of type " ~ U.stringof ~ " with a variable of type " ~ Vector.stringof);
+        }
+        return true;
     }
     ///
-    pure nothrow @nogc @safe unittest {
-        // TODO
+    pure nothrow @safe unittest {
+        auto v1 = Vector2F(4.5f, 6.0f);
+        assert (v1 == Vector2F(4.5f, 6.0f));
+        assert (v1 != Vector2F(4.5f, 8.0f));
+        auto v2 = Vector3I(-1, -1, -1);
+        assert (v2 == -1);
+        assert (v2 != 0);
     }
-    /// Assign from other vectors types with same size and compatible type.
-    ref Vector opAssign(U)(U rhs) pure nothrow @nogc @safe if (isVector!U && isAssignable!(T, U.type) && (!is(U: Vector)) && (U.size == size)) {
-        v[0..N] = rhs.v[0..N];
-        return this;
-    }
-    ///
-    pure nothrow @nogc @safe unittest {
-        auto v = Vector!(int, 3)([3, 4, 5]);
-        v = Vector!(int, 3)(7, 8, 9);
-        assert (v.x == 7 && v.y == 8 && v.z == 9);
-    }
-	///
-	bool opEquals(U)(U rhs) pure nothrow const @safe @nogc if (is(U : Vector)) {
-		static foreach (i; 0..N) {
-			if (v[i] != rhs.v[i]) {
-				return false;
-			}
-		}
-		return true;
-	}
-	///
-	bool opEquals(U)(U other) pure nothrow const @safe @nogc if (isConvertible!U) {
-		Vector conv = rhs;
-		return opEquals(conv);
-	}
 	///
 	Vector opUnary(string op)() pure const nothrow @safe @nogc if (op == "+" || op == "-" || op == "~" || op == "!") {
 		Vector ret;
@@ -234,46 +215,81 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		}
 		return ret;
 	}
+    ///
+    pure nothrow @safe @nogc unittest {
+        auto v1 = Vector2I(2, -5);
+        assert ((+v1).v == [2, -5]);
+        assert ((-v1).v == [-2, 5]);
+        assert ((~v1).v == [-3, 4]);
+        // *** BUG ***
+        //auto v2 = Vector!(bool, 2)(true, false);
+        //assert ((!v2).v == [false, true]);
+    }
 	///
-	Vector opBinary(string op, U)(U rhs) pure nothrow const @safe @nogc if (is(U : Vector) || (isConvertible!U)) {
+	Vector opBinary(string op, U)(U rhs) pure nothrow const @safe @nogc {
 		Vector ret;
-		static if (is(U : T)) {
+        static if (is(U : Vector)) {
+            static foreach (i; 0..N) {
+				mixin("ret.v[i] = cast(T)(v[i] " ~ op ~ " rhs.v[i]);");
+			}
+        } else static if (is(U : T)) {
 			static foreach (i; 0..N) {
 				mixin("ret.v[i] = cast(T)(v[i] " ~ op ~ " rhs);");
 			}
 		} else {
-			static foreach (i; 0..N) {
-				mixin("ret.v[i] = cast(T)(v[i] " ~ op ~ " rhs.v[i]);");
-			}
+            static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Vector.stringof);
 		}
 		return ret;
 	}
+    ///
+    pure nothrow @safe @nogc unittest {
+        auto v1 = Vector2I(4, -5);
+        auto v2 = Vector2I(7, 2);
+        auto v3 = v1 + v2;
+        assert (v3.v == [11, -3]);
+        v3 = v2 - 2;
+        assert (v3.v == [5, 0]);
+    }
 	///
-    Vector opBinaryRight(string op, U)(U lhs) pure nothrow const @safe @nogc if (isConvertible!U) {
+    Vector opBinaryRight(string op, U)(U lhs) pure nothrow const @safe @nogc {
         Vector ret;
-        static if (is(U : T)) {
+        static if (is(U : Vector)) {
+            static foreach (i; 0..N) {
+		        mixin("ret.v[i] = cast(T)(lhs.v[i] " ~ op ~ " v[i]);");
+	        }
+        } else static if (is(U : T)) {
 	        static foreach (i; 0..N) {
 		        mixin("ret.v[i] = cast(T)(lhs " ~ op ~ " v[i]);");
 	        }
         } else  {
-	        static foreach (i; 0..N) {
-		        mixin("ret.v[i] = cast(T)(lhs.v[i] " ~ op ~ " v[i]);");
-	        }
+            static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Vector.stringof);
         }
 	    return ret;
     }
     ///
-	ref Vector opOpAssign(string op, U)(U rhs) pure nothrow @safe @nogc if (is(U : Vector)) {
-		static foreach (i; 0..N) {
-			mixin("v[i] " ~ op ~ "= rhs.v[i];");
-		}
+    pure nothrow @safe @nogc unittest {
+        auto v1 = Vector2I(4, -5);
+        auto v2 = 3 + v1;
+        assert (v2.v == [7, -2]);
+    }
+    ///
+	ref Vector opOpAssign(string op, U)(U rhs) pure nothrow @safe @nogc {
+        static if (is(U : Vector) || is(U : T)) {
+            mixin("this = this " ~ op ~ " rhs;");
+        } else {
+            static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Matrix.stringof);
+        }
 		return this;
 	}
 	///
-	ref Vector opOpAssign(string op, U)(U rhs) pure nothrow @safe @nogc if (isConvertible!U) {
-		Vector conv = rhs;
-		return opOpAssign!op(conv);
-	}
+    pure nothrow @safe @nogc unittest {
+        auto v1 = Vector2I(2, -8);
+        v1 += 3;
+        assert (v1.v == [5, -5]);
+        auto v2 = Vector2I(1, 2);
+        v1 -= v2;
+        assert (v1.v == [4, -7]);
+    }
 	///
 	ref T opIndex(size_t i) pure nothrow @safe @nogc {
 		return v[i];
@@ -287,13 +303,19 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		return v[i] = x;
 	}
 	///
-	U opCast(U)() pure nothrow const @safe @nogc if (isVector!U && (U.size == size)) {
+	U opCast(U)() pure nothrow const @safe @nogc if (isVector!U && U.size == size) {
 		U ret;
 		static foreach (i; 0..N) {
 			mixin("ret.v[i] = cast(U.type)v[i];");
 		}
 		return ret;
 	}
+    ///
+    pure nothrow @safe @nogc unittest {
+        auto v1 = Vector2F(1.3f, -5.7f);
+        auto v2 = cast(Vector2I)v1;
+        assert (v2.v == [1, -5]);
+    }
 	///
 	int opDollar() pure nothrow const @safe @nogc {
 		return N;
@@ -321,7 +343,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     }
     ///
     pure nothrow @safe unittest {
-        auto v = Vector!(uint, 2)([2, 4]);
+        auto v = Vector!(uint, 2)(2, 4);
         assert (v.toString() == "[2, 4]");
     }
 	///
@@ -382,8 +404,6 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 			}
 		}
 	}
-	private enum bool isConvertible(T) = (!is(T : Vector)) && is(typeof({ T x; Vector v = x; }()));
-	private enum bool isForeign(T) = (!isConvertible!T) && (!is(T: Vector));
 }
 /// True if T is some kind of Vector.
 enum isVector(T) = is(T : Vector!U, U...);

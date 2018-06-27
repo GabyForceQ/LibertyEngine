@@ -32,7 +32,7 @@ version (__RowMajor__) {
 /// R = Number of rows.
 /// C = Number of columns.
 /// O = Matrix order. It can be RowMajor or ColumnMajor.
-struct Matrix(T, int R, int C = R, MatrixOrder O = CurrentMatrixOrder) if (R >= 2 && R <= 4 && C >= 2 && C <= 4) {
+struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R >= 2 && R <= 4 && C >= 2 && C <= 4) {
 	///
 	alias type = T;
 	///
@@ -231,10 +231,8 @@ struct Matrix(T, int R, int C = R, MatrixOrder O = CurrentMatrixOrder) if (R >= 
 		}
 		///
 		ref Matrix opOpAssign(string op, U)(U rhs) pure nothrow @safe @nogc {
-			static if (is(U : Matrix)) {
+			static if (is(U : Matrix) || is(U : T)) {
 				mixin("this = this " ~ op ~ " rhs;");
-			} else static if (is (U : T)) {
-				mixin("v[] " ~ op ~ "= rhs;");
 			} else {
 				static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Matrix.stringof);
 			}
@@ -268,7 +266,7 @@ struct Matrix(T, int R, int C = R, MatrixOrder O = CurrentMatrixOrder) if (R >= 
 			//assert ((!m2).v == [false, false, /**/ true, true]);
 		}
 		///
-		U opCast(U)() pure nothrow const @safe @nogc if (isMatrixInstance!U) {
+		U opCast(U)() pure nothrow const @safe @nogc if (isMatrixInstance!U && U.rowCount == rowCount && U.columnCount == U.columnCount) {
 			U ret = U.identity();
 			enum min_r = R < U.rowCount ? R : U.rowCount;
 			enum min_c = C < U.columnCount ? C : U.columnCount;
