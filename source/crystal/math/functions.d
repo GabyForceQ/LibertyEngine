@@ -2,7 +2,7 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:			$(LINK2 https://github.com/GabyForceQ/CrystalEngine/blob/master/source/crystal/math/functions.d, _functions.d)
  * Documentation:
  * Coverage:
  */
@@ -10,9 +10,9 @@ module crystal.math.functions;
 import std.traits : isIntegral, isSigned, isFloatingPoint;
 public import std.math;
 //import std.math : trunc, floor, asin, acos, sin, PI;
-version( D_InlineAsm_X86 ) {
+version (D_InlineAsm_X86) {
     version = AsmX86;
-} else version( D_InlineAsm_X86_64 ) {
+} else version (D_InlineAsm_X86_64) {
     version = AsmX86;
 }
 /// Convert from radians to degrees.

@@ -2,16 +2,13 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:			$(LINK2 https://github.com/GabyForceQ/CrystalEngine/blob/master/source/crystal/math/quaternion.d, _quaternion.d)
  * Documentation:
  * Coverage:
  */
 module crystal.math.quaternion;
-import std.math;
-import std.string;
-import crystal.math.vector;
-import crystal.math.matrix;
-import fns = crystal.math.functions;
+import crystal.math.vector : Vector;
+import crystal.math.matrix : Matrix, isMatrixInstance;
 ///
 struct Quaternion(T) {
 	///
@@ -35,6 +32,7 @@ struct Quaternion(T) {
 	}
 	/// Constructs a Quaternion from axis + angle.
 	static Quaternion fromAxis(Vector!(T, 3) axis, T angle) pure nothrow @safe @nogc {
+		import crystal.math.functions : sin, cos;
 		Quaternion q;
 		axis.normalize();
 		T cos_a = cos(angle / 2);
@@ -47,6 +45,7 @@ struct Quaternion(T) {
 	}
 	/// Constructs a Quaternion from Euler angles.
 	static Quaternion fromEulerAngles(T roll, T pitch, T yaw) pure nothrow @safe @nogc {
+		import crystal.math.functions : sin, cos;
 		Quaternion q;
 		T sinPitch = sin(pitch / 2);
 		T cosPitch = cos(pitch / 2);
@@ -63,8 +62,9 @@ struct Quaternion(T) {
 		return q;
 	}
 	/// Converts a quaternion to Euler angles.
-	Vector3!T toEulerAngles() pure nothrow const @safe @nogc {
-		Matrix3!T m = cast(Matrix3!T)(this);
+	Vector!(T, 3) toEulerAngles() pure nothrow const @safe @nogc {
+		import crystal.math.functions : atan2, sqrt, PI;
+		Matrix!(T, 3) m = cast(Matrix!(T, 3))(this);
 		T pitch, yaw, roll;
 		T s = sqrt(m.c[0][0] * m.c[0][0] + m.c[1][0] * m.c[1][0]);
 		if (s > T.epsilon) {
@@ -76,7 +76,7 @@ struct Quaternion(T) {
 			yaw = -atan2(m.c[0][1], m.c[1][1]);
 			roll = 0.0f;
 		}
-		return Vector3!T(roll, pitch, yaw);
+		return Vector!(T, 3)(roll, pitch, yaw);
 	}
 	/// Assign from another Quaternion.
 	ref Quaternion opAssign(U)(U u) pure nothrow @safe @nogc if (isQuaternionInstance!U && is(U._T : T)) {
@@ -90,6 +90,7 @@ struct Quaternion(T) {
 	}
 	/// Converts to a string.
 	string toString() const nothrow {
+		import std.string : format;
 		try {
 			return format("%s", v);
 		} catch (Exception e) {
@@ -157,11 +158,11 @@ struct Quaternion(T) {
 		T xx = x * x * s, xy = x * y * s, xz = x * z * s, xw = x * w * s,
 		yy = y * y * s, yz = y * z * s, yw = y * w * s,
 		zz = z * z * s, zw = z * w * s;
-		return Matrix3!(U.type)(1 - (yy + zz), (xy - zw), (xz + yw), (xy + zw), 1 - (xx + zz), (yz - xw), (xz - yw), (yz + xw), 1 - (xx + yy));
+		return Matrix!(U.type, 3)(1 - (yy + zz), (xy - zw), (xz + yw), (xy + zw), 1 - (xx + zz), (yz - xw), (xz - yw), (yz + xw), 1 - (xx + yy));
 	}
 	/// Converts a to a 4x4 rotation matrix.
 	U opCast(U)() pure nothrow const @safe @nogc if (isMatrixInstance!U && is(U.type : type) && (U.rowCount == 4) && (U.columnCount == 4)) {
-		auto m3 = cast(Matrix3!(U.type))(this);
+		auto m3 = cast(Matrix!(U.type, 3))(this);
 		return cast(U)(m3);
 	}
 	///

@@ -9,8 +9,7 @@
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
 	"versions": [
 		"__OpenGL__",
-		"__BasicSTD__",
-        "__RowMajor__"
+		"__BasicSTD__"
 	],
 	"stringImportPaths": [
 		"res"

@@ -23,3 +23,11 @@ version (linux) {
 version (Andorid) {
 	enum __Mobile__ = true;
 }
+///
+version (__OpenGL__) {
+	enum __RowMajor__ = true;
+	enum __ColumnMajor__ = false;
+} else {
+	enum __RowMajor__ = false;
+	enum __ColumnMajor__ = true;
+}

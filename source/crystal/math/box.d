@@ -2,17 +2,12 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:			$(LINK2 https://github.com/GabyForceQ/CrystalEngine/blob/master/source/crystal/math/box.d, _box.d)
  * Documentation:
  * Coverage:
  */
 module crystal.math.box;
-import std.math;
-import std.traits;
-import std.conv;
-import std.string;
-import crystal.math.vector;
-import crystal.math.functions;
+import crystal.math.vector : Vector;
 ///
 struct Box(T, int N) if (N >= 1 && N <= 3) {
 	///
@@ -136,6 +131,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
 	}
 	///
 	real distance(BoundType point) pure nothrow const @safe @nogc {
+		import crystal.math.functions : sqrt;
 		return sqrt(squaredDistance(point));
 	}
 	///
@@ -157,6 +153,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
 	}
 	///
 	real distance(Box o) pure nothrow const @safe @nogc {
+		import crystal.math.functions : sqrt;
 		return sqrt(squaredDistance(o));
 	}
 	///
@@ -212,6 +209,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
 	}
 	///
 	Box expand(BoundType point) pure nothrow const @safe @nogc {
+		import crystal.math.vector : minByElem, maxByElem;
 		return Box(minByElem(min, point), maxByElem(max, point));
 	}
 	///
@@ -294,7 +292,7 @@ pure nothrow @safe @nogc unittest {
 	static assert (isBox!Box2F);
 	static assert (isBox!Box3I);
 	static assert (isBox!(Box!(double, 2)));
-	static assert (!isBox!Vector3F);
+	static assert (!isBox!(Vector!(float, 3)));
 }
 ///
 template Box2(T) {

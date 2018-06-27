@@ -2,15 +2,14 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:			$(LINK2 https://github.com/GabyForceQ/CrystalEngine/blob/master/source/crystal/math/shapes.d, _shapes.d)
  * Documentation:
  * Coverage:
  */
 module crystal.math.shapes;
-import std.math;
-import std.traits;
-import crystal.math.vector;
-import crystal.math.box;
+import std.traits : isFloatingPoint;
+import crystal.math.vector : Vector;
+import crystal.math.box : Box;
 ///
 struct Segment(T, int N) if (N == 2 || N == 3) {
 	///
@@ -21,6 +20,8 @@ struct Segment(T, int N) if (N == 2 || N == 3) {
 	static if (N == 3 && isFloatingPoint!T) {
 		///
 		bool intersect(Plane!T plane, out PointType intersection, out T progress) pure nothrow const @safe @nogc {
+			import crystal.math.functions : abs;
+			import crystal.math.vector : dot;
 			PointType dir = b - a;
 			T dp = dot(plane.n, dir);
 			if (abs(dp) < T.epsilon) {
@@ -54,6 +55,7 @@ struct Triangle(T, int N) if (N == 2 || N == 3) {
 	static if (N == 2) {
 		/// Returns area of a 2D triangle.
 		T area() pure nothrow const @safe @nogc {
+			import crystal.math.functions : abs;
 			return abs(signedArea());
 		}
 		/// Returns signed area of a 2D triangle.
@@ -64,6 +66,7 @@ struct Triangle(T, int N) if (N == 2 || N == 3) {
 	static if (N == 3 && isFloatingPoint!T) {
 		/// Returns triangle normal.
 		Vector!(T, 3) computeNormal() pure nothrow const @safe @nogc {
+			import crystal.math.vector : cross;
 			return cross(b - a, c - a).normalized();
 		}
 	}
@@ -118,6 +121,7 @@ struct Sphere(T, int N) if (N == 2 || N == 3) {
 		static if(N == 2) {
 			/// Returns circle area.
 			T area() pure nothrow const @safe @nogc {
+				import crystal.math.functions : PI;
 				return PI * (radius * radius);
 			}
 		}
@@ -151,6 +155,8 @@ struct Ray(T, int N) if (N == 2 || N == 3) {
 	static if (N == 3 && isFloatingPoint!T) {
 		///
 		bool intersect(Triangle!(T, 3) triangle, out T t, out T u, out T v) pure nothrow const @safe @nogc {
+			import crystal.math.functions : abs;
+			import crystal.math.vector : dot, cross;
 			PointType edge1 = triangle.b - triangle.a;
 			PointType edge2 = triangle.c - triangle.a;
 			PointType pvec = cross(direction, edge2);
@@ -174,6 +180,8 @@ struct Ray(T, int N) if (N == 2 || N == 3) {
 		}
 		///
 		bool intersect(Plane!T plane, out PointType intersection, out T distance) pure nothrow const @safe @nogc {
+			import crystal.math.functions : abs;
+			import crystal.math.vector : dot;
 			T dp = dot(plane.n, direction);
 			if (abs(dp) < T.epsilon) {
 				distance = T.infinity;
@@ -202,21 +210,23 @@ struct Plane(T) if (isFloatingPoint!T) {
 	///
 	alias type = T;
 	///
-	Vector3!T n;
+	Vector!(T, 3) n;
 	///
 	T d;
 	///
-	this(Vector4!T abcd) pure nothrow @safe @nogc {
-		n = Vector3!T(abcd.x, abcd.y, abcd.z).normalized();
+	this(Vector!(T, 4) abcd) pure nothrow @safe @nogc {
+		n = Vector!(T, 3)(abcd.x, abcd.y, abcd.z).normalized();
 		d = abcd.w;
 	}
 	///
-	this(Vector3!T origin, Vector3!T normal) pure nothrow @safe @nogc {
+	this(Vector!(T, 3) origin, Vector!(T, 3) normal) pure nothrow @safe @nogc {
+		import crystal.math.vector : dot;
 		n = normal.normalized();
 		d = -dot(origin, n);
 	}
 	///
-	this(Vector3!T A, Vector3!T B, Vector3!T C) pure nothrow @safe @nogc {
+	this(Vector!(T, 3) A, Vector!(T, 3) B, Vector!(T, 3) C) pure nothrow @safe @nogc {
+		import crystal.math.vector : cross;
 		this(C, cross(B - A, C - A));
 	}
 	///
@@ -226,23 +236,25 @@ struct Plane(T) if (isFloatingPoint!T) {
 		return this;
 	}
 	///
-	T signedDistanceTo(Vector3!T point) pure nothrow const @safe @nogc {
+	T signedDistanceTo(Vector!(T, 3) point) pure nothrow const @safe @nogc {
+		import crystal.math.vector : dot;
 		return dot(n, point) + d;
 	}
 	///
-	T distanceTo(Vector3!T point) pure nothrow const @safe @nogc {
+	T distanceTo(Vector!(T, 3) point) pure nothrow const @safe @nogc {
+		import crystal.math.functions : abs;
 		return abs(signedDistanceTo(point));
 	}
 	///
-	bool isFront(Vector3!T point) pure nothrow const @safe @nogc {
+	bool isFront(Vector!(T, 3) point) pure nothrow const @safe @nogc {
 		return signedDistanceTo(point) >= 0;
 	}
 	///
-	bool isBack(Vector3!T point) pure nothrow const @safe @nogc {
+	bool isBack(Vector!(T, 3) point) pure nothrow const @safe @nogc {
 		return signedDistanceTo(point) < 0;
 	}
 	///
-	bool isOn(Vector3!T point, T epsilon) pure nothrow const @safe @nogc {
+	bool isOn(Vector!(T, 3) point, T epsilon) pure nothrow const @safe @nogc {
 		T sd = signedDistanceTo(point);
 		return (-epsilon < sd) && (sd < epsilon);
 	}
@@ -295,7 +307,7 @@ struct Frustum(T) if (isFloatingPoint!T) {
 		planes[FrustumSide.Far] = far;
 	}
 	///
-	bool contains(Vector3!T point) pure nothrow const @safe @nogc {
+	bool contains(Vector!(T, 3) point) pure nothrow const @safe @nogc {
 		T distance = 0;
 		static foreach (i; 0..sideCount) {
 			distance = planes[i].signedDistanceTo(point);
@@ -319,8 +331,8 @@ struct Frustum(T) if (isFloatingPoint!T) {
 		return FrustumScope.Inside;
 	}
 	///
-	int contains(Box3!T box) pure nothrow const @safe @nogc {
-		Vector3!T[8] corners;
+	int contains(Box!(T, 3) box) pure nothrow const @safe @nogc {
+		Vector!(T, 3)[8] corners;
 		int totalIn = 0;
 		T x, y, z;
 		static foreach (i; 0..2) {
@@ -329,7 +341,7 @@ struct Frustum(T) if (isFloatingPoint!T) {
 					x = i == 0 ? box.min.x : box.max.x;
 					y = j == 0 ? box.min.y : box.max.y;
 					z = k == 0 ? box.min.z : box.max.z;
-					corners[i * 4 + j * 2 + k] = Vector3!T(x, y, z);
+					corners[i * 4 + j * 2 + k] = Vector!(T, 3)(x, y, z);
 				}
 			}
 		}

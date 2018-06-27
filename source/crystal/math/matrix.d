@@ -2,14 +2,14 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:			$(LINK2 https://github.com/GabyForceQ/CrystalEngine/blob/master/source/crystal/math/matrix.d, _matrix.d)
  * Documentation:
  * Coverage:
  */
 module crystal.math.matrix;
+import crystal.math.vector : Vector;
+import crystal.core.config : __RowMajor__, __ColumnMajor__;
 import std.traits : isFloatingPoint;
-import crystal.math.vector : Vector, Vector3, dot, cross;
-import crystal.math.functions;
 ///
 enum MatrixOrder : ubyte {
 	///
@@ -17,7 +17,7 @@ enum MatrixOrder : ubyte {
 	///
 	ColumnMajor = 0x01
 }
-version (__RowMajor__) {
+static if (__RowMajor__) {
 	enum CurrentMatrixOrder = MatrixOrder.RowMajor;
 } else {
 	enum CurrentMatrixOrder = MatrixOrder.ColumnMajor;
@@ -494,6 +494,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		static if (isSquare && (R == 3 || R == 4) && isFloatingPoint!T) {
 			///
 			static Matrix rotateAxis(int i, int j)(T angle) pure nothrow @safe @nogc {
+				import crystal.math.functions : sin, cos;
 				Matrix ret = identity();
 				const T cosa = cos(angle);
 				const T sina = sin(angle);
@@ -513,7 +514,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			/// Returns rotation matrix along axis Z.
 			alias rotateZAxis = rotateAxis!(0, 1);
 			/// In-place rotation by (v, 1)
-			void rotate(T angle, Vector3!T axis) pure nothrow @safe @nogc {
+			void rotate(T angle, Vector!(T, 3) axis) pure nothrow @safe @nogc {
 				this = rotation(angle, axis, this);
 			}
 			///
@@ -521,27 +522,28 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			}
 			///
 			void rotateX(T angle) pure nothrow @safe @nogc {
-				this = rotation(angle, Vector3!T(1, 0, 0), this);
+				this = rotation(angle, Vector!(T, 3)(1, 0, 0), this);
 			}
 			///
 			pure nothrow @safe @nogc unittest {
 			}
 			///
 			void rotateY(T angle) pure nothrow @safe @nogc {
-				this = rotation(angle, Vector3!T(0, 1, 0), this);
+				this = rotation(angle, Vector!(T, 3)(0, 1, 0), this);
 			}
 			///
 			pure nothrow @safe @nogc unittest {
 			}
 			///
 			void rotateZ(T angle) pure nothrow @safe @nogc {
-				this = rotation(angle, Vector3!T(0, 0, 1), this);
+				this = rotation(angle, Vector!(T, 3)(0, 0, 1), this);
 			}
 			///
 			pure nothrow @safe @nogc unittest {
 			}
 			///
-			static Matrix rotation(T angle, Vector3!T axis, Matrix m = identity()) pure nothrow @safe @nogc {
+			static Matrix rotation(T angle, Vector!(T, 3) axis, Matrix m = identity()) pure nothrow @safe @nogc {
+				import crystal.math.functions : sin, cos;
 				Matrix ret = m;
 				const T c = cos(angle);
 				const oneMinusC = 1 - c;
@@ -584,6 +586,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			}
 			/// Returns perspective projection.
 			static Matrix perspective(T FOVInRadians, T aspect, T zNear, T zFar) pure nothrow @safe @nogc {
+				import crystal.math.functions : tan;
 				T f = 1 / tan(FOVInRadians / 2);
 				T d = 1 / (zNear - zFar);
 				return Matrix(f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (zFar + zNear) * d, 2 * d * zFar * zNear, 0, 0, -1, 0);
@@ -592,10 +595,11 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			pure nothrow @safe @nogc unittest {
 			}
 			/// Returns lookAt projection.
-			static Matrix lookAt(Vector3!T eye, Vector3!T target, Vector3!T up) pure nothrow @safe @nogc {
-				Vector3!T Z = (eye - target).normalized();
-				Vector3!T X = cross(-up, Z).normalized();
-				Vector3!T Y = cross(Z, -X);
+			static Matrix lookAt(Vector!(T, 3) eye, Vector!(T, 3) target, Vector!(T, 3) up) pure nothrow @safe @nogc {
+				import crystal.math.vector : dot, cross;
+				Vector!(T, 3) Z = (eye - target).normalized();
+				Vector!(T, 3) X = cross(-up, Z).normalized();
+				Vector!(T, 3) Y = cross(Z, -X);
 				return Matrix(-X.x, -X.y, -X.z, dot(X, eye), Y.x, Y.y, Y.z, -dot(Y, eye), Z.x, Z.y, Z.z, -dot(Z, eye), 0, 0, 0, 1);
 			}
 			///
@@ -802,7 +806,7 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 			mult(MatrixType.orthographic(left, right, bottom, top, near, far));
 		}
 		///
-		void lookAt(Vector3!T eye, Vector3!T target, Vector3!T up) pure nothrow @safe @nogc {
+		void lookAt(Vector!(T, 3) eye, Vector!(T, 3) target, Vector!(T, 3) up) pure nothrow @safe @nogc {
 			mult(MatrixType.lookAt(eye, target, up));
 		}
 	}
