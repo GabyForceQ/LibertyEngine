@@ -1,0 +1,12 @@
+{
+	"name": "crystal-demos",
+	"authors": [
+		"Gabriel Gheorghe"
+	],
+	"description": "Demo apps using Crystal Engine.",
+	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
+	"targetType": "executable",
+	"dependencies": {
+		"crystal-engine": "~>0.0.14-alpha.13"
+	}
+}

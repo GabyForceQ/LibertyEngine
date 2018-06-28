@@ -18,19 +18,18 @@ The Next 2D/3D Game Engine is written in D!
 * OpenGL 4.5 on Windows
 
 ##### New features:
-* Coming 07.07.2018
+* Tree-based scene
+* First example (only for Windows x64)
 
 ### Instructions:
-* Coming 07.07.2018
-
-### Examples:
-* Coming 07.07.2018
+To build and run an example follow this steps:
+1) cd CrystalEngine\examples\Simple3DScene
+2) dub run --arch=x86_64
 
 ### Future plans:
 * Android support with LDC
 * Vulkan API Support
 * HTML5 with WebAssembly Support
-* Demo projects
 * Crystal Studio with project templates
 * Multithreading systems
 * Dynamic scripts loader
