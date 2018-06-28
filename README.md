@@ -28,6 +28,7 @@ To build and run an example follow this steps:
 
 ### Future plans:
 * Android support with LDC
+* Windows Universal App support
 * Vulkan API Support
 * HTML5 with WebAssembly Support
 * Crystal Studio with project templates
