@@ -23,8 +23,8 @@ The Next 2D/3D Game Engine is written in D!
 
 ### Instructions:
 To build and run an example follow this steps:
-1) cd CrystalEngine\examples\Simple3DScene
-2) dub run --arch=x86_64
+* cd CrystalEngine\examples\Simple3DScene
+* dub run --arch=x86_64
 
 ### Future plans:
 * Android support with LDC
