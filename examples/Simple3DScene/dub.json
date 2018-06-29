@@ -6,7 +6,7 @@
 	"description": "Demo apps using Crystal Engine.",
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
 	"dependencies": {
-		"crystal-engine": "~master"
+		"crystal-engine": "~>0.0.14-alpha.17"
 	},
 	"targetName": "crystalenginegame",
 	"configurations": [
