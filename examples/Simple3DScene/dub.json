@@ -5,8 +5,17 @@
 	],
 	"description": "Demo apps using Crystal Engine.",
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
+	"targetName": "crystalengine",
+	"targetPath": "bin",
 	"targetType": "executable",
 	"dependencies": {
-		"crystal-engine": "~>0.0.14-alpha.13"
-	}
+		"crystal-engine": "~master"
+	},
+	"configurations": [
+		{
+			"name": "default",
+			"targetPath-windows-x86_64": "bin/win_x86_64",
+            "targetPath-windows-x86": "bin/win_x86"
+		}
+	]
 }
