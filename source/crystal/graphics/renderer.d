@@ -45,6 +45,7 @@ class GraphicsEngine {
 		bool _wireframe = false;
 		Vector4F _color = Vector4F(1.0, 1.0, 1.0, 1.0);
 	}
+	///
 	void startService() {
 		version (__OpenGL__) {
 			_backend = new GLBackend();
@@ -54,14 +55,16 @@ class GraphicsEngine {
 			_backend = new WASMBackend();
 		}
 	}
-	void releaseService() {
+	///
+	void stopService() {
 		if (_backend !is null) {
 			_backend.destroy();
 			_backend = null;
 		}
 	}
+	///
 	void restartServic() {
-		releaseService();
+		stopService();
 		startService();
 	}
 	///

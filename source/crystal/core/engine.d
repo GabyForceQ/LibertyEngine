@@ -71,7 +71,11 @@ class CoreEngine {
     Platform getPlatform() { return _platformApi; }
     SDL2Window getMainWindow() { return _mainWindow; }
     Image getImageAPI() { return _imageAPI; }
+    ///
     void startService() {
+        version (__Logger__) {
+            Logger.startService();
+        }
         GraphicsEngine.startService();
 
         _initWindow();
@@ -80,12 +84,17 @@ class CoreEngine {
         Materials.load();
         Models.load();
     }
-    void releaseService() {
-        GraphicsEngine.releaseService();
+    ///
+    void stopService() {
+        GraphicsEngine.stopService();
+        version (__Logger__) {
+            Logger.stopService();
+        }
         collectGarbage();
     }
+    ///
     void restartServic() {
-        releaseService();
+        stopService();
         startService();
     }
     ///
@@ -175,6 +184,6 @@ immutable NativeServices = q{
         initSettings();
         initScene();
         CoreEngine.runMainLoop();
-	CoreEngine.releaseService();
+	CoreEngine.stopService();
     }
 };

@@ -18,8 +18,8 @@ The Next 2D/3D Game Engine is written in D!
 * First example (for both Windows x86 and x64)
 
 ### Instructions:
-To build an example go to CrystalEngine\examples\Simple3DScene and run the bat files.
-To run it, go to the bin/platform/executable.
+To build an example go to CrystalEngine\examples\Simple3DScene and run the bat files.<br />
+To run it, go to the bin/platform/executable.<br />
 You need Visual C++ SDK for Windows 10 to build the x64 version.
 
 ### Future plans:

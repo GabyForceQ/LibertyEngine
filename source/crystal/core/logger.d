@@ -6,24 +6,112 @@
  * Documentation:
  * Coverage:
  */
+ // TODO: Add current platform on log message.
 module crystal.core.logger;
+/// All types of log that you can use when logging a message.
+enum LogType : ubyte {
+    /// Used to log an information message.
+    Info = 0x00,
+    /// Used to log a warning message.
+    Warning = 0x01,
+    /// Used to log an error message.
+    Error = 0x02,
+    /// Used to log an exception message.
+    Exception = 0x03,
+    /// Used to log a debug message. Only works in debug mode.
+    Debug = 0x04,
+    /// Used to log a todo message.
+    Todo = 0x05
+}
 ///
 class Logger {
+    static private bool serviceRunning;
 	static:
-	package void startService() {
-    
+	/// Start Logger service.
+    void startService() nothrow @safe @nogc {
+        serviceRunning = true;
     }
-    package void releaseService() {
-    
+    /// Stop Logger service.
+    void stopService() nothrow @safe @nogc {
+        serviceRunning = false;
     }
-    void restartServic() {
-        releaseService();
+    /// Restart Logger service.
+    void restartService() nothrow @safe @nogc {
+        stopService();
         startService();
     }
-    ///
-    void safeLog(T...)(T args) {
-    	synchronized {
-            writeln(args);
+    /// Log an information message. It starts with the current time + " -> LOG_INFO: "
+    void info(string message) @safe {
+        log(LogType.Info, message);
+    }
+    /// Log a warning message. It starts with the current time + " -> LOG_WARNING: "
+    void warning(string message) @safe {
+        log(LogType.Warning, message);
+    }
+    /// Log an error message. It starts with the current time + " -> LOG_ERROR: "
+    void error(string message) @safe {
+        log(LogType.Error, message);
+    }
+    /// Log an exception message. It starts with the current time + " -> LOG_EXCEPTION: "
+    void exception(string message) @safe {
+        log(LogType.Exception, message);
+    }
+    /// Log a debug message. Only works in debug mode. It starts with the current time + " -> LOG_DEBUG: "
+    void console(string message) @safe {
+        log(LogType.Debug, message);
+    }
+    /// Log a todo message. It starts with the current time + " -> LOG_TODO: "
+    void todo(string message) @safe {
+        log(LogType.Todo, message);
+    }
+    private void log(LogType type, string message) @safe {
+        import std.stdio : writeln, File;
+        import std.datetime.systime : SysTime, Clock;
+        SysTime st = Clock.currTime();
+        auto file = File("logs.txt", "a");
+        scope (exit) file.close();
+        synchronized {
+            if (serviceRunning) {
+                final switch (type) with (LogType) {
+                    case Info:
+                        file.writeln(st.toISOExtString() ~ " -> LOG_INFO: " ~ message);
+                        break;
+                    case Warning:
+                        file.writeln(st.toISOExtString() ~ " -> LOG_WARNING: " ~ message);
+                        break;
+                    case Error:
+                        file.writeln(st.toISOExtString() ~ " -> LOG_ERROR: " ~ message);
+                        break;
+                    case Exception:
+                        file.writeln(st.toISOExtString() ~ " -> LOG_EXCEPTION: " ~ message);
+                        break;
+                    case Debug:
+                        debug writeln(st.toISOExtString() ~ " -> LOG_DEBUG: " ~ message);
+                        debug file.writeln(st.toISOExtString() ~ " -> LOG_DEBUG: " ~ message);
+                        break;
+                    case Todo:
+                        file.writeln(st.toISOExtString() ~ " -> LOG_TODO: " ~ message);
+                        break;
+                }
+            }
         }
     }
+}
+///
+@safe unittest {
+    Logger.startService();
+    scope (exit) Logger.stopService();
+    Logger.console("Test message!");
+    Logger.info("Info test message!");
+    Logger.warning("Warning test message!");
+    Logger.error("Error test message!");
+    try {
+        immutable int x = 5;
+        if (x == 5) {
+            throw new Exception("x cannot be 5!");
+        }
+    } catch (Exception e) {
+        Logger.exception("Exception test message!");
+    }
+    Logger.todo("Todo test message!");
 }

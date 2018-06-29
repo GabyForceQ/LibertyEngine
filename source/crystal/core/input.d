@@ -34,18 +34,21 @@ class Input {
     }
     package bool _isMouseMoving = false;
     package bool _isMouseWheeling = false;
-    package void startService() {
+    ///
+    void startService() {
         //useSystemCursor(SystemCursor.Arrow);
         //setCurrentCursor();
     }
-    package void releaseService() {
+    ///
+    void stopService() {
         if (_cursorHandle !is null) {
             SDL_FreeCursor(_cursorHandle);
             _cursorHandle = null;
         }
     }
+    ///
     void restartServic() {
-        releaseService();
+        stopService();
         startService();
     }
     ///
