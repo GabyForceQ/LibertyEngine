@@ -1,6 +1,7 @@
 {
 	"name": "crystal-engine",
 	"targetName": "CrystalEngine",
+	"targetType": "library",
 	"targetPath": "lib",
 	"authors": [
 		"Gabriel Gheorghe"
@@ -20,18 +21,5 @@
 		"derelict-sdl2": "~>3.1.0-alpha.4",
 		"derelict-assimp3": "~>2.0.0-beta.1",
 		"derelict-fi": "~>3.0.0-beta.1"
-	},
-	"configurations": [
-		{
-			"name": "default",
-			"copyFiles-windows-x86_64": [
-                "libs/win_x86_64/FreeImage.dll",
-				"libs/win_x86_64/SDL2.dll"
-            ],
-            "copyFiles-windows-x86": [
-                "libs/win_x86/FreeImage.dll",
-				"libs/win_x86/SDL2.dll"
-            ]
-		}
-	]
+	}
 }

@@ -7,29 +7,24 @@ The Next 2D/3D Game Engine is written in D!
 * DMD 2.081.0
 
 ##### Operating systems supported (tested):
-* MacOSX 10.13 x64 (64-bits)
-* Ubuntu 18.04 LTS x86 (32-bits)
-* Ubuntu 18.04 LTS x64 (64-bits)
 * Windows 10 x86 (32-bits)
 * Windows 10 x64 (64-bits)
 
 ##### Graphics APIs supported:
-* OpenGL 3.3 on MacOSX and Ubuntu
-* OpenGL 4.5 on Windows
+* OpenGL 4.5 (Windows)
 
 ##### New features:
 * Tree-based scene
-* First example (only for Windows x64)
+* First example (for both Windows x86 and x64)
 
 ### Instructions:
-To build and run an example follow this steps:
-* cd CrystalEngine\examples\Simple3DScene
-* dub run --arch=x86_64
+To build an example go to CrystalEngine\examples\Simple3DScene and run the bat files.
+To run it, go to the bin/platform/executable.
+You need Visual C++ SDK for Windows 10 to build the x64 version.
 
 ### Future plans:
-* Android support with LDC
-* Windows Universal App support
-* Vulkan API Support
+* Other platforms support
+* Vulkan API Wrapper
 * HTML5 with WebAssembly Support
 * Crystal Studio with project templates
 * Multithreading systems
