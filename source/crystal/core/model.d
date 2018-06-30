@@ -6,14 +6,14 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.model;
-import crystal.graphics.util: RenderUtil;
-import crystal.graphics.video.vertex: VertexSpec;
-import crystal.graphics.video.vao: VertexArray;
-import crystal.graphics.video.buffer: VideoBuffer, BufferTarget;
-import crystal.graphics.material: Material, Materials;
-import crystal.graphics.renderer: Vertex, DataUsage;
-import crystal.math: Vector2F, Vector3F;
+module liberty.core.model;
+import liberty.graphics.util: RenderUtil;
+import liberty.graphics.video.vertex: VertexSpec;
+import liberty.graphics.video.vao: VertexArray;
+import liberty.graphics.video.buffer: VideoBuffer, BufferTarget;
+import liberty.graphics.material: Material, Materials;
+import liberty.graphics.renderer: Vertex, DataUsage;
+import liberty.math: Vector2F, Vector3F;
 ///
 struct Mesh {
 	///
@@ -39,13 +39,13 @@ final class Model(VERTEX) {
 	///
 	this(VERTEX[] vboArray, uint[] indices, Material material = Materials.defaultMaterial) {
 		_material = material;
-		_vertexSpec = RenderUtil.createVertexSpec!VERTEX(_material.getShader());
+		_vertexSpec = RenderUtil.createVertexSpec!VERTEX(_material.shader);
         _mesh.vao = RenderUtil.createVertexArray();
         _mesh.vbo = RenderUtil.createBuffer(BufferTarget.Array, DataUsage.StaticDraw, vboArray[]);
         _mesh.ibo = RenderUtil.createBuffer(BufferTarget.ElementArray, DataUsage.StaticDraw);
         _mesh.vao.bind();
         _mesh.vbo.bind();
-        _mesh.ibo.setData(indices);
+        _mesh.ibo.data = indices;
         _vertexSpec.use();
         _mesh.vao.unbind();
 	}
@@ -55,19 +55,19 @@ final class Model(VERTEX) {
 		_vertexSpec.destroy();
 	}
 	///
-	Mesh getMesh() {
+	Mesh mesh() {
 		return _mesh;
 	}
 	///
-	Material getMaterial() {
+	Material material() {
 		return _material;
 	}
 	///
-	void setMesh(Mesh mesh) pure nothrow {
+	void mesh(Mesh mesh) pure nothrow {
 		_mesh = mesh;
 	}
 	///
-	void setMaterial(Material material) pure nothrow {
+	void material(Material material) pure nothrow {
 		_material = material;
 	}
 }

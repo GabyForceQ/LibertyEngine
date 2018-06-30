@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.video.vertex;
+module liberty.graphics.video.vertex;
 ///
 abstract class VertexSpec(VERTEX) {
 	///
@@ -15,7 +15,7 @@ abstract class VertexSpec(VERTEX) {
 	void unuse();
 	/// Returns the size of the Vertex.
     /// The size can be computed after you added all your attributes.
-    size_t getVertexSize() pure const nothrow @nogc @safe {
+    size_t vertexSize() pure const nothrow @nogc @safe {
         return VERTEX.sizeof;
     }
 }

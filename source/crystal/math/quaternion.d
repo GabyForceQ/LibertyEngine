@@ -2,13 +2,13 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:			$(LINK2 https://github.com/GabyForceQ/CrystalEngine/blob/master/source/crystal/math/quaternion.d, _quaternion.d)
+ * Source:			$(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/math/quaternion.d, _quaternion.d)
  * Documentation:
  * Coverage:
  */
-module crystal.math.quaternion;
-import crystal.math.vector : Vector;
-import crystal.math.matrix : Matrix, isMatrixInstance;
+module liberty.math.quaternion;
+import liberty.math.vector : Vector;
+import liberty.math.matrix : Matrix, isMatrixInstance;
 ///
 struct Quaternion(T) {
 	///
@@ -32,7 +32,7 @@ struct Quaternion(T) {
 	}
 	/// Constructs a Quaternion from axis + angle.
 	static Quaternion fromAxis(Vector!(T, 3) axis, T angle) pure nothrow @safe @nogc {
-		import crystal.math.functions : sin, cos;
+		import liberty.math.functions : sin, cos;
 		Quaternion q = void;
 		axis.normalize();
 		T cos_a = cos(angle / 2);
@@ -45,7 +45,7 @@ struct Quaternion(T) {
 	}
 	/// Constructs a Quaternion from Euler angles.
 	static Quaternion fromEulerAngles(T roll, T pitch, T yaw) pure nothrow @safe @nogc {
-		import crystal.math.functions : sin, cos;
+		import liberty.math.functions : sin, cos;
 		Quaternion q = void;
 		T sinPitch = sin(pitch / 2);
 		T cosPitch = cos(pitch / 2);
@@ -63,7 +63,7 @@ struct Quaternion(T) {
 	}
 	/// Converts a quaternion to Euler angles.
 	Vector!(T, 3) toEulerAngles() pure nothrow const @safe @nogc {
-		import crystal.math.functions : atan2, sqrt, PI;
+		import liberty.math.functions : atan2, sqrt, PI;
 		Matrix!(T, 3) m = cast(Matrix!(T, 3))(this);
 		T pitch, yaw, roll;
 		T s = sqrt(m.c[0][0] * m.c[0][0] + m.c[1][0] * m.c[1][0]);

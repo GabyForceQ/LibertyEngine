@@ -6,10 +6,10 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.vulkan.buffer;
+module liberty.graphics.vulkan.buffer;
 version (__Vulkan__) :
-import crystal.graphics.renderer;
-import crystal.graphics.common.buffer : VideoBuffer;
+import liberty.graphics.renderer;
+import liberty.graphics.common.buffer : VideoBuffer;
 /// Vulkan Buffer.
 final class VKBuffer : VideoBuffer {
 

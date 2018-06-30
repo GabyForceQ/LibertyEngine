@@ -6,11 +6,11 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.geometry;
+module liberty.core.geometry;
 version (__NoDefaultImports__) {
 } else {
     public {
-        import crystal.core.geometry.shapes;
-        import crystal.core.geometry.volumes;
+        import liberty.core.geometry.shapes;
+        import liberty.core.geometry.volumes;
     }
 }

@@ -6,17 +6,17 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.scenegraph;
+module liberty.core.scenegraph;
 version (__NoDefaultImports__) {
 } else {
     public {
-        import crystal.core.scenegraph.actor;
-        import crystal.core.scenegraph.camera;
-        import crystal.core.scenegraph.canvas;
-        import crystal.core.scenegraph.entity;
-        import crystal.core.scenegraph.node;
-        import crystal.core.scenegraph.scene;
-        import crystal.core.scenegraph.services;
-        import crystal.core.scenegraph.terrain;
+        import liberty.core.scenegraph.actor;
+        import liberty.core.scenegraph.camera;
+        import liberty.core.scenegraph.canvas;
+        import liberty.core.scenegraph.entity;
+        import liberty.core.scenegraph.node;
+        import liberty.core.scenegraph.scene;
+        import liberty.core.scenegraph.services;
+        import liberty.core.scenegraph.terrain;
     }
 }

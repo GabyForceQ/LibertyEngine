@@ -7,11 +7,11 @@
  * Coverage:
  */
 // TODO: optimize imports
-module crystal.graphics.opengl.buffer;
+module liberty.graphics.opengl.buffer;
 version (__OpenGL__) :
 import derelict.opengl;
-import crystal.graphics.renderer;
-import crystal.graphics.video.buffer : VideoBuffer;
+import liberty.graphics.renderer;
+import liberty.graphics.video.buffer : VideoBuffer;
 /// OpenGL Buffer.
 final class GLBuffer : VideoBuffer {
     /// Creates an empty buffer.
@@ -21,7 +21,7 @@ final class GLBuffer : VideoBuffer {
         _target = target;
         _firstLoad = true;
         glGenBuffers(1, &_buffer);
-        GraphicsEngine.getBackend().runtimeCheck();
+        GraphicsEngine.backend.runtimeCheck();
         _initialized = true;
         _size = 0;
     }
@@ -29,24 +29,24 @@ final class GLBuffer : VideoBuffer {
     /// Throws: $(D GLException) on error.
     this(T)(uint target, uint usage, T[] buffer) {
         this(target, usage);
-        setData(buffer);
+        data(buffer);
     }
     /// Releases the OpenGL buffer resource.
     ~this() {
         if (_initialized) {
-            debug import crystal.core.memory : ensureNotInGC;
+            debug import liberty.core.memory : ensureNotInGC;
             debug ensureNotInGC("GLBuffer");
             glDeleteBuffers(1, &_buffer);
             _initialized = false;
         }
     }
     /// Returns the size of the buffer in bytes.
-    override size_t getSize() pure const nothrow {
+    override size_t size() pure const nothrow {
         return _size;
     }
     /// Returns the copy bytes to the buffer.
     /// Throws: $(D OpenGLException) on error.
-    void setData(T)(T[] buffer) {
+    void data(T)(T[] buffer) {
         setData(buffer.length * T.sizeof, buffer.ptr);
     }
     /// Returns the copy bytes to the buffer.
@@ -60,7 +60,7 @@ final class GLBuffer : VideoBuffer {
         } else {
             glBufferData(_target, size, data, _usage);
 		}
-        GraphicsEngine.getBackend().runtimeCheck();
+        GraphicsEngine.backend.runtimeCheck();
         _firstLoad = false;
     }
     /// Copies bytes to a sub-part of the buffer. You can't adress data beyond the buffer's size.
@@ -68,7 +68,7 @@ final class GLBuffer : VideoBuffer {
     override void setSubData(size_t offset, size_t size, void* data) {
         bind();
         glBufferSubData(_target, offset, size, data);
-        GraphicsEngine.getBackend().runtimeCheck();
+        GraphicsEngine.backend.runtimeCheck();
     }
 
     /// Gets a sub-part of a buffer.
@@ -76,13 +76,13 @@ final class GLBuffer : VideoBuffer {
     override void getSubData(size_t offset, size_t size, void* data) {
         bind();
         glGetBufferSubData(_target, offset, size, data);
-        GraphicsEngine.getBackend().runtimeCheck();
+        GraphicsEngine.backend.runtimeCheck();
     }
 
     /// Gets the whole buffer content in a newly allocated array.
     /// <b>This is intended for debugging purposes.</b>
     /// Throws: $(D GLException) on error.
-    override ubyte[] getBytes() {
+    override ubyte[] bytes() {
         auto buffer = new ubyte[_size];
         getSubData(0, _size, buffer.ptr);
         return buffer;
@@ -91,7 +91,7 @@ final class GLBuffer : VideoBuffer {
     /// Throws: $(D GLException) on error.
     override void bind() {
         glBindBuffer(_target, _buffer);
-        GraphicsEngine.getBackend().runtimeCheck();
+        GraphicsEngine.backend.runtimeCheck();
     }
     /// Unbinds this buffer.
     /// Throws: $(D GLException) on error.
@@ -99,7 +99,7 @@ final class GLBuffer : VideoBuffer {
         glBindBuffer(_target, 0);
     }
     /// Returns: Wrapped OpenGL resource handle.
-    override uint getHandle() pure const nothrow {
+    override uint handle() pure const nothrow {
         return _buffer;
     }
 }

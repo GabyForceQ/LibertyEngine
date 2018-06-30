@@ -6,15 +6,15 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.scenegraph.camera;
-import crystal.core.engine: CoreEngine;
-import crystal.core.scenegraph.actor: Actor;
-import crystal.core.scenegraph.node: Node;
-import crystal.core.scenegraph.services: NodeServices, Constructor;
-import crystal.core.input: Input, KeyCode, KeyModFlag, MouseButton;
-import crystal.math.functions: radians, sin, cos;
-import crystal.math.vector: Vector2I, Vector3F, cross;
-import crystal.math.matrix: Matrix4F;
+module liberty.core.scenegraph.camera;
+import liberty.core.engine: CoreEngine;
+import liberty.core.scenegraph.actor: Actor;
+import liberty.core.scenegraph.node: Node;
+import liberty.core.scenegraph.services: NodeServices, Constructor;
+import liberty.core.input: Input, KeyCode, KeyModFlag, MouseButton;
+import liberty.math.functions: radians, sin, cos;
+import liberty.math.vector: Vector2I, Vector3F, cross;
+import liberty.math.matrix: Matrix4F;
 ///
 enum CameraProjection: byte {
     /// For 3D and 2D views
@@ -37,8 +37,8 @@ enum CameraMovement: byte {
 final class Camera : Actor {
 	mixin(NodeServices);
 	private {
-		Matrix4F projection;
-        Matrix4F view;
+		Matrix4F _projection;
+        Matrix4F _view;
 		// Attributes.
 		Vector3F _position;
 		Vector3F _front;
@@ -67,15 +67,15 @@ final class Camera : Actor {
 	///
 	enum Pitch = 0.0f;
 	///
-	float getFov() pure nothrow const {
+	float fov() pure nothrow const {
 		return _fov;
 	}
 	///
-	float getNearPlane() pure nothrow const {
+	float nearPlane() pure nothrow const {
 		return _nearPlane;
 	}
 	///
-	float getFarPlane() pure nothrow const {
+	float farPlane() pure nothrow const {
 		return _farPlane;
 	}
 	///
@@ -86,8 +86,8 @@ final class Camera : Actor {
         _yaw = Yaw;
         _pitch = Pitch;
         updateCameraVectors();
-        _lastX = CoreEngine.getMainWindow().getWidth() / 2;
-        _lastY = CoreEngine.getMainWindow().getHeight() / 2;
+        _lastX = CoreEngine.mainWindow.width / 2;
+        _lastY = CoreEngine.mainWindow.height / 2;
 	}
 	///
 	this(string id, Node parent, Vector3F position = Vector3F.zero, Vector3F up = Vector3F.up, float yaw = Yaw, float pitch = Pitch) {
@@ -98,8 +98,8 @@ final class Camera : Actor {
 		_position = position;
 	}
 	///
-	Matrix4F getProjectionMatrix() {
-		Vector2I size = CoreEngine.getMainWindow().getSize();
+	Matrix4F projectionMatrix() {
+		Vector2I size = CoreEngine.mainWindow.size;
 		final switch (_cameraProjection) with (CameraProjection) {
 			case Perspective:
 				return Matrix4F.perspective(radians(_fov), cast(float)size.x / size.y, _nearPlane, _farPlane);
@@ -108,11 +108,11 @@ final class Camera : Actor {
 		}
 	}
 	///
-	Matrix4F getViewMatrix() {
+	Matrix4F viewMatrix() {
 		return Matrix4F.lookAt(_position, _position + _front, _up);
 	}
 	///
-	void setFov(float value) {
+	void fov(float value) {
 		_fov = value;
 	}
 	///
@@ -128,9 +128,9 @@ final class Camera : Actor {
 				if (Input.isKeyHold(KeyModFlag.LeftCtrl)) {
 					if(_fov >= 1.0f && _fov <= 45.0f) {
 						if (_scrollReversedOrder) {
-							_fov += Input.getMouseDeltaWheelY();
+							_fov += Input.mouseDeltaWheelY();
 						} else {
-							_fov -= Input.getMouseDeltaWheelY();
+							_fov -= Input.mouseDeltaWheelY();
 						}
 					}
 					if(_fov <= 1.0f) {
@@ -158,18 +158,18 @@ final class Camera : Actor {
 			}
 			// Process Mouse Movement.
 			if (Input.isMouseButtonPressed(MouseButton.Right)) {
-				Input.setWindowGrab(true);
-				Input.setCursorVisible(false);
+				Input.windowGrab = true;
+				Input.cursorVisible = false;
 				if (Input.isMouseMoving()) {
 					if (_firstMouse) {
-						_lastX = Input.getMousePosition().x;
-						_lastY = Input.getMousePosition().y;
+						_lastX = Input.mousePosition.x;
+						_lastY = Input.mousePosition.y;
 						_firstMouse = false;
 					}
-					float xoffset = Input.getMousePosition().x - _lastX;
-					float yoffset = _lastY - Input.getMousePosition().y;
-					_lastX = Input.getMousePosition().x;
-					_lastY = Input.getMousePosition().y;
+					float xoffset = Input.mousePosition.x - _lastX;
+					float yoffset = _lastY - Input.mousePosition.y;
+					_lastX = Input.mousePosition.x;
+					_lastY = Input.mousePosition.y;
 					xoffset *= _mouseSensitivity;
 					yoffset *= _mouseSensitivity;
 					_yaw   += xoffset;
@@ -185,21 +185,21 @@ final class Camera : Actor {
 					updateCameraVectors();
 				}
 			} else {
-				Input.setWindowGrab(false);
-				Input.setCursorVisible(true);
+				Input.windowGrab = false;
+				Input.cursorVisible = true;
 				_firstMouse = true;
 			}
-			projection = getProjectionMatrix();
-			view = getViewMatrix();
+			_projection = projectionMatrix;
+			_view = viewMatrix;
 		}
 	}
 	///
-	ref const(Matrix4F) getProjection() {
-		return projection;
+	ref const(Matrix4F) projection() {
+		return _projection;
 	}
 	///
-	ref const(Matrix4F) getView() {
-		return view;
+	ref const(Matrix4F) view() {
+		return _view;
 	}
 	///
 	void rotateYaw(float value) {
@@ -210,11 +210,11 @@ final class Camera : Actor {
         _pitch += value;
     }
     ///
-    void setYaw(float value) {
+    void yaw(float value) {
         _yaw = value;
     }
     ///
-    void setPitch(float value) {
+    void pitch(float value) {
         _pitch = value;
     }
 	///

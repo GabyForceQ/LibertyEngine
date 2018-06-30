@@ -6,10 +6,10 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.imaging.bitmap;
+module liberty.core.imaging.bitmap;
 import std.string;
 import derelict.freeimage.freeimage;
-import crystal.core.imaging.image;
+import liberty.core.imaging.image;
 /// Image bitmap wrapper.
 final class Bitmap {
     private {
@@ -52,7 +52,7 @@ final class Bitmap {
     /// Releases the Image bitmap resource.
     ~this() {
         if (_bitmap !is null) {
-            debug import crystal.core.memory : ensureNotInGC;
+            debug import liberty.core.memory : ensureNotInGC;
             debug ensureNotInGC("FIBitmap");
             FreeImage_Unload(_bitmap);
             _bitmap = null;
@@ -76,7 +76,7 @@ final class Bitmap {
         return FreeImage_GetHeight(_bitmap);
     }
     ///
-    FREE_IMAGE_TYPE getImageType() {
+    FREE_IMAGE_TYPE imageType() {
         return FreeImage_GetImageType(_bitmap);
     }
     ///
@@ -221,9 +221,9 @@ final class Bitmap {
         return new Bitmap(_lib, FreeImage_Rotate(_bitmap, angle, bkColor));
     }
     ///
-    uint getNumberOfChannels() {
+    uint numberOfChannels() {
         uint bytespp = FreeImage_GetLine(_bitmap) / FreeImage_GetWidth(_bitmap);
-        uint samples = bytespp / getImageType().sizeof;
+        uint samples = bytespp / imageType.sizeof;
         return samples;
     }
 }

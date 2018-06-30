@@ -6,15 +6,15 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.opengl.vertex;
+module liberty.graphics.opengl.vertex;
 version (__OpenGL__) :
 import derelict.opengl;
-import crystal.graphics.renderer;
-import crystal.graphics.opengl.traits;
+import liberty.graphics.renderer;
+import liberty.graphics.opengl.traits;
 import std.string, std.typetuple, std.typecons, std.traits;
-import crystal.math.vector;
-import crystal.graphics.opengl.shader;
-import crystal.graphics.video.vertex : VertexSpec;
+import liberty.math.vector;
+import liberty.graphics.opengl.shader;
+import liberty.graphics.video.vertex : VertexSpec;
 /// Specify an attribute which has to be normalized.
 struct Normalized;
 /// Describe a Vertex structure.
@@ -25,15 +25,13 @@ final class GLVertexSpec(VERTEX) : VertexSpec!VERTEX {
 	}
 	/// Creates a vertex specification.
 	this(GLShaderProgram shader_program) {
-		//template isReadWriteFiled = __traits(compiles, __traits(getMember, Tgen!T(), M) = __traits(getMember, Tgen!T(), M));
-		//pragma(msg, T.stringof ~ "." ~ M ~ ": " ~ (isReadWriteFiled ? "1" : "0"));
 		alias TT = FieldTypeTuple!VERTEX;
 		foreach (member; __traits(allMembers, VERTEX)) { // TODO: static foreach?
 			static assert(member != "this", `Found a 'this' member in vertex struct. Use a 'static struct' instead.`);
 			enum fullName = "VERTEX." ~ member;
 			mixin("alias T = typeof(" ~ fullName ~ ");");
 			static if (staticIndexOf!(T, TT) != -1) {
-				int location = shader_program.getAttribute(member).getLocation();
+				int location = shader_program.attribute(member).location;
 				mixin("enum size_t offset = VERTEX." ~ member ~ ".offsetof;");
 				enum UDAs = __traits(getAttributes, member);
 				bool normalize = false; //(staticIndexOf!(Normalized, UDAs) == -1); // TODO: -> not working @Normalized.
@@ -47,7 +45,7 @@ final class GLVertexSpec(VERTEX) : VertexSpec!VERTEX {
 	/// Use this vertex specification.
 	override void use(uint divisor = 0) {
 		for (uint i = 0; i < _attributes.length; i++) {
-			_attributes[i].use(cast(int)getVertexSize(), divisor);
+			_attributes[i].use(cast(int)vertexSize, divisor);
 		}
 	}
 	/// Unuse this vertex specification.
@@ -88,11 +86,11 @@ final class GLAttribute {
         //s_gl._logger.warningf("Faking attribute '%s' which either does not exist in the shader program, or was discarded by the driver as unused", name);
     }
     ///
-    int getLocation() {
+    int location() pure nothrow const @safe @nogc @property {
         return _location;
     }
 	///
-    string getName() pure const nothrow {
+    string name() pure nothrow const @safe @nogc @property {
         return _name;
     }
 }
@@ -121,7 +119,7 @@ struct VertexAttribute {
 		} else {
 			glVertexAttribPointer(_location, _n, _type, _normalize, vertex_size, cast(void*)_offset);
 		}
-		GraphicsEngine.getBackend().runtimeCheck();
+		GraphicsEngine.backend.runtimeCheck();
 	}
 	/// Unuse this attribute.
     /// Throws: $(D GLException) on error.
@@ -131,7 +129,7 @@ struct VertexAttribute {
         }
         _divisorSet = false;
         glDisableVertexAttribArray(_location);
-        GraphicsEngine.getBackend().runtimeCheck();
+        GraphicsEngine.backend.runtimeCheck();
     }
 }
 /// Define a simple vertex type from a vector type.

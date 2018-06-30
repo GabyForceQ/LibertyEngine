@@ -6,13 +6,13 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.time;
+module liberty.core.time;
 import derelict.sdl2.sdl: SDL_GetTicks;
 ///
-uint getTicks() {
+uint ticks() {
 	return SDL_GetTicks();
 }
 ///
-float getTime() {
+float time() {
 	return SDL_GetTicks() / 1000.0f;
 }

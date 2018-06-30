@@ -6,35 +6,35 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.renderer;
-import crystal.math.vector : Vector2F, Vector3F;
-import crystal.graphics.util : RenderUtil;
-import crystal.graphics.video.vertex : VertexSpec;
-import crystal.graphics.video.vao : VertexArray;
-import crystal.graphics.video.buffer : VideoBuffer, BufferTarget;
-import crystal.graphics.video.shader : ShaderProgram;
+module liberty.graphics.renderer;
+import liberty.math.vector : Vector2F, Vector3F;
+import liberty.graphics.util : RenderUtil;
+import liberty.graphics.video.vertex : VertexSpec;
+import liberty.graphics.video.vao : VertexArray;
+import liberty.graphics.video.buffer : VideoBuffer, BufferTarget;
+import liberty.graphics.video.shader : ShaderProgram;
 import derelict.opengl;
-import crystal.core.imaging;
-import crystal.core.engine;
-import crystal.math;
-import crystal.core.time;
-import crystal.math.vector;
+import liberty.core.imaging;
+import liberty.core.engine;
+import liberty.math;
+import liberty.core.time;
+import liberty.math.vector;
 import derelict.sdl2.sdl : SDL_GL_SetSwapInterval;
-import crystal.graphics.video.backend : VideoBackend;
-import crystal.core.engine;
-import crystal.core.model;
-import crystal.graphics.material;
+import liberty.graphics.video.backend : VideoBackend;
+import liberty.core.engine;
+import liberty.core.model;
+import liberty.graphics.material;
 //import sunshine.graphics.video.vao : VertexArrayObject;
 version (__OpenGL__) {
-	import crystal.graphics.opengl.backend : GLBackend;
-	import crystal.graphics.opengl.buffer : GLBuffer;
+	import liberty.graphics.opengl.backend : GLBackend;
+	import liberty.graphics.opengl.buffer : GLBuffer;
 	//import sunshine.graphics.opengl.vao : GLVertexArrayObject;
 	import derelict.opengl : glPolygonMode, GL_FRONT_AND_BACK, GL_LINE, GL_FILL;
 } else version (__Vulkan__) {
-	import crystal.graphics.vulkan.backend : VKBackend;
-	import crystal.graphics.vulkan.buffer : VKBuffer;
+	import liberty.graphics.vulkan.backend : VKBackend;
+	import liberty.graphics.vulkan.buffer : VKBuffer;
 } else version (__WASM__) {
-		import crystal.graphics.wasm.backend : WASMBackend;
+		import liberty.graphics.wasm.backend : WASMBackend;
 	}
 ///
 class GraphicsEngine {
@@ -68,7 +68,7 @@ class GraphicsEngine {
 		startService();
 	}
 	///
-	VideoBackend getBackend() {
+	VideoBackend backend() {
 		return _backend;
 	}
 	///
@@ -81,11 +81,11 @@ class GraphicsEngine {
 		_backend.clear();
 		//_backend.enableDepthTest(); // TODO. + culling.
 		_backend.clearColor(_color.r, _color.g, _color.b, _color.a);
-		CoreEngine.getActiveScene().render();
+		CoreEngine.activeScene.render();
 		_backend.swapBuffers();
 	}
 	///
-	void setVSyncEnabled(bool enabled = true) {
+	void vSyncEnabled(bool enabled = true) {
 		SDL_GL_SetSwapInterval(enabled); // TODO: VULKAN?
 		_vsyncEnabled = enabled;
 	}
@@ -94,11 +94,11 @@ class GraphicsEngine {
 		return _vsyncEnabled;
 	}
 	///
-	void setWindowBackgroundColor(float r, float g, float b, float a = 1.0f) {
+	void windowBackgroundColor(float r, float g, float b, float a = 1.0f) {
 		_color = Vector4F(r, g, b, a);
 	}
 	///
-	void setWindowBackgroundColor(Vector3F color, float a = 1.0f) {
+	void windowBackgroundColor(Vector3F color, float a = 1.0f) {
 		_color = Vector4F(color, a);
 	}
 	///

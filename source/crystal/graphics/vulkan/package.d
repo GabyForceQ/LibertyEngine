@@ -6,20 +6,20 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.vulkan;
+module liberty.graphics.vulkan;
 version (__Vulkan__) :
 version (__NoDefaultImports__) {
 } else {
     public {
-        import crystal.graphics.vulkan.backend;
-        import crystal.graphics.vulkan.buffer;
-        //import crystal.graphics.vulkan.fbo;
-        //import crystal.graphics.vulkan.program;
-        //import crystal.graphics.vulkan.renderbuffer;
-        //import crystal.graphics.vulkan.shader;
-        //import crystal.graphics.vulkan.texture;
-        //import crystal.graphics.vulkan.uniform;
-        import crystal.graphics.vulkan.vao;
-        //import crystal.graphics.vulkan.vertex;
+        import liberty.graphics.vulkan.backend;
+        import liberty.graphics.vulkan.buffer;
+        //import liberty.graphics.vulkan.fbo;
+        //import liberty.graphics.vulkan.program;
+        //import liberty.graphics.vulkan.renderbuffer;
+        //import liberty.graphics.vulkan.shader;
+        //import liberty.graphics.vulkan.texture;
+        //import liberty.graphics.vulkan.uniform;
+        import liberty.graphics.vulkan.vao;
+        //import liberty.graphics.vulkan.vertex;
     }
 }

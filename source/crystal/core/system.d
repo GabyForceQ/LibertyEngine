@@ -6,12 +6,12 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.system;
-import crystal.core.input;
+module liberty.core.system;
+import liberty.core.input;
 import derelict.util.exception;
 import derelict.util.loader;
 import derelict.sdl2.sdl;
-import crystal.core.memory : ensureNotInGC;
+import liberty.core.memory : ensureNotInGC;
 import std.string : format, fromStringz, toStringz;
 /// A failing Platform function should <b>always</b> throw a $(D PlatformException).
 final class PlatformException : Exception {
@@ -29,11 +29,11 @@ final class Platform {
         bool _shouldQuit;
     }
     package void throwPlatformException(string call_name) {
-        string message = format("%s failed: %s", call_name, getErrorString());
+        string message = format("%s failed: %s", call_name, errorString());
         throw new PlatformException(message);
     }
     /// Returns last SDL error and clears it.
-    const(char)[] getErrorString() {
+    const(char)[] errorString() {
         const(char)* message = SDL_GetError();
         SDL_ClearError();
         return fromStringz(message);
@@ -60,9 +60,9 @@ final class Platform {
         }
     }
     /// Returns available SDL video drivers.
-    alias getVideoDrivers = getDrivers!(SDL_GetNumVideoDrivers, SDL_GetVideoDriver);
+    alias videoDrivers = drivers!(SDL_GetNumVideoDrivers, SDL_GetVideoDriver);
     /// Returns available SDL audio drivers.
-    alias getAudioDrivers = getDrivers!(SDL_GetNumAudioDrivers, SDL_GetAudioDriver);
+    alias audioDrivers = drivers!(SDL_GetNumAudioDrivers, SDL_GetAudioDriver);
     /// Returns true if a subsystem is initiated.
     bool subSystemInitialized(int sub_system) {
         int inited = SDL_WasInit(SDL_INIT_EVERYTHING);
@@ -78,7 +78,7 @@ final class Platform {
     }
     /// Returns available display information.
     /// Throws $(D PlatformException) on error.
-    SDL2VideoDisplay[] getDisplays() {
+    SDL2VideoDisplay[] displays() {
         int displatyCount = SDL_GetNumVideoDisplays();
         SDL2VideoDisplay[] availableDisplays;
         for (int displayIndex = 0; displayIndex < displatyCount; displayIndex++) {
@@ -103,7 +103,7 @@ final class Platform {
     /// Returns resolution of the first display.
     /// Throws $(D PlatformException) on error.
     SDL_Point firstDisplayResolution() {
-        auto displays = getDisplays();
+        auto displays = displays();
         if (displays.length == 0) {
             throw new PlatformException("No display");
         }
@@ -112,7 +112,7 @@ final class Platform {
     /// Returns resolution of the second display.
     /// Throws $(D PlatformException) on error.
     SDL_Point secondDisplayResolution() {
-        auto displays = getDisplays();
+        auto displays = displays();
         if (displays.length == 0) {
             throw new PlatformException("No display");
         } else if (displays.length == 1) {
@@ -162,7 +162,7 @@ final class Platform {
         }
     }
     /// Returns true if application should quit.
-    bool getShouldQuit () pure nothrow const {
+    bool shouldQuit () pure nothrow const {
         return _shouldQuit;
     }
     /// Start text input.
@@ -175,7 +175,7 @@ final class Platform {
     }
     /// Sets clipboard content.
     /// Throws $(D PlatformException) on error.
-    string setClipboard(string s) {
+    string clipboard(string s) {
         if (SDL_SetClipboardText(toStringz(s))) {
             throwPlatformException("SDL_SetClipboardText");
         }
@@ -183,7 +183,7 @@ final class Platform {
     }
     /// Returns clipboard content.
     /// Throws $(D PlatformException) on error.
-    const(char)[] getClipboard() {
+    const(char)[] clipboard() {
         if (SDL_HasClipboardText() == SDL_FALSE) {
             return null;
         }
@@ -194,7 +194,7 @@ final class Platform {
         return fromStringz(s);
     }
     /// Returns available audio device names.
-    const(char)[][] getAudioDevices() {
+    const(char)[][] audioDevices() {
         enum type = 0;
         const(int) devicesCount = SDL_GetNumAudioDevices(type);
         const(char)[][] ret;
@@ -204,11 +204,11 @@ final class Platform {
         return ret;
     }
     /// Returns platform name.
-    const(char)[] getPlatformName() {
+    const(char)[] platformName() {
         return fromStringz(SDL_GetPlatform());
     }
     /// Returns L1 cacheline size in bytes.
-    int getL1LineSize() {
+    int l1LineSize() {
         int ret = SDL_GetCPUCacheLineSize();
         if (ret <= 0) {
             ret = 64;
@@ -216,7 +216,7 @@ final class Platform {
         return ret;
     }
     /// Returns number of CPUs
-    int getCPUCount() {
+    int cpuCount() {
         int ret = SDL_GetCPUCount();
         if (ret <= 0) {
             ret = 1;
@@ -225,7 +225,7 @@ final class Platform {
     }
     /// Returns a path suitable for writing configuration files.
     /// Throws $(D PlatformException) on error.
-    const(char)[] getPrefPath(string org_name, string application_name) {
+    const(char)[] prefPath(string org_name, string application_name) {
         char* basePath = SDL_GetPrefPath(toStringz(org_name), toStringz(application_name));
         if (basePath !is null) {
             const(char)[] result = fromStringz(basePath);
@@ -235,7 +235,7 @@ final class Platform {
         throwPlatformException("SDL_GetPrefPath");
         return null;
     }
-    private const(char)[][] getDrivers(alias numFn, alias elemFn)() {
+    private const(char)[][] drivers(alias numFn, alias elemFn)() {
         const(int) numDrivers = numFn();
         const(char)[][] res;
         res.length = numDrivers;
@@ -345,7 +345,7 @@ final class SDL2Window {
         bool _surfaceNeedRenew;
         bool _hasValidSurface() { return !_surfaceNeedRenew && _surface !is null; }
     }
-    SDL2GLContext getGLContext() {
+    SDL2GLContext glContext() {
         return _glContext;
     }
     //package {
@@ -370,7 +370,7 @@ final class SDL2Window {
         ////
         _window = SDL_CreateWindow(toStringz(""), x, y, width, height, flags);
         if (_window == null) {
-            string message = "SDL_CreateWindow failed: " ~ _platform.getErrorString().idup;
+            string message = "SDL_CreateWindow failed: " ~ _platform.errorString.idup;
             throw new PlatformException(message);
         }
         _id = SDL_GetWindowID(_window);
@@ -395,7 +395,7 @@ final class SDL2Window {
         _surfaceNeedRenew = false;
         _window = SDL_CreateWindowFrom(windowData);
         if (_window == null) {
-            string message = "SDL_CreateWindowFrom failed: " ~ _platform.getErrorString().idup;
+            string message = "SDL_CreateWindowFrom failed: " ~ _platform.errorString.idup;
             throw new PlatformException(message);
         }
         _id = SDL_GetWindowID(_window);
@@ -403,14 +403,14 @@ final class SDL2Window {
     /// Releases the SDL2 resource.
     ~this() {
         if (_glContext !is null) {
-	        debug import crystal.core.memory : ensureNotInGC;
+	        debug import liberty.core.memory : ensureNotInGC;
 	        debug ensureNotInGC("SDL2Window");
 	        _glContext.destroy();
 	        _glContext = null;
         }
         if (_window !is null)
         {
-            debug import crystal.core.memory : ensureNotInGC;
+            debug import liberty.core.memory : ensureNotInGC;
             debug ensureNotInGC("SDL2Window");
             SDL_DestroyWindow(_window);
             _window = null;
@@ -427,22 +427,22 @@ final class SDL2Window {
     
     /// Returns: The flags associated with the window.
     /// See_also: $(LINK https://wiki.libsdl.org/SDL_GetWindowFlags)
-    final uint getWindowFlags() {
+    final uint windowFlags() {
         return SDL_GetWindowFlags(_window);
     }
     /// Returns: X window coordinate.
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowPosition)
-    final int getX() {
-        return getPosition().x;
+    final int x() {
+        return position.x;
     }
     /// Returns: Y window coordinate.
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowPosition)
-    final int getY() {
-        return getPosition().y;
+    final int y() {
+        return position.y;
     }
     /// Gets information about the window's display mode
     /// See_also: $(LINK https://wiki.libsdl.org/SDL_GetWindowDisplayMode)
-    final SDL_DisplayMode getWindowDisplayMode() {
+    final SDL_DisplayMode windowDisplayMode() {
         SDL_DisplayMode mode;
         if (0 != SDL_GetWindowDisplayMode(_window, &mode)) {
 	        _platform.throwPlatformException("SDL_GetWindowDisplayMode");
@@ -451,76 +451,76 @@ final class SDL2Window {
     }
     /// Returns: Window coordinates.
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowPosition)
-    final SDL_Point getPosition() {
+    final SDL_Point position() {
         int x, y;
         SDL_GetWindowPosition(_window, &x, &y);
         return SDL_Point(x, y);
     }
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowPosition)
-    final void setPosition(int positionX, int positionY) {
+    final void position(int positionX, int positionY) {
         SDL_SetWindowPosition(_window, positionX, positionY);
     }
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowSize)
-    final void setSize(int width, int height) {
+    final void size(int width, int height) {
         SDL_SetWindowSize(_window, width, height);
     }
     /// Get the minimum size setting for the window
     /// See_also: $(LINK https://wiki.libsdl.org/SDL_GetWindowMinimumSize)
-    final SDL_Point getMinimumSize() {
+    final SDL_Point minimumSize() {
         SDL_Point p;
         SDL_GetWindowMinimumSize(_window, &p.x, &p.y);
         return p;
     }
     /// Get the minimum size setting for the window
     /// See_also: $(LINK https://wiki.libsdl.org/SDL_SetWindowMinimumSize)
-    final void setMinimumSize(int width, int height) {
+    final void minimumSize(int width, int height) {
         SDL_SetWindowMinimumSize(_window, width, height);
     }
     /// Get the minimum size setting for the window
     /// See_also: $(LINK https://wiki.libsdl.org/SDL_GetWindowMaximumSize)
-    final SDL_Point getMaximumSize() {
+    final SDL_Point maximumSize() {
         SDL_Point p;
         SDL_GetWindowMaximumSize(_window, &p.x, &p.y);
         return p;
     }
     /// Get the minimum size setting for the window
     /// See_also: $(LINK https://wiki.libsdl.org/SDL_SetWindowMaximumSize)
-    final void setMaximumSize(int width, int height) {
+    final void maximumSize(int width, int height) {
         SDL_SetWindowMaximumSize(_window, width, height);
     }
     
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowSize)
     /// Returns: Window size in pixels.
-    import crystal.math.vector;
-    final Vector2I getSize() {
+    import liberty.math.vector;
+    final Vector2I size() {
         int w, h;
         SDL_GetWindowSize(_window, &w, &h);
         return Vector2I(w, h);
     }
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowIcon)
-    final void setIcon(Surface icon) {
+    final void icon(Surface icon) {
         SDL_SetWindowIcon(_window, icon.handle());
     }
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowBordered)
-    final void setBordered(bool bordered) {
+    final void isBordered(bool bordered) {
         SDL_SetWindowBordered(_window, bordered ? SDL_TRUE : SDL_FALSE);
     }
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowSize)
     /// Returns: Window width in pixels.
-    final int getWidth() {
+    final int width() {
         int w, h;
         SDL_GetWindowSize(_window, &w, &h);
         return w;
     }
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowSize)
     /// Returns: Window height in pixels.
-    final int getHeight() {
+    final int height() {
         int w, h;
         SDL_GetWindowSize(_window, &w, &h);
         return h;
     }
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowTitle)
-    final void setTitle(string title) {
+    final void title(string title) {
         SDL_SetWindowTitle(_window, toStringz(title));
     }
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_ShowWindow)
@@ -573,7 +573,7 @@ final class SDL2Window {
     /// Returns: System-specific window information, useful to use a third-party rendering library.
     /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowWMInfo)
     /// Throws: $(D PlatformException) on error.
-    SDL_SysWMinfo getWindowInfo() {
+    SDL_SysWMinfo windowInfo() {
         SDL_SysWMinfo info;
         SDL_VERSION(&info.version_);
         int res = SDL_GetWindowWMInfo(_window, &info);
@@ -657,7 +657,7 @@ final class Surface {
     ///
     ~this(){
         if (_surface !is null) {
-            debug import crystal.core.memory : ensureNotInGC;
+            debug import liberty.core.memory : ensureNotInGC;
             debug ensureNotInGC("Surface");
             if (_handleOwned == Owned.Yes)
                 SDL_FreeSurface(_surface);
@@ -721,7 +721,7 @@ final class Surface {
         ubyte r, g, b, a;
     }
     ///
-    RGBA getRGBA(int x, int y) {
+    RGBA rgba(int x, int y) {
         // crash if out of image, todo: exception
         if (x < 0 || x >= width())
             assert(0);
@@ -772,7 +772,7 @@ class Timer {
     }
     ~this() {
         if (_id != 0) {
-            import crystal.core.memory : ensureNotInGC;
+            import liberty.core.memory : ensureNotInGC;
             debug ensureNotInGC("SDL2Timer");
             SDL_RemoveTimer(_id);
             _id = 0;

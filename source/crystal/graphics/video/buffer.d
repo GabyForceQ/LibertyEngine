@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.video.buffer;
+module liberty.graphics.video.buffer;
 /// Represents the target to which the buffer object is bound.
 enum BufferTarget : byte {
 	/// Vertex attributes.
@@ -49,9 +49,9 @@ abstract class VideoBuffer {
         bool _initialized;
     }
     ///
-    size_t getSize() pure const nothrow;
+    size_t size() pure const nothrow;
 	///
-	void setData(T)(T[] buffer) {
+	void data(T)(T[] buffer) {
 		setData(buffer.length * T.sizeof, buffer.ptr);
 	}
 	///
@@ -61,11 +61,11 @@ abstract class VideoBuffer {
 	///
 	void getSubData(size_t offset, size_t size, void* data);
 	///
-	ubyte[] getBytes();
+	ubyte[] bytes();
 	///
 	void bind();
 	///
 	void unbind();
 	///
-	uint getHandle() pure const nothrow;
+	uint handle() pure const nothrow;
 }

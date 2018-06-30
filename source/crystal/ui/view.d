@@ -6,11 +6,11 @@
  * Documentation:
  * Coverage:
  */
-module crystal.ui.view;
-///
+module liberty.ui.view;
+/// Screen orientation.
 enum Orientation : byte {
-	///
+	/// Horizontal orientation.
 	Horizontal = 0x00,
-	///
+	/// Vertical orientation.
 	Vertical = 0x01
 }

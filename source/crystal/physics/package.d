@@ -6,10 +6,10 @@
  * Documentation:
  * Coverage:
  */
-module crystal.physics;
+module liberty.physics;
 version (__NoDefaultImports__) {
 } else {
     public {
-        import crystal.physics.engine;
+        import liberty.physics.engine;
     }
 }

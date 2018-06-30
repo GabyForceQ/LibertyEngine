@@ -6,11 +6,11 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.material;
-import crystal.core.engine;
-import crystal.core.scenegraph.scene;
-import crystal.core.imaging;
-import crystal.graphics;
+module liberty.graphics.material;
+import liberty.core.engine;
+import liberty.core.scenegraph.scene;
+import liberty.core.imaging;
+import liberty.graphics;
 import derelict.opengl;
 import std.conv : to;
 ///
@@ -23,9 +23,9 @@ final class Material {
 	///
 	this() {
 		_shader = RenderUtil.createShaderProgram(vertexCode, fragmentCode);
-		Scene.shaderList[_shader.getProgramID().to!string] = _shader;
+		Scene.shaderList[_shader.programID.to!string] = _shader;
 		glGenTextures(1, &_textureID);
-        _texture = new Bitmap(CoreEngine.getImageAPI(), "res/brick.bmp");
+        _texture = new Bitmap(CoreEngine.imageAPI, "res/brick.bmp");
         glBindTexture(GL_TEXTURE_2D, _textureID);
         if (_texture.data()) {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _texture.width(), _texture.height(), 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, _texture.data());
@@ -42,17 +42,17 @@ final class Material {
 		_shader.destroy();
 	}
 	///
-	ShaderProgram getShader() {
+	ShaderProgram shader() {
 		return _shader;
 	}
 	///
-	uint getTextureId() pure nothrow const {
+	uint textureId() pure nothrow const {
 		return _textureID;
 	}
 	///
 	void render() {
-		_shader.loadUniform("projection", CoreEngine.getActiveScene().activeCamera.getProjection()); // TODO: NOT HERE? ONLY ONCE?
-        _shader.loadUniform("view", CoreEngine.getActiveScene().activeCamera.getView()); // TODO: NOT HERE? ONLY ONCE?
+		_shader.loadUniform("projection", CoreEngine.activeScene.activeCamera.projection); // TODO: NOT HERE? ONLY ONCE?
+        _shader.loadUniform("view", CoreEngine.activeScene.activeCamera.view); // TODO: NOT HERE? ONLY ONCE?
 	}
 }
 ///

@@ -6,13 +6,13 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.scenegraph.scene;
-import crystal.core.engine: CoreEngine;
-import crystal.core.scenegraph.services: Startable, Updatable, Processable;
-import crystal.core.scenegraph.node: Node, Root;
-import crystal.core.scenegraph.camera: Camera;
-import crystal.graphics.renderer: Renderable;
-import crystal.math.vector: Vector3F;
+module liberty.core.scenegraph.scene;
+import liberty.core.engine: CoreEngine;
+import liberty.core.scenegraph.services: Startable, Updatable, Processable;
+import liberty.core.scenegraph.node: Node, Root;
+import liberty.core.scenegraph.camera: Camera;
+import liberty.graphics.renderer: Renderable;
+import liberty.math.vector: Vector3F;
 ///
 struct SceneSettings {
 	///
@@ -40,7 +40,7 @@ final class Scene {
     }
     /// Default contrctor.
     this(string id) nothrow {
-        CoreEngine.setActiveScene(this);
+        CoreEngine.activeScene = this;
         _tree = new Root();
         _id = id;
     }
@@ -61,11 +61,11 @@ final class Scene {
         return _tree;
     }
     ///
-    //T getNode(T: Node)(string id) {
+    //T node(T: Node)(string id) {
     //    return cast(T)_nodeList[id];
     //}
     ///
-    //Node getNode(string id) {
+    //Node node(string id) {
     //    return _nodeList[id];
     //}
     /// Releases all scene tree nodes.
@@ -73,15 +73,15 @@ final class Scene {
         _tree = new Root();
     }
     /// Sets the current camera using its reference.
-    @property void activeCamera(Camera camera) {
+    void activeCamera(Camera camera) @property {
         _activeCamera = camera;
     }
     /// Sets the current camera using its ID.
-	void setActiveCamera(string id) {
-	    //_activeCamera = getNode!Camera(id);
+	void activeCamera(string id) @property {
+	    //_activeCamera = node!Camera(id);
 	}
 	/// Returns the current camera.
-	@property Camera activeCamera() {
+	Camera activeCamera() @property {
 	    return _activeCamera;
 	}
 	/// Change view from a camera to another using their references.

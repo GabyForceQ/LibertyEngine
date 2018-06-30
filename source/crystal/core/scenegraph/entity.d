@@ -6,13 +6,13 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.scenegraph.entity;
-import crystal.core.scenegraph.node: Node;
-import crystal.graphics.renderer: Renderable;
-import crystal.graphics.renderer: Vertex;
-import crystal.core.components: Renderer, Transform;
+module liberty.core.scenegraph.entity;
+import liberty.core.scenegraph.node: Node;
+import liberty.graphics.renderer: Renderable;
+import liberty.graphics.renderer: Vertex;
+import liberty.core.components: Renderer, Transform;
 /// An entity has a render component.
-abstract class Entity: Node, Renderable {
+abstract class Entity : Node, Renderable {
 	private {
 		Renderer!Vertex _renderComponent;
     }
@@ -21,7 +21,7 @@ abstract class Entity: Node, Renderable {
         super(id, parent);
     }
     /// Returns a reference to the render component.
-    ref Renderer!Vertex getRenderer() pure nothrow {
+    ref Renderer!Vertex renderer() pure nothrow {
         return _renderComponent;
     }
     ///

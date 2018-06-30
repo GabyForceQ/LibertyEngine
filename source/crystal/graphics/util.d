@@ -6,25 +6,25 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.util;
-import crystal.graphics.renderer : DataUsage, DrawMode, VectorType;
-import crystal.graphics.video.backend : VideoBackend;
-import crystal.graphics.video.buffer : VideoBuffer, BufferTarget;
-import crystal.graphics.video.vao : VertexArray;
-import crystal.graphics.video.shader : ShaderProgram;
-import crystal.graphics.video.vertex : VertexSpec;
+module liberty.graphics.util;
+import liberty.graphics.renderer : DataUsage, DrawMode, VectorType;
+import liberty.graphics.video.backend : VideoBackend;
+import liberty.graphics.video.buffer : VideoBuffer, BufferTarget;
+import liberty.graphics.video.vao : VertexArray;
+import liberty.graphics.video.shader : ShaderProgram;
+import liberty.graphics.video.vertex : VertexSpec;
 import derelict.opengl;
 version (__OpenGL__) {
-	import crystal.graphics.opengl.backend : GLBackend;
-	import crystal.graphics.opengl.buffer : GLBuffer;
-	import crystal.graphics.opengl.vao : GLVertexArray;
-	import crystal.graphics.opengl.shader : GLShaderProgram;
-	import crystal.graphics.opengl.vertex : GLVertexSpec;
+	import liberty.graphics.opengl.backend : GLBackend;
+	import liberty.graphics.opengl.buffer : GLBuffer;
+	import liberty.graphics.opengl.vao : GLVertexArray;
+	import liberty.graphics.opengl.shader : GLShaderProgram;
+	import liberty.graphics.opengl.vertex : GLVertexSpec;
 } else version (__Vulkan__) {
-	import crystal.graphics.vulkan.backend : VKBackend;
-	import crystal.graphics.vulkan.buffer : VKBuffer;
+	import liberty.graphics.vulkan.backend : VKBackend;
+	import liberty.graphics.vulkan.buffer : VKBuffer;
 } else version (__WASM__) {
-	import crystal.graphics.wasm.backend : WASMBackend;
+	import liberty.graphics.wasm.backend : WASMBackend;
 }
 ///
 class RenderUtil {

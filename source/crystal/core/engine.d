@@ -6,22 +6,22 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.engine;
-import crystal.graphics.renderer;
-import crystal.core.input;
-import crystal.core.scenegraph;
-import crystal.graphics.opengl;
+module liberty.core.engine;
+import liberty.graphics.renderer;
+import liberty.core.input;
+import liberty.core.scenegraph;
+import liberty.graphics.opengl;
 import derelict.sdl2.sdl;
-import crystal.core.input;
-import crystal.math;
-import crystal.graphics.postprocessing;
+import liberty.core.input;
+import liberty.math;
+import liberty.graphics.postprocessing;
 import std.math, std.random;
 import derelict.util.loader;
-import crystal.core.imaging;
-import crystal.core.time : getTime;
-import crystal.core.model : Models;
-import crystal.graphics.material : Materials;
-import crystal.core.system;
+import liberty.core.imaging;
+import liberty.core.time : time;
+import liberty.core.model : Models;
+import liberty.graphics.material : Materials;
+import liberty.core.system;
 ///
 class CoreEngineException : Exception {
     ///
@@ -33,16 +33,18 @@ private {
     Platform _platformApi;
     SDL2Window _mainWindow;
 }
-Platform getPlatform() {
+///
+Platform platform() {
 	return _platformApi;
 }
-SDL2Window getMainWindow() {
+///
+SDL2Window mainWindow() {
 	return _mainWindow;
 }
 ///
 struct WindowInfo {
 	///
-	string title = "Crystal Studio " ~ import("ENGINE.VER");
+	string title = "Liberty Engine " ~ import("ENGINE.VER");
     ///
     int width = 1280;
     ///
@@ -54,32 +56,34 @@ struct WindowInfo {
 class CoreEngine {
 	static:
     private {
-        float deltaTime = 0.0f;
+        float _deltaTime = 0.0f;
         float lastFrame = 0.0f;
         WindowInfo _windowInfo;
         Scene _activeScene;
         Image _imageAPI; // TODO.
     }
     ///
-    void setActiveScene(Scene scene) nothrow { // TODO: package.
+    void activeScene(Scene scene) nothrow { // TODO: package.
         _activeScene = scene;
     }
     ///
-    Scene getActiveScene() nothrow {
+    Scene activeScene() nothrow {
         return _activeScene;
     }
-    Platform getPlatform() { return _platformApi; }
-    SDL2Window getMainWindow() { return _mainWindow; }
-    Image getImageAPI() { return _imageAPI; }
+    ///
+    Platform platform() { return _platformApi; }
+    ///
+    SDL2Window mainWindow() { return _mainWindow; }
+    ///
+    Image imageAPI() { return _imageAPI; }
     ///
     void startService() {
         version (__Logger__) {
             Logger.startService();
         }
         GraphicsEngine.startService();
-
         _initWindow();
-        _mainWindow.setTitle(_windowInfo.title);
+        _mainWindow.title = _windowInfo.title;
         _imageAPI = new Image(); // TODO.
         Materials.load();
         Models.load();
@@ -98,32 +102,32 @@ class CoreEngine {
         startService();
     }
     ///
-    void setWindowInfo(WindowInfo win_info = WindowInfo()) {
+    void windowInfo(WindowInfo win_info = WindowInfo()) {
         _windowInfo = win_info;
     }
     ///
-    void setWindowInfo(int width, int height) {
+    void windowInfo(int width, int height) {
         _windowInfo.width = width;
         _windowInfo.height = height;
     }
     ///
-    WindowInfo getWindowInfo() {
+    WindowInfo windowInfo() nothrow @safe @nogc @property {
         return _windowInfo;
     }
     ///
     void runMainLoop() {
-        while(!_platformApi.getShouldQuit()) {
+        while(!_platformApi.shouldQuit()) {
             if (_shouldQuitOnKey && Input.isKeyDown(KeyCode.Esc)) {
                 break;
             }
-						Input._isMouseMoving = false;
-						Input._isMouseWheeling = false;
+            Input._isMouseMoving = false;
+            Input._isMouseWheeling = false;
             _platformApi.processEvents();
-            const float currentFrame = getTime();
-            deltaTime = currentFrame - lastFrame;
+            const float currentFrame = time();
+            _deltaTime = currentFrame - lastFrame;
             lastFrame = currentFrame;
 			if (_activeScene.isRegistered()) {
-                _activeScene.update(deltaTime);
+                _activeScene.update(_deltaTime);
 				_activeScene.process();
                 GraphicsEngine.render();
             }
@@ -135,8 +139,8 @@ class CoreEngine {
         _shouldQuitOnKey = true;
     }
     ///
-    float getDeltaTime() nothrow {
-        return deltaTime;
+    float deltaTime() nothrow {
+        return _deltaTime;
     }
     private void _initWindow() {
         _platformApi = new Platform(SharedLibVersion(2, 0, 6));
@@ -154,7 +158,7 @@ class CoreEngine {
 	            _windowInfo.height,
 	            SDL_WINDOW_OPENGL
 	        );
-	        GraphicsEngine.getBackend().reload();
+	        GraphicsEngine.backend.reload();
         } else version (__Vulkan__) {
             _mainWindow = new SDL2Window(
                 _platformApi,
@@ -167,7 +171,7 @@ class CoreEngine {
         }
     }
     ///
-    void setGCEnabled(bool enabled = true) {
+    void gcEnabled(bool enabled = true) {
         import core.memory : GC;
         enabled ? GC.enable() : GC.disable();
     }
@@ -180,10 +184,10 @@ class CoreEngine {
 ///
 immutable NativeServices = q{
     void main() {
-	CoreEngine.startService();
+	    CoreEngine.startService();
         initSettings();
         initScene();
         CoreEngine.runMainLoop();
-	CoreEngine.stopService();
+	    CoreEngine.stopService();
     }
 };

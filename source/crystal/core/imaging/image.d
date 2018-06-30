@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.imaging.image;
+module liberty.core.imaging.image;
 import derelict.freeimage.freeimage;
 import derelict.util.exception;
 import std.conv, std.string;
@@ -33,18 +33,18 @@ final class Image {
 	///
     ~this() {
         if (_libInitialized) {
-            debug import crystal.core.memory : ensureNotInGC;
+            debug import liberty.core.memory : ensureNotInGC;
             debug ensureNotInGC("FreeImage");
             _libInitialized = false;
         }
     }
 	///
-    const(char)[] getVersion() {
+    const(char)[] version_() {
         const(char)* versionZ = FreeImage_GetVersion();
         return fromStringz(versionZ);
     }
 	///
-    const(char)[] getCopyrightMessage()  {
+    const(char)[] copyright_()  {
         const(char)* copyrightZ = FreeImage_GetCopyrightMessage();
         return fromStringz(copyrightZ);
     }

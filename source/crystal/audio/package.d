@@ -6,11 +6,11 @@
  * Documentation:
  * Coverage:
  */
-module crystal.audio;
+module liberty.audio;
 version (__NoDefaultImports__) {
 } else {
 	public {
-		import crystal.audio.device;
-		import crystal.audio.engine;
+		import liberty.audio.device;
+		import liberty.audio.engine;
 	}
 }

@@ -8,7 +8,7 @@
  */
 // todo: get rid of this module
 // todo: use OpenGL 4.5 / OpenGLES 3.0 / Vulkan 1.1
-module crystal.graphics.shaders;
+module liberty.graphics.shaders;
 /**** TERRAIN VERTEX SHADER + FRAGMENT SHADER ****/
 ///
 immutable terrainVS_GL = import("shaders/terrainVS_GL.glsl");

@@ -6,12 +6,12 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.input;
+module liberty.core.input;
 import derelict.sdl2.sdl;
-import crystal.core.engine;
+import liberty.core.engine;
 import derelict.sdl2.sdl;
-import crystal.math.vector;
-import crystal.core.input;
+import liberty.math.vector;
+import liberty.core.input;
 pragma (inline, true):
 ///
 class Input {
@@ -95,35 +95,35 @@ class Input {
         return old_state;
     }
     /// Returns current position of the mouse.
-    Vector2I getMousePosition() nothrow {
+    Vector2I mousePosition() nothrow {
         return Vector2I(_mouseX, _mouseY);
     }
     ///
-    Vector2I getLastMousePosition() nothrow {
+    Vector2I lastMousePosition() nothrow {
         return Vector2I(_lastMouseX, _lastMouseY);
     }
     /// Returns previous position of the mouse.
-    Vector2I getPreviousMousePosition() nothrow {
+    Vector2I previousMousePosition() nothrow {
         return Vector2I(_mouseX - _mouseDeltaX, _mouseY - _mouseDeltaY);
     }
     /// Returns the relative direction of the mouse.
-    Vector2I getMouseRelativeDirection() nothrow {
+    Vector2I mouseRelativeDirection() nothrow {
         return Vector2I(_mouseDeltaX, _mouseDeltaY);
     }
     ///
-    Vector2I getMouseDeltaWheel() nothrow {
+    Vector2I mouseDeltaWheel() nothrow {
         Vector2I ret = Vector2I(_mouseWheelX, _mouseWheelY);
         _mouseWheelX = _mouseWheelY = 0;
         return ret;
     }
     ///
-    int getMouseDeltaWheelX() nothrow {
+    int mouseDeltaWheelX() nothrow {
         int ret = _mouseWheelX;
         _mouseWheelX = 0;
         return ret;
     }
     ///
-    int getMouseDeltaWheelY() nothrow {
+    int mouseDeltaWheelY() nothrow {
         int ret = _mouseWheelY;
         _mouseWheelY = 0;
         return ret;
@@ -141,7 +141,7 @@ class Input {
         return _isMouseWheeling;
     }
     //bool isMouseMoving() nothrow {
-    //    return getMousePosition() != getLastMousePosition();
+    //    return mousePosition() != lastMousePosition();
     //}
     /// Capture the mouse and track input outside the MainWindow.
     void startMouseCapture() {
@@ -181,7 +181,7 @@ class Input {
     ///
     void useSystemCursor(SystemCursor cursor) {
         _cursorHandle = SDL_CreateSystemCursor(cast(SDL_SystemCursor)cursor);
-        setCurrentCursor;
+        setCurrentCursor();
     }
     ///
     void createColorCursor(int h_x, int h_y) {
@@ -203,25 +203,25 @@ class Input {
     	//}
     }
     ///
-    void setRelativeMouseMode(bool relative = true) {
+    void relativeMouseMode(bool relative = true) {
         SDL_SetRelativeMouseMode(cast(SDL_bool)relative);
     }
     ///
-    void setWindowGrab(bool grabbed = true) {
-        SDL_SetWindowGrab(CoreEngine.getMainWindow()._window, cast(SDL_bool)grabbed);
+    void windowGrab(bool grabbed = true) {
+        SDL_SetWindowGrab(CoreEngine.mainWindow()._window, cast(SDL_bool)grabbed);
     }
     ///
-    void setCursorVisible(bool visible = true) {
+    void cursorVisible(bool visible = true) {
         SDL_ShowCursor(visible);
     }
     ///
     /*package*/ void setCurrentCursor() {
         SDL_SetCursor(_cursorHandle);
     }
-    /*package*/ SDL_Cursor* getCursorHandle() {
+    /*package*/ SDL_Cursor* cursorHandle() {
         return _cursorHandle;
     }
-    /*package*/ SDL_Cursor* getCursor() {
+    /*package*/ SDL_Cursor* cursor() {
         SDL_Cursor* cursor_handle = SDL_GetCursor();
         if (cursor_handle is null) {
             //PlatformManager.throwPlatformException("SDL_GetCursor");
@@ -229,7 +229,7 @@ class Input {
         }
         return cursor_handle;
     }
-    /*package*/ SDL_Cursor* getDefaultCursor() {
+    /*package*/ SDL_Cursor* defaultCursor() {
         SDL_Cursor* cursor_handle = SDL_GetDefaultCursor();
         if (cursor_handle is null) {
             //PlatformManager.throwPlatformException("SDL_GetDefaultCursor");

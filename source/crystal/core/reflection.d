@@ -6,4 +6,4 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.reflection;
+module liberty.core.reflection;

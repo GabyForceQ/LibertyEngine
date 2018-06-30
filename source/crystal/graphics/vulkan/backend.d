@@ -6,10 +6,10 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.vulkan.backend;
+module liberty.graphics.vulkan.backend;
 version (__Vulkan__) :
-import crystal.core.engine;
-import crystal.graphics.common.backend : VideoBackend;
+import liberty.core.engine;
+import liberty.graphics.common.backend : VideoBackend;
 /// The one exception type thrown in this wrapper.
 /// A failing Vulkan function should <b>always</b> throw an $(D VKException).
 class VKException : Exception {

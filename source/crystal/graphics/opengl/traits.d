@@ -1,16 +1,16 @@
 /**
- * Copyright:   Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
- * Authors:     $(Gabriel Gheorghe)
- * License:     $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
+ * Authors:         $(Gabriel Gheorghe)
+ * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/opengl/traits.d, _traits.d)
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.opengl.traits;
+module liberty.graphics.opengl.traits;
 version (__OpenGL__) :
 import derelict.opengl;
 import std.string, std.typetuple, std.typecons, std.traits;
-import crystal.math.vector : Vector;
+import liberty.math.vector : Vector;
 ///
 bool isVideoIntegerType(uint t) {
 	return (t == GL_BYTE || t == GL_UNSIGNED_BYTE || t == GL_SHORT || t == GL_UNSIGNED_SHORT || t == GL_INT || t == GL_UNSIGNED_INT);

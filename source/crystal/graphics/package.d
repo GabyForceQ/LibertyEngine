@@ -6,18 +6,18 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics;
+module liberty.graphics;
 version (__NoDefaultImports__) {
 } else {
 	public {
-		import crystal.graphics.video;
-		import crystal.graphics.opengl;
-		import crystal.graphics.vulkan;
-		import crystal.graphics.material;
-		import crystal.graphics.renderer;
-		import crystal.graphics.postprocessing;
-		import crystal.graphics.settings;
-		import crystal.graphics.shaders;
-		import crystal.graphics.util;
+		import liberty.graphics.video;
+		import liberty.graphics.opengl;
+		import liberty.graphics.vulkan;
+		import liberty.graphics.material;
+		import liberty.graphics.renderer;
+		import liberty.graphics.postprocessing;
+		import liberty.graphics.settings;
+		import liberty.graphics.shaders;
+		import liberty.graphics.util;
 	}
 }

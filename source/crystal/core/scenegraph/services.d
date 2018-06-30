@@ -6,10 +6,10 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.scenegraph.services;
+module liberty.core.scenegraph.services;
 ///
 immutable NodeServices = q{
-    this(string id, Node parent = CoreEngine.getActiveScene().tree) {
+    this(string id, Node parent = CoreEngine.activeScene.tree) {
         if (parent is null) {
             assert(0, "Parent object cannot be null");
         }
@@ -63,7 +63,7 @@ immutable ListenerServices = q{
 	void startListening(T)(ref T element) {
         import std.traits: hasUDA, getUDAs;
         if (!element.canListen()) {
-            element.__setCanListen(true);
+            element.__canListen(true);
             if (typeof(element).stringof == Button.stringof) {
                 mixin(ButtonListenerServices);
             }
@@ -73,7 +73,7 @@ immutable ListenerServices = q{
     void restartListening(T)(ref T element) {
         import std.traits: hasUDA, getUDAs;
         element.stopListening();
-        element.__setCanListen(true);
+        element.__canListen(true);
         if (typeof(element).stringof == Button.stringof) {
             mixin(ButtonListenerServices);
         }

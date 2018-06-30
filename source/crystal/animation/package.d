@@ -6,11 +6,11 @@
  * Documentation:
  * Coverage:
  */
-module crystal.animation;
+module liberty.animation;
 version (__NoDefaultImports__) {
 } else {
 	public {
-		import crystal.animation.animator;
-		import crystal.animation.engine;
+		import liberty.animation.animator;
+		import liberty.animation.engine;
 	}
 }

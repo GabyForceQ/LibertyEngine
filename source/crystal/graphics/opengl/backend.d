@@ -9,7 +9,7 @@
 // TODO: Optimize imports.
 // TODO: Get rid of public import.
 // TODO: Extensions string[] with defaults.
-module crystal.graphics.opengl.backend;
+module liberty.graphics.opengl.backend;
 version (__OpenGL__) :
 import core.stdc.stdlib;
 import derelict.sdl2.sdl : SDL_GL_SwapWindow;
@@ -18,9 +18,9 @@ public import derelict.opengl.types: GLVersion;
 import derelict.opengl;
 import derelict.util.exception : ShouldThrow;
 import derelict.opengl.gl;
-import crystal.graphics.renderer : Vendor;
-import crystal.graphics.video.backend : VideoBackend;
-import crystal.core.engine;
+import liberty.graphics.renderer : Vendor;
+import liberty.graphics.video.backend : VideoBackend;
+import liberty.core.engine;
 /// The one exception type thrown in this wrapper.
 /// A failing OpenGL function should <b>always</b> throw an $(D GLException).
 class GLException : Exception {
@@ -70,7 +70,7 @@ final class GLBackend : VideoBackend {
         GLint er = glGetError();
         if (er != GL_NO_ERROR) {
             flushGLErrors();
-            assert(false, "OpenGL error: " ~ getErrorString(er));
+            assert(false, "OpenGL error: " ~ errorString(er));
         }
     }
     /// Checks pending OpenGL errors.
@@ -78,7 +78,7 @@ final class GLBackend : VideoBackend {
     override void runtimeCheck() {
         GLint er = glGetError();
         if (er != GL_NO_ERROR) {
-            string errorString = getErrorString(er);
+            string errorString = errorString(er);
             flushGLErrors();
             throw new GLException(errorString);
         }
@@ -115,26 +115,26 @@ final class GLBackend : VideoBackend {
         }
     }
     /// Returns OpenGL major version.
-    override int getMajorVersion() pure const nothrow {
+    override int majorVersion() pure const nothrow {
         return _majorVersion;
     }
 
     /// Returns OpenGL minor version.
-    override int getMinorVersion() pure const nothrow {
+    override int minorVersion() pure const nothrow {
         return _minorVersion;
     }
     /// Returns OpenGL version string.
-    override const(char)[] getVersionString() {
+    override const(char)[] versionString() {
         return getString(GL_VERSION);
     }
     /// Returns the company responsible for this OpenGL implementation.
-    override const(char)[] getVendorString() {
+    override const(char)[] vendorString() {
         return getString(GL_VENDOR);
     }
     /// Tries to detect the driver maker.
     /// Returns identified vendor.
-    override Vendor getVendor() {
-        const(char)[] s = getVendorString();
+    override Vendor vendor() {
+        const(char)[] s = vendorString();
         if (canFind(s, "AMD") || canFind(s, "ATI") || canFind(s, "Advanced Micro Devices")) {
             return Vendor.Amd;
         } else if (canFind(s, "NVIDIA") || canFind(s, "nouveau") || canFind(s, "Nouveau")) {
@@ -153,15 +153,15 @@ final class GLBackend : VideoBackend {
     }
     /// Returns the name of the renderer.
     /// This name is typically specific to a particular configuration of a hardware platform.
-    override const(char)[] getGraphicsEngineString() {
+    override const(char)[] graphicsEngineString() {
         return getString(GL_RENDERER);
     }
     /// Returns GLSL version string.
-    override const(char)[] getGLSLVersionString() {
+    override const(char)[] glslVersionString() {
         return getString(GL_SHADING_LANGUAGE_VERSION);
     }
     /// Returns a slice made up of available extension names.
-    override string[] getExtensions() pure nothrow {
+    override string[] extensions() pure nothrow {
         return _extensions;
     }
 	/// Returns the requested int returned by $(D glGetFloatv).
@@ -188,13 +188,13 @@ final class GLBackend : VideoBackend {
 
     /// Sets the "active texture" which is more precisely active texture unit.
     /// Throws: $(D GLException) on error.
-    override void setActiveTexture(int texture_id) {
+    override void activeTexture(int texture_id) {
         glActiveTexture(GL_TEXTURE0 + texture_id);
         runtimeCheck();
     }
     ///
     override void resizeViewport() {
-        glViewport(0, 0, CoreEngine.getMainWindow().getSize().x, CoreEngine.getMainWindow().getSize().y);
+        glViewport(0, 0, CoreEngine.mainWindow.size.x, CoreEngine.mainWindow.size.y);
     }
     ///
     override void clear() {
@@ -211,12 +211,12 @@ final class GLBackend : VideoBackend {
     /// Swap OpenGL buffers.
     /// Throws: $(D GLException) on error.
     override void swapBuffers() {
-        if (CoreEngine.getMainWindow.getGLContext() is null) { // TODO
+        if (CoreEngine.mainWindow.glContext is null) { // TODO
             throw new GLException("swapBuffers() failed: not an OpenGL window");
         }
-        SDL_GL_SwapWindow(CoreEngine.getMainWindow()._window); // TODO
+        SDL_GL_SwapWindow(CoreEngine.mainWindow._window); // TODO
     }
-    package static string getErrorString(GLint er) pure nothrow {
+    package static string errorString(GLint er) pure nothrow {
         switch(er) {
             case GL_NO_ERROR:
                 return "GL_NO_ERROR";
@@ -234,7 +234,7 @@ final class GLBackend : VideoBackend {
     }
     private void getLimits(bool isReload) {
         if (isReload) {
-            const(char)[] verString = getVersionString();
+            const(char)[] verString = versionString;
             int firstSpace = cast(int)countUntil(verString, " ");
             if (firstSpace != -1) {
                 verString = verString[0..firstSpace];

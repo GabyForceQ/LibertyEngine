@@ -7,7 +7,7 @@
  * Coverage:
  */
  // TODO: Add current platform on log message.
-module crystal.core.logger;
+module liberty.core.logger;
 /// All types of log that you can use when logging a message.
 enum LogType : ubyte {
     /// Used to log an information message.
@@ -25,8 +25,8 @@ enum LogType : ubyte {
 }
 ///
 class Logger {
-    static private bool serviceRunning;
 	static:
+    private bool serviceRunning;
 	/// Start Logger service.
     void startService() nothrow @safe @nogc {
         serviceRunning = true;

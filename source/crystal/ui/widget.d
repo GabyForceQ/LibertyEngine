@@ -6,9 +6,9 @@
  * Documentation:
  * Coverage:
  */
-module crystal.ui.widget;
-import crystal.core.scenegraph.node: Node;
-import crystal.core.scenegraph.entity: Entity;
+module liberty.ui.widget;
+import liberty.core.scenegraph.node: Node;
+import liberty.core.scenegraph.entity: Entity;
 /// An Widget is a 2d element on the screen.
 /// It doesn't depends on world camera.
 abstract class Widget : Entity {

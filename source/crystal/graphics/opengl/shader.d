@@ -6,14 +6,14 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.opengl.shader;
-import crystal.graphics.renderer;
-import crystal.graphics.video.shader : ShaderProgram, ShaderType;
-import crystal.graphics.video.backend : UnsupportedVideoFeatureException;
-import crystal.graphics.opengl.vertex : GLAttribute;
-import crystal.graphics.opengl.backend : GLException;
-import crystal.math.vector : Vector2F, Vector3F, Vector4F;
-import crystal.math.matrix: Matrix4F;
+module liberty.graphics.opengl.shader;
+import liberty.graphics.renderer;
+import liberty.graphics.video.shader : ShaderProgram, ShaderType;
+import liberty.graphics.video.backend : UnsupportedVideoFeatureException;
+import liberty.graphics.opengl.vertex : GLAttribute;
+import liberty.graphics.opengl.backend : GLException;
+import liberty.math.vector : Vector2F, Vector3F, Vector4F;
+import liberty.math.matrix: Matrix4F;
 import std.string : fromStringz;
 import derelict.opengl;
 ///
@@ -31,7 +31,7 @@ final class GLShaderProgram : ShaderProgram {
         //bindAttributes();
         link();
         glValidateProgram(_programID);
-        //getAllUniformLocations();
+        //allUniformLocations();
     }
     ~this() {
         cleanUp();
@@ -39,7 +39,7 @@ final class GLShaderProgram : ShaderProgram {
     /// Gets the linking report.
     /// Returns: Log output of the GLSL linker. Can return null!
     /// Throws: $(D GLException) on error.
-    const(char)[] getLinkLog() {
+    const(char)[] linkLog() {
         GLint logLength;
         glGetProgramiv(_programID, GL_INFO_LOG_LENGTH, &logLength);
         if (logLength <= 0) {
@@ -48,17 +48,17 @@ final class GLShaderProgram : ShaderProgram {
         char[] log = new char[logLength + 1];
         GLint dummy;
         glGetProgramInfoLog(_programID, logLength, &dummy, log.ptr);
-        GraphicsEngine.getBackend().runtimeCheck();
+        GraphicsEngine.backend.runtimeCheck();
         return fromStringz(log.ptr);
     }
     ///
     void link() {
         glLinkProgram(_programID);
-        GraphicsEngine.getBackend().runtimeCheck();
+        GraphicsEngine.backend.runtimeCheck();
 		int res;
         glGetProgramiv(_programID, GL_LINK_STATUS, &res);
         if (res != true) {
-            const(char)[] linkLog = getLinkLog();
+            const(char)[] linkLog = linkLog();
             if (linkLog != null) {
                 //_gl._logger.errorf("%s", linkLog);
             }
@@ -81,9 +81,9 @@ final class GLShaderProgram : ShaderProgram {
                 uniformIndex[i] = cast(GLuint)i;
             }
             glGetActiveUniformsiv(_programID, cast(GLint)uniformIndex.length, uniformIndex.ptr, GL_UNIFORM_BLOCK_INDEX, blockIndex.ptr);
-            GraphicsEngine.getBackend().runtimeCheck();
+            GraphicsEngine.backend.runtimeCheck();
             // get active uniform blocks
-            //getUniformBlocks(this);
+            //uniformBlocks(this);
             //for (GLint i = 0; i < numActiveUniforms; i++) {
             //    if(blockIndex[i] >= 0) {
             //        continue;
@@ -92,7 +92,7 @@ final class GLShaderProgram : ShaderProgram {
             //    GLenum type;
             //    GLsizei length;
             //    glGetActiveUniform(_programID, cast(GLuint)i, cast(GLint)(buffer.length), &length, &size, &type, buffer.ptr);
-            //    GraphicsEngine.getBackend().runtimeCheck();
+            //    GraphicsEngine.backend.runtimeCheck();
             //    string name = fromStringz(buffer.ptr).idup;
             //   _activeUniforms[name] = new GLUniform(_programID, type, name, size);
             //}
@@ -109,16 +109,16 @@ final class GLShaderProgram : ShaderProgram {
                 GLenum type;
                 GLsizei length;
                 glGetActiveAttrib(_programID, cast(GLuint)i, cast(GLint)(buffer.length), &length, &size, &type, buffer.ptr);
-                GraphicsEngine.getBackend().runtimeCheck();
+                GraphicsEngine.backend.runtimeCheck();
                 string name = fromStringz(buffer.ptr).idup;
                 GLint location = glGetAttribLocation(_programID, buffer.ptr);
-                GraphicsEngine.getBackend().runtimeCheck();
+                GraphicsEngine.backend.runtimeCheck();
                 _activeAttributes[name] = new GLAttribute(name, location, type, size);
             }
         }
     }
     ///
-    GLAttribute getAttribute(string name) {
+    GLAttribute attribute(string name) {
         GLAttribute* a = name in _activeAttributes;
         if (a is null) {
             _activeAttributes[name] = new GLAttribute(name);
@@ -127,13 +127,13 @@ final class GLShaderProgram : ShaderProgram {
         return *a;
     }
     ///
-    //protected abstract void getAllUniformLocations();
+    //protected abstract void allUniformLocations();
     /// Get uniform location at specified name
-    //int getUniformLocation(string uniform_name) {
+    //int uniformLocation(string uniform_name) {
     //    return glGetUniformLocation(_programID, uniform_name.ptr); // todo ?
     //}
     ///
-    override uint getProgramID() {
+    override uint programID() {
         return _programID;
     }
     ///

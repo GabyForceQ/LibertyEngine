@@ -2,11 +2,11 @@
  * Copyright:   Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:     $(Gabriel Gheorghe)
  * License:     $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:      $(LINK2 https://github.com/GabyForceQ/CrystalEngine/blob/master/source/crystal/math/vector.d, _vector.d)
+ * Source:      $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/math/vector.d, _vector.d)
  * Documentation:
  * Coverage:
  */
-module crystal.math.vector;
+module liberty.math.vector;
 import std.traits : isFloatingPoint;
 /// T = type of elements.
 /// N = number of elements (2, 3, 4).
@@ -360,17 +360,17 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 	static if (isFloatingPoint!T) {
 		/// Returns Euclidean length.
 		T magnitude() pure nothrow const @safe @nogc {
-            import crystal.math.functions : sqrt;
+            import liberty.math.functions : sqrt;
 			return sqrt(squaredMagnitude());
 		}
 		/// Returns inverse of Euclidean length.
 		T inverseMagnitude() pure nothrow const @safe @nogc {
-            import crystal.math.functions : sqrt;
+            import liberty.math.functions : sqrt;
 			return 1 / sqrt(squaredMagnitude());
 		}
 		/// Faster but less accurate inverse of Euclidean length. Returns inverse of Euclidean length.
 		T fastInverseMagnitude() pure nothrow const @safe @nogc {
-            import crystal.math.functions : inverseSqrt;
+            import liberty.math.functions : inverseSqrt;
 			return inverseSqrt(squaredMagnitude());
 		}
 		/// Returns Euclidean distance between this and other.
@@ -402,7 +402,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		static if (N == 3) {
 			/// Gets an orthogonal vector from a 3D vector.
 			Vector getOrthogonalVector() pure nothrow const @safe @nogc {
-                import crystal.math.functions : abs;
+                import liberty.math.functions : abs;
 				return abs(x) > abs(z) ? Vector(-y, x, 0.0) : Vector(0.0, -z, y);
 			}
 		}
@@ -481,7 +481,7 @@ Vector!(T, N) maxByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) 
 }
 /// Element-wise absolute value.
 Vector!(T, N) absByElem(T, int N)(const Vector!(T, N) a) pure nothrow @safe @nogc {
-    import crystal.math.functions : abs;
+    import liberty.math.functions : abs;
     Vector!(T, N) ret = void;
     static foreach (i; 0..N) {
 	    ret.v[i] = abs(a.v[i]);

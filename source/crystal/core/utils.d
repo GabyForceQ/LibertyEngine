@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.utils;
+module liberty.core.utils;
 ///
 class Singleton(T) {
 	private {

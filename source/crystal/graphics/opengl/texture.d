@@ -6,4 +6,4 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.opengl.texture;
+module liberty.graphics.opengl.texture;

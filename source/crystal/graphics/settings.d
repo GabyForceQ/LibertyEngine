@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.settings;
+module liberty.graphics.settings;
 ///
 struct RenderConfig {
     bool wireframe;

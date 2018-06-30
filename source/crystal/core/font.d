@@ -6,4 +6,4 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.font;
+module liberty.core.font;

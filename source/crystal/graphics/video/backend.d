@@ -7,8 +7,8 @@
  * Coverage:
  */
 // TODO: Window background transparency.
-module crystal.graphics.video.backend;
-import crystal.graphics.renderer : Vendor;
+module liberty.graphics.video.backend;
+import liberty.graphics.renderer : Vendor;
 ///
 class UnsupportedVideoFeatureException : Exception {
     ///
@@ -35,25 +35,25 @@ abstract class VideoBackend {
 	///
 	bool runtimeCheckNothrow() nothrow;
 	///
-	int getMajorVersion() pure nothrow const;
+	int majorVersion() pure nothrow const;
 	///
-	int getMinorVersion() pure nothrow const;
+	int minorVersion() pure nothrow const;
 	///
-	const(char)[] getVersionString();
+	const(char)[] versionString();
 	///
-	const(char)[] getVendorString();
+	const(char)[] vendorString();
 	///
-	Vendor getVendor();
+	Vendor vendor();
 	///
-	const(char)[] getGraphicsEngineString();
+	const(char)[] graphicsEngineString();
 	///
-	const(char)[] getGLSLVersionString();
+	const(char)[] glslVersionString();
 	///
-	string[] getExtensions() pure nothrow;
+	string[] extensions() pure nothrow;
 	///
 	int maxColorAttachments() pure nothrow const;
 	///
-	void setActiveTexture(int texture_id);
+	void activeTexture(int texture_id);
 	///
 	void resizeViewport();
 	///

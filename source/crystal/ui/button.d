@@ -6,16 +6,16 @@
  * Documentation:
  * Coverage:
  */
-module crystal.ui.button;
+module liberty.ui.button;
 version (none):
-import crystal.core.engine;
-import crystal.core.scenegraph;
-import crystal.core.input : MouseButton;
-import crystal.math;
-import crystal.manager;
-import crystal.graphics;
+import liberty.core.engine;
+import liberty.core.scenegraph;
+import liberty.core.input : MouseButton;
+import liberty.math;
+import liberty.manager;
+import liberty.graphics;
 import std.string : splitLines;
-import crystal.core.geometry.shapes;
+import liberty.core.geometry.shapes;
 ///
 final class Button : Widget {
 	///
@@ -242,7 +242,7 @@ final class Button : Widget {
     }
     ///
     override void stopListening() {
-        __setCanListen = false;
+        __canListen = false;
         clearAllIsOnEvents();
         clearAllEvents();
     }

@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.animation.engine;
+module liberty.animation.engine;
 ///
 class AnimationEngine {
 	static:

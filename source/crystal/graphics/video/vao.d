@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.video.vao;
+module liberty.graphics.video.vao;
 ///
 abstract class VertexArray {
 	protected {

@@ -6,10 +6,10 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.scenegraph.terrain;
-import crystal.core.scenegraph.node: Node;
+module liberty.core.scenegraph.terrain;
+import liberty.core.scenegraph.node: Node;
 ///
-class Terrain: Node {
+class Terrain : Node {
 	///
     this(string id, Node parent) {
         super(id, parent);

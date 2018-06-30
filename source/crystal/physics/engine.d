@@ -6,8 +6,22 @@
  * Documentation:
  * Coverage:
  */
-module crystal.physics.engine;
+module liberty.physics.engine;
 ///
 class PhysicsEngine {
-
+	static:
+    private bool serviceRunning;
+	/// Start PhysicsEngine service.
+    void startService() nothrow @safe @nogc {
+        serviceRunning = true;
+    }
+    /// Stop PhysicsEngine service.
+    void stopService() nothrow @safe @nogc {
+        serviceRunning = false;
+    }
+    /// Restart PhysicsEngine service.
+    void restartService() nothrow @safe @nogc {
+        stopService();
+        startService();
+    }
 }

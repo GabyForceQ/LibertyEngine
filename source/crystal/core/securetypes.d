@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.securetypes;
+module liberty.core.securetypes;
 ///
 enum SecureLevel: ubyte {
     /// Crypted Key is initialized once when program executes.

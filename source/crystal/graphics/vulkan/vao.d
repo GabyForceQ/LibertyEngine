@@ -6,5 +6,5 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.vulkan.vao;
+module liberty.graphics.vulkan.vao;
 version (__Vulkan__) :

@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.audio.engine;
+module liberty.audio.engine;
 /// A failing Audio function should <b>always</b> throw a $(D AudioEngineException).
 final class AudioEngineException : Exception {
 	/// Default constructor.

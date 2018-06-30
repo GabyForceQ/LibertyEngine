@@ -6,4 +6,4 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.sprite;
+module liberty.core.sprite;

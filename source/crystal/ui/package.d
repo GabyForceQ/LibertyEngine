@@ -6,12 +6,12 @@
  * Documentation:
  * Coverage:
  */
-module crystal.ui;
+module liberty.ui;
 version (__NoDefaultImports__) {
 } else {
 	public {
-		import crystal.ui.button;
-		import crystal.ui.view;
-		import crystal.ui.widget;
+		import liberty.ui.button;
+		import liberty.ui.view;
+		import liberty.ui.widget;
 	}
 }

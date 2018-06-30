@@ -6,15 +6,15 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.video;
+module liberty.graphics.video;
 version (__NoDefaultImports__) {
 } else {
     public {
-        import crystal.graphics.video.backend;
-        import crystal.graphics.video.buffer;
-        import crystal.graphics.video.shader;
-        import crystal.graphics.video.texture;
-        import crystal.graphics.video.vao;
-        import crystal.graphics.video.vertex;
+        import liberty.graphics.video.backend;
+        import liberty.graphics.video.buffer;
+        import liberty.graphics.video.shader;
+        import liberty.graphics.video.texture;
+        import liberty.graphics.video.vao;
+        import liberty.graphics.video.vertex;
     }
 }

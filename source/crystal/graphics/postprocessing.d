@@ -6,10 +6,10 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.postprocessing;
+module liberty.graphics.postprocessing;
 version (nonde) :
 version (__OpenGL__) :
-import crystal.graphics.opengl;
+import liberty.graphics.opengl;
 /// Value less = priority bigger
 enum PostProcessFxFlag : long {
 	///
@@ -66,10 +66,10 @@ class Postprocessing {
 	///
     this(GLBackend gl, int screenWidth, int screenHeight, PostProcessFxFlag flag) {
         _screenBuf = new GLTexture2D();
-        _screenBuf.setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
-        _screenBuf.setMagFilter(GL_LINEAR);
-        _screenBuf.setWrapS(GL_CLAMP_TO_EDGE);
-        _screenBuf.setWrapT(GL_CLAMP_TO_EDGE);
+        _screenBuf.minFilter = GL_LINEAR_MIPMAP_LINEAR;
+        _screenBuf.magFilter = GL_LINEAR;
+        _screenBuf.wrapS = GL_CLAMP_TO_EDGE;
+        _screenBuf.wrapT = GL_CLAMP_TO_EDGE;
         _screenBuf.setImage(0, GL_RGBA, screenWidth, screenHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, null);
         _screenBuf.generateMipmap();
         _fbo = new GLFrameBufferObject();

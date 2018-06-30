@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.light;
+module liberty.core.light;
 //version (__Editor__) {
 //	static struct LightVertex {
 //		Vector3F position;

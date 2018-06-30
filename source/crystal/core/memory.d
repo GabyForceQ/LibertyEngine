@@ -6,14 +6,13 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.memory;
+module liberty.core.memory;
 /// Use this macro at the begining of the function body to disable GC during the function execution.
 /// It will be automatically enabled at the end of the function scope.
 /// Do not use this macro if GC is globally disabled.
 immutable scopeDisableGC = "import core.memory : GC; GC.disable; scope (exit) GC.enable;";
 ///
-@safe
-unittest {
+@safe unittest {
 	void noGCFunction() {
 		mixin(scopeDisableGC); // GC is disabled
 		// Your code here...

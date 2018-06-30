@@ -6,11 +6,11 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.video.shader;
-import crystal.math.vector : Vector2F, Vector3F, Vector4F;
-import crystal.math.matrix: Matrix4F;
-import crystal.graphics.renderer : Renderable;
-import crystal.core.engine;
+module liberty.graphics.video.shader;
+import liberty.math.vector : Vector2F, Vector3F, Vector4F;
+import liberty.math.matrix: Matrix4F;
+import liberty.graphics.renderer : Renderable;
+import liberty.core.engine;
 ///
 enum ShaderType : byte {
     ///
@@ -45,7 +45,7 @@ abstract class ShaderProgram : Renderable {
         uint _fragmentShaderID;
     }
     ///
-    uint getProgramID();
+    uint programID();
     ///
     void start();
     ///
@@ -88,7 +88,7 @@ abstract class ShaderProgram : Renderable {
     void loadUniform(string name, Matrix4F matrix);
     ///
     override void render() {
-        loadUniform("projection", CoreEngine.getActiveScene().activeCamera.getProjection()); // TODO: NOT HERE? ONLY ONCE?
-        loadUniform("view", CoreEngine.getActiveScene().activeCamera.getView()); // TODO: NOT HERE? ONLY ONCE?
+        loadUniform("projection", CoreEngine.activeScene.activeCamera.projection); // TODO: NOT HERE? ONLY ONCE?
+        loadUniform("view", CoreEngine.activeScene.activeCamera.view); // TODO: NOT HERE? ONLY ONCE?
     }
 }

@@ -2,14 +2,14 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:			$(LINK2 https://github.com/GabyForceQ/CrystalEngine/blob/master/source/crystal/math/shapes.d, _shapes.d)
+ * Source:			$(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/math/shapes.d, _shapes.d)
  * Documentation:
  * Coverage:
  */
-module crystal.math.shapes;
+module liberty.math.shapes;
 import std.traits : isFloatingPoint;
-import crystal.math.vector : Vector;
-import crystal.math.box : Box;
+import liberty.math.vector : Vector;
+import liberty.math.box : Box;
 ///
 struct Segment(T, int N) if (N == 2 || N == 3) {
 	///
@@ -20,8 +20,8 @@ struct Segment(T, int N) if (N == 2 || N == 3) {
 	static if (N == 3 && isFloatingPoint!T) {
 		///
 		bool intersect(Plane!T plane, out PointType intersection, out T progress) pure nothrow const @safe @nogc {
-			import crystal.math.functions : abs;
-			import crystal.math.vector : dot;
+			import liberty.math.functions : abs;
+			import liberty.math.vector : dot;
 			PointType dir = b - a;
 			T dp = dot(plane.n, dir);
 			if (abs(dp) < T.epsilon) {
@@ -55,7 +55,7 @@ struct Triangle(T, int N) if (N == 2 || N == 3) {
 	static if (N == 2) {
 		/// Returns area of a 2D triangle.
 		T area() pure nothrow const @safe @nogc {
-			import crystal.math.functions : abs;
+			import liberty.math.functions : abs;
 			return abs(signedArea());
 		}
 		/// Returns signed area of a 2D triangle.
@@ -66,7 +66,7 @@ struct Triangle(T, int N) if (N == 2 || N == 3) {
 	static if (N == 3 && isFloatingPoint!T) {
 		/// Returns triangle normal.
 		Vector!(T, 3) computeNormal() pure nothrow const @safe @nogc {
-			import crystal.math.vector : cross;
+			import liberty.math.vector : cross;
 			return cross(b - a, c - a).normalized();
 		}
 	}
@@ -121,7 +121,7 @@ struct Sphere(T, int N) if (N == 2 || N == 3) {
 		static if(N == 2) {
 			/// Returns circle area.
 			T area() pure nothrow const @safe @nogc {
-				import crystal.math.functions : PI;
+				import liberty.math.functions : PI;
 				return PI * (radius * radius);
 			}
 		}
@@ -155,8 +155,8 @@ struct Ray(T, int N) if (N == 2 || N == 3) {
 	static if (N == 3 && isFloatingPoint!T) {
 		///
 		bool intersect(Triangle!(T, 3) triangle, out T t, out T u, out T v) pure nothrow const @safe @nogc {
-			import crystal.math.functions : abs;
-			import crystal.math.vector : dot, cross;
+			import liberty.math.functions : abs;
+			import liberty.math.vector : dot, cross;
 			PointType edge1 = triangle.b - triangle.a;
 			PointType edge2 = triangle.c - triangle.a;
 			PointType pvec = cross(direction, edge2);
@@ -180,8 +180,8 @@ struct Ray(T, int N) if (N == 2 || N == 3) {
 		}
 		///
 		bool intersect(Plane!T plane, out PointType intersection, out T distance) pure nothrow const @safe @nogc {
-			import crystal.math.functions : abs;
-			import crystal.math.vector : dot;
+			import liberty.math.functions : abs;
+			import liberty.math.vector : dot;
 			T dp = dot(plane.n, direction);
 			if (abs(dp) < T.epsilon) {
 				distance = T.infinity;
@@ -220,13 +220,13 @@ struct Plane(T) if (isFloatingPoint!T) {
 	}
 	///
 	this(Vector!(T, 3) origin, Vector!(T, 3) normal) pure nothrow @safe @nogc {
-		import crystal.math.vector : dot;
+		import liberty.math.vector : dot;
 		n = normal.normalized();
 		d = -dot(origin, n);
 	}
 	///
 	this(Vector!(T, 3) A, Vector!(T, 3) B, Vector!(T, 3) C) pure nothrow @safe @nogc {
-		import crystal.math.vector : cross;
+		import liberty.math.vector : cross;
 		this(C, cross(B - A, C - A));
 	}
 	///
@@ -237,12 +237,12 @@ struct Plane(T) if (isFloatingPoint!T) {
 	}
 	///
 	T signedDistanceTo(Vector!(T, 3) point) pure nothrow const @safe @nogc {
-		import crystal.math.vector : dot;
+		import liberty.math.vector : dot;
 		return dot(n, point) + d;
 	}
 	///
 	T distanceTo(Vector!(T, 3) point) pure nothrow const @safe @nogc {
-		import crystal.math.functions : abs;
+		import liberty.math.functions : abs;
 		return abs(signedDistanceTo(point));
 	}
 	///

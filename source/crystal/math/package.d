@@ -2,19 +2,19 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:			$(LINK2 https://github.com/GabyForceQ/CrystalEngine/blob/master/source/crystal/math/package.d, _package.d)
+ * Source:			$(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/math/package.d, _package.d)
  * Documentation:
  * Coverage:
  */
-module crystal.math;
+module liberty.math;
 version (__NoDefaultImports__) {
 } else {
 	public {
-		import crystal.math.box;
-		import crystal.math.functions;
-		import crystal.math.matrix;
-		import crystal.math.quaternion;
-		import crystal.math.shapes;
-		import crystal.math.vector;
+		import liberty.math.box;
+		import liberty.math.functions;
+		import liberty.math.matrix;
+		import liberty.math.quaternion;
+		import liberty.math.shapes;
+		import liberty.math.vector;
 	}
 }

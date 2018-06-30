@@ -6,28 +6,31 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.config;
-///
+module liberty.core.config;
 version (Windows) {
+	///
 	enum __Mobile__ = false;
 }
-///
 version (OSX) {
+	///
 	enum __Mobile__ = false;
 }
-///
 version (linux) {
+	///
 	enum __Mobile__ = false;
 }
-///
 version (Andorid) {
+	///
 	enum __Mobile__ = true;
 }
-///
 version (__OpenGL__) {
+	///
 	enum __RowMajor__ = true;
+	///
 	enum __ColumnMajor__ = false;
 } else {
+	///
 	enum __RowMajor__ = false;
+	///
 	enum __ColumnMajor__ = true;
 }

@@ -6,10 +6,10 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.scenegraph.actor;
-import crystal.core.scenegraph.node: Node;
+module liberty.core.scenegraph.actor;
+import liberty.core.scenegraph.node: Node;
 /// An actor has action mapping.
-abstract class Actor: Node {
+abstract class Actor : Node {
 	/// Default constructor.
     this(string id, Node parent) nothrow {
         super(id, parent);

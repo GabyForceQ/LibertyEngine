@@ -6,11 +6,11 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.imaging;
+module liberty.core.imaging;
 version (__NoDefaultImports__) {
 } else {
     public {
-        import crystal.core.imaging.bitmap;
-        import crystal.core.imaging.image;
+        import liberty.core.imaging.bitmap;
+        import liberty.core.imaging.image;
     }
 }

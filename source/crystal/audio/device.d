@@ -6,8 +6,8 @@
  * Documentation:
  * Coverage:
  */
-module crystal.audio.device;
-import crystal.audio.engine: AudioEngineException;
+module liberty.audio.device;
+import liberty.audio.engine: AudioEngineException;
 import derelict.sdl2.sdl: SDL_AudioDeviceID, SDL_AudioSpec, SDL_OpenAudioDevice, SDL_AudioStatus, SDL_GetAudioDeviceStatus,
     SDL_CloseAudioDevice, SDL_PauseAudioDevice, SDL_LockAudioDevice, SDL_UnlockAudioDevice, SDL_AUDIO_PLAYING;
 import std.string: toStringz;

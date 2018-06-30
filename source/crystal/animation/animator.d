@@ -6,4 +6,4 @@
  * Documentation:
  * Coverage:
  */
-module crystal.animation.animator;
+module liberty.animation.animator;

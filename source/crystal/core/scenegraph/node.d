@@ -6,14 +6,14 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.scenegraph.node;
-import crystal.core.engine: CoreEngine;
-import crystal.core.scenegraph.services: Startable, Updatable, Processable;
-import crystal.core.scenegraph.scene: Scene;
-import crystal.core.scenegraph.camera: Camera;
-import crystal.core.components: Transform;
+module liberty.core.scenegraph.node;
+import liberty.core.engine: CoreEngine;
+import liberty.core.scenegraph.services: Startable, Updatable, Processable;
+import liberty.core.scenegraph.scene: Scene;
+import liberty.core.scenegraph.camera: Camera;
+import liberty.core.components: Transform;
 /// Represents an object in the scene tree.
-abstract class Node: Startable, Updatable, Processable {
+abstract class Node : Startable, Updatable, Processable {
 	private {
 		string _id;
 		Node _parent;
@@ -26,7 +26,7 @@ abstract class Node: Startable, Updatable, Processable {
 	/// Default constructor.
 	this(string id, Node parent) nothrow {
 		transform = Transform(this);
-		_scene = CoreEngine.getActiveScene();
+		_scene = CoreEngine.activeScene;
 		if (id in _scene._ids) {
 			assert(0, "You already have an object with ID \"" ~ id ~ "\" in the current scene!");
 		}

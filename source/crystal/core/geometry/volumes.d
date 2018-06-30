@@ -6,32 +6,33 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.geometry.volumes;
-import crystal.core.engine: CoreEngine;
-import crystal.core.components: Renderer;
-import crystal.core.scenegraph.services: NodeServices, Constructor;
-import crystal.core.scenegraph.entity: Entity;
-import crystal.core.scenegraph.node: Node;
-import crystal.core.model: Models;
-import crystal.graphics.util: RenderUtil;
-import crystal.graphics.renderer: DrawMode, VectorType, Vertex;
+module liberty.core.geometry.volumes;
+import liberty.core.engine : CoreEngine;
+import liberty.core.components : Renderer;
+import liberty.core.scenegraph.services : NodeServices, Constructor;
+import liberty.core.scenegraph.entity : Entity;
+import liberty.core.scenegraph.node : Node;
+import liberty.core.model: Models;
+import liberty.graphics.util : RenderUtil;
+import liberty.graphics.renderer : DrawMode, VectorType, Vertex;
 ///
-abstract class Volume: Entity {
+abstract class Volume : Entity {
     ///
     this(string id, Node parent) {
         super(id, parent);
     }
 }
 ///
-final class CubeVolume: Volume {
+final class CubeVolume : Volume {
 	mixin(NodeServices);
 	///
-	@Constructor private void _() {
-        getRenderer() = Renderer!Vertex(this, Models.cubeModel);
+	@Constructor 
+    private void _() {
+        renderer = Renderer!Vertex(this, Models.cubeModel);
 	}
 	///
     override void render() {
-        getRenderer().pass((){
+        renderer.pass((){
             RenderUtil.drawElements(DrawMode.Triangles, 36, VectorType.UnsignedInt);
         });
     }

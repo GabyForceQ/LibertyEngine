@@ -1,14 +1,14 @@
 {
-	"name": "crystal-demos",
+	"name": "liberty-demos",
 	"authors": [
 		"Gabriel Gheorghe"
 	],
-	"description": "Demo apps using Crystal Engine.",
+	"description": "Demo apps using Liberty Engine.",
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
 	"dependencies": {
-		"crystal-engine": "~>0.0.14-alpha.17"
+		"liberty-engine": "~>0.0.14-alpha.17"
 	},
-	"targetName": "crystalenginegame",
+	"targetName": "libertyenginegame",
 	"configurations": [
 		{
 			"name": "windows-desktop-32",

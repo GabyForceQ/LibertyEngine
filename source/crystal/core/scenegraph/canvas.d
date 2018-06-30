@@ -6,14 +6,14 @@
  * Documentation:
  * Coverage:
  */
-module crystal.core.scenegraph.canvas;
+module liberty.core.scenegraph.canvas;
 version (none):
-import crystal.core.scenegraph.services : ListenerServices;
-import crystal.core.scenegraph.node : NodeObject;
-import crystal.core.scenegraph.scene : Scene;
-import crystal.math.vector : Vector3F, Vector4F;
-import crystal.core.geometry.shapes;
-import crystal.core.config : CoreEngineException;
+import liberty.core.scenegraph.services : ListenerServices;
+import liberty.core.scenegraph.node : NodeObject;
+import liberty.core.scenegraph.scene : Scene;
+import liberty.math.vector : Vector3F, Vector4F;
+import liberty.core.geometry.shapes;
+import liberty.core.config : CoreEngineException;
 ///
 abstract class Canvas : Widget { // TODO: Not abstract, not final.
 	protected {
@@ -25,17 +25,17 @@ abstract class Canvas : Widget { // TODO: Not abstract, not final.
 	///
     this(string id, Node parent) {
         super(id, parent);
-        _shape = getScene().spawn!RectangleShape("shape"); // TODO. Algorithm for a new id. Maybe count instances with static?
+        _shape = scene.spawn!RectangleShape("shape"); // TODO. Algorithm for a new id. Maybe count instances with static?
     }
     ///
     this(string id, ShapeForm shape_form, Node parent) {
         super(id, parent);
         switch (shape_form) with (ShapeForm) {
             case Rectangle:
-                _shape = getScene().spawn!RectangleShape("shape"); // TODO. Algorithm for a new id.
+                _shape = scene.spawn!RectangleShape("shape"); // TODO. Algorithm for a new id.
                 break;
             //case Circe:
-                //_shape = getScene().spawn!CircleShape("shape"); // TODO. Algorithm for a new id.
+                //_shape = scene.spawn!CircleShape("shape"); // TODO. Algorithm for a new id.
                 //break;
             default:
                 throw new CoreEngineException("Unsupported ShapeForm for Canvas element!");
@@ -46,7 +46,7 @@ abstract class Canvas : Widget { // TODO: Not abstract, not final.
         return _canListen;
     }
     ///
-    void __setCanListen(bool __) { // TODO: remove.
+    void __canListen(bool __) { // TODO: remove.
         _canListen = __;
     }
     ///
@@ -56,7 +56,7 @@ abstract class Canvas : Widget { // TODO: Not abstract, not final.
     //    _shape.draw();
     //}
     ///
-    Shape getShape() {
+    Shape shape() {
         return _shape;
     }
 }

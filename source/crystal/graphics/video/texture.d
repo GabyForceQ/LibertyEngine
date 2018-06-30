@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module crystal.graphics.video.texture;
+module liberty.graphics.video.texture;
 ///
 enum TextureWrapping : byte {
 	/// Repeats the texture image.
