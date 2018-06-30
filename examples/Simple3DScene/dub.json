@@ -6,7 +6,7 @@
 	"description": "Demo apps using Liberty Engine.",
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
 	"dependencies": {
-		"liberty-engine": "~>0.0.14-alpha.17"
+		"liberty-engine": "~master"
 	},
 	"targetName": "libertyenginegame",
 	"configurations": [
