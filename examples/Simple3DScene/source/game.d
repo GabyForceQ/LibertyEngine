@@ -15,8 +15,8 @@ mixin(NativeServices);
 
 void initSettings() {
 	CoreEngine.shouldQuitOnKey(KeyCode.Esc);
-	GraphicsEngine.setVSyncEnabled(false);
-	GraphicsEngine.setWindowBackgroundColor(0.0f, 0.2f, 0.3f);
+	GraphicsEngine.vSyncEnabled = false;
+	GraphicsEngine.windowBackgroundColor = Vector3F(0.0f, 0.2f, 0.3f);
 	Input.useSystemCursor(SystemCursor.CrossHair);
 }
 
