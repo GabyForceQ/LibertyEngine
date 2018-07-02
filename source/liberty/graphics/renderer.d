@@ -24,6 +24,7 @@ import liberty.graphics.video.backend : VideoBackend;
 import liberty.core.engine;
 import liberty.core.model;
 import liberty.graphics.material;
+import liberty.core.utils : Singleton;
 //import sunshine.graphics.video.vao : VertexArrayObject;
 version (__OpenGL__) {
 	import liberty.graphics.opengl.backend : GLBackend;
@@ -37,7 +38,7 @@ version (__OpenGL__) {
 		import liberty.graphics.wasm.backend : WASMBackend;
 	}
 ///
-class GraphicsEngine {
+class GraphicsEngine : Singleton!GraphicsEngine {
 	static:
 	private {
 		VideoBackend _backend;

@@ -82,7 +82,7 @@ class CoreEngine : Singleton!CoreEngine {
         version (__Logger__) {
             Logger.startService();
         }
-        GraphicsEngine.startService();
+        GraphicsEngine.get.startService();
         _initWindow();
         _mainWindow.title = _windowInfo.title;
         _imageAPI = new Image(); // TODO.
@@ -92,7 +92,7 @@ class CoreEngine : Singleton!CoreEngine {
     }
     /// Stop CoreEngine service.
     void stopService() {
-        GraphicsEngine.stopService();
+        GraphicsEngine.get.stopService();
         version (__Logger__) {
             Logger.stopService();
         }
@@ -136,7 +136,7 @@ class CoreEngine : Singleton!CoreEngine {
 			if (_activeScene.isRegistered()) {
                 _activeScene.update(_deltaTime);
 				_activeScene.process();
-                GraphicsEngine.render();
+                GraphicsEngine.get.render();
             }
         }
     }
@@ -165,7 +165,7 @@ class CoreEngine : Singleton!CoreEngine {
 	            _windowInfo.height,
 	            SDL_WINDOW_OPENGL
 	        );
-	        GraphicsEngine.backend.reload();
+	        GraphicsEngine.get.backend.reload();
         } else version (__Vulkan__) {
             _mainWindow = new SDL2Window(
                 _platformApi,

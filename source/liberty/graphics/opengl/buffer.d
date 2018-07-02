@@ -21,7 +21,7 @@ final class GLBuffer : VideoBuffer {
         _target = target;
         _firstLoad = true;
         glGenBuffers(1, &_buffer);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
         _initialized = true;
         _size = 0;
     }
@@ -60,7 +60,7 @@ final class GLBuffer : VideoBuffer {
         } else {
             glBufferData(_target, size, data, _usage);
 		}
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
         _firstLoad = false;
     }
     /// Copies bytes to a sub-part of the buffer. You can't adress data beyond the buffer's size.
@@ -68,7 +68,7 @@ final class GLBuffer : VideoBuffer {
     override void setSubData(size_t offset, size_t size, void* data) {
         bind();
         glBufferSubData(_target, offset, size, data);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
     }
 
     /// Gets a sub-part of a buffer.
@@ -76,7 +76,7 @@ final class GLBuffer : VideoBuffer {
     override void getSubData(size_t offset, size_t size, void* data) {
         bind();
         glGetBufferSubData(_target, offset, size, data);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
     }
 
     /// Gets the whole buffer content in a newly allocated array.
@@ -91,7 +91,7 @@ final class GLBuffer : VideoBuffer {
     /// Throws: $(D GLException) on error.
     override void bind() @trusted {
         glBindBuffer(_target, _buffer);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
     }
     /// Unbinds this buffer.
     /// Throws: $(D GLException) on error.

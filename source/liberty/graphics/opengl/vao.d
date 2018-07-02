@@ -18,7 +18,7 @@ final class GLVertexArray : VertexArray {
     /// Throws $(D GLException) on error.
     this() {
         glGenVertexArrays(1, &_handle);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
         _initialized = true;
     }
     /// Releases the OpenGL Vertex Array Object resource.
@@ -34,13 +34,13 @@ final class GLVertexArray : VertexArray {
     /// Throws $(D GLException) on error.
     override void bind() @trusted {
         glBindVertexArray(_handle);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
     }
     /// Unuses this Vertex Array Object.
     /// Throws $(D GLException) on error.
     override void unbind() @trusted {
         glBindVertexArray(0);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
     }
     /// Returns wrapped OpenGL resource handle.
     override uint handle() pure const nothrow {

@@ -119,7 +119,7 @@ struct VertexAttribute {
 		} else {
 			glVertexAttribPointer(_location, _n, _type, _normalize, vertex_size, cast(void*)_offset);
 		}
-		GraphicsEngine.backend.runtimeCheck();
+		GraphicsEngine.get.backend.runtimeCheck();
 	}
 	/// Unuse this attribute.
     /// Throws: $(D GLException) on error.
@@ -129,7 +129,7 @@ struct VertexAttribute {
         }
         _divisorSet = false;
         glDisableVertexAttribArray(_location);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
     }
 }
 /// Define a simple vertex type from a vector type.

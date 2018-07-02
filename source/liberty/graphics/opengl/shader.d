@@ -48,13 +48,13 @@ final class GLShaderProgram : ShaderProgram {
         char[] log = new char[logLength + 1];
         GLint dummy;
         glGetProgramInfoLog(_programID, logLength, &dummy, log.ptr);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
         return fromStringz(log.ptr);
     }
     ///
     void link() {
         glLinkProgram(_programID);
-        GraphicsEngine.backend.runtimeCheck();
+        GraphicsEngine.get.backend.runtimeCheck();
 		int res;
         glGetProgramiv(_programID, GL_LINK_STATUS, &res);
         if (res != true) {
@@ -81,7 +81,7 @@ final class GLShaderProgram : ShaderProgram {
                 uniformIndex[i] = cast(GLuint)i;
             }
             glGetActiveUniformsiv(_programID, cast(GLint)uniformIndex.length, uniformIndex.ptr, GL_UNIFORM_BLOCK_INDEX, blockIndex.ptr);
-            GraphicsEngine.backend.runtimeCheck();
+            GraphicsEngine.get.backend.runtimeCheck();
             // get active uniform blocks
             //uniformBlocks(this);
             //for (GLint i = 0; i < numActiveUniforms; i++) {
@@ -92,7 +92,7 @@ final class GLShaderProgram : ShaderProgram {
             //    GLenum type;
             //    GLsizei length;
             //    glGetActiveUniform(_programID, cast(GLuint)i, cast(GLint)(buffer.length), &length, &size, &type, buffer.ptr);
-            //    GraphicsEngine.backend.runtimeCheck();
+            //    GraphicsEngine.get.backend.runtimeCheck();
             //    string name = fromStringz(buffer.ptr).idup;
             //   _activeUniforms[name] = new GLUniform(_programID, type, name, size);
             //}
@@ -109,10 +109,10 @@ final class GLShaderProgram : ShaderProgram {
                 GLenum type;
                 GLsizei length;
                 glGetActiveAttrib(_programID, cast(GLuint)i, cast(GLint)(buffer.length), &length, &size, &type, buffer.ptr);
-                GraphicsEngine.backend.runtimeCheck();
+                GraphicsEngine.get.backend.runtimeCheck();
                 string name = fromStringz(buffer.ptr).idup;
                 GLint location = glGetAttribLocation(_programID, buffer.ptr);
-                GraphicsEngine.backend.runtimeCheck();
+                GraphicsEngine.get.backend.runtimeCheck();
                 _activeAttributes[name] = new GLAttribute(name, location, type, size);
             }
         }
