@@ -7,13 +7,12 @@
  * Coverage:
  */
 module liberty.ui.button;
-version (none):
 import liberty.core.engine;
 import liberty.core.scenegraph;
-import liberty.core.input : MouseButton;
+import liberty.core.input : Input, MouseButton;
 import liberty.math;
-import liberty.manager;
 import liberty.graphics;
+import liberty.ui.widget : Widget;
 import std.string : splitLines;
 import liberty.core.geometry.shapes;
 ///
@@ -70,7 +69,7 @@ final class Button : Widget {
 		this.height = height;
 	}
 	///
-	@property void position(Vector4F position) {
+	void position(Vector4I position) pure nothrow @safe @nogc @property {
 		this.x = position.x;
 		this.y = position.y;
 		this.width = position.z;
@@ -91,19 +90,19 @@ final class Button : Widget {
 					_isOnMouseInside = true;
 				}
 				if (hasOnLeftClick()) {
-	                if (Input.isMouseButtonPressed(MouseButton.Left)) {
+	                if (Input.get.isMouseButtonPressed(MouseButton.Left)) {
                         _onLeftClick();
                         _isOnLeftClick = true;
 	                }
 				}
 				if (hasOnMiddleClick()) {
-                    if (Input.isMouseButtonPressed(MouseButton.Middle)) {
+                    if (Input.get.isMouseButtonPressed(MouseButton.Middle)) {
                         _onMiddleClick();
                         _isOnMiddleClick = true;
                     }
                 }
                 if (hasOnRightClick()) {
-                    if (Input.isMouseButtonPressed(MouseButton.Right)) {
+                    if (Input.get.isMouseButtonPressed(MouseButton.Right)) {
                         _onRightClick();
                         _isOnRightClick = true;
                     }
@@ -120,38 +119,31 @@ final class Button : Widget {
 		}
 	}
 	///
-	@property
-    void onLeftClick(void delegate() event) pure nothrow {
+    void onLeftClick(void delegate() event) pure nothrow @property {
         _onLeftClick = event;
     }
     ///
-    @property
-    void onMiddleClick(void delegate() event) pure nothrow {
+    void onMiddleClick(void delegate() event) pure nothrow @property {
         _onMiddleClick = event;
     }
     ///
-    @property
-    void onRightClick(void delegate() event) pure nothrow {
+    void onRightClick(void delegate() event) pure nothrow @property {
         _onRightClick = event;
     }
     ///
-	@property
-	void onMouseMove(void delegate() event) pure nothrow {
+	void onMouseMove(void delegate() event) pure nothrow @property {
 		_onMouseMove = event;
 	}
 	///
-    @property
-    void onMouseInside(void delegate() event) pure nothrow {
+    void onMouseInside(void delegate() event) pure nothrow @property {
         _onMouseInside = event;
     }
     ///
-    @property
-    void onUpdate(void delegate() event) pure nothrow {
+    void onUpdate(void delegate() event) pure nothrow @property {
         _onUpdate = event;
     }
     ///
-    @property
-    void onRender(void delegate() event) pure nothrow {
+    void onRender(void delegate() event) pure nothrow @property {
         _onRender = event;
     }
 	///
@@ -234,7 +226,7 @@ final class Button : Widget {
         _onMouseInside = null;
     }
     private bool mouseIntersectsThis() {
-    	_mousePos = Input.getMousePosition();
+    	_mousePos = Input.get.mousePosition;
     	return _mousePos.x > x && _mousePos.x < x + width && _mousePos.y > y && _mousePos.y < y + height;
     }
     private bool oldMouseIntersectsThis() {

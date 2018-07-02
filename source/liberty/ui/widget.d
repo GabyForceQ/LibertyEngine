@@ -11,10 +11,21 @@ import liberty.core.scenegraph.node: Node;
 import liberty.core.scenegraph.entity: Entity;
 /// An Widget is a 2d element on the screen.
 /// It doesn't depends on world camera.
-abstract class Widget : Entity {
+abstract class Widget : Entity, IListener {
+    ///
+    protected bool _canListen;
+    ///
+    bool __canListen; // TODO: remove
 	/// Default constructor.
     this(string id, Node parent) {
         super(id, parent);
     }
     override void render() {}
+    ///
+    void stopListening() {}
+}
+///
+interface IListener {
+    ///
+    void stopListening();
 }
