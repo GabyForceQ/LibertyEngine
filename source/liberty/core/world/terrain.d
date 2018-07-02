@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.core.world.terrain;
-import liberty.core.world.node: Node;
+import liberty.core.world.node : Node;
 ///
 class Terrain : Node {
 	///

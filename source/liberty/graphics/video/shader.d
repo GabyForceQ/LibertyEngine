@@ -87,7 +87,7 @@ abstract class ShaderProgram : Renderable {
     /// Load mat4 uniform using uniform name and value.
     void loadUniform(string name, Matrix4F matrix) nothrow @trusted @nogc;
     ///
-    override void render() {
+    override void render() { // TODO: Add atributes
         loadUniform("projection", CoreEngine.get.activeScene.activeCamera.projection); // TODO: NOT HERE? ONLY ONCE?
         loadUniform("view", CoreEngine.get.activeScene.activeCamera.view); // TODO: NOT HERE? ONLY ONCE?
     }

@@ -7,11 +7,11 @@
  * Coverage:
  */
 module liberty.core.world.node;
-import liberty.core.engine: CoreEngine;
-import liberty.core.world.services: Startable, Updatable, Processable;
-import liberty.core.world.scene: Scene;
-import liberty.core.world.camera: Camera;
-import liberty.core.components: Transform;
+import liberty.core.engine : CoreEngine;
+import liberty.core.world.services : Startable, Updatable, Processable;
+import liberty.core.world.scene : Scene;
+import liberty.core.world.camera : Camera;
+import liberty.core.components : Transform;
 /// Represents an object in the scene tree.
 abstract class Node : Startable, Updatable, Processable {
 	private {
@@ -35,23 +35,23 @@ abstract class Node : Startable, Updatable, Processable {
 		_parent = parent;
 	}
 	/// Returns node ID.
-	string id() pure nothrow const {
+	string id() pure nothrow const @safe @nogc @property {
 		return _id;
 	}
 	/// Returns an array with parent references.
-	@property Node parent() pure nothrow {
+	Node parent() pure nothrow @safe @nogc @property {
 		return _parent;
 	}
 	/// Returns an array with children references.
-    @property Node[string] children() pure nothrow {
+    Node[string] children() pure nothrow @safe @nogc @property {
         return _children;
     }
     /// Returns a child reference using its ID.
-    @property T child(T)(string id) pure nothrow {
+    T child(T)(string id) pure nothrow @safe @nogc @property {
         return cast(T)_children[id];
     }
     ///
-    @property Scene scene() pure nothrow {
+    Scene scene() pure nothrow @safe @nogc @property {
         return _scene;
     }
 	/// Called after all objects instantiation. Optional.

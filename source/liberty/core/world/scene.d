@@ -7,12 +7,12 @@
  * Coverage:
  */
 module liberty.core.world.scene;
-import liberty.core.engine: CoreEngine;
-import liberty.core.world.services: Startable, Updatable, Processable;
-import liberty.core.world.node: Node, Root;
-import liberty.core.world.camera: Camera;
-import liberty.graphics.renderer: Renderable;
-import liberty.math.vector: Vector3F;
+import liberty.core.engine : CoreEngine;
+import liberty.core.world.services : Startable, Updatable, Processable;
+import liberty.core.world.node : Node, Root;
+import liberty.core.world.camera : Camera;
+import liberty.graphics.renderer : Renderable;
+import liberty.math.vector : Vector3F;
 ///
 struct SceneSettings {
 	///
