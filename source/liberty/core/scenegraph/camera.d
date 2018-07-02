@@ -86,8 +86,8 @@ final class Camera : Actor {
         _yaw = Yaw;
         _pitch = Pitch;
         updateCameraVectors();
-        _lastX = CoreEngine.mainWindow.width / 2;
-        _lastY = CoreEngine.mainWindow.height / 2;
+        _lastX = CoreEngine.get.mainWindow.width / 2;
+        _lastY = CoreEngine.get.mainWindow.height / 2;
 	}
 	///
 	this(string id, Node parent, Vector3F position = Vector3F.zero, Vector3F up = Vector3F.up, float yaw = Yaw, float pitch = Pitch) {
@@ -99,7 +99,7 @@ final class Camera : Actor {
 	}
 	///
 	Matrix4F projectionMatrix() {
-		Vector2I size = CoreEngine.mainWindow.size;
+		Vector2I size = CoreEngine.get.mainWindow.size;
 		final switch (_cameraProjection) with (CameraProjection) {
 			case Perspective:
 				return Matrix4F.perspective(radians(_fov), cast(float)size.x / size.y, _nearPlane, _farPlane);

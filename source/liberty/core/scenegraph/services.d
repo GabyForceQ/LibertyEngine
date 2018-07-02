@@ -9,7 +9,7 @@
 module liberty.core.scenegraph.services;
 ///
 immutable NodeServices = q{
-    this(string id, Node parent = CoreEngine.activeScene.tree) {
+    this(string id, Node parent = CoreEngine.get.activeScene.tree) {
         if (parent is null) {
             assert(0, "Parent object cannot be null");
         }

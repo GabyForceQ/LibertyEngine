@@ -25,7 +25,7 @@ final class Material {
 		_shader = RenderUtil.createShaderProgram(vertexCode, fragmentCode);
 		Scene.shaderList[_shader.programID.to!string] = _shader;
 		glGenTextures(1, &_textureID);
-        _texture = new Bitmap(CoreEngine.imageAPI, "res/brick.bmp");
+        _texture = new Bitmap(CoreEngine.get.imageAPI, "res/brick.bmp");
         glBindTexture(GL_TEXTURE_2D, _textureID);
         if (_texture.data()) {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _texture.width(), _texture.height(), 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, _texture.data());
@@ -51,8 +51,8 @@ final class Material {
 	}
 	///
 	void render() {
-		_shader.loadUniform("projection", CoreEngine.activeScene.activeCamera.projection); // TODO: NOT HERE? ONLY ONCE?
-        _shader.loadUniform("view", CoreEngine.activeScene.activeCamera.view); // TODO: NOT HERE? ONLY ONCE?
+		_shader.loadUniform("projection", CoreEngine.get.activeScene.activeCamera.projection); // TODO: NOT HERE? ONLY ONCE?
+        _shader.loadUniform("view", CoreEngine.get.activeScene.activeCamera.view); // TODO: NOT HERE? ONLY ONCE?
 	}
 }
 ///

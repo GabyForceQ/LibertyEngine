@@ -24,9 +24,9 @@ abstract class Node : Startable, Updatable, Processable {
 	/// Transform component.
 	Transform transform;
 	/// Default constructor.
-	this(string id, Node parent) nothrow {
+	this(string id, Node parent) {
 		transform = Transform(this);
-		_scene = CoreEngine.activeScene;
+		_scene = CoreEngine.get.activeScene;
 		if (id in _scene._ids) {
 			assert(0, "You already have an object with ID \"" ~ id ~ "\" in the current scene!");
 		}
@@ -173,7 +173,7 @@ abstract class Node : Startable, Updatable, Processable {
 }
 /// Root node of a scene. A scene can have only one root node.
 final class Root: Node {
-	this() nothrow {
+	this() {
 		super("Root", null);
 	}
 }

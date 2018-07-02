@@ -13,7 +13,7 @@ import liberty.core.scenegraph.entity: Entity;
 /// It doesn't depends on world camera.
 abstract class Widget : Entity {
 	/// Default constructor.
-    this(string id, Node parent) nothrow {
+    this(string id, Node parent) {
         super(id, parent);
     }
     override void render() {}

@@ -39,8 +39,8 @@ final class Scene {
         bool _registered;
     }
     /// Default contrctor.
-    this(string id) nothrow {
-        CoreEngine.activeScene = this;
+    this(string id) {
+        CoreEngine.get.activeScene = this;
         _tree = new Root();
         _id = id;
     }
@@ -69,7 +69,7 @@ final class Scene {
     //    return _nodeList[id];
     //}
     /// Releases all scene tree nodes.
-    void resetTree() nothrow {
+    void resetTree() {
         _tree = new Root();
     }
     /// Sets the current camera using its reference.

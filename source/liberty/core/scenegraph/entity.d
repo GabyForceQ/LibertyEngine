@@ -17,7 +17,7 @@ abstract class Entity : Node, Renderable {
 		Renderer!Vertex _renderComponent;
     }
 	/// Default constructor.
-    this(string id, Node parent) nothrow {
+    this(string id, Node parent) {
         super(id, parent);
     }
     /// Returns a reference to the render component.

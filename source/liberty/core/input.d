@@ -196,7 +196,7 @@ class Input {
     void lockMouse(bool lock) {
         //SDL_bool lock_ = cast(SDL_bool)lock;
     	//SDL_ShowCursor(lock_);
-    	//SDL_SetWindowGrab(CoreEngine.getMainWindow()._window, lock_);
+    	//SDL_SetWindowGrab(CoreEngine.get.mainWindow._window, lock_);
     	//if ( lock ) {
     	//	mouseLock[0] = mouseInfo.xCur;
     	//	mouseLock[1] = mouseInfo.yCur;
@@ -208,7 +208,7 @@ class Input {
     }
     ///
     void windowGrab(bool grabbed = true) {
-        SDL_SetWindowGrab(CoreEngine.mainWindow()._window, cast(SDL_bool)grabbed);
+        SDL_SetWindowGrab(CoreEngine.get.mainWindow._window, cast(SDL_bool)grabbed);
     }
     ///
     void cursorVisible(bool visible = true) {

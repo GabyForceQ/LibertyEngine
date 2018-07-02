@@ -16,9 +16,9 @@ class Singleton(T) {
 	///
 	protected this() {}
 	///
-	static T get() {
-		if(!_isInstantiated) {
-			synchronized(Singleton.classinfo) {
+	static T get() @trusted {
+		if (!_isInstantiated) {
+			synchronized (Singleton.classinfo) {
 				if (!_instance) {
 					_instance = new T;
 				}
@@ -26,6 +26,10 @@ class Singleton(T) {
 			}
 		}
 		return _instance;
+	}
+	///
+	static bool isInstantiated() nothrow @safe @nogc {
+		return _isInstantiated;
 	}
 }
 ///

@@ -22,6 +22,7 @@ import liberty.core.time : time;
 import liberty.core.model : Models;
 import liberty.graphics.material : Materials;
 import liberty.core.system;
+import liberty.core.utils : Singleton;
 ///
 class CoreEngineException : Exception {
     ///
@@ -53,8 +54,7 @@ struct WindowInfo {
     double ratio() { return width / cast(double)height; }
 }
 ///
-class CoreEngine {
-	static:
+class CoreEngine : Singleton!CoreEngine {
     private {
         bool _serviceRunning;
         float _deltaTime = 0.0f;
@@ -191,10 +191,10 @@ class CoreEngine {
 ///
 immutable NativeServices = q{
     void main() {
-	    CoreEngine.startService();
+	    CoreEngine.get.startService();
         initSettings();
         initScene();
-        CoreEngine.runMainLoop();
-	    CoreEngine.stopService();
+        CoreEngine.get.runMainLoop();
+	    CoreEngine.get.stopService();
     }
 };

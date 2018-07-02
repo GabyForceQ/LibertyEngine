@@ -192,7 +192,7 @@ final class GLBackend : VideoBackend {
     }
     ///
     override void resizeViewport() @trusted {
-        glViewport(0, 0, CoreEngine.mainWindow.size.x, CoreEngine.mainWindow.size.y);
+        glViewport(0, 0, CoreEngine.get.mainWindow.size.x, CoreEngine.get.mainWindow.size.y);
     }
     ///
     override void clear() @trusted {
@@ -205,10 +205,10 @@ final class GLBackend : VideoBackend {
     /// Swap OpenGL buffers.
     /// Throws: $(D GLException) on error.
     override void swapBuffers() @trusted {
-        if (CoreEngine.mainWindow.glContext is null) { // TODO
+        if (CoreEngine.get.mainWindow.glContext is null) { // TODO
             throw new GLException("swapBuffers() failed: not an OpenGL window");
         }
-        SDL_GL_SwapWindow(CoreEngine.mainWindow._window); // TODO
+        SDL_GL_SwapWindow(CoreEngine.get.mainWindow._window); // TODO
     }
     package static string errorString(GLint er) pure nothrow @safe @nogc {
         switch(er) {

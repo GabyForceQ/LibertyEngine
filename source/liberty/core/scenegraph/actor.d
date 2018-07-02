@@ -11,7 +11,7 @@ import liberty.core.scenegraph.node: Node;
 /// An actor has action mapping.
 abstract class Actor : Node {
 	/// Default constructor.
-    this(string id, Node parent) nothrow {
+    this(string id, Node parent) {
         super(id, parent);
     }
 }

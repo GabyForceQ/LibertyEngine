@@ -81,7 +81,7 @@ class GraphicsEngine {
 		_backend.clear();
 		//_backend.enableDepthTest(); // TODO. + culling.
 		_backend.clearColor(_color.r, _color.g, _color.b, _color.a);
-		CoreEngine.activeScene.render();
+		CoreEngine.get.activeScene.render();
 		_backend.swapBuffers();
 	}
 	///
