@@ -16,7 +16,7 @@ final class AnimationEngineException : Exception {
 	}
 }
 ///
-class AnimationEngine : Singleton!AnimationEngine, IService {
+final class AnimationEngine : Singleton!AnimationEngine, IService {
 	private bool _serviceRunning;
 	/// Start AnimationEngine service.
     void startService() pure nothrow @safe @nogc {

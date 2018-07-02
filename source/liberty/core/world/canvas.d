@@ -2,22 +2,22 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/world/canvas.d, _canvas.d)
  * Documentation:
  * Coverage:
  */
-module liberty.core.scenegraph.canvas;
+module liberty.core.world.canvas;
 version (none):
-import liberty.core.scenegraph.services : ListenerServices;
-import liberty.core.scenegraph.node : NodeObject;
-import liberty.core.scenegraph.scene : Scene;
+import liberty.core.world.services : ListenerServices;
+import liberty.core.world.node : NodeObject;
+import liberty.core.world.scene : Scene;
 import liberty.math.vector : Vector3F, Vector4F;
 import liberty.core.geometry.shapes;
 import liberty.core.config : CoreEngineException;
 ///
 abstract class Canvas : Widget { // TODO: Not abstract, not final.
 	protected {
-		bool _canListen = false;
+		bool _canListen;
 		Vector4F _fillColor;
 		Shape _shape;
 		// TODO: CollisionShape _collisionShape;

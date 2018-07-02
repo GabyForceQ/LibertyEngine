@@ -13,7 +13,7 @@ import liberty.graphics.video.buffer : VideoBuffer, BufferTarget;
 import liberty.graphics.video.vao : VertexArray;
 import liberty.graphics.video.shader : ShaderProgram;
 import liberty.graphics.video.vertex : VertexSpec;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import derelict.opengl;
 version (__OpenGL__) {
 	import liberty.graphics.opengl.backend : GLBackend;
@@ -28,7 +28,7 @@ version (__OpenGL__) {
 	import liberty.graphics.wasm.backend : WASMBackend;
 }
 ///
-class RenderUtil : Singleton!RenderUtil {
+final class RenderUtil : Singleton!RenderUtil {
 	///
     VideoBuffer createBuffer(T)(BufferTarget target, DataUsage usage, T[] data = null) {
         uint _target, _usage;

@@ -2,13 +2,13 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/ui/button.d, _button.d)
  * Documentation:
  * Coverage:
  */
 module liberty.ui.button;
 import liberty.core.engine;
-import liberty.core.scenegraph;
+import liberty.core.world;
 import liberty.core.input : Input, MouseButton;
 import liberty.math;
 import liberty.graphics;
@@ -53,11 +53,11 @@ final class Button : Widget {
         void delegate() _onMouseInside = null;
         void delegate() _onUpdate = null;
         void delegate() _onRender = null;
-        bool _isOnLeftClick = false;
-        bool _isOnMiddleClick = false;
-        bool _isOnRightClick = false;
-        bool _isOnMouseMove = false;
-        bool _isOnMouseInside = false;
+        bool _isOnLeftClick;
+        bool _isOnMiddleClick;
+        bool _isOnRightClick;
+        bool _isOnMouseMove;
+        bool _isOnMouseInside;
         Vector2I _mousePos;
         Vector2I _oldMousePos;
     }

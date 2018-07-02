@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.core.components;
-import liberty.core.scenegraph.node : Node;
+import liberty.core.world.node : Node;
 import liberty.core.model : Model, Mesh;
 import liberty.graphics.material : Material, Materials;
 import liberty.math.vector : Vector3F;

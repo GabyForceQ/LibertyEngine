@@ -8,10 +8,10 @@
  */
 module liberty.graphics.material;
 import liberty.core.engine;
-import liberty.core.scenegraph.scene;
+import liberty.core.world.scene;
 import liberty.core.imaging;
 import liberty.graphics;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import derelict.opengl;
 import std.conv : to;
 ///

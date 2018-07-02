@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/world/services.d, _services.d)
  * Documentation:
  * Coverage:
  */
-module liberty.core.scenegraph.services;
+module liberty.core.world.services;
 ///
 immutable NodeServices = q{
     this(string id, Node parent = CoreEngine.get.activeScene.tree) {

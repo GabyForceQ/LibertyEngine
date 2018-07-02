@@ -2,14 +2,14 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/engine.d, _engine.d)
  * Documentation:
  * Coverage:
  */
 module liberty.core.engine;
 import liberty.graphics.renderer;
 import liberty.core.input;
-import liberty.core.scenegraph;
+import liberty.core.world;
 import liberty.graphics.opengl;
 import derelict.sdl2.sdl;
 import liberty.core.input;
@@ -54,7 +54,7 @@ struct WindowInfo {
     double ratio() { return width / cast(double)height; }
 }
 ///
-class CoreEngine : Singleton!CoreEngine, IService {
+final class CoreEngine : Singleton!CoreEngine, IService {
     private {
         bool _serviceRunning;
         float _deltaTime = 0.0f;

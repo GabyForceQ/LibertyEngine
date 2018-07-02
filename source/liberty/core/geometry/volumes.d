@@ -2,16 +2,16 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/geometry/volumes.d, _volumes.d)
  * Documentation:
  * Coverage:
  */
 module liberty.core.geometry.volumes;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components : Renderer;
-import liberty.core.scenegraph.services : NodeServices, Constructor;
-import liberty.core.scenegraph.entity : Entity;
-import liberty.core.scenegraph.node : Node;
+import liberty.core.world.services : NodeServices, Constructor;
+import liberty.core.world.entity : Entity;
+import liberty.core.world.node : Node;
 import liberty.core.model: Models;
 import liberty.graphics.util : RenderUtil;
 import liberty.graphics.renderer : DrawMode, VectorType, Vertex;

@@ -2,7 +2,7 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/input.d, _input.d)
  * Documentation:
  * Coverage:
  */
@@ -15,7 +15,7 @@ import liberty.core.input;
 import liberty.core.utils : Singleton, IService;
 pragma (inline, true):
 ///
-class Input : Singleton!Input, IService {
+final class Input : Singleton!Input, IService {
     private bool _serviceRunning;
 	private {
 		bool[KeyCodeCount] _keyState;
@@ -24,17 +24,17 @@ class Input : Singleton!Input, IService {
         const _KEY_RELEASED = false;
         SDL_Cursor* _cursorHandle;
         int _mouseButtonState;
-        int _mouseX = 0;
-        int _mouseY = 0;
-        int _lastMouseX = 0;
-        int _lastMouseY = 0;
-        int _mouseWheelX = 0;
-        int _mouseWheelY = 0;
-        int _mouseDeltaX = 0;
-        int _mouseDeltaY = 0;
+        int _mouseX;
+        int _mouseY;
+        int _lastMouseX;
+        int _lastMouseY;
+        int _mouseWheelX;
+        int _mouseWheelY;
+        int _mouseDeltaX;
+        int _mouseDeltaY;
     }
-    package bool _isMouseMoving = false;
-    package bool _isMouseWheeling = false;
+    package bool _isMouseMoving;
+    package bool _isMouseWheeling;
     /// Start Input service.
     void startService() @trusted {
         //useSystemCursor(SystemCursor.Arrow);

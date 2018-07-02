@@ -38,7 +38,7 @@ version (__OpenGL__) {
 		import liberty.graphics.wasm.backend : WASMBackend;
 	}
 ///
-class GraphicsEngine : Singleton!GraphicsEngine, IService {
+final class GraphicsEngine : Singleton!GraphicsEngine, IService {
 	private {
 		private bool _serviceRunning;
 		VideoBackend _backend;

@@ -16,7 +16,7 @@ final class AIEngineException : Exception {
 	}
 }
 ///
-class AIEngine : Singleton!AIEngine, IService {
+final class AIEngine : Singleton!AIEngine, IService {
 	private bool _serviceRunning;
 	/// Start AIEngine service.
     void startService() pure nothrow @safe @nogc {

@@ -2,15 +2,15 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/world/camera.d, _camera.d)
  * Documentation:
  * Coverage:
  */
-module liberty.core.scenegraph.camera;
+module liberty.core.world.camera;
 import liberty.core.engine: CoreEngine;
-import liberty.core.scenegraph.actor: Actor;
-import liberty.core.scenegraph.node: Node;
-import liberty.core.scenegraph.services: NodeServices, Constructor;
+import liberty.core.world.actor: Actor;
+import liberty.core.world.node: Node;
+import liberty.core.world.services: NodeServices, Constructor;
 import liberty.core.input: Input, KeyCode, KeyModFlag, MouseButton;
 import liberty.math.functions: radians, sin, cos;
 import liberty.math.vector: Vector2I, Vector3F, cross;

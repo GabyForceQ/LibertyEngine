@@ -2,15 +2,15 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/world/node.d, _node.d)
  * Documentation:
  * Coverage:
  */
-module liberty.core.scenegraph.node;
+module liberty.core.world.node;
 import liberty.core.engine: CoreEngine;
-import liberty.core.scenegraph.services: Startable, Updatable, Processable;
-import liberty.core.scenegraph.scene: Scene;
-import liberty.core.scenegraph.camera: Camera;
+import liberty.core.world.services: Startable, Updatable, Processable;
+import liberty.core.world.scene: Scene;
+import liberty.core.world.camera: Camera;
 import liberty.core.components: Transform;
 /// Represents an object in the scene tree.
 abstract class Node : Startable, Updatable, Processable {
