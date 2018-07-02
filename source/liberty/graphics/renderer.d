@@ -24,7 +24,7 @@ import liberty.graphics.video.backend : VideoBackend;
 import liberty.core.engine;
 import liberty.core.model;
 import liberty.graphics.material;
-import liberty.core.utils : Singleton;
+import liberty.core.utils : Singleton, IService;
 //import sunshine.graphics.video.vao : VertexArrayObject;
 version (__OpenGL__) {
 	import liberty.graphics.opengl.backend : GLBackend;
@@ -38,15 +38,16 @@ version (__OpenGL__) {
 		import liberty.graphics.wasm.backend : WASMBackend;
 	}
 ///
-class GraphicsEngine : Singleton!GraphicsEngine {
+class GraphicsEngine : Singleton!GraphicsEngine, IService {
 	private {
+		private bool _serviceRunning;
 		VideoBackend _backend;
 		bool _vsyncEnabled = false;
 		bool _wireframe = false;
 		Vector4F _color = Vector4F(1.0, 1.0, 1.0, 1.0);
 	}
-	///
-	void startService() {
+	/// Start GraphicsEngine service.
+	void startService() @trusted {
 		version (__OpenGL__) {
 			_backend = new GLBackend();
 		} else version (__Vulkan__) {
@@ -54,18 +55,24 @@ class GraphicsEngine : Singleton!GraphicsEngine {
 		} else version (__WASM__) {
 			_backend = new WASMBackend();
 		}
+		_serviceRunning = true;
 	}
-	///
-	void stopService() {
+	/// Stop GraphicsEngine service.
+	void stopService() @trusted {
 		if (_backend !is null) {
 			_backend.destroy();
 			_backend = null;
 		}
+		_serviceRunning = false;
 	}
-	///
-	void restartServic() {
+	///  Restart GraphicsEngine service.
+	void restartService() @trusted {
 		stopService();
 		startService();
+	}
+	/// Returns true if GraphicsEngine service is running.
+	bool isServiceRunning() pure nothrow const @safe @nogc {
+		return _serviceRunning;
 	}
 	///
 	VideoBackend backend() {

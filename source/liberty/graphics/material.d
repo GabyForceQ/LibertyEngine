@@ -11,7 +11,7 @@ import liberty.core.engine;
 import liberty.core.scenegraph.scene;
 import liberty.core.imaging;
 import liberty.graphics;
-import liberty.core.utils : Singleton;
+import liberty.core.utils : Singleton, IService;
 import derelict.opengl;
 import std.conv : to;
 ///

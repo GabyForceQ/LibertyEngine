@@ -12,10 +12,11 @@ import liberty.core.engine;
 import derelict.sdl2.sdl;
 import liberty.math.vector;
 import liberty.core.input;
-import liberty.core.utils : Singleton;
+import liberty.core.utils : Singleton, IService;
 pragma (inline, true):
 ///
-class Input : Singleton!Input {
+class Input : Singleton!Input, IService {
+    private bool _serviceRunning;
 	private {
 		bool[KeyCodeCount] _keyState;
         bool[KeyCodeCount] _oldKeyState;
@@ -34,23 +35,29 @@ class Input : Singleton!Input {
     }
     package bool _isMouseMoving = false;
     package bool _isMouseWheeling = false;
-    ///
-    void startService() {
+    /// Start Input service.
+    void startService() @trusted {
         //useSystemCursor(SystemCursor.Arrow);
         //setCurrentCursor();
+        _serviceRunning = true;
     }
-    ///
-    void stopService() {
+    /// Stop Input service.
+    void stopService() @trusted {
         if (_cursorHandle !is null) {
             SDL_FreeCursor(_cursorHandle);
             _cursorHandle = null;
         }
+        _serviceRunning = false;
     }
-    ///
-    void restartServic() {
+    /// Restart Input service.
+    void restartService() @trusted {
         stopService();
         startService();
     }
+    /// Returns true if Input service is running.
+	bool isServiceRunning() pure nothrow const @safe @nogc {
+		return _serviceRunning;
+	}
     ///
     bool isKeyHold(KeyCode key) {
         SDL_Scancode scan = SDL_GetScancodeFromKey(cast(SDL_Keycode)key);

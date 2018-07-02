@@ -13,7 +13,7 @@ import liberty.graphics.video.buffer : VideoBuffer, BufferTarget;
 import liberty.graphics.video.vao : VertexArray;
 import liberty.graphics.video.shader : ShaderProgram;
 import liberty.graphics.video.vertex : VertexSpec;
-import liberty.core.utils : Singleton;
+import liberty.core.utils : Singleton, IService;
 import derelict.opengl;
 version (__OpenGL__) {
 	import liberty.graphics.opengl.backend : GLBackend;

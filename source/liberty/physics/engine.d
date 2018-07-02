@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.physics.engine;
-import liberty.core.utils : Singleton;
+import liberty.core.utils : Singleton, IService;
 /// A failing Physics function should <b>always</b> throw a $(D PhysicsEngineException).
 final class PhysicsEngineException : Exception {
 	/// Default constructor.
@@ -16,23 +16,23 @@ final class PhysicsEngineException : Exception {
 	}
 }
 ///
-class PhysicsEngine : Singleton!PhysicsEngine {
+class PhysicsEngine : Singleton!PhysicsEngine, IService {
     private bool _serviceRunning;
 	/// Start PhysicsEngine service.
-    void startService() nothrow @safe @nogc {
+    void startService() pure nothrow @safe @nogc {
         _serviceRunning = true;
     }
     /// Stop PhysicsEngine service.
-    void stopService() nothrow @safe @nogc {
+    void stopService() pure nothrow @safe @nogc {
         _serviceRunning = false;
     }
     /// Restart PhysicsEngine service.
-    void restartService() nothrow @safe @nogc {
+    void restartService() pure nothrow @safe @nogc {
         stopService();
         startService();
     }
     /// Returns true if PhysicsEngine service is running.
-	bool isServiceRunning() nothrow @safe @nogc {
+	bool isServiceRunning() pure nothrow const @safe @nogc {
 		return _serviceRunning;
 	}
 }

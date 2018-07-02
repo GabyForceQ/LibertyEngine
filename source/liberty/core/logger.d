@@ -8,7 +8,7 @@
  */
  // TODO: Add current platform on log message.
 module liberty.core.logger;
-import liberty.core.utils : Singleton;
+import liberty.core.utils : Singleton, IService;
 /// All types of log that you can use when logging a message.
 enum LogType : ubyte {
     /// Used to log an information message.
@@ -25,23 +25,23 @@ enum LogType : ubyte {
     Todo = 0x05
 }
 ///
-class Logger : Singleton!Logger {
+final class Logger : Singleton!Logger, IService {
     private bool _serviceRunning;
 	/// Start Logger service.
-    void startService() nothrow @safe @nogc {
+    void startService() pure nothrow @safe @nogc {
         _serviceRunning = true;
     }
     /// Stop Logger service.
-    void stopService() nothrow @safe @nogc {
+    void stopService() pure nothrow @safe @nogc {
         _serviceRunning = false;
     }
     /// Restart Logger service.
-    void restartService() nothrow @safe @nogc {
+    void restartService() pure nothrow @safe @nogc {
         stopService();
         startService();
     }
     /// Returns true if Logger service is running.
-	bool isServiceRunning() nothrow @safe @nogc {
+	bool isServiceRunning() pure nothrow const @safe @nogc {
 		return _serviceRunning;
 	}
     /// Log an information message. It starts with the current time + " -> LOG_INFO: "

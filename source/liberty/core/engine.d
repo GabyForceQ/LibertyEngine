@@ -22,7 +22,7 @@ import liberty.core.time : time;
 import liberty.core.model : Models;
 import liberty.graphics.material : Materials;
 import liberty.core.system;
-import liberty.core.utils : Singleton;
+import liberty.core.utils : Singleton, IService;
 ///
 class CoreEngineException : Exception {
     ///
@@ -54,7 +54,7 @@ struct WindowInfo {
     double ratio() { return width / cast(double)height; }
 }
 ///
-class CoreEngine : Singleton!CoreEngine {
+class CoreEngine : Singleton!CoreEngine, IService {
     private {
         bool _serviceRunning;
         float _deltaTime = 0.0f;
@@ -78,7 +78,7 @@ class CoreEngine : Singleton!CoreEngine {
     ///
     Image imageAPI() { return _imageAPI; }
     /// Start CoreEngine service.
-    void startService() {
+    void startService() @trusted {
         version (__Logger__) {
             Logger.startService();
         }
@@ -91,7 +91,7 @@ class CoreEngine : Singleton!CoreEngine {
         _serviceRunning = true;
     }
     /// Stop CoreEngine service.
-    void stopService() {
+    void stopService() @trusted {
         GraphicsEngine.get.stopService();
         version (__Logger__) {
             Logger.stopService();
@@ -100,12 +100,12 @@ class CoreEngine : Singleton!CoreEngine {
         _serviceRunning = false;
     }
     /// Restart CoreEngine service.
-    void restartServic() {
+    void restartService() @trusted {
         stopService();
         startService();
     }
     /// Returns true if CoreEngine service is running.
-	bool isServiceRunning() nothrow @safe @nogc {
+	bool isServiceRunning() pure nothrow const @safe @nogc {
 		return _serviceRunning;
 	}
     ///

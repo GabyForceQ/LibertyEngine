@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.animation.engine;
-import liberty.core.utils : Singleton;
+import liberty.core.utils : Singleton, IService;
 /// A failing Animation function should <b>always</b> throw a $(D AnimationEngineException).
 final class AnimationEngineException : Exception {
 	/// Default constructor.
@@ -16,23 +16,23 @@ final class AnimationEngineException : Exception {
 	}
 }
 ///
-class AnimationEngine : Singleton!AnimationEngine {
+class AnimationEngine : Singleton!AnimationEngine, IService {
 	private bool _serviceRunning;
 	/// Start AnimationEngine service.
-    void startService() nothrow @safe @nogc {
+    void startService() pure nothrow @safe @nogc {
         _serviceRunning = true;
     }
     /// Stop AnimationEngine service.
-    void stopService() nothrow @safe @nogc {
+    void stopService() pure nothrow @safe @nogc {
         _serviceRunning = false;
     }
     /// Restart AnimationEngine service.
-    void restartService() nothrow @safe @nogc {
+    void restartService() pure nothrow @safe @nogc {
         stopService();
         startService();
     }
 	/// Returns true if AnimationEngine service is running.
-	bool isServiceRunning() nothrow @safe @nogc {
+	bool isServiceRunning() pure nothrow const @safe @nogc {
 		return _serviceRunning;
 	}
 }
