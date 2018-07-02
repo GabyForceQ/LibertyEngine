@@ -279,22 +279,6 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
 	}
 }
 ///
-alias DimensionType(T : Box!U, U...) = U[0];
-///
-unittest {
-	static assert (is(DimensionType!Box2F == float));
-	static assert (is(DimensionType!Box3D == double));
-}
-///
-enum isBox(T) = is(T : Box!U, U...);
-///
-pure nothrow @safe @nogc unittest {
-	static assert (isBox!Box2F);
-	static assert (isBox!Box3I);
-	static assert (isBox!(Box!(double, 2)));
-	static assert (!isBox!(Vector!(float, 3)));
-}
-///
 template Box2(T) {
 	alias Box2 = Box!(T, 2);
 }

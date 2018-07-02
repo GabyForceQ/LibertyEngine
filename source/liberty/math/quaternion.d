@@ -8,7 +8,8 @@
  */
 module liberty.math.quaternion;
 import liberty.math.vector : Vector;
-import liberty.math.matrix : Matrix, isMatrixInstance;
+import liberty.math.matrix : Matrix;
+import liberty.math.traits : isMatrixInstance;
 ///
 struct Quaternion(T) {
 	///
@@ -174,11 +175,6 @@ struct Quaternion(T) {
 	}
 	private enum bool isAssignable(T) = is(typeof({ T x; Quaternion v = x; }()));
 	private enum bool isConvertible(T) = (!is(T : Quaternion)) && isAssignable!T;
-}
-///
-template isQuaternionInstance(U) {
-	private static void isQuaternion(T)(Quaternion!T x) {}
-	enum bool isQuaternionInstance = is(typeof(isQuaternion(U.init)));
 }
 ///
 alias QuaternionF = Quaternion!float;

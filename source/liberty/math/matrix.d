@@ -8,6 +8,7 @@
  */
 module liberty.math.matrix;
 import liberty.math.vector : Vector;
+import liberty.math.traits : isMatrixInstance;
 import liberty.core.config : __RowMajor__, __ColumnMajor__;
 import std.traits : isFloatingPoint;
 ///
@@ -611,11 +612,6 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 	}
 }
 ///
-template isMatrixInstance(U) {
-	private static void isMatrix(T, int R, int C, MatrixOrder O)(Matrix!(T, R, C, O) x) {}
-	enum bool isMatrixInstance = is(typeof(isMatrix(U.init)));
-}
-///
 template Matrix2(T) {
 	alias Matrix2 = Matrix!(T, 2);
 }
@@ -760,7 +756,6 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 		}
 		_top--;
 	}
-
 	///
 	MatrixType top() pure const nothrow @trusted @nogc {
 		return _matrices[_top];
@@ -812,7 +807,7 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 	}
 }
 ///
-@trusted unittest {
+unittest {
     auto m = new MatrixStack!(4, double)();
     scope(exit) destroy(m);
     m.loadIdentity();

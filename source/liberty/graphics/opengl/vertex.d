@@ -15,6 +15,7 @@ import std.string, std.typetuple, std.typecons, std.traits;
 import liberty.math.vector;
 import liberty.graphics.opengl.shader;
 import liberty.graphics.video.vertex : VertexSpec;
+import liberty.math.traits : isVector;
 /// Specify an attribute which has to be normalized.
 struct Normalized;
 /// Describe a Vertex structure.

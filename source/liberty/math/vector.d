@@ -8,6 +8,7 @@
  */
 module liberty.math.vector;
 import std.traits : isFloatingPoint;
+import liberty.math.traits : isVector;
 /// T = type of elements.
 /// N = number of elements (2, 3, 4).
 struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
@@ -407,23 +408,6 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 			}
 		}
 	}
-}
-/// True if T is some kind of Vector.
-enum isVector(T) = is(T : Vector!U, U...);
-///
-pure nothrow @safe @nogc unittest {
-    static assert (isVector!Vector2F);
-    static assert (isVector!Vector3I);
-    static assert (isVector!(Vector4!uint));
-    static assert (!isVector!real);
-}
-/// The numeric type used to measure coordinates of a vector.
-alias DimensionType(T : Vector!U, U...) = U[0];
-///
-pure nothrow @safe @nogc unittest {
-    static assert (is(DimensionType!Vector2F == float));
-    static assert (is(DimensionType!Vector3D == double));
-    static assert (is(DimensionType!Vector4U == uint));
 }
 ///
 template Vector2(T) {
