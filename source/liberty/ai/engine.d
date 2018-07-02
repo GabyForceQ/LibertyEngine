@@ -7,6 +7,7 @@
  * Coverage:
  */
 module liberty.ai.engine;
+import liberty.core.utils : Singleton;
 /// A failing AI function should <b>always</b> throw a $(D AIEngineException).
 final class AIEngineException : Exception {
 	/// Default constructor.
@@ -15,8 +16,7 @@ final class AIEngineException : Exception {
 	}
 }
 ///
-class AIEngine {
-	static:
+class AIEngine : Singleton!AIEngine {
 	private bool _serviceRunning;
 	/// Start AIEngine service.
     void startService() nothrow @safe @nogc {

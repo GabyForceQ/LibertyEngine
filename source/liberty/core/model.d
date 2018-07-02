@@ -7,13 +7,14 @@
  * Coverage:
  */
 module liberty.core.model;
-import liberty.graphics.util: RenderUtil;
-import liberty.graphics.video.vertex: VertexSpec;
-import liberty.graphics.video.vao: VertexArray;
-import liberty.graphics.video.buffer: VideoBuffer, BufferTarget;
-import liberty.graphics.material: Material, Materials;
-import liberty.graphics.renderer: Vertex, DataUsage;
-import liberty.math: Vector2F, Vector3F;
+import liberty.graphics.util : RenderUtil;
+import liberty.graphics.video.vertex : VertexSpec;
+import liberty.graphics.video.vao : VertexArray;
+import liberty.graphics.video.buffer : VideoBuffer, BufferTarget;
+import liberty.graphics.material : Material, Materials;
+import liberty.graphics.renderer : Vertex, DataUsage;
+import liberty.math : Vector2F, Vector3F;
+import liberty.core.utils : Singleton;
 ///
 struct Mesh {
 	///
@@ -37,12 +38,12 @@ final class Model(VERTEX) {
 		Material _material;
 	}
 	///
-	this(VERTEX[] vboArray, uint[] indices, Material material = Materials.defaultMaterial) {
+	this(VERTEX[] vboArray, uint[] indices, Material material = Materials.get.defaultMaterial) {
 		_material = material;
-		_vertexSpec = RenderUtil.createVertexSpec!VERTEX(_material.shader);
-        _mesh.vao = RenderUtil.createVertexArray();
-        _mesh.vbo = RenderUtil.createBuffer(BufferTarget.Array, DataUsage.StaticDraw, vboArray[]);
-        _mesh.ibo = RenderUtil.createBuffer(BufferTarget.ElementArray, DataUsage.StaticDraw);
+		_vertexSpec = RenderUtil.get.createVertexSpec!VERTEX(_material.shader);
+        _mesh.vao = RenderUtil.get.createVertexArray();
+        _mesh.vbo = RenderUtil.get.createBuffer(BufferTarget.Array, DataUsage.StaticDraw, vboArray[]);
+        _mesh.ibo = RenderUtil.get.createBuffer(BufferTarget.ElementArray, DataUsage.StaticDraw);
         _mesh.vao.bind();
         _mesh.vbo.bind();
         _mesh.ibo.data = indices;
@@ -72,8 +73,7 @@ final class Model(VERTEX) {
 	}
 }
 ///
-final class Models {
-	static:
+final class Models : Singleton!Models {
 	///
 	Model!Vertex rectangleModel;
 	///

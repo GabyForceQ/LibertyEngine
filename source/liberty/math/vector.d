@@ -151,7 +151,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		this(Vector3!T xyz, T w) { v[0] = xyz.x; v[1] = xyz.y; v[2] = xyz.z; v[3] = w; }
 	}
     /// Assign a Vector from a compatible type.
-    ref Vector opAssign(U)(U rhs) pure nothrow @nogc @safe {
+    ref Vector opAssign(U)(U rhs) pure nothrow @safe @nogc {
         static if (is(U : Vector)) {
             static foreach (i; 0..N) {
                 v[i] = rhs.v[i];

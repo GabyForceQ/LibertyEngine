@@ -16,7 +16,6 @@ import liberty.core.utils : Singleton;
 pragma (inline, true):
 ///
 class Input : Singleton!Input {
-	static:
 	private {
 		bool[KeyCodeCount] _keyState;
         bool[KeyCodeCount] _oldKeyState;

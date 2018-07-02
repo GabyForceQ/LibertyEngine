@@ -28,12 +28,12 @@ final class RectangleShape : Shape {
 	///
 	@Constructor 
 	private void _() {
-		renderer = Renderer!Vertex(this, Models.rectangleModel);
+		renderer = Renderer!Vertex(this, Models.get.rectangleModel);
 	}
 	///
     override void render() {
         renderer.pass(() @safe {
-            RenderUtil.drawElements(DrawMode.Triangles, 6, VectorType.UnsignedInt);
+            RenderUtil.get.drawElements(DrawMode.Triangles, 6, VectorType.UnsignedInt);
         });
     }
 }

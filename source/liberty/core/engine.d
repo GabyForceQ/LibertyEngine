@@ -86,8 +86,8 @@ class CoreEngine : Singleton!CoreEngine {
         _initWindow();
         _mainWindow.title = _windowInfo.title;
         _imageAPI = new Image(); // TODO.
-        Materials.load();
-        Models.load();
+        Materials.get.load();
+        Models.get.load();
         _serviceRunning = true;
     }
     /// Stop CoreEngine service.

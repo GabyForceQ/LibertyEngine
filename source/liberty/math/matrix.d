@@ -52,7 +52,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			T[C][R] c;
 		}
 		///
-		this(U...)(U values) pure nothrow @nogc @safe {
+		this(U...)(U values) pure nothrow @safe @nogc {
 			import std.meta : allSatisfy;
 			import std.traits : isAssignable;
 			enum bool isAsgn(U) = isAssignable!(T, U);
@@ -81,7 +81,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			assert (matrix3.v == [0, 0, /**/ 0, 0]);
 		}
 		/// Construct a matrix from columns.
-		static Matrix fromColumns(ColumnType[] columns) pure nothrow @nogc @safe
+		static Matrix fromColumns(ColumnType[] columns) pure nothrow @safe @nogc
 		in {
 			assert(columns.length == C);
 		} do {
@@ -94,7 +94,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			// todo
 		}
 		/// Construct a matrix from rows.
-		static Matrix fromRows(RowType[] rows) pure nothrow @nogc @safe
+		static Matrix fromRows(RowType[] rows) pure nothrow @safe @nogc
 		in {
 			assert(rows.length == R);
 		} do {
@@ -109,7 +109,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			assert (matrix.v == [2.0, 4.5, /**/ 2.0, 4.5]);
 		}
 		/// Returns an identity matrix.
-		static Matrix identity() pure nothrow @nogc @safe {
+		static Matrix identity() pure nothrow @safe @nogc {
 			Matrix ret = void;
 			static foreach (i; 0 .. R) {
 				static foreach (j; 0 .. C) {
@@ -128,7 +128,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			assert (matrix.v == [1, 0, 0, /**/ 0, 1, 0, /**/ 0, 0, 1]);
 		}
 		/// Returns a constant matrix.
-		static Matrix constant(U)(U x) pure nothrow @nogc @safe {
+		static Matrix constant(U)(U x) pure nothrow @safe @nogc {
 			Matrix ret = void;
 			static foreach (i; 0 .. R * C) {
 				ret.v[i] = cast(T)x;

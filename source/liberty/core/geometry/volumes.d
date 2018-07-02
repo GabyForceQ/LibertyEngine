@@ -28,12 +28,12 @@ final class CubeVolume : Volume {
 	///
 	@Constructor 
     private void _() {
-        renderer = Renderer!Vertex(this, Models.cubeModel);
+        renderer = Renderer!Vertex(this, Models.get.cubeModel);
 	}
 	///
     override void render() {
         renderer.pass(() @safe {
-            RenderUtil.drawElements(DrawMode.Triangles, 36, VectorType.UnsignedInt);
+            RenderUtil.get.drawElements(DrawMode.Triangles, 36, VectorType.UnsignedInt);
         });
     }
 }

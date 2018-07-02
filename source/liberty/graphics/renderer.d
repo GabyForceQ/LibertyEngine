@@ -39,7 +39,6 @@ version (__OpenGL__) {
 	}
 ///
 class GraphicsEngine : Singleton!GraphicsEngine {
-	static:
 	private {
 		VideoBackend _backend;
 		bool _vsyncEnabled = false;

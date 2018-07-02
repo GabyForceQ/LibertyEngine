@@ -11,6 +11,7 @@ import liberty.core.engine;
 import liberty.core.scenegraph.scene;
 import liberty.core.imaging;
 import liberty.graphics;
+import liberty.core.utils : Singleton;
 import derelict.opengl;
 import std.conv : to;
 ///
@@ -22,7 +23,7 @@ final class Material {
 	}
 	///
 	this() {
-		_shader = RenderUtil.createShaderProgram(vertexCode, fragmentCode);
+		_shader = RenderUtil.get.createShaderProgram(vertexCode, fragmentCode);
 		Scene.shaderList[_shader.programID.to!string] = _shader;
 		glGenTextures(1, &_textureID);
         _texture = new Bitmap(CoreEngine.get.imageAPI, "res/brick.bmp");
@@ -56,8 +57,7 @@ final class Material {
 	}
 }
 ///
-final class Materials {
-	static:
+final class Materials : Singleton!Materials {
 	///
 	Material defaultMaterial;
 	///
