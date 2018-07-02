@@ -2,7 +2,7 @@
  * Copyright:   Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:     $(Gabriel Gheorghe)
  * License:     $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:      $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/opengl/buffer.d, _buffer.d)
  * Documentation:
  * Coverage:
  */
@@ -89,7 +89,7 @@ final class GLBuffer : VideoBuffer {
     }
     /// Binds this buffer.
     /// Throws: $(D GLException) on error.
-    override void bind() {
+    override void bind() @trusted {
         glBindBuffer(_target, _buffer);
         GraphicsEngine.backend.runtimeCheck();
     }
@@ -99,7 +99,7 @@ final class GLBuffer : VideoBuffer {
         glBindBuffer(_target, 0);
     }
     /// Returns: Wrapped OpenGL resource handle.
-    override uint handle() pure const nothrow {
+    override uint handle() pure nothrow const {
         return _buffer;
     }
 }

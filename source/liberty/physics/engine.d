@@ -7,21 +7,32 @@
  * Coverage:
  */
 module liberty.physics.engine;
+/// A failing Physics function should <b>always</b> throw a $(D PhysicsEngineException).
+final class PhysicsEngineException : Exception {
+	/// Default constructor.
+	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) pure nothrow @safe {
+		super(msg, file, line, next);
+	}
+}
 ///
 class PhysicsEngine {
 	static:
-    private bool serviceRunning;
+    private bool _serviceRunning;
 	/// Start PhysicsEngine service.
     void startService() nothrow @safe @nogc {
-        serviceRunning = true;
+        _serviceRunning = true;
     }
     /// Stop PhysicsEngine service.
     void stopService() nothrow @safe @nogc {
-        serviceRunning = false;
+        _serviceRunning = false;
     }
     /// Restart PhysicsEngine service.
     void restartService() nothrow @safe @nogc {
         stopService();
         startService();
     }
+    /// Returns true if PhysicsEngine service is running.
+	bool isServiceRunning() nothrow @safe @nogc {
+		return _serviceRunning;
+	}
 }

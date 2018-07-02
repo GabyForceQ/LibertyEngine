@@ -26,20 +26,24 @@ enum LogType : ubyte {
 ///
 class Logger {
 	static:
-    private bool serviceRunning;
+    private bool _serviceRunning;
 	/// Start Logger service.
     void startService() nothrow @safe @nogc {
-        serviceRunning = true;
+        _serviceRunning = true;
     }
     /// Stop Logger service.
     void stopService() nothrow @safe @nogc {
-        serviceRunning = false;
+        _serviceRunning = false;
     }
     /// Restart Logger service.
     void restartService() nothrow @safe @nogc {
         stopService();
         startService();
     }
+    /// Returns true if Logger service is running.
+	bool isServiceRunning() nothrow @safe @nogc {
+		return _serviceRunning;
+	}
     /// Log an information message. It starts with the current time + " -> LOG_INFO: "
     void info(string message) @safe {
         log(LogType.Info, message);
@@ -71,7 +75,7 @@ class Logger {
         auto file = File("logs.txt", "a");
         scope (exit) file.close();
         synchronized {
-            if (serviceRunning) {
+            if (_serviceRunning) {
                 final switch (type) with (LogType) {
                     case Info:
                         file.writeln(st.toISOExtString() ~ " -> LOG_INFO: " ~ message);

@@ -12,7 +12,7 @@ import derelict.opengl;
 import std.string, std.typetuple, std.typecons, std.traits;
 import liberty.math.vector : Vector;
 ///
-bool isVideoIntegerType(uint t) {
+bool isVideoIntegerType(uint t) pure nothrow @safe @nogc {
 	return (t == GL_BYTE || t == GL_UNSIGNED_BYTE || t == GL_SHORT || t == GL_UNSIGNED_SHORT || t == GL_INT || t == GL_UNSIGNED_INT);
 }
 ///

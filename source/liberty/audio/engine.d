@@ -17,4 +17,22 @@ final class AudioEngineException : Exception {
 ///
 class AudioEngine {
 	static:
+	private bool _serviceRunning;
+	/// Start AudioEngine service.
+    void startService() nothrow @safe @nogc {
+        _serviceRunning = true;
+    }
+    /// Stop AudioEngine service.
+    void stopService() nothrow @safe @nogc {
+        _serviceRunning = false;
+    }
+    /// Restart AudioEngine service.
+    void restartService() nothrow @safe @nogc {
+        stopService();
+        startService();
+    }
+	/// Returns true if AudioEngine service is running.
+	bool isServiceRunning() nothrow @safe @nogc {
+		return _serviceRunning;
+	}
 }

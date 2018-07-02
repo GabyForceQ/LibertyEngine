@@ -56,6 +56,7 @@ struct WindowInfo {
 class CoreEngine {
 	static:
     private {
+        bool _serviceRunning;
         float _deltaTime = 0.0f;
         float lastFrame = 0.0f;
         WindowInfo _windowInfo;
@@ -76,7 +77,7 @@ class CoreEngine {
     SDL2Window mainWindow() { return _mainWindow; }
     ///
     Image imageAPI() { return _imageAPI; }
-    ///
+    /// Start CoreEngine service.
     void startService() {
         version (__Logger__) {
             Logger.startService();
@@ -87,20 +88,26 @@ class CoreEngine {
         _imageAPI = new Image(); // TODO.
         Materials.load();
         Models.load();
+        _serviceRunning = true;
     }
-    ///
+    /// Stop CoreEngine service.
     void stopService() {
         GraphicsEngine.stopService();
         version (__Logger__) {
             Logger.stopService();
         }
         collectGarbage();
+        _serviceRunning = false;
     }
-    ///
+    /// Restart CoreEngine service.
     void restartServic() {
         stopService();
         startService();
     }
+    /// Returns true if CoreEngine service is running.
+	bool isServiceRunning() nothrow @safe @nogc {
+		return _serviceRunning;
+	}
     ///
     void windowInfo(WindowInfo win_info = WindowInfo()) {
         _windowInfo = win_info;

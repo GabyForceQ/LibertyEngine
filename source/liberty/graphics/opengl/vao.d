@@ -2,7 +2,7 @@
  * Copyright:   Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:     $(Gabriel Gheorghe)
  * License:     $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:      $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/opengl/vao.d, _vao.d)
  * Documentation:
  * Coverage:
  */
@@ -32,13 +32,13 @@ final class GLVertexArray : VertexArray {
     }
     /// Uses this Vertex Array Object.
     /// Throws $(D GLException) on error.
-    override void bind() {
+    override void bind() @trusted {
         glBindVertexArray(_handle);
         GraphicsEngine.backend.runtimeCheck();
     }
     /// Unuses this Vertex Array Object.
     /// Throws $(D GLException) on error.
-    override void unbind() {
+    override void unbind() @trusted {
         glBindVertexArray(0);
         GraphicsEngine.backend.runtimeCheck();
     }

@@ -32,7 +32,7 @@ final class RectangleShape : Shape {
 	}
 	///
     override void render() {
-        renderer.pass((){
+        renderer.pass(() @safe {
             RenderUtil.drawElements(DrawMode.Triangles, 6, VectorType.UnsignedInt);
         });
     }

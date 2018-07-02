@@ -2,7 +2,7 @@
  * Copyright:   Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:     $(Gabriel Gheorghe)
  * License:     $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:      $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/video/backend.d, _backend.d)
  * Documentation:
  * Coverage:
  */
@@ -25,43 +25,41 @@ abstract class VideoBackend {
         int _maxColorAttachments;
     }
     ///
-    bool supportsExtension(string extension);
+    bool supportsExtension(string extension) pure nothrow @safe @nogc;
 	///
-	void reload();
+	void reload() @trusted;
 	///
-	debug void debugCheck();
+	debug void debugCheck() nothrow @trusted;
 	///
-	void runtimeCheck();
+	void runtimeCheck() @trusted;
 	///
 	bool runtimeCheckNothrow() nothrow;
 	///
-	int majorVersion() pure nothrow const;
+	int majorVersion() pure nothrow const @safe @nogc @property;
 	///
-	int minorVersion() pure nothrow const;
+	int minorVersion() pure nothrow const @safe @nogc @property;
 	///
-	const(char)[] versionString();
+	const(char)[] versionString() @safe @property;
 	///
-	const(char)[] vendorString();
+	const(char)[] vendorString() @safe @property;
 	///
-	Vendor vendor();
+	Vendor vendor() @safe @property;
 	///
-	const(char)[] graphicsEngineString();
+	const(char)[] graphicsEngineString() @safe @property;
 	///
-	const(char)[] glslVersionString();
+	const(char)[] glslVersionString() @safe @property;
 	///
-	string[] extensions() pure nothrow;
+	string[] extensions() pure nothrow @safe @nogc @property;
 	///
-	int maxColorAttachments() pure nothrow const;
+	int maxColorAttachments() pure nothrow const @safe @nogc @property;
 	///
-	void activeTexture(int texture_id);
+	void activeTexture(int texture_id) @trusted @property;
 	///
-	void resizeViewport();
+	void resizeViewport() @trusted;
 	///
-	void clear();
+	void clear() @trusted;
 	///
-	void clearColor(float r, float g, float b, float a);
-	/////
-	//void clearColor(ubyte r, ubyte g, ubyte b, ubyte a);
+	void clearColor(float r, float g, float b, float a) @trusted;
 	///
-	void swapBuffers();
+	void swapBuffers() @trusted;
 }

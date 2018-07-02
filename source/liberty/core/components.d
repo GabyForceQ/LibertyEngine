@@ -2,17 +2,17 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/components.d, _components.d)
  * Documentation:
  * Coverage:
  */
 module liberty.core.components;
-import liberty.core.scenegraph.node: Node;
-import liberty.core.model: Model, Mesh;
-import liberty.graphics.material: Material, Materials;
-import liberty.math.vector: Vector3F;
-import liberty.math.matrix: Matrix4F;
-import liberty.math.functions: radians;
+import liberty.core.scenegraph.node : Node;
+import liberty.core.model : Model, Mesh;
+import liberty.graphics.material : Material, Materials;
+import liberty.math.vector : Vector3F;
+import liberty.math.matrix : Matrix4F;
+import liberty.math.functions : radians;
 ///
 struct Component;
 ///
@@ -50,39 +50,39 @@ struct Renderer(VERTEX) {
 		Material _material;
 	}
 	///
-	this(Node parent, Model!VERTEX model) {
+	this(Node parent, Model!VERTEX model) pure nothrow @safe @nogc {
 		_parent = parent;
 		_model = model;
 		_mesh = _model.mesh;
 		_material = _model.material;
 	}
 	///
-	void pass(void delegate() drawCallback) {
+	void pass(void delegate() @safe drawCallback) @safe {
 		_material.shader.loadUniform("model", _parent.transform.modelMatrix);
         _model.mesh.vao.bind();
         drawCallback();
         _model.mesh.vao.unbind();
 	}
 	///
-	Model!VERTEX model() pure nothrow {
+	Model!VERTEX model() pure nothrow @safe @nogc @property {
 		return _model;
 	}
 	///
-	void mesh(Mesh mesh) {
+	void mesh(Mesh mesh) pure nothrow @safe @nogc {
 		_mesh = mesh;
-		_model.mesh(_mesh);
+		_model.mesh = _mesh;
 	}
 	///
-	void material(Material material) {
+	void material(Material material) pure nothrow @safe @nogc {
 		_material = material;
 		_model.material(_material);
 	}
 	///
-	Mesh mesh() {
+	Mesh mesh() pure nothrow @safe @nogc @property {
 		return _mesh;
 	}
 	///
-	Material material() {
+	Material material() pure nothrow @safe @nogc @property {
 		return _material;
 	}
 }
@@ -98,7 +98,7 @@ struct Transform {
 		Node _parent;
 	}
 	///
-	this(Node parent, Vector3F position = Vector3F.zero, Vector3F rotation = Vector3F.zero, Vector3F scale = Vector3F.one, float angle = 0.0f) nothrow {
+	this(Node parent, Vector3F position = Vector3F.zero, Vector3F rotation = Vector3F.zero, Vector3F scale = Vector3F.one, float angle = 0.0f) pure nothrow @safe @nogc {
 		_parent = parent;
 		_position = position;
 		//_rotation = rotation;
@@ -108,86 +108,86 @@ struct Transform {
 		_modelMatrix.scale(scale);
 	}
 	///
-	ref Transform translate(float x, float y, float z) {
+	ref Transform translate(float x, float y, float z) pure nothrow @safe @nogc {
 		_position += Vector3F(x, y, z);
 		_modelMatrix.translate(Vector3F(x, y, z));
 		return this;
 	}
 	///
-	ref Transform translate(Vector3F translation) {
+	ref Transform translate(Vector3F translation) pure nothrow @safe @nogc {
 		_position += translation;
 		_modelMatrix.translate(translation);
 		return this;
 	}
 	///
-	void translateX(float value) {
+	void translateX(float value) pure nothrow @safe @nogc {
 		_position += Vector3F(value, 0.0f, 0.0f);
 		_modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
 	}
 	///
-	void translateY(float value) {
+	void translateY(float value) pure nothrow @safe @nogc {
 		_position += Vector3F(0.0f, value, 0.0f);
 		_modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
 	}
 	///
-	void translateZ(float value) {
+	void translateZ(float value) pure nothrow @safe @nogc {
 		_position += Vector3F(0.0f, 0.0f, value);
 		_modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
 	}
 	///
-	void rotate(float angle, float rotationX, float rotationY, float rotationZ) {
+	void rotate(float angle, float rotationX, float rotationY, float rotationZ) pure nothrow @safe @nogc {
 		_modelMatrix.rotate(angle, Vector3F(rotationX, rotationY, rotationZ));
 	}
 	///
-	void rotate(float angle, Vector3F rotation) {
+	void rotate(float angle, Vector3F rotation) pure nothrow @safe @nogc {
 		_modelMatrix.rotate(angle, _rotation);
 	}
 	///
-	void rotatePitch(float angle) {
+	void rotatePitch(float angle) pure nothrow @safe @nogc {
 		_modelMatrix.rotateX(angle.radians);
 	}
 	///
-	void rotateY(float angle) {
+	void rotateY(float angle) pure nothrow @safe @nogc {
 		_modelMatrix.rotateY(angle);
 	}
 	///
-	void rotateZ(float angle) {
+	void rotateZ(float angle) pure nothrow @safe @nogc {
 		_modelMatrix.rotateZ(angle);
 	}
 	///
-	void scale(float x, float y, float z) {
+	void scale(float x, float y, float z) pure nothrow @safe @nogc {
 		_modelMatrix.scale(Vector3F(x, y, z));
 	}
 	///
-	void scale(Vector3F scale) {
+	void scale(Vector3F scale) pure nothrow @safe @nogc {
 		_modelMatrix.scale(scale);
 	}
 	///
-	void scaleX(float value) {
+	void scaleX(float value) pure nothrow @safe @nogc {
 		_modelMatrix.scale(Vector3F(value, 0.0f, 0.0f));
 	}
 	///
-	void scaleY(float value) {
+	void scaleY(float value) pure nothrow @safe @nogc {
 		_modelMatrix.scale(Vector3F(0.0f, value, 0.0f));
 	}
 	///
-	void scaleZ(float value) {
+	void scaleZ(float value) pure nothrow @safe @nogc {
 		_modelMatrix.scale(Vector3F(0.0f, 0.0f, value));
 	}
 	///
-	ref const(Vector3F) position() pure nothrow @safe @nogc {
+	ref const(Vector3F) position() pure nothrow const @safe @nogc @property {
 		return _position;
 	}
 		///
-	ref const(Vector3F) rotation() pure nothrow @safe @nogc {
+	ref const(Vector3F) rotation() pure nothrow const @safe @nogc @property {
 		return _rotation;
 	}
 	///
-	ref const(Vector3F) scale() pure nothrow @safe @nogc {
+	ref const(Vector3F) scale() pure nothrow const @safe @nogc @property {
 		return _scale;
 	}
 	///
-	ref const(Matrix4F) modelMatrix() pure nothrow @safe @nogc {
+	ref const(Matrix4F) modelMatrix() pure nothrow const @safe @nogc @property {
 		return _modelMatrix;
 	}
 }

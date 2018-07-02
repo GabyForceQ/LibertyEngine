@@ -29,6 +29,11 @@ class Singleton(T) {
 	}
 }
 ///
-size_t arraySize(T)(T[] array) {
+size_t arraySize(T)(T[] array) pure nothrow @safe @nogc {
 	return array.sizeof * array.length;
+}
+///
+pure nothrow @safe unittest {
+	immutable int[] arr = [4, 5, -6];
+	assert (arr.arraySize == 24, "Array size of arr must be 8 * 3 = 24!");
 }

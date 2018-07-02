@@ -32,7 +32,7 @@ final class CubeVolume : Volume {
 	}
 	///
     override void render() {
-        renderer.pass((){
+        renderer.pass(() @safe {
             RenderUtil.drawElements(DrawMode.Triangles, 36, VectorType.UnsignedInt);
         });
     }

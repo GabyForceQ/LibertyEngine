@@ -2,7 +2,7 @@
  * Copyright:   Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:     $(Gabriel Gheorghe)
  * License:     $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source
+ * Source:      $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/opengl/shader.d, _shader.d)
  * Documentation:
  * Coverage:
  */
@@ -160,67 +160,67 @@ final class GLShaderProgram : ShaderProgram {
     }
     //protected abstract void bindAttributes();
     /// Load bool uniform using location id and value.
-    override void loadUniform(int locationID, bool value) {
+    override void loadUniform(int locationID, bool value) nothrow @trusted @nogc {
         glUniform1i(locationID, cast(int)value);
     }
     /// Load int uniform using location id and value.
-    override void loadUniform(int locationID, int value) {
+    override void loadUniform(int locationID, int value) nothrow @trusted @nogc {
         glUniform1i(locationID, value);
     }
     /// Load uint uniform using location id and value.
-    override void loadUniform(int locationID, uint value) {
+    override void loadUniform(int locationID, uint value) nothrow @trusted @nogc {
         glUniform1ui(locationID, value);
     }
     /// Load float uniform using location id and value.
-    override void loadUniform(int locationID, float value) {
+    override void loadUniform(int locationID, float value) nothrow @trusted @nogc {
         glUniform1f(locationID, value);
     }
     /// Load Vector2F uniform using location id and value.
-    override void loadUniform(int locationID, Vector2F vector) {
+    override void loadUniform(int locationID, Vector2F vector) nothrow @trusted @nogc {
         glUniform2f(locationID, vector.x, vector.y);
     }
     /// Load Vector3F uniform using location id and value.
-    override void loadUniform(int locationID, Vector3F vector) {
+    override void loadUniform(int locationID, Vector3F vector) nothrow @trusted @nogc {
         glUniform3f(locationID, vector.x, vector.y, vector.z);
     }
     /// Load Vector4F uniform using location id and value.
-	override void loadUniform(int locationID, Vector4F vector) {
+	override void loadUniform(int locationID, Vector4F vector) nothrow @trusted @nogc {
         glUniform4f(locationID, vector.x, vector.y, vector.z, vector.w);
     }
     /// Load Matrix4F uniform using location id and value.
-    override void loadUniform(int locationID, Matrix4F matrix) {
+    override void loadUniform(int locationID, Matrix4F matrix) nothrow @trusted @nogc {
         //glUniform4fv(locationID, matrix.ptr); // TODO?
     }
     /// Load bool uniform using uniform name and value.
-    override void loadUniform(string name, bool value) {
+    override void loadUniform(string name, bool value) nothrow @trusted @nogc {
         glUniform1i(glGetUniformLocation(_programID, cast(const(char)*)name), cast(int)value);
     }
     /// Load int uniform using uniform name and value.
-    override void loadUniform(string name, int value) {
+    override void loadUniform(string name, int value) nothrow @trusted @nogc {
         glUniform1i(glGetUniformLocation(_programID, cast(const(char)*)name), value);
     }
     /// Load uint uniform using uniform name and value.
-    override void loadUniform(string name, uint value) {
+    override void loadUniform(string name, uint value) nothrow @trusted @nogc {
         glUniform1ui(glGetUniformLocation(_programID, cast(const(char)*)name), value);
     }
     /// Load float uniform using uniform name and value.
-    override void loadUniform(string name, float value) {
+    override void loadUniform(string name, float value) nothrow @trusted @nogc {
         glUniform1f(glGetUniformLocation(_programID, cast(const(char)*)name), value);
     }
     /// Load Vector2F uniform using uniform name and value.
-    override void loadUniform(string name, Vector2F vector) {
+    override void loadUniform(string name, Vector2F vector) nothrow @trusted @nogc {
         glUniform2f(glGetUniformLocation(_programID, cast(const(char)*)name), vector.x, vector.y);
     }
     /// Load Vector3F uniform using uniform name and value.
-    override void loadUniform(string name, Vector3F vector) {
+    override void loadUniform(string name, Vector3F vector) nothrow @trusted @nogc {
         glUniform3f(glGetUniformLocation(_programID, cast(const(char)*)name), vector.x, vector.y, vector.z);
     }
     /// Load Vector4F uniform using uniform name and value.
-    override void loadUniform(string name, Vector4F vector) {
+    override void loadUniform(string name, Vector4F vector) nothrow @trusted @nogc {
         glUniform4f(glGetUniformLocation(_programID, cast(const(char)*)name), vector.x, vector.y, vector.z, vector.w);
     }
     /// Load Matrix4F uniform using uniform name and value.
-    override void loadUniform(string name, Matrix4F matrix) {
+    override void loadUniform(string name, Matrix4F matrix) nothrow @trusted @nogc {
         glUniformMatrix4fv(glGetUniformLocation(_programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
     }
     private static int loadShader(string code, ShaderType type) {
