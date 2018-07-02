@@ -124,11 +124,11 @@ class CoreEngine : Singleton!CoreEngine {
     ///
     void runMainLoop() {
         while(!_platformApi.shouldQuit()) {
-            if (_shouldQuitOnKey && Input.isKeyDown(KeyCode.Esc)) {
+            if (_shouldQuitOnKey && Input.get.isKeyDown(KeyCode.Esc)) {
                 break;
             }
-            Input._isMouseMoving = false;
-            Input._isMouseWheeling = false;
+            Input.get._isMouseMoving = false;
+            Input.get._isMouseWheeling = false;
             _platformApi.processEvents();
             const float currentFrame = time();
             _deltaTime = currentFrame - lastFrame;

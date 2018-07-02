@@ -49,7 +49,7 @@ final class Platform {
         if (SDL_Init(0)) {
             throwPlatformException("SDL_Init");
         }
-        Input.startService();
+        Input.get.startService();
     }
     /// Releases all resourceas and the SDL library.
     ~this() {
@@ -254,16 +254,16 @@ final class Platform {
                 updateKeyboard(&event.key);
                 break;
             case SDL_MOUSEMOTION:
-                Input.updateMouseMotion(&event.motion);
-                Input._isMouseMoving = true;
+                Input.get.updateMouseMotion(&event.motion);
+                Input.get._isMouseMoving = true;
                 break;
             case SDL_MOUSEBUTTONUP:
             case SDL_MOUSEBUTTONDOWN:
-                Input.updateMouseButtons(&event.button);
+                Input.get.updateMouseButtons(&event.button);
                 break;
             case SDL_MOUSEWHEEL:
-                Input.updateMouseWheel(&event.wheel);
-                Input._isMouseWheeling = true;
+                Input.get.updateMouseWheel(&event.wheel);
+                Input.get._isMouseWheeling = true;
                 break;
             default:
                 break;
@@ -277,11 +277,11 @@ final class Platform {
         switch (event.type) {
             case SDL_KEYDOWN:
                 assert(event.state == SDL_PRESSED);
-                Input.markKeyAsPressed(event.keysym.scancode);
+                Input.get.markKeyAsPressed(event.keysym.scancode);
                 break;
             case SDL_KEYUP:
                 assert(event.state == SDL_RELEASED);
-                Input.markKeyAsJustReleased(event.keysym.scancode);
+                Input.get.markKeyAsJustReleased(event.keysym.scancode);
                 break;
             default:
                 break;

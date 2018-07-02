@@ -12,9 +12,10 @@ import liberty.core.engine;
 import derelict.sdl2.sdl;
 import liberty.math.vector;
 import liberty.core.input;
+import liberty.core.utils : Singleton;
 pragma (inline, true):
 ///
-class Input {
+class Input : Singleton!Input {
 	static:
 	private {
 		bool[KeyCodeCount] _keyState;

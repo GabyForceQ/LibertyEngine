@@ -124,13 +124,13 @@ final class Camera : Actor {
 		if (scene.activeCamera.id == id) {
 			float velocity = _movementSpeed * deltaTime;
 			// Process Mouse Scroll.
-			if (Input.isMouseScrolling()) {
-				if (Input.isKeyHold(KeyModFlag.LeftCtrl)) {
+			if (Input.get.isMouseScrolling()) {
+				if (Input.get.isKeyHold(KeyModFlag.LeftCtrl)) {
 					if(_fov >= 1.0f && _fov <= 45.0f) {
 						if (_scrollReversedOrder) {
-							_fov += Input.mouseDeltaWheelY();
+							_fov += Input.get.mouseDeltaWheelY();
 						} else {
-							_fov -= Input.mouseDeltaWheelY();
+							_fov -= Input.get.mouseDeltaWheelY();
 						}
 					}
 					if(_fov <= 1.0f) {
@@ -144,32 +144,32 @@ final class Camera : Actor {
 				}
 			}
 			// Process Keyboard.
-			if (Input.isKeyHold(KeyCode.W)) {
+			if (Input.get.isKeyHold(KeyCode.W)) {
 				_position += _front * velocity;
 			}
-			if (Input.isKeyHold(KeyCode.S)) {
+			if (Input.get.isKeyHold(KeyCode.S)) {
 				_position -= _front * velocity;
 			}
-			if (Input.isKeyHold(KeyCode.A)) {
+			if (Input.get.isKeyHold(KeyCode.A)) {
 				_position -= _right * velocity;
 			}
-			if (Input.isKeyHold(KeyCode.D)) {
+			if (Input.get.isKeyHold(KeyCode.D)) {
 				_position += _right * velocity;
 			}
 			// Process Mouse Movement.
-			if (Input.isMouseButtonPressed(MouseButton.Right)) {
-				Input.windowGrab = true;
-				Input.cursorVisible = false;
-				if (Input.isMouseMoving()) {
+			if (Input.get.isMouseButtonPressed(MouseButton.Right)) {
+				Input.get.windowGrab = true;
+				Input.get.cursorVisible = false;
+				if (Input.get.isMouseMoving()) {
 					if (_firstMouse) {
-						_lastX = Input.mousePosition.x;
-						_lastY = Input.mousePosition.y;
+						_lastX = Input.get.mousePosition.x;
+						_lastY = Input.get.mousePosition.y;
 						_firstMouse = false;
 					}
-					float xoffset = Input.mousePosition.x - _lastX;
-					float yoffset = _lastY - Input.mousePosition.y;
-					_lastX = Input.mousePosition.x;
-					_lastY = Input.mousePosition.y;
+					float xoffset = Input.get.mousePosition.x - _lastX;
+					float yoffset = _lastY - Input.get.mousePosition.y;
+					_lastX = Input.get.mousePosition.x;
+					_lastY = Input.get.mousePosition.y;
 					xoffset *= _mouseSensitivity;
 					yoffset *= _mouseSensitivity;
 					_yaw   += xoffset;
@@ -185,8 +185,8 @@ final class Camera : Actor {
 					updateCameraVectors();
 				}
 			} else {
-				Input.windowGrab = false;
-				Input.cursorVisible = true;
+				Input.get.windowGrab = false;
+				Input.get.cursorVisible = true;
 				_firstMouse = true;
 			}
 			_projection = projectionMatrix;
