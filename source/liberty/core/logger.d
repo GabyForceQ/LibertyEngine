@@ -103,19 +103,19 @@ final class Logger : Singleton!Logger, IService {
 }
 ///
 @safe unittest {
-    Logger.startService();
-    scope (exit) Logger.stopService();
-    Logger.console("Test message!");
-    Logger.info("Info test message!");
-    Logger.warning("Warning test message!");
-    Logger.error("Error test message!");
+    Logger.get.startService();
+    scope (exit) Logger.get.stopService();
+    Logger.get.console("Test message!");
+    Logger.get.info("Info test message!");
+    Logger.get.warning("Warning test message!");
+    Logger.get.error("Error test message!");
     try {
         immutable int x = 5;
         if (x == 5) {
             throw new Exception("x cannot be 5!");
         }
     } catch (Exception e) {
-        Logger.exception("Exception test message!");
+        Logger.get.exception("Exception test message!");
     }
-    Logger.todo("Todo test message!");
+    Logger.get.todo("Todo test message!");
 }
