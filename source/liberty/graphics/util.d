@@ -30,7 +30,7 @@ version (__OpenGL__) {
 ///
 final class RenderUtil : Singleton!RenderUtil {
 	///
-    VideoBuffer createBuffer(T)(BufferTarget target, DataUsage usage, T[] data = null) {
+    VideoBuffer createBuffer(T)(BufferTarget target, DataUsage usage, T[] data = null) @safe {
         uint _target, _usage;
         VideoBuffer buff = null;
         version (__OpenGL__) {
@@ -78,7 +78,7 @@ final class RenderUtil : Singleton!RenderUtil {
         return buff;
     }
     ///
-    VertexArray createVertexArray() {
+    VertexArray createVertexArray() @safe {
         VertexArray vao = null;
         version (__OpenGL__) {
             vao = new GLVertexArray();
@@ -90,7 +90,7 @@ final class RenderUtil : Singleton!RenderUtil {
         return vao;
     }
     ///
-    ShaderProgram createShaderProgram(string vertex_code, string fragment_code) {
+    ShaderProgram createShaderProgram(string vertex_code, string fragment_code) @safe {
         ShaderProgram shader = null;
         version (__OpenGL__) {
             shader = new GLShaderProgram(vertex_code, fragment_code);
@@ -102,7 +102,7 @@ final class RenderUtil : Singleton!RenderUtil {
         return shader;
     }
     ///
-    VertexSpec!VERTEX createVertexSpec(VERTEX)(ShaderProgram shader_program) {
+    VertexSpec!VERTEX createVertexSpec(VERTEX)(ShaderProgram shader_program) @safe {
         VertexSpec!VERTEX vertex_spec = null;
         version (__OpenGL__) {
             vertex_spec = new GLVertexSpec!VERTEX(cast(GLShaderProgram)shader_program);

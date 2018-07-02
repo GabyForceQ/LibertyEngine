@@ -17,6 +17,6 @@ abstract class VertexArray {
     void bind() @trusted;
     /// Unuses this Vertex Array Object.
     void unbind() @trusted;
-    /// Returns wrapper resource handle.
+    /// Returns resource handle.
     uint handle() pure nothrow const @safe @nogc @property;
 }

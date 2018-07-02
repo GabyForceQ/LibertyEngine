@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.graphics.postprocessing;
-version (nonde) :
+version (none) :
 version (__OpenGL__) :
 import liberty.graphics.opengl;
 /// Value less = priority bigger
@@ -23,6 +23,11 @@ enum PostProcessFxFlag : long {
 }
 ///
 class Postprocessing {
+    private {
+        GLFrameBufferObject _fbo;
+        GLTexture2D _screenBuf;
+        GLProgram _program;
+    }
 	private immutable defaultVER = "
 		#version 450 core
 	";
@@ -76,7 +81,6 @@ class Postprocessing {
         _fbo.use();
         _fbo.color(0).attach(_screenBuf);
         _fbo.unuse();
-
         // create a shader program made of a single fragment shader
         string postprocProgramSource = defaultVER ~ defaultVS ~ defaultFS_begin;
         if (flag & PostProcessFxFlag.Sepia) {
@@ -86,38 +90,27 @@ class Postprocessing {
             postprocProgramSource ~= bwFS;
         }
         postprocProgramSource ~= defaultFS_end;
-            
         _program = new GLProgram(postprocProgramSource);
     }
-
-    ~this()
-    {
+    ~this() {
         _program.destroy();
         _fbo.destroy();
         _screenBuf.destroy();
     }
-
-    void bindFBO()
-    {
+    ///
+    void bindFBO() {
         _fbo.use();
     }
-
     // Post-processing pass
     void pass(void delegate() drawGeometry) {
         _fbo.unuse();
         _screenBuf.generateMipmap();
-
         int texUnit = 1;
         _screenBuf.use(texUnit);
-
         _program.uniform("fbTexture").set(texUnit);
         _program.uniform("sharpen").set(true);
         _program.use();
 
         drawGeometry();
     }
-private:
-    GLFrameBufferObject _fbo;
-    GLTexture2D _screenBuf;
-    GLProgram _program;
 }

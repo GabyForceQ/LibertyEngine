@@ -22,7 +22,7 @@ final class GLShaderProgram : ShaderProgram {
 		GLAttribute[string] _activeAttributes;
 	}
     /// Construct using a vertex string and a fragment string
-    this(string vertex_code, string fragment_code) {
+    this(string vertex_code, string fragment_code) @trusted {
 		_vertexShaderID = loadShader(vertex_code, ShaderType.Vertex);
 		_fragmentShaderID = loadShader(fragment_code, ShaderType.Fragment);
 		_programID = glCreateProgram();
@@ -33,13 +33,13 @@ final class GLShaderProgram : ShaderProgram {
         glValidateProgram(_programID);
         //allUniformLocations();
     }
-    ~this() {
+    ~this() @safe {
         cleanUp();
     }
     /// Gets the linking report.
     /// Returns: Log output of the GLSL linker. Can return null!
     /// Throws: $(D GLException) on error.
-    const(char)[] linkLog() {
+    const(char)[] linkLog() @trusted {
         GLint logLength;
         glGetProgramiv(_programID, GL_INFO_LOG_LENGTH, &logLength);
         if (logLength <= 0) {
@@ -52,7 +52,7 @@ final class GLShaderProgram : ShaderProgram {
         return fromStringz(log.ptr);
     }
     ///
-    void link() {
+    void link() @trusted {
         glLinkProgram(_programID);
         GraphicsEngine.get.backend.runtimeCheck();
 		int res;
@@ -118,7 +118,7 @@ final class GLShaderProgram : ShaderProgram {
         }
     }
     ///
-    GLAttribute attribute(string name) {
+    GLAttribute attribute(string name) pure nothrow @safe {
         GLAttribute* a = name in _activeAttributes;
         if (a is null) {
             _activeAttributes[name] = new GLAttribute(name);
@@ -127,25 +127,19 @@ final class GLShaderProgram : ShaderProgram {
         return *a;
     }
     ///
-    //protected abstract void allUniformLocations();
-    /// Get uniform location at specified name
-    //int uniformLocation(string uniform_name) {
-    //    return glGetUniformLocation(_programID, uniform_name.ptr); // todo ?
-    //}
-    ///
-    override uint programID() {
+    override uint programID() pure nothrow const @safe @nogc @property {
         return _programID;
     }
     ///
-    override void start() {
+    override void start() @trusted {
         glUseProgram(_programID);
     }
     ///
-    override void stop() {
+    override void stop() @trusted {
         glUseProgram(0);
     }
     ///
-    override void cleanUp() {
+    override void cleanUp() @trusted {
         stop();
         glDetachShader(_programID, _vertexShaderID);
         glDetachShader(_programID, _fragmentShaderID);
@@ -223,7 +217,7 @@ final class GLShaderProgram : ShaderProgram {
     override void loadUniform(string name, Matrix4F matrix) nothrow @trusted @nogc {
         glUniformMatrix4fv(glGetUniformLocation(_programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
     }
-    private static int loadShader(string code, ShaderType type) {
+    private static int loadShader(string code, ShaderType type) @trusted {
         import std.string : splitLines;
         string[] lines = splitLines(code);
         size_t lineCount = lines.length;

@@ -75,12 +75,12 @@ final class GraphicsEngine : Singleton!GraphicsEngine, IService {
 		return _serviceRunning;
 	}
 	///
-	VideoBackend backend() {
+	VideoBackend backend() pure nothrow @safe @nogc {
 		return _backend;
 	}
 	///
-	void render() {
-		import derelict.opengl;
+	void render() @trusted {
+		import derelict.opengl : glEnable, glFrontFace, GL_DEPTH_TEST, GL_CULL_FACE, GL_CW;
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CW);
@@ -92,28 +92,20 @@ final class GraphicsEngine : Singleton!GraphicsEngine, IService {
 		_backend.swapBuffers();
 	}
 	///
-	void vSyncEnabled(bool enabled = true) {
+	void vSyncEnabled(bool enabled = true) nothrow @trusted @nogc {
 		SDL_GL_SetSwapInterval(enabled); // TODO: VULKAN?
 		_vsyncEnabled = enabled;
 	}
 	///
-	bool isVSyncEnabled() nothrow {
+	bool isVSyncEnabled() pure nothrow const @safe @nogc {
 		return _vsyncEnabled;
 	}
 	///
-	void windowBackgroundColor(float r, float g, float b, float a = 1.0f) {
-		_color = Vector4F(r, g, b, a);
-	}
-	///
-	void windowBackgroundColor(Vector3F color, float a = 1.0f) {
-		_color = Vector4F(color, a);
-	}
-	///
-	void windowBackgroundColor(Vector4F color) {
+	void windowBackgroundColor(Vector4F color) pure nothrow @safe @nogc @property {
 		_color = color;
 	}
 	///
-	void toggleWireframe() { // TODO: Vulkan.
+	void toggleWireframe() @trusted { // TODO: Vulkan.
 		version (__OpenGL__) {
 			if (!_wireframe) {
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

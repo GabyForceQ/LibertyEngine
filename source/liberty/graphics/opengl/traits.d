@@ -34,7 +34,7 @@ template typeToGLScalar(T) {
     }
 }
 ///
-void toGLTypeAndSize(T)(out uint type, out int n) {
+void toGLTypeAndSize(T)(out uint type, out int n) pure nothrow @safe @nogc {
     static if (isSupportedScalarType!T) {
         type = typeToGLScalar!T;
         n = 1;

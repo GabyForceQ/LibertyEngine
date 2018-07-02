@@ -49,23 +49,23 @@ abstract class VideoBuffer {
         bool _initialized;
     }
     ///
-    size_t size() pure const nothrow;
+    size_t size() pure nothrow const @safe @nogc @property;
 	///
-	void data(T)(T[] buffer) {
+	void data(T)(T[] buffer) @trusted {
 		setData(buffer.length * T.sizeof, buffer.ptr);
 	}
 	///
-	void setData(size_t size, void* data);
+	void setData(size_t size, void* data) @trusted;
 	///
-	void setSubData(size_t offset, size_t size, void* data);
+	void setSubData(size_t offset, size_t size, void* data) @trusted;
 	///
-	void getSubData(size_t offset, size_t size, void* data);
+	void getSubData(size_t offset, size_t size, void* data) @trusted;
 	///
-	ubyte[] bytes();
+	ubyte[] bytes() @trusted;
 	///
-	void bind();
+	void bind() @trusted;
 	///
-	void unbind();
+	void unbind() @trusted;
 	///
-	uint handle() pure const nothrow;
+	uint handle() pure nothrow const @safe @nogc @property;
 }

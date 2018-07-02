@@ -45,13 +45,13 @@ abstract class ShaderProgram : Renderable {
         uint _fragmentShaderID;
     }
     ///
-    uint programID();
+    uint programID() pure nothrow const @safe @nogc @property;
     ///
-    void start();
+    void start() @trusted;
     ///
-    void stop();
+    void stop() @trusted;
     ///
-    void cleanUp();
+    void cleanUp() @trusted;
     ///
     void bindAttribute(int attribute, string var_name);
     /// Load bool uniform using location id and value.
