@@ -120,7 +120,7 @@ final class Camera : Actor {
 		_fov = 45.0f;
 	}
 	///
-	override void update(float deltaTime) {
+	override void update(in float deltaTime) {
 		if (scene.activeCamera.id == id) {
 			float velocity = _movementSpeed * deltaTime;
 			// Process Mouse Scroll.

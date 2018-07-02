@@ -76,7 +76,7 @@ final class Button : Widget {
 		this.height = position.w;
 	}
 	///
-	override void update(float deltaTime) {
+	override void update(in float deltaTime) {
 		if (_canListen) {
 			clearAllIsOnEvents();
 			if (mouseIntersectsThis()) {

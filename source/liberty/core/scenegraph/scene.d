@@ -123,7 +123,7 @@ final class Scene {
 	}
 	/// Updates all Updatable objects that have an update() method.
 	/// It's called every frame.
-	void update(float deltaTime) {
+	void update(in float deltaTime) {
         foreach (node; updateList) {
             node.update(deltaTime);
         }

@@ -109,7 +109,7 @@ interface Startable {
 ///
 interface Updatable {
 	///
-	void update(float deltaTime);
+	void update(in float deltaTime);
 }
 ///
 interface Processable {

@@ -19,7 +19,7 @@ class Terrain : Node {
 
     }
     ///
-    override void update(float deltaTime) {
+    override void update(in float deltaTime) {
 
     }
     ///

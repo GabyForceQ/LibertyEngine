@@ -57,7 +57,7 @@ abstract class Node : Startable, Updatable, Processable {
 	/// Called after all objects instantiation. Optional.
     void start() {}
     /// Called every frame. Optional.
-    void update(float deltaTime) {}
+    void update(in float deltaTime) {}
     /// Called every physics tick. Optional.
     void process() {}
     /// Insert a child node using its reference.
