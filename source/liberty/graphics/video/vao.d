@@ -7,16 +7,16 @@
  * Coverage:
  */
 module liberty.graphics.video.vao;
-///
+/// Vertex Array Object.
 abstract class VertexArray {
 	protected {
         uint _handle;
         bool _initialized;
     }
-    ///
+    /// Uses this Vertex Array Object.
     void bind() @trusted;
-    ///
+    /// Unuses this Vertex Array Object.
     void unbind() @trusted;
-    ///
-    uint handle();
+    /// Returns wrapper resource handle.
+    uint handle() pure nothrow const @safe @nogc @property;
 }

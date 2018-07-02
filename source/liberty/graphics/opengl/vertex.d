@@ -24,17 +24,17 @@ final class GLVertexSpec(VERTEX) : VertexSpec!VERTEX {
 		VertexAttribute[] _attributes;
 	}
 	/// Creates a vertex specification.
-	this(GLShaderProgram shader_program) {
+	this(GLShaderProgram shader_program) @trusted {
 		alias TT = FieldTypeTuple!VERTEX;
 		foreach (member; __traits(allMembers, VERTEX)) { // TODO: static foreach?
 			static assert(member != "this", `Found a 'this' member in vertex struct. Use a 'static struct' instead.`);
 			enum fullName = "VERTEX." ~ member;
 			mixin("alias T = typeof(" ~ fullName ~ ");");
 			static if (staticIndexOf!(T, TT) != -1) {
-				int location = shader_program.attribute(member).location;
+				immutable int location = shader_program.attribute(member).location;
 				mixin("enum size_t offset = VERTEX." ~ member ~ ".offsetof;");
 				enum UDAs = __traits(getAttributes, member);
-				bool normalize = false; //(staticIndexOf!(Normalized, UDAs) == -1); // TODO: -> not working @Normalized.
+				bool normalize; //(staticIndexOf!(Normalized, UDAs) == -1); // TODO: -> not working @Normalized.
 				int n;
 				uint type;
 				toGLTypeAndSize!T(type, n);
@@ -43,7 +43,7 @@ final class GLVertexSpec(VERTEX) : VertexSpec!VERTEX {
 		}
 	}
 	/// Use this vertex specification.
-	override void use(uint divisor = 0) {
+	override void use(uint divisor = 0) @safe {
 		for (uint i = 0; i < _attributes.length; i++) {
 			_attributes[i].use(cast(int)vertexSize, divisor);
 		}
@@ -51,7 +51,7 @@ final class GLVertexSpec(VERTEX) : VertexSpec!VERTEX {
 	/// Unuse this vertex specification.
 	/// If you are using a VAO, you don't need to call it, since the attributes would be tied to the VAO activation.
     /// Throws: $(D GLException) on error.
-	override void unuse() {
+	override void unuse() @safe {
 	    for (uint i = 0; i < _attributes.length; i++) {
 	        _attributes[i].unuse();
 	    }
@@ -69,7 +69,7 @@ final class GLAttribute {
     ///
     enum int fakeLocation = -1;
     ///
-    this(string name, int location, uint type, GLsizei size) {
+    this(string name, int location, uint type, GLsizei size) pure nothrow @safe @nogc {
         _name = name;
         _location = location;
         _type = type;
@@ -78,7 +78,7 @@ final class GLAttribute {
     }
     /// Creates a fake disabled attribute, designed to cope with attribute
     /// that have been optimized out by the OpenGL driver, or those which do not exist.
-    this(string name) {
+    this(string name) pure nothrow @safe @nogc {
         _disabled = true;
         _location = fakeLocation;
         _type = GL_FLOAT; // whatever
@@ -106,7 +106,7 @@ struct VertexAttribute {
 	}
 	/// Use this attribute.
     /// Throws: $(D GLException) on error.
-	void use(int vertex_size, uint divisor) {
+	void use(int vertex_size, uint divisor) @trusted {
 		if (_location == GLAttribute.fakeLocation) {
 			return;
 		}
@@ -123,7 +123,7 @@ struct VertexAttribute {
 	}
 	/// Unuse this attribute.
     /// Throws: $(D GLException) on error.
-    void unuse() {
+    void unuse() @trusted {
         if (_divisorSet) {
             glVertexAttribDivisor(_location, 0);
         }
@@ -139,7 +139,7 @@ align(1) struct VertexPosition(VECTOR, string FIELD_NAME = "position") if (isVec
 	static assert(VertexPosition.sizeof == VECTOR.sizeof);
 }
 ///
-unittest {
+pure nothrow @safe @nogc unittest {
 	static struct VertexTest {
 		Vector3F position;
 		Vector3F normal;

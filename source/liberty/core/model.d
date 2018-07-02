@@ -24,7 +24,7 @@ struct Mesh {
     ///
     VideoBuffer ibo;
     ///
-    void clear() {
+    void clear() @trusted {
         vao.destroy();
         vbo.destroy();
         ibo.destroy();
@@ -38,7 +38,7 @@ final class Model(VERTEX) {
 		Material _material;
 	}
 	///
-	this(VERTEX[] vboArray, uint[] indices, Material material = Materials.get.defaultMaterial) {
+	this(VERTEX[] vboArray, uint[] indices, Material material = Materials.get.defaultMaterial) @trusted { // TODO: @safe
 		_material = material;
 		_vertexSpec = RenderUtil.get.createVertexSpec!VERTEX(_material.shader);
         _mesh.vao = RenderUtil.get.createVertexArray();
@@ -51,24 +51,24 @@ final class Model(VERTEX) {
         _mesh.vao.unbind();
 	}
 	///
-	~this() {
+	~this() @trusted {
 		_mesh.clear();
 		_vertexSpec.destroy();
 	}
 	///
-	Mesh mesh() {
+	Mesh mesh() pure nothrow @safe @nogc @property {
 		return _mesh;
 	}
 	///
-	Material material() {
+	Material material() pure nothrow @safe @nogc @property {
 		return _material;
 	}
 	///
-	void mesh(Mesh mesh) pure nothrow {
+	void mesh(Mesh mesh) pure nothrow @safe @nogc @property {
 		_mesh = mesh;
 	}
 	///
-	void material(Material material) pure nothrow {
+	void material(Material material) pure nothrow @safe @nogc @property {
 		_material = material;
 	}
 }
@@ -79,7 +79,7 @@ final class Models : Singleton!Models {
 	///
 	Model!Vertex cubeModel;
 	///
-	void load() {
+	void load() @safe {
 		/* Create rectangleModel */
 		Vertex[4] rectangleVertices;
 		rectangleVertices[0] = Vertex(Vector3F( 0.5f,  0.5f, 0.0f), Vector2F(1.0f, 1.0f));

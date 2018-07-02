@@ -10,9 +10,9 @@ module liberty.graphics.video.vertex;
 ///
 abstract class VertexSpec(VERTEX) {
 	///
-	void use(uint divisor = 0);
+	void use(uint divisor = 0) @safe;
 	///
-	void unuse();
+	void unuse() @safe;
 	/// Returns the size of the Vertex.
     /// The size can be computed after you added all your attributes.
     size_t vertexSize() pure nothrow const @safe @nogc {

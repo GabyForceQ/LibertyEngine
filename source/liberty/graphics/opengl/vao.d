@@ -16,13 +16,13 @@ import liberty.graphics.video.vao : VertexArray;
 final class GLVertexArray : VertexArray {
     /// Creates a Vertex Array Object.
     /// Throws $(D GLException) on error.
-    this() {
+    this() @trusted {
         glGenVertexArrays(1, &_handle);
         GraphicsEngine.get.backend.runtimeCheck();
         _initialized = true;
     }
     /// Releases the OpenGL Vertex Array Object resource.
-    ~this() {
+    ~this() @trusted {
         if (_initialized)  {
             debug import liberty.core.memory : ensureNotInGC;
             debug ensureNotInGC("GLVertexArrayObject");
@@ -43,7 +43,7 @@ final class GLVertexArray : VertexArray {
         GraphicsEngine.get.backend.runtimeCheck();
     }
     /// Returns wrapped OpenGL resource handle.
-    override uint handle() pure const nothrow {
+    override uint handle() pure nothrow const @safe @nogc @property {
         return _handle;
     }
 }
