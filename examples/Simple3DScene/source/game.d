@@ -14,10 +14,10 @@ import player;
 mixin(NativeServices);
 
 void initSettings() {
-	CoreEngine.shouldQuitOnKey(KeyCode.Esc);
-	GraphicsEngine.vSyncEnabled = false;
-	GraphicsEngine.windowBackgroundColor = Vector3F(0.0f, 0.2f, 0.3f);
-	Input.useSystemCursor(SystemCursor.CrossHair);
+	CoreEngine.get.shouldQuitOnKey(KeyCode.Esc);
+	GraphicsEngine.get.vSyncEnabled = false;
+	GraphicsEngine.get.windowBackgroundColor = Vector3F(0.0f, 0.2f, 0.3f);
+	Input.get.useSystemCursor(SystemCursor.CrossHair);
 }
 
 void initScene() {
