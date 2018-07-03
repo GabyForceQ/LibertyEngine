@@ -87,7 +87,7 @@ final class GLBackend : VideoBackend {
     /// Returns true if at least one OpenGL error was pending.
     /// OpenGL error status is cleared.
     override bool runtimeCheckNothrow() nothrow {
-        GLint r = glGetError();
+        immutable GLint r = glGetError();
         if (r != GL_NO_ERROR) {
             flushGLErrors();
             return false;
@@ -123,15 +123,15 @@ final class GLBackend : VideoBackend {
         return _minorVersion;
     }
     /// Returns OpenGL version string.
-    override const(char)[] versionString() @safe @property {
+    override const(char)[] versionString() @safe {
         return getString(GL_VERSION);
     }
     /// Returns the company responsible for this OpenGL implementation.
-    override const(char)[] vendorString() @safe @property {
+    override const(char)[] vendorString() @safe {
         return getString(GL_VENDOR);
     }
     /// Tries to detect the driver maker. Returns identified vendor.
-    override Vendor vendor() @safe @property {
+    override Vendor vendor() @safe {
         const(char)[] s = vendorString();
         if (canFind(s, "AMD") || canFind(s, "ATI") || canFind(s, "Advanced Micro Devices")) {
             return Vendor.Amd;
@@ -151,15 +151,15 @@ final class GLBackend : VideoBackend {
     }
     /// Returns the name of the renderer.
     /// This name is typically specific to a particular configuration of a hardware platform.
-    override const(char)[] graphicsEngineString() @safe @property {
+    override const(char)[] graphicsEngineString() @safe {
         return getString(GL_RENDERER);
     }
     /// Returns GLSL version string.
-    override const(char)[] glslVersionString() @safe @property {
+    override const(char)[] glslVersionString() @safe {
         return getString(GL_SHADING_LANGUAGE_VERSION);
     }
     /// Returns a slice made up of available extension names.
-    override string[] extensions() pure nothrow @safe @nogc @property {
+    override string[] extensions() pure nothrow @safe @nogc {
         return _extensions;
     }
 	/// Returns the requested int returned by $(D glGetFloatv).
@@ -253,7 +253,7 @@ final class GLBackend : VideoBackend {
             if (_majorVersion < 3) {
                 _extensions = std.array.split(getString(GL_EXTENSIONS).idup);
             } else {
-                int numExtensions = getInt(GL_NUM_EXTENSIONS);
+                immutable int numExtensions = getInt(GL_NUM_EXTENSIONS);
                 _extensions.length = 0;
                 for (int i = 0; i < numExtensions; ++i) {
                     _extensions ~= getString(GL_EXTENSIONS, i).idup;
@@ -268,9 +268,9 @@ final class GLBackend : VideoBackend {
         }
     }
     private void flushGLErrors() nothrow @trusted @nogc {
-        int timeout = 0;
+        int timeout;
         while (++timeout <= 5) {
-            GLint r = glGetError();
+            immutable GLint r = glGetError();
             if (r == GL_NO_ERROR) {
                 break;
             }

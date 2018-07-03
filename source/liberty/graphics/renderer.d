@@ -40,10 +40,10 @@ version (__OpenGL__) {
 ///
 final class GraphicsEngine : Singleton!GraphicsEngine, IService {
 	private {
-		private bool _serviceRunning;
+		bool _serviceRunning;
 		VideoBackend _backend;
-		bool _vsyncEnabled = false;
-		bool _wireframe = false;
+		bool _vsyncEnabled;
+		bool _wireframe;
 		Vector4F _color = Vector4F(1.0, 1.0, 1.0, 1.0);
 	}
 	/// Start GraphicsEngine service.
@@ -118,7 +118,9 @@ final class GraphicsEngine : Singleton!GraphicsEngine, IService {
 }
 ///
 static struct Vertex {
+	///
 	Vector3F position;
+	///
 	Vector2F texCoords;
 }
 ///

@@ -29,7 +29,8 @@ final class Material {
         _texture = new Bitmap(CoreEngine.get.imageAPI, "res/brick.bmp");
         glBindTexture(GL_TEXTURE_2D, _textureID);
         if (_texture.data()) {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _texture.width(), _texture.height(), 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, _texture.data());
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _texture.width(), _texture.height(), 0, 
+				GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, _texture.data());
             glGenerateMipmap(GL_TEXTURE_2D);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
             glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -0.7f);
@@ -43,7 +44,7 @@ final class Material {
 		_shader.destroy();
 	}
 	///
-	ShaderProgram shader() pure nothrow @safe @nogc @property {
+	ShaderProgram shader() pure nothrow @safe @nogc {
 		return _shader;
 	}
 	///
@@ -65,6 +66,7 @@ final class Materials : Singleton!Materials {
 		defaultMaterial = new Material();
 	}
 }
+///
 immutable vertexCode = q{
 	#version 450 core
 	layout (location = 0) in vec3 position;
@@ -80,6 +82,7 @@ immutable vertexCode = q{
 		pixelTexCoords = texCoords;
 	}
 };
+///
 immutable fragmentCode = q{
 	#version 450 core
 	out vec4 fragColor;

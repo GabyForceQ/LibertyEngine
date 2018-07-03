@@ -39,17 +39,17 @@ abstract class VideoBackend {
 	///
 	int minorVersion() pure nothrow const @safe @nogc @property;
 	///
-	const(char)[] versionString() @safe @property;
+	const(char)[] versionString() @safe;
 	///
-	const(char)[] vendorString() @safe @property;
+	const(char)[] vendorString() @safe;
 	///
-	Vendor vendor() @safe @property;
+	Vendor vendor() @safe;
 	///
-	const(char)[] graphicsEngineString() @safe @property;
+	const(char)[] graphicsEngineString() @safe;
 	///
-	const(char)[] glslVersionString() @safe @property;
+	const(char)[] glslVersionString() @safe;
 	///
-	string[] extensions() pure nothrow @safe @nogc @property;
+	string[] extensions() pure nothrow @safe @nogc;
 	///
 	int maxColorAttachments() pure nothrow const @safe @nogc @property;
 	///

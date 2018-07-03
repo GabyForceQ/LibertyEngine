@@ -9,9 +9,13 @@
 module liberty.graphics.settings;
 ///
 struct RenderConfig {
+    ///
     bool wireframe;
+    ///
     bool reflection;
+    ///
     bool refraction;
+    ///
     bool underwater;
 }
 ///
@@ -20,6 +24,8 @@ struct RenderSettings {
 }
 ///
 struct PostProcessingFilter {
+    ///
     bool hasBloom;
+    ///
     bool hasDepthOfField;
 }

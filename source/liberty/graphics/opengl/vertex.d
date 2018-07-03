@@ -34,7 +34,7 @@ final class GLVertexSpec(VERTEX) : VertexSpec!VERTEX {
 			static if (staticIndexOf!(T, TT) != -1) {
 				immutable int location = shader_program.attribute(member).location;
 				mixin("enum size_t offset = VERTEX." ~ member ~ ".offsetof;");
-				enum UDAs = __traits(getAttributes, member);
+				//enum UDAs = __traits(getAttributes, member);
 				bool normalize; //(staticIndexOf!(Normalized, UDAs) == -1); // TODO: -> not working @Normalized.
 				int n;
 				uint type;
@@ -45,7 +45,7 @@ final class GLVertexSpec(VERTEX) : VertexSpec!VERTEX {
 	}
 	/// Use this vertex specification.
 	override void use(uint divisor = 0) @safe {
-		for (uint i = 0; i < _attributes.length; i++) {
+		for (uint i; i < _attributes.length; i++) {
 			_attributes[i].use(cast(int)vertexSize, divisor);
 		}
 	}
@@ -53,7 +53,7 @@ final class GLVertexSpec(VERTEX) : VertexSpec!VERTEX {
 	/// If you are using a VAO, you don't need to call it, since the attributes would be tied to the VAO activation.
     /// Throws: $(D GLException) on error.
 	override void unuse() @safe {
-	    for (uint i = 0; i < _attributes.length; i++) {
+	    for (uint i; i < _attributes.length; i++) {
 	        _attributes[i].unuse();
 	    }
 	}
