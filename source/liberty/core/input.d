@@ -8,16 +8,13 @@
  */
 module liberty.core.input;
 import derelict.sdl2.sdl;
-import liberty.core.engine;
-import derelict.sdl2.sdl;
-import liberty.math.vector;
-import liberty.core.input;
+import liberty.math.vector : Vector2I;
 import liberty.core.utils : Singleton, IService;
 pragma (inline, true):
 ///
 final class Input : Singleton!Input, IService {
-    private bool _serviceRunning;
 	private {
+        bool _serviceRunning;
 		bool[KeyCodeCount] _keyState;
         bool[KeyCodeCount] _oldKeyState;
         const _KEY_PRESSED = true;
@@ -32,13 +29,15 @@ final class Input : Singleton!Input, IService {
         int _mouseWheelY;
         int _mouseDeltaX;
         int _mouseDeltaY;
+        SystemCursor _systemCursor;
     }
-    package bool _isMouseMoving;
-    package bool _isMouseWheeling;
+    package {
+        bool _isMouseMoving;
+        bool _isMouseWheeling;
+    } 
     /// Start Input service.
     void startService() @trusted {
-        //useSystemCursor(SystemCursor.Arrow);
-        //setCurrentCursor();
+        systemCursor = SystemCursor.Arrow;
         _serviceRunning = true;
     }
     /// Stop Input service.
@@ -58,140 +57,147 @@ final class Input : Singleton!Input, IService {
 	bool isServiceRunning() pure nothrow const @safe @nogc {
 		return _serviceRunning;
 	}
-    ///
-    bool isKeyHold(KeyCode key) {
+    /// Returns true if key is still pressed in an event loop.
+    bool isKeyHold(KeyCode key) nothrow @trusted @nogc {
         SDL_Scancode scan = SDL_GetScancodeFromKey(cast(SDL_Keycode)key);
         return _keyState[scan] == _KEY_PRESSED;
     }
-    ///
-    bool isKeyHold(KeyModFlag key) {
-        SDL_Keymod mod = SDL_GetModState();
+    /// Returns true if key mod is still pressed in an event loop.
+    bool isKeyHold(KeyModFlag key) nothrow @trusted @nogc {
+        immutable SDL_Keymod mod = SDL_GetModState();
         if (mod & cast(SDL_Keymod)key) {
             //_keyState[mod] = _KEY_PRESSED; // TODO.
             return true;
         }
         return false;
     }
-    ///
-    bool isKeyDown(KeyCode key) {
+    /// Returns true if key is just pressed in an event loop.
+    bool isKeyDown(KeyCode key) nothrow @trusted @nogc {
         SDL_Scancode scan = SDL_GetScancodeFromKey(cast(SDL_Keycode)key);
         return markKeyAsJustReleased(scan);
     }
-    ///
-    bool isKeyNone(KeyCode key) {
+    /// Returns true if key has no input action in an event loop.
+    bool isKeyNone(KeyCode key) nothrow @trusted @nogc {
         SDL_Scancode scan = SDL_GetScancodeFromKey(cast(SDL_Keycode)key);
         return _keyState[scan] == _KEY_RELEASED;
     }
-    ///
-    bool isKeyUp(KeyCode key) {
+    /// Returns true if key is just released in an event loop.
+    bool isKeyUp(KeyCode key) nothrow @trusted @nogc {
         SDL_Scancode scan = SDL_GetScancodeFromKey(cast(SDL_Keycode)key);
         bool old_state = (_oldKeyState[scan] == _KEY_PRESSED);
         _oldKeyState[scan] = _KEY_RELEASED;
         return (_keyState[scan] == _KEY_RELEASED) && old_state;
     }
-    private void clearKeys() { _keyState[] = _KEY_RELEASED; }
-    /*package*/ bool markKeyAsPressed(SDL_Scancode scancode) {
+    private void clearKeys() pure nothrow @safe @nogc { 
+        _keyState[] = _KEY_RELEASED; 
+    }
+    /*package*/ bool markKeyAsPressed(SDL_Scancode scancode) pure nothrow @safe @nogc {
         bool old_state = _keyState[scancode];
         _keyState[scancode] = _KEY_PRESSED;
         return old_state;
     }
-    /*package*/ bool markKeyAsJustReleased(SDL_Scancode scancode) {
+    /*package*/ bool markKeyAsJustReleased(SDL_Scancode scancode) pure nothrow @safe @nogc {
         bool old_state = _keyState[scancode];
         _keyState[scancode] = _KEY_RELEASED;
         _oldKeyState[scancode] = _KEY_PRESSED;
         return old_state;
     }
     /// Returns current position of the mouse.
-    Vector2I mousePosition() nothrow {
+    Vector2I mousePosition() pure nothrow @safe @nogc {
         return Vector2I(_mouseX, _mouseY);
     }
-    ///
-    Vector2I lastMousePosition() nothrow {
+    /// Returns last position of the mouse.
+    Vector2I lastMousePosition() pure nothrow @safe @nogc {
         return Vector2I(_lastMouseX, _lastMouseY);
     }
     /// Returns previous position of the mouse.
-    Vector2I previousMousePosition() nothrow {
+    Vector2I previousMousePosition() pure nothrow @safe @nogc {
         return Vector2I(_mouseX - _mouseDeltaX, _mouseY - _mouseDeltaY);
     }
     /// Returns the relative direction of the mouse.
-    Vector2I mouseRelativeDirection() nothrow {
+    Vector2I mouseRelativeDirection() pure nothrow @safe @nogc {
         return Vector2I(_mouseDeltaX, _mouseDeltaY);
     }
     ///
-    Vector2I mouseDeltaWheel() nothrow {
+    Vector2I mouseDeltaWheel() pure nothrow @safe @nogc {
         Vector2I ret = Vector2I(_mouseWheelX, _mouseWheelY);
         _mouseWheelX = _mouseWheelY = 0;
         return ret;
     }
     ///
-    int mouseDeltaWheelX() nothrow {
+    int mouseDeltaWheelX() pure nothrow @safe @nogc {
         int ret = _mouseWheelX;
         _mouseWheelX = 0;
         return ret;
     }
     ///
-    int mouseDeltaWheelY() nothrow {
+    int mouseDeltaWheelY() pure nothrow @safe @nogc {
         int ret = _mouseWheelY;
         _mouseWheelY = 0;
         return ret;
     }
     ///
-    bool isMouseButtonPressed(MouseButton button) nothrow {
+    bool isMouseButtonPressed(MouseButton button) pure nothrow const @trusted @nogc {
         return (_mouseButtonState & SDL_BUTTON(button)) != 0;
     }
-    ///
-    bool isMouseMoving() nothrow {
+    /// Returns true if mouse is moving.
+    bool isMouseMoving() pure nothrow const @safe @nogc {
         return _isMouseMoving;
     }
-    ///
-    bool isMouseScrolling() nothrow {
+    /// Returns true if mouse is scrolling.
+    bool isMouseScrolling() pure nothrow const @safe @nogc {
         return _isMouseWheeling;
     }
     //bool isMouseMoving() nothrow {
     //    return mousePosition() != lastMousePosition();
     //}
     /// Capture the mouse and track input outside the MainWindow.
-    void startMouseCapture() {
+    void startMouseCapture() nothrow @trusted @nogc {
         if (SDL_CaptureMouse(SDL_TRUE) != 0) {
             //PlatformManager.throwPlatformException("SDL_CaptureMouse");
             // TODO: Uncomment.
         }
     }
     ///
-    void stopMouseCapture() {
+    void stopMouseCapture() nothrow @trusted @nogc {
         if (SDL_CaptureMouse(SDL_FALSE) != 0) {
             //PlatformManager.throwPlatformException("SDL_CaptureMouse");
             // TODO: Uncomment.
         }
     }
-    /*package*/ void updateMouse() {
+    /*package*/ void updateMouse() pure nothrow @safe @nogc {
         _lastMouseX = _mouseX;
         _lastMouseY = _mouseY;
     }
-    /*package*/ void updateMouseMotion(const(SDL_MouseMotionEvent)* event) {
+    /*package*/ void updateMouseMotion(const(SDL_MouseMotionEvent)* event) nothrow @trusted @nogc {
         _mouseButtonState = SDL_GetMouseState(null, null);
         _mouseX = event.x;
         _mouseY = event.y;
         _mouseDeltaX = event.xrel;
         _mouseDeltaY = event.yrel;
     }
-    /*package*/ void updateMouseButtons(const(SDL_MouseButtonEvent)* event) {
+    /*package*/ void updateMouseButtons(const(SDL_MouseButtonEvent)* event) nothrow @trusted @nogc {
         _mouseButtonState = SDL_GetMouseState(null, null);
         _mouseX = event.x;
         _mouseY = event.y;
     }
-    /*package*/ void updateMouseWheel(const(SDL_MouseWheelEvent)* event) {
+    /*package*/ void updateMouseWheel(const(SDL_MouseWheelEvent)* event) nothrow @trusted @nogc {
         _mouseButtonState = SDL_GetMouseState(&_mouseX, &_mouseY);
         _mouseWheelX += event.x;
         _mouseWheelY += event.y;
     }
-    ///
-    void useSystemCursor(SystemCursor cursor) {
+    /// Sets the current cursor type using a specific system cursor.
+    void systemCursor(SystemCursor cursor) nothrow @trusted @property {
         _cursorHandle = SDL_CreateSystemCursor(cast(SDL_SystemCursor)cursor);
         setCurrentCursor();
+        _systemCursor = cursor;
+    }
+    /// Gets the current system cursor type.
+    SystemCursor systemCursor() pure nothrow const @safe @nogc @property {
+        return _systemCursor;
     }
     ///
-    void createColorCursor(int h_x, int h_y) {
+    void createColorCursor(int h_x, int h_y) nothrow @trusted @nogc {
         //_cursorHandle = SDL_CreateColorCursor(SurfaceManager.getHandle(), h_x, h_y);
         // TODO: Uncomment.
         //if (_cursorHandle is null) {
@@ -200,7 +206,8 @@ final class Input : Singleton!Input, IService {
         //}
     }
     ///
-    void lockMouse(bool lock) {
+    void lockMouse(bool lock) nothrow @trusted @nogc {
+        //import liberty.core.engine : CoreEngine;
         //SDL_bool lock_ = cast(SDL_bool)lock;
     	//SDL_ShowCursor(lock_);
     	//SDL_SetWindowGrab(CoreEngine.get.mainWindow._window, lock_);
@@ -210,25 +217,26 @@ final class Input : Singleton!Input, IService {
     	//}
     }
     ///
-    void relativeMouseMode(bool relative = true) {
+    void relativeMouseMode(bool relative = true) nothrow @trusted @nogc {
         SDL_SetRelativeMouseMode(cast(SDL_bool)relative);
     }
     ///
-    void windowGrab(bool grabbed = true) {
+    void windowGrab(bool grabbed = true) @trusted {
+        import liberty.core.engine : CoreEngine;
         SDL_SetWindowGrab(CoreEngine.get.mainWindow._window, cast(SDL_bool)grabbed);
     }
     ///
-    void cursorVisible(bool visible = true) {
+    void cursorVisible(bool visible = true) nothrow @trusted @nogc {
         SDL_ShowCursor(visible);
     }
     ///
-    /*package*/ void setCurrentCursor() {
+    /*package*/ void setCurrentCursor() nothrow @trusted @nogc {
         SDL_SetCursor(_cursorHandle);
     }
-    /*package*/ SDL_Cursor* cursorHandle() {
+    /*package*/ SDL_Cursor* cursorHandle() pure nothrow @safe @nogc {
         return _cursorHandle;
     }
-    /*package*/ SDL_Cursor* cursor() {
+    /*package*/ SDL_Cursor* cursor() nothrow @trusted @nogc {
         SDL_Cursor* cursor_handle = SDL_GetCursor();
         if (cursor_handle is null) {
             //PlatformManager.throwPlatformException("SDL_GetCursor");
@@ -236,7 +244,7 @@ final class Input : Singleton!Input, IService {
         }
         return cursor_handle;
     }
-    /*package*/ SDL_Cursor* defaultCursor() {
+    /*package*/ SDL_Cursor* defaultCursor() nothrow @trusted @nogc {
         SDL_Cursor* cursor_handle = SDL_GetDefaultCursor();
         if (cursor_handle is null) {
             //PlatformManager.throwPlatformException("SDL_GetDefaultCursor");

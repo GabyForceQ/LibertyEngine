@@ -5,6 +5,7 @@
 	],
 	"description": "Demo apps using Liberty Engine.",
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
+	"copyright": "Copyright © 2018, Gabriel Gheorghe",
 	"dependencies": {
 		"liberty-engine": "~master"
 	},
