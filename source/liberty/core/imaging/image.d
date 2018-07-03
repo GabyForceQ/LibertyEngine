@@ -13,8 +13,11 @@ import std.conv, std.string;
 ///
 class ImageException : Exception {
     ///
-    @safe pure nothrow this(string message, string file =__FILE__, size_t line = __LINE__, Throwable next = null) {
+    this(string message, string file =__FILE__, size_t line = __LINE__, Throwable next = null) @safe {
         super(message, file, line, next);
+        import liberty.core.logger : Logger;
+        import std.conv : to;
+        Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
     }
 }
 ///

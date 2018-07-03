@@ -25,8 +25,11 @@ import liberty.core.engine;
 /// A failing OpenGL function should <b>always</b> throw an $(D GLException).
 class GLException : Exception {
     ///
-    this(string message, string file = __FILE__, size_t line = __LINE__, Throwable next = null) pure nothrow @safe {
+    this(string message, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
         super(message, file, line, next);
+        import liberty.core.logger : Logger;
+        import std.conv : to;
+        Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
     }
 }
 ///

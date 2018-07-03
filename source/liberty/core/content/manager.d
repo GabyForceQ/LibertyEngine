@@ -13,8 +13,11 @@ import derelict.util.exception;
 /// A failing AssetManager function should <b>always</b> throw a $(D AssetManagerException).
 final class AssetManagerException : Exception {
 	/// Default constructor.
-	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) pure nothrow @safe {
+	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
 		super(msg, file, line, next);
+        import liberty.core.logger : Logger;
+        import std.conv : to;
+        Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
 	}
 }
 ///
