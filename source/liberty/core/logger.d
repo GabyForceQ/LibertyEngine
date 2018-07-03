@@ -35,8 +35,8 @@ final class Logger : Singleton!Logger, IService {
     }
     /// Stop Logger service.
     void stopService() @safe {
-        _serviceRunning = false;
         info("Logger service stopped.");
+        _serviceRunning = false;
     }
     /// Restart Logger service.
     void restartService() @safe {
