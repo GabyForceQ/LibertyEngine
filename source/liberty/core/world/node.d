@@ -39,19 +39,19 @@ abstract class Node : IStartable, IUpdatable, IProcessable {
 		return _id;
 	}
 	/// Returns an array with parent references.
-	Node parent() pure nothrow @safe @nogc @property {
+	Node parent() pure nothrow @safe @nogc {
 		return _parent;
 	}
 	/// Returns an array with children references.
-    Node[string] children() pure nothrow @safe @nogc @property {
+    Node[string] children() pure nothrow @safe @nogc {
         return _children;
     }
     /// Returns a child reference using its ID.
-    T child(T)(string id) pure nothrow @safe @nogc @property {
+    T child(T)(string id) pure nothrow @trusted {
         return cast(T)_children[id];
     }
     ///
-    Scene scene() pure nothrow @safe @nogc @property {
+    Scene scene() pure nothrow @safe @nogc {
         return _scene;
     }
 	/// Called after all objects instantiation. Optional.
@@ -61,7 +61,7 @@ abstract class Node : IStartable, IUpdatable, IProcessable {
     /// Called every physics tick. Optional.
     void process() {}
     /// Insert a child node using its reference.
-    private void insert(T: Node)(ref T child) {
+    private void insert(T : Node)(ref T child) {
         _children[child.id] = child;
     }
     /// Insert a child node using its id.
@@ -69,7 +69,7 @@ abstract class Node : IStartable, IUpdatable, IProcessable {
 
     }
     /// Remove a child node using its reference.
-    void remove(T: Node)(ref T child) {
+    void remove(T : Node)(ref T child) {
         if (child in _children) {
             _children.remove(child.id);
             _scene.startList.remove(child.id);
@@ -109,7 +109,7 @@ abstract class Node : IStartable, IUpdatable, IProcessable {
 	/// Spawn an object using its reference.
 	/// You can specify where to spawn. By default is set to scene tree.
 	/// Returns new nodes reference.
-	ref T spawn(T: Node)(ref T node, string id, bool start = true) {
+	ref T spawn(T : Node)(ref T node, string id, bool start = true) {
 		node = new T(id, this);
 		insert(node);
 		static if (is(T == Camera)) {
@@ -123,7 +123,7 @@ abstract class Node : IStartable, IUpdatable, IProcessable {
 	/// Spawn an object using its ID.
 	/// Second time you call this method for the same id, an assertion is produced.
 	/// Returns new node reference.
-	T spawn(T: Node)(string id, bool start = true) {
+	T spawn(T : Node)(string id, bool start = true) {
 		T node = new T(id, this);
 		insert(node);
 		static if (is(T == Camera)) {
@@ -137,7 +137,7 @@ abstract class Node : IStartable, IUpdatable, IProcessable {
 	/// Spawn an object using its reference.
 	/// Second time you call this method for the same id, nothing happens.
 	/// Returns old/new node reference.
-	ref T spawnOnce(T: Node)(ref T node, string id, bool start = true) {
+	ref T spawnOnce(T : Node)(ref T node, string id, bool start = true) {
 		if (id in _singletonList) {
 			return cast(T)_singletonList[id];
 		}
@@ -155,7 +155,7 @@ abstract class Node : IStartable, IUpdatable, IProcessable {
 	/// Spawn an object using its ID only once.
 	/// Second time you call this method for the same id, nothing happens.
 	/// Returns old/new node reference.
-	T spawnOnce(T: Node)(string id, bool start = true) {
+	T spawnOnce(T : Node)(string id, bool start = true) {
 		if (id in _singletonList) {
 			return cast(T)_singletonList[id];
 		}
@@ -172,13 +172,13 @@ abstract class Node : IStartable, IUpdatable, IProcessable {
 	}
 }
 /// Root node of a scene. A scene can have only one root node.
-final class Root: Node {
+final class Root : Node {
 	this() {
 		super("Root", null);
 	}
 }
 ///
-//final class Group: Node {
+//final class Group : Node {
 //	this(string id) {
 //		super(id, null); // ???????
 //	}
