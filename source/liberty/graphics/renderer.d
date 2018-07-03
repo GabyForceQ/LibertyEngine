@@ -206,7 +206,7 @@ enum VectorType : byte {
 	UnsignedInt = 0x00
 }
 ///
-interface Renderable {
+interface IRenderable {
 	///
 	void render();
 }

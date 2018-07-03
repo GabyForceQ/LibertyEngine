@@ -9,7 +9,7 @@
 module liberty.graphics.video.shader;
 import liberty.math.vector : Vector2F, Vector3F, Vector4F;
 import liberty.math.matrix: Matrix4F;
-import liberty.graphics.renderer : Renderable;
+import liberty.graphics.renderer : IRenderable;
 import liberty.core.engine;
 ///
 enum ShaderType : byte {
@@ -38,7 +38,7 @@ enum ShaderLanguage : byte {
     SPV = 0x01
 }
 ///
-abstract class ShaderProgram : Renderable {
+abstract class ShaderProgram : IRenderable {
 	protected {
         uint _programID;
         uint _vertexShaderID;

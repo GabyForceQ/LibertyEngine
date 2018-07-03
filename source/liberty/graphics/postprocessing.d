@@ -105,12 +105,11 @@ class Postprocessing {
     void pass(void delegate() drawGeometry) {
         _fbo.unuse();
         _screenBuf.generateMipmap();
-        int texUnit = 1;
+        immutable int texUnit = 1;
         _screenBuf.use(texUnit);
         _program.uniform("fbTexture").set(texUnit);
         _program.uniform("sharpen").set(true);
         _program.use();
-
         drawGeometry();
     }
 }

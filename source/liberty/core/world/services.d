@@ -102,17 +102,17 @@ struct Signal {
 	string id;
 }
 ///
-interface Startable {
+interface IStartable {
 	///
 	void start();
 }
 ///
-interface Updatable {
+interface IUpdatable {
 	///
 	void update(in float deltaTime);
 }
 ///
-interface Processable {
+interface IProcessable {
 	///
 	void process();
 }

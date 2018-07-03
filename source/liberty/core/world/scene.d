@@ -8,10 +8,10 @@
  */
 module liberty.core.world.scene;
 import liberty.core.engine : CoreEngine;
-import liberty.core.world.services : Startable, Updatable, Processable;
+import liberty.core.world.services : IStartable, IUpdatable, IProcessable;
 import liberty.core.world.node : Node, Root;
 import liberty.core.world.camera : Camera;
-import liberty.graphics.renderer : Renderable;
+import liberty.graphics.renderer : IRenderable;
 import liberty.math.vector : Vector3F;
 ///
 struct SceneSettings {
@@ -21,11 +21,11 @@ struct SceneSettings {
 ///
 final class Scene {
 	public {
-	    Startable[string] startList;
-	    Updatable[string] updateList;
-	    Processable[string] processList;
-	    Renderable[string] renderList;
-	    static Renderable[string] shaderList;
+	    IStartable[string] startList;
+	    IUpdatable[string] updateList;
+	    IProcessable[string] processList;
+	    IRenderable[string] renderList;
+	    static IRenderable[string] shaderList;
 	}
     package {
         bool[string] _ids;
@@ -111,7 +111,7 @@ final class Scene {
 		//camera = null;
 	}
 	/// Register scene to the CoreEngine.
-	/// Invoke start for all Startable objects that have an start() method.
+	/// Invoke start for all IStartable objects that have an start() method.
 	void register() {
 		_registered = true;
 		foreach (node; startList) {
@@ -121,21 +121,21 @@ final class Scene {
 			_activeCamera = tree.spawn!Camera("DefaultCamera");
 		}
 	}
-	/// Updates all Updatable objects that have an update() method.
+	/// Updates all IUpdatable objects that have an update() method.
 	/// It's called every frame.
 	void update(in float deltaTime) {
         foreach (node; updateList) {
             node.update(deltaTime);
         }
     }
-    /// Process all Processable objects that have a process() method.
+    /// Process all IProcessable objects that have a process() method.
     /// It's synchronized with PhysicsCoreEngine.
     void process() {
         foreach (node; processList) {
             node.process();
         }
     }
-    /// Render all Renderable objects that have a render() method.
+    /// Render all IRenderable objects that have a render() method.
     void render() {
         foreach (shader; shaderList) {
             shader.render();

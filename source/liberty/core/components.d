@@ -178,7 +178,7 @@ struct Transform {
 	ref const(Vector3F) position() pure nothrow const @safe @nogc @property {
 		return _position;
 	}
-		///
+	///
 	ref const(Vector3F) rotation() pure nothrow const @safe @nogc @property {
 		return _rotation;
 	}

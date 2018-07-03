@@ -8,12 +8,12 @@
  */
 module liberty.core.world.node;
 import liberty.core.engine : CoreEngine;
-import liberty.core.world.services : Startable, Updatable, Processable;
+import liberty.core.world.services : IStartable, IUpdatable, IProcessable;
 import liberty.core.world.scene : Scene;
 import liberty.core.world.camera : Camera;
 import liberty.core.components : Transform;
 /// Represents an object in the scene tree.
-abstract class Node : Startable, Updatable, Processable {
+abstract class Node : IStartable, IUpdatable, IProcessable {
 	private {
 		string _id;
 		Node _parent;

@@ -7,12 +7,12 @@
  * Coverage:
  */
 module liberty.core.world.entity;
-import liberty.core.world.node: Node;
-import liberty.graphics.renderer: Renderable;
-import liberty.graphics.renderer: Vertex;
-import liberty.core.components: Renderer, Transform;
+import liberty.core.world.node : Node;
+import liberty.graphics.renderer : IRenderable;
+import liberty.graphics.renderer : Vertex;
+import liberty.core.components : Renderer, Transform;
 /// An entity has a render component.
-abstract class Entity : Node, Renderable {
+abstract class Entity : Node, IRenderable {
 	private {
 		Renderer!Vertex _renderComponent;
     }

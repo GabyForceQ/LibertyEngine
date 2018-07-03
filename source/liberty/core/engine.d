@@ -26,7 +26,7 @@ import liberty.core.utils : Singleton, IService;
 ///
 class CoreEngineException : Exception {
     ///
-    @safe pure nothrow this(string message, string file = __FILE__, size_t line = __LINE__, Throwable next = null) {
+    this(string message, string file = __FILE__, size_t line = __LINE__, Throwable next = null) pure nothrow @safe {
         super(message, file, line, next);
     }
 }
