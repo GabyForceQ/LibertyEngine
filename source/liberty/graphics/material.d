@@ -22,11 +22,11 @@ final class Material {
 		Bitmap _texture;
 	}
 	///
-	this() {
+	this(string resourcePath) {
 		_shader = RenderUtil.get.createShaderProgram(vertexCode, fragmentCode);
 		Scene.shaderList[_shader.programID.to!string] = _shader;
 		glGenTextures(1, &_textureID);
-        _texture = new Bitmap(CoreEngine.get.imageAPI, "res/brick.bmp");
+        _texture = new Bitmap(CoreEngine.get.imageAPI, resourcePath);
         glBindTexture(GL_TEXTURE_2D, _textureID);
         if (_texture.data()) {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _texture.width(), _texture.height(), 0, 
@@ -63,7 +63,7 @@ final class Materials : Singleton!Materials {
 	Material defaultMaterial;
 	///
 	void load() {
-		defaultMaterial = new Material();
+		defaultMaterial = new Material("res/default.bmp");
 	}
 }
 ///
