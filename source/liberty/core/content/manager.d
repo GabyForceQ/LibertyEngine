@@ -8,6 +8,7 @@
  */
 module liberty.core.content.manager;
 import liberty.core.utils : Singleton, IService;
+import liberty.core.logger : Logger;
 import derelict.assimp3.assimp;
 import derelict.util.exception;
 /// A failing AssetManager function should <b>always</b> throw a $(D AssetManagerException).
@@ -15,7 +16,6 @@ final class AssetManagerException : Exception {
 	/// Default constructor.
 	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
 		super(msg, file, line, next);
-        import liberty.core.logger : Logger;
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
 	}
@@ -31,13 +31,15 @@ final class AssetManager : Singleton!AssetManager, IService {
             throw new AssetManagerException(e.msg);
         }
         _serviceRunning = true;
+        Logger.get.info("AssetManager service started.");
     }
     /// Stop AssetManager service.
-    void stopService() pure nothrow @safe @nogc {
+    void stopService() @safe {
         _serviceRunning = false;
+        Logger.get.info("AssetManager service stopped.");
     }
     /// Restart AssetManager service.
-    void restartService() @trusted {
+    void restartService() @safe {
         stopService();
         startService();
     }

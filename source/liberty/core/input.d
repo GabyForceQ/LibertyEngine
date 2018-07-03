@@ -10,6 +10,7 @@ module liberty.core.input;
 import derelict.sdl2.sdl;
 import liberty.math.vector : Vector2I;
 import liberty.core.utils : Singleton, IService;
+import liberty.core.logger : Logger;
 pragma (inline, true):
 ///
 final class Input : Singleton!Input, IService {
@@ -39,6 +40,7 @@ final class Input : Singleton!Input, IService {
     void startService() @trusted {
         systemCursor = SystemCursor.Arrow;
         _serviceRunning = true;
+        Logger.get.info("Input service started.");
     }
     /// Stop Input service.
     void stopService() @trusted {
@@ -47,6 +49,7 @@ final class Input : Singleton!Input, IService {
             _cursorHandle = null;
         }
         _serviceRunning = false;
+        Logger.get.info("Input service stopped.");
     }
     /// Restart Input service.
     void restartService() @trusted {

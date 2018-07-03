@@ -8,6 +8,7 @@
  */
  // TODO: Add current platform on log message.
 module liberty.core.logger;
+pragma(inline, true) :
 import liberty.core.utils : Singleton, IService;
 /// All types of log that you can use when logging a message.
 enum LogType : ubyte {
@@ -28,15 +29,17 @@ enum LogType : ubyte {
 final class Logger : Singleton!Logger, IService {
     private bool _serviceRunning;
 	/// Start Logger service.
-    void startService() pure nothrow @safe @nogc {
+    void startService() @safe {
         _serviceRunning = true;
+        info("Logger service started.");
     }
     /// Stop Logger service.
-    void stopService() pure nothrow @safe @nogc {
+    void stopService() @safe {
         _serviceRunning = false;
+        info("Logger service stopped.");
     }
     /// Restart Logger service.
-    void restartService() pure nothrow @safe @nogc {
+    void restartService() @safe {
         stopService();
         startService();
     }

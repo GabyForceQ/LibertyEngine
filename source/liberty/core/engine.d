@@ -23,12 +23,12 @@ import liberty.core.model : Models;
 import liberty.graphics.material : Materials;
 import liberty.core.system;
 import liberty.core.utils : Singleton, IService;
+import liberty.core.logger : Logger;
 ///
 class CoreEngineException : Exception {
     ///
     this(string message, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
         super(message, file, line, next);
-        import liberty.core.logger : Logger;
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
     }
@@ -75,15 +75,21 @@ final class CoreEngine : Singleton!CoreEngine, IService {
         return _activeScene;
     }
     ///
-    Platform platform() { return _platformApi; }
+    Platform platform() { 
+        return _platformApi; 
+    }
     ///
-    SDL2Window mainWindow() { return _mainWindow; }
+    SDL2Window mainWindow() { 
+        return _mainWindow; 
+    }
     ///
-    Image imageAPI() { return _imageAPI; }
+    Image imageAPI() { 
+        return _imageAPI; 
+    }
     /// Start CoreEngine service.
     void startService() @trusted {
-        version (__Logger__) {
-            Logger.startService();
+        version(__WithStudio__) {
+            Logger.get.startService();
         }
         GraphicsEngine.get.startService();
         _initWindow();
@@ -92,15 +98,17 @@ final class CoreEngine : Singleton!CoreEngine, IService {
         Materials.get.load();
         Models.get.load();
         _serviceRunning = true;
+        Logger.get.info("CoreEngine service started.");
     }
     /// Stop CoreEngine service.
     void stopService() @trusted {
         GraphicsEngine.get.stopService();
-        version (__Logger__) {
-            Logger.stopService();
-        }
         collectGarbage();
         _serviceRunning = false;
+        Logger.get.info("CoreEngine service stopped.");
+        version (__WithStudio__) {
+            Logger.get.stopService();
+        }
     }
     /// Restart CoreEngine service.
     void restartService() @trusted {
@@ -179,16 +187,24 @@ final class CoreEngine : Singleton!CoreEngine, IService {
                 SDL_WINDOW_VULKAN
             );
         }
+        Logger.get.info("Global window initialized.");
     }
-    ///
-    void gcEnabled(bool enabled = true) {
+    /// Sets if Garbage Collector should be enabled or disabled.
+    void gcEnabled(bool enabled) @trusted @property {
         import core.memory : GC;
-        enabled ? GC.enable() : GC.disable();
+        if (enabled) {
+            GC.enable();
+            Logger.get.info("Garbage collector enabled.");
+        } else {
+            GC.disable();
+            Logger.get.info("Garbage collector disabled.");
+        }
     }
-    ///
-    void collectGarbage() {
+    /// Collect references that are not used any more from the GC area.
+    void collectGarbage() @trusted {
         import core.memory : GC;
         GC.collect();
+        Logger.get.info("Garbage collected.");
     }
 }
 ///

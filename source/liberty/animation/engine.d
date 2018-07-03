@@ -8,12 +8,12 @@
  */
 module liberty.animation.engine;
 import liberty.core.utils : Singleton, IService;
+import liberty.core.logger : Logger;
 /// A failing Animation function should <b>always</b> throw a $(D AnimationEngineException).
 final class AnimationEngineException : Exception {
 	/// Default constructor.
 	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
 		super(msg, file, line, next);
-        import liberty.core.logger : Logger;
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
 	}
@@ -22,15 +22,17 @@ final class AnimationEngineException : Exception {
 final class AnimationEngine : Singleton!AnimationEngine, IService {
 	private bool _serviceRunning;
 	/// Start AnimationEngine service.
-    void startService() pure nothrow @safe @nogc {
+    void startService() @safe {
         _serviceRunning = true;
+        Logger.get.info("AnimationEngine service started.");
     }
     /// Stop AnimationEngine service.
-    void stopService() pure nothrow @safe @nogc {
+    void stopService() @safe {
         _serviceRunning = false;
+        Logger.get.info("AnimationEngine service stopped.");
     }
     /// Restart AnimationEngine service.
-    void restartService() pure nothrow @safe @nogc {
+    void restartService() @safe {
         stopService();
         startService();
     }

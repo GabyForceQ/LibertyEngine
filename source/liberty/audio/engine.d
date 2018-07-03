@@ -8,12 +8,12 @@
  */
 module liberty.audio.engine;
 import liberty.core.utils : Singleton, IService;
+import liberty.core.logger : Logger;
 /// A failing Audio function should <b>always</b> throw a $(D AudioEngineException).
 final class AudioEngineException : Exception {
 	/// Default constructor.
 	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
 		super(msg, file, line, next);
-        import liberty.core.logger : Logger;
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
 	}
@@ -22,15 +22,17 @@ final class AudioEngineException : Exception {
 final class AudioEngine : Singleton!AudioEngine, IService {
 	private bool _serviceRunning;
 	/// Start AudioEngine service.
-    void startService() pure nothrow @safe @nogc {
+    void startService() @safe {
         _serviceRunning = true;
+        Logger.get.info("AudioEngine service started.");
     }
     /// Stop AudioEngine service.
-    void stopService() pure nothrow @safe @nogc {
+    void stopService() @safe {
         _serviceRunning = false;
+        Logger.get.info("AudioEngine service stopped.");
     }
     /// Restart AudioEngine service.
-    void restartService() pure nothrow @safe @nogc {
+    void restartService() @safe {
         stopService();
         startService();
     }

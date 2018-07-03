@@ -20,13 +20,3 @@ version (__NoDefaultImports__) {
 		import liberty.ui;
 	}
 }
-version (__BasicSTD__) {
-	public {
-		import std.math;
-		import std.random;
-		import std.stdio;
-		import std.conv;
-		import std.string;
-		import std.datetime;
-	}
-}

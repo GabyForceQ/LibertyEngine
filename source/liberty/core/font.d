@@ -8,12 +8,12 @@
  */
 module liberty.core.font;
 import liberty.core.utils : Singleton, IService;
+import liberty.core.logger : Logger;
 /// A failing FontManager function should <b>always</b> throw a $(D FontManagerEngineException).
 final class AIEngineException : Exception {
 	/// Default constructor.
 	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
-		super(msg, file, line, next);
-        import liberty.core.logger : Logger;
+		super(msg, file, line, next);     
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
 	}
@@ -22,15 +22,17 @@ final class AIEngineException : Exception {
 final class FontManager : Singleton!FontManager, IService {
 	private bool _serviceRunning;
 	/// Start FontManager service.
-    void startService() pure nothrow @safe @nogc {
+    void startService() @safe {
         _serviceRunning = true;
+        Logger.get.info("FontManager service started.");
     }
     /// Stop FontManager service.
-    void stopService() pure nothrow @safe @nogc {
+    void stopService() @safe {
         _serviceRunning = false;
+        Logger.get.info("FontManager service stopped.");
     }
     /// Restart FontManager service.
-    void restartService() pure nothrow @safe @nogc {
+    void restartService() @safe {
         stopService();
         startService();
     }
