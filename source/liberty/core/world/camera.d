@@ -98,11 +98,11 @@ final class Camera : Actor {
 		_position = Vector3F(x, y, z);
 	}
 	/// Sets the camera world position using a vector for coordinates.
-	void position(Vector3F position) pure nothrow @safe @nogc @property {
+	void position(Vector3F position) pure nothrow @safe @nogc {
 		_position = position;
 	}
 	/// Gets the camera position in the world.
-	ref const(Vector3F) position() pure nothrow const @safe @nogc @property {
+	ref const(Vector3F) position() pure nothrow @safe @nogc {
 		return _position;
 	}
 	///
