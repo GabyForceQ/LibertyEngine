@@ -21,7 +21,7 @@ void initSettings() {
 }
 
 void initScene() {
-	Scene mainScene = new Scene("MainScene");
+	auto mainScene = new Scene("MainScene");
 	mainScene.tree.spawn!Player("Player", false);
 	mainScene.register();
 }

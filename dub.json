@@ -6,7 +6,7 @@
 	"authors": [
 		"Gabriel Gheorghe"
 	],
-	"description": "Liberty Engine, written in D.",
+	"description": "Simple, fast and modern 2D/3D engine.",
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
 	"copyright": "Copyright © 2018, Gabriel Gheorghe",
 	"versions": [

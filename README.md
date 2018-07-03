@@ -22,6 +22,36 @@ A powerful 2D/3D engine written in the D programming language!
 * To run it, go to the bin/platform/executable.
 * You need Visual C++ SDK for Windows 10 to build the x64 version.
 
+### Example:
+```D
+module example;
+
+import liberty.engine;
+
+mixin(NativeServices);
+
+void initScene() {
+    auto mainScene = new Scene("MainScene");
+    mainScene.tree.spawn!Player("Player", false);
+    mainScene.register();
+}
+
+final class Player : Actor {
+    
+    mixin(NodeServices);
+    
+    override void start() {
+        spawn!Camera("Camera");
+        scene.activeCamera = child!Camera("Camera");
+    }
+    
+    override void update(in float deltaTime) {
+        Logger.get.info("Updating...");
+    }
+}
+
+```
+
 ### Future plans:
 * LibertyStudio with project templates
 * Dynamic scripts loader
