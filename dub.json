@@ -10,7 +10,8 @@
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
 	"copyright": "Copyright © 2018, Gabriel Gheorghe",
 	"versions": [
-		"__OpenGL__"
+		"__OpenGL__",
+		"__WithStudio__"
 	],
 	"stringImportPaths": [
 		"res"

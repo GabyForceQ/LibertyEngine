@@ -16,7 +16,7 @@ final class Player : Actor {
 
 	override void start() {
 		spawn!CubeVolume("Cube");
-		spawn!Camera("Camera").position = Vector3F(1.0f, 1.0f, 5.0f);
+		spawn!Camera("Camera").position(1.0f, 1.0f, 5.0f);
 		scene.activeCamera = child!Camera("Camera");
 	}
 }

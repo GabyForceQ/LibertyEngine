@@ -93,9 +93,17 @@ final class Camera : Actor {
 	this(string id, Node parent, Vector3F position = Vector3F.zero, Vector3F up = Vector3F.up, float yaw = Yaw, float pitch = Pitch) {
 		super(id, parent);
 	}
-	///
-	@property void position(Vector3F position) {
+	/// Sets the camera world position using x, y and z coordinates.
+	void position(float x, float y, float z) pure nothrow @safe @nogc {
+		_position = Vector3F(x, y, z);
+	}
+	/// Sets the camera world position using a vector for coordinates.
+	void position(Vector3F position) pure nothrow @safe @nogc @property {
 		_position = position;
+	}
+	/// Gets the camera position in the world.
+	ref const(Vector3F) position() pure nothrow const @safe @nogc @property {
+		return _position;
 	}
 	///
 	Matrix4F projectionMatrix() {
