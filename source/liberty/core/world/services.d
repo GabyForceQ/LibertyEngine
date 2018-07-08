@@ -14,7 +14,7 @@ immutable NodeServices = q{
             assert(0, "Parent object cannot be null");
         }
         super(id, parent);
-        import std.traits: hasUDA;
+        import std.traits : hasUDA;
         enum finalClass = __traits(isFinalClass, this);
         enum abstractClass = __traits(isAbstractClass, this);
         static if (!(finalClass || abstractClass)) {
@@ -61,7 +61,7 @@ immutable ListenerServices = q{
 	/// Starts current containing events and @Signal events.
 	/// A @Signal event overrides a current containing event.
 	void startListening(T)(ref T element) {
-        import std.traits: hasUDA, getUDAs;
+        import std.traits : hasUDA, getUDAs;
         if (!element._canListen) {
             element._canListen = true;
             if (typeof(element).stringof == Button.stringof) {
@@ -71,7 +71,7 @@ immutable ListenerServices = q{
     }
     /// Clears all events. Restarts only @Signal events.
     void restartListening(T)(ref T element) {
-        import std.traits: hasUDA, getUDAs;
+        import std.traits : hasUDA, getUDAs;
         element.stopListening();
         element._canListen = true;
         if (typeof(element).stringof == Button.stringof) {
@@ -81,25 +81,30 @@ immutable ListenerServices = q{
 };
 ///
 immutable ButtonListenerServices = q{
-	static foreach (member; __traits(derivedMembers, typeof(this))) {
-        static if (typeof(super).stringof == "Canvas") {
-            static if (mixin("hasUDA!(" ~ typeof(this).stringof ~ "." ~ member ~ ", Signal)")) {
-                static foreach (el; ["RightClick", "LeftClick", "MouseMove", "MouseInside", "Update"]) {
-                    static if (member.stringof == "\"on" ~ el ~ getUDAs!(__traits(getMember, this, member), Signal)[0].id ~ "\"") {
-                        if (element.id == getUDAs!(__traits(getMember, this, member), Signal)[0].id) {
-                            mixin("element.on" ~ el ~ " = &on" ~ el ~ getUDAs!(__traits(getMember, this, member), Signal)[0].id ~ ";");
+	static if (typeof(super).stringof == "Canvas") {
+		static foreach (member; __traits(derivedMembers, typeof(this))) {
+			static if (mixin("hasUDA!(" ~ typeof(this).stringof ~ "." ~ member ~ ", Event)")
+					&& mixin("hasUDA!(" ~ typeof(this).stringof ~ "." ~ member ~ ", Signal)")) {
+				static foreach (type; ["LeftClick", "MiddleClick", "RightClick", "MouseMove", "MouseInside"]) {
+					static if (type == getUDAs!(__traits(getMember, this, member), Event)[0].type) {
+						if (element.id == getUDAs!(__traits(getMember, this, member), Signal)[0].id) {
+							mixin("element.on" ~ type ~ " = &" ~ member ~ ";");
                         }
-                    }
-                }
-            }
-        }
-    }
+					}
+				}
+			}
+		}
+	}
 };
 ///
 struct Constructor;
 ///
 struct Signal {
 	string id;
+}
+///
+struct Event {
+	string type;
 }
 ///
 interface IStartable {

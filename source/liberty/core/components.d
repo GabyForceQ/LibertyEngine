@@ -137,11 +137,11 @@ struct Transform {
 	}
 	///
 	void rotate(float angle, float rotationX, float rotationY, float rotationZ) pure nothrow @safe @nogc {
-		_modelMatrix.rotate(angle, Vector3F(rotationX, rotationY, rotationZ));
+		_modelMatrix.rotate(angle.radians, Vector3F(rotationX, rotationY, rotationZ));
 	}
 	///
 	void rotate(float angle, Vector3F rotation) pure nothrow @safe @nogc {
-		_modelMatrix.rotate(angle, _rotation);
+		_modelMatrix.rotate(angle.radians, _rotation);
 	}
 	///
 	void rotatePitch(float angle) pure nothrow @safe @nogc {
@@ -149,15 +149,15 @@ struct Transform {
 	}
 	///
 	void rotateX(float angle) pure nothrow @safe @nogc {
-		_modelMatrix.rotateX(angle);
+		_modelMatrix.rotateX(angle.radians);
 	}
 	///
 	void rotateY(float angle) pure nothrow @safe @nogc {
-		_modelMatrix.rotateY(angle);
+		_modelMatrix.rotateY(angle.radians);
 	}
 	///
 	void rotateZ(float angle) pure nothrow @safe @nogc {
-		_modelMatrix.rotateZ(angle);
+		_modelMatrix.rotateZ(angle.radians);
 	}
 	///
 	void scale(float x, float y, float z) pure nothrow @safe @nogc {

@@ -20,6 +20,16 @@ final class Button : Widget {
 	///
 	mixin(NodeServices);
 	///
+	enum MouseLeftClick = "LeftClick";
+	///
+	enum MouseMiddleClick = "MiddleClick";
+	///
+	enum MouseRightClick = "RightClick";
+	///
+	enum MouseMove = "MouseMove";
+	///
+	enum MouseInside = "MouseInside";
+	///
     this(string id, Node parent, int x, int y, int width, int height) {
         this(id, parent);
         setPosition(x, y, width, height);
