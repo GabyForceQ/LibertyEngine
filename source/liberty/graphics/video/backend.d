@@ -8,7 +8,7 @@
  */
 // TODO: Window background transparency.
 module liberty.graphics.video.backend;
-import liberty.graphics.renderer : Vendor;
+import liberty.graphics.engine : Vendor;
 ///
 class UnsupportedVideoFeatureException : Exception {
     ///

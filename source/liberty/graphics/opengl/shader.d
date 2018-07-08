@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.graphics.opengl.shader;
-import liberty.graphics.renderer;
+import liberty.graphics.engine;
 import liberty.graphics.video.shader : ShaderProgram, ShaderType;
 import liberty.graphics.video.backend : UnsupportedVideoFeatureException;
 import liberty.graphics.opengl.vertex : GLAttribute;

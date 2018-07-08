@@ -14,7 +14,7 @@ version (__NoDefaultImports__) {
 		import liberty.graphics.opengl;
 		import liberty.graphics.vulkan;
 		import liberty.graphics.material;
-		import liberty.graphics.renderer;
+		import liberty.graphics.engine;
 		import liberty.graphics.postprocessing;
 		import liberty.graphics.settings;
 		import liberty.graphics.shaders;

@@ -18,8 +18,8 @@ import std.conv : to;
 final class Material {
 	private {
 		ShaderProgram _shader;
-		uint _textureID;
 		Bitmap _texture;
+		uint _textureID;
 	}
 	///
 	this(string resourcePath) {
@@ -46,6 +46,10 @@ final class Material {
 	///
 	ShaderProgram shader() pure nothrow @safe @nogc {
 		return _shader;
+	}
+	///
+	Bitmap texture() pure nothrow @safe @nogc {
+		return _texture;
 	}
 	///
 	uint textureId() pure nothrow const @safe @nogc @property {

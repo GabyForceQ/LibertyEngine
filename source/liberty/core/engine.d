@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.core.engine;
-import liberty.graphics.renderer;
+import liberty.graphics.engine;
 import liberty.core.input;
 import liberty.core.world;
 import liberty.graphics.opengl;

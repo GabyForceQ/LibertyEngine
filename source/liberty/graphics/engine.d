@@ -6,7 +6,7 @@
  * Documentation:
  * Coverage:
  */
-module liberty.graphics.renderer;
+module liberty.graphics.engine;
 import liberty.math.vector : Vector2F, Vector3F;
 import liberty.graphics.util : RenderUtil;
 import liberty.graphics.video.vertex : VertexSpec;

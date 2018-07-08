@@ -10,7 +10,7 @@
 module liberty.graphics.opengl.buffer;
 version (__OpenGL__) :
 import derelict.opengl;
-import liberty.graphics.renderer;
+import liberty.graphics.engine;
 import liberty.graphics.video.buffer : VideoBuffer;
 /// OpenGL Buffer.
 final class GLBuffer : VideoBuffer {

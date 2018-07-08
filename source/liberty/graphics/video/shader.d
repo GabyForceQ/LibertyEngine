@@ -9,7 +9,7 @@
 module liberty.graphics.video.shader;
 import liberty.math.vector : Vector2F, Vector3F, Vector4F;
 import liberty.math.matrix: Matrix4F;
-import liberty.graphics.renderer : IRenderable;
+import liberty.graphics.engine : IRenderable;
 import liberty.core.engine;
 ///
 enum ShaderType : byte {

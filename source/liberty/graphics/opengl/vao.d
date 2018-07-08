@@ -10,7 +10,7 @@
 module liberty.graphics.opengl.vao;
 version (__OpenGL__) :
 import derelict.opengl : glGenVertexArrays, glDeleteVertexArrays, glBindVertexArray;
-import liberty.graphics.renderer;
+import liberty.graphics.engine;
 import liberty.graphics.video.vao : VertexArray;
 /// OpenGL Vertex Array Object.
 final class GLVertexArray : VertexArray {

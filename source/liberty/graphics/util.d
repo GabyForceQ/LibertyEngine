@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.graphics.util;
-import liberty.graphics.renderer : DataUsage, DrawMode, VectorType;
+import liberty.graphics.engine : DataUsage, DrawMode, VectorType;
 import liberty.graphics.video.backend : VideoBackend;
 import liberty.graphics.video.buffer : VideoBuffer, BufferTarget;
 import liberty.graphics.video.vao : VertexArray;

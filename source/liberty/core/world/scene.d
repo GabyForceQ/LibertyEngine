@@ -11,7 +11,7 @@ import liberty.core.engine : CoreEngine;
 import liberty.core.world.services : IStartable, IUpdatable, IProcessable;
 import liberty.core.world.node : Node, Root;
 import liberty.core.world.camera : Camera;
-import liberty.graphics.renderer : IRenderable;
+import liberty.graphics.engine : IRenderable;
 import liberty.math.vector : Vector3F;
 ///
 struct SceneSettings {

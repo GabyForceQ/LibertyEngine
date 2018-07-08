@@ -9,7 +9,7 @@
 module liberty.graphics.opengl.vertex;
 version (__OpenGL__) :
 import derelict.opengl;
-import liberty.graphics.renderer;
+import liberty.graphics.engine;
 import liberty.graphics.opengl.traits;
 import std.string, std.typetuple, std.typecons, std.traits;
 import liberty.math.vector;

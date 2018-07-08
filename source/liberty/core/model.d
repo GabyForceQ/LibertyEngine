@@ -12,7 +12,7 @@ import liberty.graphics.video.vertex : VertexSpec;
 import liberty.graphics.video.vao : VertexArray;
 import liberty.graphics.video.buffer : VideoBuffer, BufferTarget;
 import liberty.graphics.material : Material, Materials;
-import liberty.graphics.renderer : Vertex, DataUsage;
+import liberty.graphics.engine : Vertex, DataUsage;
 import liberty.math : Vector2F, Vector3F;
 import liberty.core.utils : Singleton;
 ///
@@ -56,19 +56,19 @@ final class Model(VERTEX) {
 		_vertexSpec.destroy();
 	}
 	///
-	Mesh mesh() pure nothrow @safe @nogc @property {
+	Mesh mesh() pure nothrow @safe @nogc {
 		return _mesh;
 	}
 	///
-	Material material() pure nothrow @safe @nogc @property {
+	Material material() pure nothrow @safe @nogc {
 		return _material;
 	}
 	///
-	void mesh(Mesh mesh) pure nothrow @safe @nogc @property {
+	void mesh(Mesh mesh) pure nothrow @safe @nogc {
 		_mesh = mesh;
 	}
 	///
-	void material(Material material) pure nothrow @safe @nogc @property {
+	void material(Material material) pure nothrow @safe @nogc {
 		_material = material;
 	}
 }

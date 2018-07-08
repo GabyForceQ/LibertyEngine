@@ -18,7 +18,7 @@ public import derelict.opengl.types: GLVersion;
 import derelict.opengl;
 import derelict.util.exception : ShouldThrow;
 import derelict.opengl.gl;
-import liberty.graphics.renderer : Vendor;
+import liberty.graphics.engine : Vendor;
 import liberty.graphics.video.backend : VideoBackend;
 import liberty.core.engine;
 /// The one exception type thrown in this wrapper.

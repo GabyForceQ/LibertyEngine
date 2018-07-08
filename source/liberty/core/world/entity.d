@@ -8,8 +8,8 @@
  */
 module liberty.core.world.entity;
 import liberty.core.world.node : Node;
-import liberty.graphics.renderer : IRenderable;
-import liberty.graphics.renderer : Vertex;
+import liberty.graphics.engine : IRenderable;
+import liberty.graphics.engine : Vertex;
 import liberty.core.components : Renderer, Transform;
 /// An entity has a render component.
 abstract class Entity : Node, IRenderable {
