@@ -7,13 +7,13 @@
  * Coverage:
  */
 module liberty.core.world.canvas;
-version (none):
 import liberty.core.world.services : ListenerServices;
-import liberty.core.world.node : NodeObject;
+import liberty.core.world.node : Node;
 import liberty.core.world.scene : Scene;
 import liberty.math.vector : Vector3F, Vector4F;
 import liberty.core.geometry.shapes;
-import liberty.core.config : CoreEngineException;
+import liberty.core.engine : CoreEngineException;
+import liberty.ui.widget : Widget;
 ///
 abstract class Canvas : Widget { // TODO: Not abstract, not final.
 	protected {
@@ -25,17 +25,17 @@ abstract class Canvas : Widget { // TODO: Not abstract, not final.
 	///
     this(string id, Node parent) {
         super(id, parent);
-        _shape = scene.spawn!RectangleShape("shape"); // TODO. Algorithm for a new id. Maybe count instances with static?
+        _shape = spawn!RectangleShape("shape"); // TODO. Algorithm for a new id. Maybe count instances with static?
     }
     ///
     this(string id, ShapeForm shape_form, Node parent) {
         super(id, parent);
         switch (shape_form) with (ShapeForm) {
             case Rectangle:
-                _shape = scene.spawn!RectangleShape("shape"); // TODO. Algorithm for a new id.
+                _shape = spawn!RectangleShape("shape"); // TODO. Algorithm for a new id.
                 break;
             //case Circe:
-                //_shape = scene.spawn!CircleShape("shape"); // TODO. Algorithm for a new id.
+                //_shape = spawn!CircleShape("shape"); // TODO. Algorithm for a new id.
                 //break;
             default:
                 throw new CoreEngineException("Unsupported ShapeForm for Canvas element!");
@@ -50,7 +50,7 @@ abstract class Canvas : Widget { // TODO: Not abstract, not final.
         _canListen = __;
     }
     ///
-    void stopListening() {}
+    override void stopListening() {}
     ///
     //override void render() {
     //    _shape.draw();

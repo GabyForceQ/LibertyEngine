@@ -62,8 +62,8 @@ immutable ListenerServices = q{
 	/// A @Signal event overrides a current containing event.
 	void startListening(T)(ref T element) {
         import std.traits: hasUDA, getUDAs;
-        if (!element.canListen()) {
-            element.__canListen(true);
+        if (!element._canListen) {
+            element._canListen = true;
             if (typeof(element).stringof == Button.stringof) {
                 mixin(ButtonListenerServices);
             }
@@ -73,7 +73,7 @@ immutable ListenerServices = q{
     void restartListening(T)(ref T element) {
         import std.traits: hasUDA, getUDAs;
         element.stopListening();
-        element.__canListen(true);
+        element._canListen = true;
         if (typeof(element).stringof == Button.stringof) {
             mixin(ButtonListenerServices);
         }

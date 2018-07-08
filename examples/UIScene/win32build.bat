@@ -1,0 +1,1 @@
+dub build --config="windows-desktop-32" --arch=x86

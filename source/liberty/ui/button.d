@@ -234,7 +234,7 @@ final class Button : Widget {
     }
     ///
     override void stopListening() {
-        __canListen = false;
+        _canListen = false;
         clearAllIsOnEvents();
         clearAllEvents();
     }

@@ -7,15 +7,13 @@
  * Coverage:
  */
 module liberty.ui.widget;
-import liberty.core.world.node: Node;
-import liberty.core.world.entity: Entity;
+import liberty.core.world.node : Node;
+import liberty.core.world.entity : Entity;
 /// An Widget is a 2d element on the screen.
 /// It doesn't depends on world camera.
 abstract class Widget : Entity, IListener {
     ///
-    protected bool _canListen;
-    ///
-    bool __canListen; // TODO: remove
+    bool _canListen;
 	/// Default constructor.
     this(string id, Node parent) {
         super(id, parent);
