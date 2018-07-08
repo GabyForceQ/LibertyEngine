@@ -13,14 +13,32 @@ import liberty.core.world.entity : Entity;
 /// It doesn't depends on world camera.
 abstract class Widget : Entity, IListener {
     ///
+    enum Update = "Update";
+    ///
+    enum Render = "Render";
+    private {
+        void delegate() _onUpdate = null;
+    }
+    ///
     bool _canListen;
 	/// Default constructor.
     this(string id, Node parent) {
         super(id, parent);
     }
-    override void render() {}
     ///
-    void stopListening() {}
+    override void update(in float deltaTime) {
+        if (_onUpdate !is null) {
+			_onUpdate();
+		}
+    }
+    ///
+    void stopListening() {
+        _canListen = false;
+    }
+    ///
+    void onUpdate(void delegate() event) pure nothrow @property {
+        _onUpdate = event;
+    }
 }
 ///
 interface IListener {

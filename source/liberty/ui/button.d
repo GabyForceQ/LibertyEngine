@@ -7,90 +7,64 @@
  * Coverage:
  */
 module liberty.ui.button;
-import liberty.core.engine;
-import liberty.core.world;
+import liberty.core.engine : CoreEngine;
+import liberty.core.world.node : Node;
+import liberty.core.world.services : NodeServices, Constructor;
 import liberty.core.input : Input, MouseButton;
-import liberty.math;
-import liberty.graphics;
+import liberty.math.vector : Vector2I;
+import liberty.math.shapes : RectI;
 import liberty.ui.widget : Widget;
-import std.string : splitLines;
 import liberty.core.geometry.shapes;
 ///
 final class Button : Widget {
 	///
 	mixin(NodeServices);
 	///
-	enum MouseLeftClick = "LeftClick";
+	enum MouseLeftClick = "MouseLeftClick";
 	///
-	enum MouseMiddleClick = "MiddleClick";
+	enum MouseMiddleClick = "MouseMiddleClick";
 	///
-	enum MouseRightClick = "RightClick";
+	enum MouseRightClick = "MouseRightClick";
 	///
 	enum MouseMove = "MouseMove";
 	///
 	enum MouseInside = "MouseInside";
-	///
-    this(string id, Node parent, int x, int y, int width, int height) {
-        this(id, parent);
-        setPosition(x, y, width, height);
-    }
-	///
-	this(string id, int x, int y, int width, int height) {
-		this(id);
-		setPosition(x, y, width, height);
-	}
-	~this() {
-		//shader.cleanUp();
-	}
-	///
-	int x = 0;
-	///
-	int y = 0;
-	///
-	int width = 0;
-	///
-	int height = 0;
+    ///
+    RectI shape;
     private {
-        void delegate() _onLeftClick = null;
-        //void delegate() _onDoubleClick = null;
-        void delegate() _onMiddleClick = null;
-        void delegate() _onRightClick = null;
-        //void delegate() _onMousePress = null;
-        //void delegate() _onMouseRelease = null
-        //void delegate() _onMouseEnter = null;
-        //void delegate() _onMouseLeave = null;
+        void delegate() _onMouseLeftClick = null;
+        void delegate() _onMouseMiddleClick = null;
+        void delegate() _onMouseRightClick = null;
         void delegate() _onMouseMove = null;
         void delegate() _onMouseInside = null;
-        void delegate() _onUpdate = null;
-        void delegate() _onRender = null;
-        bool _isOnLeftClick;
-        bool _isOnMiddleClick;
-        bool _isOnRightClick;
+        bool _isOnMouseLeftClick;
+        bool _isOnMouseMiddleClick;
+        bool _isOnMouseRightClick;
         bool _isOnMouseMove;
         bool _isOnMouseInside;
         Vector2I _mousePos;
         Vector2I _oldMousePos;
     }
 	///
-	void setPosition(int x, int y, int width, int height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+    this(string id, Node parent, RectI shape = RectI.defaultData) {
+        this(id, parent);
+        this.shape = shape;
+    }
+	~this() {
+		//shader.cleanUp();
 	}
-	///
-	void position(Vector4I position) pure nothrow @safe @nogc @property {
-		this.x = position.x;
-		this.y = position.y;
-		this.width = position.z;
-		this.height = position.w;
-	}
-	///
+    /// Stops listener service.
+    override void stopListening() {
+        super.stopListening();
+        clearAllIsOnEvents();
+        clearAllEvents();
+    }
+	/// Button update function. It calls the widget update function which implements IUpdatable.
 	override void update(in float deltaTime) {
+        super.update(deltaTime);
 		if (_canListen) {
 			clearAllIsOnEvents();
 			if (mouseIntersectsThis()) {
-				//if (hasOnMouseEnter()) {}
 				if (hasOnMouseMove() && _oldMousePos != _mousePos) {
                     _onMouseMove();
                     _isOnMouseMove = true;
@@ -99,153 +73,134 @@ final class Button : Widget {
 					_onMouseInside();
 					_isOnMouseInside = true;
 				}
-				if (hasOnLeftClick()) {
+				if (hasOnMouseLeftClick()) {
 	                if (Input.get.isMouseButtonPressed(MouseButton.Left)) {
-                        _onLeftClick();
-                        _isOnLeftClick = true;
+                        _onMouseLeftClick();
+                        _isOnMouseLeftClick = true;
 	                }
 				}
-				if (hasOnMiddleClick()) {
+				if (hasOnMouseMiddleClick()) {
                     if (Input.get.isMouseButtonPressed(MouseButton.Middle)) {
-                        _onMiddleClick();
-                        _isOnMiddleClick = true;
+                        _onMouseMiddleClick();
+                        _isOnMouseMiddleClick = true;
                     }
                 }
-                if (hasOnRightClick()) {
+                if (hasOnMouseRightClick()) {
                     if (Input.get.isMouseButtonPressed(MouseButton.Right)) {
-                        _onRightClick();
-                        _isOnRightClick = true;
+                        _onMouseRightClick();
+                        _isOnMouseRightClick = true;
                     }
                 }
-			} else {
-				//if (hasOnMouseLeave() && oldMouseIntersectsThis()) {
-
-				//}
 			}
 			_oldMousePos = _mousePos;
 		}
-		if (_onUpdate !is null) {
-			_onUpdate();
-		}
 	}
-	///
-    void onLeftClick(void delegate() event) pure nothrow @property {
-        _onLeftClick = event;
+	/// Sets the MouseLeftClick event.
+    void onMouseLeftClick(void delegate() event) pure nothrow @property {
+        _onMouseLeftClick = event;
     }
-    ///
-    void onMiddleClick(void delegate() event) pure nothrow @property {
-        _onMiddleClick = event;
+    /// Sets the MouseMiddleClick event.
+    void onMouseMiddleClick(void delegate() event) pure nothrow @property {
+        _onMouseMiddleClick = event;
     }
-    ///
-    void onRightClick(void delegate() event) pure nothrow @property {
-        _onRightClick = event;
+    /// Sets the MouseRightClick event.
+    void onMouseRightClick(void delegate() event) pure nothrow @property {
+        _onMouseRightClick = event;
     }
-    ///
+    /// Sets the MouseMove event.
 	void onMouseMove(void delegate() event) pure nothrow @property {
 		_onMouseMove = event;
 	}
-	///
+	/// Sets the MouseInside event.
     void onMouseInside(void delegate() event) pure nothrow @property {
         _onMouseInside = event;
     }
-    ///
-    void onUpdate(void delegate() event) pure nothrow @property {
-        _onUpdate = event;
-    }
-    ///
-    void onRender(void delegate() event) pure nothrow @property {
-        _onRender = event;
-    }
-	///
-	bool hasOnLeftClick() pure nothrow const {
-		if (_onLeftClick !is null) {
+	/// Returns true if event Button.MouseLeftClick is defined.
+	bool hasOnMouseLeftClick() pure nothrow const {
+		if (_onMouseLeftClick !is null) {
 			return true;
 		}
 		return false;
 	}
-	///
-	bool hasOnMiddleClick() pure nothrow const {
-        if (_onMiddleClick !is null) {
+	/// Returns true if event Button.MouseMiddleClick is defined.
+	bool hasOnMouseMiddleClick() pure nothrow const {
+        if (_onMouseMiddleClick !is null) {
             return true;
         }
         return false;
     }
-    ///
-    bool hasOnRightClick() pure nothrow const {
-        if (_onRightClick !is null) {
+    /// Returns true if event Button.MouseRightClick is defined.
+    bool hasOnMouseRightClick() pure nothrow const {
+        if (_onMouseRightClick !is null) {
             return true;
         }
         return false;
     }
-	///
+	/// Returns true if event Button.MouseMove is defined.
 	bool hasOnMouseMove() pure nothrow const {
         if (_onMouseMove !is null) {
             return true;
         }
         return false;
     }
-    ///
+    /// Returns true if event Button.MouseInside is defined.
     bool hasOnMouseInside() pure nothrow const {
         if (_onMouseInside !is null) {
             return true;
         }
         return false;
     }
-	///
-    bool isOnLeftClick() pure nothrow const {
-        return _isOnLeftClick;
+	/// Returns true if mouse left button is just pressed.
+    bool isOnMouseLeftClick() pure nothrow const {
+        return _isOnMouseLeftClick;
     }
-    ///
-    bool isOnMiddleClick() pure nothrow const {
-        return _isOnMiddleClick;
+    /// Returns true if mouse middle button is just pressed.
+    bool isOnMouseMiddleClick() pure nothrow const {
+        return _isOnMouseMiddleClick;
     }
-    ///
-    bool isOnRightClick() pure nothrow const {
-        return _isOnRightClick;
+    /// Returns true if mouse right button is just pressed.
+    bool isOnMouseRightClick() pure nothrow const {
+        return _isOnMouseRightClick;
     }
-    ///
+    /// Returns true if mouse is moving on the button surface.
     bool isOnMouseMove() pure nothrow const {
         return _isOnMouseMove;
     }
-    ///
+    /// Returns true if mouse is on the button surface.
     bool isOnMouseInside() pure nothrow const {
         return _isOnMouseInside;
     }
-	///
-	int getNumberOfEvents() pure nothrow {
-		int events = 0;
-		if (hasOnLeftClick()) events++;
-		if (hasOnMiddleClick()) events++;
-        if (hasOnRightClick()) events++;
+	/// Returns number of button-only events.
+	ubyte getNumberOfEvents() pure nothrow {
+		ubyte events;
+		if (hasOnMouseLeftClick()) events++;
+		if (hasOnMouseMiddleClick()) events++;
+        if (hasOnMouseRightClick()) events++;
 		if (hasOnMouseMove()) events++;
 		if (hasOnMouseInside()) events++;
 		return events;
 	}
 	private void clearAllIsOnEvents() {
-        _isOnLeftClick = false;
-        _isOnMiddleClick = false;
-        _isOnRightClick = false;
+        _isOnMouseLeftClick = false;
+        _isOnMouseMiddleClick = false;
+        _isOnMouseRightClick = false;
         _isOnMouseMove = false;
         _isOnMouseInside = false;
     }
     private void clearAllEvents() {
-        _onLeftClick = null;
-        _onMiddleClick = null;
-        _onRightClick = null;
+        _onMouseLeftClick = null;
+        _onMouseMiddleClick = null;
+        _onMouseRightClick = null;
         _onMouseMove = null;
         _onMouseInside = null;
     }
     private bool mouseIntersectsThis() {
     	_mousePos = Input.get.mousePosition;
-    	return _mousePos.x > x && _mousePos.x < x + width && _mousePos.y > y && _mousePos.y < y + height;
+    	return _mousePos.x > shape.x && _mousePos.x < shape.x + shape.width 
+            && _mousePos.y > shape.y && _mousePos.y < shape.y + shape.height;
     }
     private bool oldMouseIntersectsThis() {
-        return _oldMousePos.x > x && _oldMousePos.x < x + width && _oldMousePos.y > y && _oldMousePos.y < y + height;
-    }
-    ///
-    override void stopListening() {
-        _canListen = false;
-        clearAllIsOnEvents();
-        clearAllEvents();
+        return _oldMousePos.x > shape.x && _oldMousePos.x < shape.x + shape.width 
+            && _oldMousePos.y > shape.y && _oldMousePos.y < shape.y + shape.height;
     }
 }

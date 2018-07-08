@@ -370,3 +370,31 @@ struct Frustum(T) if (isFloatingPoint!T) {
 alias FrustumF = Frustum!float;
 ///
 alias FrustumD = Frustum!double;
+///
+struct Rect(T) {
+	///
+	alias type = T;
+	///
+	T x;
+	///
+	T y;
+	///
+	T width;
+	///
+	T height;
+	///
+	static const Rect!T defaultData = Rect!T(10, 10, 50, 50);
+	///
+	this(T x, T y, T width, T height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+}
+///
+alias RectI = Rect!int;
+///
+alias RectF = Rect!float;
+///
+alias RectD = Rect!double;

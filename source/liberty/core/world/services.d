@@ -80,18 +80,29 @@ immutable ListenerServices = q{
     }
 };
 ///
+immutable WidgetListenerServices = q{
+    static foreach (type; ["Update"]) {
+        static if (type == getUDAs!(__traits(getMember, this, member), Event)[0].type) {
+            if (element.id == getUDAs!(__traits(getMember, this, member), Signal)[0].id) {
+                mixin("element.on" ~ type ~ " = &" ~ member ~ ";");
+            }
+        }
+    }
+};
+///
 immutable ButtonListenerServices = q{
 	static if (typeof(super).stringof == "Canvas") {
 		static foreach (member; __traits(derivedMembers, typeof(this))) {
 			static if (mixin("hasUDA!(" ~ typeof(this).stringof ~ "." ~ member ~ ", Event)")
 					&& mixin("hasUDA!(" ~ typeof(this).stringof ~ "." ~ member ~ ", Signal)")) {
-				static foreach (type; ["LeftClick", "MiddleClick", "RightClick", "MouseMove", "MouseInside"]) {
+				static foreach (type; ["MouseLeftClick", "MouseMiddleClick", "MouseRightClick", "MouseMove", "MouseInside"]) {
 					static if (type == getUDAs!(__traits(getMember, this, member), Event)[0].type) {
 						if (element.id == getUDAs!(__traits(getMember, this, member), Signal)[0].id) {
 							mixin("element.on" ~ type ~ " = &" ~ member ~ ";");
                         }
 					}
 				}
+                mixin(WidgetListenerServices);
 			}
 		}
 	}
