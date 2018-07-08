@@ -130,6 +130,8 @@ static struct Vertex(ubyte T) if (T == 2 || T == 3) {
 	} else static if (T == 3) {
 		///
 		Vector3F position;
+		///
+		Vector2F texCoords;
 	}
 }
 ///
