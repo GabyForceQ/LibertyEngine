@@ -14,7 +14,7 @@ import liberty.core.world.entity : Entity;
 import liberty.core.world.node : Node;
 import liberty.core.model : Models;
 import liberty.graphics.util : RenderUtil;
-import liberty.graphics.engine : DrawMode, VectorType, Vertex;
+import liberty.graphics.engine : DrawMode, VectorType, Vertex2;
 ///
 abstract class Shape : Entity {
 	///
@@ -28,11 +28,11 @@ final class RectangleShape : Shape {
 	///
 	@Constructor 
 	private void _() {
-		renderer = Renderer!Vertex(this, Models.get.rectangleModel);
+		renderer2DComponent = Renderer!Vertex2(this, Models.get.rectangleModel);
 	}
 	///
     override void render() {
-        renderer.pass(() @safe {
+        renderer2DComponent.pass(() @safe {
             RenderUtil.get.drawElements(DrawMode.Triangles, 6, VectorType.UnsignedInt);
         });
     }

@@ -121,12 +121,23 @@ final class GraphicsEngine : Singleton!GraphicsEngine, IService {
 	}
 }
 ///
-static struct Vertex {
-	///
-	Vector3F position;
-	///
-	Vector2F texCoords;
+static struct Vertex(ubyte T) if (T == 2 || T == 3) {
+	static if (T == 2) {
+		///
+		Vector3F position;
+		///
+		Vector2F texCoords;
+	} else static if (T == 3) {
+		///
+		Vector3F position;
+		///
+		Vector2F texCoords;
+	}
 }
+///
+alias Vertex2 = Vertex!2;
+///
+alias Vertex3 = Vertex!3;
 ///
 enum Vendor : byte {
 	///

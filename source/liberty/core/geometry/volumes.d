@@ -14,7 +14,7 @@ import liberty.core.world.entity : Entity;
 import liberty.core.world.node : Node;
 import liberty.core.model: Models;
 import liberty.graphics.util : RenderUtil;
-import liberty.graphics.engine : DrawMode, VectorType, Vertex;
+import liberty.graphics.engine : DrawMode, VectorType, Vertex3;
 ///
 abstract class Volume : Entity {
     ///
@@ -28,11 +28,11 @@ final class CubeVolume : Volume {
 	///
 	@Constructor 
     private void _() {
-        renderer = Renderer!Vertex(this, Models.get.cubeModel);
+        renderer3DComponent = Renderer!Vertex3(this, Models.get.cubeModel);
 	}
 	///
     override void render() {
-        renderer.pass(() @safe {
+        renderer3DComponent.pass(() @safe {
             RenderUtil.get.drawElements(DrawMode.Triangles, 36, VectorType.UnsignedInt);
         });
     }

@@ -64,7 +64,7 @@ struct Renderer(VERTEX) {
         _model.mesh.vao.unbind();
 	}
 	///
-	Model!VERTEX model() pure nothrow @safe @nogc @property {
+	Model!VERTEX model() pure nothrow @safe @nogc {
 		return _model;
 	}
 	///
@@ -78,11 +78,11 @@ struct Renderer(VERTEX) {
 		_model.material(_material);
 	}
 	///
-	Mesh mesh() pure nothrow @safe @nogc @property {
+	Mesh mesh() pure nothrow @safe @nogc {
 		return _mesh;
 	}
 	///
-	Material material() pure nothrow @safe @nogc @property {
+	Material material() pure nothrow @safe @nogc {
 		return _material;
 	}
 }

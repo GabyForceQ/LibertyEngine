@@ -12,7 +12,7 @@ import liberty.graphics.video.vertex : VertexSpec;
 import liberty.graphics.video.vao : VertexArray;
 import liberty.graphics.video.buffer : VideoBuffer, BufferTarget;
 import liberty.graphics.material : Material, Materials;
-import liberty.graphics.engine : Vertex, DataUsage;
+import liberty.graphics.engine : Vertex2, Vertex3, DataUsage;
 import liberty.math : Vector2F, Vector3F;
 import liberty.core.utils : Singleton;
 ///
@@ -75,32 +75,32 @@ final class Model(VERTEX) {
 ///
 final class Models : Singleton!Models {
 	///
-	Model!Vertex rectangleModel;
+	Model!Vertex2 rectangleModel;
 	///
-	Model!Vertex cubeModel;
+	Model!Vertex3 cubeModel;
 	///
 	void load() @safe {
 		/* Create rectangleModel */
-		Vertex[4] rectangleVertices;
-		rectangleVertices[0] = Vertex(Vector3F( 0.5f,  0.5f, 0.0f), Vector2F(1.0f, 1.0f));
-        rectangleVertices[1] = Vertex(Vector3F( 0.5f, -0.5f, 0.0f), Vector2F(1.0f, 0.0f));
-        rectangleVertices[2] = Vertex(Vector3F(-0.5f, -0.5f, 0.0f), Vector2F(0.0f, 0.0f));
-        rectangleVertices[3] = Vertex(Vector3F(-0.5f,  0.5f, 0.0f), Vector2F(0.0f, 1.0f));
+		Vertex2[4] rectangleVertices;
+		rectangleVertices[0] = Vertex2(Vector3F( 0.5f,  0.5f, 0.0f), Vector2F(1.0f, 1.0f));
+        rectangleVertices[1] = Vertex2(Vector3F( 0.5f, -0.5f, 0.0f), Vector2F(1.0f, 0.0f));
+        rectangleVertices[2] = Vertex2(Vector3F(-0.5f, -0.5f, 0.0f), Vector2F(0.0f, 0.0f));
+        rectangleVertices[3] = Vertex2(Vector3F(-0.5f,  0.5f, 0.0f), Vector2F(0.0f, 1.0f));
 		uint[] rectangleIndices = [
 			0, 1, 3,
 			1, 2, 3
 		];
-		rectangleModel = new Model!Vertex(rectangleVertices, rectangleIndices);
+		rectangleModel = new Model!Vertex2(rectangleVertices, rectangleIndices);
 		/* Create cubeModel */
-		Vertex[8] cubeVertices;
-		cubeVertices[0] = Vertex(Vector3F(-0.5, -0.5, -0.5), Vector2F(0, 0));
-        cubeVertices[1] = Vertex(Vector3F(0.5, -0.5, -0.5), Vector2F(1, 0));
-        cubeVertices[2] = Vertex(Vector3F(0.5, 0.5, -0.5), Vector2F(1, 1));
-        cubeVertices[3] = Vertex(Vector3F(-0.5, 0.5, -0.5), Vector2F(0, 1));
-        cubeVertices[4] = Vertex(Vector3F(-0.5, -0.5, 0.5), Vector2F(0, 1));
-        cubeVertices[5] = Vertex(Vector3F(0.5, -0.5, 0.5), Vector2F(1, 0));
-        cubeVertices[6] = Vertex(Vector3F(0.5, 0.5, 0.5), Vector2F(0, 0));
-        cubeVertices[7] = Vertex(Vector3F(-0.5, 0.5, 0.5), Vector2F(1, 1));
+		Vertex3[8] cubeVertices;
+		cubeVertices[0] = Vertex3(Vector3F(-0.5, -0.5, -0.5), Vector2F(0, 0));
+        cubeVertices[1] = Vertex3(Vector3F(0.5, -0.5, -0.5), Vector2F(1, 0));
+        cubeVertices[2] = Vertex3(Vector3F(0.5, 0.5, -0.5), Vector2F(1, 1));
+        cubeVertices[3] = Vertex3(Vector3F(-0.5, 0.5, -0.5), Vector2F(0, 1));
+        cubeVertices[4] = Vertex3(Vector3F(-0.5, -0.5, 0.5), Vector2F(0, 1));
+        cubeVertices[5] = Vertex3(Vector3F(0.5, -0.5, 0.5), Vector2F(1, 0));
+        cubeVertices[6] = Vertex3(Vector3F(0.5, 0.5, 0.5), Vector2F(0, 0));
+        cubeVertices[7] = Vertex3(Vector3F(-0.5, 0.5, 0.5), Vector2F(1, 1));
 		uint[] cubeIndices = [
 	         0, 1, 3, 3, 1, 2,
 	         1, 5, 2, 2, 5, 6,
@@ -109,6 +109,6 @@ final class Models : Singleton!Models {
 	         3, 2, 7, 7, 2, 6,
 	         4, 5, 0, 0, 5, 1
 	     ];
-        cubeModel = new Model!Vertex(cubeVertices, cubeIndices);
+        cubeModel = new Model!Vertex3(cubeVertices, cubeIndices);
 	}
 }
