@@ -98,7 +98,8 @@ struct Transform {
 		Node _parent;
 	}
 	///
-	this(Node parent, Vector3F position = Vector3F.zero, Vector3F rotation = Vector3F.zero, Vector3F scale = Vector3F.one, float angle = 0.0f) pure nothrow @safe @nogc {
+	this(Node parent, Vector3F position = Vector3F.zero, Vector3F rotation = Vector3F.zero, Vector3F scale = Vector3F.one, 
+			float angle = 0.0f) pure nothrow @safe @nogc {
 		_parent = parent;
 		_position = position;
 		//_rotation = rotation;
@@ -179,19 +180,19 @@ struct Transform {
 		_modelMatrix.scale(Vector3F(0.0f, 0.0f, value));
 	}
 	///
-	ref const(Vector3F) position() pure nothrow const @safe @nogc @property {
+	ref const(Vector3F) position() pure nothrow const @safe @nogc {
 		return _position;
 	}
 	///
-	ref const(Vector3F) rotation() pure nothrow const @safe @nogc @property {
+	ref const(Vector3F) rotation() pure nothrow const @safe @nogc {
 		return _rotation;
 	}
 	///
-	ref const(Vector3F) scale() pure nothrow const @safe @nogc @property {
+	ref const(Vector3F) scale() pure nothrow const @safe @nogc {
 		return _scale;
 	}
 	///
-	ref const(Matrix4F) modelMatrix() pure nothrow const @safe @nogc @property {
+	ref const(Matrix4F) modelMatrix() pure nothrow const @safe @nogc {
 		return _modelMatrix;
 	}
 }

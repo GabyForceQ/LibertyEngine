@@ -15,8 +15,12 @@ final class Player : Actor {
 	mixin(NodeServices);
 
 	override void start() {
-		spawn!RectangleShape("RectShape").transform.rotateX(90.0f);
+		spawn!RectangleShape("RectShape").transform.rotateX(radians(-90.0f));
 		spawn!Camera("Camera").position(1.0f, 1.0f, 5.0f);
 		scene.activeCamera = child!Camera("Camera");
+	}
+
+	override void update(in float deltaTime) {
+		child!RectangleShape("RectShape").transform.scale(5.0f, 5.0f, 5.0f);
 	}
 }
