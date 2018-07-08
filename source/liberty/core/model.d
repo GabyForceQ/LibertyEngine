@@ -80,28 +80,34 @@ final class Models : Singleton!Models {
 	Model!Vertex3 cubeModel;
 	///
 	void load() @safe {
-		/* Create rectangleModel */
-		Vertex2[4] rectangleVertices;
-		rectangleVertices[0] = Vertex2(Vector3F( 0.5f,  0.5f, 0.0f), Vector2F(1.0f, 1.0f));
-        rectangleVertices[1] = Vertex2(Vector3F( 0.5f, -0.5f, 0.0f), Vector2F(1.0f, 0.0f));
-        rectangleVertices[2] = Vertex2(Vector3F(-0.5f, -0.5f, 0.0f), Vector2F(0.0f, 0.0f));
-        rectangleVertices[3] = Vertex2(Vector3F(-0.5f,  0.5f, 0.0f), Vector2F(0.0f, 1.0f));
-		uint[] rectangleIndices = [
+		loadRect();
+		loadCube();
+	}
+	private void loadRect() @safe {
+		Vertex2[4] vertices = [
+			Vertex2(Vector3F( 0.5f,  0.5f, 0.0f), Vector2F(1.0f, 1.0f)),
+        	Vertex2(Vector3F( 0.5f, -0.5f, 0.0f), Vector2F(1.0f, 0.0f)),
+        	Vertex2(Vector3F(-0.5f, -0.5f, 0.0f), Vector2F(0.0f, 0.0f)),
+        	Vertex2(Vector3F(-0.5f,  0.5f, 0.0f), Vector2F(0.0f, 1.0f))
+		];
+		uint[] indices = [
 			0, 1, 3,
 			1, 2, 3
 		];
-		rectangleModel = new Model!Vertex2(rectangleVertices, rectangleIndices);
-		/* Create cubeModel */
-		Vertex3[8] cubeVertices;
-		cubeVertices[0] = Vertex3(Vector3F(-0.5, -0.5, -0.5), Vector2F(0, 0));
-        cubeVertices[1] = Vertex3(Vector3F(0.5, -0.5, -0.5), Vector2F(1, 0));
-        cubeVertices[2] = Vertex3(Vector3F(0.5, 0.5, -0.5), Vector2F(1, 1));
-        cubeVertices[3] = Vertex3(Vector3F(-0.5, 0.5, -0.5), Vector2F(0, 1));
-        cubeVertices[4] = Vertex3(Vector3F(-0.5, -0.5, 0.5), Vector2F(0, 1));
-        cubeVertices[5] = Vertex3(Vector3F(0.5, -0.5, 0.5), Vector2F(1, 0));
-        cubeVertices[6] = Vertex3(Vector3F(0.5, 0.5, 0.5), Vector2F(0, 0));
-        cubeVertices[7] = Vertex3(Vector3F(-0.5, 0.5, 0.5), Vector2F(1, 1));
-		uint[] cubeIndices = [
+		rectangleModel = new Model!Vertex2(vertices, indices);
+	}
+	private void loadCube() @safe {
+		Vertex3[8] vertices = [
+			Vertex3(Vector3F(-0.5, -0.5, -0.5), Vector2F(0, 0)),
+        	Vertex3(Vector3F(0.5, -0.5, -0.5), Vector2F(1, 0)),
+        	Vertex3(Vector3F(0.5, 0.5, -0.5), Vector2F(1, 1)),
+        	Vertex3(Vector3F(-0.5, 0.5, -0.5), Vector2F(0, 1)),
+        	Vertex3(Vector3F(-0.5, -0.5, 0.5), Vector2F(0, 1)),
+        	Vertex3(Vector3F(0.5, -0.5, 0.5), Vector2F(1, 0)),
+        	Vertex3(Vector3F(0.5, 0.5, 0.5), Vector2F(0, 0)),
+        	Vertex3(Vector3F(-0.5, 0.5, 0.5), Vector2F(1, 1))
+		];
+		uint[] indices = [
 	         0, 1, 3, 3, 1, 2,
 	         1, 5, 2, 2, 5, 6,
 	         5, 4, 6, 6, 4, 7,
@@ -109,6 +115,6 @@ final class Models : Singleton!Models {
 	         3, 2, 7, 7, 2, 6,
 	         4, 5, 0, 0, 5, 1
 	     ];
-        cubeModel = new Model!Vertex3(cubeVertices, cubeIndices);
+        cubeModel = new Model!Vertex3(vertices, indices);
 	}
 }

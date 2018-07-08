@@ -147,6 +147,10 @@ struct Transform {
 		_modelMatrix.rotateX(angle.radians);
 	}
 	///
+	void rotateX(float angle) pure nothrow @safe @nogc {
+		_modelMatrix.rotateX(angle);
+	}
+	///
 	void rotateY(float angle) pure nothrow @safe @nogc {
 		_modelMatrix.rotateY(angle);
 	}

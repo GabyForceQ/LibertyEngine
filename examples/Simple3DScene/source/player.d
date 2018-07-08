@@ -15,7 +15,7 @@ final class Player : Actor {
 	mixin(NodeServices);
 
 	override void start() {
-		spawn!CubeVolume("Cube");
+		spawn!RectangleShape("RectShape").transform.rotateX(90.0f);
 		spawn!Camera("Camera").position(1.0f, 1.0f, 5.0f);
 		scene.activeCamera = child!Camera("Camera");
 	}
