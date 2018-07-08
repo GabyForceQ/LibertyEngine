@@ -15,12 +15,25 @@ final class Player : Actor {
 	mixin(NodeServices);
 
 	override void start() {
-		spawn!RectangleShape("RectShape").transform.rotateX(radians(-90.0f));
+		spawn!RectangleShape("RectShape").transform.translateY(1.5f);
+		spawn!RectangleShape("Terrain").transform.rotateX(radians(-90.0f));
 		spawn!Camera("Camera").position(1.0f, 1.0f, 5.0f);
 		scene.activeCamera = child!Camera("Camera");
+		child!RectangleShape("Terrain").transform.scale(5.0f, 5.0f, 0.0f);
 	}
 
 	override void update(in float deltaTime) {
-		child!RectangleShape("RectShape").transform.scale(5.0f, 5.0f, 5.0f);
+		if (Input.get.isKeyHold(KeyCode.Up)) {
+			child!RectangleShape("RectShape").transform.translateY(0.5f * deltaTime);
+		}
+		if (Input.get.isKeyHold(KeyCode.Down)) {
+			child!RectangleShape("RectShape").transform.translateY(-0.5f * deltaTime);
+		}
+		if (Input.get.isKeyHold(KeyCode.Left)) {
+			child!RectangleShape("RectShape").transform.translateX(-0.5f * deltaTime);
+		}
+		if (Input.get.isKeyHold(KeyCode.Right)) {
+			child!RectangleShape("RectShape").transform.translateX(0.5f * deltaTime);
+		}
 	}
 }
