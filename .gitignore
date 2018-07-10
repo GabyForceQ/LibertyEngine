@@ -1,0 +1,4 @@
+/.dub/*
+/lib/*
+*dub.selections.json
+*logs.txt

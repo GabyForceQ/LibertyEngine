@@ -7,14 +7,14 @@
  * Coverage:
  */
 module liberty.core.world.camera;
-import liberty.core.engine: CoreEngine;
-import liberty.core.world.actor: Actor;
-import liberty.core.world.node: Node;
-import liberty.core.world.services: NodeServices, Constructor;
-import liberty.core.input: Input, KeyCode, KeyModFlag, MouseButton;
-import liberty.math.functions: radians, sin, cos;
-import liberty.math.vector: Vector2I, Vector3F, cross;
-import liberty.math.matrix: Matrix4F;
+import liberty.core.engine : CoreEngine;
+import liberty.core.world.actor : Actor;
+import liberty.core.world.node : Node;
+import liberty.core.world.services : NodeServices, Constructor;
+import liberty.core.input : InputNova, Input, KeyCode, KeyModFlag, MouseButton;
+import liberty.math.functions : radians, sin, cos;
+import liberty.math.vector : Vector2I, Vector3F, cross;
+import liberty.math.matrix : Matrix4F;
 ///
 enum CameraProjection: byte {
     /// For 3D and 2D views
@@ -152,16 +152,16 @@ final class Camera : Actor {
 				}
 			}
 			// Process Keyboard.
-			if (Input.get.isKeyHold(KeyCode.W)) {
+			if (InputNova.get.isKeyHold(KeyCode.W)) {
 				_position += _front * velocity;
 			}
-			if (Input.get.isKeyHold(KeyCode.S)) {
+			if (InputNova.get.isKeyHold(KeyCode.S)) {
 				_position -= _front * velocity;
 			}
-			if (Input.get.isKeyHold(KeyCode.A)) {
+			if (InputNova.get.isKeyHold(KeyCode.A)) {
 				_position -= _right * velocity;
 			}
-			if (Input.get.isKeyHold(KeyCode.D)) {
+			if (InputNova.get.isKeyHold(KeyCode.D)) {
 				_position += _right * velocity;
 			}
 			// Process Mouse Movement.

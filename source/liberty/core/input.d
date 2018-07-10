@@ -6,13 +6,158 @@
  * Documentation:
  * Coverage:
  */
+ // TODO: Add controller.
 module liberty.core.input;
 import derelict.sdl2.sdl;
-import liberty.math.vector : Vector2I;
+import liberty.math.vector : Vector2I, Vector2F;
 import liberty.core.utils : Singleton, IService;
+import liberty.core.world.services : IUpdatable;
 import liberty.core.logger : Logger;
+import liberty.core.engine : mainWindow;
 pragma (inline, true):
 ///
+final class InputNova : Singleton!InputNova, IService, IUpdatable {
+    private {
+        SDL_Cursor* _cursorHandle;
+        SystemCursor _systemCursor;
+        Vector2I _mousePosition;
+        bool[] _keyState;
+        bool[] _oldKeyState;
+        bool[] _btnState;
+        bool[] _oldBtnState;
+        bool _serviceRunning;
+    }
+    /// Start Input service.
+    void startService() @trusted {
+        _serviceRunning = true;
+        Logger.get.info("Input service started.");
+        systemCursor = SystemCursor.Arrow;
+        update(0.0f);
+        _oldKeyState = _keyState;
+        _oldBtnState = _btnState;
+    }
+    /// Stop Input service.
+    void stopService() @trusted {
+        if (_cursorHandle !is null) {
+            SDL_FreeCursor(_cursorHandle);
+            _cursorHandle = null;
+        }
+        _serviceRunning = false;
+        Logger.get.info("Input service stopped.");
+    }
+    /// Restart Input service.
+    void restartService() @trusted {
+        stopService();
+        startService();
+    }
+    /// Returns true if Input service is running.
+	bool isServiceRunning() pure nothrow const @safe @nogc {
+		return _serviceRunning;
+	}
+    ///
+    void update(in float deltaTime) {
+        updateKeyState();
+        int x, y;
+        immutable uint mouseState = updateMouseState(x, y);
+        updateBtnState(mouseState);
+        updateMousePosition(x, y);
+    }
+    /// Returns true if the key is pressed and was not pressed in the last tick
+    bool isKeyDown(Key key) {
+        return !_oldKeyState[cast(int)key] && _keyState[cast(int)key];
+    }
+    ///
+    bool isKeyHold(Key key) {
+        return _keyState[cast(int)key];
+    }
+    ///
+    bool isKeyUp(Key key) {
+        return !_keyState[cast(int)key];
+    }
+    ///
+    bool isMouseButtonDown(MouseButton button) {
+        return _oldBtnState[button] && !_btnState[button];
+    }
+    ///
+    bool isMouseButtonHold(MouseButton button) {
+        return _btnState[button];
+    }
+    ///
+    bool isMouseButtonUp(MouseButton button) {
+        return !_btnState[button];
+    }
+    ///
+    Vector2I mousePosition() {
+        return _mousePosition;
+    }
+    ///
+    Vector2F stick(Key up, Key right, Key down, Key left) {
+        return Vector2F(isKeyHold(right) - isKeyHold(left), isKeyHold(up) - isKeyHold(down)).normalized();
+    }
+    /// Sets the current cursor type using a specific system cursor.
+    void systemCursor(SystemCursor cursor) nothrow @trusted @property {
+        _cursorHandle = SDL_CreateSystemCursor(cast(SDL_SystemCursor)cursor);
+        setCurrentCursor();
+        _systemCursor = cursor;
+    }
+    /// Gets the current system cursor type.
+    SystemCursor systemCursor() pure nothrow const @safe @nogc @property {
+        return _systemCursor;
+    }
+    ///
+    void cursorVisible(bool visible = true) nothrow @trusted @nogc {
+        SDL_ShowCursor(visible);
+    }
+    ///
+    void setCurrentCursor() nothrow @trusted @nogc {
+        SDL_SetCursor(_cursorHandle);
+    }
+    SDL_Cursor* cursorHandle() pure nothrow @safe @nogc {
+        return _cursorHandle;
+    }
+    SDL_Cursor* cursor() nothrow @trusted @nogc {
+        SDL_Cursor* cursor_handle = SDL_GetCursor();
+        if (cursor_handle is null) {
+            //PlatformManager.throwPlatformException("SDL_GetCursor");
+            //TODO: Uncomment.
+        }
+        return cursor_handle;
+    }
+    SDL_Cursor* defaultCursor() nothrow @trusted @nogc {
+        SDL_Cursor* cursor_handle = SDL_GetDefaultCursor();
+        if (cursor_handle is null) {
+            //PlatformManager.throwPlatformException("SDL_GetDefaultCursor");
+            //TODO: Uncomment.
+        }
+        return cursor_handle;
+    }
+    private void updateKeyState() {
+        int ksLen;
+        const(ubyte*) sdlKs = SDL_GetKeyboardState(&ksLen);
+        _oldKeyState = _keyState;
+        _keyState = [];
+        _keyState.length = ksLen;
+        (cast(ubyte*)_keyState)[0 .. ksLen][] = sdlKs[0 .. ksLen];
+    }
+    private uint updateMouseState(out int x, out int y) {
+        return SDL_GetMouseState(&x, &y);
+    }
+    private void updateBtnState(uint mouseState) {
+        _btnState = [];
+        _btnState.length = 5;
+        foreach (i; 0..MouseButton.max) { // TODO?
+            ubyte btn = SDL_BUTTON(cast(ubyte)(i + 1));
+            _btnState[i] = cast(bool)(mouseState & btn);
+        }
+    }
+    private void updateMousePosition(int x, int y) {
+        _mousePosition.x = cast(int)(-1 + x / (mainWindow.width * 0.5f));
+        _mousePosition.y = cast(int)(1 - y / (mainWindow.height * 0.5f));
+    }
+}
+
+///
+deprecated("Input Service is deprecated. Use InputNova instead.")
 final class Input : Singleton!Input, IService {
 	private {
         bool _serviceRunning;
@@ -256,6 +401,8 @@ final class Input : Singleton!Input, IService {
         return cursor_handle;
     }
 }
+///
+alias Key = KeyCode;
 /// Number of keycodes.
 enum KeyCodeCount = 512;
 ///

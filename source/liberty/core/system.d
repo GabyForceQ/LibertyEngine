@@ -52,7 +52,7 @@ final class Platform {
         if (SDL_Init(0)) {
             throwPlatformException("SDL_Init");
         }
-        Input.get.startService();
+        InputNova.get.startService();
     }
     /// Releases all resourceas and the SDL library.
     ~this() {
@@ -248,6 +248,7 @@ final class Platform {
         return res;
     }
     private void updateState(const(SDL_Event*) event) {
+        InputNova.get.update(0.0f);
         switch(event.type) {
             case SDL_QUIT:
                 _shouldQuit = true;

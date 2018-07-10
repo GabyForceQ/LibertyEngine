@@ -135,7 +135,7 @@ final class CoreEngine : Singleton!CoreEngine, IService {
     ///
     void runMainLoop() {
         while(!_platformApi.shouldQuit()) {
-            if (_shouldQuitOnKey && Input.get.isKeyDown(KeyCode.Esc)) {
+            if (_shouldQuitOnKey && InputNova.get.isKeyDown(KeyCode.Esc)) {
                 break;
             }
             Input.get._isMouseMoving = false;
