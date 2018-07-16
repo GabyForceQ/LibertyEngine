@@ -12,6 +12,7 @@ import derelict.util.exception;
 import derelict.util.loader;
 import derelict.sdl2.sdl;
 import liberty.core.memory : ensureNotInGC;
+import liberty.math.vector : Vector, Vector2I;
 import std.string : format, fromStringz, toStringz;
 /// A failing Platform function should <b>always</b> throw a $(D PlatformException).
 final class PlatformException : Exception {
@@ -68,7 +69,7 @@ final class Platform {
     alias audioDrivers = drivers!(SDL_GetNumAudioDrivers, SDL_GetAudioDriver);
     /// Returns true if a subsystem is initiated.
     bool subSystemInitialized(int sub_system) {
-        int inited = SDL_WasInit(SDL_INIT_EVERYTHING);
+        immutable int inited = SDL_WasInit(SDL_INIT_EVERYTHING);
         return (inited & sub_system) != 0;
     }
     /// Initialize a subsystem.
@@ -82,17 +83,17 @@ final class Platform {
     /// Returns available display information.
     /// Throws $(D PlatformException) on error.
     SDL2VideoDisplay[] displays() {
-        int displatyCount = SDL_GetNumVideoDisplays();
+        immutable int displatyCount = SDL_GetNumVideoDisplays();
         SDL2VideoDisplay[] availableDisplays;
-        for (int displayIndex = 0; displayIndex < displatyCount; displayIndex++) {
+        for (int displayIndex; displayIndex < displatyCount; displayIndex++) {
             SDL_Rect rect;
-            int res = SDL_GetDisplayBounds(displayIndex, &rect);
+            immutable int res = SDL_GetDisplayBounds(displayIndex, &rect);
             if (res) {
                 throwPlatformException("SDL_GetDisplayBounds");
             }
             SDL2DisplayMode[] availableModes;
-            int modeCount = SDL_GetNumDisplayModes(displayIndex);
-            for (int modeIndex = 0; modeIndex < modeCount; modeIndex++) {
+            immutable int modeCount = SDL_GetNumDisplayModes(displayIndex);
+            for (int modeIndex; modeIndex < modeCount; modeIndex++) {
                 SDL_DisplayMode mode;
                 if (SDL_GetDisplayMode(displayIndex, modeIndex, &mode)) {
                     throwPlatformException("SDL_GetDisplayMode");
@@ -273,7 +274,6 @@ final class Platform {
                 break;
         }
     }
-
     private void updateKeyboard(const(SDL_KeyboardEvent*) event) {
         if (event.repeat != 0) {
             return;
@@ -294,15 +294,17 @@ final class Platform {
 }
 ///
 final class SDL2DisplayMode {
-    private int _modeIndex;
-    private SDL_DisplayMode _mode;
+    private {
+        int _modeIndex;
+        SDL_DisplayMode _mode;
+    }
     ///
     this(int index, SDL_DisplayMode mode) {
         _modeIndex = index;
         _mode = mode;
     }
     ///
-    override string toString() {
+    override string toString() const {
         return format("mode #%s (width = %spx, height = %spx, rate = %shz, format = %s)",
             _modeIndex, _mode.w, _mode.h, _mode.refresh_rate, _mode.format);
     }
@@ -321,17 +323,19 @@ final class SDL2VideoDisplay {
         _availableModes = _availableModes;
     }
     ///
-    const(SDL2DisplayMode[]) availableModes() pure const nothrow {
+    const(SDL2DisplayMode[]) availableModes() pure nothrow const @safe @nogc @property {
         return _availableModes;
     }
     ///
-    SDL_Point dimension() pure const nothrow {
+    SDL_Point dimension() pure nothrow const @safe @nogc @property {
         return SDL_Point(_bounds.w, _bounds.h);
     }
-    SDL_Rect bounds() pure const nothrow {
+    ///
+    SDL_Rect bounds() pure nothrow const @safe @nogc @property {
         return _bounds;
     }
-    override string toString() {
+    ///
+    override string toString() const {
         string res = format("display #%s (start = %s,%s - dimension = %s x %s)\n", _displayIndex,
                             _bounds.x, _bounds.y, _bounds.w, _bounds.h);
         foreach (mode; _availableModes) {
@@ -344,25 +348,31 @@ final class SDL2VideoDisplay {
 final class SDL2Window {
     private {
         Surface _surface;
-        SDL2GLContext _glContext;
+        SDL2VideoContext _videoContext;
         uint _id;
         bool _surfaceNeedRenew;
         bool _hasValidSurface() { return !_surfaceNeedRenew && _surface !is null; }
     }
-    SDL2GLContext glContext() {
-        return _glContext;
+    ///
+    SDL2VideoContext videoContext() {
+        return _videoContext;
     }
-    //package {
+    ///
     Platform _platform;
+    ///
     SDL_Window* _window;
-    //}
     /// Construct a window using an Platform reference and.
     this(Platform platform, int x, int y, int width, int height, SDL_WindowFlags flags) {
+        import liberty.core.logger : Logger;
         _platform = platform;
         _surface = null;
-        _glContext = null;
+        _videoContext = null;
         _surfaceNeedRenew = false;
-        bool open_gl = (flags & SDL_WINDOW_OPENGL) != 0;
+        version (__OpenGL__) {
+            if (flags & SDL_WINDOW_OPENGL) {
+                Logger.get.error("No OpenGL context available in OpenGL mode!");
+            }
+        }
         ////
         width = 1600;
         height = 900;
@@ -378,24 +388,13 @@ final class SDL2Window {
             throw new PlatformException(message);
         }
         _id = SDL_GetWindowID(_window);
-        if (open_gl) {
-            _glContext = new SDL2GLContext(this);
-        }
-
-        //SDL_Surface *surface;     // Declare an SDL_Surface to be filled in with pixel data from an image file
-        //import std.conv: to;
-        //Uint16[16*16] pixels = windowIcon.ptr;
-        //surface = SDL_CreateRGBSurfaceFrom(pixels.ptr,16,16,16,16*2,0x0f00,0x00f0,0x000f,0xf000);
-        //SDL_SetWindowIcon(_window, surface);
-        //SDL_FreeSurface(surface);
-	    
-        
+        _videoContext = new SDL2VideoContext(this);
     }
     /// Construct a window using an Platform reference and.
     this(Platform platform, void* windowData) {
         _platform = platform;
         _surface = null;
-        _glContext = null;
+        _videoContext = null;
         _surfaceNeedRenew = false;
         _window = SDL_CreateWindowFrom(windowData);
         if (_window == null) {
@@ -406,11 +405,11 @@ final class SDL2Window {
     }
     /// Releases the SDL2 resource.
     ~this() {
-        if (_glContext !is null) {
+        if (_videoContext !is null) {
 	        debug import liberty.core.memory : ensureNotInGC;
 	        debug ensureNotInGC("SDL2Window");
-	        _glContext.destroy();
-	        _glContext = null;
+	        _videoContext.destroy();
+	        _videoContext = null;
         }
         if (_window !is null)
         {
@@ -420,133 +419,115 @@ final class SDL2Window {
             _window = null;
         }
     }
-    
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowFullscreen)
-    /// Throws: $(D PlatformException) on error.
-    final void setFullscreenSetting(uint flags) {
+    /// Throws $(D PlatformException) on error.
+    void setFullscreenSetting(uint flags) {
         if (SDL_SetWindowFullscreen(_window, flags) != 0) {
 	        _platform.throwPlatformException("SDL_SetWindowFullscreen");
         }
     }
-    
-    /// Returns: The flags associated with the window.
-    /// See_also: $(LINK https://wiki.libsdl.org/SDL_GetWindowFlags)
-    final uint windowFlags() {
+    /// Get the flags associated with the window.
+    uint windowFlags() {
         return SDL_GetWindowFlags(_window);
     }
-    /// Returns: X window coordinate.
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowPosition)
-    final int x() {
+    /// Get x window coordinate.
+    int x() nothrow @safe @nogc {
         return position.x;
     }
-    /// Returns: Y window coordinate.
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowPosition)
-    final int y() {
+    /// Get y window coordinate.
+    int y() nothrow @safe @nogc {
         return position.y;
     }
-    /// Gets information about the window's display mode
-    /// See_also: $(LINK https://wiki.libsdl.org/SDL_GetWindowDisplayMode)
-    final SDL_DisplayMode windowDisplayMode() {
+    /// Get information about the window's display mode
+    SDL_DisplayMode windowDisplayMode() {
         SDL_DisplayMode mode;
         if (0 != SDL_GetWindowDisplayMode(_window, &mode)) {
 	        _platform.throwPlatformException("SDL_GetWindowDisplayMode");
         }
         return mode;
     }
-    /// Returns: Window coordinates.
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowPosition)
-    final SDL_Point position() {
+    /// Get window coordinates.
+    SDL_Point position() nothrow @trusted @nogc {
         int x, y;
         SDL_GetWindowPosition(_window, &x, &y);
         return SDL_Point(x, y);
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowPosition)
-    final void position(int positionX, int positionY) {
+    /// Set window position.
+    void position(int positionX, int positionY) {
         SDL_SetWindowPosition(_window, positionX, positionY);
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowSize)
-    final void size(int width, int height) {
+    /// Set window size.
+    void size(int width, int height) {
         SDL_SetWindowSize(_window, width, height);
     }
-    /// Get the minimum size setting for the window
-    /// See_also: $(LINK https://wiki.libsdl.org/SDL_GetWindowMinimumSize)
-    final SDL_Point minimumSize() {
+    /// Get the minimum size setting for the window.
+    SDL_Point minimumSize() {
         SDL_Point p;
         SDL_GetWindowMinimumSize(_window, &p.x, &p.y);
         return p;
     }
-    /// Get the minimum size setting for the window
-    /// See_also: $(LINK https://wiki.libsdl.org/SDL_SetWindowMinimumSize)
-    final void minimumSize(int width, int height) {
+    /// Get the minimum size setting for the window.
+    void minimumSize(int width, int height) {
         SDL_SetWindowMinimumSize(_window, width, height);
     }
-    /// Get the minimum size setting for the window
-    /// See_also: $(LINK https://wiki.libsdl.org/SDL_GetWindowMaximumSize)
-    final SDL_Point maximumSize() {
+    /// Get the minimum size setting for the window.
+    SDL_Point maximumSize() {
         SDL_Point p;
         SDL_GetWindowMaximumSize(_window, &p.x, &p.y);
         return p;
     }
-    /// Get the minimum size setting for the window
-    /// See_also: $(LINK https://wiki.libsdl.org/SDL_SetWindowMaximumSize)
-    final void maximumSize(int width, int height) {
+    /// Get the minimum size setting for the window.
+    void maximumSize(int width, int height) {
         SDL_SetWindowMaximumSize(_window, width, height);
     }
-    
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowSize)
-    /// Returns: Window size in pixels.
-    import liberty.math.vector;
-    final Vector2I size() {
+    /// Get window size in pixels.
+    Vector2I size() {
         int w, h;
         SDL_GetWindowSize(_window, &w, &h);
         return Vector2I(w, h);
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowIcon)
-    final void icon(Surface icon) {
+    /// Set window icon.
+    void icon(Surface icon) {
         SDL_SetWindowIcon(_window, icon.handle());
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowBordered)
-    final void isBordered(bool bordered) {
+    /// Set if window is bordered.
+    void isBordered(bool bordered) {
         SDL_SetWindowBordered(_window, bordered ? SDL_TRUE : SDL_FALSE);
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowSize)
-    /// Returns: Window width in pixels.
-    final int width() {
+    /// Get indow width in pixels.
+    int width() {
         int w, h;
         SDL_GetWindowSize(_window, &w, &h);
         return w;
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowSize)
-    /// Returns: Window height in pixels.
-    final int height() {
+    /// Get window height in pixels.
+    int height() {
         int w, h;
         SDL_GetWindowSize(_window, &w, &h);
         return h;
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_SetWindowTitle)
-    final void title(string title) {
+    /// Set window title.
+    void title(string title) {
         SDL_SetWindowTitle(_window, toStringz(title));
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_ShowWindow)
-    final void show() {
+    /// Show window.
+    void show() {
         SDL_ShowWindow(_window);
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_HideWindow)
-    final void hide() {
+    /// Hide Window.
+    void hide() {
         SDL_HideWindow(_window);
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_MinimizeWindow)
-    final void minimize() {
+    /// Minimize window.
+    void minimize() {
         SDL_MinimizeWindow(_window);
     }
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_MaximizeWindow)
-    final void maximize() {
+    /// Maximize window.
+    void maximize() {
         SDL_MaximizeWindow(_window);
     }
-    /// Returns: Window surface.
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowSurface)
-    /// Throws: $(D PlatformException) on error.
-    final Surface surface() {
+    /// Get window surface.
+    /// Throws $(D PlatformException) on error.
+    Surface surface() {
         if (!_hasValidSurface()) {
             SDL_Surface* internalSurface = SDL_GetWindowSurface(_window);
             if (internalSurface is null) {
@@ -558,39 +539,38 @@ final class SDL2Window {
         return _surface;
     }
     /// Submit changes to the window surface.
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_UpdateWindowSurface)
-    /// Throws: $(D PlatformException) on error.
-    final void updateSurface() {
+    /// Throws $(D PlatformException) on error.
+    void updateSurface() {
         if (!_hasValidSurface()) {
 	        surface();
         }
-        int res = SDL_UpdateWindowSurface(_window);
-        if (res != 0) {
+        if (SDL_UpdateWindowSurface(_window) != 0) {
 	        _platform.throwPlatformException("SDL_UpdateWindowSurface");
         }
     }
-    /// Returns: Window ID.
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowID)
-    final int id() {
+    /// Get Window ID.
+    int id() {
         return _id;
     }
-    /// Returns: System-specific window information, useful to use a third-party rendering library.
-    /// See_also: $(LINK http://wiki.libsdl.org/SDL_GetWindowWMInfo)
-    /// Throws: $(D PlatformException) on error.
+    /// Get system-specific window information.
+    /// Throws $(D PlatformException) on error.
     SDL_SysWMinfo windowInfo() {
         SDL_SysWMinfo info;
         SDL_VERSION(&info.version_);
-        int res = SDL_GetWindowWMInfo(_window, &info);
-        if (res != SDL_TRUE) {
+        if (SDL_GetWindowWMInfo(_window, &info) != SDL_TRUE) {
 	        _platform.throwPlatformException("SDL_GetWindowWMInfo");
         }
         return info;
     }
 }
 ///
-final class SDL2GLContext {
+final class SDL2VideoContext {
 	package {
-		SDL_GLContext _context;
+        version (__OpenGL__) {
+		    SDL_GLContext _videoContext;
+        } else version (__Vulkan__) {
+            // TODO.
+        }
 		SDL2Window _window;
 	}
 	private {
@@ -599,182 +579,191 @@ final class SDL2GLContext {
     /// Creates an OpenGL context for a given SDL window.
     this(SDL2Window window) {
         _window = window;
-        _context = SDL_GL_CreateContext(window._window);
+        version (__OpenGL__) {
+            _videoContext = SDL_GL_CreateContext(window._window);
+        } else version (__Vulkan__) {
+            // TODO.
+        }
         _initialized = true;
     }
     ///
     ~this() {
         close();
     }
-    
-    /// Release the associated SDL ressource.
+    /// Releases the SDL ressource.
     void close() {
         if (_initialized) {
             _initialized = false;
         }
     }
-    /// Makes this OpenGL context current.
-    /// Throws: $(D PlatformException) on error.
+    /// Makes this graphics context current.
+    /// Throws $(D PlatformException) on error.
     void makeCurrent() {
-        if (0 != SDL_GL_MakeCurrent(_window._window, _context)) {
-	        _window._platform.throwPlatformException("SDL_GL_MakeCurrent");
+        version (__OpenGL__) {
+            if (0 != SDL_GL_MakeCurrent(_window._window, _videoContext)) {
+                _window._platform.throwPlatformException("SDL_GL_MakeCurrent");
+            }
+        } else version (__Vulkan__) {
+            // TODO.
         }
     }
 }
 ///
 final class Surface {
-    package {
+    private {
 	    Platform _platform;
 	    SDL_Surface* _surface;
 	    Owned _handleOwned;
     }
     ///
-    enum Owned : byte {
+    enum Owned : ubyte {
         ///
         No = 0x00,
         ///
         Yes = 0x01
     }
     ///
-    this(Platform platform, SDL_Surface* surface, Owned owned) {
-        assert(surface !is null);
+    this(Platform platform, SDL_Surface* surface, Owned owned) pure nothrow @trusted @nogc
+    in {
+        assert (surface !is null, "Surface is null!");
+    } do {
         _platform = platform;
         _surface = surface;
         _handleOwned = owned;
     }
     ///
-    this(Platform platform, int width, int height, int depth, uint Rmask, uint Gmask, uint Bmask, uint Amask) {
+    this(Platform platform, int width, int height, int depth, uint Rmask, uint Gmask, uint Bmask, uint Amask) @trusted {
         _platform = platform;
         _surface = SDL_CreateRGBSurface(0, width, height, depth, Rmask, Gmask, Bmask, Amask);
-        if (_surface is null)
+        if (_surface is null) {
             _platform.throwPlatformException("SDL_CreateRGBSurface");
+        }
         _handleOwned = Owned.Yes;
     }
     ///
-    this(Platform platform, void* pixels, int width, int height, int depth, int pitch, uint Rmask, uint Gmask, uint Bmask, uint Amask) {
+    this(Platform platform, void* pixels, int width, int height, int depth, int pitch, uint Rmask, uint Gmask, uint Bmask, uint Amask) @trusted {
         _platform = platform;
         _surface = SDL_CreateRGBSurfaceFrom(pixels, width, height, depth, pitch, Rmask, Gmask, Bmask, Amask);
-        if (_surface is null)
+        if (_surface is null) {
             _platform.throwPlatformException("SDL_CreateRGBSurfaceFrom");
+        }
         _handleOwned = Owned.Yes;
     }
     ///
-    ~this(){
+    ~this() nothrow @trusted {
         if (_surface !is null) {
             debug import liberty.core.memory : ensureNotInGC;
             debug ensureNotInGC("Surface");
-            if (_handleOwned == Owned.Yes)
+            if (_handleOwned == Owned.Yes) {
                 SDL_FreeSurface(_surface);
+            }
             _surface = null;
         }
     }
     ///
-    Surface convert(const(SDL_PixelFormat)* newFormat) {
+    Surface convert(const(SDL_PixelFormat)* newFormat) @trusted {
         SDL_Surface* surface = SDL_ConvertSurface(_surface, newFormat, 0);
-        if (surface is null)
+        if (surface is null) {
             _platform.throwPlatformException("SDL_ConvertSurface");
-        assert(surface != _surface); // should not be the same handle
+        }
+        assert (surface != _surface, "It should not be the same handle!");
         return new Surface(_platform, surface, Owned.Yes);
     }
     ///
-    Surface clone() {
+    Surface clone() @safe {
         return convert(pixelFormat());
     }
-    
-    ///
-    @property int width() const {
+    /// Get surface width.
+    int width() pure nothrow const @safe @nogc @property {
         return _surface.w;
     }
-    
-    ///
-    @property int height() const {
+    /// Get surface height.
+    int height() pure nothrow const @safe @nogc @property {
         return _surface.h;
     }
-    ///
-    ubyte* pixels() {
+    /// Get surface pixels.
+    ubyte* pixels() pure nothrow const @trusted @nogc @property {
         return cast(ubyte*) _surface.pixels;
     }
-    ///
-    size_t pitch() {
+    /// Get surface pitch.
+    size_t pitch() pure nothrow const @safe @nogc @property {
         return _surface.pitch;
     }
-    ///
-    void lock() {
-        if (SDL_LockSurface(_surface) != 0)
+    /// Lock the surface.
+    void lock() @trusted {
+        if (SDL_LockSurface(_surface) != 0) {
             _platform.throwPlatformException("SDL_LockSurface");
+        }
     }
-    ///
-    void unlock() {
+    /// Unlock the surface.
+    void unlock() nothrow @trusted @nogc {
         SDL_UnlockSurface(_surface);
     }
-    
-    ///
-    SDL_Surface* handle() {
+    /// Get surface handle.
+    SDL_Surface* handle() pure nothrow @safe @nogc {
         return _surface;
     }
-    
-    ///
-    SDL_PixelFormat* pixelFormat()
-    {
+    /// Get surface pixel format.
+    SDL_PixelFormat* pixelFormat() pure nothrow @safe @nogc {
         return _surface.format;
     }
-    
     ///
-    struct RGBA
-    {
-        ubyte r, g, b, a;
-    }
-    ///
-    RGBA rgba(int x, int y) {
-        // crash if out of image, todo: exception
-        if (x < 0 || x >= width())
-            assert(0);
-        if (y < 0 || y >= height())
-            assert(0);
+    Vector!(ubyte, 4) rgba(int x, int y) @trusted {
+        if (x < 0 || x >= width()) {
+            assert(0, "Out of image!");
+        }
+        if (y < 0 || y >= height()) {
+            assert(0, "Out of image!");
+        }
         SDL_PixelFormat* fmt = _surface.format;
         ubyte* pixels = cast(ubyte*)_surface.pixels;
-        int pitch = _surface.pitch;
+        immutable int pitch = _surface.pitch;
         uint* pixel = cast(uint*)(pixels + y * pitch + x * fmt.BytesPerPixel);
         ubyte r, g, b, a;
         SDL_GetRGBA(*pixel, fmt, &r, &g, &b, &a);
-        return RGBA(r, g, b, a);
+        return Vector!(ubyte, 4)(r, g, b, a);
     }
     ///
-    void setColorKey(bool enable, uint key) {
-        if (0 != SDL_SetColorKey(this._surface, enable ? SDL_TRUE : SDL_FALSE, key))
+    void setColorKey(bool enable, uint key) @trusted {
+        if (0 != SDL_SetColorKey(this._surface, enable ? SDL_TRUE : SDL_FALSE, key)) {
             _platform.throwPlatformException("SDL_SetColorKey");
+        }
     }
     ///
-    void setColorKey(bool enable, ubyte r, ubyte g, ubyte b, ubyte a = 0) {
+    void setColorKey(bool enable, ubyte r, ubyte g, ubyte b, ubyte a = 0) @trusted {
         uint key = SDL_MapRGBA(cast(const)this._surface.format, r, g, b, a);
         this.setColorKey(enable, key);
     }
     ///
-    void blit(Surface source, SDL_Rect srcRect, SDL_Rect dstRect) {
-        if (0 != SDL_BlitSurface(source._surface, &srcRect, _surface, &dstRect))
+    void blit(Surface source, SDL_Rect srcRect, SDL_Rect dstRect) @trusted {
+        if (0 != SDL_BlitSurface(source._surface, &srcRect, _surface, &dstRect)) {
             _platform.throwPlatformException("SDL_BlitSurface");
+        }
     }
     ///
-    void blitScaled(Surface source, SDL_Rect srcRect, SDL_Rect dstRect) {
-        if (0 != SDL_BlitScaled(source._surface, &srcRect, _surface, &dstRect))
+    void blitScaled(Surface source, SDL_Rect srcRect, SDL_Rect dstRect) @trusted {
+        if (0 != SDL_BlitScaled(source._surface, &srcRect, _surface, &dstRect)) {
             _platform.throwPlatformException("SDL_BlitScaled");
+        }
     }
 }
 ///
 class Timer {
-    private SDL_TimerID _id;
+    private {
+        SDL_TimerID _id;
+    }
     /// Create a new timer.
-    this(Platform platform, uint intervalMs) {
+    this(Platform platform, uint intervalMs) @trusted {
         _id = SDL_AddTimer(intervalMs, &timerCallbackSDL, cast(void*)this);
         if (_id == 0) {
             platform.throwPlatformException("SDL_AddTimer");
         }
     }
-    /// Returns timer id.
-    int id() pure const nothrow {
+    /// Get timer id.
+    int id() pure nothrow const @safe @nogc @property {
         return _id;
     }
-    ~this() {
+    ~this() nothrow @trusted {
         if (_id != 0) {
             import liberty.core.memory : ensureNotInGC;
             debug ensureNotInGC("SDL2Timer");
@@ -783,13 +772,13 @@ class Timer {
         }
     }
     ///
-    protected abstract uint onTimer(uint interval) nothrow;
+    protected abstract uint onTimer(uint interval) nothrow @trusted;
 }
-extern(C) private uint timerCallbackSDL(uint interval, void* param) nothrow {
+extern(C) private uint timerCallbackSDL(uint interval, void* param) nothrow @trusted {
     try {
         Timer timer = cast(Timer)param;
         return timer.onTimer(interval);
-    } catch (Throwable e) {
+    } catch (Exception e) {
         import core.stdc.stdlib : exit;
         exit(-1);
         return 0;

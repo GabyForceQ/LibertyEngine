@@ -51,7 +51,7 @@ final class GLVertexSpec(VERTEX) : VertexSpec!VERTEX {
 	}
 	/// Unuse this vertex specification.
 	/// If you are using a VAO, you don't need to call it, since the attributes would be tied to the VAO activation.
-    /// Throws: $(D GLException) on error.
+    /// Throws $(D GLException) on error.
 	override void unuse() @safe {
 	    for (uint i; i < _attributes.length; i++) {
 	        _attributes[i].unuse();
@@ -106,7 +106,7 @@ struct VertexAttribute {
 		bool _divisorSet;
 	}
 	/// Use this attribute.
-    /// Throws: $(D GLException) on error.
+    /// Throws $(D GLException) on error.
 	void use(int vertex_size, uint divisor) @trusted {
 		if (_location == GLAttribute.fakeLocation) {
 			return;
@@ -123,7 +123,7 @@ struct VertexAttribute {
 		GraphicsEngine.get.backend.runtimeCheck();
 	}
 	/// Unuse this attribute.
-    /// Throws: $(D GLException) on error.
+    /// Throws $(D GLException) on error.
     void unuse() @trusted {
         if (_divisorSet) {
             glVertexAttribDivisor(_location, 0);

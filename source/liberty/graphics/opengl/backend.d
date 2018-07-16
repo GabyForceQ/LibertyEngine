@@ -35,7 +35,7 @@ class GLException : Exception {
 ///
 final class GLBackend : VideoBackend {
     /// Load OpenGL library.
-    /// Throws: $(D GLException) on error.
+    /// Throws $(D GLException) on error.
     this() @trusted {
         ShouldThrow missingSymFunc(string symName) {
             if (symName == "glGetSubroutineUniformLocation") {
@@ -77,7 +77,7 @@ final class GLBackend : VideoBackend {
         }
     }
     /// Checks pending OpenGL errors.
-    /// Throws: $(D GLException) if at least one OpenGL error was pending.
+    /// Throws $(D GLException) if at least one OpenGL error was pending.
     override void runtimeCheck() @trusted {
         GLint er = glGetError();
         if (er != GL_NO_ERROR) {
@@ -166,7 +166,7 @@ final class GLBackend : VideoBackend {
         return _extensions;
     }
 	/// Returns the requested int returned by $(D glGetFloatv).
-    /// Throws: $(D GLException) if at least one OpenGL error was pending.
+    /// Throws $(D GLException) if at least one OpenGL error was pending.
     int getInt(GLenum pname) @trusted {
         GLint param;
         glGetIntegerv(pname, &param);
@@ -174,7 +174,7 @@ final class GLBackend : VideoBackend {
         return param;
     }
     /// Returns the requested float returned by $(D glGetFloatv).
-    /// Throws: $(D GLException) if at least one OpenGL error was pending.
+    /// Throws $(D GLException) if at least one OpenGL error was pending.
     float getFloat(GLenum pname) @trusted {
         GLfloat res;
         glGetFloatv(pname, &res);
@@ -188,7 +188,7 @@ final class GLBackend : VideoBackend {
     }
 
     /// Sets the "active texture" which is more precisely active texture unit.
-    /// Throws: $(D GLException) on error.
+    /// Throws $(D GLException) on error.
     override void activeTexture(int texture_id) @trusted @property {
         glActiveTexture(GL_TEXTURE0 + texture_id);
         runtimeCheck();
@@ -206,9 +206,9 @@ final class GLBackend : VideoBackend {
         glClearColor(r, g, b, a);
     }
     /// Swap OpenGL buffers.
-    /// Throws: $(D GLException) on error.
+    /// Throws $(D GLException) on error.
     override void swapBuffers() @trusted {
-        if (CoreEngine.get.mainWindow.glContext is null) { // TODO
+        if (CoreEngine.get.mainWindow.videoContext is null) { // TODO
             throw new GLException("swapBuffers() failed: not an OpenGL window");
         }
         SDL_GL_SwapWindow(CoreEngine.get.mainWindow._window); // TODO

@@ -13,7 +13,7 @@ module liberty.core.memory;
 immutable scopeDisableGC = "import core.memory : GC; GC.disable; scope (exit) GC.enable;";
 ///
 @safe unittest {
-	void noGCFunction() {
+	void noGCFunction() nothrow {
 		mixin(scopeDisableGC); // GC is disabled
 		// Your code here...
 		// GC is enabled
@@ -21,7 +21,7 @@ immutable scopeDisableGC = "import core.memory : GC; GC.disable; scope (exit) GC
 }
 /// It's recommended to use this call before releasing a resource in destructor.
 /// Usually, it's used in debug configuration.
-void ensureNotInGC(string resourceName) nothrow {
+void ensureNotInGC(string resourceName) nothrow @trusted {
 	import core.exception: InvalidMemoryOperationError;
 	try {
 		import core.memory: GC;

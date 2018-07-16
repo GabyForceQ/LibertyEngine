@@ -37,8 +37,8 @@ final class GLShaderProgram : ShaderProgram {
         cleanUp();
     }
     /// Gets the linking report.
-    /// Returns: Log output of the GLSL linker. Can return null!
-    /// Throws: $(D GLException) on error.
+    /// Get Log output of the GLSL linker. Can return null!
+    /// Throws $(D GLException) on error.
     const(char)[] linkLog() @trusted {
         GLint logLength;
         glGetProgramiv(_programID, GL_INFO_LOG_LENGTH, &logLength);

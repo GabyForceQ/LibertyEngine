@@ -22,9 +22,11 @@ class ImageException : Exception {
 }
 ///
 final class Image {
-	private bool _libInitialized;
+	private {
+        bool _libInitialized;
+    }
     /// Loads the FreeImage library and logs some information.
-    /// Throws: FreeImageException on error.
+    /// Throws $(D ImageException) on error.
     this(bool useExternalPlugins = false) {
         try {
             DerelictFI.load();
