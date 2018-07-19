@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.audio.engine;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger;
 /// A failing Audio function should <b>always</b> throw a $(D AudioEngineException).
 final class AudioEngineException : Exception {
@@ -19,17 +19,17 @@ final class AudioEngineException : Exception {
 	}
 }
 ///
-final class AudioEngine : Singleton!AudioEngine, IService {
+final class AudioEngine : Singleton!AudioEngine {
 	private bool _serviceRunning;
 	/// Start AudioEngine service.
     void startService() @safe {
         _serviceRunning = true;
-        Logger.get.info("AudioEngine service started.");
+        Logger.get.info("AudioEngine service started.", this);
     }
     /// Stop AudioEngine service.
     void stopService() @safe {
         _serviceRunning = false;
-        Logger.get.info("AudioEngine service stopped.");
+        Logger.get.info("AudioEngine service stopped.", this);
     }
     /// Restart AudioEngine service.
     void restartService() @safe {

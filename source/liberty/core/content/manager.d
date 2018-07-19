@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.core.content.manager;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger;
 import derelict.assimp3.assimp;
 import derelict.util.exception;
@@ -21,7 +21,7 @@ final class AssetManagerException : Exception {
 	}
 }
 ///
-final class AssetManager : Singleton!AssetManager, IService {
+final class AssetManager : Singleton!AssetManager {
     private bool _serviceRunning;
 	/// Start AssetManager service.
     void startService() @trusted {
@@ -31,12 +31,12 @@ final class AssetManager : Singleton!AssetManager, IService {
             throw new AssetManagerException(e.msg);
         }
         _serviceRunning = true;
-        Logger.get.info("AssetManager service started.");
+        Logger.get.info("AssetManager service started.", this);
     }
     /// Stop AssetManager service.
     void stopService() @safe {
         _serviceRunning = false;
-        Logger.get.info("AssetManager service stopped.");
+        Logger.get.info("AssetManager service stopped.", this);
     }
     /// Restart AssetManager service.
     void restartService() @safe {

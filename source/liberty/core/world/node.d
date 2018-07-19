@@ -6,6 +6,7 @@
  * Documentation:
  * Coverage:
  */
+ // TODO. Define onApply so you can iterate over children.
 module liberty.core.world.node;
 import liberty.core.engine : CoreEngine;
 import liberty.core.world.services : IStartable, IUpdatable, IProcessable;

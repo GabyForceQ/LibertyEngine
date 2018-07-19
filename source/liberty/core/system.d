@@ -363,14 +363,14 @@ final class SDL2Window {
     SDL_Window* _window;
     /// Construct a window using an Platform reference and.
     this(Platform platform, int x, int y, int width, int height, SDL_WindowFlags flags) {
-        import liberty.core.logger : Logger;
+        import liberty.core.logger : Logger, ErrorMessage;
         _platform = platform;
         _surface = null;
         _videoContext = null;
         _surfaceNeedRenew = false;
         version (__OpenGL__) {
             if (flags & SDL_WINDOW_OPENGL) {
-                Logger.get.error("No OpenGL context available in OpenGL mode!");
+                Logger.get.error(ErrorMessage.OpenGLContextNotFound, this);
             }
         }
         ////

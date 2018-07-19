@@ -24,7 +24,7 @@ import liberty.graphics.video.backend : VideoBackend;
 import liberty.core.engine;
 import liberty.core.model;
 import liberty.graphics.material;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger;
 //import sunshine.graphics.video.vao : VertexArrayObject;
 version (__OpenGL__) {
@@ -39,7 +39,7 @@ version (__OpenGL__) {
 		import liberty.graphics.wasm.backend : WASMBackend;
 	}
 ///
-final class GraphicsEngine : Singleton!GraphicsEngine, IService {
+final class GraphicsEngine : Singleton!GraphicsEngine {
 	private {
 		bool _serviceRunning;
 		VideoBackend _backend;
@@ -51,10 +51,10 @@ final class GraphicsEngine : Singleton!GraphicsEngine, IService {
 	void startService() @trusted {
 		version (__OpenGL__) {
 			_backend = new GLBackend();
-			Logger.get.info("GraphicsEngine service started with OpenGL backend.");
+			Logger.get.info("GraphicsEngine service started with OpenGL backend.", this);
 		} else version (__Vulkan__) {
 			_backend = new VKBackend();
-			Logger.get.info("GraphicsEngine service started with Vulkan backend.");
+			Logger.get.info("GraphicsEngine service started with Vulkan backend.", this);
 		} else version (__WASM__) {
 			_backend = new WASMBackend();
 		}
@@ -67,7 +67,7 @@ final class GraphicsEngine : Singleton!GraphicsEngine, IService {
 			_backend = null;
 		}
 		_serviceRunning = false;
-		Logger.get.info("GraphicsEngine service stopped.");
+		Logger.get.info("GraphicsEngine service stopped.", this);
 	}
 	///  Restart GraphicsEngine service.
 	void restartService() @trusted {

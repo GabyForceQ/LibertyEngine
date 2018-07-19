@@ -7,8 +7,8 @@
  * Coverage:
  */
 module liberty.core.font;
-import liberty.core.utils : Singleton, IService;
-import liberty.core.logger : Logger;
+import liberty.core.utils : Singleton;
+import liberty.core.logger : Logger, WarningMessage, InfoMessage;
 /// A failing FontManager function should <b>always</b> throw a $(D FontManagerEngineException).
 final class AIEngineException : Exception {
 	/// Default constructor.
@@ -19,17 +19,27 @@ final class AIEngineException : Exception {
 	}
 }
 ///
-final class FontManager : Singleton!FontManager, IService {
-	private bool _serviceRunning;
+final class FontManager : Singleton!FontManager {
+	private {
+        bool _serviceRunning;
+    }
 	/// Start FontManager service.
     void startService() @safe {
-        _serviceRunning = true;
-        Logger.get.info("FontManager service started.");
+        if (_serviceRunning) {
+            Logger.get.warning(WarningMessage.ServiceAlreadyRunning, this);
+        } else {
+            _serviceRunning = true;
+            Logger.get.info(InfoMessage.ServiceStarted, this);
+        }
     }
     /// Stop FontManager service.
     void stopService() @safe {
-        _serviceRunning = false;
-        Logger.get.info("FontManager service stopped.");
+        if (_serviceRunning) {
+            _serviceRunning = false;
+            Logger.get.info(InfoMessage.ServiceStopped, this);
+        } else {
+            Logger.get.warning(WarningMessage.ServiceNotRunning, this);
+        }
     }
     /// Restart FontManager service.
     void restartService() @safe {

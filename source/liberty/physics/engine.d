@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.physics.engine;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger;
 /// A failing Physics function should <b>always</b> throw a $(D PhysicsEngineException).
 final class PhysicsEngineException : Exception {
@@ -19,17 +19,17 @@ final class PhysicsEngineException : Exception {
 	}
 }
 ///
-final class PhysicsEngine : Singleton!PhysicsEngine, IService {
+final class PhysicsEngine : Singleton!PhysicsEngine {
     private bool _serviceRunning;
 	/// Start PhysicsEngine service.
     void startService() @safe {
         _serviceRunning = true;
-        Logger.get.info("PhysicsEngine service started.");
+        Logger.get.info("PhysicsEngine service started.", this);
     }
     /// Stop PhysicsEngine service.
     void stopService() @safe {
         _serviceRunning = false;
-        Logger.get.info("PhysicsEngine service stopped.");
+        Logger.get.info("PhysicsEngine service stopped.", this);
     }
     /// Restart PhysicsEngine service.
     void restartService() @safe {

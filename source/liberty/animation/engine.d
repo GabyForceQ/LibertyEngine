@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.animation.engine;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger;
 /// A failing Animation function should <b>always</b> throw a $(D AnimationEngineException).
 final class AnimationEngineException : Exception {
@@ -19,17 +19,17 @@ final class AnimationEngineException : Exception {
 	}
 }
 ///
-final class AnimationEngine : Singleton!AnimationEngine, IService {
+final class AnimationEngine : Singleton!AnimationEngine {
 	private bool _serviceRunning;
 	/// Start AnimationEngine service.
     void startService() @safe {
         _serviceRunning = true;
-        Logger.get.info("AnimationEngine service started.");
+        Logger.get.info("AnimationEngine service started.", this);
     }
     /// Stop AnimationEngine service.
     void stopService() @safe {
         _serviceRunning = false;
-        Logger.get.info("AnimationEngine service stopped.");
+        Logger.get.info("AnimationEngine service stopped.", this);
     }
     /// Restart AnimationEngine service.
     void restartService() @safe {

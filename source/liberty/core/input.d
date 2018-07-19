@@ -10,13 +10,13 @@
 module liberty.core.input;
 import derelict.sdl2.sdl;
 import liberty.math.vector : Vector2I, Vector2F;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import liberty.core.world.services : IUpdatable;
 import liberty.core.logger : Logger;
 import liberty.core.engine : mainWindow;
 pragma (inline, true):
 ///
-final class InputNova : Singleton!InputNova, IService, IUpdatable {
+final class InputNova : Singleton!InputNova, IUpdatable {
     private {
         SDL_Cursor* _cursorHandle;
         SystemCursor _systemCursor;
@@ -30,7 +30,7 @@ final class InputNova : Singleton!InputNova, IService, IUpdatable {
     /// Start Input service.
     void startService() @trusted {
         _serviceRunning = true;
-        Logger.get.info("Input service started.");
+        Logger.get.info("Input service started.", this);
         systemCursor = SystemCursor.Arrow;
         update(0.0f);
         _oldKeyState = _keyState;
@@ -43,7 +43,7 @@ final class InputNova : Singleton!InputNova, IService, IUpdatable {
             _cursorHandle = null;
         }
         _serviceRunning = false;
-        Logger.get.info("Input service stopped.");
+        Logger.get.info("Input service stopped.", this);
     }
     /// Restart Input service.
     void restartService() @trusted {
@@ -158,7 +158,7 @@ final class InputNova : Singleton!InputNova, IService, IUpdatable {
 
 ///
 deprecated("Input Service is deprecated. Use InputNova instead.")
-final class Input : Singleton!Input, IService {
+final class Input : Singleton!Input {
 	private {
         bool _serviceRunning;
 		bool[KeyCodeCount] _keyState;
@@ -185,7 +185,7 @@ final class Input : Singleton!Input, IService {
     void startService() @trusted {
         systemCursor = SystemCursor.Arrow;
         _serviceRunning = true;
-        Logger.get.info("Input service started.");
+        Logger.get.info("Input service started.", this);
     }
     /// Stop Input service.
     void stopService() @trusted {
@@ -194,7 +194,7 @@ final class Input : Singleton!Input, IService {
             _cursorHandle = null;
         }
         _serviceRunning = false;
-        Logger.get.info("Input service stopped.");
+        Logger.get.info("Input service stopped.", this);
     }
     /// Restart Input service.
     void restartService() @trusted {

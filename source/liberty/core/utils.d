@@ -41,14 +41,3 @@ pure nothrow @safe unittest {
 	immutable int[] arr = [4, 5, -6];
 	assert (arr.arraySize == 24, "Array size of arr must be 8 * 3 = 24!");
 }
-/// IService interface for engine manager classes.
-interface IService {
-	/// Strat service.
-	void startService() @trusted;
-	/// Strat service.
-	void stopService() @trusted;
-	/// Strat service.
-	void restartService() @trusted;
-	/// Strat service.
-	bool isServiceRunning() pure nothrow const @safe @nogc;
-}

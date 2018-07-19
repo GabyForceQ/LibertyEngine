@@ -2,14 +2,14 @@
 ##### Description:
 A powerful 2D/3D engine written in the D programming language!
 
-##### D compiler versions supported:
-* DMD 2.080.1
+##### D compiler versions supported (tested):
+* DMD 2.081.1
 
-##### Operating systems supported:
+##### Operating systems supported (tested):
 * Windows 10 x86 (32-bits)
 * Windows 10 x64 (64-bits)
 
-##### Graphics APIs supported:
+##### Graphics APIs supported (tested):
 * OpenGL 4.5 (Windows)
 
 ##### Cool features:
@@ -25,18 +25,10 @@ A powerful 2D/3D engine written in the D programming language!
 ### Example:
 ```D
 module example;
+mixin(import("generated/example.lyobj"));
 
-import liberty.engine;
-
-mixin(NativeServices);
-
-void initScene() {
-    auto mainScene = new Scene("MainScene");
-    mainScene.tree.spawn!Player("Player", false);
-    mainScene.register();
-}
-
-final class Player : Actor {
+@SceneObject(StudioAccess.Public)
+final class Example : Actor {
     
     mixin(NodeServices);
     
@@ -46,10 +38,9 @@ final class Player : Actor {
     }
     
     override void update(in float deltaTime) {
-        Logger.get.info("Updating...");
+        Logger.get.info("Updating...", this);
     }
 }
-
 ```
 
 ### Future plans:
@@ -57,7 +48,7 @@ final class Player : Actor {
 * Dynamic scripts loader
 * VR/AR capabilities
 * Multithreading systems
-* Other platforms support
+* Other platforms support including LDC Support
 * Vulkan API Wrapper
 * HTML5 with WebAssembly Support
 * Real-Time Ray Tracing

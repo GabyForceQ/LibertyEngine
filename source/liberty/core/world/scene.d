@@ -11,6 +11,8 @@ import liberty.core.engine : CoreEngine;
 import liberty.core.world.services : IStartable, IUpdatable, IProcessable;
 import liberty.core.world.node : Node, Root;
 import liberty.core.world.camera : Camera;
+import liberty.core.logger : Logger, WarningMessage, InfoMessage;
+import liberty.core.utils : Singleton;
 import liberty.graphics.engine : IRenderable;
 import liberty.math.vector : Vector3F;
 ///
@@ -19,13 +21,18 @@ struct SceneSettings {
 	Vector3F startPoint;
 }
 ///
-final class Scene {
+final class Scene : IUpdatable, IProcessable, IRenderable {
 	public {
-	    IStartable[string] startList;
-	    IUpdatable[string] updateList;
-	    IProcessable[string] processList;
-	    IRenderable[string] renderList;
-	    static IRenderable[string] shaderList;
+	    ///
+        IStartable[string] startList;
+	    ///
+        IUpdatable[string] updateList;
+	    ///
+        IProcessable[string] processList;
+	    ///
+        IRenderable[string] renderList;
+	    ///
+        static IRenderable[string] shaderList;
 	}
     package {
         bool[string] _ids;
@@ -73,15 +80,15 @@ final class Scene {
         _tree = new Root();
     }
     /// Sets the current camera using its reference.
-    void activeCamera(Camera camera) @property {
+    void activeCamera(Camera camera) {
         _activeCamera = camera;
     }
     /// Sets the current camera using its ID.
-	void activeCamera(string id) @property {
+	void activeCamera(string id) {
 	    //_activeCamera = node!Camera(id);
 	}
 	/// Returns the current camera.
-	Camera activeCamera() @property {
+	Camera activeCamera() {
 	    return _activeCamera;
 	}
 	/// Change view from a camera to another using their references.
@@ -142,6 +149,85 @@ final class Scene {
         }
         foreach(node; renderList) {
             node.render();
+        }
+    }
+}
+///
+final class SceneSerializer : Singleton!SceneSerializer {
+    private {
+        bool _serviceRunning;
+        immutable {
+            string _ext = ".lyscn";
+            string _arr = " >> ";
+            string _inf = ": ";
+            string _nxt = ", ";
+            string _str = `"`;
+            string _end = "\r\n"; // TODO. Check OS version
+        }
+        enum PropTkn : string {
+            id = "id"
+        }
+    }
+    /// Start SceneSerializer service.
+    void startService() @trusted {
+        if (_serviceRunning) {
+            Logger.get.warning(WarningMessage.ServiceAlreadyRunning, this);
+        } else {
+            _serviceRunning = true;
+            Logger.get.info(InfoMessage.ServiceStarted, this);
+        }
+    }
+    /// Stop SceneSerializer service.
+    void stopService() @trusted {
+        if (_serviceRunning) {
+            _serviceRunning = false;
+            Logger.get.info(InfoMessage.ServiceStopped, this);
+        } else {
+            Logger.get.warning(WarningMessage.ServiceNotRunning, this);
+        }
+    }
+    /// Restart SceneSerializer service.
+    void restartService() @trusted {
+        stopService();
+        startService();
+    }
+    /// Returns true if FontManager service is running.
+	bool isServiceRunning() pure nothrow const @safe @nogc {
+		return _serviceRunning;
+	}
+    ///
+    void serialize(Scene scene) {
+        if (_serviceRunning) {
+            import std.stdio : File;
+            import std.conv : to;
+            auto file = new File(scene.id.to!string ~ _ext, "w");
+            scope (exit) file.close();
+            // TODO. Parse children too
+            //foreach (node; scene.tree) {
+            //    file.writeln(node.stringof ~ _arr ~ PropTkn.id ~ _inf ~ _str ~ node.id.to!string ~ _str);
+                // TODO. foreach all node members searching for other props including construction default values
+            //    file.write(_end);
+            //}
+        } else {
+            Logger.get.warning(WarningMessage.ServiceNotRunning, this);
+        }
+    }
+    ///
+    Scene deserialize(string path) {
+        if (_serviceRunning) {
+            import std.stdio : File;
+            import std.conv : to;
+            import std.array : split;
+            string id = path.split('/')[$ - 1]; // TODO. Check if it has at least one /
+            auto file = new File(path ~ _ext, "r");
+            scope (exit) file.close();
+            // TODO. Read file
+            auto scene = new Scene(id);
+            return scene;
+        } else {
+            Logger.get.warning(WarningMessage.ServiceNotRunning, this);
+            Logger.get.warning(WarningMessage.NullReturn, this);
+            return null;
         }
     }
 }

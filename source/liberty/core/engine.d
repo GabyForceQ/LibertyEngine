@@ -22,7 +22,7 @@ import liberty.core.time : time;
 import liberty.core.model : Models;
 import liberty.graphics.material : Materials;
 import liberty.core.system;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger;
 ///
 class CoreEngineException : Exception {
@@ -57,7 +57,7 @@ struct WindowInfo {
     double ratio() { return width / cast(double)height; }
 }
 ///
-final class CoreEngine : Singleton!CoreEngine, IService {
+final class CoreEngine : Singleton!CoreEngine {
     private {
         bool _serviceRunning;
         float _deltaTime = 0.0f;
@@ -98,14 +98,14 @@ final class CoreEngine : Singleton!CoreEngine, IService {
         Materials.get.load();
         Models.get.load();
         _serviceRunning = true;
-        Logger.get.info("CoreEngine service started.");
+        Logger.get.info("CoreEngine service started.", this);
     }
     /// Stop CoreEngine service.
     void stopService() @trusted {
         GraphicsEngine.get.stopService();
         collectGarbage();
         _serviceRunning = false;
-        Logger.get.info("CoreEngine service stopped.");
+        Logger.get.info("CoreEngine service stopped.", this);
         version (__WithStudio__) {
             Logger.get.stopService();
         }
@@ -187,24 +187,24 @@ final class CoreEngine : Singleton!CoreEngine, IService {
                 SDL_WINDOW_VULKAN
             );
         }
-        Logger.get.info("Global window initialized.");
+        Logger.get.info("Global window initialized.", this);
     }
     /// Sets if Garbage Collector should be enabled or disabled.
     void gcEnabled(bool enabled) @trusted @property {
         import core.memory : GC;
         if (enabled) {
             GC.enable();
-            Logger.get.info("Garbage collector enabled.");
+            Logger.get.info("Garbage collector enabled.", this);
         } else {
             GC.disable();
-            Logger.get.info("Garbage collector disabled.");
+            Logger.get.info("Garbage collector disabled.", this);
         }
     }
     /// Collect references that are not used any more from the GC area.
     void collectGarbage() @trusted {
         import core.memory : GC;
         GC.collect();
-        Logger.get.info("Garbage collected.");
+        Logger.get.info("Garbage collected.", this);
     }
 }
 ///

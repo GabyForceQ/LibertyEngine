@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.ai.engine;
-import liberty.core.utils : Singleton, IService;
+import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger;
 /// A failing AI function should <b>always</b> throw a $(D AIEngineException).
 final class AIEngineException : Exception {
@@ -19,17 +19,17 @@ final class AIEngineException : Exception {
 	}
 }
 ///
-final class AIEngine : Singleton!AIEngine, IService {
+final class AIEngine : Singleton!AIEngine {
 	private bool _serviceRunning;
 	/// Start AIEngine service.
     void startService() @safe {
         _serviceRunning = true;
-        Logger.get.info("AIEngine service started.");
+        Logger.get.info("AIEngine service started.", this);
     }
     /// Stop AIEngine service.
     void stopService() @safe {
         _serviceRunning = false;
-        Logger.get.info("AIEngine service stopped.");
+        Logger.get.info("AIEngine service stopped.", this);
     }
     /// Restart AIEngine service.
     void restartService() @safe {
