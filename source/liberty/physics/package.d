@@ -7,9 +7,7 @@
  * Coverage:
  */
 module liberty.physics;
-version (__NoDefaultImports__) {
-} else {
-    public {
-        import liberty.physics.engine;
-    }
+
+public {
+    import liberty.physics.engine;
 }

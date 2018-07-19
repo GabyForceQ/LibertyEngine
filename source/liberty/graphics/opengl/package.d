@@ -8,20 +8,19 @@
  */
 // TODO: Get rid of derelict.opengl import.
 module liberty.graphics.opengl;
+
 version (__OpenGL__) :
-version (__NoDefaultImports__) {
-} else {
-    public {
-        import derelict.opengl;
-        import liberty.graphics.opengl.backend;
-        import liberty.graphics.opengl.buffer;
-        //import liberty.graphics.opengl.fbo;
-        //import liberty.graphics.opengl.renderbuffer;
-        import liberty.graphics.opengl.shader;
-        import liberty.graphics.opengl.texture;
-        import liberty.graphics.opengl.traits;
-        //import liberty.graphics.opengl.uniform;
-        import liberty.graphics.opengl.vao;
-        import liberty.graphics.opengl.vertex;
-    }
+
+public {
+    import derelict.opengl;
+    import liberty.graphics.opengl.backend;
+    import liberty.graphics.opengl.buffer;
+    //import liberty.graphics.opengl.fbo;
+    //import liberty.graphics.opengl.renderbuffer;
+    import liberty.graphics.opengl.shader;
+    import liberty.graphics.opengl.texture;
+    import liberty.graphics.opengl.traits;
+    //import liberty.graphics.opengl.uniform;
+    import liberty.graphics.opengl.vao;
+    import liberty.graphics.opengl.vertex;
 }

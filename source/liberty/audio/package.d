@@ -7,10 +7,8 @@
  * Coverage:
  */
 module liberty.audio;
-version (__NoDefaultImports__) {
-} else {
-	public {
-		import liberty.audio.device;
-		import liberty.audio.engine;
-	}
+
+public {
+	import liberty.audio.device;
+	import liberty.audio.engine;
 }

@@ -7,16 +7,14 @@
  * Coverage:
  */
 module liberty.core.world;
-version (__NoDefaultImports__) {
-} else {
-    public {
-        import liberty.core.world.actor;
-        import liberty.core.world.camera;
-        import liberty.core.world.canvas;
-        import liberty.core.world.entity;
-        import liberty.core.world.node;
-        import liberty.core.world.scene;
-        import liberty.core.world.services;
-        import liberty.core.world.terrain;
-    }
+
+public {
+    import liberty.core.world.actor;
+    import liberty.core.world.camera;
+    import liberty.core.world.canvas;
+    import liberty.core.world.entity;
+    import liberty.core.world.node;
+    import liberty.core.world.scene;
+    import liberty.core.world.services;
+    import liberty.core.world.terrain;
 }

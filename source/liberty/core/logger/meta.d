@@ -24,7 +24,7 @@ immutable ManagerBody = q{
     void startService() @trusted {
         _serviceRunning = true;
         mixin(startBody);
-        info("Service started.", this);
+        Logger.get.info("Service started.", this);
     }
 
     /**
@@ -32,7 +32,7 @@ immutable ManagerBody = q{
      */
     void stopService() @trusted {
         mixin(stopBody);
-        info("Service stopped.", this);
+        Logger.get.info("Service stopped.", this);
         _serviceRunning = false;
     }
 

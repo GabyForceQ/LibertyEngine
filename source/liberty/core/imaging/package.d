@@ -7,10 +7,8 @@
  * Coverage:
  */
 module liberty.core.imaging;
-version (__NoDefaultImports__) {
-} else {
-    public {
-        import liberty.core.imaging.bitmap;
-        import liberty.core.imaging.image;
-    }
+
+public {
+    import liberty.core.imaging.bitmap;
+    import liberty.core.imaging.image;
 }

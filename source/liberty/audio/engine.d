@@ -7,37 +7,42 @@
  * Coverage:
  */
 module liberty.audio.engine;
+
 import liberty.core.utils : Singleton;
-import liberty.core.logger : Logger;
-/// A failing Audio function should <b>always</b> throw a $(D AudioEngineException).
+import liberty.core.logger : Logger, ManagerBody;
+
+/**
+ * A failing Audio function should <b>always</b> throw a $(D AudioEngineException).
+ */
 final class AudioEngineException : Exception {
-	/// Default constructor.
+	
+    /**
+     * Exception constructor.
+     * It prints the message, the file and the line where the exception has been thrown as information.
+     * Params:
+     *      msg = exception message
+     *      file = source file where the exception has been thrown
+     *      line = line from the file where the exception has been thrown
+     *      next = the next $(D, Throwable) callback
+     */
 	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
 		super(msg, file, line, next);
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
 	}
 }
-///
+
+/**
+ * Singleton class used to manage audio.
+ * It's a manager class so it implements $(D ManagerBody).
+ */
 final class AudioEngine : Singleton!AudioEngine {
-	private bool _serviceRunning;
-	/// Start AudioEngine service.
-    void startService() @safe {
-        _serviceRunning = true;
-        Logger.get.info("AudioEngine service started.", this);
+	
+    mixin(ManagerBody);
+
+    private static {
+        immutable startBody = q{};
+        immutable stopBody = q{};
     }
-    /// Stop AudioEngine service.
-    void stopService() @safe {
-        _serviceRunning = false;
-        Logger.get.info("AudioEngine service stopped.", this);
-    }
-    /// Restart AudioEngine service.
-    void restartService() @safe {
-        stopService();
-        startService();
-    }
-	/// Returns true if AudioEngine service is running.
-	bool isServiceRunning() pure nothrow const @safe @nogc {
-		return _serviceRunning;
-	}
+
 }

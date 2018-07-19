@@ -7,9 +7,7 @@
  * Coverage:
  */
 module liberty.ai;
-version (__NoDefaultImports__) {
-} else {
-	public {
-		import liberty.ai.engine;
-	}
+
+public {
+	import liberty.ai.engine;
 }

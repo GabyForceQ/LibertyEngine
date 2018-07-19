@@ -7,11 +7,9 @@
  * Coverage:
  */
 module liberty.core.content;
-version (__NoDefaultImports__) {
-} else {
-	public {
-		import liberty.core.content.browser;
-		import liberty.core.content.importer;
-		import liberty.core.content.manager;
-	}
+
+public {
+	import liberty.core.content.browser;
+	import liberty.core.content.importer;
+	import liberty.core.content.manager;
 }

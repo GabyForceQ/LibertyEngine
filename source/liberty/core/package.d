@@ -7,23 +7,22 @@
  * Coverage:
  */
 module liberty.core;
-version (__NoDefaultImports__) {
-} else {
-	public {
-		import liberty.core.geometry;
-		import liberty.core.imaging;
-		import liberty.core.world;
-		import liberty.core.components;
-		import liberty.core.config;
-		import liberty.core.engine;
-		import liberty.core.input;
-		import liberty.core.light;
-		import liberty.core.logger;
-		import liberty.core.memory;
-		import liberty.core.model;
-		import liberty.core.securetypes;
-		import liberty.core.sprite;
-		import liberty.core.time;
-		import liberty.core.utils;
-	}
+
+public {
+	import liberty.core.animator;
+	import liberty.core.geometry;
+	import liberty.core.imaging;
+	import liberty.core.world;
+	import liberty.core.components;
+	import liberty.core.config;
+	import liberty.core.engine;
+	import liberty.core.input;
+	import liberty.core.light;
+	import liberty.core.logger;
+	import liberty.core.memory;
+	import liberty.core.model;
+	import liberty.core.securetypes;
+	import liberty.core.sprite;
+	import liberty.core.time;
+	import liberty.core.utils;
 }

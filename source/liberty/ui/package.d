@@ -7,11 +7,9 @@
  * Coverage:
  */
 module liberty.ui;
-version (__NoDefaultImports__) {
-} else {
-	public {
-		import liberty.ui.button;
-		import liberty.ui.view;
-		import liberty.ui.widget;
-	}
+
+public {
+	import liberty.ui.button;
+	import liberty.ui.view;
+	import liberty.ui.widget;
 }

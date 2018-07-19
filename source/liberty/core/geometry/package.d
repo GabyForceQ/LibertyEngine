@@ -7,10 +7,8 @@
  * Coverage:
  */
 module liberty.core.geometry;
-version (__NoDefaultImports__) {
-} else {
-    public {
-        import liberty.core.geometry.shapes;
-        import liberty.core.geometry.volumes;
-    }
+
+public {
+    import liberty.core.geometry.shapes;
+    import liberty.core.geometry.volumes;
 }

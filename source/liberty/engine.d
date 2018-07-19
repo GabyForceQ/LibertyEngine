@@ -7,16 +7,13 @@
  * Coverage:
  */
 module liberty.engine;
-version (__NoDefaultImports__) {
-} else {
-	public {
-		import liberty.ai;
-		import liberty.animation;
-		import liberty.audio;
-		import liberty.core;
-		import liberty.graphics;
-		import liberty.math;
-		import liberty.physics;
-		import liberty.ui;
-	}
+
+public {
+	import liberty.ai;
+	import liberty.audio;
+	import liberty.core;
+	import liberty.graphics;
+	import liberty.math;
+	import liberty.physics;
+	import liberty.ui;
 }

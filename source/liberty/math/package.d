@@ -7,14 +7,12 @@
  * Coverage:
  */
 module liberty.math;
-version (__NoDefaultImports__) {
-} else {
-	public {
-		import liberty.math.box;
-		import liberty.math.functions;
-		import liberty.math.matrix;
-		import liberty.math.quaternion;
-		import liberty.math.shapes;
-		import liberty.math.vector;
-	}
+
+public {
+	import liberty.math.box;
+	import liberty.math.functions;
+	import liberty.math.matrix;
+	import liberty.math.quaternion;
+	import liberty.math.shapes;
+	import liberty.math.vector;
 }
