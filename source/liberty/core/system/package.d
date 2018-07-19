@@ -13,7 +13,7 @@ import derelict.util.loader;
 import derelict.sdl2.sdl;
 import liberty.core.logger;
 import liberty.core.memory : ensureNotInGC;
-import liberty.math.vector : Vector, Vector2I;
+import liberty.core.math.vector : Vector, Vector2I;
 import std.string : format, fromStringz, toStringz;
 /// A failing Platform function should <b>always</b> throw a $(D PlatformException).
 final class PlatformException : Exception {

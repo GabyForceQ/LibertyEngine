@@ -13,7 +13,7 @@ import liberty.core.world;
 import liberty.graphics.opengl;
 import derelict.sdl2.sdl;
 import liberty.core.input;
-import liberty.math;
+import liberty.core.math;
 import liberty.graphics.postprocessing;
 import std.math, std.random;
 import derelict.util.loader;

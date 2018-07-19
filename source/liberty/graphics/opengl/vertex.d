@@ -12,10 +12,10 @@ import derelict.opengl;
 import liberty.graphics.engine;
 import liberty.graphics.opengl.traits;
 import std.string, std.typetuple, std.typecons, std.traits;
-import liberty.math.vector;
+import liberty.core.math.vector;
 import liberty.graphics.opengl.shader;
 import liberty.graphics.video.vertex : VertexSpec;
-import liberty.math.traits : isVector;
+import liberty.core.math.traits : isVector;
 /// Specify an attribute which has to be normalized.
 struct Normalized;
 /// Describe a Vertex structure.

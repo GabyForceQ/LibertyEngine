@@ -12,8 +12,8 @@ import liberty.graphics.video.shader : ShaderProgram, ShaderType;
 import liberty.graphics.video.backend : UnsupportedVideoFeatureException;
 import liberty.graphics.opengl.vertex : GLAttribute;
 import liberty.graphics.opengl.backend : GLException;
-import liberty.math.vector : Vector2F, Vector3F, Vector4F;
-import liberty.math.matrix: Matrix4F;
+import liberty.core.math.vector : Vector2F, Vector3F, Vector4F;
+import liberty.core.math.matrix: Matrix4F;
 import std.string : fromStringz;
 import derelict.opengl;
 ///

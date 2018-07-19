@@ -9,7 +9,7 @@
  // TODO: Add controller.
 module liberty.core.input;
 import derelict.sdl2.sdl;
-import liberty.math.vector : Vector2I, Vector2F;
+import liberty.core.math.vector : Vector2I, Vector2F;
 import liberty.core.utils : Singleton;
 import liberty.core.world.services : IUpdatable;
 import liberty.core.logger : Logger;

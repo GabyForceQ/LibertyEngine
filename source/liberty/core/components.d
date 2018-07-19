@@ -10,9 +10,9 @@ module liberty.core.components;
 import liberty.core.world.node : Node;
 import liberty.core.model : Model, Mesh;
 import liberty.graphics.material : Material, Materials;
-import liberty.math.vector : Vector3F;
-import liberty.math.matrix : Matrix4F;
-import liberty.math.functions : radians;
+import liberty.core.math.vector : Vector3F;
+import liberty.core.math.matrix : Matrix4F;
+import liberty.core.math.functions : radians;
 ///
 struct Component;
 ///

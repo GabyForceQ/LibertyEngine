@@ -10,7 +10,7 @@ module liberty.core.world.canvas;
 import liberty.core.world.services : ListenerBody;
 import liberty.core.world.node : Node;
 import liberty.core.world.scene : Scene;
-import liberty.math.vector : Vector3F, Vector4F;
+import liberty.core.math.vector : Vector3F, Vector4F;
 import liberty.core.geometry.shapes;
 import liberty.core.engine : CoreEngineException;
 import liberty.core.ui.widget : Widget;

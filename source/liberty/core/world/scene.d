@@ -14,7 +14,7 @@ import liberty.core.world.camera : Camera;
 import liberty.core.logger : Logger, WarningMessage, InfoMessage;
 import liberty.core.utils : Singleton;
 import liberty.graphics.engine : IRenderable;
-import liberty.math.vector : Vector3F;
+import liberty.core.math.vector : Vector3F;
 ///
 struct SceneSettings {
 	///

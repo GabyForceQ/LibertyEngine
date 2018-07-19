@@ -12,9 +12,9 @@ import liberty.core.world.actor : Actor;
 import liberty.core.world.node : Node;
 import liberty.core.world.services : NodeBody, Constructor;
 import liberty.core.input : InputNova, Input, KeyCode, KeyModFlag, MouseButton;
-import liberty.math.functions : radians, sin, cos;
-import liberty.math.vector : Vector2I, Vector3F, cross;
-import liberty.math.matrix : Matrix4F;
+import liberty.core.math.functions : radians, sin, cos;
+import liberty.core.math.vector : Vector2I, Vector3F, cross;
+import liberty.core.math.matrix : Matrix4F;
 ///
 enum CameraProjection: byte {
     /// For 3D and 2D views

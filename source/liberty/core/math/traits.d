@@ -2,16 +2,16 @@
  * Copyright:   Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:     $(Gabriel Gheorghe)
  * License:     $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:      $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/math/traits.d, _traits.d)
+ * Source:      $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/math/traits.d, _traits.d)
  * Documentation:
  * Coverage:
  */
-module liberty.math.traits;
-import liberty.math.vector : Vector, Vector2F, Vector3I, Vector3D, Vector4, Vector4U;
-import liberty.math.matrix : Matrix, MatrixOrder;
-import liberty.math.quaternion : Quaternion;
-import liberty.math.box : Box, Box2F, Box3D, Box3I;
-import liberty.math.shapes : Segment, Triangle, Sphere, Ray, Plane, Frustum, 
+module liberty.core.math.traits;
+import liberty.core.math.vector : Vector, Vector2F, Vector3I, Vector3D, Vector4, Vector4U;
+import liberty.core.math.matrix : Matrix, MatrixOrder;
+import liberty.core.math.quaternion : Quaternion;
+import liberty.core.math.box : Box, Box2F, Box3D, Box3I;
+import liberty.core.math.shapes : Segment, Triangle, Sphere, Ray, Plane, Frustum, 
     Segment2I, Triangle3F, Sphere2D, Ray3F, PlaneD; 
 /// True if T is some kind of Vector.
 enum isVector(T) = is(T : Vector!U, U...);

@@ -13,7 +13,7 @@ import liberty.graphics.video.vao : VertexArray;
 import liberty.graphics.video.buffer : VideoBuffer, BufferTarget;
 import liberty.graphics.material : Material, Materials;
 import liberty.graphics.engine : Vertex2, Vertex3, DataUsage;
-import liberty.math : Vector2F, Vector3F;
+import liberty.core.math : Vector2F, Vector3F;
 import liberty.core.utils : Singleton;
 ///
 struct Mesh {

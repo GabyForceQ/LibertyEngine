@@ -21,7 +21,7 @@ public {
 	import liberty.core.logger;
 	import liberty.core.memory;
 	import liberty.core.model;
-	import liberty.core.securetypes;
+	import liberty.core.security;
 	import liberty.core.sprite;
 	import liberty.core.time;
 	import liberty.core.ui;

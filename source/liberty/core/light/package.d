@@ -7,7 +7,8 @@
  * Coverage:
  */
 module liberty.core.light;
-//version (__Editor__) {
+
+//version (__Studio__) {
 //	static struct LightVertex {
 //		Vector3F position;
 //	}
@@ -15,7 +16,7 @@ module liberty.core.light;
 /////
 //class Light: Actor {
 //	private {
-//		version (__Editor__) {
+//		version (__Studio__) {
 //			Renderer!LightVertex _renderComponent;
 //		}
 //	}

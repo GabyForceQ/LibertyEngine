@@ -2,13 +2,13 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:			$(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/math/matrix.d, _matrix.d)
+ * Source:			$(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/math/matrix.d, _matrix.d)
  * Documentation:
  * Coverage:
  */
-module liberty.math.matrix;
-import liberty.math.vector : Vector;
-import liberty.math.traits : isMatrixInstance;
+module liberty.core.math.matrix;
+import liberty.core.math.vector : Vector;
+import liberty.core.math.traits : isMatrixInstance;
 import liberty.core.config : __RowMajor__, __ColumnMajor__;
 import std.traits : isFloatingPoint;
 ///
@@ -495,7 +495,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 		static if (isSquare && (R == 3 || R == 4) && isFloatingPoint!T) {
 			///
 			static Matrix rotateAxis(int i, int j)(T angle) pure nothrow @safe @nogc {
-				import liberty.math.functions : sin, cos;
+				import liberty.core.math.functions : sin, cos;
 				Matrix ret = identity();
 				const T cosa = cos(angle);
 				const T sina = sin(angle);
@@ -544,7 +544,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			}
 			///
 			static Matrix rotation(T angle, Vector!(T, 3) axis, Matrix m = identity()) pure nothrow @safe @nogc {
-				import liberty.math.functions : sin, cos;
+				import liberty.core.math.functions : sin, cos;
 				Matrix ret = m;
 				const T c = cos(angle);
 				const oneMinusC = 1 - c;
@@ -587,7 +587,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			}
 			/// Returns perspective projection.
 			static Matrix perspective(T FOVInRadians, T aspect, T zNear, T zFar) pure nothrow @safe @nogc {
-				import liberty.math.functions : tan;
+				import liberty.core.math.functions : tan;
 				T f = 1 / tan(FOVInRadians / 2);
 				T d = 1 / (zNear - zFar);
 				return Matrix(f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (zFar + zNear) * d, 2 * d * zFar * zNear, 0, 0, -1, 0);
@@ -597,7 +597,7 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			}
 			/// Returns lookAt projection.
 			static Matrix lookAt(Vector!(T, 3) eye, Vector!(T, 3) target, Vector!(T, 3) up) pure nothrow @safe @nogc {
-				import liberty.math.vector : dot, cross;
+				import liberty.core.math.vector : dot, cross;
 				Vector!(T, 3) Z = (eye - target).normalized();
 				Vector!(T, 3) X = cross(-up, Z).normalized();
 				Vector!(T, 3) Y = cross(Z, -X);

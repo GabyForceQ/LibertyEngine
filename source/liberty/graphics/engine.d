@@ -7,7 +7,7 @@
  * Coverage:
  */
 module liberty.graphics.engine;
-import liberty.math.vector : Vector2F, Vector3F;
+import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.graphics.util : RenderUtil;
 import liberty.graphics.video.vertex : VertexSpec;
 import liberty.graphics.video.vao : VertexArray;
@@ -16,9 +16,9 @@ import liberty.graphics.video.shader : ShaderProgram;
 import derelict.opengl;
 import liberty.core.imaging;
 import liberty.core.engine;
-import liberty.math;
+import liberty.core.math;
 import liberty.core.time;
-import liberty.math.vector;
+import liberty.core.math.vector;
 import derelict.sdl2.sdl : SDL_GL_SetSwapInterval;
 import liberty.graphics.video.backend : VideoBackend;
 import liberty.core.engine;

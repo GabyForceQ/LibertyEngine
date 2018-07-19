@@ -12,8 +12,8 @@ import liberty.core.engine : CoreEngine;
 import liberty.core.world.node : Node;
 import liberty.core.world.services : NodeBody, Constructor;
 import liberty.core.input : Input, MouseButton;
-import liberty.math.vector : Vector2I;
-import liberty.math.shapes : RectI;
+import liberty.core.math.vector : Vector2I;
+import liberty.core.math.shapes : RectI;
 import liberty.core.ui.widget : Widget;
 
 /**
@@ -21,7 +21,7 @@ import liberty.core.ui.widget : Widget;
  */
 final class Button : Widget {
 
-	mixin(NodeBody);
+    mixin(NodeBody);
 	
     /**
      *

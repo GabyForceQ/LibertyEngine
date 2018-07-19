@@ -22,18 +22,28 @@ immutable ManagerBody = q{
      * Start this service.
      */
     void startService() @trusted {
-        _serviceRunning = true;
-        mixin(startBody);
-        Logger.get.info("Service started.", this);
+        import liberty.core.logger : WarningMessage, InfoMessage;
+        if (_serviceRunning) {
+            Logger.get.warning(WarningMessage.ServiceAlreadyRunning, this);
+        } else {
+            _serviceRunning = true;
+            mixin(startBody);
+            Logger.get.info(InfoMessage.ServiceStarted, this);
+        }
     }
 
     /**
      * Stop this service.
      */
     void stopService() @trusted {
-        mixin(stopBody);
-        Logger.get.info("Service stopped.", this);
-        _serviceRunning = false;
+        import liberty.core.logger : WarningMessage, InfoMessage;
+        if (_serviceRunning) {
+            mixin(stopBody);
+            Logger.get.info(InfoMessage.ServiceStopped, this);
+            _serviceRunning = false;
+        } else {
+            Logger.get.warning(WarningMessage.ServiceNotRunning, this);
+        }
     }
 
     /**
