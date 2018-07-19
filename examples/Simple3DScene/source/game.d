@@ -11,7 +11,7 @@ module game;
 import liberty.engine;
 import player;
 
-mixin(NativeServices);
+mixin(NativeBody);
 
 void initSettings() {
 	CoreEngine.get.shouldQuitOnKey(KeyCode.Esc);

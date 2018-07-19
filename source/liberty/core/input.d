@@ -157,7 +157,7 @@ final class InputNova : Singleton!InputNova, IUpdatable {
 }
 
 ///
-deprecated("Input Service is deprecated. Use InputNova instead.")
+//deprecated("Input Service is deprecated. Use InputNova instead.")
 final class Input : Singleton!Input {
 	private {
         bool _serviceRunning;

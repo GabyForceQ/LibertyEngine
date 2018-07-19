@@ -42,6 +42,7 @@ enum LogType : ubyte {
      * Used to log a todo message.
      */
     Todo = 0x05
+
 }
 
 /**
@@ -58,6 +59,7 @@ enum InfoMessage : string {
      * 
      */
     ServiceStopped = "Service stopped successfully!"
+
 }
 
 /**
@@ -79,6 +81,7 @@ enum WarningMessage : string {
      * 
      */
     NullReturn = "Returned value from current function is null!"
+
 }
 
 /**
@@ -95,6 +98,7 @@ enum ErrorMessage : string {
      * 
      */
     VulkanContextNotFound = "No Vulkan context available in Vulkan mode!",
+
 }
 
 /**
@@ -116,4 +120,5 @@ enum TodoMessage : string {
      * 
      */
     NewFeature = "Implement new feature!"
+    
 }

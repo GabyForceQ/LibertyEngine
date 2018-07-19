@@ -12,7 +12,7 @@ import liberty.engine;
 
 final class Player : Actor {
 
-	mixin(NodeServices);
+	mixin(NodeBody);
 
 	override void start() {
 		spawn!RectangleShape("RectShape").transform.translateY(1.5f);

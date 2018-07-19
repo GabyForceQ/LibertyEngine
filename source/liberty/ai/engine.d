@@ -25,11 +25,11 @@ final class AIEngineException : Exception {
      *      line = line from the file where the exception has been thrown
      *      next = the next $(D, Throwable) callback
      */
-	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
-		super(msg, file, line, next);
+    this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
+        super(msg, file, line, next);
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
-	}
+    }
 }
 
 /**

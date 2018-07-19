@@ -30,7 +30,7 @@ mixin(import("generated/example.lyobj"));
 @SceneObject(StudioAccess.Public)
 final class Example : Actor {
     
-    mixin(NodeServices);
+    mixin(NodeBody);
     
     override void start() {
         spawn!Camera("Camera").position(0.0f, 0.0f, 3.0f);

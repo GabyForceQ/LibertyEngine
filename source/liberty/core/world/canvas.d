@@ -7,13 +7,13 @@
  * Coverage:
  */
 module liberty.core.world.canvas;
-import liberty.core.world.services : ListenerServices;
+import liberty.core.world.services : ListenerBody;
 import liberty.core.world.node : Node;
 import liberty.core.world.scene : Scene;
 import liberty.math.vector : Vector3F, Vector4F;
 import liberty.core.geometry.shapes;
 import liberty.core.engine : CoreEngineException;
-import liberty.ui.widget : Widget;
+import liberty.core.ui.widget : Widget;
 ///
 abstract class Canvas : Widget { // TODO: Not abstract, not final.
 	protected {

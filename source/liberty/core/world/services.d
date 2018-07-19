@@ -8,7 +8,7 @@
  */
 module liberty.core.world.services;
 ///
-immutable NodeServices = q{
+immutable NodeBody = q{
     this(string id, Node parent = CoreEngine.get.activeScene.tree) {
         if (parent is null) {
             assert(0, "Parent object cannot be null");
@@ -57,7 +57,7 @@ immutable NodeServices = q{
     }
 };
 ///
-immutable ListenerServices = q{
+immutable ListenerBody = q{
 	/// Starts current containing events and @Signal events.
 	/// A @Signal event overrides a current containing event.
 	void startListening(T)(ref T element) {
@@ -65,7 +65,7 @@ immutable ListenerServices = q{
         if (!element._canListen) {
             element._canListen = true;
             if (typeof(element).stringof == Button.stringof) {
-                mixin(ButtonListenerServices);
+                mixin(ButtonListenerBody);
             }
         }
     }
@@ -75,12 +75,12 @@ immutable ListenerServices = q{
         element.stopListening();
         element._canListen = true;
         if (typeof(element).stringof == Button.stringof) {
-            mixin(ButtonListenerServices);
+            mixin(ButtonListenerBody);
         }
     }
 };
 ///
-immutable WidgetListenerServices = q{
+immutable WidgetListenerBody = q{
     static foreach (type; ["Update"]) {
         static if (type == getUDAs!(__traits(getMember, this, member), Event)[0].type) {
             if (element.id == getUDAs!(__traits(getMember, this, member), Signal)[0].id) {
@@ -90,7 +90,7 @@ immutable WidgetListenerServices = q{
     }
 };
 ///
-immutable ButtonListenerServices = q{
+immutable ButtonListenerBody = q{
 	static if (typeof(super).stringof == "Canvas") {
 		static foreach (member; __traits(derivedMembers, typeof(this))) {
 			static if (mixin("hasUDA!(" ~ typeof(this).stringof ~ "." ~ member ~ ", Event)")
@@ -102,7 +102,7 @@ immutable ButtonListenerServices = q{
                         }
 					}
 				}
-                mixin(WidgetListenerServices);
+                mixin(WidgetListenerBody);
 			}
 		}
 	}

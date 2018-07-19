@@ -11,18 +11,19 @@ import liberty.core.input;
 import derelict.util.exception;
 import derelict.util.loader;
 import derelict.sdl2.sdl;
+import liberty.core.logger;
 import liberty.core.memory : ensureNotInGC;
 import liberty.math.vector : Vector, Vector2I;
 import std.string : format, fromStringz, toStringz;
 /// A failing Platform function should <b>always</b> throw a $(D PlatformException).
 final class PlatformException : Exception {
-    /// Default constructor.
+
     this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
         super(msg, file, line, next);
-        import liberty.core.logger : Logger;
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
     }
+    
 }
 /// Root object for SDL2 functionality.
 /// It's passed around to other SDL wapper objects to ensure library loading.

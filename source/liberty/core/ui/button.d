@@ -2,35 +2,32 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/ui/button.d, _button.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/ui/button.d, _button.d)
  * Documentation:
  * Coverage:
  */
-module liberty.ui.button;
+module liberty.core.ui.button;
+
 import liberty.core.engine : CoreEngine;
 import liberty.core.world.node : Node;
-import liberty.core.world.services : NodeServices, Constructor;
+import liberty.core.world.services : NodeBody, Constructor;
 import liberty.core.input : Input, MouseButton;
 import liberty.math.vector : Vector2I;
 import liberty.math.shapes : RectI;
-import liberty.ui.widget : Widget;
-import liberty.core.geometry.shapes;
-///
+import liberty.core.ui.widget : Widget;
+
+/**
+ *
+ */
 final class Button : Widget {
-	///
-	mixin(NodeServices);
-	///
-	enum MouseLeftClick = "MouseLeftClick";
-	///
-	enum MouseMiddleClick = "MouseMiddleClick";
-	///
-	enum MouseRightClick = "MouseRightClick";
-	///
-	enum MouseMove = "MouseMove";
-	///
-	enum MouseInside = "MouseInside";
-    ///
+
+	mixin(NodeBody);
+	
+    /**
+     *
+     */
     RectI shape;
+
     private {
         void delegate() _onMouseLeftClick = null;
         void delegate() _onMouseMiddleClick = null;
@@ -45,21 +42,32 @@ final class Button : Widget {
         Vector2I _mousePos;
         Vector2I _oldMousePos;
     }
-	///
+
+    /**
+     *
+     */
     this(string id, Node parent, RectI shape = RectI.defaultData) {
         this(id, parent);
         this.shape = shape;
     }
+
 	~this() {
 		//shader.cleanUp();
 	}
-    /// Stops listener service.
+
+    /**
+     * Stop listener service.
+     */
     override void stopListening() {
         super.stopListening();
         clearAllIsOnEvents();
         clearAllEvents();
     }
-	/// Button update function. It calls the widget update function which implements IUpdatable.
+
+    /**
+     * Button update function. 
+     * It calls the super widget update function which implements IUpdatable.
+     */
 	override void update(in float deltaTime) {
         super.update(deltaTime);
 		if (_canListen) {
@@ -95,82 +103,130 @@ final class Button : Widget {
 			_oldMousePos = _mousePos;
 		}
 	}
-	/// Sets the MouseLeftClick event.
+
+    /**
+     * Set the MouseLeftClick event.
+     */
     void onMouseLeftClick(void delegate() event) pure nothrow @property {
         _onMouseLeftClick = event;
     }
-    /// Sets the MouseMiddleClick event.
+
+    /**
+     * Set the MouseMiddleClick event.
+     */
     void onMouseMiddleClick(void delegate() event) pure nothrow @property {
         _onMouseMiddleClick = event;
     }
-    /// Sets the MouseRightClick event.
+
+    /**
+     * Set the MouseRightClick event.
+     */
     void onMouseRightClick(void delegate() event) pure nothrow @property {
         _onMouseRightClick = event;
     }
-    /// Sets the MouseMove event.
+
+    /**
+     * Set the MouseMove event.
+     */
 	void onMouseMove(void delegate() event) pure nothrow @property {
 		_onMouseMove = event;
 	}
-	/// Sets the MouseInside event.
+
+    /**
+     * Set the MouseInside event.
+     */
     void onMouseInside(void delegate() event) pure nothrow @property {
         _onMouseInside = event;
     }
-	/// Returns true if event Button.MouseLeftClick is defined.
+
+    /**
+     * It returns true if event $(D, ButtonBolt.MouseLeftClick) is defined.
+     */
 	bool hasOnMouseLeftClick() pure nothrow const {
 		if (_onMouseLeftClick !is null) {
 			return true;
 		}
 		return false;
 	}
-	/// Returns true if event Button.MouseMiddleClick is defined.
+
+    /**
+     * It returns true if event $(D, ButtonBolt.MouseMiddleClick) is defined.
+     */
 	bool hasOnMouseMiddleClick() pure nothrow const {
         if (_onMouseMiddleClick !is null) {
             return true;
         }
         return false;
     }
-    /// Returns true if event Button.MouseRightClick is defined.
+
+    /**
+     * It returns true if event $(D, ButtonBolt.MouseRightClick) is defined.
+     */
     bool hasOnMouseRightClick() pure nothrow const {
         if (_onMouseRightClick !is null) {
             return true;
         }
         return false;
     }
-	/// Returns true if event Button.MouseMove is defined.
+
+    /**
+     * It returns true if event $(D, ButtonBolt.MouseMove) is defined.
+     */
 	bool hasOnMouseMove() pure nothrow const {
         if (_onMouseMove !is null) {
             return true;
         }
         return false;
     }
-    /// Returns true if event Button.MouseInside is defined.
+
+    /**
+     * It returns true if event $(D, ButtonBolt.MouseInside) is defined.
+     */
     bool hasOnMouseInside() pure nothrow const {
         if (_onMouseInside !is null) {
             return true;
         }
         return false;
     }
-	/// Returns true if mouse left button is just pressed.
+
+    /**
+     * It returns true if mouse left button is just pressed.
+     */
     bool isOnMouseLeftClick() pure nothrow const {
         return _isOnMouseLeftClick;
     }
-    /// Returns true if mouse middle button is just pressed.
+
+    /**
+     * It returns true if mouse middle button is just pressed.
+     */
     bool isOnMouseMiddleClick() pure nothrow const {
         return _isOnMouseMiddleClick;
     }
-    /// Returns true if mouse right button is just pressed.
+
+    /**
+     * It returns true if mouse right button is just pressed.
+     */
     bool isOnMouseRightClick() pure nothrow const {
         return _isOnMouseRightClick;
     }
-    /// Returns true if mouse is moving on the button surface.
+
+    /**
+     * It returns true if mouse is moving on the button surface.
+     */
     bool isOnMouseMove() pure nothrow const {
         return _isOnMouseMove;
     }
-    /// Returns true if mouse is on the button surface.
+
+    /**
+     * It returns true if mouse is on the button surface.
+     */
     bool isOnMouseInside() pure nothrow const {
         return _isOnMouseInside;
     }
-	/// Returns number of button-only events.
+
+    /**
+     * It returns the number of button-only events.
+     */
 	ubyte getNumberOfEvents() pure nothrow {
 		ubyte events;
 		if (hasOnMouseLeftClick()) events++;
@@ -180,6 +236,7 @@ final class Button : Widget {
 		if (hasOnMouseInside()) events++;
 		return events;
 	}
+
 	private void clearAllIsOnEvents() {
         _isOnMouseLeftClick = false;
         _isOnMouseMiddleClick = false;
@@ -187,6 +244,7 @@ final class Button : Widget {
         _isOnMouseMove = false;
         _isOnMouseInside = false;
     }
+
     private void clearAllEvents() {
         _onMouseLeftClick = null;
         _onMouseMiddleClick = null;
@@ -194,13 +252,16 @@ final class Button : Widget {
         _onMouseMove = null;
         _onMouseInside = null;
     }
+
     private bool mouseIntersectsThis() {
     	_mousePos = Input.get.mousePosition;
     	return _mousePos.x > shape.x && _mousePos.x < shape.x + shape.width 
             && _mousePos.y > shape.y && _mousePos.y < shape.y + shape.height;
     }
+
     private bool oldMouseIntersectsThis() {
         return _oldMousePos.x > shape.x && _oldMousePos.x < shape.x + shape.width 
             && _oldMousePos.y > shape.y && _oldMousePos.y < shape.y + shape.height;
     }
+
 }

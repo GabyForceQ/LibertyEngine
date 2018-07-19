@@ -9,7 +9,7 @@
 module liberty.core.geometry.volumes;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components : Renderer;
-import liberty.core.world.services : NodeServices, Constructor;
+import liberty.core.world.services : NodeBody, Constructor;
 import liberty.core.world.entity : Entity;
 import liberty.core.world.node : Node;
 import liberty.core.model: Models;
@@ -24,7 +24,7 @@ abstract class Volume : Entity {
 }
 ///
 final class CubeVolume : Volume {
-	mixin(NodeServices);
+	mixin(NodeBody);
 	///
 	@Constructor 
     private void _() {

@@ -24,5 +24,6 @@ public {
 	import liberty.core.securetypes;
 	import liberty.core.sprite;
 	import liberty.core.time;
+	import liberty.core.ui;
 	import liberty.core.utils;
 }

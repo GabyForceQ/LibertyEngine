@@ -10,7 +10,7 @@ module liberty.core.world.camera;
 import liberty.core.engine : CoreEngine;
 import liberty.core.world.actor : Actor;
 import liberty.core.world.node : Node;
-import liberty.core.world.services : NodeServices, Constructor;
+import liberty.core.world.services : NodeBody, Constructor;
 import liberty.core.input : InputNova, Input, KeyCode, KeyModFlag, MouseButton;
 import liberty.math.functions : radians, sin, cos;
 import liberty.math.vector : Vector2I, Vector3F, cross;
@@ -35,7 +35,7 @@ enum CameraMovement: byte {
 }
 ///
 final class Camera : Actor {
-	mixin(NodeServices);
+	mixin(NodeBody);
 	private {
 		Matrix4F _projection;
         Matrix4F _view;

@@ -12,8 +12,8 @@ import liberty.engine;
 
 final class HUD : Canvas {
 
-	mixin(NodeServices);
-	mixin(ListenerServices);
+	mixin(NodeBody);
+	mixin(ListenerBody);
 
 	private Button button1;
 

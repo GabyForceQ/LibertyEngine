@@ -11,12 +11,13 @@ import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger, WarningMessage, InfoMessage;
 /// A failing FontManager function should <b>always</b> throw a $(D FontManagerEngineException).
 final class AIEngineException : Exception {
-	/// Default constructor.
-	this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
-		super(msg, file, line, next);     
+
+    this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
+        super(msg, file, line, next);
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
-	}
+    }
+
 }
 ///
 final class FontManager : Singleton!FontManager {

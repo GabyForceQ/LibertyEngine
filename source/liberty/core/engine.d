@@ -208,7 +208,7 @@ final class CoreEngine : Singleton!CoreEngine {
     }
 }
 ///
-immutable NativeServices = q{
+immutable NativeBody = q{
     void main() {
 	    CoreEngine.get.startService();
         initSettings();

@@ -13,10 +13,10 @@ module liberty.core.logger;
 
 public {
     import liberty.core.logger.constants;
+    import liberty.core.logger.meta;
 }
 
 import liberty.core.utils : Singleton;
-import liberty.core.logger.meta;
 
 pragma(inline, true) :
 

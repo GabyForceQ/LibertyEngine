@@ -33,12 +33,12 @@ struct ComponentField(string access) {
 	}
 }
 ///
-immutable ComponentServices = q{};
+immutable ComponentBody = q{};
 ///
 @Component
 struct Renderer(VERTEX) {
 	///
-	mixin(ComponentServices);
+	mixin(ComponentBody);
 	private {
 		Node _parent;
 		Model!VERTEX _model;
