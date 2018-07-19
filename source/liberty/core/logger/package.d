@@ -151,7 +151,7 @@ final class Logger : Singleton!Logger {
             throw new Exception("x cannot be 5!");
         }
     } catch (Exception e) {
-        Logger.get.exception("Exception test message!", null);
+        Logger.get.exception("Exception test message!");
     }
     Logger.get.todo("Todo test message!", null);
 }

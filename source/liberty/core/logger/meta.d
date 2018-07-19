@@ -16,7 +16,7 @@ module liberty.core.logger.meta;
  */
 immutable ManagerBody = q{
 
-	private bool _serviceRunning;
+    private bool _serviceRunning;
 	
     /**
      * Start this service.
@@ -49,7 +49,7 @@ immutable ManagerBody = q{
      * Returns true if this service is running.
      */
     bool isServiceRunning() pure nothrow const @safe @nogc @property {
-		return _serviceRunning;
-	}
+        return _serviceRunning;
+    }
 
 };
