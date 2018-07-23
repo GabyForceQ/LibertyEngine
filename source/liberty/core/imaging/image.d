@@ -10,15 +10,13 @@ module liberty.core.imaging.image;
 import derelict.freeimage.freeimage;
 import derelict.util.exception;
 import std.conv, std.string;
+import liberty.core.utils.meta : ExceptionConstructor;
+
 ///
 class ImageException : Exception {
-    ///
-    this(string message, string file =__FILE__, size_t line = __LINE__, Throwable next = null) @safe {
-        super(message, file, line, next);
-        import liberty.core.logger : Logger;
-        import std.conv : to;
-        Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
-    }
+    
+    mixin(ExceptionConstructor);
+
 }
 ///
 final class Image {

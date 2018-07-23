@@ -2,15 +2,15 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/world/camera.d, _camera.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/scene/camera.d, _camera.d)
  * Documentation:
  * Coverage:
  */
-module liberty.core.world.camera;
+module liberty.core.scene.camera;
 import liberty.core.engine : CoreEngine;
-import liberty.core.world.actor : Actor;
-import liberty.core.world.node : Node;
-import liberty.core.world.services : NodeBody, Constructor;
+import liberty.core.scene.actor : Actor;
+import liberty.core.scene.node : Node;
+import liberty.core.scene.services : NodeBody;
 import liberty.core.input : InputNova, Input, KeyCode, KeyModFlag, MouseButton;
 import liberty.core.math.functions : radians, sin, cos;
 import liberty.core.math.vector : Vector2I, Vector3F, cross;
@@ -79,7 +79,7 @@ final class Camera : Actor {
 		return _farPlane;
 	}
 	///
-	@Constructor private void _(){
+	private static immutable constructor = q{
 		_front = Vector3F.backward;
         _position = Vector3F.zero;
         _worldUp = Vector3F.up;
@@ -88,7 +88,7 @@ final class Camera : Actor {
         updateCameraVectors();
         _lastX = CoreEngine.get.mainWindow.width / 2;
         _lastY = CoreEngine.get.mainWindow.height / 2;
-	}
+	};
 	///
 	this(string id, Node parent, Vector3F position = Vector3F.zero, Vector3F up = Vector3F.up, float yaw = Yaw, float pitch = Pitch) {
 		super(id, parent);

@@ -13,7 +13,7 @@ import liberty.engine;
 final class Player : Actor {
 
 	mixin(NodeBody);
-
+	
 	override void start() {
 		spawn!RectangleShape("RectShape").transform.translateY(1.5f);
 		spawn!RectangleShape("Terrain").transform.rotateX(radians(-90.0f));

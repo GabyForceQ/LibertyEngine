@@ -9,16 +9,14 @@
 module liberty.graphics.vulkan.backend;
 version (__Vulkan__) :
 import liberty.graphics.common.backend : VideoBackend;
+import liberty.core.utils.meta : ExceptionConstructor;
+
 /// The one exception type thrown in this wrapper.
 /// A failing Vulkan function should <b>always</b> throw an $(D VKException).
 class VKException : Exception {
-    ///
-    this(string message, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
-        super(message, file, line, next);
-        import liberty.core.logger : Logger;
-        import std.conv : to;
-        Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
-    }
+    
+    mixin(ExceptionConstructor);
+
 }
 ///
 final class VKBackend : VideoBackend {

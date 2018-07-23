@@ -9,7 +9,7 @@
 module liberty.core.engine;
 import liberty.graphics.engine;
 import liberty.core.input;
-import liberty.core.world;
+import liberty.core.scene;
 import liberty.graphics.opengl;
 import derelict.sdl2.sdl;
 import liberty.core.input;
@@ -24,14 +24,13 @@ import liberty.graphics.material : Materials;
 import liberty.core.system;
 import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger;
+import liberty.core.utils.meta : ExceptionConstructor;
+
 ///
 class CoreEngineException : Exception {
-    ///
-    this(string message, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
-        super(message, file, line, next);
-        import std.conv : to;
-        Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
-    }
+    
+    mixin(ExceptionConstructor);
+
 }
 private {
     Platform _platformApi;

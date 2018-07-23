@@ -12,7 +12,7 @@ public {
 	import liberty.core.animator;
 	import liberty.core.geometry;
 	import liberty.core.imaging;
-	import liberty.core.world;
+	import liberty.core.scene;
 	import liberty.core.components;
 	import liberty.core.config;
 	import liberty.core.engine;
@@ -22,7 +22,6 @@ public {
 	import liberty.core.memory;
 	import liberty.core.model;
 	import liberty.core.security;
-	import liberty.core.sprite;
 	import liberty.core.time;
 	import liberty.core.ui;
 	import liberty.core.utils;

@@ -9,9 +9,9 @@
 module liberty.core.geometry.shapes;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components : Renderer;
-import liberty.core.world.services : NodeBody, Constructor;
-import liberty.core.world.entity : Entity;
-import liberty.core.world.node : Node;
+import liberty.core.scene.services : NodeBody;
+import liberty.core.scene.entity : Entity;
+import liberty.core.scene.node : Node;
 import liberty.core.model : Models;
 import liberty.graphics.util : RenderUtil;
 import liberty.graphics.engine : DrawMode, VectorType, Vertex2;
@@ -26,10 +26,9 @@ abstract class Shape : Entity {
 final class RectangleShape : Shape {
 	mixin(NodeBody);
 	///
-	@Constructor 
-	private void _() {
+	private static immutable constructor = q{
 		renderer2DComponent = Renderer!Vertex2(this, Models.get.rectangleModel);
-	}
+	};
 	///
     override void render() {
         renderer2DComponent.pass(() @safe {

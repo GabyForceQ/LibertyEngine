@@ -11,14 +11,12 @@ import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger;
 import derelict.assimp3.assimp;
 import derelict.util.exception;
+import liberty.core.utils.meta : ExceptionConstructor;
+
 /// A failing AssetManager function should <b>always</b> throw a $(D AssetManagerException).
 final class AssetManagerException : Exception {
 
-    this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
-        super(msg, file, line, next);
-        import std.conv : to;
-        Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
-    }
+    mixin(ExceptionConstructor);
 
 }
 ///

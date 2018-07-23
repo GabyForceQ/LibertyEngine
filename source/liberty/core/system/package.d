@@ -15,14 +15,12 @@ import liberty.core.logger;
 import liberty.core.memory : ensureNotInGC;
 import liberty.core.math.vector : Vector, Vector2I;
 import std.string : format, fromStringz, toStringz;
+import liberty.core.utils.meta : ExceptionConstructor;
+
 /// A failing Platform function should <b>always</b> throw a $(D PlatformException).
 final class PlatformException : Exception {
 
-    this(string msg, string file = __FILE__, size_t line = __LINE__, Throwable next = null) @safe {
-        super(msg, file, line, next);
-        import std.conv : to;
-        Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
-    }
+    mixin(ExceptionConstructor);
     
 }
 /// Root object for SDL2 functionality.

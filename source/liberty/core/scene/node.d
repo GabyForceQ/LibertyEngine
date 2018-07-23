@@ -2,16 +2,16 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/world/node.d, _node.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/scene/node.d, _node.d)
  * Documentation:
  * Coverage:
  */
  // TODO. Define onApply so you can iterate over children.
-module liberty.core.world.node;
+module liberty.core.scene.node;
 import liberty.core.engine : CoreEngine;
-import liberty.core.world.services : IStartable, IUpdatable, IProcessable;
-import liberty.core.world.scene : Scene;
-import liberty.core.world.camera : Camera;
+import liberty.core.scene.services : IStartable, IUpdatable, IProcessable;
+import liberty.core.scene : Scene;
+import liberty.core.scene.camera : Camera;
 import liberty.core.components : Transform;
 /// Represents an object in the scene tree.
 abstract class Node : IStartable, IUpdatable, IProcessable {

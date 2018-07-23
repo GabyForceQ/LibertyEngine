@@ -2,15 +2,27 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/world/scene.d, _scene.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/scene/package.d, _package.d)
  * Documentation:
  * Coverage:
  */
-module liberty.core.world.scene;
+module liberty.core.scene;
+
+public {
+    import liberty.core.scene.actor;
+    import liberty.core.scene.camera;
+    import liberty.core.scene.canvas;
+    import liberty.core.scene.entity;
+    import liberty.core.scene.node;
+    import liberty.core.scene.serializer;
+    import liberty.core.scene.services;
+    import liberty.core.scene.terrain;
+}
+
 import liberty.core.engine : CoreEngine;
-import liberty.core.world.services : IStartable, IUpdatable, IProcessable;
-import liberty.core.world.node : Node, Root;
-import liberty.core.world.camera : Camera;
+import liberty.core.scene.services : IStartable, IUpdatable, IProcessable;
+import liberty.core.scene.node : Node, Root;
+import liberty.core.scene.camera : Camera;
 import liberty.core.logger : Logger, WarningMessage, InfoMessage;
 import liberty.core.utils : Singleton;
 import liberty.graphics.engine : IRenderable;
@@ -149,85 +161,6 @@ final class Scene : IUpdatable, IProcessable, IRenderable {
         }
         foreach(node; renderList) {
             node.render();
-        }
-    }
-}
-///
-final class SceneSerializer : Singleton!SceneSerializer {
-    private {
-        bool _serviceRunning;
-        immutable {
-            string _ext = ".lyscn";
-            string _arr = " >> ";
-            string _inf = ": ";
-            string _nxt = ", ";
-            string _str = `"`;
-            string _end = "\r\n"; // TODO. Check OS version
-        }
-        enum PropTkn : string {
-            id = "id"
-        }
-    }
-    /// Start SceneSerializer service.
-    void startService() @trusted {
-        if (_serviceRunning) {
-            Logger.get.warning(WarningMessage.ServiceAlreadyRunning, this);
-        } else {
-            _serviceRunning = true;
-            Logger.get.info(InfoMessage.ServiceStarted, this);
-        }
-    }
-    /// Stop SceneSerializer service.
-    void stopService() @trusted {
-        if (_serviceRunning) {
-            _serviceRunning = false;
-            Logger.get.info(InfoMessage.ServiceStopped, this);
-        } else {
-            Logger.get.warning(WarningMessage.ServiceNotRunning, this);
-        }
-    }
-    /// Restart SceneSerializer service.
-    void restartService() @trusted {
-        stopService();
-        startService();
-    }
-    /// Returns true if FontManager service is running.
-	bool isServiceRunning() pure nothrow const @safe @nogc {
-		return _serviceRunning;
-	}
-    ///
-    void serialize(Scene scene) {
-        if (_serviceRunning) {
-            import std.stdio : File;
-            import std.conv : to;
-            auto file = new File(scene.id.to!string ~ _ext, "w");
-            scope (exit) file.close();
-            // TODO. Parse children too
-            //foreach (node; scene.tree) {
-            //    file.writeln(node.stringof ~ _arr ~ PropTkn.id ~ _inf ~ _str ~ node.id.to!string ~ _str);
-                // TODO. foreach all node members searching for other props including construction default values
-            //    file.write(_end);
-            //}
-        } else {
-            Logger.get.warning(WarningMessage.ServiceNotRunning, this);
-        }
-    }
-    ///
-    Scene deserialize(string path) {
-        if (_serviceRunning) {
-            import std.stdio : File;
-            import std.conv : to;
-            import std.array : split;
-            string id = path.split('/')[$ - 1]; // TODO. Check if it has at least one /
-            auto file = new File(path ~ _ext, "r");
-            scope (exit) file.close();
-            // TODO. Read file
-            auto scene = new Scene(id);
-            return scene;
-        } else {
-            Logger.get.warning(WarningMessage.ServiceNotRunning, this);
-            Logger.get.warning(WarningMessage.NullReturn, this);
-            return null;
         }
     }
 }

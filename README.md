@@ -23,6 +23,7 @@ A powerful 2D/3D engine written in the D programming language!
 * You need Visual C++ SDK for Windows 10 to build the x64 version.
 
 ### Example:
+##### D language (.d file):
 ```D
 module example;
 mixin(import("generated/example.lyobj"));
@@ -31,6 +32,10 @@ mixin(import("generated/example.lyobj"));
 final class Example : Actor {
     
     mixin(NodeBody);
+
+    private static immutable constructor = q{
+        Logger.get.info("Constructing...", this);
+    };
     
     override void start() {
         spawn!Camera("Camera").position(0.0f, 0.0f, 3.0f);
@@ -44,6 +49,7 @@ final class Example : Actor {
 ```
 
 ### Future plans:
+* Ly scripting language
 * LibertyStudio with project templates
 * Dynamic scripts loader
 * VR/AR capabilities

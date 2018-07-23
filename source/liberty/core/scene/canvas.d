@@ -2,14 +2,14 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/world/canvas.d, _canvas.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/scene/canvas.d, _canvas.d)
  * Documentation:
  * Coverage:
  */
-module liberty.core.world.canvas;
-import liberty.core.world.services : ListenerBody;
-import liberty.core.world.node : Node;
-import liberty.core.world.scene : Scene;
+module liberty.core.scene.canvas;
+import liberty.core.scene.services : ListenerBody;
+import liberty.core.scene.node : Node;
+import liberty.core.scene : Scene;
 import liberty.core.math.vector : Vector3F, Vector4F;
 import liberty.core.geometry.shapes;
 import liberty.core.engine : CoreEngineException;

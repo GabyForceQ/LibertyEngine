@@ -8,8 +8,8 @@
  */
 module liberty.core.ui.widget;
 
-import liberty.core.world.node : Node;
-import liberty.core.world.entity : Entity;
+import liberty.core.scene.node : Node;
+import liberty.core.scene.entity : Entity;
 import liberty.core.ui.services : IListener;
 
 /**

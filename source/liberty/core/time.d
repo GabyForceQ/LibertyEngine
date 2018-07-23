@@ -7,12 +7,19 @@
  * Coverage:
  */
 module liberty.core.time;
-import derelict.sdl2.sdl: SDL_GetTicks;
-///
+
+import derelict.sdl2.sdl : SDL_GetTicks;
+
+/**
+ *
+ */
 uint ticks() {
 	return SDL_GetTicks();
 }
-///
+
+/**
+ *
+ */
 float time() {
 	return SDL_GetTicks() / 1000.0f;
 }

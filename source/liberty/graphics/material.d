@@ -8,7 +8,7 @@
  */
 module liberty.graphics.material;
 import liberty.core.engine;
-import liberty.core.world.scene;
+import liberty.core.scene;
 import liberty.core.imaging;
 import liberty.graphics;
 import liberty.core.utils : Singleton;

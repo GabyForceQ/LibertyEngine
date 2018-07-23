@@ -10,7 +10,7 @@ module liberty.core.logger.meta;
 
 /**
  * Mixin this only in a Singleton class.
- * You must declare two 'private static' raw strings named 'startBody' and 'stopBody'.
+ * You can declare two 'private static' raw strings named 'startBody' and 'stopBody'.
  * In 'startBody' you code what will be run when startService() function is called.
  * In 'stopBody' you code what will be run when stopService() function is called.
  */
@@ -27,7 +27,16 @@ immutable ManagerBody = q{
             Logger.get.warning(WarningMessage.ServiceAlreadyRunning, this);
         } else {
             _serviceRunning = true;
-            mixin(startBody);
+            static if (__traits(compiles, startBody)) {
+                import std.traits : isMutable;
+                static if (__traits(getProtection, startBody) != "private") {
+                    static assert (0, "startBody must be private");
+                }
+                static if (isMutable!(typeof(startBody))) {
+                    static assert (0, "startBody must be immutable or const");
+                }
+                mixin(startBody);
+            }
             Logger.get.info(InfoMessage.ServiceStarted, this);
         }
     }
@@ -38,7 +47,16 @@ immutable ManagerBody = q{
     void stopService() @trusted {
         import liberty.core.logger : WarningMessage, InfoMessage;
         if (_serviceRunning) {
-            mixin(stopBody);
+            static if (__traits(compiles, stopBody)) {
+                import std.traits : isMutable;
+                static if (__traits(getProtection, stopBody) != "private") {
+                    static assert (0, "stopBody must be private");
+                }
+                static if (isMutable!(typeof(stopBody))) {
+                    static assert (0, "stopBody must be immutable or const");
+                }
+                mixin(stopBody);
+            }
             Logger.get.info(InfoMessage.ServiceStopped, this);
             _serviceRunning = false;
         } else {

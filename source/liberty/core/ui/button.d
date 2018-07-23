@@ -9,8 +9,8 @@
 module liberty.core.ui.button;
 
 import liberty.core.engine : CoreEngine;
-import liberty.core.world.node : Node;
-import liberty.core.world.services : NodeBody, Constructor;
+import liberty.core.scene.node : Node;
+import liberty.core.scene.services : NodeBody;
 import liberty.core.input : Input, MouseButton;
 import liberty.core.math.vector : Vector2I;
 import liberty.core.math.shapes : RectI;
