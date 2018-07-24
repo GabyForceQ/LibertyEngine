@@ -8,6 +8,8 @@
  */
 module liberty.core.ui.services;
 
+import liberty.core.ui.constants : WidgetEvent;
+
 /**
  *
  */
@@ -18,4 +20,12 @@ interface IListener {
      */
     void stopListening();
     
+}
+
+/**
+ *
+ */
+struct Signal {
+	WidgetEvent e;
+    string id;
 }

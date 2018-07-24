@@ -15,7 +15,7 @@ A powerful 2D/3D engine written in the D programming language!
 ##### Cool features:
 * Tree-based scene (every node is created and registered to the engine with "spawn" or "spawnOnce" templates, "new" is never used in this case).
 * Every native script is optimized at compile time. So if you don't define "start", "update", "process" functions, the code for its every frame call is never inserted in the final object file.
-* All "start" methods are invoked after all scene objects are instantiated. If you want to do something at construction time, you should use @Constructor attribute.
+* All "start" methods are invoked after all scene objects are instantiated. If you want to do something at construction time, you should use 'private static immutable constructor = q{ Your logic goes here! }'.
 
 ### Instructions:
 * To build an example go to LibertyEngine\examples\Simple3DScene and run the bat files.

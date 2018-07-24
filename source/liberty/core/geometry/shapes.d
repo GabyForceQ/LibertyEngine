@@ -8,8 +8,8 @@
  */
 module liberty.core.geometry.shapes;
 import liberty.core.engine : CoreEngine;
-import liberty.core.components : Renderer;
-import liberty.core.scene.services : NodeBody;
+import liberty.core.component : Renderer;
+import liberty.core.scene.meta : NodeBody;
 import liberty.core.scene.entity : Entity;
 import liberty.core.scene.node : Node;
 import liberty.core.model : Models;

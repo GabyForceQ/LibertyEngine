@@ -9,7 +9,7 @@
 module liberty.core.math.matrix;
 import liberty.core.math.vector : Vector;
 import liberty.core.math.traits : isMatrixInstance;
-import liberty.core.config : __RowMajor__, __ColumnMajor__;
+import liberty.config : __RowMajor__, __ColumnMajor__;
 import std.traits : isFloatingPoint;
 ///
 enum MatrixOrder : ubyte {

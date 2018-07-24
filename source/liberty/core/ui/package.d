@@ -11,6 +11,7 @@ module liberty.core.ui;
 public {
 	import liberty.core.ui.constants;
 	import liberty.core.ui.button;
+	import liberty.core.ui.meta;
 	import liberty.core.ui.services;
 	import liberty.core.ui.widget;
 }

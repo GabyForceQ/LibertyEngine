@@ -10,9 +10,9 @@
 module liberty.core.scene.node;
 import liberty.core.engine : CoreEngine;
 import liberty.core.scene.services : IStartable, IUpdatable, IProcessable;
-import liberty.core.scene : Scene;
+import liberty.core.scene.wrapper : Scene;
 import liberty.core.scene.camera : Camera;
-import liberty.core.components : Transform;
+import liberty.core.component : Transform;
 /// Represents an object in the scene tree.
 abstract class Node : IStartable, IUpdatable, IProcessable {
 	private {

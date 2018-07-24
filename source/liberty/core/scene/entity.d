@@ -10,7 +10,7 @@ module liberty.core.scene.entity;
 import liberty.core.scene.node : Node;
 import liberty.graphics.engine : IRenderable;
 import liberty.graphics.engine : Vertex2, Vertex3;
-import liberty.core.components : Renderer, Transform;
+import liberty.core.component : Renderer, Transform;
 import std.typecons : Nullable;
 /// An entity has a render component.
 abstract class Entity : Node, IRenderable {

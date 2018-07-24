@@ -9,7 +9,7 @@
 
 module liberty.core.scene.serializer;
 
-import liberty.core.scene : Scene;
+import liberty.core.scene.wrapper : Scene;
 import liberty.core.utils : Singleton;
 import liberty.core.logger : Logger, ManagerBody, WarningMessage;
 

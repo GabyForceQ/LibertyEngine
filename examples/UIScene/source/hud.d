@@ -22,22 +22,20 @@ final class HUD : Canvas {
 		startListening(button1);
 	}
 
-	@Signal("Button1") {
-		
-		@Event(Button.MouseMove)
-		void changeBackgroundColor() {
-			import std.random : uniform;
-			float r1 = uniform!"[]"(0.0f, 1.0f);
-			float r2 = uniform!"[]"(0.0f, 1.0f);
-			float r3 = uniform!"[]"(0.0f, 1.0f);
-			GraphicsEngine.get.windowBackgroundColor = Vector4F(r1, r2, r3, 1.0f);
-		}
-		
-		@Event(Button.MouseInside)
-		void toggleWireframe() {
-			if (Input.get.isKeyDown(KeyCode.Tab)) {
-				GraphicsEngine.get.toggleWireframe();
-			}
+	@Signal(ButtonEvent.MouseMove, "Button1")
+	void changeBackgroundColor() {
+		import std.random : uniform;
+		float r1 = uniform!"[]"(0.0f, 1.0f);
+		float r2 = uniform!"[]"(0.0f, 1.0f);
+		float r3 = uniform!"[]"(0.0f, 1.0f);
+		GraphicsEngine.get.windowBackgroundColor = Vector4F(r1, r2, r3, 1.0f);
+	}
+
+	@Signal(ButtonEvent.MouseInside, "Button1")
+	void toggleWireframe() {
+		if (Input.get.isKeyDown(KeyCode.Tab)) {
+			GraphicsEngine.get.toggleWireframe();
 		}
 	}
+	
 }

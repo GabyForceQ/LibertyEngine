@@ -11,6 +11,7 @@ module liberty.engine;
 public {
 	import liberty.ai;
 	import liberty.audio;
+	import liberty.config;
 	import liberty.core;
 	import liberty.graphics;
 	import liberty.core.math;

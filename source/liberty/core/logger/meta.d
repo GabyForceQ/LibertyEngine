@@ -22,7 +22,7 @@ immutable ManagerBody = q{
      * Start this service.
      */
     void startService() @trusted {
-        import liberty.core.logger : WarningMessage, InfoMessage;
+        import liberty.core.logger : Logger, WarningMessage, InfoMessage;
         if (_serviceRunning) {
             Logger.get.warning(WarningMessage.ServiceAlreadyRunning, this);
         } else {
@@ -45,7 +45,7 @@ immutable ManagerBody = q{
      * Stop this service.
      */
     void stopService() @trusted {
-        import liberty.core.logger : WarningMessage, InfoMessage;
+        import liberty.core.logger : Logger, WarningMessage, InfoMessage;
         if (_serviceRunning) {
             static if (__traits(compiles, stopBody)) {
                 import std.traits : isMutable;

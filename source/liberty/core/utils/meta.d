@@ -10,6 +10,7 @@ module liberty.core.utils.meta;
 
 ///
 immutable ExceptionConstructor = q{
+
     /**
      * Exception constructor.
      * It prints the message, the file and the line where the exception has been thrown as information.
@@ -25,4 +26,5 @@ immutable ExceptionConstructor = q{
         import std.conv : to;
         Logger.get.exception("Message: '" ~ msg ~ "'; File: '" ~ file ~ "'; Line:'" ~ line.to!string ~ "'.");
     }
+    
 };

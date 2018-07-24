@@ -11,7 +11,7 @@ module liberty.core.ui.constants;
 /**
  * Screen orientation.
  */
-enum Orientation : byte {
+enum Orientation : ubyte {
 	
 	/**
 	 * Horizontal orientation.
@@ -28,7 +28,7 @@ enum Orientation : byte {
 /**
  *
  */
-enum WidgetBolt : string {
+enum WidgetEvent : string {
 
 	/**
      *
@@ -45,7 +45,7 @@ enum WidgetBolt : string {
 /**
  *
  */
-enum ButtonBolt : string {
+enum ButtonEvent : string {
 
 	/**
 	 *

@@ -13,11 +13,9 @@ public {
 	import liberty.core.geometry;
 	import liberty.core.imaging;
 	import liberty.core.scene;
-	import liberty.core.components;
-	import liberty.core.config;
+	import liberty.core.component;
 	import liberty.core.engine;
 	import liberty.core.input;
-	import liberty.core.light;
 	import liberty.core.logger;
 	import liberty.core.memory;
 	import liberty.core.model;

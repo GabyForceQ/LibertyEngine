@@ -7,9 +7,9 @@
  * Coverage:
  */
 module liberty.core.scene.canvas;
-import liberty.core.scene.services : ListenerBody;
+import liberty.core.ui.meta : ListenerBody;
 import liberty.core.scene.node : Node;
-import liberty.core.scene : Scene;
+import liberty.core.scene.wrapper : Scene;
 import liberty.core.math.vector : Vector3F, Vector4F;
 import liberty.core.geometry.shapes;
 import liberty.core.engine : CoreEngineException;

@@ -10,7 +10,7 @@ module liberty.core.scene.camera;
 import liberty.core.engine : CoreEngine;
 import liberty.core.scene.actor : Actor;
 import liberty.core.scene.node : Node;
-import liberty.core.scene.services : NodeBody;
+import liberty.core.scene.meta : NodeBody;
 import liberty.core.input : InputNova, Input, KeyCode, KeyModFlag, MouseButton;
 import liberty.core.math.functions : radians, sin, cos;
 import liberty.core.math.vector : Vector2I, Vector3F, cross;
@@ -90,7 +90,8 @@ final class Camera : Actor {
         _lastY = CoreEngine.get.mainWindow.height / 2;
 	};
 	///
-	this(string id, Node parent, Vector3F position = Vector3F.zero, Vector3F up = Vector3F.up, float yaw = Yaw, float pitch = Pitch) {
+	this(string id, Node parent, Vector3F position = Vector3F.zero, Vector3F up = Vector3F.up, 
+			float yaw = Yaw, float pitch = Pitch) {
 		super(id, parent);
 	}
 	/// Sets the camera world position using x, y and z coordinates.
