@@ -5,11 +5,10 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/utils/package.d, _package.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.core.utils;
 
 public {
-    import liberty.core.utils.array;
-    import liberty.core.utils.meta;
-    import liberty.core.utils.singleton;
+  import liberty.core.utils.array;
+  import liberty.core.utils.singleton;
 }

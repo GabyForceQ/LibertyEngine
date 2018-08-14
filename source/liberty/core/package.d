@@ -5,22 +5,18 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/package.d, _package.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.core;
 
 public {
-	import liberty.core.animator;
-	import liberty.core.geometry;
-	import liberty.core.imaging;
-	import liberty.core.scene;
-	import liberty.core.component;
-	import liberty.core.engine;
-	import liberty.core.input;
-	import liberty.core.logger;
-	import liberty.core.memory;
-	import liberty.core.model;
-	import liberty.core.security;
-	import liberty.core.time;
-	import liberty.core.ui;
-	import liberty.core.utils;
+  import liberty.core.algorithm;
+  import liberty.core.image;
+  import liberty.core.io;
+  import liberty.core.logger;
+  import liberty.core.manager;
+  import liberty.core.math;
+  import liberty.core.security;
+  import liberty.core.system;
+  import liberty.core.time;
+  import liberty.core.utils;
 }

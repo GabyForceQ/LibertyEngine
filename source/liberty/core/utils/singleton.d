@@ -5,28 +5,27 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/utils/singleton.d, _singleton.d)
  * Documentation:
  * Coverage:
- */
+**/
  module liberty.core.utils.singleton;
 
 /**
  *
- */
+**/
 class Singleton(T) {
-
 	private {
 		__gshared T _instance;
 		static bool _isInstantiated;
 	}
 	
-    /**
-     *
-     */
+  /**
+   *
+  **/
 	protected this() pure nothrow @safe @nogc {}
 
-    /**
-     *
-     */
-	static T get() @trusted {
+  /**
+   *
+  **/
+	static T self() @trusted {
 		if (!_isInstantiated) {
 			synchronized (Singleton.classinfo) {
 				if (!_instance) {
@@ -38,11 +37,10 @@ class Singleton(T) {
 		return _instance;
 	}
 
-    /**
-     *
-     */
+  /**
+   *
+  **/
 	static bool isInstantiated() nothrow @safe @nogc {
 		return _isInstantiated;
 	}
-
 }

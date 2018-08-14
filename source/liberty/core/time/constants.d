@@ -8,207 +8,195 @@
  *
  * TODO:
  *  - TimeZone (https://www.zeitverschiebung.net/en/all-time-zones.html)
- */
+**/
 module liberty.core.time.constants;
 
 /**
  *
- */
+**/
 enum DayTime : ubyte {
-    
-    /**
-     *
-     */
-    AM = 0x00,
+  /**
+   *
+  **/
+  AM = 0x00,
 
-    /**
-     *
-     */
-    PM = 0x01
-
+  /**
+   *
+  **/
+  PM = 0x01
 }
 
 /**
  *
- */
+**/
 enum DayCycle : ubyte {
+  /**
+   *
+  **/
+  Sunrise = 0x00,
 
-    /**
-     *
-     */
-    Sunrise = 0x00,
+  /**
+   *
+  **/
+  Day = 0x01,
 
-    /**
-     *
-     */
-    Day = 0x01,
+  /**
+   *
+  **/
+  Sunset = 0x02,
 
-    /**
-     *
-     */
-    Sunset = 0x02,
-
-    /**
-     *
-     */
-    Night = 0x03
-
+  /**
+   *
+  **/
+  Night = 0x03
 }
 
 /**
  *
- */
+**/
 enum Day : ubyte {
+  /**
+   *
+  **/
+  Sunday = 0x00,
 
-    /**
-     *
-     */
-    Sunday = 0x00,
+  /**
+   *
+  **/
+  Monday = 0x01,
 
-    /**
-     *
-     */
-    Monday = 0x01,
+  /**
+   *
+  **/
+  Tuesday = 0x02,
 
-    /**
-     *
-     */
-    Tuesday = 0x02,
+  /**
+   *
+  **/
+  Wednesday = 0x03,
 
-    /**
-     *
-     */
-    Wednesday = 0x03,
+  /**
+   *
+  **/
+  Thursday = 0x04,
 
-    /**
-     *
-     */
-    Thursday = 0x04,
+  /**
+   *
+  **/
+  Friday = 0x05,
 
-    /**
-     *
-     */
-    Friday = 0x05,
-
-    /**
-     *
-     */
-    Saturday = 0x06
-
+  /**
+   *
+  **/
+  Saturday = 0x06
 }
 
 /**
  *
- */
+**/
 enum Month : ubyte {
+  /**
+   *
+  **/
+  January = 0x00,
 
-    /**
-     *
-     */
-    January = 0x00,
+  /**
+   *
+  **/
+  February = 0x01,
 
-    /**
-     *
-     */
-    February = 0x01,
+  /**
+   *
+  **/
+  March = 0x02,
 
-    /**
-     *
-     */
-    March = 0x02,
+  /**
+   *
+  **/
+  April = 0x03,
 
-    /**
-     *
-     */
-    April = 0x03,
+  /**
+   *
+  **/
+  May = 0x04,
 
-    /**
-     *
-     */
-    May = 0x04,
+  /**
+   *
+  **/
+  June = 0x05,
 
-    /**
-     *
-     */
-    June = 0x05,
+  /**
+   *
+  **/
+  July = 0x06,
 
-    /**
-     *
-     */
-    July = 0x06,
+  /**
+   *
+  **/
+  August = 0x07,
 
-    /**
-     *
-     */
-    August = 0x07,
+  /**
+   *
+  **/
+  September = 0x08,
 
-    /**
-     *
-     */
-    September = 0x08,
+  /**
+   *
+  **/
+  October = 0x09,
 
-    /**
-     *
-     */
-    October = 0x09,
+  /**
+   *
+  **/
+  November = 0x0A,
 
-    /**
-     *
-     */
-    November = 0x0A,
-
-    /**
-     *
-     */
-    December = 0x0B
-
+  /**
+   *
+  **/
+  December = 0x0B
 }
 
 /**
  *
- */
+**/
 enum Season : ubyte {
+  /**
+   *
+  **/
+  Winter = 0x00,
+  
+  /**
+   *
+  **/
+  Spring = 0x01,
 
-    /**
-     *
-     */
-    Winter = 0x00,
-    
-    /**
-     *
-     */
-    Spring = 0x01,
+  /**
+   *
+  **/
+  Summer = 0x02,
 
-    /**
-     *
-     */
-    Summer = 0x02,
-
-    /**
-     *
-     */
-    Autum = 0x03
-
+  /**
+   *
+  **/
+  Autum = 0x03
 }
 
 /**
  *
- */
+**/
 enum TimeZone : string {
+  /**
+   *
+  **/
+  UTC_M_11_Pacific_Mildway = "UTC-11 Pacific/Mildway",
 
-    /**
-     *
-     */
-    UTC_M_11_Pacific_Mildway = "UTC-11 Pacific/Mildway",
+  /**
+   *
+  **/
+  UTC_M_11_Pacific_Niue = "UTC-11 Pacific/Niue",
 
-    /**
-     *
-     */
-    UTC_M_11_Pacific_Niue = "UTC-11 Pacific/Niue",
-
-    /**
-     *
-     */
-    UTC_M_11_Pacific_PagoPago = "UTC-11 Pacific/Pago_Pago"
-
+  /**
+   *
+  **/
+  UTC_M_11_Pacific_PagoPago = "UTC-11 Pacific/Pago_Pago"
 }

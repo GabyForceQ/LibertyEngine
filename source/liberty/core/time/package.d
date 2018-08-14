@@ -9,6 +9,6 @@
 module liberty.core.time;
 
 public {
-    import liberty.core.time.constants;
-    import liberty.core.time.utils;
+  import liberty.core.time.clock;
+  import liberty.core.time.constants;
 }

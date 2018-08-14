@@ -1,7 +1,7 @@
 {
 	"name": "liberty-engine",
 	"targetName": "LibertyEngine",
-	"targetType": "library",
+	"targetType": "executable",
 	"targetPath": "lib",
 	"authors": [
 		"Gabriel Gheorghe"

@@ -5,20 +5,20 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/utils/array.d, _array.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.core.utils.array;
 
 /**
  *
- */
-size_t arraySize(T)(T[] array) pure nothrow @safe @nogc {
-	return array.sizeof * array.length;
+**/
+size_t bufferSize(T)(T[] buffer) pure nothrow @safe @nogc {
+	return buffer.length * T.sizeof;
 }
 
 /**
- * Example of $(D arraySize) usage:
- */
-pure nothrow @safe unittest {
+ * Example of $(D bufferSize) usage:
+**/
+ unittest {
 	immutable int[] arr = [4, 5, -6];
-	assert (arr.arraySize == 24, "Array size of arr must be 8 * 3 = 24!");
+	assert (arr.bufferSize == 12, "Array size of arr must be 4 * 3 = 12!");
 }

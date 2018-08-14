@@ -13,7 +13,7 @@ module liberty.core.security.utils;
 
 /**
  *
- */
+**/
 char[] encrypt(char[] input, char shift) pure nothrow @safe { // byte?
 	auto result = input.dup;
 	result[] += shift;
@@ -22,7 +22,7 @@ char[] encrypt(char[] input, char shift) pure nothrow @safe { // byte?
 
 /**
  *
- */
+**/
 char[] decrypt(char[] input, char shift) pure nothrow @safe { // byte?
 	auto result = input.dup;
 	result[] -= shift;

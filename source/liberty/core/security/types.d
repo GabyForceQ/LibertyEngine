@@ -8,71 +8,72 @@
  */
 module liberty.core.security.types;
 
+import liberty.core.security.constants : SecureLevel;
+
 /**
  *
- */
+**/
 struct Crypted(T) {
 
-    /**
-     *
-     */
-    alias type = T;
+  /**
+   *
+  **/
+  alias type = T;
 
-    /**
-     *
-     */
-    alias value this;
+  /**
+   *
+  **/
+  alias value this;
 
-    private {
-        T _value;
-        T _cryptedKey;
-        SecureLevel _secureLevel;
+  private {
+    T _value;
+    T _cryptedKey;
+    SecureLevel _secureLevel;
+  }
+
+  /**
+   *
+  **/
+  this(T value, SecureLevel secure_level = SecureLevel.Level0) pure nothrow @safe @nogc {
+    _secureLevel = secure_level;
+    _value = value;
+    final switch (_secureLevel) with (SecureLevel) {
+      case Level0:
+      case Level1:
+      case Level2:
+      case Level3:
+        generateRandomKey();
+        cryptWithKey();
+        break;
+      case Custom:
+        break;
     }
+  }
 
-    /**
-     *
-     */
-    this(T value, SecureLevel secure_level = SecureLevel.Level0) pure nothrow @safe @nogc @property {
-        _secureLevel = secure_level;
-        _value = value;
-        final switch (_secureLevel) with (SecureLevel) {
-            case Level0:
-            case Level1:
-            case Level2:
-            case Level3:
-                generateRandomKey;
-                cryptWithKey;
-                break;
-            case Custom:
-                break;
-        }
-    }
+  /**
+   *
+  **/
+  void setValue(T value) pure nothrow @safe @nogc {
+  }
 
-    /**
-     *
-     */
-    void value(T value) pure nothrow @safe @nogc @property {
-    }
+  /**
+   *
+  **/
+  T getValue() pure nothrow const @safe @nogc {
+    return _value - _cryptedKey;
+  }
 
-    /**
-     *
-     */
-    T value() pure nothrow const @safe @nogc @property {
-        return _value - _cryptedKey;
-    }
+  private void generateRandomKey() nothrow @safe @nogc {
+    import std.random : uniform, Random;
+    auto rnd = Random(73);
+    _cryptedKey = uniform!T(rnd);
+  }
 
-    private void generateRandomKey() nothrow @safe @nogc {
-        import std.random : uniform, Random;
-        auto rnd = Random(73);
-        _cryptedKey = uniform!T(rnd);
-    }
+  private void cryptWithKey() pure nothrow @safe @nogc {
+    _value += _cryptedKey;
+  }
 
-    private void cryptWithKey() pure nothrow @safe @nogc {
-        _value += _cryptedKey;
-    }
-
-    private void decryptWithKey() pure nothrow @safe @nogc {
-        _value -= _cryptedKey;
-    }
-
+  private void decryptWithKey() pure nothrow @safe @nogc {
+    _value -= _cryptedKey;
+  }
 }

@@ -5,28 +5,24 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/physics/engine.d, _engine.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.physics.engine;
 
 import liberty.core.utils : Singleton;
-import liberty.core.logger : Logger, ManagerBody;
-import liberty.core.utils.meta : ExceptionConstructor;
+import liberty.core.logger.meta : ExceptionConstructor;
+import liberty.core.manager.meta : ManagerBody;
 
 /**
  * A failing Physics function should <b>always</b> throw a $(D PhysicsEngineException).
- */
+**/
 final class PhysicsEngineException : Exception {
-
-    mixin(ExceptionConstructor);
-
+  mixin(ExceptionConstructor);
 }
 
 /**
  * Singleton class used to handle 2D/3D physics.
  * It's a manager class so it implements $(D ManagerBody).
- */
+**/
 final class PhysicsEngine : Singleton!PhysicsEngine {
-    
-    mixin(ManagerBody);
-
+  mixin(ManagerBody);
 }

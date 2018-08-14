@@ -1,0 +1,1 @@
+module liberty.mvc.objects.ui.canvas.view;

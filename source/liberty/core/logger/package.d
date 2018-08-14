@@ -5,11 +5,11 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/logger/package.d, _package.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.core.logger;
 
 public {
-    import liberty.core.logger.constants;
-    import liberty.core.logger.manager;
-    import liberty.core.logger.meta;
+  import liberty.core.logger.constants;
+  import liberty.core.logger.manager;
+  import liberty.core.logger.meta;
 }

@@ -9,5 +9,5 @@
 module liberty.physics;
 
 public {
-    import liberty.physics.engine;
+  import liberty.physics.engine;
 }

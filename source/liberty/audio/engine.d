@@ -5,28 +5,24 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/audio/engine.d, _engine.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.audio.engine;
 
 import liberty.core.utils : Singleton;
-import liberty.core.logger : Logger, ManagerBody;
-import liberty.core.utils.meta : ExceptionConstructor;
+import liberty.core.logger.meta : ExceptionConstructor;
+import liberty.core.manager.meta : ManagerBody;
 
 /**
  * A failing Audio function should <b>always</b> throw a $(D AudioEngineException).
- */
+**/
 final class AudioEngineException : Exception {
-
-    mixin(ExceptionConstructor);
-
+  mixin(ExceptionConstructor);
 }
 
 /**
  * Singleton class used to manage audio.
  * It's a manager class so it implements $(D ManagerBody).
- */
-final class AudioEngine : Singleton!AudioEngine {
-	
-    mixin(ManagerBody);
-
+**/
+final class AudioEngine : Singleton!AudioEngine {	
+  mixin(ManagerBody);
 }

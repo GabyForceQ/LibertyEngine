@@ -5,79 +5,89 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/audio/device.d, _device.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.audio.device;
 
 import liberty.audio.engine : AudioEngineException;
 import derelict.sdl2.sdl : 
-    SDL_AudioDeviceID, SDL_AudioSpec, SDL_OpenAudioDevice, SDL_AudioStatus, 
-    SDL_GetAudioDeviceStatus, SDL_CloseAudioDevice, SDL_PauseAudioDevice, 
-    SDL_LockAudioDevice, SDL_UnlockAudioDevice, SDL_AUDIO_PLAYING;
+  SDL_AudioDeviceID, SDL_AudioSpec, SDL_OpenAudioDevice, SDL_AudioStatus, 
+  SDL_GetAudioDeviceStatus, SDL_CloseAudioDevice, SDL_PauseAudioDevice, 
+  SDL_LockAudioDevice, SDL_UnlockAudioDevice, SDL_AUDIO_PLAYING;
 
 /**
  *
- */
+**/
 final class AudioDevice {
+  private {
+    SDL_AudioDeviceID _id;
+  }
 
-    private {
-        SDL_AudioDeviceID _id;
+  /**
+   *
+  **/
+  this(
+    const(char)[] name, 
+    int iscapture, 
+    const(SDL_AudioSpec*) desired, 
+    SDL_AudioSpec* obtained, 
+    int allowed_changes
+  ) {
+    import std.string : toStringz;
+    _id = SDL_OpenAudioDevice(
+      toStringz(name), 
+      iscapture, 
+      desired, 
+      obtained, 
+      allowed_changes
+    );
+    if (_id == 0) {
+      throw new AudioEngineException("SDL_OpenAudioDevice");
     }
-
-    /**
-     *
-     */
-    this(const(char)[] name, int iscapture, const(SDL_AudioSpec*) desired, SDL_AudioSpec* obtained, int allowed_changes) {
-        import std.string : toStringz;
-        _id = SDL_OpenAudioDevice(toStringz(name), iscapture, desired, obtained, allowed_changes);
-        if (_id == 0) {
-            throw new AudioEngineException("SDL_OpenAudioDevice");
-        }
-    }
+  }
 
 	~this() {
-        SDL_CloseAudioDevice(_id);
-    }
+    SDL_CloseAudioDevice(_id);
+  }
     
-    /**
-     *
-     */
-    void play() nothrow {
-        SDL_PauseAudioDevice(_id, 0);
-    }
+  /**
+   *
+  **/
+  void play() nothrow {
+    SDL_PauseAudioDevice(_id, 0);
+  }
     
-    /**
-     *
-     */
-    void pause() nothrow {
-        SDL_PauseAudioDevice(_id, 1);
-    }
+  /**
+   *
+  **/
+  void pause() nothrow {
+    SDL_PauseAudioDevice(_id, 1);
+  }
     
-    /**
-     *
-     */
-    void lock() nothrow {
-        SDL_LockAudioDevice(_id);
-    }
+  /**
+   *
+  **/
+  void lock() nothrow {
+    SDL_LockAudioDevice(_id);
+  }
     
-    /**
-     *
-     */
-    void unlock() nothrow {
-        SDL_UnlockAudioDevice(_id);
-    }
+  /**
+   *
+  **/
+  void unlock() nothrow {
+    SDL_UnlockAudioDevice(_id);
+  }
     
-    /**
-     *
-     */
-    bool playing() nothrow {
-        return status == SDL_AUDIO_PLAYING;
-    }
+  /**
+   *
+  **/
+  bool playing() nothrow {
+    return status == SDL_AUDIO_PLAYING;
+  }
     
-    /**
-     *
-     */
-    SDL_AudioStatus status() nothrow {
-        return SDL_GetAudioDeviceStatus(_id);
-    }
-
+  /**
+   *
+  **/
+  SDL_AudioStatus status() nothrow {
+    return SDL_GetAudioDeviceStatus(_id);
+  }
 }

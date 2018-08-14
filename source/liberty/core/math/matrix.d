@@ -729,8 +729,8 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 	~this() {
 		if (_matrices !is null) {
 			import core.stdc.stdlib : free;
-			import liberty.core.memory : ensureNotInGC;
-			ensureNotInGC("MatrixStack");
+			//import liberty.core.memory : ensureNotInGC;
+			//ensureNotInGC("MatrixStack");
 			free(_matrices);
 			_matrices = null;
 		}
