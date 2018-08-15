@@ -1,3 +1,11 @@
+/**
+ * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
+ * Authors:         $(Gabriel Gheorghe)
+ * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/system/engine.d, _engine.d)
+ * Documentation:
+ * Coverage:
+**/
 module liberty.core.system.engine;
 
 import liberty.core.utils : Singleton;
@@ -12,9 +20,6 @@ import liberty.core.system.logic : Logic;
 import liberty.core.image.manager : ImageManager;
 import liberty.core.system.resource.manager : ResourceManager;
 import liberty.core.io.manager : IOManager;
-
-// test
-import liberty.mvc.components.sprite : Sprite;
 
 /**
  * A failing CoreEngine function should <b>always</b> throw a $(D CoreEngineException).
@@ -34,8 +39,6 @@ final class CoreEngine : Singleton!CoreEngine {
     Event _event;
   }
 
-  //Sprite _sprite = new Sprite();
-
   private static immutable startBody = q{
     // Logger must be the first service to start
     Logger.self.startService();
@@ -48,8 +51,8 @@ final class CoreEngine : Singleton!CoreEngine {
     ImageManager.self.startService();
 
     // Init engine systems
-    Renderer.self.init();
-    Platform.self.init();
+    Renderer.self.initialize();
+    Platform.self.initialize();
     
     changeState(EngineState.Started);
   };
@@ -58,8 +61,8 @@ final class CoreEngine : Singleton!CoreEngine {
     changeState(EngineState.Stopping);
     
     // Deinit engine systems
-    Platform.self.deinit();
-    Renderer.self.deinit();
+    Platform.self.deinitialize();
+    Renderer.self.deinitialize();
 
     // Deinit extern libraries
     ImageManager.self.stopService();
@@ -78,9 +81,6 @@ final class CoreEngine : Singleton!CoreEngine {
    *
   **/
   void run() {
-    // test
-    //_sprite.initialize(-1.0f, -1.0f, 1.0f, 1.0f, "res/textures/texture_demo.bmp");
-
     changeState(EngineState.Running);
     while (_engineState != EngineState.ShouldQuit) {
       _event.pull();

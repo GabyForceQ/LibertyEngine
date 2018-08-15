@@ -1,3 +1,11 @@
+/**
+ * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
+ * Authors:         $(Gabriel Gheorghe)
+ * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/system/platform.d, _platform.d)
+ * Documentation:
+ * Coverage:
+**/
 module liberty.core.system.platform;
 
 import derelict.sdl2.sdl :
@@ -34,7 +42,7 @@ final class Platform : Singleton!Platform {
     return _window;
   }
 
-  package void init() {
+  package void initialize() {
     // Initialize SDL2 Library
     try {
       DerelictSDL2.load(SharedLibVersion(2, 0, 8));
@@ -61,7 +69,7 @@ final class Platform : Singleton!Platform {
     Logger.self.info("Initialized", typeof(this).stringof);
   }
 
-  package void deinit() {
+  package void deinitialize() {
     if (_window !is null) {
       _window.destroy();
       _window = null;

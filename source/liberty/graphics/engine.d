@@ -11,7 +11,7 @@ module liberty.graphics.engine;
 import liberty.core.utils : Singleton;
 import liberty.core.manager.meta : ManagerBody;
 
-import liberty.graphics.backend.root : RootBackend;
+import liberty.graphics.backend.gfx : GfxBackend;
 import liberty.graphics.backend.opengl : GLBackend;
 
 // test
@@ -27,7 +27,7 @@ final class GraphicsEngine : Singleton!GraphicsEngine {
   mixin(ManagerBody);
 
   private {
-    RootBackend _backend;
+    GfxBackend _backend;
   }
 
 	private static immutable startBody = q{
@@ -44,7 +44,7 @@ final class GraphicsEngine : Singleton!GraphicsEngine {
   /**
    *
   **/
-  RootBackend backend() {
+  GfxBackend getBackend() {
     return _backend;
   }
 
@@ -52,7 +52,7 @@ final class GraphicsEngine : Singleton!GraphicsEngine {
    *
   **/
 	void render() @trusted {
-    backend.render();
+    _backend.render();
 
     // EXPERIMENTS
     Renderer.self._colorProgram.use();

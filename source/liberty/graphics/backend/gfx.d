@@ -6,11 +6,11 @@
  * Documentation:
  * Coverage:
 **/
-module liberty.graphics.backend.root;
+module liberty.graphics.backend.gfx;
 
 import liberty.graphics.constants : Vendor;
 
-package(liberty.graphics) abstract class RootBackend {
+package(liberty.graphics) abstract class GfxBackend {
   protected {
     string[] _extensions;
     int _majorVersion;

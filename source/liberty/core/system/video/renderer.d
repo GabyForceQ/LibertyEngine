@@ -1,3 +1,11 @@
+/**
+ * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
+ * Authors:         $(Gabriel Gheorghe)
+ * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/system/video/renderer.d, _renderer.d)
+ * Documentation:
+ * Coverage:
+**/
 module liberty.core.system.video.renderer;
 
 import derelict.sdl2.sdl :
@@ -26,12 +34,15 @@ final class Renderer : Singleton!Renderer {
     Window _window;
   }
 
+  /**
+   *
+  **/
   GLShaderProgram _colorProgram;
 
   /**
    *
   **/
-  void init() {
+  void initialize() {
     GraphicsEngine.self.startService();
     Logger.self.info("Initialized", typeof(this).stringof);
   }
@@ -39,7 +50,7 @@ final class Renderer : Singleton!Renderer {
   /**
    *
   **/
-  void deinit() {
+  void deinitialize() {
     GraphicsEngine.self.stopService();
     Logger.self.info("Deinitialized", typeof(this).stringof);
   }
@@ -76,8 +87,8 @@ final class Renderer : Singleton!Renderer {
      *
     **/
     void reloadGLContext() {
-        GraphicsEngine.self.backend.reloadContext();
-        GraphicsEngine.self.backend.clearColor(0.0f, 0.0f, 1.0f, 1.0f);
+        GraphicsEngine.self.getBackend().reloadContext();
+        GraphicsEngine.self.getBackend().clearColor(0.0f, 0.0f, 1.0f, 1.0f);
     }
 
     /**

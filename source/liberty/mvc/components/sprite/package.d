@@ -40,7 +40,7 @@ class Sprite {
     _width = width;
     _height = height;
 
-    _texture = ResourceManager.self.texture(texturePath);
+    _texture = ResourceManager.self.getTexture(texturePath);
 
     if (_vboID == 0) {
       glGenBuffers(1, &_vboID);

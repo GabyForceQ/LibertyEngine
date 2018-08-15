@@ -9,7 +9,7 @@
 module liberty.db;
 
 public {
-    import liberty.db.database;
-    import liberty.db.engine;
-    import liberty.db.meta;
+  import liberty.db.database;
+  import liberty.db.engine;
+  import liberty.db.meta;
 }

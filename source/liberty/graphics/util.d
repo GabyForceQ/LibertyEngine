@@ -8,9 +8,29 @@
 **/
 module liberty.graphics.util;
 
+import liberty.core.utils.singleton : Singleton;
+import liberty.graphics.buffer.gfx : GfxBuffer;
+import liberty.graphics.buffer.utils : _createGfxBuffer;
+
+///
+import liberty.graphics;
+
 /**
  *
 **/
-class RenderUtil {
-    
+class RenderUtil : Singleton!RenderUtil {
+  /**
+   *
+  **/
+  GfxBuffer createGfxBuffer(T)(
+    BufferTarget target, 
+    DataUsage usage, 
+    T[] data = null
+  ) @safe {
+    _createGfxBuffer(
+      target, 
+      usage, 
+      data
+    );
+  }
 }

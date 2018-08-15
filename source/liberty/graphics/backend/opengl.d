@@ -23,7 +23,7 @@ import derelict.opengl :
   GL_INVALID_OPERATION, GL_OUT_OF_MEMORY;
 
 import liberty.core.logger.meta : ExceptionConstructor;
-import liberty.graphics.backend.root : RootBackend;
+import liberty.graphics.backend.gfx : GfxBackend;
 import liberty.graphics.constants : Vendor;
 
 /**
@@ -36,7 +36,7 @@ class GLException : Exception {
 /**
  *
 **/
-final class GLBackend : RootBackend {
+final class GLBackend : GfxBackend {
   /**
    * Load OpenGL library.
    * Throws $(D GLException) on error.

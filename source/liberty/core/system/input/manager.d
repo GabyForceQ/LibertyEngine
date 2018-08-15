@@ -5,7 +5,7 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/input/manager.d, _manager.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.core.system.input.manager;
 
 import liberty.core.utils : Singleton;
@@ -16,10 +16,8 @@ pragma (inline, true):
 
 /**
  *
- */
+**/
 final class Input : Singleton!Input {
-
-    mixin(ManagerBody);
-    mixin(MouseBody);
-    
+  mixin(ManagerBody);
+  mixin(MouseBody);
 }

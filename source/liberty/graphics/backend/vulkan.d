@@ -11,7 +11,7 @@ module liberty.graphics.backend.vulkan;
 version (none):
 
 import liberty.core.logger.meta : ExceptionConstructor;
-import liberty.graphics.backend.root : RootBackend;
+import liberty.graphics.backend.gfx : GfxBackend;
 import liberty.graphics.constants : Vendor;
 
 /**
@@ -24,7 +24,7 @@ class VKException : Exception {
 /**
  *
 **/
-final class VKBackend : RootBackend {
+final class VKBackend : GfxBackend {
   /**
    * Load Vulkan library.
    * Throws $(D VKException) on error.
