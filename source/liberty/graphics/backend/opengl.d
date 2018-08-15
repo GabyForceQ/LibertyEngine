@@ -82,7 +82,7 @@ final class GLBackend : RootBackend {
   /**
    * Returns true if the OpenGL extension is supported.
   **/
-  override bool supportsExtension(string extension) pure nothrow @safe @nogc {
+  override bool supportsExtension(string extension) pure nothrow @safe {
     foreach (el; _extensions) {
       if (el == extension) {
         return true;
@@ -161,14 +161,14 @@ final class GLBackend : RootBackend {
   /**
    * Returns OpenGL major version.
   **/
-  override int getMajorVersion() pure nothrow const @safe @nogc @property {
+  override int getMajorVersion() pure nothrow const @safe {
     return _majorVersion;
   }
 
   /**
    * Returns OpenGL minor version.
   **/
-  override int getMinorVersion() pure nothrow const @safe @nogc @property {
+  override int getMinorVersion() pure nothrow const @safe {
     return _minorVersion;
   }
 
@@ -191,7 +191,7 @@ final class GLBackend : RootBackend {
   **/
   override Vendor getVendor() @safe {
     import std.algorithm.searching : canFind;
-    const(char)[] s = vendorString();
+    const(char)[] s = getVendorString();
     if (canFind(s, "AMD")) {
       return Vendor.Amd;
     } else if (canFind(s, "NVIDIA")) {
@@ -220,7 +220,7 @@ final class GLBackend : RootBackend {
   /**
    * Returns a slice made up of available extension names.
   **/
-  override string[] getExtensions() pure nothrow @safe @nogc {
+  override string[] getExtensions() pure nothrow @safe {
     return _extensions;
   }
 
@@ -247,7 +247,7 @@ final class GLBackend : RootBackend {
   /**
    *
   **/
-  override int getMaxColorAttachments() pure nothrow const @safe @nogc {
+  override int getMaxColorAttachments() pure nothrow const @safe {
     return _maxColorAttachments;
   }
 
@@ -259,7 +259,7 @@ final class GLBackend : RootBackend {
     runtimeCheck();
   }
 
-  package static string getErrorString(GLint er) pure nothrow @safe @nogc {
+  package static string getErrorString(GLint er) pure nothrow @safe {
     switch(er) {
       case GL_NO_ERROR:
         return "GL_NO_ERROR";
@@ -276,7 +276,7 @@ final class GLBackend : RootBackend {
     }
   }
 
-  private void flushGLErrors() nothrow @trusted @nogc {
+  private void flushGLErrors() nothrow @trusted {
     int timeout;
     while (++timeout <= 5) {
       immutable GLint r = glGetError();
@@ -291,7 +291,7 @@ final class GLBackend : RootBackend {
       import std.conv : to;
       import std.array : split;
       if (isReload) {
-          const(char)[] verString = versionString;
+          const(char)[] verString = getVersionString;
           int firstSpace = cast(int)countUntil(verString, " ");
           if (firstSpace != -1) {
               verString = verString[0..firstSpace];

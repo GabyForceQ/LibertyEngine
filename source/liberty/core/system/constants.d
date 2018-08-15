@@ -2,75 +2,70 @@ module liberty.core.system.constants;
 
 /**
  *
- */
+**/
 enum EngineState : string {
+  /**
+   *
+  **/
+  None = "None",
 
-    /**
-     *
-     */
-    None = "None",
+  /**
+   *
+  **/
+  Starting = "Starting",
 
-    /**
-     *
-     */
-    Starting = "Starting",
+  /**
+   *
+  **/
+  Started = "Started",
 
-    /**
-     *
-     */
-    Started = "Started",
+  /**
+   *
+  **/
+  Stopping = "Stopping",
 
-    /**
-     *
-     */
-    Stopping = "Stopping",
+  /**
+   *
+  **/
+  Stopped = "Stopped",
 
-    /**
-     *
-     */
-    Stopped = "Stopped",
+  /**
+   *
+  **/
+  Running = "Running",
 
-    /**
-     *
-     */
-    Running = "Running",
+  /**
+   *
+  **/
+  Paused = "Paused",
 
-    /**
-     *
-     */
-    Paused = "Paused",
-
-    /**
-     *
-     */
-    ShouldQuit = "ShouldQuit"
+  /**
+   *
+  **/
+  ShouldQuit = "ShouldQuit"
 }
 
 /**
  *
- */
+**/
 enum EngineAction : string {
-
-    /**
-     *
-     */
-    LoadingScene = "LoadingScene"
-
+  /**
+   *
+  **/
+  LoadingScene = "LoadingScene"
 }
 
 /**
-*
-*/
+ *
+**/
 enum Owned : ubyte {
+  /**
+   *
+  **/
+  No = 0x00,
 
-    /**
-    *
-    */
-    No = 0x00,
-
-    /**
-    *
-    */
-    Yes = 0x01
-
+  /**
+   *
+  **/
+  Yes = 0x01
 }

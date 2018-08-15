@@ -36,7 +36,7 @@ package(liberty.graphics) abstract class RootBackend {
 	/**
    * Returns true if the graphics API extension is supported.
   **/
-  bool supportsExtension(string extension) pure nothrow @safe @nogc;
+  bool supportsExtension(string extension) pure nothrow @safe;
     
 	/**
    *
@@ -56,12 +56,12 @@ package(liberty.graphics) abstract class RootBackend {
 	/**
    *
   **/
-	int getMajorVersion() pure nothrow const @safe @nogc;
+	int getMajorVersion() pure nothrow const @safe;
     
 	/**
    *
   **/
-	int getMinorVersion() pure nothrow const @safe @nogc;
+	int getMinorVersion() pure nothrow const @safe;
     
 	/**
    *
@@ -91,12 +91,12 @@ package(liberty.graphics) abstract class RootBackend {
 	/**
    *
   **/
-	string[] getExtensions() pure nothrow @safe @nogc;
+	string[] getExtensions() pure nothrow @safe;
     
 	/**
    *
   **/
-	int getMaxColorAttachments() pure nothrow const @safe @nogc;
+	int getMaxColorAttachments() pure nothrow const @safe;
     
 	/**
    *

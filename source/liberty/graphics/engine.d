@@ -11,8 +11,8 @@ module liberty.graphics.engine;
 import liberty.core.utils : Singleton;
 import liberty.core.manager.meta : ManagerBody;
 
-import liberty.graphics.root.backend : RootBackend;
-import liberty.graphics.opengl.backend : GLBackend;
+import liberty.graphics.backend.root : RootBackend;
+import liberty.graphics.backend.opengl : GLBackend;
 
 // test
 import liberty.core.system.engine : CoreEngine;
@@ -63,7 +63,10 @@ final class GraphicsEngine : Singleton!GraphicsEngine {
     //uint timeLocation = Renderer.self._colorProgram.getUniformLocation("uTime");
     //glUniform1f(timeLocation, Logic.self.elapsedTime * 10);
 
-    CoreEngine.self._sprite.render();
+    Logic.self
+      .getViewport()
+      .getActiveScene()
+      .render();
     
     glBindTexture(GL_TEXTURE_2D, 0);
     Renderer.self._colorProgram.unuse();

@@ -1,28 +1,33 @@
 module liberty.mvc.objects.node.model;
 
-import liberty.mvc.meta : Model, Serialize, Ignore;
-import liberty.mvc.objects.node.controller : Node;
-import liberty.db.meta : PrimaryKey, Required;
+import liberty.mvc.meta : Model;
+import liberty.mvc.objects.node.controller : NodeController;
+import liberty.mvc.scene.controller : SceneController;
 
 /**
  * Represents object model in the scene tree.
 **/
 @Model
 struct NodeModel {
-  mixin(Serialize);
-  
   public {
-    @PrimaryKey
-    @Required
+    /**
+     *
+    **/
     string id;
 
-    @Ignore 
-    Node parent;
-    
-    @Ignore 
-    Node[string] children;
+    /**
+     *
+    **/
+    NodeController parent;
 
-    @Ignore
-    Scene scene;
+    /**
+     *
+    **/
+    NodeController[string] children;
+
+    /**
+     *
+    **/
+    SceneController scene;
   }
 }

@@ -9,11 +9,11 @@
 module liberty.graphics;
 
 public {
+  import liberty.graphics.backend;
   import liberty.graphics.constants;
   import liberty.graphics.engine;
-  import liberty.graphics.opengl;
-  import liberty.graphics.root;
   import liberty.graphics.services;
-  import liberty.graphics.shaders;
+  import liberty.graphics.texture;
+  import liberty.graphics.util;
   import liberty.graphics.vertex;
 }

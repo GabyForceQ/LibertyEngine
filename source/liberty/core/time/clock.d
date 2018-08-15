@@ -19,14 +19,14 @@ class Clock : Singleton!Clock {
 	/**
 	 *
 	**/
-	uint ticks() {
+	uint getTicks() {
 		return SDL_GetTicks();
 	}
 
 	/**
 	 *
 	**/
-	float time() {
+	float getTime() {
 		return SDL_GetTicks() / 1000.0f;
 	}
 

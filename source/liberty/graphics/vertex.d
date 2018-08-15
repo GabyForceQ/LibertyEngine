@@ -16,7 +16,7 @@ align(4) struct Vertex2 {
     /**
      *
     **/
-    Position2D position;
+    Position2 position;
 
     /**
      *
@@ -53,7 +53,7 @@ align(4) struct Vertex2 {
 /**
  *
 **/
-struct Position2D {
+struct Position2 {
   /**
    *
   **/

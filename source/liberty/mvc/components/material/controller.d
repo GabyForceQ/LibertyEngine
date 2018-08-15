@@ -1,55 +1,87 @@
 module liberty.mvc.components.material.controller;
 
+import liberty.mvc.components.meta : Component;
+
+/**
+ *
+**/
 @Component
 class Material {
+  /**
+   *
+  **/
+  this() {
 
-    this() {
+  }
 
-    }
+  /**
+   *
+  **/
+  Material addNode(string uniformName) {
+    return this;
+  }
 
-    Material addNode(string uniformName) {
-        return this;
-    }
+  /**
+   *
+  **/
+  Material removeNode(string uniformName) {
+    return this;
+  }
 
-    Material removeNode(string uniformName) {
-        return this;
-    }
+  /**
+   *
+  **/
+  Material addGate(string codeBlock) {
+    return this;
+  }
 
-    Material addGate(string codeBlock) {
-        return this;
-    }
+  /**
+   *
+  **/
+  Material moveGate(uint fromLocation, uint toDestination) {
+    return this;
+  }
 
-    Material moveGate(uint fromLocation, uint toDestination) {
-        return this;
-    }
+  /**
+   * If there are multiple empty gates, first will be chosen.
+   * The remaining ones will be deleted.
+  **/
+  Material fillEmptyGate(string codeBlock) {
+    return this;
+  }
 
-    /**
-     * If there are multiple empty gates, first will be chosen.
-     * The remaining ones will be deleted.
-    **/
-    Material fillEmptyGate(string codeBlock) {
-        return this;
-    }
+  /**
+   *
+  **/
+  Material removeAllEmptyGates() {
+    return this;
+  }
 
-    Material removeAllEmptyGates() {
-        return this;
-    }
+  /**
+   *
+  **/
+  bool hasEmptyGates() {
+    return false;
+  }
 
-    bool hasEmptyGates() {
-        return false;
-    }
+  /**
+   *
+  **/
+  bool compile() {
+    return true;
+  }
 
-    bool compile() {
-        return true;
-    }
+  /**
+   *
+  **/
+  bool build() {
+    return true;
+  }
 
-    bool build() {
-        return true;
-    }
-
-    bool fixGateOrder() {
-
-        return compile();
-    }
-
+  /**
+   *
+  **/
+  bool fixGateOrder() {
+    return compile();
+  }
 }

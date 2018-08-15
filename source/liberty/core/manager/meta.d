@@ -75,7 +75,7 @@ immutable ManagerBody = q{
   /**
    * Returns true if this service is running.
   **/
-  bool isServiceRunning() pure nothrow const @safe @nogc @property {
+  bool isServiceRunning() pure nothrow const @safe {
     return _serviceRunning;
   }
 

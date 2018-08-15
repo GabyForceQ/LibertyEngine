@@ -12,102 +12,101 @@ import liberty.core.system.resource.manager : ResourceManager;
 
 class Sprite {
 
-    private {
-        float _x;
-        float _y;
-        float _width;
-        float _height;
+  private {
+    float _x;
+    float _y;
+    float _width;
+    float _height;
 
-        GLuint _vboID;
-        GLuint _vaoID;
+    GLuint _vboID;
+    GLuint _vaoID;
 
-        Texture _texture;
+    Texture _texture;
+  }
+
+  this() {
+    _vboID = 0;
+  }
+
+  ~this() {
+    if (_vboID != 0) {
+      glDeleteBuffers(1, &_vboID);
+    }
+  }
+
+  void initialize(float x, float y, float width, float height, string texturePath) {
+    _x = x;
+    _y = y;
+    _width = width;
+    _height = height;
+
+    _texture = ResourceManager.self.texture(texturePath);
+
+    if (_vboID == 0) {
+      glGenBuffers(1, &_vboID);
     }
 
-    this() {
-        _vboID = 0;
-    }
+    glGenVertexArrays(1, &_vaoID);
+    glBindVertexArray(_vaoID);
 
-    ~this() {
-        if (_vboID != 0) {
-            glDeleteBuffers(1, &_vboID);
-        }
-    }
+    Vertex2[6] vertexData = [
+      Vertex2(Position2( 0.5f, -0.5f), Color(0, 255, 255, 0), TexCoords(1.0f, 1.0f)),
+      Vertex2(Position2(-0.5f, -0.5f), Color(0, 255, 255, 0), TexCoords(0.0f, 1.0f)),
+      Vertex2(Position2(-0.5f,  0.5f), Color(0, 255, 255, 0), TexCoords(0.0f, 0.0f)),
 
-    void initialize(float x, float y, float width, float height, string texturePath) {
-        _x = x;
-        _y = y;
-        _width = width;
-        _height = height;
+      Vertex2(Position2(-0.5f,  0.5f), Color(0, 255, 255, 0), TexCoords(0.0f, 0.0f)),
+      Vertex2(Position2( 0.5f,  0.5f), Color(0, 255, 255, 0), TexCoords(1.0f, 0.0f)),
+      Vertex2(Position2( 0.5f, -0.5f), Color(0, 255, 255, 0), TexCoords(1.0f, 1.0f))
+    ];
 
-        _texture = ResourceManager.self.texture(texturePath);
+    glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+    glBufferData(GL_ARRAY_BUFFER, vertexData.bufferSize, vertexData.ptr, GL_STATIC_DRAW);
+  }
 
-        if (_vboID == 0) {
-            glGenBuffers(1, &_vboID);
-        }
+  void render() {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _texture.id);
 
-        glGenVertexArrays(1, &_vaoID);
-        glBindVertexArray(_vaoID);
+    glEnableVertexAttribArray(0);
 
-        Vertex2[6] vertexData = [
-            Vertex2(Position( 0.5f, -0.5f), Color(0, 255, 255, 0), TexCoords(1.0f, 1.0f)),
-            Vertex2(Position(-0.5f, -0.5f), Color(0, 255, 255, 0), TexCoords(0.0f, 1.0f)),
-            Vertex2(Position(-0.5f,  0.5f), Color(0, 255, 255, 0), TexCoords(0.0f, 0.0f)),
+    // Bind the buffer object
+    glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 
-            Vertex2(Position(-0.5f,  0.5f), Color(0, 255, 255, 0), TexCoords(0.0f, 0.0f)),
-            Vertex2(Position( 0.5f,  0.5f), Color(0, 255, 255, 0), TexCoords(1.0f, 0.0f)),
-            Vertex2(Position( 0.5f, -0.5f), Color(0, 255, 255, 0), TexCoords(1.0f, 1.0f))
-        ];
+    // Position
+    glVertexAttribPointer(
+      0, 
+      2,
+      GL_FLOAT, 
+      GL_FALSE, 
+      Vertex2.sizeof, 
+      cast(void*)Vertex2.position.offsetof
+    );
 
-        glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-        glBufferData(GL_ARRAY_BUFFER, vertexData.bufferSize, vertexData.ptr, GL_STATIC_DRAW);
-    }
+    // Color
+    glVertexAttribPointer(
+      1, 
+      4, 
+      GL_UNSIGNED_BYTE, 
+      GL_TRUE, 
+      Vertex2.sizeof, 
+      cast(void*)Vertex2.color.offsetof
+    );
 
-    void render() {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, _texture.id);
+    // TexCoords
+    glVertexAttribPointer(
+      2, 
+      2, 
+      GL_FLOAT, 
+      GL_TRUE, 
+      Vertex2.sizeof, 
+      cast(void*)Vertex2.texCoords.offsetof
+    );
 
-        glEnableVertexAttribArray(0);
+    glDrawArrays(GL_TRIANGLES, 0, 6);        
 
-        // Bind the buffer object
-        glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-
-        // Position
-        glVertexAttribPointer(
-            0, 
-            2,
-            GL_FLOAT, 
-            GL_FALSE, 
-            Vertex2.sizeof, 
-            cast(void*)Vertex2.position.offsetof
-        );
-
-        // Color
-        glVertexAttribPointer(
-            1, 
-            4, 
-            GL_UNSIGNED_BYTE, 
-            GL_TRUE, 
-            Vertex2.sizeof, 
-            cast(void*)Vertex2.color.offsetof
-        );
-
-        // TexCoords
-        glVertexAttribPointer(
-            2, 
-            2, 
-            GL_FLOAT, 
-            GL_TRUE, 
-            Vertex2.sizeof, 
-            cast(void*)Vertex2.texCoords.offsetof
-        );
-
-        glDrawArrays(GL_TRIANGLES, 0, 6);        
-
-        // Unbind the buffer object
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        
-        glDisableVertexAttribArray(0);
-    }
-
+    // Unbind the buffer object
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glDisableVertexAttribArray(0);
+  }
 }

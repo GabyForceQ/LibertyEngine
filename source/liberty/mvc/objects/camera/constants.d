@@ -1,4 +1,4 @@
-module liberty.mvc.camera.constants;
+module liberty.mvc.objects.camera.constants;
 
 /**
  * Default yaw value.

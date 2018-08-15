@@ -34,7 +34,7 @@ struct Crypted(T) {
   /**
    *
   **/
-  this(T value, SecureLevel secure_level = SecureLevel.Level0) pure nothrow @safe @nogc {
+  this(T value, SecureLevel secure_level = SecureLevel.Level0) pure nothrow @safe {
     _secureLevel = secure_level;
     _value = value;
     final switch (_secureLevel) with (SecureLevel) {
@@ -53,27 +53,27 @@ struct Crypted(T) {
   /**
    *
   **/
-  void setValue(T value) pure nothrow @safe @nogc {
+  void setValue(T value) pure nothrow @safe {
   }
 
   /**
    *
   **/
-  T getValue() pure nothrow const @safe @nogc {
+  T getValue() pure nothrow const @safe {
     return _value - _cryptedKey;
   }
 
-  private void generateRandomKey() nothrow @safe @nogc {
+  private void generateRandomKey() nothrow @safe {
     import std.random : uniform, Random;
     auto rnd = Random(73);
     _cryptedKey = uniform!T(rnd);
   }
 
-  private void cryptWithKey() pure nothrow @safe @nogc {
+  private void cryptWithKey() pure nothrow @safe {
     _value += _cryptedKey;
   }
 
-  private void decryptWithKey() pure nothrow @safe @nogc {
+  private void decryptWithKey() pure nothrow @safe {
     _value -= _cryptedKey;
   }
 }

@@ -20,7 +20,7 @@ class Singleton(T) {
   /**
    *
   **/
-	protected this() pure nothrow @safe @nogc {}
+	protected this() pure nothrow @safe {}
 
   /**
    *
@@ -40,7 +40,7 @@ class Singleton(T) {
   /**
    *
   **/
-	static bool isInstantiated() nothrow @safe @nogc {
+	static bool isInstantiated() nothrow @safe {
 		return _isInstantiated;
 	}
 }

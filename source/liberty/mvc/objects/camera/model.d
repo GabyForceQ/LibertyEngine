@@ -1,13 +1,16 @@
 module liberty.mvc.objects.camera.model;
 
-import liberty.core.math.vector : vector3F;
+import liberty.core.math.vector : Vector3F;
 import liberty.core.math.matrix : Matrix4F;
+import liberty.mvc.meta : Model;
+import liberty.mvc.objects.camera.constants : CameraProjection;
 
+/**
+ *
+**/
 @Model
 struct CameraModel {
-  mixin(Serialize);
-
-  public @Ignore {
+  public {
     /**
      * Camera projection.
     **/
@@ -21,27 +24,27 @@ struct CameraModel {
     /**
      * Position attribute.
     **/
-    vector3F position;
+    Vector3F position;
 
     /**
      * Front attribute.
     **/
-    vector3F front;
+    Vector3F front;
 
     /**
      * Up attribute.
     **/
-    vector3F up;
+    Vector3F up;
 
     /**
      * Right attribute.
     **/
-    vector3F right;
+    Vector3F right;
 
     /**
      *  World up attribute.
     **/
-    vector3F worldUp;
+    Vector3F worldUp;
 
     /**
      * Yaw Euler angle.
@@ -112,6 +115,6 @@ struct CameraModel {
      * Camera projection type.
      * It can be Perspective for 3D view or Orthographic for 2D view.
     **/
-    CameraProjection _cameraProjection = CameraProjection.Perspective;
+    CameraProjection projectionType = CameraProjection.Perspective;
   }
 }

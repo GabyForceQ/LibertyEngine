@@ -11,7 +11,7 @@ module liberty.core.utils.array;
 /**
  *
 **/
-size_t bufferSize(T)(T[] buffer) pure nothrow @safe @nogc {
+size_t bufferSize(T)(T[] buffer) pure nothrow @safe {
 	return buffer.length * T.sizeof;
 }
 
