@@ -6,41 +6,29 @@ mixin(EngineRun);
 
 ///
 void libertyMain() {
-  auto a = new SceneController("DefaultScene");
+  auto a = new Scene("DefaultScene");
 
   Logic.self
     .getViewport()
     .getActiveScene()
     .getTree()
-    .spawn!PlayerController("player", true);
+    .spawn!Player("player", true);
 
   Renderer.self.disableVSync();
 }
 
 ///
-@Model
-struct PlayerModel {
+final class Player : WorldObject, IRenderable {
+  mixin(NodeBody);
   ///
   int lives = 6;
-}
 
-///
-@View
-struct PlayerView {
   ///
   Sprite sprite = new Sprite();
-}
-
-///
-@Controller
-final class PlayerController : NodeController, IRenderable {
-  mixin(BindModel);
-  mixin(BindView);
-  mixin(NodeBody);
 
   ///
   override void start() {
-    view.sprite.initialize(100.0f, 100.0f, 200.0f, 200.0f, "res/textures/texture_demo.bmp");
+    this.sprite.initialize(100.0f, 100.0f, 200.0f, 200.0f, "res/textures/texture_demo.bmp");
   }
 
   ///
@@ -49,6 +37,6 @@ final class PlayerController : NodeController, IRenderable {
 
   ///
   void render() {
-    view.sprite.render();
+    this.sprite.render();
   }
 }

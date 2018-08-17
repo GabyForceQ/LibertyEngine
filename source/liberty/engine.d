@@ -14,7 +14,7 @@ public {
 	import liberty.core;
 	import liberty.db;
 	import liberty.graphics;
-  import liberty.mvc;
+  import liberty.world;
 	import liberty.physics;
 	import liberty.web;
 }

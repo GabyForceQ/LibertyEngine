@@ -69,3 +69,12 @@ class User : Actor {
     }
 }
 */
+
+/**
+unittest {
+  assert(
+    (new WorldObject("MyNode", null).id) == "MyNode", 
+    "Id from serialized model is wrong!"
+  );
+}
+*/

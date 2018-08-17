@@ -11,7 +11,7 @@
 module liberty.core.system.logic;
 
 //
-import liberty.mvc.components.sprite;
+import liberty.world.components.sprite;
 
 import liberty.core.utils : Singleton;
 import liberty.core.logger.meta : ExceptionConstructor;

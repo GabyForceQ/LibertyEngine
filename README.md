@@ -6,7 +6,6 @@ A powerful 2D/3D engine written in the D programming language!
 * New project structure
 * Added more manager classes: IOManager, ResourceManager..
 * Cached textures
-* Model-View-Controller approach on objects, components and scene.
 * Poor SDL2 library wrapper
 * Real-time material editor
 * 2D widgets and buttons
@@ -30,7 +29,7 @@ in the final object file.
 * All "start" methods are invoked after all scene objects are instantiated. 
 If you want to do something at construction time, you should use 'private static 
 immutable constructor = q{ Your logic goes here! };'.
-* Scenes, objects and components use Model-View-Controller (MVC) approach.
+* Smart hierarchy for scenes, objects and components.
 
 ### Instructions:
 * To build an example go to LibertyEngine\examples\Jumper and run the bat files.
@@ -43,22 +42,14 @@ module player;
 
 import liberty.engine;
 
-@Model
-struct PlayerModel {
-  int lives = 5;
-}
-
-@View
-struct PlayerView {
-  Material material = new Material("res/texures/material.bmp");
-}
-
-@Controller
-final class PlayerController : ActorController {
+final class Player : Actor {
   enum thisName = typeof(this).stringof;
 
-  mixin(BindModel);
-  mixin(NodeBody);
+  @Property
+  int lives = 5;
+
+  @Property
+  Material material = new Material("res/texures/material.bmp");
 
   private static immutable constructor = q{
     Logger.self.info("Construction time!", thisName);
@@ -70,7 +61,7 @@ final class PlayerController : ActorController {
   }
   
   override void update(in float deltaTime) {
-    Logger.self.info("Lives: " ~ model.lives.to!string, thisName);
+    Logger.self.info("Lives: " ~ lives.to!string, thisName);
   }
 }
 ```

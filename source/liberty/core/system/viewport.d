@@ -9,7 +9,7 @@
 module liberty.core.system.viewport;
 
 import liberty.core.system.logic : Logic;
-import liberty.mvc.scene.controller : SceneController;
+import liberty.world.scene.impl : Scene;
 
 /**
  *
@@ -17,7 +17,7 @@ import liberty.mvc.scene.controller : SceneController;
 final class Viewport {
   private {
     Logic _logic;
-    SceneController _activeScene;
+    Scene _activeScene;
   }
 
   /**
@@ -30,14 +30,14 @@ final class Viewport {
   /**
    *
   **/
-  void loadScene(SceneController scene) pure nothrow @safe {
+  void loadScene(Scene scene) pure nothrow @safe {
     _activeScene = scene;
   }
 
   /**
    *
   **/
-  SceneController getActiveScene() pure nothrow @safe {
+  Scene getActiveScene() pure nothrow @safe {
     return _activeScene;
   }
 
