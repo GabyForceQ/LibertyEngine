@@ -2,23 +2,13 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/system/window.d, _window.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/system/window/impl.d, _impl.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.core.system.window;
+module liberty.core.system.window.impl;
 
-import derelict.sdl2.sdl :
-    SDL_Window,
-    SDL_CreateWindow,
-    SDL_DestroyWindow,
-    SDL_WINDOWPOS_CENTERED,
-    SDL_WINDOW_OPENGL,
-    SDL_WINDOW_ALLOW_HIGHDPI,
-    SDL_WINDOW_RESIZABLE,
-    SDL_WindowFlags,
-    SDL_GetWindowID;
-
+import liberty.core.system.window.wrapper;
 import liberty.core.math.vector : Vector2I;
 import liberty.core.logger.constants : ErrorMessage;
 import liberty.core.logger.manager : Logger;
@@ -32,11 +22,11 @@ import liberty.core.system.surface : Surface;
 **/
 final class Window {
   private {
-    SDL_Window* _window;
+    WindowHandler _windowHandle;
     Platform _platform;
     Surface _surface;
     VideoContext _videoContext;
-    Vector2I _size = Vector2I(1280, 1024);
+    Vector2I _size = Vector2I(1280, 720);
     uint _id;
     bool _surfaceNeedRenew;
   }
@@ -44,37 +34,36 @@ final class Window {
   /**
    *
   **/
-  this(Platform platform, SDL_WindowFlags flags) {
+  this(Platform platform, WindowFlags flags) {
     // Bind platform to this
     _platform = platform;
 
-    // If you use OpenGL and SDL_WINDOW_OPENGL is not set
+    // If you use OpenGL and WindowFlags.OpenGL is not set
     // Then throw OpenGLContextNotFound error
     version (__OpenGL__) {
-      if (!(flags & SDL_WINDOW_OPENGL)) {
+      if (!(flags & WindowFlags.OpenGL)) {
         Logger.self.error(ErrorMessage.OpenGLContextNotFound, typeof(this).stringof);
       }
     }
 
     // Set window flags
-    flags |= SDL_WINDOW_ALLOW_HIGHDPI;
-    flags |= SDL_WINDOW_RESIZABLE;
+    flags |= WindowFlags.AllowHighDPI;
+    flags |= WindowFlags.Resizable;
 
     // Create the application window
-    _window = SDL_CreateWindow(
+    _windowHandle = WindowUtil.self.createWindow(
       "Liberty Engine v0.0.15-beta.1",
-      SDL_WINDOWPOS_CENTERED,
-      SDL_WINDOWPOS_CENTERED,
+      WindowPosition.Centered,
+      WindowPosition.Centered,
       _size.x,
       _size.y,
       flags
     );
-    if (_window is null) {
-      Logger.self.error("Coudn't be created", typeof(this).stringof);
-    }
 
     // Store the window id
-    _id = SDL_GetWindowID(_window);
+    _id = WindowUtil.self.getWindowId(
+      _windowHandle
+    );
 
     // Attach this window to the renderer
     Renderer.self.window = this;
@@ -90,10 +79,9 @@ final class Window {
       _videoContext.destroy();
       _videoContext = null;
     }
-    if (_window !is null) {
-      SDL_DestroyWindow(_window);
-      _window = null;
-    }
+    WindowUtil.self.destroyWindow(
+      _windowHandle
+    );
   }
 
   /**
@@ -120,8 +108,8 @@ final class Window {
   /**
    * Returns a handle to the current window.
   **/
-  package SDL_Window* getHandle() {
-    return _window;
+  package(liberty.core.system) WindowHandler getHandle() {
+    return _windowHandle;
   }
 
   private bool _hasValidSurface() { 

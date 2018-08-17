@@ -572,11 +572,20 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 			}
 		}
 		static if (isSquare && R == 4 && isFloatingPoint!T) {
+      ///
+      static Matrix orthographic(T left, T right, T bottom, T top) pure nothrow @safe {
+        return Matrix(
+          (2) / (right - left), 0, 0, 0,
+          0, (2) / (top - bottom), 0, 0,
+          0, 0, -1, 0,
+          -(right + left) / (right - left), -(top + bottom) / (top - bottom), 0, 0
+        );
+			}
 			/// Returns orthographic projection.
 			static Matrix orthographic(T left, T right, T bottom, T top, T near, T far) pure nothrow @safe {
-				T dx = right - left,
-				dy = top - bottom,
-				dz = far - near;
+				T dx = right - left;
+				T dy = top - bottom;
+				T dz = far - near;
 				T tx = -(right + left) / dx;
 				T ty = -(top + bottom) / dy;
 				T tz = -(far + near) / dz;

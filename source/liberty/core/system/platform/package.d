@@ -2,12 +2,13 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/shader/root/package.d, _package.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/system/platform/package.d, _package.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.graphics.shader.root;
+module liberty.core.system.platform;
 
 public {
-  import liberty.graphics.shader.root.program;
+  import liberty.core.system.platform.impl;
+  import liberty.core.system.platform.wrapper;
 }

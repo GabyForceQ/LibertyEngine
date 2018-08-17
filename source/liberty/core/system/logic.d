@@ -10,6 +10,9 @@
 **/
 module liberty.core.system.logic;
 
+//
+import liberty.mvc.components.sprite;
+
 import liberty.core.utils : Singleton;
 import liberty.core.logger.meta : ExceptionConstructor;
 import liberty.core.time.clock : Clock;
@@ -32,6 +35,9 @@ final class Logic : Singleton!Logic {
     float _elapsedTime = 0.0f;
     //float _framesPerSecond = 0.0f;
     Viewport _viewport;
+
+    //
+    Camera2D _camera = new Camera2D();
   }
 
   /**
@@ -76,10 +82,20 @@ final class Logic : Singleton!Logic {
     return _viewport;
   }
 
+  /**
+   *
+  **/
+  Camera2D getCamera() {
+    return _camera;
+  }
+
   package void processTime() {
     // Process time
     _elapsedTime = Clock.self.getTime();
     _deltaTime = _elapsedTime - _lastFrameTime;
     _lastFrameTime = _elapsedTime;
+
+    //
+    _camera.update();
   }
 }

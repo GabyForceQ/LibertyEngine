@@ -9,7 +9,7 @@
  * TODO:
  *  - Is it char[] ok? Or it should be byte[].
  *  - SecureLevel.Custom
- */
+**/
 module liberty.core.security.constants;
 
 /**

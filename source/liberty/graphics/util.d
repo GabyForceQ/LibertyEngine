@@ -11,6 +11,7 @@ module liberty.graphics.util;
 import liberty.core.utils.singleton : Singleton;
 import liberty.graphics.buffer.gfx : GfxBuffer;
 import liberty.graphics.buffer.utils : _createGfxBuffer;
+import liberty.graphics.vao.utils : _createGfxVertexArrayObject;
 
 ///
 import liberty.graphics;
@@ -31,6 +32,26 @@ class RenderUtil : Singleton!RenderUtil {
       target, 
       usage, 
       data
+    );
+  }
+
+  /**
+   *
+  **/
+  GfxVertexArrayObject createGfxVertexArrayObject() @safe {
+    return _createGfxVertexArrayObject();
+  }
+
+  /**
+   *
+  **/
+  GfxShaderProgram createGfxShaderProgram(
+    string vertexCode,
+    string fragmentCode
+  ) @safe {
+    return _createGfxShaderProgram(
+      vertexCode,
+      fragmentCode
     );
   }
 }

@@ -36,8 +36,10 @@ immutable vertexColor = q{
   out vec4 tColor;
   out vec2 tTexCoords;
 
+  uniform mat4 uOrthoProjection;
+
   void main() {
-    gl_Position.xy = vertexPosition;
+    gl_Position.xy = (uOrthoProjection * vec4(vertexPosition, 0.0, 1.0)).xy;
     gl_Position.z = 0.0;
     gl_Position.w = 1.0;
     tColor = vertexColor;

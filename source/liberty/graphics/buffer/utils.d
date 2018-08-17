@@ -7,8 +7,9 @@ import derelict.opengl;
 import liberty.graphics;
 
 pragma (inline, true) :
-
-package(liberty.graphics) GfxBuffer _createGfxBuffer(T)(
+package(liberty.graphics):
+ 
+GfxBuffer _createGfxBuffer(T)(
   BufferTarget target, 
   DataUsage usage, 
   T[] data = null

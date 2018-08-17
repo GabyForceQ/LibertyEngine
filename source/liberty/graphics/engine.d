@@ -63,6 +63,13 @@ final class GraphicsEngine : Singleton!GraphicsEngine {
     //uint timeLocation = Renderer.self._colorProgram.getUniformLocation("uTime");
     //glUniform1f(timeLocation, Logic.self.elapsedTime * 10);
 
+    // Set the camera matrix
+    import liberty.core.math.matrix;
+
+    int orthoLocation = Renderer.self._colorProgram.getUniformLocation("uOrthoProjection");
+    Matrix4F cameraMatrix = Logic.self.getCamera().getCameraMatrix();
+    glUniformMatrix4fv(orthoLocation, 1, GL_FALSE, cameraMatrix.ptr);
+
     Logic.self
       .getViewport()
       .getActiveScene()

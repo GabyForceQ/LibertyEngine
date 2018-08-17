@@ -5,7 +5,7 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/security/types.d, _types.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.core.security.types;
 
 import liberty.core.security.constants : SecureLevel;

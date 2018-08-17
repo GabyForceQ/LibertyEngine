@@ -61,7 +61,8 @@ final class VideoContext {
   void makeCurrent() {
     version (__OpenGL__) {
       if (0 != SDL_GL_MakeCurrent(_window.getHandle(), _videoContext)) {
-        _window.getPlatform().throwPlatformException("SDL_GL_MakeCurrent");
+        //_window.getPlatform().throwVideoException("SDL_GL_MakeCurrent");
+        assert(0, "SDL_GL_MakeCurrent");
       }
     }
   }

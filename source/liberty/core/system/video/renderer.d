@@ -15,7 +15,8 @@ import derelict.sdl2.sdl :
   SDL_GL_CONTEXT_PROFILE_CORE,
   SDL_GL_DOUBLEBUFFER,
   SDL_GL_SetAttribute,
-  SDL_GL_SwapWindow;
+  SDL_GL_SwapWindow,
+  SDL_GL_SetSwapInterval;
 
 import liberty.core.utils : Singleton;
 import liberty.core.logger.manager : Logger;
@@ -82,23 +83,35 @@ final class Renderer : Singleton!Renderer {
     SDL_GL_SwapWindow(_window.getHandle());
   }
 
-  version (__OpenGL__) {
-    /**
-     *
-    **/
-    void reloadGLContext() {
-        GraphicsEngine.self.getBackend().reloadContext();
-        GraphicsEngine.self.getBackend().clearColor(0.0f, 0.0f, 1.0f, 1.0f);
-    }
+  /**
+   *
+  **/
+  void reloadGLContext() {
+      GraphicsEngine.self.getBackend().reloadContext();
+      GraphicsEngine.self.getBackend().clearColor(0.0f, 0.0f, 1.0f, 1.0f);
+  }
 
-    /**
-     *
-    **/
-    void initGLContext(int majorVersion, int minorVersion) @trusted {
-      SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, majorVersion);
-      SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, minorVersion);
-      SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-      SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    }
+  /**
+   *
+  **/
+  void initGLContext(int majorVersion, int minorVersion) @trusted {
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, majorVersion);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, minorVersion);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  }
+
+  /**
+   *
+  **/
+  void enableVSync() {
+    SDL_GL_SetSwapInterval(1);
+  }
+
+  /**
+   *
+  **/
+  void disableVSync() {
+    SDL_GL_SetSwapInterval(0);
   }
 }

@@ -11,7 +11,8 @@ module liberty.core.system.surface.wrapper.types;
 import derelict.sdl2.sdl :
   SDL_Surface,
   SDL_PixelFormat,
-  SDL_Rect, SDL_FALSE;
+  SDL_Rect,
+  SDL_FALSE;
 
 /**
  * Pointer to SDL2 Surface.
@@ -19,7 +20,7 @@ import derelict.sdl2.sdl :
 alias SurfaceHandler = SDL_Surface*;
 
 /**
- *
+ * Pointer to SDL2 Pixel Format.
 **/
 alias PixelFormat = SDL_PixelFormat*;
 

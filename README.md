@@ -2,6 +2,15 @@
 ##### Description:
 A powerful 2D/3D engine written in the D programming language!
 
+##### Release notes (v0.0.15) (Release date: 2018-Sep-08)
+* New project structure
+* Added more manager classes: IOManager, ResourceManager..
+* Cached textures
+* Model-View-Controller approach on objects, components and scene.
+* Poor SDL2 library wrapper
+* Real-time material editor
+* 2D widgets and buttons
+
 ##### D compiler versions recommended:
 * DMD 2.081.2
 
@@ -36,31 +45,33 @@ import liberty.engine;
 
 @Model
 struct PlayerModel {
-    mixin(Serialize);
-    
-    @Required
-    int lives = 5;
+  int lives = 5;
+}
+
+@View
+struct PlayerView {
+  Material material = new Material("res/texures/material.bmp");
 }
 
 @Controller
 final class PlayerController : ActorController {
-    enum thisName = typeof(this).stringof;
+  enum thisName = typeof(this).stringof;
 
-    mixin(BindModel);
-    mixin(NodeBody);
+  mixin(BindModel);
+  mixin(NodeBody);
 
-    private static immutable constructor = q{
-        Logger.self.info("Construction time!", thisName);
-    };
-    
-    override void start() {
-        spawn!Camera("Camera").setPosition(0.0f, 0.0f, 3.0f);
-        scene.setActiveCamera(getChild!Camera("Camera"));
-    }
-    
-    override void update(in float deltaTime) {
-        Logger.self.info("Lives: " ~ model.lives.to!string, thisName);
-    }
+  private static immutable constructor = q{
+    Logger.self.info("Construction time!", thisName);
+  };
+  
+  override void start() {
+    spawn!Camera("Camera").setPosition(0.0f, 0.0f, 3.0f);
+    scene.setActiveCamera(getChild!Camera("Camera"));
+  }
+  
+  override void update(in float deltaTime) {
+    Logger.self.info("Lives: " ~ model.lives.to!string, thisName);
+  }
 }
 ```
 
@@ -75,5 +86,4 @@ final class PlayerController : ActorController {
 * MySQL integration
 * Web support
 
-> *Do not use this framework in production until version 0.1 
-(scheduled for Q2 2019) is released!*
+> *Do not use this framework in production until version 0.1 (scheduled for Q2 2019) is released!*

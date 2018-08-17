@@ -5,7 +5,7 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/physics/package.d, _package.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.physics;
 
 public {

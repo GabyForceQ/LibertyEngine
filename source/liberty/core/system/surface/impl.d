@@ -114,10 +114,12 @@ final class Surface {
     );
 
     // Surface shoudn't be equal with this handle
-    assert (
-      surface != _surfaceHandle, 
-      "It should not be the same handle!"
-    );
+    if (surface != _surfaceHandle) {
+      Logger.self.error(
+        "New surface should not be the same as surface handle",
+        typeof(this).stringof
+      );
+    }
 
     // Returns the converted surface
     return new Surface(_platform, surface, Owned.Yes);

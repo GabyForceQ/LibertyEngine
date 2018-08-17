@@ -5,17 +5,17 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/mvc/components/meta.d, _meta.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.mvc.components.meta;
 
 /**
  *
- */
+**/
 struct Component;
 
 /**
  *
- */
+**/
 struct ComponentField(string access) {
 	static if (access == "ReadWrite") {
 		///
@@ -35,5 +35,5 @@ struct ComponentField(string access) {
 
 /**
  *
- */
+**/
 immutable ComponentBody = q{};

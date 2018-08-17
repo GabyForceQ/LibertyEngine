@@ -5,7 +5,7 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/security/package.d, _package.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.core.security;
 
 public {

@@ -18,7 +18,7 @@ size_t bufferSize(T)(T[] buffer) pure nothrow @safe {
 /**
  * Example of $(D bufferSize) usage:
 **/
- unittest {
+unittest {
 	immutable int[] arr = [4, 5, -6];
 	assert (arr.bufferSize == 12, "Array size of arr must be 4 * 3 = 12!");
 }

@@ -8,7 +8,7 @@
  *
  * TODO:
  *  - Is it char[] ok? Or it should be byte[].
- */
+**/
 module liberty.core.security.utils;
 
 /**

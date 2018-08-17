@@ -13,8 +13,9 @@ public {
   import liberty.graphics.buffer;
   import liberty.graphics.constants;
   import liberty.graphics.engine;
-  import liberty.graphics.services;
+  import liberty.graphics.shader;
   import liberty.graphics.texture;
   import liberty.graphics.util;
+  import liberty.graphics.vao;
   import liberty.graphics.vertex;
 }

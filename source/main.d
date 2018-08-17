@@ -13,6 +13,8 @@ void libertyMain() {
     .getActiveScene()
     .getTree()
     .spawn!PlayerController("player", true);
+
+  Renderer.self.disableVSync();
 }
 
 ///
@@ -38,7 +40,7 @@ final class PlayerController : NodeController, IRenderable {
 
   ///
   override void start() {
-    view.sprite.initialize(-1.0f, -1.0f, 1.0f, 1.0f, "res/textures/texture_demo.bmp");
+    view.sprite.initialize(100.0f, 100.0f, 200.0f, 200.0f, "res/textures/texture_demo.bmp");
   }
 
   ///
