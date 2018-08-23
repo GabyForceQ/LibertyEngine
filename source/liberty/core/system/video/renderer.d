@@ -61,11 +61,12 @@ final class Renderer : Singleton!Renderer {
   **/
   void initShaders() {
     _colorProgram = new GLShaderProgram();
-    _colorProgram.compileShaders(vertexColor, fragmentColor);
-    _colorProgram.addAttribute("vertexPosition");
-    _colorProgram.addAttribute("vertexColor");
-    _colorProgram.addAttribute("texCoords");
+    _colorProgram.compileShaders(vertex3Color, fragmentColor);
+    _colorProgram.addAttribute("position");
+    //_colorProgram.addAttribute("vertexColor");
+    //_colorProgram.addAttribute("texCoords");
     _colorProgram.linkShaders();
+    _colorProgram.addUniform("uTransform");
   }
 
   /**
@@ -89,6 +90,7 @@ final class Renderer : Singleton!Renderer {
   void reloadGLContext() {
       GraphicsEngine.self.getBackend().reloadContext();
       GraphicsEngine.self.getBackend().clearColor(0.0f, 0.0f, 1.0f, 1.0f);
+      GraphicsEngine.self.getBackend().enable3DCapabilities();
   }
 
   /**
@@ -113,5 +115,14 @@ final class Renderer : Singleton!Renderer {
   **/
   void disableVSync() {
     SDL_GL_SetSwapInterval(0);
+  }
+
+  /**
+   *
+  **/
+  void enableAlphaBlend() {
+    import derelict.opengl;
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 }

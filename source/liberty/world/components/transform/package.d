@@ -7,3 +7,72 @@
  * Coverage:
 **/
 module liberty.world.components.transform;
+
+import liberty.core.math.vector : Vector3F;
+import liberty.core.math.matrix : Matrix4F;
+
+struct Transform {
+  private {
+    float _rotationAngle = 0.0f;
+    Vector3F _translation = Vector3F.zero;
+    Vector3F _rotation = Vector3F.zero;
+    Vector3F _scale = Vector3F.one;
+  }
+
+  Vector3F getTranslation() pure nothrow @safe {
+    return _translation;
+  }
+
+  void setTranslation(Vector3F translation) pure nothrow @safe {
+    _translation = translation;
+  }
+
+  void setTranslation(float x, float y, float z) pure nothrow @safe {
+    _translation = Vector3F(x, y, z);
+  }
+
+  Vector3F getRotation() pure nothrow @safe {
+    return _rotation;
+  }
+
+  void setRotation(Vector3F rotation) pure nothrow @safe {
+    _rotation = rotation;
+  }
+
+  void setRotation(float x, float y, float z) pure nothrow @safe {
+    _rotation = Vector3F(x, y, z);
+  }
+
+  void setRotationAngle(float angle) pure nothrow @safe {
+    _rotationAngle = angle;
+  }
+
+  float getRotationAngle() pure nothrow @safe {
+    return _rotationAngle;
+  }
+
+  Vector3F getScale() pure nothrow @safe {
+    return _scale;
+  }
+
+  void setScale(Vector3F scale) pure nothrow @safe {
+    _scale = scale;
+  }
+
+  void setScale(float x, float y, float z) pure nothrow @safe {
+    _scale = Vector3F(x, y, z);
+  }
+
+  Matrix4F getTransformation() {
+    // Initialize translation matrix
+    Matrix4F translationMatrix = Matrix4F().translation(_translation);
+    
+    // Initialize rotation matrix
+    Matrix4F rotationMatrix = Matrix4F().rotation(_rotationAngle, _rotation);
+
+    // Initialize scaling matrix
+    Matrix4F scalingMatrix = Matrix4F().scaling(_scale);
+    
+    return translationMatrix * rotationMatrix * scalingMatrix;
+  }
+}

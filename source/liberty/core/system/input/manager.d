@@ -20,4 +20,24 @@ pragma (inline, true):
 final class Input : Singleton!Input {
   mixin(ManagerBody);
   mixin(MouseBody);
+
+  private {
+    bool[uint] _keyMap;
+  }
+
+  void pressKey(uint keyId) {
+    _keyMap[keyId] = true;
+  }
+
+  void releaseKey(uint keyId) {
+    _keyMap[keyId] = false;
+  }
+
+  bool isKeyDown(uint keyId) {
+    if (keyId in _keyMap) {
+      return _keyMap[keyId];
+    }
+
+    return false;
+  }
 }

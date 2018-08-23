@@ -28,10 +28,15 @@ package(liberty.graphics) abstract class GfxBackend {
   **/
 	void clearColor(float r, float g, float b, float a) @trusted;
 
+  /**
+   *
+  **/
+  void enable3DCapabilities() @trusted;
+
 	/**
    *
   **/
-  void render() @trusted;
+  void clearScreen() @trusted;
 
 	/**
    * Returns true if the graphics API extension is supported.

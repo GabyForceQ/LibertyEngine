@@ -58,6 +58,9 @@ final class IOManager : Singleton!IOManager {
   unittest {
     char[] buf;
     
+    IOManager.self.startService();
+    scope(exit) IOManager.self.stopService();
+
     if(!IOManager.self.readFileToBuffer("test_file.txt", buf)) {
       assert(0, "Operation failed!");
     }

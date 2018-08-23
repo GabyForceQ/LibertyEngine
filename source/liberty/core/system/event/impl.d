@@ -35,23 +35,20 @@ package(liberty.core.system) struct Event {
           );
           break;
 
+        case MouseButtonDown:
+          Input.self.pressKey(internalEvent.button.button);
+          break;
+
+        case MouseButtonUp:
+          Input.self.releaseKey(internalEvent.button.button);
+          break;
+
         case KeyDown:
-          switch(internalEvent.key.keysym.sym) {
-            case SDLK_w:
-              Vector2F pos = Logic.self.getCamera().getPosition();
-              Logic.self
-                .getCamera()
-                .setPosition(pos + Vector2F(0.0f, 0.1f));
-              break;
-            case SDLK_s:
-              Vector2F pos = Logic.self.getCamera().getPosition();
-              Logic.self
-                .getCamera()
-                .setPosition(pos + Vector2F(0.0f, -0.1f));
-              break;
-            default:
-              break;
-          }
+          Input.self.pressKey(internalEvent.key.keysym.sym);
+          break;
+          
+        case KeyUp:
+          Input.self.releaseKey(internalEvent.key.keysym.sym);
           break;
 
         default:

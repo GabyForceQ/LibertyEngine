@@ -26,7 +26,7 @@ final class Window {
     Platform _platform;
     Surface _surface;
     VideoContext _videoContext;
-    Vector2I _size = Vector2I(1280, 720);
+    Vector2I _size;
     uint _id;
     bool _surfaceNeedRenew;
   }
@@ -34,9 +34,12 @@ final class Window {
   /**
    *
   **/
-  this(Platform platform, WindowFlags flags) {
+  this(Platform platform, Vector2I size, WindowFlags flags) {
     // Bind platform to this
     _platform = platform;
+
+    // Set window size
+    _size = size;
 
     // If you use OpenGL and WindowFlags.OpenGL is not set
     // Then throw OpenGLContextNotFound error

@@ -8,6 +8,21 @@
 **/
 module liberty.graphics.vertex;
 
+import liberty.core.math.vector : Vector3F;
+
+/**
+ *
+**/
+struct Vertex3 {
+  //static immutable int Size = 3;
+  
+  Vector3F position;
+
+  //this(Vector3F position) {
+  //  _position = position;
+  //}
+}
+
 /**
  *
 **/
@@ -31,6 +46,14 @@ align(4) struct Vertex2 {
     /**
      *
     **/
+    void setPosition(float x, float y) {
+      position.x = x;
+      position.y = y;
+    }
+
+    /**
+     *
+    **/
     void setColor(byte r, ubyte g, ubyte b, ubyte a) {
       color.r = r;
       color.g = g;
@@ -44,6 +67,16 @@ align(4) struct Vertex2 {
     void setTexCoords(float u, float v) {
       texCoords.u = u;
       texCoords.v = v;
+    }
+
+    /**
+     *
+    **/
+    string toString() {
+      import std.conv : to;
+      return "Position: " ~ position.toString() ~ "; " ~
+        "Color: " ~ color.toString() ~ "; " ~
+        "TexCoords: " ~ texCoords.toString();
     }
   }
 
@@ -63,6 +96,14 @@ struct Position2 {
    *
   **/
   float y;
+
+  /**
+   *
+  **/
+  string toString() {
+    import std.conv : to;
+    return "[x: " ~ x.to!string ~ "; y: " ~ y.to!string ~ "]";
+  }
 }
 
 /**
@@ -88,6 +129,15 @@ struct Color {
    *
   **/  
   ubyte a;
+
+  /**
+   *
+  **/
+  string toString() {
+    import std.conv : to;
+    return "[r: " ~ r.to!string ~ "; g: " ~ g.to!string ~
+      "; b: " ~ b.to!string ~ "; a: " ~ a.to!string ~ "]";
+  }
 }
 
 /**
@@ -103,4 +153,12 @@ struct TexCoords {
    *
   **/
   float v;
+
+  /**
+   *
+  **/
+  string toString() {
+    import std.conv : to;
+    return "[u: " ~ u.to!string ~ "; v: " ~ v.to!string ~ "]";
+  }
 }

@@ -8,6 +8,9 @@
 **/
 module liberty.graphics.shader.gfx;
 
+import liberty.core.math.vector : Vector2F, Vector3F, Vector4F;
+import liberty.core.math.matrix : Matrix4F;
+
 /**
  *
 **/
@@ -17,15 +20,39 @@ package(liberty.graphics) abstract class GfxShaderProgram {
     uint _vertexShaderID;
     uint _fragmentShaderID;
     int _attributeCount;
+    int[string] _uniforms;
   }
 
-  /**
-   *
-  **/
-  this() @safe {
-    _programID = 0;
-    _vertexShaderID = 0;
-    _fragmentShaderID = 0;
-    _attributeCount = 0;
-  }
+  /// Load bool uniform using location id and value.
+  void loadUniform(int locationID, bool value) nothrow @trusted;
+  /// Load int uniform using location id and value.
+  void loadUniform(int locationID, int value) nothrow @trusted;
+  /// Load uint uniform using location id and value.
+  void loadUniform(int locationID, uint value) nothrow @trusted;
+  /// Load float uniform using location id and value.
+  void loadUniform(int locationID, float value) nothrow @trusted;
+  /// Load vec2 uniform using location id and value.
+  void loadUniform(int locationID, Vector2F vector) nothrow @trusted;
+  /// Load vec3 uniform using location id and value.
+  void loadUniform(int locationID, Vector3F vector) nothrow @trusted;
+  /// Load vec4 uniform using location id and value.
+  void loadUniform(int locationID, Vector4F vector) nothrow @trusted;
+  /// Load mat4 uniform using location id and value.
+  void loadUniform(int locationID, Matrix4F matrix) nothrow @trusted;
+  /// Load bool uniform using uniform name and value.
+  void loadUniform(string name, bool value) nothrow @trusted;
+  /// Load int uniform using uniform name and value.
+  void loadUniform(string name, int value) nothrow @trusted;
+  /// Load uint uniform using uniform name and value.
+  void loadUniform(string name, uint value) nothrow @trusted;
+  /// Load float uniform using uniform name and value.
+  void loadUniform(string name, float value) nothrow @trusted;
+  /// Load vec2 uniform using uniform name and value.
+  void loadUniform(string name, Vector2F vector) nothrow @trusted;
+  /// Load vec3 uniform using uniform name and value.
+  void loadUniform(string name, Vector3F vector) nothrow @trusted;
+  /// Load vec4 uniform using uniform name and value.
+  void loadUniform(string name, Vector4F vector) nothrow @trusted;
+  /// Load mat4 uniform using uniform name and value.
+  void loadUniform(string name, Matrix4F matrix) nothrow @trusted;
 }

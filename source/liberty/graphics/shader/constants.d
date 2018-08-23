@@ -26,7 +26,40 @@ enum ShaderType : ubyte {
 /**
  *
 **/
-immutable vertexColor = q{
+immutable vertex3Color = q{
+  #version 450 core
+
+  layout (location = 0) in vec3 position;
+
+  out vec4 tColor;
+
+  uniform mat4 uTransform;
+
+  void main() {
+    tColor = vec4(clamp(position, 0.0, 1.0), 1.0);
+    gl_Position = uTransform * vec4(position, 1.0);
+  }
+};
+
+/**
+ *
+**/
+immutable fragmentColor = q{
+  #version 450 core
+
+  in vec4 tColor;
+
+  out vec4 rColor;
+
+  void main() {
+    rColor = tColor;
+  }
+};
+
+/**
+ *
+**/
+immutable vertexColor1 = q{
   #version 450 core
 
   in vec2 vertexPosition;
@@ -50,7 +83,7 @@ immutable vertexColor = q{
 /**
  *
 **/
-immutable fragmentColor = q{
+immutable fragmentColor1 = q{
   #version 450 core
 
   in vec4 tColor;

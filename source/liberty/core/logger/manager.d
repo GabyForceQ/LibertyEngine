@@ -141,7 +141,7 @@ unittest {
       Logger.self.console("Test message!", typeof(this).stringof);
       Logger.self.info("Info test message!", typeof(this).stringof);
       Logger.self.warning("Warning test message!", typeof(this).stringof);
-      //Logger.self.error("Error test message!", typeof(this).stringof); -> TODO
+      Logger.self.error("Error test message!", typeof(this).stringof); -> TODO
       try {
         immutable int x = 5;
         if (x == 5) {

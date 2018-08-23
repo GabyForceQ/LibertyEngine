@@ -35,9 +35,7 @@ final class Logic : Singleton!Logic {
     float _elapsedTime = 0.0f;
     //float _framesPerSecond = 0.0f;
     Viewport _viewport;
-
-    //
-    Camera2D _camera = new Camera2D();
+    Camera2D _camera;
   }
 
   /**
@@ -45,6 +43,7 @@ final class Logic : Singleton!Logic {
   **/
   this() {
     _viewport = new Viewport(this);
+    _camera = new Camera2D();
   }
 
   /**

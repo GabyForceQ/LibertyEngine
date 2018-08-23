@@ -60,7 +60,7 @@ enum InfoMessage : string {
 
 /**
  * 
- */
+**/
 enum WarningMessage : string {
   /**
    * 

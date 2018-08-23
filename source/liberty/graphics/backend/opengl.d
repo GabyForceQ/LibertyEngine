@@ -14,6 +14,8 @@ import derelict.opengl :
   glGetString, glGetStringi, glGetIntegerv,
   glClearDepth, glClear, glGetError,
   glGetFloatv, glActiveTexture, glClearColor,
+  glEnable, glFrontFace, glCullFace,
+  GL_BACK, GL_CULL_FACE, GL_DEPTH_TEST, GL_CW,
   GL_NUM_EXTENSIONS, GL_EXTENSIONS, 
   GL_MAX_COLOR_ATTACHMENTS, GL_NO_ERROR,
   GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT,
@@ -74,7 +76,21 @@ final class GLBackend : GfxBackend {
   /**
    *
   **/
-  override void render() @trusted {
+  override void enable3DCapabilities() @trusted {
+    glFrontFace(GL_CW);
+    glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+
+    //todo: depth clamp.
+
+    //glEnable(GL_FRAMEBUFFER_SRGB);
+  }
+
+  /**
+   *
+  **/
+  override void clearScreen() @trusted {
     glClearDepth(1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }

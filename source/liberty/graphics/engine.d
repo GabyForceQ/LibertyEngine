@@ -52,30 +52,30 @@ final class GraphicsEngine : Singleton!GraphicsEngine {
    *
   **/
 	void render() @trusted {
-    _backend.render();
+    _backend.clearScreen();
 
     // EXPERIMENTS
-    Renderer.self._colorProgram.use();
+    Renderer.self._colorProgram.bind();
 
-    int textureLocation = Renderer.self._colorProgram.getUniformLocation("uTexture");
-    glUniform1i(textureLocation, 0);
+    //int textureLocation = Renderer.self._colorProgram.getUniformLocation("uTexture");
+    //glUniform1i(textureLocation, 0);
 
     //uint timeLocation = Renderer.self._colorProgram.getUniformLocation("uTime");
     //glUniform1f(timeLocation, Logic.self.elapsedTime * 10);
 
     // Set the camera matrix
-    import liberty.core.math.matrix;
+    //import liberty.core.math.matrix;
 
-    int orthoLocation = Renderer.self._colorProgram.getUniformLocation("uOrthoProjection");
-    Matrix4F cameraMatrix = Logic.self.getCamera().getCameraMatrix();
-    glUniformMatrix4fv(orthoLocation, 1, GL_FALSE, cameraMatrix.ptr);
+    //int orthoLocation = Renderer.self._colorProgram.getUniformLocation("uOrthoProjection");
+    //Matrix4F cameraMatrix = Logic.self.getCamera().getCameraMatrix();
+    //glUniformMatrix4fv(orthoLocation, 1, GL_TRUE, cameraMatrix.ptr);
 
     Logic.self
       .getViewport()
       .getActiveScene()
       .render();
     
-    glBindTexture(GL_TEXTURE_2D, 0);
-    Renderer.self._colorProgram.unuse();
+    //glBindTexture(GL_TEXTURE_2D, 0);
+    Renderer.self._colorProgram.unbind();
 	}
 }

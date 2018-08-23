@@ -10,6 +10,7 @@ module liberty.world.components;
 
 public {
   import liberty.world.components.material;
+  import liberty.world.components.mesh;
   import liberty.world.components.meta;
   import liberty.world.components.sprite;
   import liberty.world.components.transform;

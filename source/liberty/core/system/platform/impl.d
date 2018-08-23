@@ -21,6 +21,7 @@ import liberty.core.logger.meta : ExceptionConstructor;
 import liberty.core.system.window : Window;
 import liberty.core.system.video.renderer : Renderer;
 import liberty.core.system.window.wrapper.constants : WindowFlags;
+import liberty.core.math.vector : Vector2I;
 
 /**
  * A failing Platform function should <b>always</b> throw a $(D PlatformException).
@@ -53,7 +54,7 @@ final class Platform : Singleton!Platform {
       Renderer.self.initGLContext(4, 5);
 
       // Create main window
-      _window = new Window(this, WindowFlags.OpenGL);
+      _window = new Window(this, Vector2I(1600, 900), WindowFlags.OpenGL);
 
       // Reload video context
       Renderer.self.reloadGLContext();

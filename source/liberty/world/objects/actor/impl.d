@@ -7,3 +7,38 @@
  * Coverage:
 **/
 module liberty.world.objects.actor.impl;
+
+import liberty.core.logger.manager : Logger;
+import liberty.world.objects.node.impl : WorldObject;
+
+/**
+ * An actor has action mapping implemented.
+**/
+abstract class Actor : WorldObject {
+  /**
+   *
+  **/
+  this(string id, WorldObject parent) {
+    super(id, parent);
+  }
+}
+
+/**
+ *
+**/
+abstract class UniqueActor : Actor {
+  private static bool hasInstance;
+  /**
+   *
+  **/
+  this(string id, WorldObject parent) {
+    if (this.hasInstance) {
+      Logger.self.error(
+        "Cannot have multiple instances", 
+        typeof(this).stringof
+      );
+    }
+    super(id, parent);
+    this.hasInstance = true;
+  }
+}
