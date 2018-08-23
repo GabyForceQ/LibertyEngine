@@ -2,7 +2,7 @@
 ##### Description:
 A powerful 2D/3D engine written in the D programming language!
 
-##### Release notes (v0.0.15) (Release date: 2018-Sep-08)
+##### Release notes (v0.0.15) (Release date: 2018-Sep-??)
 * New project structure
 * Added more manager classes: IOManager, ResourceManager..
 * Cached textures
