@@ -107,15 +107,19 @@ final class Logger : Singleton!Logger {
       if (_serviceRunning) {
         final switch (type) with (LogType) {
           case Info:
+            debug writeln(st.toISOExtString() ~ " -> LOG_INFO: " ~ message);
             file.writeln(st.toISOExtString() ~ " -> LOG_INFO: " ~ message);
             break;
           case Warning:
+            debug writeln(st.toISOExtString() ~ " -> LOG_WARNING: " ~ message);
             file.writeln(st.toISOExtString() ~ " -> LOG_WARNING: " ~ message);
             break;
           case Error:
+            debug writeln(st.toISOExtString() ~ " -> LOG_ERROR: " ~ message);
             file.writeln(st.toISOExtString() ~ " -> LOG_ERROR: " ~ message);
             break;
           case Exception:
+            debug writeln(st.toISOExtString() ~ " -> LOG_EXCEPTION: " ~ message);
             file.writeln(st.toISOExtString() ~ " -> LOG_EXCEPTION: " ~ message);
             break;
           case Debug:
@@ -123,6 +127,7 @@ final class Logger : Singleton!Logger {
             debug file.writeln(st.toISOExtString() ~ " -> LOG_DEBUG: " ~ message);
             break;
           case Todo:
+            debug writeln(st.toISOExtString() ~ " -> LOG_TODO: " ~ message);
             file.writeln(st.toISOExtString() ~ " -> LOG_TODO: " ~ message);
             break;
         }
@@ -141,7 +146,7 @@ unittest {
       Logger.self.console("Test message!", typeof(this).stringof);
       Logger.self.info("Info test message!", typeof(this).stringof);
       Logger.self.warning("Warning test message!", typeof(this).stringof);
-      Logger.self.error("Error test message!", typeof(this).stringof); -> TODO
+      Logger.self.error("Error test message!", typeof(this).stringof);
       try {
         immutable int x = 5;
         if (x == 5) {

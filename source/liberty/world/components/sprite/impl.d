@@ -8,6 +8,8 @@
 **/
 module liberty.world.components.sprite.impl;
 
+version (none) :
+
 import derelict.opengl;
 import derelict.sdl2.sdl;
 
@@ -19,7 +21,7 @@ import liberty.core.math;
 import liberty.core.image.bitmap : Bitmap;
 import liberty.graphics.texture.data : Texture;
 import liberty.core.system.resource.manager : ResourceManager;
-import liberty.core.system.input.manager : Input;
+import liberty.core.system.input.manager;
 
 class Sprite {
 
@@ -42,7 +44,7 @@ class Sprite {
     if (_vaoID != 0) {
       glDeleteBuffers(1, &_vaoID);
     }
-    glDeleteTextures(1, &_texture.id);
+    _texture.deleteTextures();
   }
 
   void initialize(float x, float y, float width, float height, string texturePath) {
@@ -76,7 +78,7 @@ class Sprite {
 
   void render() {
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _texture.id);
+    glBindTexture(GL_TEXTURE_2D, _texture.getId());
 
     // Bind the buffer object
     glBindBuffer(GL_ARRAY_BUFFER, _vboID);
@@ -169,19 +171,19 @@ class Camera2D {
   }
 
   void update() {
-    if (Input.self.isKeyDown(SDLK_w)) {
+    if (Input.self.isKeyHold(KeyCode.W)) {
       setPosition(Vector2F.up);
     }
         
-    if (Input.self.isKeyDown(SDLK_s)) {
+    if (Input.self.isKeyHold(KeyCode.S)) {
       setPosition(Vector2F.down);
     }
 
-    if (Input.self.isKeyDown(SDLK_a)) {
+    if (Input.self.isKeyHold(KeyCode.A)) {
       setPosition(Vector2F.left);
     }
 
-    if (Input.self.isKeyDown(SDLK_d)) {
+    if (Input.self.isKeyHold(KeyCode.D)) {
       setPosition(Vector2F.right);
     }
   }

@@ -24,162 +24,206 @@ class GLShaderProgram : GfxShaderProgram {
   /**
    *
   **/
-  void bind() {
-    glUseProgram(_programID);
-    //foreach (i; 0.._attributeCount) {
-    //  glEnableVertexAttribArray(i);
-    //}
+  override void bind() {
+    glUseProgram(this.programID);
+    foreach (i; 0..this.attributeCount) {
+      glEnableVertexAttribArray(i);
+    }
   }
 
   /**
    *
   **/
-  void unbind() {
+  override void unbind() {
     glUseProgram(0);
-    //foreach (i; 0.._attributeCount) {
-    //  glDisableVertexAttribArray(i);
-    //}
+    foreach (i; 0..this.attributeCount) {
+      glDisableVertexAttribArray(i);
+    }
   }
 
   /**
    *
   **/
-  void addAttribute(string name) {
+  override void addAttribute(string name) {
     import std.string : toStringz;
-    glBindAttribLocation(_programID, _attributeCount++, name.toStringz);
+    glBindAttribLocation(this.programID, this.attributeCount++, name.toStringz);
   }
 
   /**
    *
   **/
-  void compileShaders(string vertexShader, string fragmentShader) {
+  override void compileShaders(string vertexShader, string fragmentShader) {
     // Create program
-    _programID = glCreateProgram();
+    this.programID = glCreateProgram();
     
     // Load shaders
-    _vertexShaderID = loadShader(vertexShader, ShaderType.Vertex);
-    _fragmentShaderID = loadShader(fragmentShader, ShaderType.Fragment);
+    this.vertexShaderID = loadShader(vertexShader, ShaderType.Vertex);
+    this.fragmentShaderID = loadShader(fragmentShader, ShaderType.Fragment);
   }
 
   /**
    *
   **/
-  void linkShaders() {
+  override void linkShaders() {
     // Attach shaders to program
-    glAttachShader(_programID, _vertexShaderID);
-    glAttachShader(_programID, _fragmentShaderID);
+    glAttachShader(this.programID, this.vertexShaderID);
+    glAttachShader(this.programID, this.fragmentShaderID,);
 
     // Link program
-    glLinkProgram(_programID);
+    glLinkProgram(this.programID);
 
     // Check program link
     GLint isLinked;
-    glGetProgramiv(_programID, GL_LINK_STATUS, cast(int*)&isLinked);
+    glGetProgramiv(this.programID, GL_LINK_STATUS, cast(int*)&isLinked);
     if (isLinked == GL_FALSE) {
       // Get error information
       GLint maxLength;
-      glGetProgramiv(_programID, GL_INFO_LOG_LENGTH, &maxLength);
+      glGetProgramiv(this.programID, GL_INFO_LOG_LENGTH, &maxLength);
       char[] errorLog = new char[maxLength];
-      glGetShaderInfoLog(_programID, maxLength, &maxLength, errorLog.ptr);
+      glGetShaderInfoLog(this.programID, maxLength, &maxLength, errorLog.ptr);
 
       // Delete program
-      glDeleteProgram(_programID);
+      glDeleteProgram(this.programID);
 
       // Delete shaders too
-      glDeleteShader(_vertexShaderID);
-      glDeleteShader(_fragmentShaderID);
+      glDeleteShader(this.vertexShaderID);
+      glDeleteShader(this.fragmentShaderID,);
 
       // Log the error
       Logger.self.error("Failed to link shaders", typeof(this).stringof);
     }
 
     // Detach shaders after a successful link
-    glDetachShader(_programID, _vertexShaderID);
-    glDetachShader(_programID, _fragmentShaderID);
+    glDetachShader(this.programID, this.vertexShaderID);
+    glDetachShader(this.programID, this.fragmentShaderID,);
 
     // Delete shaders. We don't need them anymore because they are linked
-    glDeleteShader(_vertexShaderID);
-    glDeleteShader(_fragmentShaderID);
+    glDeleteShader(this.vertexShaderID);
+    glDeleteShader(this.fragmentShaderID,);
   }
 
   /**
    *
   **/
-  void addUniform(string name) {
+  override void addUniform(string name) {
     import std.string : toStringz;
-    immutable location = glGetUniformLocation(_programID, name.toStringz);
+    immutable location = glGetUniformLocation(this.programID, name.toStringz);
     if (location == GL_INVALID_INDEX) {
       Logger.self.error("Could not find uniform: " ~ name, typeof(this).stringof);
     }
-    _uniforms[name] = location;
+    this.uniforms[name] = location;
   }
 
   /**
-   *
+   * Load bool uniform using location id and value.
   **/
-  /// Load bool uniform using location id and value.
   override void loadUniform(int locationID, bool value) nothrow @trusted {
     glUniform1i(locationID, cast(int)value);
   }
-  /// Load int uniform using location id and value.
+
+  /**
+   * Load int uniform using location id and value.
+  **/
   override void loadUniform(int locationID, int value) nothrow @trusted {
     glUniform1i(locationID, value);
   }
-  /// Load uint uniform using location id and value.
+
+  /**
+   * Load uint uniform using location id and value.
+  **/
   override void loadUniform(int locationID, uint value) nothrow @trusted {
     glUniform1ui(locationID, value);
   }
-  /// Load float uniform using location id and value.
+
+  /**
+   * Load float uniform using location id and value.
+  **/
   override void loadUniform(int locationID, float value) nothrow @trusted {
     glUniform1f(locationID, value);
   }
-  /// Load Vector2F uniform using location id and value.
+
+  /**
+   * Load Vector2F uniform using location id and value.
+  **/
   override void loadUniform(int locationID, Vector2F vector) nothrow @trusted {
     glUniform2f(locationID, vector.x, vector.y);
   }
-  /// Load Vector3F uniform using location id and value.
+
+  /**
+   * Load Vector3F uniform using location id and value.
+  **/
   override void loadUniform(int locationID, Vector3F vector) nothrow @trusted {
     glUniform3f(locationID, vector.x, vector.y, vector.z);
   }
-  /// Load Vector4F uniform using location id and value.
+
+  /**
+   * Load Vector4F uniform using location id and value.
+  **/
   override void loadUniform(int locationID, Vector4F vector) nothrow @trusted {
     glUniform4f(locationID, vector.x, vector.y, vector.z, vector.w);
   }
-  /// Load Matrix4F uniform using location id and value.
+
+  /**
+   * Load Matrix4F uniform using location id and value.
+  **/
   override void loadUniform(int locationID, Matrix4F matrix) nothrow @trusted {
     //glUniform4fv(locationID, matrix.ptr); // TODO?
   }
-  /// Load bool uniform using uniform name and value.
+
+  /**
+   * Load bool uniform using uniform name and value.
+  **/
   override void loadUniform(string name, bool value) nothrow @trusted {
-    glUniform1i(glGetUniformLocation(_programID, cast(const(char)*)name), cast(int)value);
+    glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), cast(int)value);
   }
-  /// Load int uniform using uniform name and value.
+
+  /**
+   * Load int uniform using uniform name and value.
+  **/
   override void loadUniform(string name, int value) nothrow @trusted {
-    glUniform1i(glGetUniformLocation(_programID, cast(const(char)*)name), value);
+    glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
   }
-  /// Load uint uniform using uniform name and value.
+
+  /**
+   * Load uint uniform using uniform name and value.
+  **/
   override void loadUniform(string name, uint value) nothrow @trusted {
-    glUniform1ui(glGetUniformLocation(_programID, cast(const(char)*)name), value);
+    glUniform1ui(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
   }
-  /// Load float uniform using uniform name and value.
+
+  /**
+   * Load float uniform using uniform name and value.
+  **/
   override void loadUniform(string name, float value) nothrow @trusted {
-    glUniform1f(_uniforms[name], value);
+    glUniform1f(this.uniforms[name], value);
   }
-  /// Load Vector2F uniform using uniform name and value.
+
+  /**
+   * Load Vector2F uniform using uniform name and value.
+  **/
   override void loadUniform(string name, Vector2F vector) nothrow @trusted {
-    glUniform2f(glGetUniformLocation(_programID, cast(const(char)*)name), vector.x, vector.y);
+    glUniform2f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y);
   }
-  /// Load Vector3F uniform using uniform name and value.
+
+  /**
+   * Load Vector3F uniform using uniform name and value.
+  **/
   override void loadUniform(string name, Vector3F vector) nothrow @trusted {
-    glUniform3f(glGetUniformLocation(_programID, cast(const(char)*)name), vector.x, vector.y, vector.z);
+    glUniform3f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z);
   }
-  /// Load Vector4F uniform using uniform name and value.
+
+  /**
+   * Load Vector4F uniform using uniform name and value.
+  **/
   override void loadUniform(string name, Vector4F vector) nothrow @trusted {
-    glUniform4f(glGetUniformLocation(_programID, cast(const(char)*)name), vector.x, vector.y, vector.z, vector.w);
+    glUniform4f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z, vector.w);
   }
-  /// Load Matrix4F uniform using uniform name and value.
+
+  /**
+   * Load Matrix4F uniform using uniform name and value.
+  **/
   override void loadUniform(string name, Matrix4F matrix) nothrow @trusted {
-    glUniformMatrix4fv(glGetUniformLocation(_programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
+    glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
   }
 
   private uint loadShader(string shaderCode, ShaderType type) {

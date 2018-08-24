@@ -55,7 +55,27 @@ enum InfoMessage : string {
   /**
    * 
   **/
-  ServiceStopped = "Service stopped successfully!"
+  ServiceStopped = "Service stopped successfully!",
+
+  /**
+   *
+  **/
+  Creating = "Creating..",
+
+  /**
+   *
+  **/
+  Created = "Created",
+
+  /**
+   *
+  **/
+  Destroying = "Destroying..",
+
+  /**
+   *
+  **/
+  Destroyed = "Destroyed"
 }
 
 /**

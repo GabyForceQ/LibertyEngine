@@ -8,6 +8,8 @@
 **/
 module liberty.world.components.sprite.types;
 
+version (none):
+
 import liberty.graphics.vertex : Vertex2;
 
 /**

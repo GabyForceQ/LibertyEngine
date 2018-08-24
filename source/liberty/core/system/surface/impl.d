@@ -17,7 +17,7 @@ import liberty.core.system.constants : Owned;
 import liberty.core.system.platform : Platform;
 import liberty.core.system.surface.wrapper.util : SurfaceUtil;
 import liberty.core.logger.manager : Logger;
-import liberty.graphics.vertex : Color;
+import liberty.graphics.color : Color;
 
 /**
  *

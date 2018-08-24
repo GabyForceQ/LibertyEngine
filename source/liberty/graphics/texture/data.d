@@ -8,22 +8,36 @@
 **/
 module liberty.graphics.texture.data;
 
+import derelict.opengl;
+
 /**
  *
 **/
 struct Texture {
-  /**
-   *
-  **/
-  uint id;
+  private {
+    uint _id;
+  }
+  
+  uint width;
+  uint height;
 
-  /**
-   *
-  **/
-  int width;
+  this(uint id) {
+    _id = id;
+  }
 
-  /**
-   *
-  **/
-  int height;
+  void generateTextures() {
+    glGenTextures(1, &_id);
+  }
+
+  void deleteTextures() {
+    glDeleteTextures(1, &_id);
+  }
+
+  void bind() {
+    glBindTexture(GL_TEXTURE_2D, _id);
+  }
+
+  int getId() {
+    return _id;
+  }
 }

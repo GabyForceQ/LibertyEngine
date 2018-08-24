@@ -13,12 +13,26 @@ import liberty.core.manager.meta : ManagerBody;
 
 import liberty.graphics.backend.gfx : GfxBackend;
 import liberty.graphics.backend.opengl : GLBackend;
+import liberty.graphics.shader.gfx : GfxShaderProgram;
+import liberty.graphics.shader.opengl : GLShaderProgram;
+import liberty.graphics.shader.constants;
+
+import liberty.core.system.window : Window;
 
 // test
 import liberty.core.system.engine : CoreEngine;
-import liberty.core.system.video.renderer : Renderer;
-import liberty.core.system.logic : Logic;
+import liberty.core.system.viewport : Viewport;
 import derelict.opengl;
+
+import derelict.sdl2.sdl :
+  SDL_GL_CONTEXT_MAJOR_VERSION,
+  SDL_GL_CONTEXT_MINOR_VERSION,
+  SDL_GL_CONTEXT_PROFILE_MASK,
+  SDL_GL_CONTEXT_PROFILE_CORE,
+  SDL_GL_DOUBLEBUFFER,
+  SDL_GL_SetAttribute,
+  SDL_GL_SwapWindow,
+  SDL_GL_SetSwapInterval;
 
 /**
  *
@@ -26,56 +40,109 @@ import derelict.opengl;
 final class GraphicsEngine : Singleton!GraphicsEngine {
   mixin(ManagerBody);
 
-  private {
-    GfxBackend _backend;
-  }
+  //private {
+    Window window;
+    GfxBackend backend;
+    GfxShaderProgram shaderProgram;
+  //}
 
 	private static immutable startBody = q{
-		version (__OpenGL__) {
-      _backend = new GLBackend();
-    }
+    // Create graphics backend
+    this.backend = new GLBackend();
 	};
 
   private static immutable stopBody = q{
-    _backend.destroy();
-    _backend = null;
+    this.backend.destroy();
+    this.backend = null;
   };
+
+  void attachWindow(Window window) {
+    this.window = window;
+  }
 
   /**
    *
   **/
   GfxBackend getBackend() {
-    return _backend;
+    return this.backend;
+  }
+
+  /**
+   *
+  **/
+  void initShaders() {
+    // Create the main shader
+    this.shaderProgram = new GLShaderProgram();
+    this.shaderProgram.compileShaders(VertexColor, FragmentColor);
+    this.shaderProgram.addAttribute("lPosition");
+    this.shaderProgram.addAttribute("lTexCoord");
+    this.shaderProgram.linkShaders();
+    this.shaderProgram.addUniform("uModel");
+    this.shaderProgram.addUniform("uView");
+    this.shaderProgram.addUniform("uProjection");
+    this.shaderProgram.addUniform("uTextureSampler");
+    this.shaderProgram.addUniform("uColor");
   }
 
   /**
    *
   **/
 	void render() @trusted {
-    _backend.clearScreen();
+    this.backend.clearScreen();
 
     // EXPERIMENTS
-    Renderer.self._colorProgram.bind();
+    this.shaderProgram.bind();
 
-    //int textureLocation = Renderer.self._colorProgram.getUniformLocation("uTexture");
-    //glUniform1i(textureLocation, 0);
-
-    //uint timeLocation = Renderer.self._colorProgram.getUniformLocation("uTime");
-    //glUniform1f(timeLocation, Logic.self.elapsedTime * 10);
-
-    // Set the camera matrix
-    //import liberty.core.math.matrix;
-
-    //int orthoLocation = Renderer.self._colorProgram.getUniformLocation("uOrthoProjection");
-    //Matrix4F cameraMatrix = Logic.self.getCamera().getCameraMatrix();
-    //glUniformMatrix4fv(orthoLocation, 1, GL_TRUE, cameraMatrix.ptr);
-
-    Logic.self
+    CoreEngine.self
       .getViewport()
-      .getActiveScene()
+      .getScene()
       .render();
     
-    //glBindTexture(GL_TEXTURE_2D, 0);
-    Renderer.self._colorProgram.unbind();
+    glBindTexture(GL_TEXTURE_2D, 0);
+    this.shaderProgram.unbind();
+
+    SDL_GL_SwapWindow(this.window.getHandle());
 	}
+
+  /**
+   *
+  **/
+  void reloadGLContext() {
+      GraphicsEngine.self.getBackend().reloadContext();
+      GraphicsEngine.self.getBackend().clearColor(0.0f, 0.0f, 1.0f, 1.0f);
+      GraphicsEngine.self.getBackend().enable3DCapabilities();
+  }
+
+  /**
+   *
+  **/
+  void initGLContext(int majorVersion, int minorVersion) @trusted {
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, majorVersion);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, minorVersion);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  }
+
+  /**
+   *
+  **/
+  void enableVSync() {
+    SDL_GL_SetSwapInterval(1);
+  }
+
+  /**
+   *
+  **/
+  void disableVSync() {
+    SDL_GL_SetSwapInterval(0);
+  }
+
+  /**
+   *
+  **/
+  void enableAlphaBlend() {
+    import derelict.opengl;
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  }
 }

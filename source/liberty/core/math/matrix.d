@@ -11,6 +11,10 @@ import liberty.core.math.vector : Vector;
 import liberty.core.math.traits : isMatrixInstance;
 import liberty.config : __RowMajor__, __ColumnMajor__;
 import std.traits : isFloatingPoint;
+
+import liberty.core.math.functions;
+import liberty.core.math.vector;
+
 ///
 enum MatrixOrder : ubyte {
 	///
@@ -617,6 +621,24 @@ struct Matrix(T, ubyte R, ubyte C = R, MatrixOrder O = CurrentMatrixOrder) if (R
 				Vector!(T, 3) Y = cross(Z, -X);
 				return Matrix(-X.x, -X.y, -X.z, dot(X, eye), Y.x, Y.y, Y.z, -dot(Y, eye), Z.x, Z.y, Z.z, -dot(Z, eye), 0, 0, 0, 1);
 			}
+      /// Returns camera projection
+      static Matrix camera(Vector!(T, 3) forward, Vector!(T, 3) up) {
+        Vector!(T, 3) f = forward;
+        f.normalize();
+
+        Vector!(T, 3) r = up;
+        r.normalize();
+        r = r.cross(f);
+
+        Vector!(T, 3) u = f.cross(r);
+        
+        return Matrix(
+          r.x, r.y, r.z, 0.0f,
+          u.x, u.y, u.z, 0.0f,
+          f.x, f.y, f.z, 0.0f,
+          0.0f, 0.0f, 0.0f, 1.0f
+        );
+      }
 			///
 			pure nothrow @safe unittest {
 			}

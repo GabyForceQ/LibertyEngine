@@ -9,15 +9,64 @@ mixin(EngineRun);
 void libertyMain() {
   auto a = new Scene("DefaultScene");
 
-  Logic.self
+  CoreEngine.self
     .getViewport()
-    .getActiveScene()
+    .getScene()
     .getTree()
     .spawn!Player("player", true);
     
-  Renderer.self.enableVSync();
-  Renderer.self.enableAlphaBlend();
+  GraphicsEngine.self.enableVSync();
+  GraphicsEngine.self.enableAlphaBlend();
+
 }
+
+final class Player : Actor, IRenderable {
+	mixin(NodeBody);
+
+  Material material;
+  Mesh mesh;
+
+	override void start() {
+		spawn!Camera("Camera").setPosition(1.0f, 1.0f, 5.0f);
+		getScene().setActiveCamera(child!Camera("Camera"));
+    
+    material = new Material(Texture(), Vector3F(0.3f, 0.5f, 0.2f));
+    material.texture = ResourceManager.self.getTexture("res/textures/texture_demo.bmp");
+
+    mesh = new Mesh();
+    Vertex[] data = [
+      Vertex(Vector3F(-1, -1, 0), Vector2F(0, 0)),
+      Vertex(Vector3F( 0,  1, 0), Vector2F(0.5f, 0)),
+      Vertex(Vector3F( 1, -1, 0), Vector2F(1, 0)),
+      Vertex(Vector3F( 0, -1, 1), Vector2F(0.5f, 1.0f))
+    ];
+    int[] indices = [
+      3, 1, 0,
+      2, 1, 3,
+      0, 1, 2,
+      0, 2, 3
+    ];
+    mesh.addVertices(data, indices);
+	}
+
+	override void update(in float deltaTime) {
+		
+	}
+
+  void render() {
+    material.texture.bind();
+
+    GraphicsEngine.self.shaderProgram.loadUniform("model", transform.modelMatrix);
+    GraphicsEngine.self.shaderProgram.loadUniform("uProjection", getScene().getActiveCamera().getProjection());
+    GraphicsEngine.self.shaderProgram.loadUniform("uView", getScene().getActiveCamera().getView());
+    
+    GraphicsEngine.self.shaderProgram.loadUniform("uColor", material.color);
+    mesh.render();
+  }
+}
+
+
+/*
 
 final class Player : UniqueActor, IRenderable {
   mixin(NodeBody);
@@ -25,195 +74,54 @@ final class Player : UniqueActor, IRenderable {
   Transform transform;
   float temp = 0.0f;
   Mesh mesh;
+  Camera camera;
+  Material material;
 
   override void start() {
+    material = new Material(Texture(), Vector3F(0.3f, 0.5f, 0.2f));
+    material.texture = ResourceManager.self.getTexture("res/textures/texture_demo.bmp");
+
     mesh = new Mesh();
-    Vertex3[] data = [
-      Vertex3(Vector3F(-1, -1, 0)),
-      Vertex3(Vector3F( 0,  1, 0)),
-      Vertex3(Vector3F( 1, -1, 0)),
-      Vertex3(Vector3F( 0, -1, 1))
+    Vertex[] data = [
+      Vertex(Vector3F(-1, -1, 0), Vector2F(0, 0)),
+      Vertex(Vector3F( 0,  1, 0), Vector2F(0.5f, 0)),
+      Vertex(Vector3F( 1, -1, 0), Vector2F(1, 0)),
+      Vertex(Vector3F( 0, -1, 1), Vector2F(0.5f, 1.0f))
     ];
     int[] indices = [
-      0, 1, 3,
-      3, 1, 2,
-      2, 1, 0,
+      3, 1, 0,
+      2, 1, 3,
+      0, 1, 2,
       0, 2, 3
     ];
     mesh.addVertices(data, indices);
+
+    camera = new Camera("DefCamera", this);
+
+    //mesh = ResourceManager.self.loadMesh("res/models/box.obj");
+    //camera.setProjection(70.0f, 1600, 900, 0.1f, 1000.0f);
+    //transform.setCamera(camera);
   }
 
   override void update(in float deltaTime) {
+    camera.update(deltaTime);
     temp += deltaTime;
-    transform.setTranslation(sin(temp), 0, 0);
-    transform.setRotationAngle(radians(sin(temp) * 180.0f));
-    transform.setRotation(0, 1, 0);
-    transform.setScale(sin(temp), sin(temp), sin(temp));
+    transform.setTranslation(sin(temp), 0, -5);
+    //transform.setRotationAngle(radians(sin(temp) * 180.0f));
+    //transform.setRotation(0, 1, 0);
+    //transform.setScale(0.7 * sin(temp), 0.7 * sin(temp), 0.7 * sin(temp));
   }
 
   void render() {
-    Renderer.self._colorProgram.loadUniform("uTransform", transform.getTransformation());
+    material.texture.bind();
+
+    Renderer.self._colorProgram.loadUniform("model", transform.modelMatrix);
+    Renderer.self._colorProgram.loadUniform("uProjection", camera.getProjection());
+    Renderer.self._colorProgram.loadUniform("uView", camera.getView());
+    
+    Renderer.self._colorProgram.loadUniform("uColor", material.color);
+
     mesh.render();
-  }
-}
-
-/*
-
-///
-class Bullet {
-  private {
-    int _lifeTime;
-    float _speed;
-    Vector2F _direction;
-    Vector2F _position;
-    Sprite sprite;
-  }
-
-  ~this() {
-    sprite.destroy();
-  }
-
-  int getLifeTime() { return _lifeTime; }
-
-  static void removeExpired(ref Bullet[] bullets) {
-    import std.algorithm.mutation : remove;
-
-    bool noExpired = true;
-    while (noExpired) {
-      foreach(i, b; bullets) {
-        if (!b.getLifeTime()) {
-          bullets = bullets.remove(i);
-          b.destroy();
-          break;
-        }
-      }
-      noExpired = false;
-    }
-  }
-
-  void start() {
-    sprite = new Sprite();
-    sprite.initialize(0.0f, 0.0f, 40.0f, 40.0f, "res/textures/texture_demo.bmp");
-  }
-
-  void update() {
-    _position += _direction * _speed;
-    _lifeTime--;
-  }
-
-  void initialize(
-    Vector2F position, 
-    Vector2F direction, 
-    float speed,
-    int lifeTime
-  ) {
-    _position = position;
-    _direction = direction;
-    _speed = speed;
-    _lifeTime = lifeTime;
-  }
-
-  void render() {
-    sprite.initialize(_position.x, _position.y, 40.0f, 40.0f, "res/textures/texture_demo.bmp");
-    sprite.render();
-  }
-}
-
-///
-final class Player : UniqueActor, IRenderable {
-  mixin(NodeBody);
-  ///
-  int lives = 6;
-
-  float i = 0.0f;
-
-  ///////////////////
-  Sprite player;
-  Sprite[5] tiles;
-  ///////////////////
-
-  ///
-  SpriteBatch spriteBatch = new SpriteBatch();
-
-  Bullet[] bullets;
-
-  ///
-  override void start() {
-  ///////////////////
-    player = new Sprite();
-    player.initialize(0.0f, 0.0f, 100.0f, 100.0f, "res/textures/texture_demo.bmp");
-    foreach (i; 0..5) {
-      tiles[i] = new Sprite();
-      tiles[i].initialize(i * 100.0f, 100.0f, 100.0f, 100.0f, "res/textures/texture_demo.bmp");
-    }
-  ///////////////////
-  
-    //spriteBatch.initialize();
-  }
-
-  ///
-  override void update(in float deltaTime) {
-    if (Input.self.isKeyDown(SDLK_LEFT)) {
-      player.initialize(0.0f + --(--(--i)), 0.0f, 100.0f, 100.0f, "res/textures/texture_demo.bmp");
-    }
-
-    if (Input.self.isKeyDown(SDLK_RIGHT)) {
-      player.initialize(0.0f + ++(++(++i)), 0.0f, 100.0f, 100.0f, "res/textures/texture_demo.bmp");
-    }
-
-    if (Input.self.isKeyDown(SDL_BUTTON_LEFT)) {
-      Vector2F mouseCoords = Vector2F(
-        cast(float)Input.self.mousePosition().x,
-        cast(float)Input.self.mousePosition().y,
-      );
-      mouseCoords = Logic.self.getCamera().getWorldCoordsFromScreen(mouseCoords);
-
-      Vector2F playerPos = Vector2F.zero;
-      Vector2F direction = mouseCoords - playerPos;
-      direction.normalize();
-
-      auto bul = new Bullet();
-      bul.initialize(playerPos, direction, 5.0f, 100);
-      bul.start();
-      bullets ~= bul;
-    }
-
-    foreach (b; bullets) {
-      b.update();
-    }
-
-    Bullet.removeExpired(bullets);
-  }
-
-  ///
-  void render() {
-  ///////////////////
-    player.render();
-    foreach (i; 0..5) {
-      tiles[i].render();
-    }
-  ///////////////////
-    foreach (b; bullets) {
-      b.render();
-    }
-    
-    
-    spriteBatch.begin();
-
-    Vector4F position = Vector4F(50.0f, 50.0f, 300.0f, 300.0f);
-    Vector4F uv = Vector4F(0.0f, 0.0f, 1.0f, 1.0f);
-    Texture texture = ResourceManager.self.
-      getTexture("res/textures/texture_demo.bmp");
-    Color color;
-    color.r = 255;
-    color.g = 255;
-    color.b = 255;
-    color.a = 255;
-
-    spriteBatch.draw(position, uv, texture.id, 0.0f, color);
-
-    spriteBatch.end();
-    spriteBatch.render();
   }
 }
 

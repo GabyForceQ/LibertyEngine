@@ -36,10 +36,10 @@ final class ImageLoader : Singleton!ImageLoader {
       auto bitmap = new Bitmap(resourcePath);
 
       // Generate OpenGL texture
-      glGenTextures(1, &texture.id);
+      texture.generateTextures();
 
       // Bind the texture
-      glBindTexture(GL_TEXTURE_2D, texture.id);
+      glBindTexture(GL_TEXTURE_2D, texture.getId());
       glTexImage2D(
         GL_TEXTURE_2D, 
         0, 

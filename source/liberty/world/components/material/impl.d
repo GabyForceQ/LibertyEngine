@@ -10,16 +10,24 @@ module liberty.world.components.material.impl;
 
 import liberty.world.components.meta : Component;
 
+import liberty.graphics.texture : Texture;
+import liberty.core.math.vector : Vector3F;
+
 /**
  *
 **/
 @Component
 class Material {
+  //private {
+    Texture texture;
+    Vector3F color;
+  //}
   /**
    *
   **/
-  this() {
-
+  this(Texture texture, Vector3F color) {
+    this.texture = texture;
+    this.color = color;
   }
 
   /**

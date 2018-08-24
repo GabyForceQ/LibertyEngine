@@ -2,12 +2,13 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/world/objects/camera/impl.d, _impl.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/world/objects/camera/impl.d, this.impl.d)
  * Documentation:
  * Coverage:
 **/
 module liberty.world.objects.camera.impl;
 
+import liberty.core.system.input.manager;
 import liberty.core.math.functions : radians, sin, cos;
 import liberty.core.math.vector : Vector2I, Vector3F, cross;
 import liberty.core.math.matrix : Matrix4F;
@@ -57,8 +58,8 @@ final class Camera : WorldObject {
     this.yaw = Yaw;
     this.pitch = Pitch;
     updateCameraVectors();
-    this.lastX = CoreEngine.self.mainWindow.width / 2;
-    this.lastY = CoreEngine.self.mainWindow.height / 2;
+    this.lastX = Platform.self.getWindow().getWidth() / 2;
+    this.lastY = Platform.self.getWindow().getHeight() / 2;
   };
 
   /**
@@ -189,14 +190,14 @@ final class Camera : WorldObject {
    *
   **/
   void getYaw(float yaw) pure nothrow @safe {
-      this.yaw = yaw;
+    this.yaw = yaw;
   }
 
   /**
    *
   **/
   void getPitch(float pitch) pure nothrow @safe {
-      this.pitch = pitch;
+    this.pitch = pitch;
   }
 
   /**
@@ -229,80 +230,80 @@ final class Camera : WorldObject {
 
   ///
 	override void update(in float deltaTime) {
-		//if (scene.activeCamera.id == id) {
-			//float velocity = this.movementSpeed * deltaTime;
+		if (getScene().getActiveCamera().getId() == getId()) {
+			float velocity = this.movementSpeed * deltaTime;
 
 			// Process Mouse Scroll.
-			//if (Input.self.isMouseScrolling()) {
-			//	if (Input.self.isKeyHold(KeyModFlag.LeftCtrl)) {
-			//		if(this.fov >= 1.0f && this.fov <= 45.0f) {
-			//			if (this.scrollReversedOrder) {
-			//				this.fov += Input.self.mouseDeltaWheelY();
-			//			} else {
-			//				this.fov -= Input.self.mouseDeltaWheelY();
-			//			}
-			//		}
-			//		if(this.fov <= 1.0f) {
-			//			this.fov = 1.0f;
-			//		}
-			//		if(this.fov >= 45.0f) {
-			//			this.fov = 45.0f;
-			//		}
-			//	} else {
-			//		velocity *= this.movementSpeedMultiplier;
-			//	}
-			//}
+			if (Input.self.isMouseScrolling()) {
+				if (Input.self.isKeyHold(KeyModFlag.LeftCtrl)) {
+					if(this.fov >= 1.0f && this.fov <= 45.0f) {
+						if (this.scrollReversedOrder) {
+							this.fov += Input.self.mouseDeltaWheelY();
+						} else {
+							this.fov -= Input.self.mouseDeltaWheelY();
+						}
+					}
+					if(this.fov <= 1.0f) {
+						this.fov = 1.0f;
+					}
+					if(this.fov >= 45.0f) {
+						this.fov = 45.0f;
+					}
+				} else {
+					velocity *= this.movementSpeedMultiplier;
+				}
+			}
 
 			// Process Keyboard.
-			//if (InputNova.self.isKeyHold(KeyCode.W)) {
-			//	this.position += this.front * velocity;
-			//}
-			//if (InputNova.self.isKeyHold(KeyCode.S)) {
-			//	this.position -= this.front * velocity;
-			//}
-			//if (InputNova.self.isKeyHold(KeyCode.A)) {
-			//	this.position -= this.right * velocity;
-			//}
-			//if (InputNova.self.isKeyHold(KeyCode.D)) {
-			//	this.position += this.right * velocity;
-			//}
+			if (Input.self.isKeyHold(KeyCode.W)) {
+				this.position += this.front * velocity;
+			}
+			if (Input.self.isKeyHold(KeyCode.S)) {
+				this.position -= this.front * velocity;
+			}
+			if (Input.self.isKeyHold(KeyCode.A)) {
+				this.position -= this.right * velocity;
+			}
+			if (Input.self.isKeyHold(KeyCode.D)) {
+				this.position += this.right * velocity;
+			}
 
 			// Process Mouse Movement.
-			//if (Input.self.isMouseButtonPressed(MouseButton.Right)) {
-			//	Input.self.windowGrab = true;
-			//	Input.self.cursorVisible = false;
-			//	if (Input.self.isMouseMoving()) {
-			//		if (this.firstMouse) {
-			//			this.lastX = Input.self.mousePosition.x;
-			//			this.lastY = Input.self.mousePosition.y;
-			//			this.firstMouse = false;
-			//		}
-			//		float xoffset = Input.self.mousePosition.x - this.lastX;
-			//		float yoffset = this.lastY - Input.self.mousePosition.y;
-			//		this.lastX = Input.self.mousePosition.x;
-			//		this.lastY = Input.self.mousePosition.y;
-			//		xoffset *= this.mouseSensitivity;
-			//		yoffset *= this.mouseSensitivity;
-			//		this.yaw   += xoffset;
-			//		this.pitch += yoffset;
-			//		if (this.constrainPitch) {
-			//			if (this.pitch > 89.0f) {
-			//				this.pitch =  89.0f;
-			//			}
-			//			if (this.pitch < -89.0f) {
-			//				this.pitch = -89.0f;
-			//			}
-			//		}
-			//		updateCameraVectors();
-			//	}
-			//} else {
-			//	Input.self.windowGrab = false;
-			//	Input.self.cursorVisible = true;
-			//	this.firstMouse = true;
-			//}
-			//this.projection = projectionMatrixObject;
-			//this.view = viewMatrixObject;
-		//}
+			if (Input.self.isMouseButtonPressed(MouseButton.Right)) {
+				Input.self.windowGrab = true;
+				Input.self.cursorVisible = false;
+				if (Input.self.isMouseMoving()) {
+					if (this.firstTimeMouse) {
+						this.lastX = Input.self.mousePosition.x;
+						this.lastY = Input.self.mousePosition.y;
+						this.firstTimeMouse = false;
+					}
+					float xoffset = Input.self.mousePosition.x - this.lastX;
+					float yoffset = this.lastY - Input.self.mousePosition.y;
+					this.lastX = Input.self.mousePosition.x;
+					this.lastY = Input.self.mousePosition.y;
+					xoffset *= this.mouseSensitivity;
+					yoffset *= this.mouseSensitivity;
+					this.yaw   += xoffset;
+					this.pitch += yoffset;
+					if (this.constrainPitch) {
+						if (this.pitch > 89.0f) {
+							this.pitch =  89.0f;
+						}
+						if (this.pitch < -89.0f) {
+							this.pitch = -89.0f;
+						}
+					}
+					updateCameraVectors();
+				}
+			} else {
+				Input.self.windowGrab = false;
+				Input.self.cursorVisible = true;
+				this.firstTimeMouse = true;
+			}
+			this.projection = getProjectionMatrixObject;
+			this.view = getViewMatrixObject;
+		}
 	}
 
 	private void updateCameraVectors() {

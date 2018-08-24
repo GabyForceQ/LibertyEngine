@@ -9,6 +9,6 @@
 module liberty.core.system.window;
 
 public {
+  import liberty.core.system.window.constants;
   import liberty.core.system.window.impl;
-  import liberty.core.system.window.wrapper;
 }

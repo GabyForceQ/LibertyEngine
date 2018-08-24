@@ -31,12 +31,9 @@ import liberty.core.system.surface.wrapper.types :
   SurfaceSuccess,
   Rect;
 
-import liberty.core.system.surface.wrapper.errors:
-  SurfaceException,
-  SurfaceErrors;
-
 import liberty.core.utils.singleton : Singleton;
-import liberty.graphics.vertex : Color;
+import liberty.graphics.color : Color;
+import liberty.core.logger;
 
 pragma (inline, true) :
 
@@ -75,7 +72,10 @@ final class SurfaceUtil : Singleton!SurfaceUtil {
       mask.a
     );
     if (res is null) {
-      throwException(SurfaceErrors.FailedToCreateRGBSurface);
+      Logger.self.error(
+        "Failed to create the RGB surface",
+        typeof(this).stringof
+      );
     }
     return res;
   }
@@ -103,7 +103,10 @@ final class SurfaceUtil : Singleton!SurfaceUtil {
       mask.a
     );
     if (res is null) {
-      throwException(SurfaceErrors.FailedToCreateRGBSurface);
+      Logger.self.error(
+        "Failed to create the RGB surface",
+        typeof(this).stringof
+      );
     }
     return res;
   }
@@ -121,7 +124,10 @@ final class SurfaceUtil : Singleton!SurfaceUtil {
       0
     );
     if (res is null) {
-      throwException(SurfaceErrors.FailedToConvertSurface);
+      Logger.self.error(
+        "Failed to convert the surface to the new format",
+        typeof(this).stringof
+      );
     }
     return res;
   }
@@ -134,7 +140,10 @@ final class SurfaceUtil : Singleton!SurfaceUtil {
   ) @trusted {
     const res = SDL_LockSurface(surfaceHandle);
     if (res != SurfaceSuccess) {
-      throwException(SurfaceErrors.FailedToLockSurface);
+      Logger.self.error(
+        "Failed to lock the surface",
+        typeof(this).stringof
+      );
     }
   }
 
@@ -146,7 +155,10 @@ final class SurfaceUtil : Singleton!SurfaceUtil {
   ) @trusted {
     const res = SDL_UnlockSurface(surfaceHandle);
     if (res != SurfaceSuccess) {
-      throwException(SurfaceErrors.FailedToUnlockSurface);
+      Logger.self.error(
+        "Failed to unlock the surface",
+        typeof(this).stringof
+      );
     }
   }
 
@@ -167,7 +179,10 @@ final class SurfaceUtil : Singleton!SurfaceUtil {
       &destinationRect
     );
     if (res != SurfaceSuccess) {
-      throwException(SurfaceErrors.FailedToBlitSurface);
+      Logger.self.error(
+        "Failed to blit surface",
+        typeof(this).stringof
+      );
     }
   }
 
@@ -188,7 +203,10 @@ final class SurfaceUtil : Singleton!SurfaceUtil {
       &destinationRect
     );
     if (res != SurfaceSuccess) {
-      throwException(SurfaceErrors.FailedToBlitScaled);
+      Logger.self.error(
+        "Failed to blit scaled",
+        typeof(this).stringof
+      );
     }
   }
 
@@ -224,7 +242,10 @@ final class SurfaceUtil : Singleton!SurfaceUtil {
       key
     );
     if (res != SurfaceSuccess) {
-      throwException(SurfaceErrors.FailedToSetColorKey);
+      Logger.self.error(
+        "Failed to set color key",
+        typeof(this).stringof
+      );
     }
   }
 
@@ -243,21 +264,5 @@ final class SurfaceUtil : Singleton!SurfaceUtil {
       mask.a
     );
     return res;
-  }
-
-  private void throwException(string name) @trusted {
-    import std.format : format;
-    string message = format("%s failed: %s", name, getErrorString());
-    throw new SurfaceException(message);
-  }
-
-  /**
-   * Returns last SDL error and clears it.
-  **/
-  const(char)[] getErrorString() @trusted {
-    import std.string : fromStringz;
-    const(char)* message = SDL_GetError();
-    SDL_ClearError();
-    return fromStringz(message);
   }
 }

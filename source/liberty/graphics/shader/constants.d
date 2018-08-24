@@ -26,84 +26,36 @@ enum ShaderType : ubyte {
 /**
  *
 **/
-immutable vertex3Color = q{
+immutable VertexColor = q{
   #version 450 core
 
-  layout (location = 0) in vec3 position;
+  layout (location = 0) in vec3 lPosition;
+  layout (location = 1) in vec2 lTexCoord;
 
-  out vec4 tColor;
+  out vec2 tTexCoord0;
 
-  uniform mat4 uTransform;
+  uniform mat4 uModel;
+  uniform mat4 uView;
+  uniform mat4 uProjection;
 
   void main() {
-    tColor = vec4(clamp(position, 0.0, 1.0), 1.0);
-    gl_Position = uTransform * vec4(position, 1.0);
+    gl_Position = uProjection * uView * uModel * vec4(lPosition, 1.0);
+    tTexCoord0 = lTexCoord;
   }
 };
 
 /**
  *
 **/
-immutable fragmentColor = q{
+immutable FragmentColor = q{
   #version 450 core
 
-  in vec4 tColor;
+  in vec2 tTexCoord0;
 
-  out vec4 rColor;
-
-  void main() {
-    rColor = tColor;
-  }
-};
-
-/**
- *
-**/
-immutable vertexColor1 = q{
-  #version 450 core
-
-  in vec2 vertexPosition;
-  in vec4 vertexColor;
-  in vec2 texCoords;
-
-  out vec4 tColor;
-  out vec2 tTexCoords;
-
-  uniform mat4 uOrthoProjection;
+  uniform vec3 uColor;
+  uniform sampler2D uTextureSampler;
 
   void main() {
-    gl_Position.xy = (uOrthoProjection * vec4(vertexPosition, 0.0, 1.0)).xy;
-    gl_Position.z = 0.0;
-    gl_Position.w = 1.0;
-    tColor = vertexColor;
-    tTexCoords = vec2(texCoords.x, 1.0 - texCoords.y);
-  }
-};
-
-/**
- *
-**/
-immutable fragmentColor1 = q{
-  #version 450 core
-
-  in vec4 tColor;
-  in vec2 tTexCoords;
-
-  out vec4 rColor;
-
-  uniform float uTime;
-  uniform sampler2D uTexture;
-
-  void main() {
-    vec4 textureColor = texture(uTexture, tTexCoords);
-
-    //rColor = textureColor * vec4(
-    //    1.0 * (cos(uTime + 0.0) + 1.0) * 0.5,
-    //    1.0 * (cos(uTime + 2.0) + 1.0) * 0.5,
-    //    1.0 * (sin(uTime + 1.0) + 1.0) * 0.5,
-    //    0.0
-    //);
-
-    rColor = textureColor;
+    gl_FragColor = texture2D(uTextureSampler, tTexCoord0.xy) * vec4(uColor, 1.0);
   }
 };

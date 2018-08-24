@@ -9,7 +9,7 @@
 module liberty.world.scene.impl;
 
 import liberty.core.math.vector : Vector3F;
-import liberty.core.system.logic : Logic;
+import liberty.core.system.engine : CoreEngine;
 import liberty.world.objects.node : WorldObject;
 import liberty.world.objects.node.root : RootObject;
 import liberty.world.services : IStartable, IUpdatable, IProcessable, IRenderable;
@@ -38,7 +38,7 @@ final class Scene : IUpdatable, IProcessable, IRenderable {
    * Create a scene using a unique id.
   **/
   this(string id) {
-    Logic.self
+    CoreEngine.self
       .getViewport()
       .loadScene(this);
 
@@ -77,6 +77,27 @@ final class Scene : IUpdatable, IProcessable, IRenderable {
   /**
    *
   **/
+  Camera getActiveCamera() {
+    return activeCamera;
+  }
+
+  /**
+   *
+  **/
+  void setActiveCamera(Camera camera) {
+    activeCamera = camera;
+  }
+
+  /**
+   *
+  **/
+  void registerCamera(Camera camera) {
+		camerasMap[camera.getId()] = camera;
+	}
+
+  /**
+   *
+  **/
   IStartable[string] getStartList() pure nothrow @safe {
     return this.startList;
   }
@@ -93,6 +114,13 @@ final class Scene : IUpdatable, IProcessable, IRenderable {
   **/
   IProcessable[string] getProcessList() pure nothrow @safe {
     return this.processList;
+  }
+
+  /**
+   *
+  **/
+  IRenderable[string] getRenderList() pure nothrow @safe {
+    return this.renderList;
   }
 
   /**
@@ -132,6 +160,8 @@ final class Scene : IUpdatable, IProcessable, IRenderable {
     foreach (node; this.updateList) {
       node.update(deltaTime);
     }
+    import liberty.core.logger.manager;
+    import std.conv : to;
   }
 
   /**
@@ -156,5 +186,13 @@ final class Scene : IUpdatable, IProcessable, IRenderable {
     foreach(node; this.renderList) {
       node.render();
     }
+  }
+
+  bool[string] getObjectsId() {
+    return objectsId;
+  }
+
+  void setObjectId(string key, bool state = true) {
+    objectsId[key] = state;
   }
 }

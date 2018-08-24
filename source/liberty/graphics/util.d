@@ -13,6 +13,9 @@ import liberty.graphics.buffer.gfx : GfxBuffer;
 import liberty.graphics.buffer.utils : _createGfxBuffer;
 import liberty.graphics.vao.utils : _createGfxVertexArrayObject;
 
+import derelict.opengl :
+  glEnable, glDisable, GL_TEXTURE_2D;
+
 ///
 import liberty.graphics;
 

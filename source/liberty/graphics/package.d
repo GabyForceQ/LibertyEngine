@@ -11,6 +11,7 @@ module liberty.graphics;
 public {
   import liberty.graphics.backend;
   import liberty.graphics.buffer;
+  import liberty.graphics.color;
   import liberty.graphics.constants;
   import liberty.graphics.engine;
   import liberty.graphics.shader;

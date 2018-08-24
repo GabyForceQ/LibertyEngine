@@ -15,11 +15,11 @@ import liberty.core.manager.meta : ManagerBody;
 import liberty.core.system.platform : Platform;
 import liberty.core.system.constants : EngineState;
 import liberty.core.system.event : Event;
-import liberty.core.system.video.renderer : Renderer;
-import liberty.core.system.logic : Logic;
 import liberty.core.image.manager : ImageManager;
 import liberty.core.system.resource.manager : ResourceManager;
+import liberty.core.system.viewport : Viewport;
 import liberty.core.io.manager : IOManager;
+import liberty.graphics.engine : GraphicsEngine;
 
 /**
  * A failing CoreEngine function should <b>always</b> throw a $(D CoreEngineException).
@@ -29,14 +29,16 @@ final class CoreEngineException : Exception {
 }
 
 /**
- *
+ * CoreEngine service used to manage core features like pause and shutdown.
+ * Currently supports only one event and only one viewport.
 **/
 final class CoreEngine : Singleton!CoreEngine {
   mixin(ManagerBody);
 
   private {
-    EngineState _engineState = EngineState.None;
-    Event _event;
+    EngineState engineState = EngineState.None;
+    Event event;
+    Viewport[string] viewportsMap;
   }
 
   private static immutable startBody = q{
@@ -51,8 +53,11 @@ final class CoreEngine : Singleton!CoreEngine {
     ImageManager.self.startService();
 
     // Init engine systems
-    Renderer.self.initialize();
+    GraphicsEngine.self.startService();
     Platform.self.initialize();
+
+    // Create the viewport
+    viewportsMap["Viewport0"] = new Viewport("Viewport0");
     
     changeState(EngineState.Started);
   };
@@ -62,7 +67,7 @@ final class CoreEngine : Singleton!CoreEngine {
     
     // Deinit engine systems
     Platform.self.deinitialize();
-    Renderer.self.deinitialize();
+    GraphicsEngine.self.stopService();
 
     // Deinit extern libraries
     ImageManager.self.stopService();
@@ -82,17 +87,21 @@ final class CoreEngine : Singleton!CoreEngine {
   **/
   void run() {
     changeState(EngineState.Running);
-    while (_engineState != EngineState.ShouldQuit) {
-      _event.pull();
-      Logic.self.processTime();
-      if (_engineState == EngineState.Running) {
-        Logic.self.getViewport().updateScene();
-      } else if (_engineState == EngineState.Paused) {
-        //Logic.self.runPauseAnimation();
+    while (this.engineState != EngineState.ShouldQuit) {
+      this.event.pull();
+      foreach (viewport; this.viewportsMap) {
+        viewport.processTime();
+      }
+      if (this.engineState == EngineState.Running) {
+        foreach (viewport; this.viewportsMap) {
+          viewport.update();
+        }
+      } else if (this.engineState == EngineState.Paused) {
+        //this.viewport.runPauseAnimation();
       } else {
         break;
       }
-      Renderer.self.render();
+      GraphicsEngine.self.render();
     }
 
     stopService();
@@ -102,7 +111,7 @@ final class CoreEngine : Singleton!CoreEngine {
    *
   **/
   void pause() {
-    if (_engineState == EngineState.Running) {
+    if (this.engineState == EngineState.Running) {
       changeState(EngineState.Paused);
     } else {
       Logger.self.warning("Engine is not running", typeof(this).stringof);
@@ -113,7 +122,7 @@ final class CoreEngine : Singleton!CoreEngine {
    *
   **/
   void resume() {
-    if (_engineState == EngineState.Paused) {
+    if (this.engineState == EngineState.Paused) {
       changeState(EngineState.Running);
     } else {
       Logger.self.warning("Engine is not paused", typeof(this).stringof);
@@ -124,7 +133,7 @@ final class CoreEngine : Singleton!CoreEngine {
    *
   **/
   void shutDown() {
-    _engineState = EngineState.ShouldQuit;
+    this.engineState = EngineState.ShouldQuit;
   }
 
   /**
@@ -136,9 +145,13 @@ final class CoreEngine : Singleton!CoreEngine {
     exit(failure);
   }
 
+  Viewport getViewport() pure nothrow @safe {
+    return this.viewportsMap["Viewport0"];
+  }
+
   pragma(inline, true)
   private void changeState(EngineState state) {
-    _engineState = state;
+    this.engineState = state;
     Logger.self.info("Engine state changed to " ~ state, typeof(this).stringof);
   }
 }

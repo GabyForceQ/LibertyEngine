@@ -8,6 +8,8 @@
 **/
 module liberty.world.components.sprite.batch;
 
+/*
+
 import derelict.opengl;
 import liberty.core.math;
 import liberty.world.components.sprite;
@@ -212,3 +214,5 @@ class SpriteBatch {
     return (a.texture < b.texture);
   }
 }
+
+*/

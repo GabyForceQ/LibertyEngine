@@ -14,15 +14,16 @@ import derelict.opengl :
   glGetString, glGetStringi, glGetIntegerv,
   glClearDepth, glClear, glGetError,
   glGetFloatv, glActiveTexture, glClearColor,
-  glEnable, glFrontFace, glCullFace,
-  GL_BACK, GL_CULL_FACE, GL_DEPTH_TEST, GL_CW,
+  glEnable, glFrontFace, glCullFace, glDisable,
+  GL_FRONT, GL_CULL_FACE, GL_DEPTH_TEST, GL_CW,
   GL_NUM_EXTENSIONS, GL_EXTENSIONS, 
   GL_MAX_COLOR_ATTACHMENTS, GL_NO_ERROR,
   GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT,
   GL_VERSION, GL_VENDOR, GL_RENDERER,
   GL_SHADING_LANGUAGE_VERSION, GL_TEXTURE0,
   GL_INVALID_ENUM, GL_INVALID_VALUE,
-  GL_INVALID_OPERATION, GL_OUT_OF_MEMORY;
+  GL_INVALID_OPERATION, GL_OUT_OF_MEMORY,
+  GL_TEXTURE_2D;
 
 import liberty.core.logger.meta : ExceptionConstructor;
 import liberty.graphics.backend.gfx : GfxBackend;
@@ -78,13 +79,28 @@ final class GLBackend : GfxBackend {
   **/
   override void enable3DCapabilities() @trusted {
     glFrontFace(GL_CW);
-    glCullFace(GL_BACK);
+    glCullFace(GL_FRONT);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
 
-    //todo: depth clamp.
+    // todo: depth clamp.
 
-    //glEnable(GL_FRAMEBUFFER_SRGB);
+    // todo: 2d capabilities
+    enableTextures();
+  }
+
+  /**
+   *
+  **/
+  override void enableTextures() @trusted {
+    glEnable(GL_TEXTURE_2D);
+  }
+
+  /**
+   *
+  **/
+  override void disableTextures() @trusted {
+    glDisable(GL_TEXTURE_2D);
   }
 
   /**

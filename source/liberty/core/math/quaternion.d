@@ -173,6 +173,20 @@ struct Quaternion(T) {
 		q.w = 1;
 		return q;
 	}
+
+  import liberty.core.math.vector : Vector3F;
+
+  static if (is(T == float)) {
+    Quaternion mul(Vector3F r) {
+      float w_ = -x * r.x - y * r.y - z * r.z;
+      float x_ =  w * r.x + y * r.z - z * r.y;
+      float y_ =  w * r.y + z * r.x - x * r.z;
+      float z_ =  w * r.z + x * r.y - y * r.x;
+      
+      return Quaternion(x_, y_, z_, w_);
+    }
+  }
+
 	private enum bool isAssignable(T) = is(typeof({ T x; Quaternion v = x; }()));
 	private enum bool isConvertible(T) = (!is(T : Quaternion)) && isAssignable!T;
 }

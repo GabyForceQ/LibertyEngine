@@ -12,7 +12,7 @@ module liberty.world.objects.node.meta;
  *
 **/
 immutable NodeBody = q{
-  this(string id, WorldObject parent = Logic.self.getViewport().getActiveScene().getTree()) {
+  this(string id, WorldObject parent = CoreEngine.self.getViewport().getScene().getTree()) {
     if (parent is null) {
       assert(0, "Parent object cannot be null");
     }

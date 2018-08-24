@@ -107,4 +107,14 @@ package(liberty.graphics) abstract class GfxBackend {
    *
   **/
 	void getActiveTexture(int texture_id) @trusted;
+
+  /**
+   *
+  **/
+  void enableTextures() @trusted;
+
+  /**
+   *
+  **/
+  void disableTextures() @trusted;
 }

@@ -9,6 +9,10 @@
 module liberty.core.math.vector;
 import std.traits : isFloatingPoint;
 import liberty.core.math.traits : isVector;
+import liberty.core.math.quaternion : Quaternion;
+
+import liberty.core.math.functions;
+
 /// T = type of elements.
 /// N = number of elements (2, 3, 4).
 struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
@@ -403,11 +407,33 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		static if (N == 3) {
 			/// Gets an orthogonal vector from a 3D vector.
 			Vector getOrthogonalVector() pure nothrow const @safe {
-                import liberty.core.math.functions : abs;
+        import liberty.core.math.functions : abs;
 				return abs(x) > abs(z) ? Vector(-y, x, 0.0) : Vector(0.0, -z, y);
 			}
 		}
 	}
+
+  static if (is(T == float) && N == 3) {
+    ref Vector!(T, 3) rotate(float angle, Vector!(T, 3) axis) {
+      float sinHalfAngle = sin(radians(angle / 2));
+      float cosHalfAngle = cos(radians(angle / 2));
+
+      float rX = axis.x * sinHalfAngle;
+      float rY = axis.y * sinHalfAngle;
+      float rZ = axis.z * sinHalfAngle;
+      float rW = cosHalfAngle;
+
+      Quaternion!T rotation = Quaternion!T(rX, rY, rZ, rW);
+      Quaternion!T conjugate = rotation.inversed();
+      Quaternion!T w = rotation.mul(this) * conjugate;
+
+      x = w.x;
+      y = w.y;
+      z = w.z;
+
+      return this;
+    }
+  }
 }
 ///
 template Vector2(T) {

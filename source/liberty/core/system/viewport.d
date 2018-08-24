@@ -8,40 +8,63 @@
 **/
 module liberty.core.system.viewport;
 
-import liberty.core.system.logic : Logic;
+import liberty.core.logger.manager : Logger;
+import liberty.core.time.clock : Time;
 import liberty.world.scene.impl : Scene;
 
 /**
- *
+ * A viewport represents a render target or a particular world.
+ * It stores references to its own scene.
+ * It cannot have more than one scene.
 **/
 final class Viewport {
   private {
-    Logic _logic;
-    Scene _activeScene;
+    string id;
+    Scene scene;
   }
 
   /**
-   *
+   * Construct an empty viewport with an id.
   **/
-  this(Logic logic) {
-    _logic = logic;
+  this(string id) pure nothrow @safe {
+    this.id = id;
   }
 
   /**
-   *
+   * Returns the viewport id.
+  **/
+  string getId() pure nothrow const @safe {
+    return this.id;
+  }
+
+  /**
+   * Load a scene to be displayed in the viewport.
   **/
   void loadScene(Scene scene) pure nothrow @safe {
-    _activeScene = scene;
+    this.scene = scene;
   }
 
   /**
-   *
+   * Returns the current viewport scene.
   **/
-  Scene getActiveScene() pure nothrow @safe {
-    return _activeScene;
+  Scene getScene() pure nothrow @safe {
+    return this.scene;
   }
 
-  package void updateScene() {
-    _activeScene.update(_logic.getDeltaTime());
+  package void processTime() {
+    // Process time
+    Time.self.processTime();
+  }
+
+  package void update() {
+    // Update the entire scene with its children if the scene exists.
+    if (this.scene !is null) {
+      this.scene.update(Time.self.getDelta());
+    } else {
+      Logger.self.warning(
+        "You are updating an empty viewport.",
+        typeof(this).stringof
+      );
+    }
   }
 }

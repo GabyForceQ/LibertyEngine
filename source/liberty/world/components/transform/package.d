@@ -11,12 +11,48 @@ module liberty.world.components.transform;
 import liberty.core.math.vector : Vector3F;
 import liberty.core.math.matrix : Matrix4F;
 
+import liberty.core.math.functions;
+import liberty.core.math.vector;
+
+import liberty.world.objects.camera : Camera;
+
 struct Transform {
+
+  //private static Camera camera;
+  //private static float zNear;
+  //private static float zFar;
+  //private static float width;
+  //private static float height;
+  //private static float fov;
+//
+  //void setCamera(Camera camera) {
+  //  Transform.camera = camera;
+  //}
+//
+  //Camera getCamera() {
+  //  return Transform.camera;
+  //}
+//
+  //void setProjection(
+  //  float fov,
+  //  float width,
+  //  float height,
+  //  float zNear,
+  //  float zFar
+  //) {
+  //  Transform.fov = fov;
+  //  Transform.width = width;
+  //  Transform.height = height;
+  //  Transform.zNear = zNear;
+  //  Transform.zFar = zFar;
+  //}
+
   private {
     float _rotationAngle = 0.0f;
     Vector3F _translation = Vector3F.zero;
     Vector3F _rotation = Vector3F.zero;
     Vector3F _scale = Vector3F.one;
+    Matrix4F _modelMatrix = Matrix4F().identity();
   }
 
   Vector3F getTranslation() pure nothrow @safe {
@@ -24,10 +60,12 @@ struct Transform {
   }
 
   void setTranslation(Vector3F translation) pure nothrow @safe {
+    _modelMatrix.translate(translation);
     _translation = translation;
   }
 
   void setTranslation(float x, float y, float z) pure nothrow @safe {
+    _modelMatrix.translate(Vector3F(x, y, z));
     _translation = Vector3F(x, y, z);
   }
 
@@ -63,16 +101,45 @@ struct Transform {
     _scale = Vector3F(x, y, z);
   }
 
-  Matrix4F getTransformation() {
-    // Initialize translation matrix
-    Matrix4F translationMatrix = Matrix4F().translation(_translation);
-    
-    // Initialize rotation matrix
-    Matrix4F rotationMatrix = Matrix4F().rotation(_rotationAngle, _rotation);
+  //Matrix4F getTransformation() {
+  //  // Initialize translation matrix
+  //  Matrix4F translationMatrix = Matrix4F().translation(_translation);
+  //  
+  //  // Initialize rotation matrix
+  //  Matrix4F rotationMatrix = Matrix4F().rotation(_rotationAngle, _rotation);
+//
+  //  // Initialize scaling matrix
+  //  Matrix4F scalingMatrix = Matrix4F().scaling(_scale);
+  //  
+  //  return translationMatrix * rotationMatrix * scalingMatrix;
+  //}
+//
+  //Matrix4F getProjection() {
+  //  Matrix4F transformationMatrix = getTransformation();
+  //  
+  //  Matrix4F projectionMatrix = Matrix4F().perspective(
+  //    Transform.fov,
+  //    Transform.width / Transform.height,
+  //    Transform.zNear,
+  //    Transform.zFar
+  //  );
+//
+  //  Matrix4F cameraRotation = Matrix4F.camera(
+  //    camera.getForward(),
+  //    camera.getUp()
+  //  );
+//
+  //  Matrix4F cameraTranslation = Matrix4F.translation(
+  //    Vector3F(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z)
+  //  );
+//
+  //  return projectionMatrix * cameraRotation * cameraTranslation * transformationMatrix;
+  //}
 
-    // Initialize scaling matrix
-    Matrix4F scalingMatrix = Matrix4F().scaling(_scale);
-    
-    return translationMatrix * rotationMatrix * scalingMatrix;
-  }
+  /**
+    *
+    */
+	ref const(Matrix4F) modelMatrix() pure nothrow const @safe @nogc {
+		return _modelMatrix;
+	}
 }
