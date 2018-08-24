@@ -9,15 +9,7 @@
 module liberty.audio.engine;
 
 import liberty.core.utils : Singleton;
-import liberty.core.logger.meta : ExceptionConstructor;
 import liberty.core.manager.meta : ManagerBody;
-
-/**
- * A failing Audio function should <b>always</b> throw a $(D AudioEngineException).
-**/
-final class AudioEngineException : Exception {
-  mixin(ExceptionConstructor);
-}
 
 /**
  * Singleton class used to manage audio.

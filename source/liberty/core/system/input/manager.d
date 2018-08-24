@@ -142,15 +142,11 @@ final class Input : Singleton!Input {
     /// Capture the mouse and track input outside the MainWindow.
     void startMouseCapture() nothrow @trusted @nogc {
         if (SDL_CaptureMouse(SDL_TRUE) != 0) {
-            //PlatformManager.throwPlatformException("SDL_CaptureMouse");
-            // TODO: Uncomment.
         }
     }
     ///
     void stopMouseCapture() nothrow @trusted @nogc {
         if (SDL_CaptureMouse(SDL_FALSE) != 0) {
-            //PlatformManager.throwPlatformException("SDL_CaptureMouse");
-            // TODO: Uncomment.
         }
     }
     /*package*/ void updateMouse() pure nothrow @safe @nogc {
@@ -189,8 +185,6 @@ final class Input : Singleton!Input {
         //_cursorHandle = SDL_CreateColorCursor(SurfaceManager.getHandle(), h_x, h_y);
         // TODO: Uncomment.
         //if (_cursorHandle is null) {
-            //PlatformManager.throwPlatformException("SDL_CreateColorCursor");
-            // TODO: Uncomment.
         //}
     }
     ///
@@ -227,16 +221,12 @@ final class Input : Singleton!Input {
     /*package*/ SDL_Cursor* cursor() nothrow @trusted @nogc {
         SDL_Cursor* cursor_handle = SDL_GetCursor();
         if (cursor_handle is null) {
-            //PlatformManager.throwPlatformException("SDL_GetCursor");
-            // TODO: Uncomment.
         }
         return cursor_handle;
     }
     /*package*/ SDL_Cursor* defaultCursor() nothrow @trusted @nogc {
         SDL_Cursor* cursor_handle = SDL_GetDefaultCursor();
         if (cursor_handle is null) {
-            //PlatformManager.throwPlatformException("SDL_GetDefaultCursor");
-            // TODO: Uncomment.
         }
         return cursor_handle;
     }

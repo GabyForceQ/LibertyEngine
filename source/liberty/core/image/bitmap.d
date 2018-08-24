@@ -12,6 +12,8 @@ import std.string;
 import derelict.freeimage.freeimage;
 import liberty.core.image.manager;
 
+import liberty.core.logger.manager : Logger;
+
 /**
  * Image bitmap wrapper.
 **/
@@ -22,7 +24,6 @@ final class Bitmap {
 
   /**
    * Load an image from file.
-   * Throws $(D ImageException) on error.
   **/
   this(string filename, int flags = 0) {
     _bitmap = null;
@@ -36,24 +37,28 @@ final class Bitmap {
       _bitmap = FreeImage_Load(fif, filenameZ, flags);
     }
     if (_bitmap is null) {
-      throw new ImageException(format("Coudln't load image %s", filename));
+      Logger.self.error(
+        "Coudln't load image: " ~ filename,
+        typeof(this).stringof
+      );
     }
   }
 
   /**
    * Loads from existing bitmap handle.
-   * Throws $(D ImageException) on error.
   **/
   this(FIBITMAP* bitmap) {
     if (bitmap is null) {
-      throw new ImageException("Cannot make FIBitmap from null handle");
+      Logger.self.error(
+        "Cannot make FIBitmap from null handle",
+        typeof(this).stringof
+      );
     }
     _bitmap = bitmap;
   }
 
   /**
    * Creates an image from from existing memory data.
-   * Throws $(D ImageException) on error.
   **/
   this(
     ubyte* data, 
@@ -78,7 +83,10 @@ final class Bitmap {
       FALSE
     );
     if (_bitmap is null) {
-      throw new ImageException("Cannot make FIBitmap from raw data");
+      Logger.self.error(
+        "Cannot make FIBitmap from raw data",
+        typeof(this).stringof
+      );
     }
   }
 
@@ -94,14 +102,14 @@ final class Bitmap {
 
   /**
    * Saves an image to a file.
-   * Throws $(D ImageException) on error.
   **/
   void save(string filename, int flags = 0) {
     const(char)* filenameZ = toStringz(filename);
     FREE_IMAGE_FORMAT fif = FreeImage_GetFIFFromFilename(filenameZ);
     if (fif == FIF_UNKNOWN) {
-      throw new ImageException(
-        format("Coudln't guess format for filename %s", filename)
+      Logger.self.error(
+        "Coudln't guess format for filename: " ~ filename,
+        typeof(this).stringof
       );
     }
     FreeImage_Save(fif, _bitmap, filenameZ, flags);
@@ -249,7 +257,6 @@ final class Bitmap {
   /**
    * Convert an image to 32-bits.
    * Returns converted image.
-   * Throws $(D ImageException) on error.
   **/
   Bitmap convertTo32Bits() {
     return new Bitmap(FreeImage_ConvertTo32Bits(_bitmap));
@@ -258,12 +265,14 @@ final class Bitmap {
   /**
    * Convert an image to another format.
    * Returns converted image.
-   * Throws $(D ImageException) on error.
   **/
   Bitmap convertToType(FREE_IMAGE_TYPE dstType, bool scaleLinear = true) {
     FIBITMAP* converted = FreeImage_ConvertToType(_bitmap, dstType, scaleLinear);
     if (converted is null) {
-      throw new ImageException("disallowed conversion");
+      Logger.self.warning(
+        "Disallowed conversion",
+        typeof(this).stringof
+      );
     }
     return new Bitmap(converted);
   }
@@ -331,21 +340,25 @@ final class Bitmap {
 
   /**
    * Flips the image horizontally.
-   * Throws $(D ImageException) on error.
   **/
   void horizontalFlip() {
     if (FreeImage_FlipHorizontal(_bitmap) == FALSE) {
-      throw new ImageException("Cannot flip image horizontally");
+      Logger.self.warning(
+        "Cannot flip image horizontally",
+        typeof(this).stringof
+      );
     }
   }
 
   /**
    * Flip the image vertically.
-   * Throws $(D ImageException) on error.
   **/
   void verticalFlip() {
     if (FreeImage_FlipVertical(_bitmap) == FALSE) {
-      throw new ImageException("Cannot flip image horizontally");
+      Logger.self.warning(
+        "Cannot flip image vertically",
+        typeof(this).stringof
+      );
     }
   }
 

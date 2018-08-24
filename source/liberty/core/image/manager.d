@@ -14,15 +14,7 @@ import derelict.freeimage.freeimage :
 
 import liberty.core.utils : Singleton;
 import liberty.core.manager : ManagerBody;
-import liberty.core.logger.meta : ExceptionConstructor;
 import liberty.core.image.loader : ImageLoader;
-
-/**
- *
-**/
-class ImageException : Exception {
-  mixin(ExceptionConstructor);
-}
 
 /**
  *
@@ -33,13 +25,15 @@ final class ImageManager : Singleton!ImageManager {
   /**
    * Loads the FreeImage library.
    * Starts the ImageLoader service.
-   * Throws $(D ImageException) on error.
   **/
   private static immutable startBody = q{
     try {
       DerelictFI.load();
     } catch (Exception e) {
-      throw new ImageException(e.msg);
+      Logger.self.error(
+        "Failed to load FreeImage library",
+        typeof(this).stringof
+      );
     }
     ImageLoader.self.startService();
   };

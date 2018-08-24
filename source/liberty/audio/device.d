@@ -8,11 +8,19 @@
 **/
 module liberty.audio.device;
 
-import liberty.audio.engine : AudioEngineException;
 import derelict.sdl2.sdl : 
-  SDL_AudioDeviceID, SDL_AudioSpec, SDL_OpenAudioDevice, SDL_AudioStatus, 
-  SDL_GetAudioDeviceStatus, SDL_CloseAudioDevice, SDL_PauseAudioDevice, 
-  SDL_LockAudioDevice, SDL_UnlockAudioDevice, SDL_AUDIO_PLAYING;
+  SDL_AudioDeviceID,
+  SDL_AudioSpec,
+  SDL_OpenAudioDevice,
+  SDL_AudioStatus, 
+  SDL_GetAudioDeviceStatus,
+  SDL_CloseAudioDevice,
+  SDL_PauseAudioDevice, 
+  SDL_LockAudioDevice,
+  SDL_UnlockAudioDevice,
+  SDL_AUDIO_PLAYING;
+
+import liberty.core.logger.manager : Logger;
 
 /**
  *
@@ -41,7 +49,10 @@ final class AudioDevice {
       allowed_changes
     );
     if (_id == 0) {
-      throw new AudioEngineException("SDL_OpenAudioDevice");
+      Logger.self.error(
+        "Cannot get SDL_OpenAudioDevice",
+        typeof(this).stringof
+      );
     }
   }
 

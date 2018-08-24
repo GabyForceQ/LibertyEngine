@@ -20,7 +20,6 @@ import liberty.graphics.buffer.gfx : GfxBuffer;
 final class GLBuffer : GfxBuffer {
   /**
    * Create an empty buffer.
-   * Throws $(D GLException) on error.
   **/
   this(uint target, uint usage) @trusted {
     _usage = usage;
@@ -34,7 +33,6 @@ final class GLBuffer : GfxBuffer {
 
   /**
    * Creates a buffer already filled with data.
-   * Throws $(D GLException) on error.
   **/
   this(T)(uint target, uint usage, T[] buffer) @trusted {
     this(target, usage);
@@ -60,7 +58,6 @@ final class GLBuffer : GfxBuffer {
   
   /**
    * Returns the copy bytes to the buffer.
-   * Throws $(D OpenGLException) on error.
   **/
   void setData(T)(T[] buffer) @trusted {
     setData(buffer.length * T.sizeof, buffer.ptr);
@@ -68,7 +65,6 @@ final class GLBuffer : GfxBuffer {
 
   /**
    * Returns the copy bytes to the buffer.
-   * Throws $(D GLException) on error.
   **/
   override void setData(size_t size, void* data) @trusted {
     bind();
@@ -86,7 +82,6 @@ final class GLBuffer : GfxBuffer {
   /**
    * Copy bytes to a sub-part of the buffer. 
    * You can't adress data beyond the buffer's size.
-   * Throws $(D GLException) on error.
   **/
   override void setSubData(size_t offset, size_t size, void* data) @trusted {
     bind();
@@ -96,7 +91,6 @@ final class GLBuffer : GfxBuffer {
 
   /**
    * Get a sub-part of a buffer.
-   * Throws $(D GLException) on error.
   **/
   override void getSubData(size_t offset, size_t size, void* data) @trusted {
     bind();
@@ -106,7 +100,6 @@ final class GLBuffer : GfxBuffer {
 
   /**
    * Returns the whole buffer content in a newly allocated array.
-   * Throws $(D GLException) on error.
   **/
   override ubyte[] getBytes() @trusted {
     auto buffer = new ubyte[_size];
@@ -116,7 +109,6 @@ final class GLBuffer : GfxBuffer {
 
   /**
    * Binds the buffer.
-   * Throws $(D GLException) on error.
   **/
   override void bind() @trusted {
     glBindBuffer(_target, _buffer);
@@ -125,7 +117,6 @@ final class GLBuffer : GfxBuffer {
   
   /**
    * Unbind the buffer.
-   * Throws $(D GLException) on error.
   **/
   override void unbind() @trusted {
     glBindBuffer(_target, 0);

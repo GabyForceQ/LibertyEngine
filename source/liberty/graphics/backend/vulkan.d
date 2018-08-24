@@ -10,16 +10,8 @@ module liberty.graphics.backend.vulkan;
 
 version (none):
 
-import liberty.core.logger.meta : ExceptionConstructor;
 import liberty.graphics.backend.gfx : GfxBackend;
 import liberty.graphics.constants : Vendor;
-
-/**
- * A failing Vulkan function should <b>always</b> throw a $(D VKException).
-**/
-class VKException : Exception {
-  mixin(ExceptionConstructor);
-}
 
 /**
  *
@@ -27,7 +19,6 @@ class VKException : Exception {
 final class VKBackend : GfxBackend {
   /**
    * Load Vulkan library.
-   * Throws $(D VKException) on error.
   **/
   this() @trusted {
   }

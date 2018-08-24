@@ -9,16 +9,8 @@
 module liberty.db.engine;
 
 import liberty.core.utils : Singleton;
-import liberty.core.logger.meta : ExceptionConstructor;
 import liberty.core.manager.meta : ManagerBody;
 import liberty.db.database : Database;
-
-/**
- * A failing Database function should <b>always</b> throw a $(D DBException).
-**/
-final class DBException : Exception {
-    mixin(ExceptionConstructor);
-}
 
 /**
  *

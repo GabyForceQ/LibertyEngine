@@ -9,15 +9,7 @@
 module liberty.physics.engine;
 
 import liberty.core.utils : Singleton;
-import liberty.core.logger.meta : ExceptionConstructor;
 import liberty.core.manager.meta : ManagerBody;
-
-/**
- * A failing Physics function should <b>always</b> throw a $(D PhysicsEngineException).
-**/
-final class PhysicsEngineException : Exception {
-  mixin(ExceptionConstructor);
-}
 
 /**
  * Singleton class used to handle 2D/3D physics.

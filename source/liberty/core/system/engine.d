@@ -9,7 +9,6 @@
 module liberty.core.system.engine;
 
 import liberty.core.utils : Singleton;
-import liberty.core.logger.meta : ExceptionConstructor;
 import liberty.core.logger.manager : Logger;
 import liberty.core.manager.meta : ManagerBody;
 import liberty.core.system.platform : Platform;
@@ -20,13 +19,6 @@ import liberty.core.system.resource.manager : ResourceManager;
 import liberty.core.system.viewport : Viewport;
 import liberty.core.io.manager : IOManager;
 import liberty.graphics.engine : GraphicsEngine;
-
-/**
- * A failing CoreEngine function should <b>always</b> throw a $(D CoreEngineException).
-**/
-final class CoreEngineException : Exception {
-  mixin(ExceptionConstructor);
-}
 
 /**
  * CoreEngine service used to manage core features like pause and shutdown.

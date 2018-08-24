@@ -11,5 +11,4 @@ module liberty.core.logger;
 public {
   import liberty.core.logger.constants;
   import liberty.core.logger.manager;
-  import liberty.core.logger.meta;
 }

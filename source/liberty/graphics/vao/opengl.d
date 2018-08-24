@@ -20,7 +20,6 @@ final class GLVertexArrayObject : GfxVertexArrayObject {
 
   /**
    * Create a Vertex Array Object.
-   * Throws $(D GLException) on error.
   **/
   this() @trusted {
     glGenVertexArrays(1, &_handle);
@@ -40,7 +39,6 @@ final class GLVertexArrayObject : GfxVertexArrayObject {
 
   /**
    * Use this Vertex Array Object.
-   * Throws $(D GLException) on error.
   **/
   override void bind() @trusted {
     glBindVertexArray(_handle);
@@ -49,7 +47,6 @@ final class GLVertexArrayObject : GfxVertexArrayObject {
 
   /**
    * Unuse this Vertex Array Object.
-   * Throws $(D GLException) on error.
   **/
   override void unbind() @trusted {
     glBindVertexArray(0);

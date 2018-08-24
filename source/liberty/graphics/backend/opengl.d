@@ -25,16 +25,9 @@ import derelict.opengl :
   GL_INVALID_OPERATION, GL_OUT_OF_MEMORY,
   GL_TEXTURE_2D;
 
-import liberty.core.logger.meta : ExceptionConstructor;
+import liberty.core.logger.manager : Logger;
 import liberty.graphics.backend.gfx : GfxBackend;
 import liberty.graphics.constants : Vendor;
-
-/**
- * A failing OpenGL function should <b>always</b> throw a $(D GLException).
-**/
-class GLException : Exception {
-  mixin(ExceptionConstructor);
-}
 
 /**
  *
@@ -42,7 +35,6 @@ class GLException : Exception {
 final class GLBackend : GfxBackend {
   /**
    * Load OpenGL library.
-   * Throws $(D GLException) on error.
   **/
   this() @trusted {
     ShouldThrow missingSymFunc(string symName) {
@@ -137,14 +129,16 @@ final class GLBackend : GfxBackend {
 
   /**
    * Checks pending OpenGL errors.
-   * Throws $(D GLException) if at least one OpenGL error was pending.
   **/
   override void runtimeCheck() @trusted {
     GLint er = glGetError();
     if (er != GL_NO_ERROR) {
       string getErrorString = getErrorString(er);
       flushGLErrors();
-      throw new GLException(getErrorString);
+      Logger.self.error(
+        getErrorString,
+        typeof(this).stringof
+      );
     }
   }
 
@@ -257,7 +251,7 @@ final class GLBackend : GfxBackend {
   }
 
   /**
-   * Throws $(D GLException) if at least one OpenGL error was pending.
+   *
   **/
   int getInt(GLenum pname) @trusted {
     GLint param;
@@ -267,7 +261,7 @@ final class GLBackend : GfxBackend {
   }
 
   /**
-   * Throws $(D GLException) if at least one OpenGL error was pending.
+   *
   **/
   float getFloat(GLenum pname) @trusted {
     GLfloat res;
@@ -284,7 +278,7 @@ final class GLBackend : GfxBackend {
   }
 
   /**
-   * Throws $(D GLException) on error.
+   *
   **/
   override void getActiveTexture(int texture_id) @trusted {
     glActiveTexture(GL_TEXTURE0 + texture_id);
