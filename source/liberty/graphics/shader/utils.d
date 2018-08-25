@@ -21,15 +21,19 @@ package(liberty.graphics):
 GfxShaderProgram _createGfxShaderProgram(
   string vertexCode,
   string fragmentCode
-) @safe {
-  GfxShaderProgram shader;
+) @trusted {
+  // Create the new shader
+  GfxShaderProgram res = new GLShaderProgram();
+  
+  // Compile created shader
+  res.compileShaders(vertexCode, fragmentCode);
 
-  shader = new GLShaderProgram();
+  // Add basic attributes
+  res.bindAttribute("lPosition");
+  res.bindAttribute("lTexCoord");
   
-  //shader.compileShaders(
-  //  vertexCode, 
-  //  fragmentCode
-  //);
+  // Link shaders
+  res.linkShaders();
   
-  return shader;
+  return res;
 }

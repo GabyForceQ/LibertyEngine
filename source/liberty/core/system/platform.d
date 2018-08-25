@@ -78,9 +78,6 @@ final class Platform : Singleton!Platform {
     // Reload video context
     GraphicsEngine.self.reloadGLContext();
 
-    // Init shaders
-    GraphicsEngine.self.initShaders();
-
     Logger.self.info(
       InfoMessage.Created, 
       typeof(this).stringof

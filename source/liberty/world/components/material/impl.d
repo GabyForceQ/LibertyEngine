@@ -8,32 +8,90 @@
 **/
 module liberty.world.components.material.impl;
 
-import liberty.world.components.meta : Component;
-
-import liberty.graphics.texture : Texture;
+import liberty.core.system.engine : CoreEngine;
+import liberty.core.utils.singleton : Singleton;
+import liberty.core.logger.manager : Logger;
+import liberty.core.system.resource.manager : ResourceManager;
 import liberty.core.math.vector : Vector3F;
+import liberty.graphics.texture : Texture;
+import liberty.graphics.shader.gfx : GfxShaderProgram;
+import liberty.graphics.shader.constants : VertexCode, FragmentCode;
+import liberty.graphics.util : RenderUtil;
+import liberty.world.components.meta : Component;
 
 /**
  *
 **/
 @Component
 class Material {
-  //private {
+  private {
+    GfxShaderProgram shaderProgram;
     Texture texture;
-    Vector3F color;
+  }
+
+  this(string path) {
+    import std.conv : to;
+
+    // Create a new shader for this material
+    this.shaderProgram = RenderUtil.self.
+      createGfxShaderProgram(VertexCode, FragmentCode);
+
+    // Add created shader to scene shader list.
+    CoreEngine.self
+      .getViewport()
+      .getScene()
+      .shaderList[this.shaderProgram.getId().to!string] = this.shaderProgram;
+
+    // Load texture from file
+    this.texture = ResourceManager.self.loadTexture(path);
+
+    // Bind shader and add/load uniforms
+    this.shaderProgram.bind();
+    this.shaderProgram.addUniform("uModel");
+    this.shaderProgram.addUniform("uView");
+    this.shaderProgram.addUniform("uProjection");
+    this.shaderProgram.addUniform("uTextureSampler");
+    this.shaderProgram.addUniform("uColor");
+    this.shaderProgram.loadUniform("uTextureSampler", 0);
+  }
+
+  ~this() {
+    this.shaderProgram.unbind();
+	  this.shaderProgram.destroy();
+	}
+
+  Texture getTexture() pure nothrow @safe {
+    return this.texture;
+  }
+
+  GfxShaderProgram getShaderProgram() pure nothrow @safe {
+    return this.shaderProgram;
+  }
+
+	void render() {
+    // Bind shader every frame
+    this.shaderProgram.bind();
+
+    // Load implicit uniforms
+    this.shaderProgram.render();
+	}
+
+  //private {
+  //Vector3F color;
   //}
   /**
    *
   **/
-  this(Texture texture, Vector3F color) {
-    this.texture = texture;
-    this.color = color;
-  }
+  //this(Texture texture, Vector3F color) {
+  //  this.texture = texture;
+  //  this.color = color;
+  //}
 
   /**
    *
   **/
-  Material addNode(string uniformName) {
+  Material addNode(T)(string uniformName, T value) {
+    this.shaderProgram.loadUniform(uniformName, value);
     return this;
   }
 
@@ -100,6 +158,27 @@ class Material {
   bool fixGateOrder() {
     return compile();
   }
+}
+
+/**
+ *
+**/
+final class Materials : Singleton!Materials {
+  /**
+   *
+  **/
+	Material defaultMaterial;
+
+  /**
+   *
+  **/
+	void load() {
+		defaultMaterial = new Material("res/textures/default.bmp");
+    Logger.self.info(
+      "All materials have been loaded",
+      typeof(this).stringof
+    );
+	}
 }
 
 /*

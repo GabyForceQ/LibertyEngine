@@ -30,9 +30,10 @@ final class Scene : IUpdatable, IProcessable, IRenderable {
     IStartable[string] startList;
     IUpdatable[string] updateList;
     IRenderable[string] renderList;
-    IProcessable[string] processList;
-    static IRenderable[string] shaderList;
+    IProcessable[string] processList; 
   }
+
+  static IRenderable[string] shaderList;
 
   /**
    * Create a scene using a unique id.
@@ -180,9 +181,9 @@ final class Scene : IUpdatable, IProcessable, IRenderable {
    * The object should implement IRenderable.
   **/
   void render() {
-    //foreach (shader; this.shaderList) {
-    //  shader.render();
-    //}
+    foreach (shader; this.shaderList) {
+      shader.render();
+    }
     foreach(node; this.renderList) {
       node.render();
     }

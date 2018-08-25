@@ -19,6 +19,7 @@ import liberty.core.system.resource.manager : ResourceManager;
 import liberty.core.system.viewport : Viewport;
 import liberty.core.io.manager : IOManager;
 import liberty.graphics.engine : GraphicsEngine;
+import liberty.world.components.material : Materials;
 
 /**
  * CoreEngine service used to manage core features like pause and shutdown.
@@ -50,6 +51,9 @@ final class CoreEngine : Singleton!CoreEngine {
 
     // Create the viewport
     viewportsMap["Viewport0"] = new Viewport("Viewport0");
+
+    // Load predefined materials
+    Materials.self.load();
     
     changeState(EngineState.Started);
   };

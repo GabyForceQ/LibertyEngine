@@ -25,6 +25,7 @@ import derelict.opengl :
   GL_INVALID_OPERATION, GL_OUT_OF_MEMORY,
   GL_TEXTURE_2D;
 
+import liberty.core.logger.constants : InfoMessage;
 import liberty.core.logger.manager : Logger;
 import liberty.graphics.backend.gfx : GfxBackend;
 import liberty.graphics.constants : Vendor;
@@ -37,6 +38,11 @@ final class GLBackend : GfxBackend {
    * Load OpenGL library.
   **/
   this() @trusted {
+    Logger.self.info(
+      InfoMessage.Creating,
+      typeof(this).stringof
+    );
+
     ShouldThrow missingSymFunc(string symName) {
       if (symName == "glGetSubroutineUniformLocation") {
         return ShouldThrow.No;
@@ -49,6 +55,18 @@ final class GLBackend : GfxBackend {
     DerelictGL3.missingSymbolCallback = &missingSymFunc;
     DerelictGL3.load();
     getLimits(false);
+
+    Logger.self.info(
+      InfoMessage.Created,
+      typeof(this).stringof
+    );
+  }
+
+  ~this() {
+    Logger.self.info(
+      InfoMessage.Destroyed,
+      typeof(this).stringof
+    );
   }
 
   /**

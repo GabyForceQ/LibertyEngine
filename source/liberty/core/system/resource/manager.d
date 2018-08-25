@@ -35,7 +35,7 @@ final class ResourceManager : Singleton!ResourceManager {
   /**
    *
   **/
-  Texture getTexture(string resourcePath) {
+  Texture loadTexture(string resourcePath) {
     // Check if service is running
     if (checkService()) {
       return _textureCache.getTexture(resourcePath);

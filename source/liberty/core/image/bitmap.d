@@ -38,7 +38,7 @@ final class Bitmap {
     }
     if (_bitmap is null) {
       Logger.self.error(
-        "Coudln't load image: " ~ filename,
+        "Couldn't load image: " ~ filename,
         typeof(this).stringof
       );
     }
@@ -108,7 +108,7 @@ final class Bitmap {
     FREE_IMAGE_FORMAT fif = FreeImage_GetFIFFromFilename(filenameZ);
     if (fif == FIF_UNKNOWN) {
       Logger.self.error(
-        "Coudln't guess format for filename: " ~ filename,
+        "Couldn't guess format for filename: " ~ filename,
         typeof(this).stringof
       );
     }

@@ -8,19 +8,28 @@
 **/
 module liberty.graphics.shader.gfx;
 
+import liberty.core.system.engine : CoreEngine;
 import liberty.core.math.vector : Vector2F, Vector3F, Vector4F;
 import liberty.core.math.matrix : Matrix4F;
+import liberty.world.services : IRenderable;
 
 /**
  *
 **/
-package(liberty.graphics) abstract class GfxShaderProgram {
+abstract class GfxShaderProgram : IRenderable {
   protected {
     uint programID;
     uint vertexShaderID;
     uint fragmentShaderID;
     int attributeCount;
     int[string] uniforms;
+  }
+
+  /**
+   *
+  **/
+  uint getId() pure nothrow const @safe {
+    return programID;
   }
 
   /**
@@ -36,7 +45,7 @@ package(liberty.graphics) abstract class GfxShaderProgram {
   /**
    *
   **/
-  void addAttribute(string name);
+  void bindAttribute(string name);
 
   /**
    *
@@ -132,4 +141,29 @@ package(liberty.graphics) abstract class GfxShaderProgram {
    * Load mat4 uniform using uniform name and value.
   **/
   void loadUniform(string name, Matrix4F matrix) nothrow @trusted;
+
+  /**
+   *
+  **/
+  override void render() {
+    // Load projection matrix uniform
+		loadUniform(
+      "uProjection", 
+      CoreEngine.self
+        .getViewport()
+        .getScene()
+        .getActiveCamera()
+        .getProjection()
+    );
+
+    // Load view matrix uniform
+    loadUniform(
+      "uView",
+      CoreEngine.self
+        .getViewport()
+        .getScene()
+        .getActiveCamera()
+        .getView()
+    );
+  }
 }

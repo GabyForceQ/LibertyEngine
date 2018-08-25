@@ -26,7 +26,7 @@ enum ShaderType : ubyte {
 /**
  *
 **/
-immutable VertexColor = q{
+immutable VertexCode = q{
   #version 450 core
 
   layout (location = 0) in vec3 lPosition;
@@ -47,7 +47,7 @@ immutable VertexColor = q{
 /**
  *
 **/
-immutable FragmentColor = q{
+immutable FragmentCode = q{
   #version 450 core
 
   in vec2 tTexCoord0;

@@ -30,8 +30,8 @@ final class Player : Actor, IRenderable {
 		spawn!Camera("Camera").setPosition(1.0f, 1.0f, 5.0f);
 		getScene().setActiveCamera(child!Camera("Camera"));
     
-    material = new Material(Texture(), Vector3F(0.3f, 0.5f, 0.2f));
-    material.texture = ResourceManager.self.getTexture("res/textures/texture_demo.bmp");
+    material = new Material("res/textures/default.bmp");
+    material.addNode("uColor", Vector3F(0.3f, 0.5f, 0.2f));
 
     mesh = new Mesh();
     Vertex[] data = [
@@ -53,14 +53,7 @@ final class Player : Actor, IRenderable {
 		
 	}
 
-  void render() {
-    material.texture.bind();
-
-    GraphicsEngine.self.shaderProgram.loadUniform("model", transform.modelMatrix);
-    GraphicsEngine.self.shaderProgram.loadUniform("uProjection", getScene().getActiveCamera().getProjection());
-    GraphicsEngine.self.shaderProgram.loadUniform("uView", getScene().getActiveCamera().getView());
-    
-    GraphicsEngine.self.shaderProgram.loadUniform("uColor", material.color);
+  void render() {    
     mesh.render();
   }
 }

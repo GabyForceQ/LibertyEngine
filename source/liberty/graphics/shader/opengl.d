@@ -44,7 +44,7 @@ class GLShaderProgram : GfxShaderProgram {
   /**
    *
   **/
-  override void addAttribute(string name) {
+  override void bindAttribute(string name) {
     import std.string : toStringz;
     glBindAttribLocation(this.programID, this.attributeCount++, name.toStringz);
   }

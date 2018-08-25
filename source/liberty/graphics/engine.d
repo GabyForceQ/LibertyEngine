@@ -43,7 +43,6 @@ final class GraphicsEngine : Singleton!GraphicsEngine {
   //private {
     Window window;
     GfxBackend backend;
-    GfxShaderProgram shaderProgram;
   //}
 
 	private static immutable startBody = q{
@@ -66,32 +65,12 @@ final class GraphicsEngine : Singleton!GraphicsEngine {
   GfxBackend getBackend() {
     return this.backend;
   }
-
-  /**
-   *
-  **/
-  void initShaders() {
-    // Create the main shader
-    this.shaderProgram = new GLShaderProgram();
-    this.shaderProgram.compileShaders(VertexColor, FragmentColor);
-    this.shaderProgram.addAttribute("lPosition");
-    this.shaderProgram.addAttribute("lTexCoord");
-    this.shaderProgram.linkShaders();
-    this.shaderProgram.addUniform("uModel");
-    this.shaderProgram.addUniform("uView");
-    this.shaderProgram.addUniform("uProjection");
-    this.shaderProgram.addUniform("uTextureSampler");
-    this.shaderProgram.addUniform("uColor");
-  }
-
+  
   /**
    *
   **/
 	void render() @trusted {
     this.backend.clearScreen();
-
-    // EXPERIMENTS
-    this.shaderProgram.bind();
 
     CoreEngine.self
       .getViewport()
@@ -99,7 +78,6 @@ final class GraphicsEngine : Singleton!GraphicsEngine {
       .render();
     
     glBindTexture(GL_TEXTURE_2D, 0);
-    this.shaderProgram.unbind();
 
     SDL_GL_SwapWindow(this.window.getHandle());
 	}
