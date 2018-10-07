@@ -19,7 +19,7 @@ struct Segment(T, int N) if (N == 2 || N == 3) {
 	///
 	static if (N == 3 && isFloatingPoint!T) {
 		///
-		bool intersect(Plane!T plane, out PointType intersection, out T progress) pure nothrow const @safe {
+		bool intersect(Plane!T plane, out PointType intersection, out T progress) pure nothrow const {
 			import liberty.core.math.functions : abs;
 			import liberty.core.math.vector : dot;
 			PointType dir = b - a;
@@ -54,18 +54,18 @@ struct Triangle(T, int N) if (N == 2 || N == 3) {
 	PointType a, b, c;
 	static if (N == 2) {
 		/// Returns area of a 2D triangle.
-		T area() pure nothrow const @safe {
+		T area() pure nothrow const {
 			import liberty.core.math.functions : abs;
 			return abs(signedArea());
 		}
 		/// Returns signed area of a 2D triangle.
-		T signedArea() pure nothrow const @safe {
+		T signedArea() pure nothrow const {
 			return ((b.x * a.y - a.x * b.y) + (c.x * b.y - b.x * c.y) + (a.x * c.y - c.x * a.y)) / 2;
 		}
 	}
 	static if (N == 3 && isFloatingPoint!T) {
 		/// Returns triangle normal.
-		Vector!(T, 3) computeNormal() pure nothrow const @safe {
+		Vector!(T, 3) computeNormal() pure nothrow const {
 			import liberty.core.math.vector : cross;
 			return cross(b - a, c - a).normalized();
 		}
@@ -92,12 +92,12 @@ struct Sphere(T, int N) if (N == 2 || N == 3) {
 	///
 	T radius;
 	///
-	this(in PointType center_, T radius_) pure nothrow @safe {
+	this(in PointType center_, T radius_) pure nothrow {
 		center = center_;
 		radius = radius_;
 	}
 	///
-	bool contains(in Sphere s) pure nothrow const @safe {
+	bool contains(in Sphere s) pure nothrow const {
 		if (s.radius > radius) {
 			return false;
 		}
@@ -105,22 +105,22 @@ struct Sphere(T, int N) if (N == 2 || N == 3) {
 		return squaredDistanceTo(s.center) < innerRadius * innerRadius;
 	}
 	///
-	T squaredDistanceTo(PointType p) pure nothrow const @safe {
+	T squaredDistanceTo(PointType p) pure nothrow const {
 		return center.squaredDistanceTo(p);
 	}
 	///
-	bool intersects(Sphere s) pure nothrow const @safe {
+	bool intersects(Sphere s) pure nothrow const {
 		T outerRadius = radius + s.radius;
 		return squaredDistanceTo(s.center) < outerRadius * outerRadius;
 	}
 	static if (isFloatingPoint!T) {
 		///
-		T distanceTo(PointType p) pure nothrow const @safe {
+		T distanceTo(PointType p) pure nothrow const {
 			return center.distanceTo(p);
 		}
 		static if(N == 2) {
 			/// Returns circle area.
-			T area() pure nothrow const @safe {
+			T area() pure nothrow const {
 				import liberty.core.math.functions : PI;
 				return PI * (radius * radius);
 			}
@@ -154,7 +154,7 @@ struct Ray(T, int N) if (N == 2 || N == 3) {
 	}
 	static if (N == 3 && isFloatingPoint!T) {
 		///
-		bool intersect(Triangle!(T, 3) triangle, out T t, out T u, out T v) pure nothrow const @safe {
+		bool intersect(Triangle!(T, 3) triangle, out T t, out T u, out T v) pure nothrow const {
 			import liberty.core.math.functions : abs;
 			import liberty.core.math.vector : dot, cross;
 			PointType edge1 = triangle.b - triangle.a;
@@ -179,7 +179,7 @@ struct Ray(T, int N) if (N == 2 || N == 3) {
 			return true;
 		}
 		///
-		bool intersect(Plane!T plane, out PointType intersection, out T distance) pure nothrow const @safe {
+		bool intersect(Plane!T plane, out PointType intersection, out T distance) pure nothrow const {
 			import liberty.core.math.functions : abs;
 			import liberty.core.math.vector : dot;
 			T dp = dot(plane.n, direction);
@@ -214,47 +214,47 @@ struct Plane(T) if (isFloatingPoint!T) {
 	///
 	T d;
 	///
-	this(Vector!(T, 4) abcd) pure nothrow @safe {
+	this(Vector!(T, 4) abcd) pure nothrow {
 		n = Vector!(T, 3)(abcd.x, abcd.y, abcd.z).normalized();
 		d = abcd.w;
 	}
 	///
-	this(Vector!(T, 3) origin, Vector!(T, 3) normal) pure nothrow @safe {
+	this(Vector!(T, 3) origin, Vector!(T, 3) normal) pure nothrow {
 		import liberty.core.math.vector : dot;
 		n = normal.normalized();
 		d = -dot(origin, n);
 	}
 	///
-	this(Vector!(T, 3) A, Vector!(T, 3) B, Vector!(T, 3) C) pure nothrow @safe {
+	this(Vector!(T, 3) A, Vector!(T, 3) B, Vector!(T, 3) C) pure nothrow {
 		import liberty.core.math.vector : cross;
 		this(C, cross(B - A, C - A));
 	}
 	///
-	ref Plane opAssign(Plane other) pure nothrow @safe {
+	ref Plane opAssign(Plane other) pure nothrow {
 		n = other.n;
 		d = other.d;
 		return this;
 	}
 	///
-	T signedDistanceTo(Vector!(T, 3) point) pure nothrow const @safe {
+	T signedDistanceTo(Vector!(T, 3) point) pure nothrow const {
 		import liberty.core.math.vector : dot;
 		return dot(n, point) + d;
 	}
 	///
-	T distanceTo(Vector!(T, 3) point) pure nothrow const @safe {
+	T distanceTo(Vector!(T, 3) point) pure nothrow const {
 		import liberty.core.math.functions : abs;
 		return abs(signedDistanceTo(point));
 	}
 	///
-	bool isFront(Vector!(T, 3) point) pure nothrow const @safe {
+	bool isFront(Vector!(T, 3) point) pure nothrow const {
 		return signedDistanceTo(point) >= 0;
 	}
 	///
-	bool isBack(Vector!(T, 3) point) pure nothrow const @safe {
+	bool isBack(Vector!(T, 3) point) pure nothrow const {
 		return signedDistanceTo(point) < 0;
 	}
 	///
-	bool isOn(Vector!(T, 3) point, T epsilon) pure nothrow const @safe {
+	bool isOn(Vector!(T, 3) point, T epsilon) pure nothrow const {
 		T sd = signedDistanceTo(point);
 		return (-epsilon < sd) && (sd < epsilon);
 	}
@@ -298,7 +298,7 @@ struct Frustum(T) if (isFloatingPoint!T) {
 	///
 	Plane!T[6] planes;
 	/// Create a frustum from 6 planes.
-	this(Plane!T left, Plane!T right, Plane!T top, Plane!T bottom, Plane!T near, Plane!T far) pure nothrow @safe {
+	this(Plane!T left, Plane!T right, Plane!T top, Plane!T bottom, Plane!T near, Plane!T far) pure nothrow {
 		planes[FrustumSide.Left] = left;
 		planes[FrustumSide.Right] = right;
 		planes[FrustumSide.Top] = top;
@@ -307,7 +307,7 @@ struct Frustum(T) if (isFloatingPoint!T) {
 		planes[FrustumSide.Far] = far;
 	}
 	///
-	bool contains(Vector!(T, 3) point) pure nothrow const @safe {
+	bool contains(Vector!(T, 3) point) pure nothrow const {
 		T distance = 0;
 		static foreach (i; 0..sideCount) {
 			distance = planes[i].signedDistanceTo(point);
@@ -318,7 +318,7 @@ struct Frustum(T) if (isFloatingPoint!T) {
 		return true;
 	}
 	///
-	FrustumScope contains(Sphere!(T, 3) sphere) pure nothrow const @safe {
+	FrustumScope contains(Sphere!(T, 3) sphere) pure nothrow const {
 		T distance = 0;
 		static foreach (i; 0..sideCount) {
 			distance = planes[i].signedDistanceTo(sphere.center);
@@ -331,7 +331,7 @@ struct Frustum(T) if (isFloatingPoint!T) {
 		return FrustumScope.Inside;
 	}
 	///
-	int contains(Box!(T, 3) box) pure nothrow const @safe {
+	int contains(Box!(T, 3) box) pure nothrow const {
 		Vector!(T, 3)[8] corners;
 		int totalIn = 0;
 		T x, y, z;

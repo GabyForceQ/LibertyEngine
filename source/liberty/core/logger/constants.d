@@ -5,6 +5,9 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/logger/constants.d, _constants.d)
  * Documentation:
  * Coverage:
+ *
+ * TODO:
+ *  - Add 'current platform' on log message.
 **/
 module liberty.core.logger.constants;
 
@@ -44,91 +47,36 @@ enum LogType : ubyte {
 }
 
 /**
- * 
+ *
 **/
 enum InfoMessage : string {
   /**
-   * 
+   *
   **/
-  ServiceStarted = "Service started successfully!",
+	ServiceStarted = "Service started successfully!",
   
   /**
-   * 
+   *
   **/
-  ServiceStopped = "Service stopped successfully!",
-
+	ServiceStopped = "Service stopped successfully!",
+	
   /**
    *
   **/
   Creating = "Creating..",
-
+	
   /**
    *
   **/
   Created = "Created",
-
+	
   /**
    *
   **/
   Destroying = "Destroying..",
-
+	
   /**
    *
   **/
   Destroyed = "Destroyed"
-}
-
-/**
- * 
-**/
-enum WarningMessage : string {
-  /**
-   * 
-  **/
-  ServiceNotRunning = "You are trying to use/stop a service that is not running!",
-  
-  /**
-   * 
-  **/
-  ServiceAlreadyRunning = "You are trying to start a service that is already running. Please restart it instead!",
-  
-  /**
-   * 
-  **/
-  NullReturn = "Returned value from current function is null!"
-}
-
-/**
- * 
-**/
-enum ErrorMessage : string {
-  /**
-   * 
-  **/
-  OpenGLContextNotFound = "No OpenGL context available in OpenGL mode!",
-  
-  /**
-   * 
-  **/
-  VulkanContextNotFound = "No Vulkan context available in Vulkan mode!"
-}
-
-/**
- * 
-**/
-enum TodoMessage : string {
-  /**
-   * 
-  **/
-  BugFix = "Bug needs to be fixed!",
-  
-  /**
-   * 
-  **/
-  Improvement = "Needs improvemet!",
-  
-  /**
-   * 
-  **/
-  NewFeature = "Implement new feature!"
 }

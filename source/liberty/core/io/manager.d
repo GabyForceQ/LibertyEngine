@@ -10,46 +10,36 @@ module liberty.core.io.manager;
 
 import std.stdio : File;
 
-import liberty.core.logger.manager : Logger;
-import liberty.core.manager.meta : ManagerBody;
-import liberty.core.utils : Singleton;
+import liberty.core.logger.impl : Logger;
 
 /**
- * Singleton class used for managing files and console input/output.
- * It's a manager class so it implements $(D ManagerBody).
+ * Used for managing files and console input/output.
 **/
-final class IOManager : Singleton!IOManager {
-  mixin(ManagerBody);
-
+final class IOManager {
   /**
    *
   **/
-  bool readFileToBuffer(string filePath, ref char[] buffer) {
-    // Check if service is running
-    if (checkService()) {
-      // Try to open and read file
-      auto file = File(filePath, "r");
-      scope (success) file.close();
+  static bool readFileToBuffer(string filePath, ref char[] buffer) {
+    // Try to open and read file
+    auto file = File(filePath, "r");
+    scope (success) file.close();
 
-      // Check file loaded successfully
-      if (file.error()) {
-        Logger.self.error("File couldn't be opened", typeof(this).stringof);
-        return false;
-      }
-      
-      // Get the file size
-      ulong fileSize = file.size();
-
-      // Reduce the file size by any header bytes that might be present
-      fileSize -= file.tell();
-
-      // Fill buffer
-      buffer = file.rawRead(new char[fileSize]);
-
-      return true;
+    // Check file loaded successfully
+    if (file.error()) {
+      Logger.error("File couldn't be opened", typeof(this).stringof);
+      return false;
     }
+    
+    // Get the file size
+    ulong fileSize = file.size();
 
-    return false;
+    // Reduce the file size by any header bytes that might be present
+    fileSize -= file.tell();
+
+    // Fill buffer
+    buffer = file.rawRead(new char[cast(size_t)fileSize]);
+
+    return true;
   }
 
   /**
@@ -58,10 +48,10 @@ final class IOManager : Singleton!IOManager {
   unittest {
     char[] buf;
     
-    IOManager.self.startService();
-    scope(exit) IOManager.self.stopService();
+    IOManager.startService();
+    scope(exit) IOManager.stopService();
 
-    if(!IOManager.self.readFileToBuffer("test_file.txt", buf)) {
+    if(!IOManager.readFileToBuffer("test_file.txt", buf)) {
       assert(0, "Operation failed!");
     }
 
@@ -75,7 +65,7 @@ final class IOManager : Singleton!IOManager {
   /**
    *
   **/
-  //bool writeBufferToFile(char[] buffer, string filePath) {
+  //static bool writeBufferToFile(char[] buffer, string filePath) {
     // todo
   //}
 }

@@ -26,7 +26,7 @@ class TextureCache {
     // Check if texture is in the map
     // If it's not then load a new one and return it
     if (path !in _textureMap) {
-      Texture tex = ImageLoader.self.loadBMP(path);
+      Texture tex = ImageLoader.loadBMP(path);
       _textureMap[path] = tex;
       return tex;
     }

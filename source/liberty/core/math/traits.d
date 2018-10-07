@@ -8,7 +8,7 @@
 **/
 module liberty.core.math.traits;
 
-import liberty.core.math.matrix : Matrix, MatrixOrder;
+import liberty.core.math.matrix : Matrix;
 import liberty.core.math.quaternion : Quaternion;
 import liberty.core.math.box : Box, Box2F, Box3D, Box3I;
 import liberty.core.math.vector : 
@@ -26,7 +26,7 @@ enum isVector(T) = is(T : Vector!U, U...);
 /**
  *
 **/
-pure nothrow @safe unittest {
+pure nothrow unittest {
   static assert (isVector!Vector2F);
   static assert (isVector!Vector3I);
   static assert (isVector!(Vector4!uint));
@@ -41,7 +41,7 @@ alias DimensionType(T : Vector!U, U...) = U[0];
 /**
  *
 **/
-pure nothrow @safe unittest {
+pure nothrow unittest {
   static assert (is(DimensionType!Vector2F == float));
   static assert (is(DimensionType!Vector3D == double));
   static assert (is(DimensionType!Vector4U == uint));
@@ -51,7 +51,7 @@ pure nothrow @safe unittest {
  *
 **/
 template isMatrixInstance(U) {
-	private static void isMatrix(T, int R, int C, MatrixOrder O)(Matrix!(T, R, C, O) x) {}
+	private static void isMatrix(T, int R, int C)(Matrix!(T, R, C) x) {}
 	enum bool isMatrixInstance = is(typeof(isMatrix(U.init)));
 }
 
@@ -71,7 +71,7 @@ alias DimensionType(T : Box!U, U...) = U[0];
 /**
  *
 **/
-pure nothrow @safe unittest {
+pure nothrow unittest {
 	static assert (is(DimensionType!Box2F == float));
 	static assert (is(DimensionType!Box3D == double));
 }
@@ -84,7 +84,7 @@ enum isBox(T) = is(T : Box!U, U...);
 /**
  *
 **/
-pure nothrow @safe unittest {
+pure nothrow unittest {
 	static assert (isBox!Box2F);
 	static assert (isBox!Box3I);
 	static assert (isBox!(Box!(double, 2)));
@@ -194,7 +194,7 @@ alias DimensionType(T : Frustum!U, U) = U;
 /**
  *
 **/
-pure nothrow @safe unittest {
+pure nothrow unittest {
 	static assert (is(DimensionType!Segment2I == int));
 	static assert (is(DimensionType!Triangle3F == float));
 	static assert (is(DimensionType!Sphere2D == double));

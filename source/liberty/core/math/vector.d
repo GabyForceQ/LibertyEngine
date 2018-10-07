@@ -108,7 +108,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         }
     }
     ///
-    this(U...)(U values) pure nothrow @safe {
+    this(U...)(U values) pure nothrow {
         import std.meta : allSatisfy;
         import std.traits : isAssignable;
         enum bool isAsgn(U) = isAssignable!(T, U);
@@ -132,7 +132,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         }
     }
     ///
-    pure nothrow @safe unittest {
+    pure nothrow unittest {
         auto v1 = Vector2I(4, 2);
         assert (v1.v == [4, 2]);
         auto v2 = Vector2I(5);
@@ -156,7 +156,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		this(Vector3!T xyz, T w) { v[0] = xyz.x; v[1] = xyz.y; v[2] = xyz.z; v[3] = w; }
 	}
     /// Assign a Vector from a compatible type.
-    ref Vector opAssign(U)(U rhs) pure nothrow @safe {
+    ref Vector opAssign(U)(U rhs) pure nothrow {
         static if (is(U : Vector)) {
             static foreach (i; 0..N) {
                 v[i] = rhs.v[i];
@@ -172,7 +172,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         return this;
     }
     ///
-    pure nothrow @safe unittest {
+    pure nothrow unittest {
         auto v1 = Vector3I();
         v1 = Vector3I(7, 8, 9);
         assert (v1.v == [7, 8, 9]);
@@ -184,7 +184,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         assert (v3.v == [1, 3, 5, -6]);
     }
     ///
-    bool opEquals(U)(U rhs) pure nothrow const @safe {
+    bool opEquals(U)(U rhs) pure nothrow const {
         static if (is(U : Vector)) {
             static foreach (i; 0..N) {
                 if (v[i] != rhs.v[i]) {
@@ -203,7 +203,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         return true;
     }
     ///
-    pure nothrow @safe unittest {
+    pure nothrow unittest {
         auto v1 = Vector2F(4.5f, 6.0f);
         assert (v1 == Vector2F(4.5f, 6.0f));
         assert (v1 != Vector2F(4.5f, 8.0f));
@@ -212,7 +212,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         assert (v2 != 0);
     }
 	///
-	Vector opUnary(string op)() pure const nothrow @safe if (op == "+" || op == "-" || op == "~" || op == "!") {
+	Vector opUnary(string op)() pure const nothrow if (op == "+" || op == "-" || op == "~" || op == "!") {
 		Vector ret = void;
 		static foreach (i; 0..N) {
 			mixin("ret.v[i] = " ~ op ~ "v[i];");
@@ -220,7 +220,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		return ret;
 	}
     ///
-    pure nothrow @safe unittest {
+    pure nothrow unittest {
         auto v1 = Vector2I(2, -5);
         assert ((+v1).v == [2, -5]);
         assert ((-v1).v == [-2, 5]);
@@ -230,7 +230,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         //assert ((!v2).v == [false, true]);
     }
 	///
-	Vector opBinary(string op, U)(U rhs) pure nothrow const @safe {
+	Vector opBinary(string op, U)(U rhs) pure nothrow const {
 		Vector ret = void;
         static if (is(U : Vector)) {
             static foreach (i; 0..N) {
@@ -246,7 +246,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		return ret;
 	}
     ///
-    pure nothrow @safe unittest {
+    pure nothrow unittest {
         auto v1 = Vector2I(4, -5);
         auto v2 = Vector2I(7, 2);
         auto v3 = v1 + v2;
@@ -255,7 +255,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         assert (v3.v == [5, 0]);
     }
 	///
-    Vector opBinaryRight(string op, U)(U lhs) pure nothrow const @safe {
+    Vector opBinaryRight(string op, U)(U lhs) pure nothrow const {
         Vector ret = void;
         static if (is(U : Vector)) {
             static foreach (i; 0..N) {
@@ -271,13 +271,13 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 	    return ret;
     }
     ///
-    pure nothrow @safe unittest {
+    pure nothrow unittest {
         auto v1 = Vector2I(4, -5);
         auto v2 = 3 + v1;
         assert (v2.v == [7, -2]);
     }
     ///
-	ref Vector opOpAssign(string op, U)(U rhs) pure nothrow @safe {
+	ref Vector opOpAssign(string op, U)(U rhs) pure nothrow {
         static if (is(U : Vector) || is(U : T)) {
             mixin("this = this " ~ op ~ " rhs;");
         } else {
@@ -286,7 +286,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		return this;
 	}
 	///
-    pure nothrow @safe unittest {
+    pure nothrow unittest {
         auto v1 = Vector2I(2, -8);
         v1 += 3;
         assert (v1.v == [5, -5]);
@@ -295,19 +295,19 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         assert (v1.v == [4, -7]);
     }
 	///
-	ref T opIndex(size_t i) pure nothrow @safe {
+	ref T opIndex(size_t i) pure nothrow {
 		return v[i];
 	}
 	///
-	ref const(T) opIndex(size_t i) pure nothrow const @safe {
+	ref const(T) opIndex(size_t i) pure nothrow const {
 		return v[i];
 	}
 	///
-	T opIndexAssign(U : T)(U x, size_t i) pure nothrow @safe {
+	T opIndexAssign(U : T)(U x, size_t i) pure nothrow {
 		return v[i] = x;
 	}
 	///
-	U opCast(U)() pure nothrow const @safe if (isVector!U && U.size == size) {
+	U opCast(U)() pure nothrow const if (isVector!U && U.size == size) {
 		U ret = void;
 		static foreach (i; 0..N) {
 			mixin("ret.v[i] = cast(U.type)v[i];");
@@ -315,21 +315,21 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		return ret;
 	}
     ///
-    pure nothrow @safe unittest {
+    pure nothrow unittest {
         auto v1 = Vector2F(1.3f, -5.7f);
         auto v2 = cast(Vector2I)v1;
         assert (v2.v == [1, -5]);
     }
 	///
-	int opDollar() pure nothrow const @safe {
+	int opDollar() pure nothrow const {
 		return N;
 	}
 	///
-	T[] opSlice() pure nothrow @safe {
+	T[] opSlice() pure nothrow {
 		return v[];
 	}
 	///
-	T[] opSlice(int a, int b) pure nothrow @safe {
+	T[] opSlice(int a, int b) pure nothrow {
 		return v[a..b];
 	}
 	/// Returns a pointer to content.
@@ -337,7 +337,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         return v.ptr;
     }
     /// Converts current vector to a string.
-    string toString() nothrow const @safe {
+    string toString() nothrow const {
         try {
             import std.string : format;
             return format("%s", v);
@@ -346,12 +346,12 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         }
     }
     ///
-    pure nothrow @safe unittest {
+    pure nothrow unittest {
         auto v = Vector!(uint, 2)(2, 4);
         assert (v.toString() == "[2, 4]");
     }
 	///
-	T squaredMagnitude() pure nothrow const @safe {
+	T squaredMagnitude() pure nothrow const {
 		T sumSquares = 0;
 		static foreach (i; 0..N) {
 			mixin("sumSquares += v[i] * v[i];");
@@ -359,54 +359,54 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		return sumSquares;
 	}
 	///
-	T squaredDistanceTo(Vector v) pure nothrow const @safe {
+	T squaredDistanceTo(Vector v) pure nothrow const {
 		return (v - this).squaredMagnitude();
 	}
 	static if (isFloatingPoint!T) {
 		/// Returns Euclidean length.
-		T magnitude() pure nothrow const @safe {
+		T magnitude() pure nothrow const {
             import liberty.core.math.functions : sqrt;
 			return sqrt(squaredMagnitude());
 		}
 		/// Returns inverse of Euclidean length.
-		T inverseMagnitude() pure nothrow const @safe {
+		T inverseMagnitude() pure nothrow const {
             import liberty.core.math.functions : sqrt;
 			return 1 / sqrt(squaredMagnitude());
 		}
 		/// Faster but less accurate inverse of Euclidean length. Returns inverse of Euclidean length.
-		T fastInverseMagnitude() pure nothrow const @safe {
+		T fastInverseMagnitude() pure nothrow const {
             import liberty.core.math.functions : inverseSqrt;
 			return inverseSqrt(squaredMagnitude());
 		}
 		/// Returns Euclidean distance between this and other.
-		T distanceTo(Vector other) pure nothrow const @safe {
+		T distanceTo(Vector other) pure nothrow const {
 			return (other - this).magnitude();
 		}
 		/// In-place normalization.
-		void normalize() pure nothrow @safe {
+		void normalize() pure nothrow {
 			auto invMag = inverseMagnitude();
 			v[] *= invMag;
 		}
 		/// Returns normalized vector.
-		Vector normalized() pure nothrow const @safe {
+		Vector normalized() pure nothrow const {
 			Vector res = this;
 			res.normalize();
 			return res;
 		}
 		/// Faster but less accurate in-place normalization.
-		void fastNormalize() pure nothrow @safe {
+		void fastNormalize() pure nothrow {
 			auto invLength = fastInverseMagnitude();
 			v[] *= invLength;
 		}
 		/// Faster but less accurate vector normalization. Returns normalized vector.
-		Vector fastNormalized() pure nothrow const @safe {
+		Vector fastNormalized() pure nothrow const {
 			Vector ret = this;
 			ret.fastNormalize();
 			return ret;
 		}
 		static if (N == 3) {
 			/// Gets an orthogonal vector from a 3D vector.
-			Vector getOrthogonalVector() pure nothrow const @safe {
+			Vector getOrthogonalVector() pure nothrow const {
         import liberty.core.math.functions : abs;
 				return abs(x) > abs(z) ? Vector(-y, x, 0.0) : Vector(0.0, -z, y);
 			}
@@ -472,7 +472,7 @@ alias Vector4F = Vector4!float;
 ///
 alias Vector4D = Vector4!double;
 /// Element-wise minimum.
-Vector!(T, N) minByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow @safe {
+Vector!(T, N) minByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow {
     import std.algorithm : min;
     Vector!(T, N) ret = void;
     static foreach (i; 0..N) {
@@ -481,7 +481,7 @@ Vector!(T, N) minByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) 
     return ret;
 }
 /// Element-wise maximum.
-Vector!(T, N) maxByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow @safe {
+Vector!(T, N) maxByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow {
     import std.algorithm : max;
     Vector!(T, N) ret = void;
     static foreach (i; 0..N) {
@@ -490,7 +490,7 @@ Vector!(T, N) maxByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) 
     return ret;
 }
 /// Element-wise absolute value.
-Vector!(T, N) absByElem(T, int N)(const Vector!(T, N) a) pure nothrow @safe {
+Vector!(T, N) absByElem(T, int N)(const Vector!(T, N) a) pure nothrow {
     import liberty.core.math.functions : abs;
     Vector!(T, N) ret = void;
     static foreach (i; 0..N) {
@@ -499,7 +499,7 @@ Vector!(T, N) absByElem(T, int N)(const Vector!(T, N) a) pure nothrow @safe {
     return ret;
 }
 /// Returns dot product.
-T dot(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow @safe {
+T dot(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow {
     T sum = 0;
     static foreach (i; 0..N) {
 	    sum += a.v[i] * b.v[i];
@@ -507,11 +507,11 @@ T dot(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow @safe
     return sum;
 }
 /// Returns 3D cross product.
-Vector!(T, 3) cross(T)(const Vector!(T, 3) a, const Vector!(T, 3) b) pure nothrow @safe {
+Vector!(T, 3) cross(T)(const Vector!(T, 3) a, const Vector!(T, 3) b) pure nothrow {
     return Vector!(T, 3)(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 }
 /// Returns 3D reflect.
-Vector!(T, N) reflect(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow @safe {
+Vector!(T, N) reflect(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow {
     return a - (2 * dot(b, a)) * b;
 }
 ///

@@ -10,5 +10,6 @@ module liberty.core.image;
 
 public {
   import liberty.core.image.bitmap;
+  import liberty.core.image.loader;
   import liberty.core.image.manager;
 }

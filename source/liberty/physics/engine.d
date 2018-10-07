@@ -8,13 +8,32 @@
 **/
 module liberty.physics.engine;
 
-import liberty.core.utils : Singleton;
-import liberty.core.manager.meta : ManagerBody;
-
 /**
- * Singleton class used to handle 2D/3D physics.
- * It's a manager class so it implements $(D ManagerBody).
+ *
 **/
-final class PhysicsEngine : Singleton!PhysicsEngine {
-  mixin(ManagerBody);
+final class PxEngine {
+  private {
+    static bool running = true;
+  }
+
+  /**
+   *
+  **/
+  static bool isRunning() nothrow {
+    return running;
+  }
+
+  /**
+   * Pause the Physics Engine.
+  **/
+  static void pause() {
+    running = false;
+  }
+
+  /**
+   * Resume the Physics Engine.
+  **/
+  static void resume() {
+    running = true;
+  }
 }

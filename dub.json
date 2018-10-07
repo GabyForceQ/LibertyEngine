@@ -2,24 +2,20 @@
 	"name": "liberty-engine",
 	"targetName": "LibertyEngine",
 	"targetType": "executable",
-	"targetPath": "lib",
+	"targetPath": "bin",
 	"authors": [
 		"Gabriel Gheorghe"
 	],
 	"description": "Simple, fast and modern 2D/3D engine.",
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
   "copyright": "Copyright © 2018, Gabriel Gheorghe",
-  "versions": [
-    "__OpenGL__"
-  ],
 	"stringImportPaths": [
 		"res"
 	],
 	"dependencies": {
 		"derelict-util": "~>3.0.0-beta.2",
-		"derelict-gl3": "~>2.0.0-beta.6",
-		"derelict-sdl2": "~>3.1.0-alpha.4",
-		"derelict-assimp3": "~>2.0.0-beta.1",
+		"derelict-gl3": "~>2.0.0-beta.7",
+		"derelict-glfw3": "~>4.0.0-beta.1",
 		"derelict-fi": "~>3.0.0-beta.1"
 	}
 }

@@ -1,121 +1,103 @@
 module main;
 
 import liberty.engine;
-import derelict.sdl2.sdl;
 
 mixin(EngineRun);
 
-///
-void libertyMain() {
-  auto a = new Scene("DefaultScene");
-
-  CoreEngine.self
-    .getViewport()
-    .getScene()
-    .getTree()
-    .spawn!Player("player", true);
-    
-  GraphicsEngine.self.enableVSync();
-  GraphicsEngine.self.enableAlphaBlend();
-
-}
-
-final class Player : Actor, IRenderable {
-	mixin(NodeBody);
-
-  Material material;
-  Mesh mesh;
-
-	override void start() {
-		spawn!Camera("Camera").setPosition(1.0f, 1.0f, 5.0f);
-		getScene().setActiveCamera(child!Camera("Camera"));
-    
-    material = new Material("res/textures/default.bmp");
-    material.addNode("uColor", Vector3F(0.3f, 0.5f, 0.2f));
-
-    mesh = new Mesh();
-    Vertex[] data = [
-      Vertex(Vector3F(-1, -1, 0), Vector2F(0, 0)),
-      Vertex(Vector3F( 0,  1, 0), Vector2F(0.5f, 0)),
-      Vertex(Vector3F( 1, -1, 0), Vector2F(1, 0)),
-      Vertex(Vector3F( 0, -1, 1), Vector2F(0.5f, 1.0f))
-    ];
-    int[] indices = [
-      3, 1, 0,
-      2, 1, 3,
-      0, 1, 2,
-      0, 2, 3
-    ];
-    mesh.addVertices(data, indices);
-	}
-
-	override void update(in float deltaTime) {
-		
-	}
-
-  void render() {    
-    mesh.render();
-  }
-}
-
-
-/*
-
-final class Player : UniqueActor, IRenderable {
+/**
+ * Example class for player.
+**/
+final class Player : Actor {
   mixin(NodeBody);
 
-  Transform transform;
-  float temp = 0.0f;
-  Mesh mesh;
-  Camera camera;
-  Material material;
+  private {
+    BSPCube[5] cubes;
+    Vector3F[5] cubesPos = [
+      Vector3F.zero,
+      Vector3F(1.2f, 0.0f, 0.0f),
+      Vector3F(-1.2f, 0.0f, 0.0f),
+      Vector3F(0.0f, 1.2f, 0.0),
+      Vector3F(0.0f, -1.2f, 0.0f)
+    ];
+    PointLight light;
+    //CubeVolume cube;
+    float rotationSpeed = 100.0f;
+    float direction = 1.0f;
+  }
 
+  /**
+   * Optional.
+   * If declared, it is called after all objects instantiation.
+  **/
   override void start() {
-    material = new Material(Texture(), Vector3F(0.3f, 0.5f, 0.2f));
-    material.texture = ResourceManager.self.getTexture("res/textures/texture_demo.bmp");
-
-    mesh = new Mesh();
-    Vertex[] data = [
-      Vertex(Vector3F(-1, -1, 0), Vector2F(0, 0)),
-      Vertex(Vector3F( 0,  1, 0), Vector2F(0.5f, 0)),
-      Vertex(Vector3F( 1, -1, 0), Vector2F(1, 0)),
-      Vertex(Vector3F( 0, -1, 1), Vector2F(0.5f, 1.0f))
-    ];
-    int[] indices = [
-      3, 1, 0,
-      2, 1, 3,
-      0, 1, 2,
-      0, 2, 3
-    ];
-    mesh.addVertices(data, indices);
-
-    camera = new Camera("DefCamera", this);
-
-    //mesh = ResourceManager.self.loadMesh("res/models/box.obj");
-    //camera.setProjection(70.0f, 1600, 900, 0.1f, 1000.0f);
-    //transform.setCamera(camera);
+    foreach (i; 0..5)
+      (cubes[i] = spawn!BSPCube("Cube" ~ i.to!string))
+        .getTransform()
+        .translate(cubesPos[i]);
+    (light = spawn!PointLight("PointLight"))
+      .setPosition(Vector3F(0.0f, 0.0f, 2.0f));
+    //(cube = spawn!CubeVolume("Cube")).getTransform().translate(Vector3F(2.0f, 2.0f, 2.0f));
   }
 
-  override void update(in float deltaTime) {
-    camera.update(deltaTime);
-    temp += deltaTime;
-    transform.setTranslation(sin(temp), 0, -5);
-    //transform.setRotationAngle(radians(sin(temp) * 180.0f));
-    //transform.setRotation(0, 1, 0);
-    //transform.setScale(0.7 * sin(temp), 0.7 * sin(temp), 0.7 * sin(temp));
-  }
+  /**
+   * Optional.
+   * If declared, it is called every frame.
+  **/
+  override void update() {
+    static float rotationVelocity = 0.0f;
+    rotationVelocity += rotationSpeed * direction * Time.getDelta();
+    if (rotationVelocity >= 360.0f)
+      rotationVelocity = 0.0f;
 
-  void render() {
-    material.texture.bind();
+    for (int i = 1; i < 5; i += 2)
+			cubes[i].getTransform().rotateRoll(rotationVelocity);
+	  
+    for (int i = 2; i < 5; i += 2)
+			cubes[i].getTransform().rotateRoll(-rotationVelocity);
 
-    Renderer.self._colorProgram.loadUniform("model", transform.modelMatrix);
-    Renderer.self._colorProgram.loadUniform("uProjection", camera.getProjection());
-    Renderer.self._colorProgram.loadUniform("uView", camera.getView());
+    if (Input.isKeyHold(KeyCode.Z)) {
+      if (rotationSpeed < 4999.8f)
+        rotationSpeed += 0.2f;
+      else
+        rotationSpeed = 5000.0f;
+    }
     
-    Renderer.self._colorProgram.loadUniform("uColor", material.color);
+    if (Input.isKeyHold(KeyCode.X)) {
+      if (rotationSpeed > 0.2f)
+        rotationSpeed -= 0.2f;
+      else
+        rotationSpeed = 0.0f;
+    }
 
-    mesh.render();
+    if (Input.isKeyDown(KeyCode.C))
+      direction = -direction;
+    
+    if (Input.isKeyHold(KeyCode.SPACE))
+      changeLightColor();
+
+    if (Input.isKeyUp(KeyCode.SPACE))
+      light.setColor(Vector3F.one);
+  }
+
+  ///
+  void changeLightColor() {
+    light.setColor(Vector3F(
+      sin(Time.getTime() * 2.0f),
+      sin(Time.getTime() * 1.7f),
+      sin(Time.getTime() * 1.3f)
+    ));
   }
 }
 
-*/
+/**
+ * Application main.
+ * Create a new scene, then spawn a Player,
+ * then register the scene to the engine.
+**/
+void libertyMain() {
+  new Scene("Scene")
+    .getTree()
+    .spawn!Player("Player", false)
+    .getScene()
+    .register();
+}

@@ -12,66 +12,45 @@ import derelict.freeimage.freeimage :
     DerelictFI, FreeImage_GetVersion, 
     FreeImage_GetCopyrightMessage;
 
-import liberty.core.utils : Singleton;
-import liberty.core.manager : ManagerBody;
+import liberty.core.logger.impl : Logger;
 import liberty.core.image.loader : ImageLoader;
 
 /**
  *
 **/
-final class ImageManager : Singleton!ImageManager {
-  mixin(ManagerBody);
-
+final class ImageManager {
   /**
    * Loads the FreeImage library.
    * Starts the ImageLoader service.
   **/
-  private static immutable startBody = q{
+  static void load() {
     try {
       DerelictFI.load();
     } catch (Exception e) {
-      Logger.self.error(
+      Logger.error(
         "Failed to load FreeImage library",
         typeof(this).stringof
       );
     }
-    ImageLoader.self.startService();
-  };
-
-  /**
-   * Stops the ImageLoader service.
-  **/
-  private static immutable stopBody = q{
-    ImageLoader.self.stopService();
-  };
+  }
 
 	/**
    *
   **/
-  const(char)[] version_() {
+  static const(char)[] version_() {
     import std.string : fromStringz;
     
-    // Check if service is running
-    if (checkService()) {
-      const(char)* versionZ = FreeImage_GetVersion();
-      return fromStringz(versionZ);
-    }
-    
-    return null;
+    const(char)* versionZ = FreeImage_GetVersion();
+    return fromStringz(versionZ);
   }
     
 	/**
    *
   **/
-  const(char)[] copyright_()  {
+  static const(char)[] copyright_()  {
     import std.string : fromStringz;
 
-    // Check if service is running
-    if (checkService()) {
-      const(char)* copyrightZ = FreeImage_GetCopyrightMessage();
-      return fromStringz(copyrightZ);
-    }
-
-    return null;
+    const(char)* copyrightZ = FreeImage_GetCopyrightMessage();
+    return fromStringz(copyrightZ);
   }
 }

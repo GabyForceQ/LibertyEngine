@@ -5,10 +5,13 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/logger/package.d, _package.d)
  * Documentation:
  * Coverage:
+ *
+ * TODO:
+ *  - Add 'current platform' on log message.
 **/
 module liberty.core.logger;
 
 public {
   import liberty.core.logger.constants;
-  import liberty.core.logger.manager;
+  import liberty.core.logger.impl;
 }

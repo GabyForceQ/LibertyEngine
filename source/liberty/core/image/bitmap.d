@@ -10,9 +10,7 @@ module liberty.core.image.bitmap;
 
 import std.string;
 import derelict.freeimage.freeimage;
-import liberty.core.image.manager;
-
-import liberty.core.logger.manager : Logger;
+import liberty.core.logger : Logger;
 
 /**
  * Image bitmap wrapper.
@@ -37,7 +35,7 @@ final class Bitmap {
       _bitmap = FreeImage_Load(fif, filenameZ, flags);
     }
     if (_bitmap is null) {
-      Logger.self.error(
+      Logger.error(
         "Couldn't load image: " ~ filename,
         typeof(this).stringof
       );
@@ -49,7 +47,7 @@ final class Bitmap {
   **/
   this(FIBITMAP* bitmap) {
     if (bitmap is null) {
-      Logger.self.error(
+      Logger.error(
         "Cannot make FIBitmap from null handle",
         typeof(this).stringof
       );
@@ -83,7 +81,7 @@ final class Bitmap {
       FALSE
     );
     if (_bitmap is null) {
-      Logger.self.error(
+      Logger.error(
         "Cannot make FIBitmap from raw data",
         typeof(this).stringof
       );
@@ -107,7 +105,7 @@ final class Bitmap {
     const(char)* filenameZ = toStringz(filename);
     FREE_IMAGE_FORMAT fif = FreeImage_GetFIFFromFilename(filenameZ);
     if (fif == FIF_UNKNOWN) {
-      Logger.self.error(
+      Logger.error(
         "Couldn't guess format for filename: " ~ filename,
         typeof(this).stringof
       );
@@ -269,7 +267,7 @@ final class Bitmap {
   Bitmap convertToType(FREE_IMAGE_TYPE dstType, bool scaleLinear = true) {
     FIBITMAP* converted = FreeImage_ConvertToType(_bitmap, dstType, scaleLinear);
     if (converted is null) {
-      Logger.self.warning(
+      Logger.warning(
         "Disallowed conversion",
         typeof(this).stringof
       );
@@ -343,7 +341,7 @@ final class Bitmap {
   **/
   void horizontalFlip() {
     if (FreeImage_FlipHorizontal(_bitmap) == FALSE) {
-      Logger.self.warning(
+      Logger.warning(
         "Cannot flip image horizontally",
         typeof(this).stringof
       );
@@ -355,7 +353,7 @@ final class Bitmap {
   **/
   void verticalFlip() {
     if (FreeImage_FlipVertical(_bitmap) == FALSE) {
-      Logger.self.warning(
+      Logger.warning(
         "Cannot flip image vertically",
         typeof(this).stringof
       );
