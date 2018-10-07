@@ -38,3 +38,5 @@ If you want to do something at construction time, you should use 'void construct
 ```
 
 > *Do not use this framework in production until version 0.1 is released!*
+
+![](screenshot.png?raw=true "Just a demo image!")
