@@ -30,9 +30,19 @@ final class ModelLoader {
 
   static RawModel loadToVAO(Vertex[] data) {
     uint vaoID = createVAO();
-    storeDataInAttributeList(0, data);
-    storeDataInAttributeList(1, data);
-    storeDataInAttributeList(2, data);
+
+    uint vboID;
+    glGenBuffers(1, &vboID);
+    vbos ~= vboID;
+    glBindBuffer(GL_ARRAY_BUFFER, vboID);
+    glBufferData(GL_ARRAY_BUFFER, data.bufferSize(), data.ptr, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     unbindVAO();
     return new RawModel(vaoID, data.length);
   }
@@ -40,9 +50,19 @@ final class ModelLoader {
   static RawModel loadToVAO(Vertex[] data, uint[] indices) {
     uint vaoID = createVAO();
     bindElementBuffer(indices);
-    storeDataInAttributeList(0, data);
-    storeDataInAttributeList(1, data);
-    storeDataInAttributeList(2, data);
+
+    uint vboID;
+    glGenBuffers(1, &vboID);
+    vbos ~= vboID;
+    glBindBuffer(GL_ARRAY_BUFFER, vboID);
+    glBufferData(GL_ARRAY_BUFFER, data.bufferSize(), data.ptr, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     unbindVAO();
     return new RawModel(vaoID, indices.length);
   }
@@ -58,21 +78,6 @@ final class ModelLoader {
     vaos ~= vaoID;
     glBindVertexArray(vaoID);
     return vaoID;
-  }
-
-  private static void storeDataInAttributeList(uint attrNumber, Vertex[] data) {
-    uint vboID;
-    glGenBuffers(1, &vboID);
-    vbos ~= vboID;
-    glBindBuffer(GL_ARRAY_BUFFER, vboID);
-    glBufferData(GL_ARRAY_BUFFER, data.bufferSize(), data.ptr, GL_STATIC_DRAW);
-    if (attrNumber == 0)
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
-    if (attrNumber == 1)
-      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
-    if (attrNumber == 2)
-      glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
 
   private static void unbindVAO() {
