@@ -21,7 +21,7 @@ import liberty.core.engine : CoreEngine;
 import liberty.core.logger : Logger, InfoMessage;
 import liberty.core.platform : Platform;
 import liberty.graphics.color : Color;
-import liberty.graphics.constants : Vendor;
+import liberty.graphics.constants : GfxVendor;
 
 /**
  *
@@ -33,6 +33,8 @@ class GfxEngine {
     static int _minorVersion;
     static int _maxColorAttachments;
   }
+
+  @disable this();
 
   /**
    *
@@ -256,17 +258,17 @@ class GfxEngine {
     return getString(GL_VENDOR);
   }
 
-  static Vendor getVendor() {
+  static GfxVendor getVendor() {
     import std.algorithm.searching : canFind;
     const(char)[] s = getVendorString();
     if (canFind(s, "AMD"))
-      return Vendor.Amd;
+      return GfxVendor.Amd;
     else if (canFind(s, "NVIDIA"))
-      return Vendor.Nvidia;
+      return GfxVendor.Nvidia;
     else if (canFind(s, "Intel"))
-      return Vendor.Intel;
+      return GfxVendor.Intel;
     else
-      return Vendor.Other;
+      return GfxVendor.Other;
   }
 
   static const(char)[] getRendererString() {

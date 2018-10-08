@@ -17,10 +17,11 @@ import liberty.graphics.engine : GfxEngine;
 import liberty.core.objects.camera : CameraMovement;
 import liberty.core.scene : Scene;
 import liberty.core.image.manager : ImageManager;
+import liberty.core.resource.manager : ResourceManager;
 import liberty.core.input;
 
 /**
- * Core engine class containing base functions.
+ * Core engine class containing engine base static functions.
 **/
 final class CoreEngine {
   private {
@@ -28,9 +29,7 @@ final class CoreEngine {
 		static Scene scene;
   }
 
-	package static bool firstMouse = true;
-	package static float lastX = 2560 / 2.0f;
-	package static float lastY = 1440 / 2.0f;
+	@disable this();
 
   /**
    * Initialize core engine features.
@@ -40,7 +39,8 @@ final class CoreEngine {
 		changeState(EngineState.Starting);
 
 		// Initialize other classes
-		ImageManager.load();
+		ImageManager.initialize();
+		ResourceManager.initialize();
 		GfxEngine.initialize();
 		Platform.initialize();
 		GfxEngine.reloadFeatures();
@@ -58,6 +58,7 @@ final class CoreEngine {
 
 		// Deinitialize other classes
 		Platform.deinitialize();
+		ResourceManager.releaseAllModels();
 
     // Set engine state to "stopped"
     changeState(EngineState.Stopped);
@@ -154,14 +155,14 @@ final class CoreEngine {
   }
 
 	/**
-	 *
+	 * Load a new scene into the window viewport.
 	**/
 	static void loadScene(Scene scene) nothrow {
 		this.scene = scene;
 	}
 
 	/**
-	 *
+	 * Returns: current scene.
 	**/
 	static Scene getScene() nothrow {
 		return scene;

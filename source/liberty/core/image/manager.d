@@ -19,11 +19,12 @@ import liberty.core.image.loader : ImageLoader;
  *
 **/
 final class ImageManager {
+  @disable this();
+
   /**
    * Loads the FreeImage library.
-   * Starts the ImageLoader service.
   **/
-  static void load() {
+  static void initialize() {
     try {
       DerelictFI.load();
     } catch (Exception e) {

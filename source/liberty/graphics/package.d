@@ -9,12 +9,12 @@
 module liberty.graphics;
 
 public {
+  import liberty.graphics.array;
   import liberty.graphics.buffer;
   import liberty.graphics.color;
   import liberty.graphics.constants;
   import liberty.graphics.engine;
   import liberty.graphics.shader;
   import liberty.graphics.shaders;
-  import liberty.graphics.vao;
   import liberty.graphics.vertex;
 }

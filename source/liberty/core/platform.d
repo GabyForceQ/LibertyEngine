@@ -25,6 +25,8 @@ final class Platform {
     static Window window;
   }
 
+  @disable this();
+
   /**
    * Initialize current platform.
    * It loads the GLFW library.
@@ -58,9 +60,11 @@ final class Platform {
       "Liberty Engine v0.0.15-beta.1"
     );
 
+    Event.initialize();
+
     glfwSetCursorPosCallback(window.getHandle(), &Event.mouseCallback);
 		glfwSetScrollCallback(window.getHandle(), &Event.scrollCallback);
-
+    
     glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     Logger.info(InfoMessage.Created, typeof(this).stringof);

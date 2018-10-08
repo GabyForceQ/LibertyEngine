@@ -5,18 +5,20 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/objects/camera.d, _camera.d)
  * Documentation:
  * Coverage:
+ *
+ * TODO:
+ *    - camera preset
 **/
 module liberty.core.objects.camera;
 
-import liberty.core.input : Input, KeyCode;
+import liberty.core.input : Input;
 import liberty.core.math.functions : radians, sin, cos;
 import liberty.core.math.vector : Vector2I, Vector3F, cross;
 import liberty.core.math.matrix : Matrix4F;
 import liberty.core.platform : Platform;
-import liberty.core.engine : CoreEngine;
 import liberty.core.time : Time;
-import liberty.core.objects.node : WorldObject;
 import liberty.core.objects.meta : NodeBody;
+import liberty.core.objects.node : WorldObject;
 
 private {
   immutable float YAW = -90.0f;
@@ -50,42 +52,44 @@ final class Camera : WorldObject {
   }
 
   /**
-   *
+   * Camera custom constructor.
+   * Calls: $(D, updateCameraVectors).
   **/
   void constructor() {
     updateCameraVectors();
   }
 
   /**
-   *
+   * Returns: camera front vector.
   **/
   Vector3F getFrontVector() {
     return frontVector;
   }
 
   /**
-   *
+   * Lock camera input listener.
   **/
   void lockInput() pure nothrow {
     inputLocked = true;
   }
 
   /**
-   *
+   * Unlock camera input listener.
   **/
   void unlockInput() pure nothrow {
     inputLocked = false;
   }
 
   /**
-   *
+   * Returns: true if input listener is locked.
   **/
   bool isInputLocked() pure nothrow const {
     return inputLocked;
   }
 
   /**
-   *
+   * Keyboard listener.
+   * Works only if camera input listener isn't locked.
   **/
   void processKeyboard(CameraMovement direction) {
     if (!inputLocked) {
@@ -112,7 +116,8 @@ final class Camera : WorldObject {
   }
 
   /**
-   *
+   * Mouse move listener.
+   * Works only if camera input listener isn't locked.
   **/
   void processMouseMovement(float xOffset, float yOffset, bool constrainPitch = true) {
     if (!inputLocked) {

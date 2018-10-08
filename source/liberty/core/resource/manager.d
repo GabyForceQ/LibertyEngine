@@ -5,93 +5,117 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/resource/manager.d, _manager.d)
  * Documentation:
  * Coverage:
+ *
+ * TODO:
+ *    - no opengl code here
 **/
 module liberty.core.resource.manager;
 
-import liberty.core.io.manager : IOManager;
-import liberty.core.logger.impl : Logger;
-import liberty.core.math.vector : Vector2F, Vector3F;
+import derelict.opengl : glVertexAttribPointer, GL_FLOAT, GL_FALSE;
+
+import liberty.core.model.raw : RawModel;
+import liberty.graphics.array : GfxArray;
+import liberty.graphics.buffer.constants : GfxBufferTarget, GfxDataUsage;
+import liberty.graphics.buffer.impl : GfxBuffer;
 import liberty.graphics.texture.cache : TextureCache;
-import liberty.graphics.texture.data : Texture;
+import liberty.graphics.texture.impl : Texture;
+import liberty.graphics.util : GfxUtil;
 import liberty.graphics.vertex : Vertex;
-//import liberty.core.model.mesh : Mesh;
+
 
 /**
- *
+ * The resource manager class provides static functions that gives you the possibility
+ * to create textures and models to manage them.
 **/
 final class ResourceManager {
   private {
     static TextureCache textureCache;
+    static uint[] vaos;
+    static uint[] vbos;
   }
 
-  static this() {
+  @disable this();
+
+  /**
+   * Initilaize resource manager.
+  **/
+  static void initialize() {
     textureCache = new TextureCache();
   }
 
   /**
-   *
+   * Load a texture into memory using a relative resource path.
+   * If texture is already loaded then just return it.
+   * Returns: newly created texture.
   **/
   static Texture loadTexture(string resourcePath) {
     return textureCache.getTexture(resourcePath);
   }
 
   /**
-   *
+   * Load a model into memory using vertex data.
+   * Returns: newly created model.
   **/
-  /*static Mesh loadMesh(string path) {
-    import std.array : split;
-    import std.conv : to;
-    import std.stdio : File;
+  static RawModel loadModel(Vertex[] data) {
+    // Create vertex array object for the model
+    GfxArray vao = GfxUtil.createArray();
+    vaos ~= vao.getHandle();
 
-    // Check extension
-    string[] splitArray = path.split(".");
-    immutable ext = splitArray[$ - 1];
-    if (ext != "obj") {
-      Logger.error(
-        "File format not supported for mesh data: " ~ ext,
-        typeof(this).stringof
-      );
-    }
+    // Create vertex buffer object for the model
+    GfxBuffer vbo = GfxUtil.createBuffer(GfxBufferTarget.Array, GfxDataUsage.StaticDraw, data);    
+    vbos ~= vbo.getHandle();
 
-    Vertex[] vertices;
-    int[] indices;
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
+    
+    // Unbind vertex buffer object
+    vbo.unbind();
 
-    // Open the file
-    auto file = File(path);
-    scope (exit) file.close();
+    // Unbind vertex array object
+    vao.unbind();
 
-    // Read the file and build mesh data
-    auto range = file.byLine();
-    foreach (line; range) {
-      char[][] tokens = line.split(" ");
-      
-      if (tokens.length == 0 || tokens[0] == "#") {
-        continue;
-      } else if (tokens[0] == "v") {
-        // It is a vertex
-        vertices ~= Vertex(
-          Vector3F(
-            tokens[1].to!float,
-            tokens[2].to!float,
-            tokens[3].to!float
-          ),
-          Vector3F.zero,
-          Vector2F(
-            1.0f, 1.0f
-          )
-        );
-      } else if (tokens[0] == "f") {
-        // It is an index
-        indices ~= tokens[1].to!int - 1;
-        indices ~= tokens[2].to!int - 1;
-        indices ~= tokens[3].to!int - 1;
-      }
-    }
+    return new RawModel(vao.getHandle(), data.length);
+  }
 
-    // Create and fill a mesh with data
-    Mesh res = new Mesh();
-    res.addVertices(vertices, indices);
+  /**
+   * Load a model into memory using vertex data and indices.
+   * Indices are stored into the internal vertex buffer object static array.
+   * Returns: newly created model.
+  **/
+  static RawModel loadModel(Vertex[] data, uint[] indices) {
+    // Create vertex array object for the model
+    GfxArray vao = GfxUtil.createArray();
+    vaos ~= vao.getHandle();
 
-    return res;
-  }*/
+    // Create vertex buffer object for the model
+    GfxBuffer vbo = GfxUtil.createBuffer(GfxBufferTarget.Array, GfxDataUsage.StaticDraw, data);
+    vbos ~= vbo.getHandle();
+
+    // Create element buffer object for the model
+    // This shouldn't be unbinded
+    GfxBuffer ebo = GfxUtil.createBuffer(GfxBufferTarget.ElementArray, GfxDataUsage.StaticDraw, indices);
+    vbos ~= ebo.getHandle();
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
+    
+    // Unbind vertex buffer object
+    vbo.unbind();
+
+    // Unbind vertex array object
+    vao.unbind();
+    
+    return new RawModel(vao.getHandle(), indices.length);
+  }
+
+  /**
+   * Release all vertex array objecs and vertex buffer objects and
+   * index buffer object from the memory.
+  **/
+  static void releaseAllModels() {
+    GfxArray.releaseVertexArrays(vaos);
+    GfxBuffer.releaseBuffers(vbos);
+  }
 }

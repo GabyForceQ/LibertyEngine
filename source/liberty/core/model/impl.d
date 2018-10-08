@@ -11,19 +11,14 @@ module liberty.core.model.impl;
 import derelict.opengl;
 
 import liberty.core.engine : CoreEngine;
-import liberty.core.material : Material, Materials;
-import liberty.core.math.vector : Vector3F;
-import liberty.core.utils : bufferSize;
-import liberty.graphics.vertex : Vertex;
-import liberty.core.objects.bsp.constants : BSPVolumeType;
-//import liberty.core.model.mesh : Mesh;
 import liberty.core.resource.manager : ResourceManager;
-
-import liberty.graphics.buffer : GfxBuffer;
-import liberty.graphics.vao : GfxVAO;
-
+import liberty.core.material.impl : Material;
+import liberty.core.math.vector : Vector3F;
 import liberty.core.model.raw : RawModel;
-import liberty.core.model.loader : ModelLoader;
+import liberty.core.utils : bufferSize;
+import liberty.graphics.constants : GfxDrawMode, GfxVectorType;
+import liberty.graphics.util : GfxUtil;
+import liberty.graphics.vertex : Vertex;
 
 /**
  *
@@ -32,24 +27,21 @@ final class Model {
   private {
     RawModel rawModel;
     Material material;
-    BSPVolumeType bspVolumeType;
+    bool hasIndices;
   }
 
   /**
    *
   **/
-  this(BSPVolumeType bspVolumeType, Material material = Materials.defaultMaterial) {
-    this.bspVolumeType = bspVolumeType;
+  this(Material material = Material.getDefault()) {
     this.material = material;
   }
-
-  ~this() {}
 
   /**
    *
   **/
   Model build(Vertex[] vertices, string texturePath = "") {
-    rawModel = ModelLoader.loadToVAO(vertices);
+    rawModel = ResourceManager.loadModel(vertices);
     build(texturePath);
     return this;
   }
@@ -58,7 +50,8 @@ final class Model {
    *
   **/
   Model build(Vertex[] vertices, uint[] indices, string texturePath = "") {
-    rawModel = ModelLoader.loadToVAO(vertices, indices);
+    hasIndices = true;
+    rawModel = ResourceManager.loadModel(vertices, indices);
     build(texturePath);
     return this;
   }
@@ -73,13 +66,45 @@ final class Model {
 
     // Add material only if a texture is specified
     if (texturePath != "") {
-      material.texture = ResourceManager.loadTexture(texturePath);
+      material.setTexture(ResourceManager.loadTexture(texturePath));
       CoreEngine.getScene().shaderList["CoreShader"]
         .loadUniform("uMaterial.diffuse", 0);
     }
 
     // Unbind the core shader
     CoreEngine.getScene().shaderList["CoreShader"].unbind();
+  }
+
+  /**
+   *
+  **/
+  void draw() {
+    // Bind texture only if a texture is specified
+    if (material.getTexture().getId()) {
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, material.getTexture().getId());
+    }
+
+    glBindVertexArray(rawModel.getVaoID());
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+
+    if (hasIndices)
+      GfxUtil.drawElements(GfxDrawMode.Triangles, GfxVectorType.UnsignedInt, rawModel.getVertexCount());
+    else
+      GfxUtil.drawArrays(GfxDrawMode.Triangles, rawModel.getVertexCount());
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+    glBindVertexArray(0);
+
+    // Bind texture only if a texture is specified
+    if (material.getTexture().getId()) {
+      glActiveTexture(0);
+      glBindTexture(GL_TEXTURE_2D, 0);
+    }
   }
 
   /**
@@ -99,38 +124,7 @@ final class Model {
   /**
    *
   **/
-  void draw() {
-    // Bind texture only if a texture is specified
-    if (material.texture.getId()) {
-      glActiveTexture(GL_TEXTURE0);
-      glBindTexture(GL_TEXTURE_2D, material.texture.getId());
-    }
-
-    glBindVertexArray(rawModel.getVaoID());
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-
-    final switch (bspVolumeType) with (BSPVolumeType) {
-      case TRIANGLE:
-      case SQUARE:
-        glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, null);
-        break;
-
-      case CUBE:
-        glDrawArrays(GL_TRIANGLES, 0, rawModel.getVertexCount());
-        break;
-    }
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
-    glBindVertexArray(0);
-
-    // Bind texture only if a texture is specified
-    if (material.texture.getId()) {
-      glActiveTexture(0);
-      glBindTexture(GL_TEXTURE_2D, 0);
-    }
+  bool usesIndices() pure nothrow const {
+    return hasIndices;
   }
 }

@@ -24,6 +24,8 @@ final class Input {
     static bool[KEY_CODES] mouseBtnState;
   }
 
+  @disable this();
+
   package(liberty.core) static void update() {
     static foreach (i; 0..KEY_CODES)
       keyState[i] = isKeyHold(cast(KeyCode)i);

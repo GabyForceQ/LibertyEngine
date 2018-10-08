@@ -2,14 +2,17 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/opengl/buffer.d, _buffer.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/buffer/impl.d, _impl.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.graphics.buffer;
+module liberty.graphics.buffer.impl;
 
-import derelict.opengl;
+import derelict.opengl :
+  glGenBuffers, glBindBuffer, glDeleteBuffers,
+  glBufferData, glBufferSubData, glGetBufferSubData;
 
+import liberty.core.utils : bufferSize;
 import liberty.graphics.engine : GfxEngine;
 
 /**
@@ -57,7 +60,7 @@ final class GfxBuffer {
    *
   **/
   void setData(T)(T[] buffer) {
-    setData(buffer.length * T.sizeof, buffer.ptr);
+    setData(buffer.bufferSize(), buffer.ptr);
   }
 
   /**
@@ -123,5 +126,12 @@ final class GfxBuffer {
   **/
   uint getHandle() pure nothrow const {
     return buffer;
+  }
+
+  /**
+   *
+  **/
+  static void releaseBuffers(uint[] buff) {
+    glDeleteBuffers(buff.length, cast(uint*)buff);
   }
 }

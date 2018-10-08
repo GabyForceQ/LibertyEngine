@@ -9,7 +9,6 @@
 module liberty.core.objects.bsp;
 
 public {
-  import liberty.core.objects.bsp.constants;
   import liberty.core.objects.bsp.cube;
   import liberty.core.objects.bsp.impl;
   import liberty.core.objects.bsp.pyramid;

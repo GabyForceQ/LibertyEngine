@@ -14,7 +14,6 @@ module liberty.core.scene.impl;
 import liberty.core.engine : CoreEngine;
 import liberty.core.math.vector : Vector3F;
 import liberty.graphics.shader : GfxShader;
-import liberty.core.material : Materials;
 import liberty.core.objects.node : WorldObject, RootObject;
 import liberty.core.services : IStartable, IUpdatable, IRenderable;
 import liberty.core.objects.camera : Camera;
@@ -50,8 +49,6 @@ final class Scene : IUpdatable, IRenderable {
 
     this.id = id;
     this.tree = new RootObject();
-
-    Materials.load();
   }
 
   /**

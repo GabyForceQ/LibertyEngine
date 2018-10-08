@@ -5,6 +5,9 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/image/loader.d, _loader.d)
  * Documentation:
  * Coverage:
+ *
+ * TODO:
+ *    - move in resource manager
 **/
 module liberty.core.image.loader;
 
@@ -13,7 +16,7 @@ import derelict.opengl;
 
 import liberty.core.logger.impl : Logger;
 import liberty.core.image.bitmap : Bitmap;
-import liberty.graphics.texture.data : Texture;
+import liberty.graphics.texture.impl : Texture;
 
 /**
  * Singleton class used for loading image files.

@@ -9,7 +9,7 @@
 module liberty.graphics.texture.cache;
 
 import liberty.core.image.loader : ImageLoader;
-import liberty.graphics.texture.data : Texture;
+import liberty.graphics.texture.impl : Texture;
 
 /**
  *

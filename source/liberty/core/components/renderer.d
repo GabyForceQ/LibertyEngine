@@ -11,26 +11,41 @@ module liberty.core.components.renderer;
 import liberty.core.objects.node : WorldObject;
 import liberty.core.model : Model;
 
+/**
+ *
+**/
 struct Renderer {
   private {
     WorldObject parent;
     Model model;
   }
 
+  /**
+   *
+  **/
   this(WorldObject parent, Model model) {
     this.parent = parent;
     this.model = model;
   }
 
+  /**
+   *
+  **/
   void draw() {
     model.getMaterial().getShader().loadUniform("uModelMatrix", parent.getTransform().getModelMatrix());
     model.draw();
   }
 
+  /**
+   *
+  **/
   WorldObject getParent() {
     return parent;
   }
 
+  /**
+   *
+  **/
   Model getModel() {
     return model;
   }

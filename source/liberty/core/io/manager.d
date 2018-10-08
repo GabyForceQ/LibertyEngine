@@ -16,6 +16,8 @@ import liberty.core.logger.impl : Logger;
  * Used for managing files and console input/output.
 **/
 final class IOManager {
+  @disable this();
+  
   /**
    *
   **/
@@ -66,6 +68,5 @@ final class IOManager {
    *
   **/
   //static bool writeBufferToFile(char[] buffer, string filePath) {
-    // todo
   //}
 }

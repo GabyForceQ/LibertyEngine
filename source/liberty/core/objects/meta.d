@@ -15,33 +15,36 @@ module liberty.core.objects.meta;
  *
 **/
 immutable NodeBody = q{
+  import liberty.core.engine : CoreEngine;
+  import liberty.core.objects.node : WorldObject;
+
   this(string id, WorldObject parent = CoreEngine.getScene().getTree()) {
-    if (parent is null) {
+    if (parent is null)
       assert(0, "Parent object cannot be null");
-    }
+
     super(id, parent);
+    
     import std.traits : hasUDA;
     import std.string : capitalize;
+    
     enum finalClass = __traits(isFinalClass, this);
     enum abstractClass = __traits(isAbstractClass, this);
-    static if (!(finalClass || abstractClass)) {
+    
+    static if (!(finalClass || abstractClass))
       static assert(0, "A node object class must either be final or abstract!");
-    }
-    static if (__traits(compiles, constructor)) {
+
+    static if (__traits(compiles, constructor))
       constructor();
-    }
+
     static if (__traits(isFinalClass, this)) {
       static foreach (el; ["start", "update", "render"]) {
-        static foreach (super_member; __traits(derivedMembers, typeof(super))) {
-          static if (super_member.stringof == "\"" ~ el ~ "\"") {
+        static foreach (super_member; __traits(derivedMembers, typeof(super)))
+          static if (super_member.stringof == "\"" ~ el ~ "\"")
             mixin("getScene().set" ~ el.capitalize() ~ "List(id, this);");
-          }
-        }
-        static foreach (member; __traits(derivedMembers, typeof(this))) {
-          static if (member.stringof == "\"" ~ el ~ "\"") {
+          
+        static foreach (member; __traits(derivedMembers, typeof(this)))
+          static if (member.stringof == "\"" ~ el ~ "\"")
             mixin("getScene().set" ~ el.capitalize() ~ "List(id, this);");
-          }
-        }
       }
     }
   }

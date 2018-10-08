@@ -12,7 +12,6 @@ import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components.renderer : Renderer;
 import liberty.core.objects.meta : NodeBody;
-import liberty.core.objects.bsp.constants : BSPVolumeType;
 import liberty.core.model.impl : Model;
 import liberty.core.objects.node : WorldObject;
 import liberty.core.objects.bsp.impl : BSPVolume;
@@ -28,7 +27,7 @@ final class BSPCube : BSPVolume {
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, (new Model(BSPVolumeType.CUBE)
+    renderer = Renderer(this, (new Model()
       .build(cubeVertices, "res/textures/default.bmp")));
 	}
 

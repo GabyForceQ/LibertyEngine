@@ -24,6 +24,8 @@ pragma (inline, true) :
  * It's a manager class so it implements $(D ManagerBody).
 **/
 final class Logger {
+  @disable this();
+  
   /**
    * Set false if you don't want logger to run.
   **/

@@ -13,21 +13,33 @@ import derelict.glfw3.glfw3 : GLFWwindow, GLFW_KEY_ESCAPE, GLFW_PRESS, GLFW_RELE
 import liberty.core.engine : CoreEngine, EngineState;
 import liberty.core.input.constants : KeyCode, MouseButton;
 import liberty.core.input.impl : Input;
+import liberty.core.platform : Platform;
 import liberty.graphics.engine : GfxEngine;
 
 package(liberty.core) class Event {
+  private {
+    static bool firstMouse = true;
+	  static float lastX;
+	  static float lastY;
+  }
+
+  static void initialize() {
+    lastX = Platform.getWindow().getHeight() / 2.0f;
+    lastY = Platform.getWindow().getWidth() / 2.0f;
+  }
+
   extern(C) static void mouseCallback(GLFWwindow* window, double xPos, double yPos) nothrow {
-    if (CoreEngine.firstMouse) {
-      CoreEngine.lastX = xPos;
-      CoreEngine.lastY = yPos;
-      CoreEngine.firstMouse = false;
+    if (firstMouse) {
+      lastX = xPos;
+      lastY = yPos;
+      firstMouse = false;
     }
 
-    float xOffset = xPos - CoreEngine.lastX;
-    float yOffset = CoreEngine.lastY - yPos;
+    float xOffset = xPos - lastX;
+    float yOffset = lastY - yPos;
 
-    CoreEngine.lastX = xPos;
-    CoreEngine.lastY = yPos;
+    lastX = xPos;
+    lastY = yPos;
 
     try {
       CoreEngine.getScene().getActiveCamera().processMouseMovement(xOffset, yOffset);

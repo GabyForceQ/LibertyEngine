@@ -12,9 +12,7 @@ import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components.renderer : Renderer;
 import liberty.core.objects.meta : NodeBody;
-import liberty.core.objects.bsp.constants : BSPVolumeType;
 import liberty.core.model.impl : Model;
-import liberty.core.objects.node : WorldObject;
 import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.graphics.vertex : Vertex;
 
@@ -28,7 +26,7 @@ final class BSPSquare : BSPVolume {
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, (new Model(BSPVolumeType.SQUARE)
+    renderer = Renderer(this, (new Model()
       .build(squareVertices, squareIndices, "res/textures/default.bmp")));
 	}
 

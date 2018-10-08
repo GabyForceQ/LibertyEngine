@@ -11,7 +11,7 @@ module liberty.graphics.constants;
 /**
  *
 **/
-enum Vendor : byte {
+enum GfxVendor : byte {
   /**
    *
   **/
@@ -31,4 +31,54 @@ enum Vendor : byte {
    *
   **/
   Other = -0x01
+}
+
+///
+enum GfxBlending : byte {
+	///
+	Opaque = 0x00,
+	///
+	AlphaBlend = 0x01,
+	///
+	NonPremultiplied = 0x02,
+	///
+	Additive = 0x03
+}
+
+///
+enum GfxSampling : byte {
+	///
+	AnisotropicClamp = 0x00,
+	///
+	AnisotropicWrap = 0x01,
+	///
+	LinearClamp = 0x02,
+	///
+	LinearWrap = 0x03,
+	///
+	PointClamp = 0x04,
+	///
+	PointWrap = 0x05
+}
+
+///
+enum GfxVSyncState : byte {
+	///
+	Immediate = 0x00,
+	///
+	Default = 0x01,
+	///
+	LateTearing = -0x01
+}
+
+///
+enum GfxDrawMode : byte {
+	///
+	Triangles = 0x00
+}
+
+///
+enum GfxVectorType : byte {
+	///
+	UnsignedInt = 0x00
 }
