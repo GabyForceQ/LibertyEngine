@@ -9,7 +9,6 @@
 module liberty.core.math.functions;
 
 public import std.math;
-//import std.math : trunc, floor, asin, acos, sin, PI;
 
 import std.traits : isIntegral, isSigned, isFloatingPoint;
 

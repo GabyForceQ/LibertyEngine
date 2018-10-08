@@ -102,7 +102,7 @@ immutable CORE_FRAGMENT = q{
     diffuse  *= intensity;
     specular *= intensity;
     
-    //// attenuation
+    // attenuation
     float distance = length(uLight.position - tPosition);
     float attenuation = 1.0 / (uLight.constant + uLight.linear * distance + uLight.quadratic * (distance * distance));    
     ambient *= attenuation; 

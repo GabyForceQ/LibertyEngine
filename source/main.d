@@ -90,7 +90,9 @@ final class Player : Actor {
       light.setColor(Vector3F.one);
   }
 
-  ///
+  /**
+   *
+  **/
   void changeLightColor() {
     light.setColor(Vector3F(
       sin(Time.getTime() * 2.0f),
