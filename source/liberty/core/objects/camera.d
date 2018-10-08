@@ -174,6 +174,13 @@ final class Camera : WorldObject {
   /**
    *
   **/
+  void setPosition(Vector3F positionVector) pure nothrow {
+    this.positionVector = positionVector;
+  }
+
+  /**
+   *
+  **/
   Vector3F getPosition() pure nothrow {
     return positionVector;
   }

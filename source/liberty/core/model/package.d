@@ -10,5 +10,6 @@ module liberty.core.model;
 
 public {
   import liberty.core.model.impl;
-  import liberty.core.model.mesh;
+  import liberty.core.model.loader;
+  import liberty.core.model.raw;
 }

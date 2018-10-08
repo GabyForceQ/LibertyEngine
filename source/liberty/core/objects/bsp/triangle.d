@@ -28,7 +28,8 @@ final class BSPTriangle : BSPVolume {
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, (new Model(BSPVolumeType.TRIANGLE).build(triangleVertices, triangleIndices, "res/textures/default.bmp")));
+    renderer = Renderer(this, (new Model(BSPVolumeType.TRIANGLE)
+      .build(triangleVertices, triangleIndices, "res/textures/default.bmp")));
 	}
 
   /**
@@ -40,9 +41,9 @@ final class BSPTriangle : BSPVolume {
 }
 
 private Vertex[3] triangleVertices = [
-  Vertex(Vector3F( 0.0f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f), Vector2F(0.0f, 1.0f)),
-  Vertex(Vector3F(-0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f), Vector2F(0.0f, 0.0f)),
-  Vertex(Vector3F( 0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f), Vector2F(1.0f, 0.0f))
+  Vertex(Vector3F( 0.0f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.5f, 1.0f)),
+  Vertex(Vector3F(-0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
+  Vertex(Vector3F( 0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f))
 ];
 
 private uint[3] triangleIndices = [

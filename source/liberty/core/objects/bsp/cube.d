@@ -28,7 +28,8 @@ final class BSPCube : BSPVolume {
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, (new Model(BSPVolumeType.CUBE).build(cubeVertices, "res/textures/default.bmp")));
+    renderer = Renderer(this, (new Model(BSPVolumeType.CUBE)
+      .build(cubeVertices, "res/textures/default.bmp")));
 	}
 
   /**

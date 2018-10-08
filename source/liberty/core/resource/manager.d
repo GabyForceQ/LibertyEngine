@@ -14,7 +14,7 @@ import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.graphics.texture.cache : TextureCache;
 import liberty.graphics.texture.data : Texture;
 import liberty.graphics.vertex : Vertex;
-import liberty.core.model.mesh : Mesh;
+//import liberty.core.model.mesh : Mesh;
 
 /**
  *

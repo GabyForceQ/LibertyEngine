@@ -28,7 +28,8 @@ final class BSPSquare : BSPVolume {
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, (new Model(BSPVolumeType.SQUARE).build(squareVertices, squareIndices, "res/textures/default.bmp")));
+    renderer = Renderer(this, (new Model(BSPVolumeType.SQUARE)
+      .build(squareVertices, squareIndices, "res/textures/default.bmp")));
 	}
 
   /**
@@ -40,10 +41,10 @@ final class BSPSquare : BSPVolume {
 }
 
 private Vertex[] squareVertices = [
-  Vertex(Vector3F(-0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f), Vector2F(0.0f, 1.0f)),
-  Vertex(Vector3F(-0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f), Vector2F(0.0f, 0.0f)),
-  Vertex(Vector3F( 0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f), Vector2F(1.0f, 0.0f)),
-  Vertex(Vector3F( 0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f), Vector2F(1.0f, 1.0f))
+  Vertex(Vector3F(-0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 1.0f)),
+  Vertex(Vector3F(-0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
+  Vertex(Vector3F( 0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f)),
+  Vertex(Vector3F( 0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 1.0f))
 ];
 
 private uint[6] squareIndices = [

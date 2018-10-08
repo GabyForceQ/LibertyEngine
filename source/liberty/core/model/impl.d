@@ -16,26 +16,22 @@ import liberty.core.math.vector : Vector3F;
 import liberty.core.utils : bufferSize;
 import liberty.graphics.vertex : Vertex;
 import liberty.core.objects.bsp.constants : BSPVolumeType;
-import liberty.core.model.mesh : Mesh;
+//import liberty.core.model.mesh : Mesh;
 import liberty.core.resource.manager : ResourceManager;
 
 import liberty.graphics.buffer : GfxBuffer;
 import liberty.graphics.vao : GfxVAO;
+
+import liberty.core.model.raw : RawModel;
+import liberty.core.model.loader : ModelLoader;
 
 /**
  *
 **/
 final class Model {
   private {
-    Mesh mesh;
+    RawModel rawModel;
     Material material;
-
-    uint verticesCount;
-    uint indicesCount;
-
-    Vertex[] vertices;
-    uint[] indices;
-
     BSPVolumeType bspVolumeType;
   }
 
@@ -43,22 +39,17 @@ final class Model {
    *
   **/
   this(BSPVolumeType bspVolumeType, Material material = Materials.defaultMaterial) {
-    mesh.vao = new GfxVAO();
-    mesh.vao.bind();
     this.bspVolumeType = bspVolumeType;
     this.material = material;
   }
 
-  ~this() {
-    mesh.clear();
-  }
+  ~this() {}
 
   /**
    *
   **/
   Model build(Vertex[] vertices, string texturePath = "") {
-    mesh.vbo = new GfxBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertices[]);
-    this.vertices = vertices;
+    rawModel = ModelLoader.loadToVAO(vertices);
     build(texturePath);
     return this;
   }
@@ -67,11 +58,7 @@ final class Model {
    *
   **/
   Model build(Vertex[] vertices, uint[] indices, string texturePath = "") {
-    mesh.vbo = new GfxBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertices);
-    mesh.ebo = new GfxBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW, indices);
-    this.vertices = vertices;
-    this.indices = indices;
-    indicesCount = cast(int)indices.length;
+    rawModel = ModelLoader.loadToVAO(vertices, indices);
     build(texturePath);
     return this;
   }
@@ -93,20 +80,13 @@ final class Model {
 
     // Unbind the core shader
     CoreEngine.getScene().shaderList["CoreShader"].unbind();
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
   }
 
   /**
    *
   **/
-  Mesh getMesh() {
-    return mesh;
+  RawModel getRawModel() pure nothrow {
+    return rawModel;
   }
 
   /**
@@ -126,16 +106,26 @@ final class Model {
       glBindTexture(GL_TEXTURE_2D, material.texture.getId());
     }
 
-    final switch (bspVolumeType) with (BSPVolumeType) {
-	    case TRIANGLE:
-	    case SQUARE:
-		    glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, null);
-		    break;
+    glBindVertexArray(rawModel.getVaoID());
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
-	    case CUBE:
-		    glDrawArrays(GL_TRIANGLES, 0, 36);
-		    break;
-	  }
+    final switch (bspVolumeType) with (BSPVolumeType) {
+      case TRIANGLE:
+      case SQUARE:
+        glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, null);
+        break;
+
+      case CUBE:
+        glDrawArrays(GL_TRIANGLES, 0, rawModel.getVertexCount());
+        break;
+    }
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+    glBindVertexArray(0);
 
     // Bind texture only if a texture is specified
     if (material.texture.getId()) {

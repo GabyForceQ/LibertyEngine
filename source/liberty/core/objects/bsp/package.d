@@ -12,6 +12,7 @@ public {
   import liberty.core.objects.bsp.constants;
   import liberty.core.objects.bsp.cube;
   import liberty.core.objects.bsp.impl;
+  import liberty.core.objects.bsp.pyramid;
   import liberty.core.objects.bsp.square;
   import liberty.core.objects.bsp.triangle;
 }

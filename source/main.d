@@ -20,8 +20,9 @@ final class Player : Actor {
       Vector3F(0.0f, -1.2f, 0.0f)
     ];
     BSPTriangle triangle;
+    BSPSquare square;
+    BSPPyramid pyramid;
     PointLight light;
-    //CubeVolume cube;
     float rotationSpeed = 100.0f;
     float direction = 1.0f;
   }
@@ -37,8 +38,16 @@ final class Player : Actor {
         .translate(cubesPos[i]);
     (light = spawn!PointLight("PointLight"))
       .setPosition(Vector3F(0.0f, 0.0f, 2.0f));
-    //(cube = spawn!CubeVolume("Cube")).getTransform().translate(Vector3F(2.0f, 2.0f, 2.0f));
-    (triangle = spawn!BSPTriangle("Triangle")).getTransform().translate(Vector3F(0.0f, 3.0f, 0.0f));
+    (pyramid = spawn!BSPPyramid("Pyramid"))
+      .getTransform()
+      .translate(Vector3F(3.0f, 0.0f, 1.0f))
+      .rotatePitch(90.0f);
+    (square = spawn!BSPSquare("Square"))
+      .getTransform()
+      .translate(Vector3F(4.5f, 0.0f, 0.0f));
+    (triangle = spawn!BSPTriangle("Triangle"))
+      .getTransform()
+      .translate(Vector3F(6.0f, 0.0f, 0.0f));
   }
 
   /**
