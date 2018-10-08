@@ -26,6 +26,7 @@ final class GfxUtil {
 	/**
    *
   **/
+  pragma(inline, false)
   static GfxBuffer createBuffer(T)(GfxBufferTarget target, GfxDataUsage usage, T[] data = null) {
     uint _target, _usage;
     GfxBuffer buff = null;
@@ -79,6 +80,7 @@ final class GfxUtil {
   /**
    *
   **/
+  pragma(inline, false)
   static void drawElements(GfxDrawMode drawMode, GfxVectorType type, int count) {
     GLenum _drawMode, _type;
 
@@ -96,6 +98,7 @@ final class GfxUtil {
   /**
    *
   **/
+  pragma(inline, false)
   static void drawArrays(GfxDrawMode drawMode, int count) {
     GLenum _drawMode;
 

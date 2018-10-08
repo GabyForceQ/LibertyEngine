@@ -110,6 +110,7 @@ final class Logger {
   /**
    * Log a message using LogType.
   **/
+  pragma(inline, false)
   static void log(LogType type, string message) {
     synchronized {
       if (isActive) {

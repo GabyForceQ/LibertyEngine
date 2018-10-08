@@ -34,7 +34,7 @@ final class GfxBuffer {
     this.target = target;
     this.usage = usage;
     glGenBuffers(1, &buffer);
-    GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheck();
   }
 
   /**
@@ -75,7 +75,7 @@ final class GfxBuffer {
       glBufferData(target, size, null, usage);
       glBufferSubData(target, 0, size, data);
     }
-    GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheck();
     firstLoad = false;
   }
 
@@ -85,7 +85,7 @@ final class GfxBuffer {
   void setSubData(size_t offset, size_t size, void* data) {
     bind();
     glBufferSubData(target, offset, size, data);
-    GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheck();
   }
 
   /**
@@ -94,7 +94,7 @@ final class GfxBuffer {
   void getSubData(size_t offset, size_t size, void* data) {
     bind();
     glGetBufferSubData(target, offset, size, data);
-    GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheck();
   }
 
   /**
@@ -111,7 +111,7 @@ final class GfxBuffer {
   **/
   void bind() {
     glBindBuffer(target, buffer);
-    GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheck();
   }
 
   /**

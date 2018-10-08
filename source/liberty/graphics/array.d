@@ -25,7 +25,7 @@ final class GfxArray {
   **/
   this(bool shouldBind = true) {
     glGenVertexArrays(1, &handle);
-    GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheck();
     if (shouldBind)
       bind();
   }
@@ -39,7 +39,7 @@ final class GfxArray {
   **/
   void bind() {
     glBindVertexArray(handle);
-    GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheck();
   }
 
   /**
@@ -47,7 +47,7 @@ final class GfxArray {
   **/
   void unbind() {
     glBindVertexArray(0);
-    GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheck();
   }
 
   /**

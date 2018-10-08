@@ -26,6 +26,7 @@ final class Input {
 
   @disable this();
 
+  pragma(inline, false)
   package(liberty.core) static void update() {
     static foreach (i; 0..KEY_CODES)
       keyState[i] = isKeyHold(cast(KeyCode)i);

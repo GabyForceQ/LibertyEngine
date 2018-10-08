@@ -196,15 +196,7 @@ class GfxEngine {
     return false;
   }
 
-  debug static void debugCheck() nothrow {
-    GLint er = glGetError();
-    if (er != GL_NO_ERROR) {
-      flushGLErrors();
-      assert(false, "OpenGL error: " ~ getErrorString(er));
-    }
-  }
-
-  static void runtimeCheck() {
+  debug static void runtimeCheck() {
     GLint er = glGetError();
     if (er != GL_NO_ERROR) {
       string getErrorString = getErrorString(er);
@@ -213,7 +205,7 @@ class GfxEngine {
     }
   }
 
-  static bool runtimeCheckNothrow() nothrow {
+  debug static bool runtimeCheckNothrow() nothrow {
     immutable GLint r = glGetError();
     if (r != GL_NO_ERROR) {
       flushGLErrors();
@@ -225,7 +217,7 @@ class GfxEngine {
   static const(char)[] getString(GLenum name) {
     import std.string : fromStringz;
     const(char)* sZ = glGetString(name);
-    runtimeCheck();
+    debug runtimeCheck();
     if (sZ is null)
       return "(unknown)";
     else
@@ -235,7 +227,7 @@ class GfxEngine {
   static const(char)[] getString(GLenum name, GLuint index) {
     import std.string : fromStringz;
     const(char)* sZ = glGetStringi(name, index);
-    runtimeCheck();
+    debug runtimeCheck();
     if (sZ is null)
       return "(unknown)";
     else
@@ -286,14 +278,14 @@ class GfxEngine {
   static int getInt(GLenum pname) {
     GLint param;
     glGetIntegerv(pname, &param);
-    runtimeCheck();
+    debug runtimeCheck();
     return param;
   }
 
   static float getFloat(GLenum pname) {
     GLfloat res;
     glGetFloatv(pname, &res);
-    runtimeCheck();
+    debug runtimeCheck();
     return res;
   }
 
@@ -303,7 +295,7 @@ class GfxEngine {
 
   static void getActiveTexture(int texture_id) {
     glActiveTexture(GL_TEXTURE0 + texture_id);
-    runtimeCheck();
+    debug runtimeCheck();
   }
 
   private static string getErrorString(GLint er) nothrow {
