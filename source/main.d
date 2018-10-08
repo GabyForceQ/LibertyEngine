@@ -19,6 +19,7 @@ final class Player : Actor {
       Vector3F(0.0f, 1.2f, 0.0),
       Vector3F(0.0f, -1.2f, 0.0f)
     ];
+    BSPTriangle triangle;
     PointLight light;
     //CubeVolume cube;
     float rotationSpeed = 100.0f;
@@ -37,6 +38,7 @@ final class Player : Actor {
     (light = spawn!PointLight("PointLight"))
       .setPosition(Vector3F(0.0f, 0.0f, 2.0f));
     //(cube = spawn!CubeVolume("Cube")).getTransform().translate(Vector3F(2.0f, 2.0f, 2.0f));
+    (triangle = spawn!BSPTriangle("Triangle")).getTransform().translate(Vector3F(0.0f, 3.0f, 0.0f));
   }
 
   /**

@@ -10,6 +10,9 @@ module liberty.core.model.mesh;
 
 import derelict.opengl : glDeleteVertexArrays, glDeleteBuffers;
 
+import liberty.graphics.buffer : GfxBuffer;
+import liberty.graphics.vao : GfxVAO;
+
 /**
  *
 **/
@@ -17,27 +20,24 @@ struct Mesh {
   /**
    *
   **/
-  uint vaoID;
+  GfxVAO vao;
 
   /**
    *
   **/
-  uint vboID;
+  GfxBuffer vbo;
   
   /**
    *
   **/
-  uint eboID;
+  GfxBuffer ebo;
 
   /**
    *
   **/
   void clear() {
-    if (vaoID)
-      glDeleteVertexArrays(1, &vaoID);
-    if (vboID)
-      glDeleteBuffers(1, &vboID);
-    if (eboID)
-      glDeleteBuffers(1, &eboID);
+    vao.destroy();
+    vbo.destroy();
+    ebo.destroy();
   }
 }

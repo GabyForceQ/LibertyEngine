@@ -41,9 +41,9 @@ class GfxShader : IRenderable {
   GfxShader bind() {
     glUseProgram(this.programID);
 
-    foreach (i; 0..this.attributeCount) {
-      glEnableVertexAttribArray(i);
-    }
+    //foreach (i; 0..this.attributeCount) {
+    //  glEnableVertexAttribArray(i);
+    //}
     
     return this;
   }
@@ -54,9 +54,9 @@ class GfxShader : IRenderable {
   GfxShader unbind() {
     glUseProgram(0);
 
-    foreach (i; 0..this.attributeCount) {
-      glDisableVertexAttribArray(i);
-    }
+    //foreach (i; 0..this.attributeCount) {
+    //  glDisableVertexAttribArray(i);
+    //}
 
     return this;
   }

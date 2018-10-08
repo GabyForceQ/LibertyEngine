@@ -19,16 +19,22 @@ import liberty.core.objects.bsp.constants : BSPVolumeType;
 import liberty.core.model.mesh : Mesh;
 import liberty.core.resource.manager : ResourceManager;
 
+import liberty.graphics.buffer : GfxBuffer;
+import liberty.graphics.vao : GfxVAO;
+
 /**
  *
 **/
 final class Model {
   private {
-    static Mesh mesh;
+    Mesh mesh;
     Material material;
 
     uint verticesCount;
     uint indicesCount;
+
+    Vertex[] vertices;
+    uint[] indices;
 
     BSPVolumeType bspVolumeType;
   }
@@ -37,11 +43,8 @@ final class Model {
    *
   **/
   this(BSPVolumeType bspVolumeType, Material material = Materials.defaultMaterial) {
-    glGenBuffers(1, &mesh.vboID);
-    glGenBuffers(1, &mesh.eboID);
-    glGenVertexArrays(1, &mesh.vaoID);
-    glBindVertexArray(mesh.vaoID);
-
+    mesh.vao = new GfxVAO();
+    mesh.vao.bind();
     this.bspVolumeType = bspVolumeType;
     this.material = material;
   }
@@ -54,14 +57,9 @@ final class Model {
    *
   **/
   Model build(Vertex[] vertices, string texturePath = "") {
-	  glBindVertexArray(mesh.vaoID);
-
-    // Bind the buffer object
-    glBindBuffer(GL_ARRAY_BUFFER, mesh.vboID);
-    glBufferData(GL_ARRAY_BUFFER, vertices.bufferSize(), vertices.ptr, GL_STATIC_DRAW);
-
+    mesh.vbo = new GfxBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertices[]);
+    this.vertices = vertices;
     build(texturePath);
-
     return this;
   }
 
@@ -69,34 +67,39 @@ final class Model {
    *
   **/
   Model build(Vertex[] vertices, uint[] indices, string texturePath = "") {
-	  glBindVertexArray(mesh.vaoID);
-
-    // Bind the buffer object
-    glBindBuffer(GL_ARRAY_BUFFER, mesh.vboID);
-		glBufferData(GL_ARRAY_BUFFER, vertices.bufferSize(), vertices.ptr, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.eboID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.bufferSize(), indices.ptr, GL_STATIC_DRAW);
-
+    mesh.vbo = new GfxBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, vertices);
+    mesh.ebo = new GfxBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW, indices);
+    this.vertices = vertices;
+    this.indices = indices;
     indicesCount = cast(int)indices.length;
-
     build(texturePath);
-
     return this;
   }
 
-  private void build(string texturePath) {    
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
-    glBindVertexArray(0);
+  private void build(string texturePath) {
+    // Bind the core shader
+    CoreEngine.getScene().shaderList["CoreShader"].bind();
 
+    CoreEngine.getScene().shaderList["CoreShader"]
+      .loadUniform("uMaterial.specular", Vector3F(0.5f, 0.5f, 0.5f))
+      .loadUniform("uMaterial.shininess", 32.0f);
+
+    // Add material only if a texture is specified
     if (texturePath != "") {
       material.texture = ResourceManager.loadTexture(texturePath);
-      CoreEngine.getScene().shaderList["CoreShader"].bind();
-      CoreEngine.getScene().shaderList["CoreShader"].loadUniform("uMaterial.diffuse", 0);
-      CoreEngine.getScene().shaderList["CoreShader"].unbind();
+      CoreEngine.getScene().shaderList["CoreShader"]
+        .loadUniform("uMaterial.diffuse", 0);
     }
+
+    // Unbind the core shader
+    CoreEngine.getScene().shaderList["CoreShader"].unbind();
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
   }
 
   /**
@@ -113,15 +116,15 @@ final class Model {
     return material;
   }
 
+  /**
+   *
+  **/
   void draw() {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, material.texture.getId());
-
-    CoreEngine.getScene().shaderList["CoreShader"]
-      .loadUniform("uMaterial.specular", Vector3F(0.5f, 0.5f, 0.5f))
-      .loadUniform("uMaterial.shininess", 32.0f);
-
-    glBindVertexArray(mesh.vaoID);
+    // Bind texture only if a texture is specified
+    if (material.texture.getId()) {
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, material.texture.getId());
+    }
 
     final switch (bspVolumeType) with (BSPVolumeType) {
 	    case TRIANGLE:
@@ -134,8 +137,10 @@ final class Model {
 		    break;
 	  }
 
-    // Unbind texture
-    glActiveTexture(0);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    // Bind texture only if a texture is specified
+    if (material.texture.getId()) {
+      glActiveTexture(0);
+      glBindTexture(GL_TEXTURE_2D, 0);
+    }
   }
 }

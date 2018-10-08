@@ -34,6 +34,14 @@ final class GfxBuffer {
     GfxEngine.runtimeCheck();
   }
 
+  /**
+   *
+  **/
+  this(T)(uint target, uint usage, T[] buffer) {
+    this(target, usage);
+    setData(buffer);
+  }
+
   ~this() {
     glDeleteBuffers(1, &buffer);
   }
