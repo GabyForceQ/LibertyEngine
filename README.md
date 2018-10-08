@@ -3,11 +3,16 @@
 A powerful 2D/3D engine written in the D programming language!
 
 ##### Release notes (v0.0.15) (To be released)
-* Simpler project structure
-* Added more manager classes: IOManager, ResourceManager..
-* Cached textures
-* Moved to GLFW
+* Project structure is simpler
+* More manager classes were added
+* No more Singletons
+* Texture caching
+* BSP Volumes and RawModel
+* Obj model loader using Assimp
+* Moved from SDL2 to GLFW
 * More comments and bug fixes
+* Experimental flexible render pipline
+* Experimental lighting system
 
 ##### D compiler versions recommended:
 * DMD 2.082.0
