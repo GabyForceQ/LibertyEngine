@@ -25,8 +25,6 @@ import liberty.core.platform : Platform;
 import liberty.graphics.color : Color;
 import liberty.graphics.constants : GfxVendor;
 
-pragma (inline, true) :
-
 /**
  *
 **/
@@ -43,7 +41,6 @@ class GfxEngine {
   /**
    *
   **/
-  pragma(inline, false)
   static void initialize() {
     Logger.info(InfoMessage.Creating, typeof(this).stringof);
 
@@ -149,7 +146,6 @@ class GfxEngine {
     } catch (Exception e) {}
   }
 
-  pragma(inline, false)
   private static void getLimits(bool isReload) {
     version (__OPENGL__) {
       import std.algorithm.searching : countUntil;

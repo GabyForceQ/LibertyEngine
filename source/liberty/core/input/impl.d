@@ -13,8 +13,6 @@ import derelict.glfw3.glfw3;
 import liberty.core.input.constants : KeyCode, MouseButton, KEY_CODES, MOUSE_BUTTONS;
 import liberty.core.platform : Platform;
 
-pragma(inline, true) :
-
 /**
  *
 **/
@@ -26,7 +24,6 @@ final class Input {
 
   @disable this();
 
-  pragma(inline, false)
   package(liberty.core) static void update() {
     static foreach (i; 0..KEY_CODES)
       keyState[i] = isKeyHold(cast(KeyCode)i);

@@ -37,7 +37,14 @@ struct Transform {
   }
 
   /**
-   *
+   * Translate position using x, y and z scalars as coordinates.
+  **/
+	ref Transform translate(float x, float y, float z) pure nothrow {
+		return translate(Vector3F(x, y, z));
+	}
+
+  /**
+   * Translate position using a vector with x, y and z coordinates.
   **/
 	ref Transform translate(Vector3F translation) pure nothrow {
 		position += translation;
@@ -46,122 +53,135 @@ struct Transform {
 	}
 
   /**
-   *
+   * Translate x-coordinate position.
   **/
-	void translateX(float value) pure nothrow {
+	ref Transform translateX(float value) pure nothrow {
 		position += Vector3F(value, 0.0f, 0.0f);
 		modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
+    return this;
 	}
   
   /**
-   *
+   * Translate y-coordinate position.
   **/
-	void translateY(float value) pure nothrow {
+	ref Transform translateY(float value) pure nothrow {
 		position += Vector3F(0.0f, value, 0.0f);
 		modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
+    return this;
 	}
   
   /**
-   *
+   * Translate z-coordinate position.
   **/
-	void translateZ(float value) pure nothrow {
+	ref Transform translateZ(float value) pure nothrow {
 		position += Vector3F(0.0f, 0.0f, value);
 		modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
+    return this;
 	}
   
   /**
-   *
+   * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
   **/
-	void rotate(float angle, float rotationX, float rotationY, float rotationZ) pure nothrow {
+	ref Transform rotate(float angle, float rotationX, float rotationY, float rotationZ) pure nothrow {
 		modelMatrix.rotate(angle, Vector3F(rotationX, rotationY, rotationZ));
+    return this;
 	}
   
   /**
-   *
+   * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
   **/
-	void rotate(float angle, Vector3F rotation) pure nothrow {
+	ref Transform rotate(float angle, Vector3F rotation) pure nothrow {
 		modelMatrix.rotate(angle, rotation);
+    return this;
 	}
   
   /**
-   *
+   * Rotate object specifying the rotation angle for pitch axis.
   **/
-	void rotatePitch(float angle) pure nothrow {
+	ref Transform rotatePitch(float angle) pure nothrow {
 		modelMatrix.rotateX(angle.radians);
+    return this;
 	}
 
   /**
-   *
+   * Rotate object specifying the rotation angle for yaw axis.
   **/
-	void rotateYaw(float angle) pure nothrow {
+	ref Transform rotateYaw(float angle) pure nothrow {
 		modelMatrix.rotateY(angle.radians);
+    return this;
 	}
 
   /**
-   *
+   * Rotate object specifying the rotation angle for roll axis.
   **/
-	void rotateRoll(float angle) pure nothrow {
+	ref Transform rotateRoll(float angle) pure nothrow {
 		modelMatrix.rotateZ(angle.radians);
+    return this;
 	}
   
   /**
-   *
+   * Scale object using x, y and z scalars for coordinates.
   **/
-	void scale(float x, float y, float z) pure nothrow {
+	ref Transform scale(float x, float y, float z) pure nothrow {
 		modelMatrix.scale(Vector3F(x, y, z));
+    return this;
 	}
   
   /**
-   *
+   * Scale object using a vector with x, y and z scalars for coordinates.
   **/
-	void scale(Vector3F scaling) pure nothrow {
+	ref Transform scale(Vector3F scaling) pure nothrow {
 		modelMatrix.scale(scaling);
+    return this;
 	}
   
   /**
-   *
+   * Scale object on x axis.
   **/
-	void scaleX(float value) pure nothrow {
+	ref Transform scaleX(float value) pure nothrow {
 		modelMatrix.scale(Vector3F(value, 0.0f, 0.0f));
+    return this;
 	}
   
   /**
-   *
+   * Scale object on y axis.
   **/
-	void scaleY(float value) pure nothrow {
+	ref Transform scaleY(float value) pure nothrow {
 		modelMatrix.scale(Vector3F(0.0f, value, 0.0f));
+    return this;
 	}
   
   /**
-   *
+   * Scale object on z axis.
   **/
-	void scaleZ(float value) pure nothrow {
+	ref Transform scaleZ(float value) pure nothrow {
 		modelMatrix.scale(Vector3F(0.0f, 0.0f, value));
+    return this;
 	}
   
   /**
-   *
+   * Returns: object position in world space.
   **/
-	ref const(Vector3F) getPosition() pure nothrow const {
+	ref const(Vector3F) getWorldPosition() pure nothrow const {
 		return position;
 	}
   
   /**
-   *
+   * Returns: object rotation in local space.
   **/
-	ref const(Vector3F) getRotation() pure nothrow const {
+	ref const(Vector3F) getLocalRotation() pure nothrow const {
 		return rotation;
 	}
   
   /**
-   *
+   * Returns: object scale in local space.
   **/
-	ref const(Vector3F) getScale() pure nothrow const {
+	ref const(Vector3F) getLocalScale() pure nothrow const {
 		return scaling;
 	}
   
   /**
-   *
+   * Returns: model matrix for the object representation.
   **/
 	ref const(Matrix4F) getModelMatrix() pure nothrow const {
 		return modelMatrix;

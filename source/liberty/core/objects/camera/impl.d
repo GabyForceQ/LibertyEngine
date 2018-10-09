@@ -26,7 +26,7 @@ final class Camera : WorldObject {
 
   private {
     Vector3F positionVector = Vector3F(0.0f, 0.0f, 3.0f);
-    Vector3F frontVector = Vector3F.backward;
+    Vector3F frontVector = Vector3F.forward;
     Vector3F upVector = Vector3F.up;
     Vector3F rightVector = Vector3F.zero;
     Vector3F worldUpVector = Vector3F.up;

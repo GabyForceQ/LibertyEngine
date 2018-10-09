@@ -16,8 +16,6 @@ import liberty.graphics.buffer.constants : GfxBufferTarget, GfxDataUsage;
 import liberty.graphics.buffer.impl : GfxBuffer;
 import liberty.graphics.constants : GfxDrawMode, GfxVectorType;
 
-pragma (inline, true) :
-
 /**
  *
 **/
@@ -27,7 +25,6 @@ final class GfxUtil {
 	/**
    *
   **/
-  pragma(inline, false)
   static GfxBuffer createBuffer(T)(GfxBufferTarget target, GfxDataUsage usage, T[] data = null) {
     uint _target, _usage;
     GfxBuffer buff = null;
@@ -83,7 +80,6 @@ final class GfxUtil {
   /**
    *
   **/
-  pragma(inline, false)
   static void drawElements(GfxDrawMode drawMode, GfxVectorType type, int count) {
     version (__OPENGL__) {
       GLenum _drawMode, _type;
@@ -103,7 +99,6 @@ final class GfxUtil {
   /**
    *
   **/
-  pragma(inline, false)
   static void drawArrays(GfxDrawMode drawMode, int count) {
     version (__OPENGL__) {
       GLenum _drawMode;

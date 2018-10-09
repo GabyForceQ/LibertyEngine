@@ -8,19 +8,20 @@
 **/
 module liberty.core.engine;
 
-import derelict.glfw3.glfw3;
+import derelict.glfw3.glfw3 :
+  glfwPollEvents, glfwSetInputMode,
+  GLFW_CURSOR, GLFW_CURSOR_NORMAL, GLFW_CURSOR_DISABLED;
 
+import liberty.core.image.manager : ImageManager;
+import liberty.core.input.constants : KeyCode;
+import liberty.core.input.impl : Input;
 import liberty.core.logger : Logger;
+import liberty.core.objects.camera : CameraMovement;
 import liberty.core.platform : Platform;
+import liberty.core.resource.manager : ResourceManager;
+import liberty.core.scene : Scene;
 import liberty.core.time : Time;
 import liberty.graphics.engine : GfxEngine;
-import liberty.core.objects.camera : CameraMovement;
-import liberty.core.scene : Scene;
-import liberty.core.image.manager : ImageManager;
-import liberty.core.resource.manager : ResourceManager;
-import liberty.core.input;
-
-pragma(inline, true) :
 
 /**
  * Core engine class containing engine base static functions.
@@ -69,7 +70,6 @@ final class CoreEngine {
   /**
    * Start the main loop of the application.
   **/
-  pragma(inline, false)
 	static void run() {
 		// Set engine state to "running"
 		changeState(EngineState.Running);

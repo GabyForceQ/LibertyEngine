@@ -14,8 +14,6 @@ module liberty.core.logger.impl;
 import liberty.core.engine : CoreEngine;
 import liberty.core.logger.constants : LogType;
 
-pragma (inline, true) :
-
 /**
  * Logger class is used for logging a message.
  * You can log a message to the system console or to a file: "logs.txt".
@@ -110,7 +108,6 @@ final class Logger {
   /**
    * Log a message using LogType.
   **/
-  pragma(inline, false)
   static void log(LogType type, string message) {
     synchronized {
       if (isActive) {

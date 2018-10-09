@@ -12,8 +12,6 @@ import derelict.glfw3.glfw3 : glfwGetTime;
 
 import std.conv : to;
 
-pragma(inline, true) :
-
 /**
  *
 **/
