@@ -38,5 +38,15 @@ enum CameraMovement : ubyte {
   /**
    *
   **/
-  RIGHT = 0x03
+  RIGHT = 0x03,
+
+  /**
+   *
+  **/
+  UP = 0x04,
+
+  /**
+   *
+  **/
+  DOWN = 0x05
 }

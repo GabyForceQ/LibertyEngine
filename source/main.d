@@ -107,10 +107,15 @@ final class Player : Actor {
           getScene().getActiveCamera().processKeyboard(CameraMovement.FORWARD);
         if (Input.isKeyHold(KeyCode.DOWN))
           getScene().getActiveCamera().processKeyboard(CameraMovement.BACKWARD);
-        if (Input.isKeyHold(KeyCode.LEFT))
+        if (Input.isKeyHold(KeyCode.A))
           getScene().getActiveCamera().processKeyboard(CameraMovement.LEFT);
-        if (Input.isKeyHold(KeyCode.RIGHT))
+        if (Input.isKeyHold(KeyCode.D))
           getScene().getActiveCamera().processKeyboard(CameraMovement.RIGHT);
+
+        if (Input.isKeyHold(KeyCode.W))
+          getScene().getActiveCamera().processKeyboard(CameraMovement.UP);
+        if (Input.isKeyHold(KeyCode.S))
+          getScene().getActiveCamera().processKeyboard(CameraMovement.DOWN);
       });
   }
 

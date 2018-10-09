@@ -102,6 +102,13 @@ final class Camera : WorldObject {
         case RIGHT:
           positionVector += rightVector * velocity;
           break;
+
+        case UP:
+          positionVector += upVector * velocity;
+          break;
+
+        case DOWN:
+          positionVector -= upVector * velocity;
       }
     }
   }
