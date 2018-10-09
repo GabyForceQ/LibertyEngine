@@ -88,6 +88,18 @@ final class Player : Actor {
 
     if (Input.isKeyUp(KeyCode.SPACE))
       light.setColor(Vector3F.one);
+
+    if (Input.isKeyHold(KeyCode.LEFT))
+      cubes[0].getTransform().translate(Vector3F(-2.0f * Time.getDelta(), 0.0f, 0.0f));
+
+    if (Input.isKeyHold(KeyCode.RIGHT))
+      cubes[0].getTransform().translate(Vector3F(2.0f * Time.getDelta(), 0.0f, 0.0f));
+    
+    if (Input.isKeyHold(KeyCode.UP))
+      cubes[0].getTransform().translate(Vector3F(0.0f, 2.0f * Time.getDelta(), 0.0f));
+
+    if (Input.isKeyHold(KeyCode.DOWN))
+      cubes[0].getTransform().translate(Vector3F(0.0f, -2.0f * Time.getDelta(), 0.0f));
   }
 
   /**

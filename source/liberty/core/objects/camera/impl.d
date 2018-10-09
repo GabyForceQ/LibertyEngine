@@ -2,31 +2,23 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/objects/camera.d, _camera.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/objects/camera/impl.d, _impl.d)
  * Documentation:
  * Coverage:
  *
  * TODO:
  *    - camera preset
 **/
-module liberty.core.objects.camera;
+module liberty.core.objects.camera.impl;
 
-import liberty.core.input : Input;
 import liberty.core.math.functions : radians, sin, cos;
 import liberty.core.math.vector : Vector2I, Vector3F, cross;
 import liberty.core.math.matrix : Matrix4F;
 import liberty.core.platform : Platform;
 import liberty.core.time : Time;
+import liberty.core.objects.camera.constants;
 import liberty.core.objects.meta : NodeBody;
 import liberty.core.objects.node : WorldObject;
-
-private {
-  immutable float YAW = -90.0f;
-  immutable float PITCH = 0.0f;
-  immutable float SPEED = 3.0f;
-  immutable float SENSITIVITY = 0.1f;
-  immutable float FOV = 45.0f;
-}
 
 /**
  *
@@ -57,13 +49,6 @@ final class Camera : WorldObject {
   **/
   void constructor() {
     updateCameraVectors();
-  }
-
-  /**
-   * Returns: camera front vector.
-  **/
-  Vector3F getFrontVector() {
-    return frontVector;
   }
 
   /**
@@ -139,7 +124,8 @@ final class Camera : WorldObject {
   }
 
   /**
-   *
+   * Mouse scroll listener.
+   * Works only if camera input listener isn't locked.
   **/
   void processMouseScroll(float yOffset) {
     if (!inputLocked) {
@@ -153,7 +139,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   *
+   * Returns: camera view matrix.
   **/
   Matrix4F getViewMatrix() {
     return Matrix4F.lookAt(
@@ -164,9 +150,9 @@ final class Camera : WorldObject {
   }
 
   /**
-   *
+   * Returns: camera projection matrix.
   **/
-  Matrix4F getProjectionMatrix() {
+  Matrix4F getProjectionMatrix() nothrow {
     return Matrix4F.perspective(
       fieldOfView.radians,
       cast(float)Platform.getWindow().getFrameBufferWidth(),
@@ -177,21 +163,112 @@ final class Camera : WorldObject {
   }
 
   /**
-   *
+   * Set camera position.
   **/
   void setPosition(Vector3F positionVector) pure nothrow {
     this.positionVector = positionVector;
   }
 
   /**
-   *
+   * Returns: camera position.
   **/
-  Vector3F getPosition() pure nothrow {
+  Vector3F getPosition() pure nothrow const {
     return positionVector;
   }
 
   /**
-   *
+   * Returns: camera front vector.
+  **/
+  Vector3F getFrontVector() pure nothrow {
+    return frontVector;
+  }
+
+  /**
+   * Returns: camera up vector.
+  **/
+  Vector3F getUpVector() pure nothrow const {
+    return upVector;
+  }
+
+  /**
+   * Returns: camera right vector.
+  **/
+  Vector3F getRightVector() pure nothrow {
+    return rightVector;
+  }
+
+  /**
+   * Returns: camera world up vector.
+  **/
+  Vector3F getWorldUpVector() pure nothrow const {
+    return worldUpVector;
+  }
+
+  /**
+   * Set camera yaw.
+  **/
+  void setYaw(float yaw) pure nothrow {
+    this.yaw = yaw;
+  }
+
+  /**
+   * Returns: camera yaw.
+  **/
+  float getCameraYaw() pure nothrow const {
+    return yaw;
+  }
+
+  /**
+   * Set camera pitch.
+  **/
+  void setPitch(float pitch) pure nothrow {
+    this.pitch = pitch;
+  }
+
+  /**
+   * Returns: camera pitch.
+  **/
+  float getCameraPitch() pure nothrow const {
+    return pitch;
+  }
+
+  /**
+   * Set camera movement speed.
+  **/
+  void setMovementSpeed(float movementSpeed) pure nothrow {
+    this.movementSpeed = movementSpeed;
+  }
+
+  /**
+   * Returns: camera movement speed.
+  **/
+  float getMovementSpeed() pure nothrow const {
+    return movementSpeed;
+  }
+
+  /**
+   * Set camera mouse sensitivity.
+  **/
+  void setMouseSensitivity(float mouseSensitivity) pure nothrow {
+    this.mouseSensitivity = mouseSensitivity;
+  }
+
+  /**
+   * Returns: camera mouse sensitivity.
+  **/
+  float getMouseSensitivity() pure nothrow const {
+    return mouseSensitivity;
+  }
+
+  /**
+   * Set camera field of view.
+  **/
+  void setFieldOfView(float fieldOfView) pure nothrow {
+    this.fieldOfView = fieldOfView;
+  }
+
+  /**
+   * Returns: camera field of view.
   **/
   float getFieldOfView() pure nothrow const {
     return fieldOfView;
@@ -207,29 +284,4 @@ final class Camera : WorldObject {
     rightVector = cross(frontVector, worldUpVector).normalized();
     upVector = cross(rightVector, frontVector).normalized();
   }
-}
-
-/**
- *
-**/
-enum CameraMovement : ubyte {
-  /**
-   *
-  **/
-  FORWARD = 0x00,
-
-  /**
-   *
-  **/
-  BACKWARD = 0x01,
-  
-  /**
-   *
-  **/
-  LEFT = 0x02,
-  
-  /**
-   *
-  **/
-  RIGHT = 0x03
 }
