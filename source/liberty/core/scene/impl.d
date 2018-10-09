@@ -155,6 +155,7 @@ final class Scene : IUpdatable, IRenderable {
    * Register scene to the CoreEngine.
 	 * Invoke start for all IStartable objects that have an start() method.
   **/
+  pragma(inline, false)
 	void register() {
 		registered = true;
 		if (activeCamera is null) {
@@ -170,6 +171,7 @@ final class Scene : IUpdatable, IRenderable {
    * The object should implement IUpdatable.
    * It's called every frame.
   **/
+  pragma(inline, false)
   void update() {
     foreach (node; this.updateList) {
       node.update();
@@ -181,6 +183,7 @@ final class Scene : IUpdatable, IRenderable {
    * The object should implement IRenderable.
    * It's called every frame.
   **/
+  pragma(inline, false)
   void render() {
     foreach (shader; this.shaderList) {
       shader.render();

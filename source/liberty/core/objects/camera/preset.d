@@ -13,8 +13,6 @@ import liberty.core.input.constants : KeyCode;
 import liberty.core.input.impl : Input;
 import liberty.core.objects.camera.constants : CameraMovement;
 
-pragma(inline, true) :
-
 /**
  *
 **/

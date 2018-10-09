@@ -69,6 +69,7 @@ final class CoreEngine {
   /**
    * Start the main loop of the application.
   **/
+  pragma(inline, false)
 	static void run() {
 		// Set engine state to "running"
 		changeState(EngineState.Running);

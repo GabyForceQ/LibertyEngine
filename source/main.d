@@ -101,7 +101,7 @@ final class Player : Actor {
     if (Input.isKeyHold(KeyCode.DOWN))
       cubes[0].getTransform().translate(Vector3F(0.0f, -2.0f * Time.getDelta(), 0.0f));
 
-    if (Input.isKeyDown(KeyCode.ENTER))
+    if (Input.isKeyDown(KeyCode.ENTER)) {
       getScene().getActiveCamera().getPreset().setImplicit(() {
         if (Input.isKeyHold(KeyCode.UP))
           getScene().getActiveCamera().processKeyboard(CameraMovement.FORWARD);
@@ -117,6 +117,8 @@ final class Player : Actor {
         if (Input.isKeyHold(KeyCode.S))
           getScene().getActiveCamera().processKeyboard(CameraMovement.DOWN);
       });
+      getScene().getActiveCamera().lockMouseMove();
+    }
   }
 
   /**

@@ -5,9 +5,6 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/core/objects/camera/impl.d, _impl.d)
  * Documentation:
  * Coverage:
- *
- * TODO:
- *    - camera preset
 **/
 module liberty.core.objects.camera.impl;
 
@@ -41,9 +38,11 @@ final class Camera : WorldObject {
     float mouseSensitivity = SENSITIVITY;
     float fieldOfView = FOV;
 
-    bool inputLocked;
-
     CameraPreset preset;
+
+    bool mouseMoveLocked;
+    bool mouseScrollLocked;
+    bool keyboardLocked;
   }
 
   /**
@@ -58,32 +57,11 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Lock camera input listener.
-  **/
-  void lockInput() pure nothrow {
-    inputLocked = true;
-  }
-
-  /**
-   * Unlock camera input listener.
-  **/
-  void unlockInput() pure nothrow {
-    inputLocked = false;
-  }
-
-  /**
-   * Returns: true if input listener is locked.
-  **/
-  bool isInputLocked() pure nothrow const {
-    return inputLocked;
-  }
-
-  /**
    * Keyboard listener.
    * Works only if camera input listener isn't locked.
   **/
   void processKeyboard(CameraMovement direction) {
-    if (!inputLocked) {
+    if (!keyboardLocked) {
       const float velocity = movementSpeed * Time.getDelta();
 
       final switch (direction) with (CameraMovement) {
@@ -118,7 +96,7 @@ final class Camera : WorldObject {
    * Works only if camera input listener isn't locked.
   **/
   void processMouseMovement(float xOffset, float yOffset, bool constrainPitch = true) {
-    if (!inputLocked) {
+    if (!mouseMoveLocked) {
       xOffset *= mouseSensitivity;
       yOffset *= mouseSensitivity;
 
@@ -141,7 +119,7 @@ final class Camera : WorldObject {
    * Works only if camera input listener isn't locked.
   **/
   void processMouseScroll(float yOffset) {
-    if (!inputLocked) {
+    if (!mouseScrollLocked) {
       if (fieldOfView >= 1.0f && fieldOfView <= FOV)
         fieldOfView -= yOffset;
       if (fieldOfView <= 1.0f)
@@ -299,6 +277,69 @@ final class Camera : WorldObject {
   **/
   CameraPreset getPreset() pure nothrow {
     return preset;
+  }
+
+  /**
+   * Lock camera mouse move listener.
+  **/
+  void lockMouseMove() pure nothrow {
+    mouseMoveLocked = true;
+  }
+
+  /**
+   * Unlock camera mouse move listener.
+  **/
+  void unlockMouseMove() pure nothrow {
+    mouseMoveLocked = false;
+  }
+
+  /**
+   * Returns: true if mouse move listener is locked.
+  **/
+  bool isMouseMoveLocked() pure nothrow const {
+    return mouseMoveLocked;
+  }
+
+  /**
+   * Lock camera mouse scroll listener.
+  **/
+  void lockMouseScroll() pure nothrow {
+    mouseScrollLocked = true;
+  }
+
+  /**
+   * Unlock camera mouse scroll listener.
+  **/
+  void unlockMouseScroll() pure nothrow {
+    mouseScrollLocked = false;
+  }
+
+  /**
+   * Returns: true if mouse scroll listener is locked.
+  **/
+  bool isMouseScrollLocked() pure nothrow const {
+    return mouseScrollLocked;
+  }
+
+  /**
+   * Lock camera keyboard listener.
+  **/
+  void lockKeyboard() pure nothrow {
+    keyboardLocked = true;
+  }
+
+  /**
+   * Unlock camera keyboard listener.
+  **/
+  void unlockKeyboard() pure nothrow {
+    keyboardLocked = false;
+  }
+
+  /**
+   * Returns: true if keyboard listener is locked.
+  **/
+  bool isKeyboardLocked() pure nothrow const {
+    return keyboardLocked;
   }
 
   private void updateCameraVectors() {
