@@ -20,6 +20,8 @@ import liberty.core.image.manager : ImageManager;
 import liberty.core.resource.manager : ResourceManager;
 import liberty.core.input;
 
+pragma(inline, true) :
+
 /**
  * Core engine class containing engine base static functions.
 **/
@@ -94,16 +96,9 @@ final class CoreEngine {
 			
 			GfxEngine.render();
 
-			if (Input.isKeyHold(KeyCode.W))
-				scene.getActiveCamera().processKeyboard(CameraMovement.FORWARD);
-			if (Input.isKeyHold(KeyCode.S))
-				scene.getActiveCamera().processKeyboard(CameraMovement.BACKWARD);
-			if (Input.isKeyHold(KeyCode.A))
-				scene.getActiveCamera().processKeyboard(CameraMovement.LEFT);
-			if (Input.isKeyHold(KeyCode.D))
-				scene.getActiveCamera().processKeyboard(CameraMovement.RIGHT);
+      scene.getActiveCamera().getPreset().runImplicit();
 
-			if (Input.isKeyDown(KeyCode.T))
+      if (Input.isKeyDown(KeyCode.T))
 				glfwSetInputMode(Platform.getWindow().getHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			if (Input.isKeyDown(KeyCode.Y))
 				glfwSetInputMode(Platform.getWindow().getHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -168,7 +163,6 @@ final class CoreEngine {
 		return scene;
 	}
 
-  pragma(inline, true)
 	package static void changeState(EngineState engineState) {
 		this.engineState = engineState;
 		Logger.info("Engine state changed to " ~ engineState, typeof(this).stringof);

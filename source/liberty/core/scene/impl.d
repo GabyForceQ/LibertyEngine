@@ -18,6 +18,8 @@ import liberty.core.objects.node : WorldObject, RootObject;
 import liberty.core.services : IStartable, IUpdatable, IRenderable;
 import liberty.core.objects.camera : Camera;
 
+pragma(inline, true) :
+
 /**
  *
 **/

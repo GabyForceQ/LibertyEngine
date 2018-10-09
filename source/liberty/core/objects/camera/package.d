@@ -11,4 +11,5 @@ module liberty.core.objects.camera;
 public {
   import liberty.core.objects.camera.constants;
   import liberty.core.objects.camera.impl;
+  import liberty.core.objects.camera.preset;
 }

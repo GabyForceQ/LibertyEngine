@@ -17,6 +17,7 @@ import liberty.core.math.matrix : Matrix4F;
 import liberty.core.platform : Platform;
 import liberty.core.time : Time;
 import liberty.core.objects.camera.constants;
+import liberty.core.objects.camera.preset : CameraPreset;
 import liberty.core.objects.meta : NodeBody;
 import liberty.core.objects.node : WorldObject;
 
@@ -41,14 +42,19 @@ final class Camera : WorldObject {
     float fieldOfView = FOV;
 
     bool inputLocked;
+
+    CameraPreset preset;
   }
 
   /**
    * Camera custom constructor.
    * Calls: $(D, updateCameraVectors).
+   * It adds default $(D, CameraPreset).
   **/
   void constructor() {
     updateCameraVectors();
+
+    preset = CameraPreset.getDefault();
   }
 
   /**
@@ -272,6 +278,20 @@ final class Camera : WorldObject {
   **/
   float getFieldOfView() pure nothrow const {
     return fieldOfView;
+  }
+
+  /**
+   *
+  **/
+  void setPreset(CameraPreset preset) pure nothrow {
+    this.preset = preset;
+  }
+
+  /**
+   * Returns: current camera preset.
+  **/
+  CameraPreset getPreset() pure nothrow {
+    return preset;
   }
 
   private void updateCameraVectors() {
