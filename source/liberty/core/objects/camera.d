@@ -23,7 +23,7 @@ import liberty.core.objects.node : WorldObject;
 private {
   immutable float YAW = -90.0f;
   immutable float PITCH = 0.0f;
-  immutable float SPEED = 2.5f;
+  immutable float SPEED = 3.0f;
   immutable float SENSITIVITY = 0.1f;
   immutable float FOV = 45.0f;
 }
@@ -171,7 +171,7 @@ final class Camera : WorldObject {
       fieldOfView.radians,
       cast(float)Platform.getWindow().getFrameBufferWidth(),
       cast(float)Platform.getWindow().getFrameBufferHeight(),
-      0.1f,
+      0.01f,
       1000.0f
     );
   }

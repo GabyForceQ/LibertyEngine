@@ -9,6 +9,7 @@
 module liberty.core;
 
 public {
+  import liberty.core.asset;
   import liberty.core.components;
   import liberty.core.engine;
   import liberty.core.input;

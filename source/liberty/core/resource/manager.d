@@ -13,6 +13,7 @@ module liberty.core.resource.manager;
 
 import derelict.opengl : glVertexAttribPointer, GL_FLOAT, GL_FALSE;
 
+import liberty.core.logger.impl : Logger;
 import liberty.core.model.raw : RawModel;
 import liberty.graphics.array : GfxArray;
 import liberty.graphics.buffer.constants : GfxBufferTarget, GfxDataUsage;
@@ -108,6 +109,30 @@ final class ResourceManager {
     vao.unbind();
     
     return new RawModel(vao.getHandle(), indices.length);
+  }
+
+  import derelict.assimp3.assimp;
+  import derelict.assimp3.types;
+
+  /**
+   * TODO
+  **/
+  static RawModel loadModel(string path) {
+    import std.string : toStringz;
+
+    const(aiScene)* scene = aiImportFile(path.toStringz, 0);
+    if (scene is null)
+      Logger.error("Couldn't load model: " ~ path, typeof(this).stringof);
+    
+    foreach (i; 0..scene.mRootNode.mNumMeshes) {
+      const(aiMesh)* mesh = scene.mMeshes[scene.mRootNode.mMeshes[i]];
+      //mesh ~= 
+    }
+
+    foreach (i; 0..scene.mRootNode.mNumChildren) {
+      
+    }
+    return null;
   }
 
   /**
