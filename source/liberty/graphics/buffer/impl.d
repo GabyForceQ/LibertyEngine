@@ -8,9 +8,10 @@
 **/
 module liberty.graphics.buffer.impl;
 
-import derelict.opengl :
-  glGenBuffers, glBindBuffer, glDeleteBuffers,
-  glBufferData, glBufferSubData, glGetBufferSubData;
+version (__OPENGL__)
+  import derelict.opengl :
+    glGenBuffers, glBindBuffer, glDeleteBuffers,
+    glBufferData, glBufferSubData, glGetBufferSubData;
 
 import liberty.core.utils : bufferSize;
 import liberty.graphics.engine : GfxEngine;
@@ -33,7 +34,10 @@ final class GfxBuffer {
   this(uint target, uint usage) {
     this.target = target;
     this.usage = usage;
-    glGenBuffers(1, &buffer);
+    
+    version (__OPENGL__)
+      glGenBuffers(1, &buffer);
+    
     debug GfxEngine.runtimeCheck();
   }
 
@@ -46,7 +50,8 @@ final class GfxBuffer {
   }
 
   ~this() {
-    glDeleteBuffers(1, &buffer);
+    version (__OPENGL__)
+      glDeleteBuffers(1, &buffer);
   }
 
   /**
@@ -69,12 +74,17 @@ final class GfxBuffer {
   void setData(size_t size, void* data) {
     bind();
     this.size = size;
-    if (firstLoad)
-      glBufferData(target, size, data, usage);
-    else {
-      glBufferData(target, size, null, usage);
-      glBufferSubData(target, 0, size, data);
+    
+    if (firstLoad) {
+      version (__OPENGL__)
+        glBufferData(target, size, data, usage);
+    } else {
+      version (__OPENGL__) {
+        glBufferData(target, size, null, usage);
+        glBufferSubData(target, 0, size, data);
+      }
     }
+    
     debug GfxEngine.runtimeCheck();
     firstLoad = false;
   }
@@ -84,7 +94,10 @@ final class GfxBuffer {
   **/
   void setSubData(size_t offset, size_t size, void* data) {
     bind();
-    glBufferSubData(target, offset, size, data);
+    
+    version (__OPENGL__)
+      glBufferSubData(target, offset, size, data);
+    
     debug GfxEngine.runtimeCheck();
   }
 
@@ -93,7 +106,10 @@ final class GfxBuffer {
   **/
   void getSubData(size_t offset, size_t size, void* data) {
     bind();
-    glGetBufferSubData(target, offset, size, data);
+
+    version (__OPENGL__)
+      glGetBufferSubData(target, offset, size, data);
+    
     debug GfxEngine.runtimeCheck();
   }
 
@@ -110,7 +126,9 @@ final class GfxBuffer {
    *
   **/
   void bind() {
-    glBindBuffer(target, buffer);
+    version (__OPENGL__)
+      glBindBuffer(target, buffer);
+   
     debug GfxEngine.runtimeCheck();
   }
 
@@ -118,7 +136,8 @@ final class GfxBuffer {
    *
   **/
   void unbind() {
-    glBindBuffer(target, 0);
+    version (__OPENGL__)
+      glBindBuffer(target, 0);
   }
 
   /**
@@ -132,6 +151,7 @@ final class GfxBuffer {
    *
   **/
   static void releaseBuffers(uint[] buff) {
-    glDeleteBuffers(buff.length, cast(uint*)buff);
+    version (__OPENGL__)
+      glDeleteBuffers(buff.length, cast(uint*)buff);
   }
 }

@@ -8,7 +8,8 @@
 **/
 module liberty.graphics.texture.impl;
 
-import derelict.opengl;
+version (__OPENGL__)
+  import derelict.opengl;
 
 /**
  *
@@ -26,15 +27,18 @@ struct Texture {
   }
 
   void generateTextures() {
-    glGenTextures(1, &_id);
+    version (__OPENGL__)
+      glGenTextures(1, &_id);
   }
 
   void deleteTextures() {
-    glDeleteTextures(1, &_id);
+    version (__OPENGL__)
+      glDeleteTextures(1, &_id);
   }
 
   void bind() {
-    glBindTexture(GL_TEXTURE_2D, _id);
+    version (__OPENGL__)
+      glBindTexture(GL_TEXTURE_2D, _id);
   }
 
   int getId() {

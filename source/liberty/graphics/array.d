@@ -8,7 +8,9 @@
 **/
 module liberty.graphics.array;
 
-import derelict.opengl : glGenVertexArrays, glDeleteVertexArrays, glBindVertexArray;
+version (__OPENGL__)
+  import derelict.opengl :
+    glGenVertexArrays, glDeleteVertexArrays, glBindVertexArray;
 
 import liberty.graphics.engine : GfxEngine;
 
@@ -24,21 +26,26 @@ final class GfxArray {
    * Create a vertex array object.
   **/
   this(bool shouldBind = true) {
-    glGenVertexArrays(1, &handle);
+    version (__OPENGL__)
+      glGenVertexArrays(1, &handle);
+    
     debug GfxEngine.runtimeCheck();
     if (shouldBind)
       bind();
   }
 
   ~this() {
-    glDeleteVertexArrays(1, &handle);
+    version (__OPENGL__)
+      glDeleteVertexArrays(1, &handle);
   }
 
   /**
    * Bind this vertex array object.
   **/
   void bind() {
-    glBindVertexArray(handle);
+    version (__OPENGL__)
+      glBindVertexArray(handle);
+    
     debug GfxEngine.runtimeCheck();
   }
 
@@ -46,7 +53,9 @@ final class GfxArray {
    * Unbind this vertex array object.
   **/
   void unbind() {
-    glBindVertexArray(0);
+    version (__OPENGL__)
+      glBindVertexArray(0);
+    
     debug GfxEngine.runtimeCheck();
   }
 
@@ -61,6 +70,7 @@ final class GfxArray {
    *
   **/
   static void releaseVertexArrays(uint[] buff) {
-    glDeleteVertexArrays(buff.length, cast(uint*)buff);
+    version (__OPENGL__)
+      glDeleteVertexArrays(buff.length, cast(uint*)buff);
   }
 }

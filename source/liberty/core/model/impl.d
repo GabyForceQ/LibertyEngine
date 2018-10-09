@@ -8,7 +8,8 @@
 **/
 module liberty.core.model.impl;
 
-import derelict.opengl;
+version (__OPENGL__)
+  import derelict.opengl;
 
 import liberty.core.engine : CoreEngine;
 import liberty.core.resource.manager : ResourceManager;
@@ -81,29 +82,37 @@ final class Model {
   void draw() {
     // Bind texture only if a texture is specified
     if (material.getTexture().getId()) {
-      glActiveTexture(GL_TEXTURE0);
-      glBindTexture(GL_TEXTURE_2D, material.getTexture().getId());
+      version (__OPENGL__) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, material.getTexture().getId());
+      }
     }
 
-    glBindVertexArray(rawModel.getVaoID());
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
+    version (__OPENGL__) {
+      glBindVertexArray(rawModel.getVaoID());
+      glEnableVertexAttribArray(0);
+      glEnableVertexAttribArray(1);
+      glEnableVertexAttribArray(2);
+    }
 
     if (hasIndices)
       GfxUtil.drawElements(GfxDrawMode.Triangles, GfxVectorType.UnsignedInt, rawModel.getVertexCount());
     else
       GfxUtil.drawArrays(GfxDrawMode.Triangles, rawModel.getVertexCount());
 
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
-    glBindVertexArray(0);
+    version (__OPENGL__) {
+      glDisableVertexAttribArray(0);
+      glDisableVertexAttribArray(1);
+      glDisableVertexAttribArray(2);
+      glBindVertexArray(0);
+    }
 
     // Bind texture only if a texture is specified
     if (material.getTexture().getId()) {
-      glActiveTexture(0);
-      glBindTexture(GL_TEXTURE_2D, 0);
+      version (__OPENGL__) {
+        glActiveTexture(0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+      }
     }
   }
 

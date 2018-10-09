@@ -12,7 +12,8 @@
 module liberty.core.image.loader;
 
 //
-import derelict.opengl;
+version (__OPENGL__)
+  import derelict.opengl;
 
 import liberty.core.logger.impl : Logger;
 import liberty.core.image.bitmap : Bitmap;
@@ -37,31 +38,33 @@ final class ImageLoader {
     // Generate OpenGL texture
     texture.generateTextures();
 
-    // Bind the texture
-    glBindTexture(GL_TEXTURE_2D, texture.getId());
-    glTexImage2D(
-      GL_TEXTURE_2D, 
-      0, 
-      GL_RGBA8, //GL_RGBA,
-      bitmap.getWidth(),
-      bitmap.getHeight(),
-      0,
-      GL_RGBA,
-      GL_UNSIGNED_INT_8_8_8_8, //GL_UNSIGNED_BYTE,
-      bitmap.getData()
-    );
+    version (__OPENGL__) {
+      // Bind the texture
+      glBindTexture(GL_TEXTURE_2D, texture.getId());
+      glTexImage2D(
+        GL_TEXTURE_2D, 
+        0, 
+        GL_RGBA8, //GL_RGBA,
+        bitmap.getWidth(),
+        bitmap.getHeight(),
+        0,
+        GL_RGBA,
+        GL_UNSIGNED_INT_8_8_8_8, //GL_UNSIGNED_BYTE,
+        bitmap.getData()
+      );
 
-    // Set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+      // Set texture parameters
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
-    // Generate mipmap
-    glGenerateMipmap(GL_TEXTURE_2D);
+      // Generate mipmap
+      glGenerateMipmap(GL_TEXTURE_2D);
 
-    // Unbind the current texture
-    glBindTexture(GL_TEXTURE_2D, 0);
+      // Unbind the current texture
+      glBindTexture(GL_TEXTURE_2D, 0);
+    }
 
     // Set Texture width and height
     texture.width = bitmap.getWidth();

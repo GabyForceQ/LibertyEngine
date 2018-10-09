@@ -8,20 +8,24 @@
 **/
 module liberty.graphics.engine;
 
-import derelict.opengl;
+version (__OPENGL__)
+  import derelict.opengl;
 
 import derelict.util.exception : ShouldThrow;
 import derelict.glfw3.glfw3 : glfwSwapInterval, glfwSwapBuffers;
-import derelict.opengl :
-  DerelictGL3, glClearDepth, glClearColor, glClear, glEnable, glBlendFunc,
-  GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT, GL_STENCIL_BUFFER_BIT,
-  GL_DEPTH_TEST, GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA;
+
+//import derelict.opengl :
+//  DerelictGL3, glClearDepth, glClearColor, glClear, glEnable, glBlendFunc,
+//  GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT, GL_STENCIL_BUFFER_BIT,
+//  GL_DEPTH_TEST, GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA;
 
 import liberty.core.engine : CoreEngine;
 import liberty.core.logger : Logger, InfoMessage;
 import liberty.core.platform : Platform;
 import liberty.graphics.color : Color;
 import liberty.graphics.constants : GfxVendor;
+
+pragma (inline, true) :
 
 /**
  *
@@ -39,6 +43,7 @@ class GfxEngine {
   /**
    *
   **/
+  pragma(inline, false)
   static void initialize() {
     Logger.info(InfoMessage.Creating, typeof(this).stringof);
 
@@ -49,8 +54,12 @@ class GfxEngine {
         return ShouldThrow.No;
       return ShouldThrow.Yes;
     }
-    DerelictGL3.missingSymbolCallback = &missingSymbolFunc;
-    DerelictGL3.load();
+    
+    version (__OPENGL__) {
+      DerelictGL3.missingSymbolCallback = &missingSymbolFunc;
+      DerelictGL3.load();
+    }
+
     getLimits(false);
 
     Logger.info(InfoMessage.Created, typeof(this).stringof);
@@ -62,10 +71,13 @@ class GfxEngine {
   static void reloadFeatures() {
     Logger.info("Start realoading OpenGL", typeof(this).stringof);
 
-    DerelictGL3.reload();
+    version (__OPENGL__)
+      DerelictGL3.reload();
+    
     getLimits(true);
 
-    glEnable(GL_DEPTH_TEST);
+    version (__OPENGL__)
+      glEnable(GL_DEPTH_TEST);
 
     Logger.info("Finish realoading OpenGL", typeof(this).stringof);
   }
@@ -87,16 +99,20 @@ class GfxEngine {
    *
   **/
   static void clearScreen() {
-    glClearDepth(1.0);
-	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    glClearColor(0.1f, 0.1f, 0.44f, 1.0f);
+    version (__OPENGL__) {
+      glClearDepth(1.0);
+	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+      glClearColor(0.1f, 0.1f, 0.44f, 1.0f);
+    }
   }
 
   /**
    *
   **/
   static void clearColor(Color color) {
-    glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
+    version (__OPENGL__) {
+      glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
+    }
   }
 
   /**
@@ -117,8 +133,10 @@ class GfxEngine {
    *
   **/
   static void enableAlphaBlend() {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    version (__OPENGL__) {
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
   }
 
   /**
@@ -126,67 +144,75 @@ class GfxEngine {
   **/
   static void resizeFrameBufferViewport(int width, int height) nothrow {
     try {
-      glViewport(0, 0, width, height);
+      version (__OPENGL__)
+        glViewport(0, 0, width, height);
     } catch (Exception e) {}
   }
 
+  pragma(inline, false)
   private static void getLimits(bool isReload) {
-    import std.algorithm.searching : countUntil;
-    import std.conv : to;
-    import std.array : split;
-    if (isReload) {
-      const(char)[] verString = getVersionString;
-      int firstSpace = cast(int)countUntil(verString, " ");
-      if (firstSpace != -1)
-        verString = verString[0..firstSpace];
-      const(char)[][] verParts = split(verString, ".");
-      if (verParts.length < 2) {
-        cant_parse:
+    version (__OPENGL__) {
+      import std.algorithm.searching : countUntil;
+      import std.conv : to;
+      import std.array : split;
+      if (isReload) {
+        const(char)[] verString = getVersionString;
+        int firstSpace = cast(int)countUntil(verString, " ");
+        if (firstSpace != -1)
+          verString = verString[0..firstSpace];
+        const(char)[][] verParts = split(verString, ".");
+        if (verParts.length < 2) {
+          cant_parse:
+          _majorVersion = 1;
+          _minorVersion = 1;
+        } else {
+          try {
+            _majorVersion = to!int(verParts[0]);
+          } catch (Exception e) {
+            goto cant_parse;
+          }
+          try {
+            _minorVersion = to!int(verParts[1]);
+          } catch (Exception e) {
+            goto cant_parse;
+          }
+        }
+        if (_majorVersion < 3)
+          _extensions = split(getString(GL_EXTENSIONS).idup);
+        else {
+          immutable int numExtensions = getInt(GL_NUM_EXTENSIONS);
+          _extensions.length = 0;
+          for (int i; i < numExtensions; ++i)
+            _extensions ~= getString(GL_EXTENSIONS, i).idup;
+        }
+        _maxColorAttachments = getInt(GL_MAX_COLOR_ATTACHMENTS);
+      } else {
         _majorVersion = 1;
         _minorVersion = 1;
-      } else {
-        try {
-          _majorVersion = to!int(verParts[0]);
-        } catch (Exception e) {
-          goto cant_parse;
-        }
-        try {
-          _minorVersion = to!int(verParts[1]);
-        } catch (Exception e) {
-          goto cant_parse;
-        }
+        _extensions = [];
+        _maxColorAttachments = 0;
       }
-      if (_majorVersion < 3)
-        _extensions = split(getString(GL_EXTENSIONS).idup);
-      else {
-        immutable int numExtensions = getInt(GL_NUM_EXTENSIONS);
-        _extensions.length = 0;
-        for (int i; i < numExtensions; ++i)
-          _extensions ~= getString(GL_EXTENSIONS, i).idup;
-      }
-      _maxColorAttachments = getInt(GL_MAX_COLOR_ATTACHMENTS);
-    } else {
-      _majorVersion = 1;
-      _minorVersion = 1;
-      _extensions = [];
-      _maxColorAttachments = 0;
     }
   }
 
   static void enable3DCapabilities() {
-    glFrontFace(GL_CW);
-    glCullFace(GL_FRONT);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
+    version (__OPENGL__) {
+      glFrontFace(GL_CW);
+      glCullFace(GL_FRONT);
+      glEnable(GL_CULL_FACE);
+      glEnable(GL_DEPTH_TEST);
+    }
     enableTextures();
   }
 
   static void enableTextures() {
-    glEnable(GL_TEXTURE_2D);
+    version (__OPENGL__)
+      glEnable(GL_TEXTURE_2D);
   }
 
   static void disableTextures() {
-    glDisable(GL_TEXTURE_2D);
+    version (__OPENGL__)
+      glDisable(GL_TEXTURE_2D);
   }
 
   static bool supportsExtension(string extension) nothrow {
@@ -197,37 +223,55 @@ class GfxEngine {
   }
 
   debug static void runtimeCheck() {
-    GLint er = glGetError();
-    if (er != GL_NO_ERROR) {
-      string getErrorString = getErrorString(er);
-      flushGLErrors();
-      Logger.error(getErrorString, typeof(this).stringof);
+    version (__OPENGL__) {
+      GLint er = glGetError();
+      if (er != GL_NO_ERROR) {
+        string getErrorString = getErrorString(er);
+        flushErrors();
+        Logger.error(getErrorString, typeof(this).stringof);
+      }
     }
   }
 
   debug static bool runtimeCheckNothrow() nothrow {
-    immutable GLint r = glGetError();
-    if (r != GL_NO_ERROR) {
-      flushGLErrors();
-      return false;
+    version (__OPENGL__) {
+      immutable GLint r = glGetError();
+      if (r != GL_NO_ERROR) {
+        flushErrors();
+        return false;
+      }
+      return true;
     }
-    return true;
+    else
+      return true;
   }
 
-  static const(char)[] getString(GLenum name) {
+  static const(char)[] getString(uint name) {
     import std.string : fromStringz;
-    const(char)* sZ = glGetString(name);
+    
+    version (__OPENGL__)
+      const(char)* sZ = glGetString(name);
+    else
+      const(char)* sZ = "";
+    
     debug runtimeCheck();
+    
     if (sZ is null)
       return "(unknown)";
     else
       return sZ.fromStringz;
   }
 
-  static const(char)[] getString(GLenum name, GLuint index) {
+  static const(char)[] getString(uint name, uint index) {
     import std.string : fromStringz;
-    const(char)* sZ = glGetStringi(name, index);
+
+    version (__OPENGL__)
+      const(char)* sZ = glGetStringi(name, index);
+    else
+      const(char)* sZ = "";
+    
     debug runtimeCheck();
+    
     if (sZ is null)
       return "(unknown)";
     else
@@ -243,11 +287,17 @@ class GfxEngine {
   }
 
   static const(char)[] getVersionString() {
-    return getString(GL_VERSION);
+    version (__OPENGL__)
+      return getString(GL_VERSION);
+    else
+      return "";
   }
 
   static const(char)[] getVendorString() {
-    return getString(GL_VENDOR);
+    version (__OPENGL__)
+      return getString(GL_VENDOR);
+    else
+      return "";
   }
 
   static GfxVendor getVendor() {
@@ -264,29 +314,43 @@ class GfxEngine {
   }
 
   static const(char)[] getRendererString() {
-    return getString(GL_RENDERER);
+    version (__OPENGL__)
+      return getString(GL_RENDERER);
+    else
+      return "";
   }
 
   static const(char)[] getShadingVersionString() {
-    return getString(GL_SHADING_LANGUAGE_VERSION);
+    version (__OPENGL__)
+      return getString(GL_SHADING_LANGUAGE_VERSION);
+    else
+      return "";
   }
 
   static string[] getExtensions() nothrow {
     return _extensions;
   }
 
-  static int getInt(GLenum pname) {
-    GLint param;
-    glGetIntegerv(pname, &param);
-    debug runtimeCheck();
-    return param;
+  static int getInt(uint pname) {
+    version (__OPENGL__) {
+      GLint param;
+      glGetIntegerv(pname, &param);
+      debug runtimeCheck();
+      return param;
+    }
+    else
+      return 0;
   }
 
-  static float getFloat(GLenum pname) {
-    GLfloat res;
-    glGetFloatv(pname, &res);
-    debug runtimeCheck();
-    return res;
+  static float getFloat(uint pname) {
+    version (__OPENGL__) {
+      GLfloat res;
+      glGetFloatv(pname, &res);
+      debug runtimeCheck();
+      return res;
+    }
+    else
+      return 0;
   }
 
   static int getMaxColorAttachments() nothrow {
@@ -294,33 +358,40 @@ class GfxEngine {
   }
 
   static void getActiveTexture(int texture_id) {
-    glActiveTexture(GL_TEXTURE0 + texture_id);
+    version (__OPENGL__)
+      glActiveTexture(GL_TEXTURE0 + texture_id);
+    
     debug runtimeCheck();
   }
 
-  private static string getErrorString(GLint er) nothrow {
-    switch(er) {
-      case GL_NO_ERROR:
-        return "GL_NO_ERROR";
-      case GL_INVALID_ENUM:
-        return "GL_INVALID_ENUM";
-      case GL_INVALID_VALUE:
-        return "GL_INVALID_VALUE";
-      case GL_INVALID_OPERATION:
-        return "GL_INVALID_OPERATION";
-      case GL_OUT_OF_MEMORY:
-        return "GL_OUT_OF_MEMORY";
-      default:
-        return "Unknown OpenGL error";
-    }
+  private static string getErrorString(int er) nothrow {
+    version (__OPENGL__)
+      switch(er) {
+        case GL_NO_ERROR:
+          return "GL_NO_ERROR";
+        case GL_INVALID_ENUM:
+          return "GL_INVALID_ENUM";
+        case GL_INVALID_VALUE:
+          return "GL_INVALID_VALUE";
+        case GL_INVALID_OPERATION:
+          return "GL_INVALID_OPERATION";
+        case GL_OUT_OF_MEMORY:
+          return "GL_OUT_OF_MEMORY";
+        default:
+          return "Unknown OpenGL error";
+      }
+    else
+      return "";
   }
 
-  private static void flushGLErrors() nothrow {
+  private static void flushErrors() nothrow {
     int timeout;
     while (++timeout <= 5) {
-      immutable GLint r = glGetError();
-      if (r == GL_NO_ERROR)
-        break;
+      version (__OPENGL__) {
+        immutable GLint r = glGetError();
+        if (r == GL_NO_ERROR)
+          break;
+      }
     }
   }
 }
