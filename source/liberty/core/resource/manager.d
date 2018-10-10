@@ -15,10 +15,9 @@ version (__OPENGL__)
   import derelict.opengl : glVertexAttribPointer, GL_FLOAT, GL_FALSE;
 
 import liberty.core.logger.impl : Logger;
-import liberty.core.math : Vector2F, Vector3F;
 import liberty.core.model.impl : Model;
 import liberty.core.model.raw : RawModel;
-import liberty.core.objects.mesh : StaticMesh;
+import liberty.core.resource.obj : loadOBJFile;
 import liberty.graphics.array : GfxArray;
 import liberty.graphics.buffer.constants : GfxBufferTarget, GfxDataUsage;
 import liberty.graphics.buffer.impl : GfxBuffer;
@@ -26,7 +25,6 @@ import liberty.graphics.texture.cache : TextureCache;
 import liberty.graphics.texture.impl : Texture;
 import liberty.graphics.util : GfxUtil;
 import liberty.graphics.vertex : Vertex;
-
 
 /**
  * The resource manager class provides static functions that gives you the possibility
@@ -127,83 +125,21 @@ final class ResourceManager {
   **/
   static Model loadModel(string path) {
     import std.array : split;
-    import std.conv : to;
-    import std.stdio : File;
-    import std.string : strip;
 
     // Check extension	
     string[] splitArray = path.split(".");	
-    immutable ext = splitArray[$ - 1];	
-    if (ext != "obj") {	
-      Logger.error(	
-        "File format not supported for mesh data: " ~ ext,	
-        typeof(this).stringof	
-      );	
-    }
-    
-    Vertex[] vertices;	
-
-    Vector3F[] positions;
-    Vector3F[] normals;
-    Vector2F[] uvs;
-
-    Vector3F[] tmpPositions;
-    Vector3F[] tmpNormals;
-    Vector2F[] tmpUvs;
-
-    uint[] vertexIndices;
-    uint[] normalIndices;
-    uint[] uvIndices;
-    
-     // Open the file	
-    auto file = File(path);
-    scope (exit) file.close();
-
-    // Read the file and build mesh data	
-    auto range = file.byLine();	
-    foreach (line; range) {
-      line = line.strip();
-      char[][] tokens = line.split(" ");
-
-      if (tokens.length == 0 || tokens[0] == "#") {	
-        continue;
-      } else if (tokens[0] == "v") {
-        tmpPositions ~= Vector3F(tokens[1].to!float, tokens[2].to!float, tokens[3].to!float);   
-      } else if (tokens[0] == "vn") {
-        tmpNormals ~= Vector3F(tokens[1].to!float, tokens[2].to!float, tokens[3].to!float);
-      } else if (tokens[0] == "vt") {
-        tmpUvs ~= Vector2F(tokens[1].to!float, tokens[2].to!float);
-      } else if (tokens[0] == "f") {
-        auto tokens_1 = tokens[1].split("/");
-        auto tokens_2 = tokens[2].split("/");
-        auto tokens_3 = tokens[3].split("/");
-
-        vertexIndices ~= tokens_1[0].to!uint - 1;
-        vertexIndices ~= tokens_2[0].to!uint - 1;
-        vertexIndices ~= tokens_3[0].to!uint - 1;
-
-        uvIndices ~= tokens_1[1].to!uint - 1;
-        uvIndices ~= tokens_2[1].to!uint - 1;
-        uvIndices ~= tokens_3[1].to!uint - 1;
-
-        normalIndices ~= tokens_1[2].to!uint - 1;
-        normalIndices ~= tokens_2[2].to!uint - 1;
-        normalIndices ~= tokens_3[2].to!uint - 1;
-      }
+    immutable extension = splitArray[$ - 1];
+    switch (extension) {
+      case "obj":
+        return loadOBJFile(path);
+      default:
+        Logger.error(	
+          "File format not supported for mesh data: " ~ extension,	
+          typeof(this).stringof	
+        );
     }
 
-    foreach (i; 0..vertexIndices.length) {
-      positions ~= tmpPositions[vertexIndices[i]];
-      normals ~= tmpNormals[normalIndices[i]];
-      uvs ~= tmpUvs[uvIndices[i]];
-
-      vertices ~= Vertex(positions[i], normals[i], uvs[i]);
-    }
-
-    Model model = new Model();
-    model.build(vertices, "res/textures/default.bmp");
-
-    return model;	
+    assert(0, "Unreachable");
   }
 
   /**

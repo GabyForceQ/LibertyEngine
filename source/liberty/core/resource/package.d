@@ -10,4 +10,5 @@ module liberty.core.resource;
 
 public {
   import liberty.core.resource.manager;
+  import liberty.core.resource.obj;
 }

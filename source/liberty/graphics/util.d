@@ -106,7 +106,7 @@ final class GfxUtil {
       final switch (drawMode) with (GfxDrawMode) {
         case Triangles: _drawMode = GL_TRIANGLES;
       }
-
+      
       glDrawArrays(_drawMode, 0, count);
     }
   }

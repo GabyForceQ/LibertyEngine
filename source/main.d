@@ -57,10 +57,10 @@ final class Player : Actor {
 
     (mesh = spawn!StaticMesh("CubeMesh"))
       .getRenderer()
-      .setModel(ResourceManager.loadModel("res/models/cube.obj"))
+      .setModel(ResourceManager.loadModel("res/models/cube0.obj"))
       .getParent()
       .getTransform()
-      .translate(-4.0f, 0.0f, 0.0f);
+      .translate(0.0f, 0.0f, -20.0f);
   }
 
   /**
