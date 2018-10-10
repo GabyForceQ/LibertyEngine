@@ -24,10 +24,7 @@ final class PointLight : Entity {
   mixin(NodeBody);
 
   private {
-    Vector3F position = Vector3F.zero;
-    Vector3F ambient = Vector3F(0.5f);
-    Vector3F diffuse =  Vector3F(0.8f);
-    Vector3F specular = Vector3F.one;
+    Vector3F color = Vector3F.one;
   }
 
   /**
@@ -41,17 +38,7 @@ final class PointLight : Entity {
    *
   **/
   PointLight setColor(Vector3F color) {
-    diffuse = color * Vector3F(0.8f);
-    ambient = diffuse * Vector3F(0.5f);
-
-    return this;
-  }
-
-  /**
-   *
-  **/
-  PointLight setPosition(Vector3F position) {
-    this.position = position;
+    this.color = color;
 
     return this;
   }
@@ -61,15 +48,9 @@ final class PointLight : Entity {
   **/
   override void render() {
     CoreEngine.getScene().shaderList["CoreShader"]
-      .loadUniform("uLight.position", CoreEngine.getScene().getActiveCamera().getPosition())
-      .loadUniform("uLight.direction", CoreEngine.getScene().getActiveCamera().getFrontVector())
-      .loadUniform("uLight.cutOff", cos(radians(12.5f)))
-      .loadUniform("uLight.outerCutOff", cos(radians(17.5f)))
-      .loadUniform("uLight.ambient", ambient)
-      .loadUniform("uLight.diffuse", diffuse)
-      .loadUniform("uLight.specular", specular)
-      .loadUniform("uLight.constant", 1.0f)
-      .loadUniform("uLight.linear", 0.09f)
-      .loadUniform("uLight.quadratic", 0.032f);
+      .loadUniform("uLightPosition", getTransform().getWorldPosition())
+      .loadUniform("uLightColor", color)
+      .loadUniform("uShineDamper", 1.0f)
+      .loadUniform("uReflectivity", 0.0f);
   }
 }

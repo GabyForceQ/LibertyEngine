@@ -22,22 +22,27 @@ immutable CORE_VERTEX = q{
   layout (location = 2) in vec2 lTexCoord;
 
   // Represented in WorldSpace
-  out vec3 tPosition;
   out vec3 tNormal;
   out vec2 tTexCoord;
+  out vec3 tToLightVector;
+  out vec3 tToCameraVector;
   
   uniform mat4 uModelMatrix;
   uniform mat4 uViewMatrix;
   uniform mat4 uProjectionMatrix;
+  uniform vec3 uLightPosition;
 
   void main()
   {
-    tPosition = vec3(uModelMatrix * vec4(lPosition, 1.0));
     tTexCoord = vec2(lTexCoord.x, -lTexCoord.y);
-    tNormal = mat3(transpose(inverse(uModelMatrix))) * lNormal;
+    tNormal = (uModelMatrix * vec4(lNormal, 0.0)).xyz;
+
+    vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);
+    tToLightVector = uLightPosition - worldPosition.xyz;
+    tToCameraVector = (inverse(uViewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 
     // Compute vertex position
-    gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(lPosition, 1.0);
+    gl_Position = uProjectionMatrix * uViewMatrix * worldPosition;
   }
 };
 
@@ -47,69 +52,34 @@ immutable CORE_VERTEX = q{
 immutable CORE_FRAGMENT = q{
   #version 330 core
 
-  in vec3 tPosition;
   in vec3 tNormal;
   in vec2 tTexCoord;
+  in vec3 tToLightVector;
+  in vec3 tToCameraVector;
 
-  struct Material {
-    sampler2D diffuse;
-    vec3 specular;
-
-    float shininess;
-  };
-
-  struct Light {
-    vec3 position;
-    vec3 direction;
-    float cutOff;
-    float outerCutOff;
-
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-
-    float constant;
-    float linear;
-    float quadratic;
-  };
-
-  uniform	vec3 uViewPosition;
-  uniform Material uMaterial;
-  uniform Light uLight;
+  uniform sampler2D uTexture;
+  uniform vec3 uLightColor;
+  uniform float uShineDamper;
+  uniform float uReflectivity;
   
   void main()
   {
-    // ambient
-    vec3 ambient = uLight.ambient * texture(uMaterial.diffuse, tTexCoord).rgb;
-  	
-    // diffuse 
-    vec3 norm = normalize(tNormal);
-    vec3 lightDir = normalize(uLight.position - tPosition);
-    
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = uLight.diffuse * diff * texture(uMaterial.diffuse, tTexCoord).rgb;  
-    
-    // specular
-    vec3 viewDir = normalize(uViewPosition - tPosition);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), uMaterial.shininess);
-    vec3 specular = uLight.specular * (spec * uMaterial.specular);
+    vec3 unitNormal = normalize(tNormal);
+    vec3 unitLightVector = normalize(tToLightVector);
 
-    // spotlight (soft edges)
-    float theta = dot(lightDir, normalize(-uLight.direction)); 
-    float epsilon = (uLight.cutOff - uLight.outerCutOff);
-    float intensity = clamp((theta - uLight.outerCutOff) / epsilon, 0.0, 1.0);
-    diffuse  *= intensity;
-    specular *= intensity;
-    
-    // attenuation
-    float distance = length(uLight.position - tPosition);
-    float attenuation = 1.0 / (uLight.constant + uLight.linear * distance + uLight.quadratic * (distance * distance));    
-    ambient *= attenuation; 
-    diffuse *= attenuation;
-    specular *= attenuation; 
-        
-    vec3 result = ambient + diffuse + specular;
-    gl_FragColor = vec4(result, 1.0);
+    float dotComputation = dot(unitNormal, unitLightVector);
+    float brightness = max(dotComputation, 0.4);
+    vec3 diffuse = brightness * uLightColor;
+
+    vec3 unitVectorToCamera = normalize(tToCameraVector);
+    vec3 lightDirection = -unitLightVector;
+    vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
+
+    float specularFactor = dot(reflectedLightDirection, unitVectorToCamera);
+    specularFactor = max(specularFactor, 0.0);
+    float dampedFactor = pow(specularFactor, uShineDamper);
+    vec3 finalSpecular = dampedFactor * uReflectivity * uLightColor;
+
+    gl_FragColor = vec4(diffuse, 1.0) * texture(uTexture, tTexCoord) + vec4(finalSpecular, 1.0);
   }
 };

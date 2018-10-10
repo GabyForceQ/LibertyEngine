@@ -48,7 +48,7 @@ final class Player : Actor {
         .translate(cubesPos[i]);
     
     (light = spawn!PointLight("PointLight"))
-      .setPosition(Vector3F(0.0f, 0.0f, 2.0f));
+      .getTransform().translateY(100.0f);
     
     (pyramid = spawn!BSPPyramid("Pyramid"))
       .getTransform()
@@ -65,10 +65,10 @@ final class Player : Actor {
 
     (mesh = spawn!StaticMesh("CubeMesh"))
       .getRenderer()
-      .setModel(ResourceManager.loadModel("res/models/cube0.obj"))
+      .setModel(ResourceManager.loadModel("res/models/cube.obj", "res/textures/default.bmp"))
       .getParent()
       .getTransform()
-      .translate(0.0f, 0.0f, -20.0f);
+      .translate(0.0f, 0.0f, -10.0f);
   }
 
   /**
@@ -111,16 +111,16 @@ final class Player : Actor {
       light.setColor(Vector3F.one);
 
     if (Input.isKeyHold(KeyCode.LEFT))
-      cubes[0].getTransform().translate(Vector3F(-2.0f * Time.getDelta(), 0.0f, 0.0f));
+      light.getTransform().translateX(-2.0f * Time.getDelta());
 
     if (Input.isKeyHold(KeyCode.RIGHT))
-      cubes[0].getTransform().translate(Vector3F(2.0f * Time.getDelta(), 0.0f, 0.0f));
+      light.getTransform().translateX(2.0f * Time.getDelta());
     
     if (Input.isKeyHold(KeyCode.UP))
-      cubes[0].getTransform().translate(Vector3F(0.0f, 2.0f * Time.getDelta(), 0.0f));
+      light.getTransform().translateY(2.0f * Time.getDelta());
 
     if (Input.isKeyHold(KeyCode.DOWN))
-      cubes[0].getTransform().translate(Vector3F(0.0f, -2.0f * Time.getDelta(), 0.0f));
+      light.getTransform().translateY(-2.0f * Time.getDelta());
 
     if (Input.isKeyDown(KeyCode.ENTER)) {
       getScene().getActiveCamera().getPreset().setImplicit(() {

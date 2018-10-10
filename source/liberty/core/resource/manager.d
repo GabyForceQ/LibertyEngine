@@ -123,15 +123,15 @@ final class ResourceManager {
    * Currently it supports only format: 'v' 'vt' 'vn' and 'f a/a/a'.
    * Returns: newly created model.
   **/
-  static Model loadModel(string path) {
+  static Model loadModel(string path, string texturePath = "") {
     import std.array : split;
 
-    // Check extension	
+    // Check extension
     string[] splitArray = path.split(".");	
     immutable extension = splitArray[$ - 1];
     switch (extension) {
       case "obj":
-        return loadOBJFile(path);
+        return loadOBJFile(path, texturePath);
       default:
         Logger.error(	
           "File format not supported for mesh data: " ~ extension,	

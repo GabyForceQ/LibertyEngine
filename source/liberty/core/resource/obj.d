@@ -19,7 +19,7 @@ import liberty.core.math : Vector2F, Vector3F;
 import liberty.core.model.impl : Model;
 import liberty.graphics.vertex : Vertex;
 
-package Model loadOBJFile(string path) {
+package Model loadOBJFile(string path, string texturePath) {
   Vertex[] vertices;	
 
   Vector3F[] positions;
@@ -132,8 +132,8 @@ package Model loadOBJFile(string path) {
   }
 
   Model model = new Model();
-  //model.build(vertices, "res/textures/default.bmp");
-  model.build(vertices);
+  model.build(vertices, texturePath);
+  //model.build(vertices);
 
   return model;
 }

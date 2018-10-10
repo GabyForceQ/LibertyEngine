@@ -61,15 +61,11 @@ final class Model {
     // Bind the core shader
     CoreEngine.getScene().shaderList["CoreShader"].bind();
 
-    CoreEngine.getScene().shaderList["CoreShader"]
-      .loadUniform("uMaterial.specular", Vector3F(0.5f, 0.5f, 0.5f))
-      .loadUniform("uMaterial.shininess", 32.0f);
-
     // Add material only if a texture is specified
     if (texturePath != "") {
       material.setTexture(ResourceManager.loadTexture(texturePath));
       CoreEngine.getScene().shaderList["CoreShader"]
-        .loadUniform("uMaterial.diffuse", 0);
+        .loadUniform("uTexture", 0);
     }
 
     // Unbind the core shader
