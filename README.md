@@ -8,6 +8,8 @@ A powerful 2D/3D engine written in the D programming language!
 * No more singletons
 * Texture caching
 * BSP volumes and RawModel
+* Terrain entity
+* Core shader and terrain shader were added
 * Moved from SDL2 to GLFW
 * More comments and bug fixes
 * Experimental .obj model loader

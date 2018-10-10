@@ -15,6 +15,5 @@ public {
   import liberty.graphics.constants;
   import liberty.graphics.engine;
   import liberty.graphics.shader;
-  import liberty.graphics.shaders;
   import liberty.graphics.vertex;
 }

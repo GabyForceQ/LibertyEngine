@@ -18,7 +18,6 @@ import liberty.graphics.texture.impl : Texture;
 **/
 final class Material {
   private {
-    GfxShader shader; 
     Texture texture;
   }
 
@@ -26,33 +25,7 @@ final class Material {
    *
   **/
   this() {
-    shader = (CoreEngine.getScene().shaderList["CoreShader"] = new GfxShader())
-      .compileShaders(CORE_VERTEX, CORE_FRAGMENT)
-      .linkShaders()
-      .bindAttribute("lPosition")
-      .bindAttribute("lNormal")
-      .bindAttribute("lTexCoord")
-      .bind()
-      .addUniform("uLightPosition")
-      .addUniform("uLightColor")
-      .addUniform("uTexture")
-      .addUniform("uShineDamper")
-      .addUniform("uReflectivity")
-      .unbind();
-  }
-
-  ~this() {
-    if (shader !is null) {
-      shader.destroy();
-      shader = null;
-    }
-  }
-
-  /**
-   *
-  **/
-  GfxShader getShader() pure nothrow {
-    return shader;
+ 
   }
 
   /**
