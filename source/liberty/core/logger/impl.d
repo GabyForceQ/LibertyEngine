@@ -154,7 +154,6 @@ final class Logger {
 unittest {
   class Class {
     this() {
-      Logger.initialize();
       Logger.console("Test message!", typeof(this).stringof);
       Logger.info("Info test message!", typeof(this).stringof);
       Logger.warning("Warning test message!", typeof(this).stringof);
@@ -167,10 +166,6 @@ unittest {
         Logger.exception("Exception test message!");
       }
       Logger.todo("Todo test message!", typeof(this).stringof);
-    }
-
-    ~this() {
-      Logger.stopService();
     }
   }
 

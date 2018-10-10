@@ -810,8 +810,8 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 			mult(rot, rot.transposed());
 		}
 		///
-		void perspective(T FOVInRadians, T aspect, T zNear, T zFar) pure nothrow {
-			mult(MatrixType.perspective(FOVInRadians, aspect, zNear, zFar));
+		void perspective(T FOVInRadians, T width, T height, T zNear, T zFar) pure nothrow {
+			mult(MatrixType.perspective(FOVInRadians, width, height, zNear, zFar));
 		}
 		///
 		void orthographic(T left, T right, T bottom, T top, T near, T far) pure nothrow {

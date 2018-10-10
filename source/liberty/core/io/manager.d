@@ -49,9 +49,6 @@ final class IOManager {
   **/
   unittest {
     char[] buf;
-    
-    IOManager.startService();
-    scope(exit) IOManager.stopService();
 
     if(!IOManager.readFileToBuffer("test_file.txt", buf)) {
       assert(0, "Operation failed!");
