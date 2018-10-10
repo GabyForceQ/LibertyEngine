@@ -129,6 +129,7 @@ final class ResourceManager {
     import std.array : split;
     import std.conv : to;
     import std.stdio : File;
+    import std.string : strip;
 
     // Check extension	
     string[] splitArray = path.split(".");	
@@ -157,10 +158,11 @@ final class ResourceManager {
      // Open the file	
     auto file = File(path);
     scope (exit) file.close();
-    
+
     // Read the file and build mesh data	
     auto range = file.byLine();	
     foreach (line; range) {
+      line = line.strip();
       char[][] tokens = line.split(" ");
 
       if (tokens.length == 0 || tokens[0] == "#") {	
