@@ -42,7 +42,7 @@ final class Model {
    *
   **/
   Model build(Vertex[] vertices, string texturePath = "") {
-    rawModel = ResourceManager.loadModel(vertices);
+    rawModel = ResourceManager.loadRawModel(vertices);
     build(texturePath);
     return this;
   }
@@ -52,7 +52,7 @@ final class Model {
   **/
   Model build(Vertex[] vertices, uint[] indices, string texturePath = "") {
     hasIndices = true;
-    rawModel = ResourceManager.loadModel(vertices, indices);
+    rawModel = ResourceManager.loadRawModel(vertices, indices);
     build(texturePath);
     return this;
   }

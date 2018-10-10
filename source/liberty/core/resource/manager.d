@@ -15,7 +15,10 @@ version (__OPENGL__)
   import derelict.opengl : glVertexAttribPointer, GL_FLOAT, GL_FALSE;
 
 import liberty.core.logger.impl : Logger;
+import liberty.core.math : Vector2F, Vector3F;
+import liberty.core.model.impl : Model;
 import liberty.core.model.raw : RawModel;
+import liberty.core.objects.mesh : StaticMesh;
 import liberty.graphics.array : GfxArray;
 import liberty.graphics.buffer.constants : GfxBufferTarget, GfxDataUsage;
 import liberty.graphics.buffer.impl : GfxBuffer;
@@ -55,10 +58,10 @@ final class ResourceManager {
   }
 
   /**
-   * Load a model into memory using vertex data.
-   * Returns: newly created model.
+   * Load a raw model into memory using vertex data.
+   * Returns: newly created raw model.
   **/
-  static RawModel loadModel(Vertex[] data) {
+  static RawModel loadRawModel(Vertex[] data) {
     // Create vertex array object for the model
     GfxArray vao = GfxUtil.createArray();
     vaos ~= vao.getHandle();
@@ -83,11 +86,11 @@ final class ResourceManager {
   }
 
   /**
-   * Load a model into memory using vertex data and indices.
+   * Load a raw model into memory using vertex data and indices.
    * Indices are stored into the internal vertex buffer object static array.
-   * Returns: newly created model.
+   * Returns: newly created raw model.
   **/
-  static RawModel loadModel(Vertex[] data, uint[] indices) {
+  static RawModel loadRawModel(Vertex[] data, uint[] indices) {
     // Create vertex array object for the model
     GfxArray vao = GfxUtil.createArray();
     vaos ~= vao.getHandle();
@@ -116,28 +119,89 @@ final class ResourceManager {
     return new RawModel(vao.getHandle(), indices.length);
   }
 
-  import derelict.assimp3.assimp;
-  import derelict.assimp3.types;
-
   /**
-   * TODO
+   * Load a model into memory using a file with .obj extension.
+   * Indices are stored into the internal vertex buffer object static array.
+   * Currently it supports only format: 'v' 'vt' 'vn' and 'f a/a/a'.
+   * Returns: newly created model.
   **/
-  static RawModel loadModel(string path) {
-    import std.string : toStringz;
+  static Model loadModel(string path) {
+    import std.array : split;
+    import std.conv : to;
+    import std.stdio : File;
 
-    const(aiScene)* scene = aiImportFile(path.toStringz, 0);
-    if (scene is null)
-      Logger.error("Couldn't load model: " ~ path, typeof(this).stringof);
+    // Check extension	
+    string[] splitArray = path.split(".");	
+    immutable ext = splitArray[$ - 1];	
+    if (ext != "obj") {	
+      Logger.error(	
+        "File format not supported for mesh data: " ~ ext,	
+        typeof(this).stringof	
+      );	
+    }
     
-    foreach (i; 0..scene.mRootNode.mNumMeshes) {
-      const(aiMesh)* mesh = scene.mMeshes[scene.mRootNode.mMeshes[i]];
-      //mesh ~= 
+    Vertex[] vertices;	
+
+    Vector3F[] positions;
+    Vector3F[] normals;
+    Vector2F[] uvs;
+
+    Vector3F[] tmpPositions;
+    Vector3F[] tmpNormals;
+    Vector2F[] tmpUvs;
+
+    uint[] vertexIndices;
+    uint[] normalIndices;
+    uint[] uvIndices;
+    
+     // Open the file	
+    auto file = File(path);
+    scope (exit) file.close();
+    
+    // Read the file and build mesh data	
+    auto range = file.byLine();	
+    foreach (line; range) {
+      char[][] tokens = line.split(" ");
+
+      if (tokens.length == 0 || tokens[0] == "#") {	
+        continue;
+      } else if (tokens[0] == "v") {
+        tmpPositions ~= Vector3F(tokens[1].to!float, tokens[2].to!float, tokens[3].to!float);   
+      } else if (tokens[0] == "vn") {
+        tmpNormals ~= Vector3F(tokens[1].to!float, tokens[2].to!float, tokens[3].to!float);
+      } else if (tokens[0] == "vt") {
+        tmpUvs ~= Vector2F(tokens[1].to!float, tokens[2].to!float);
+      } else if (tokens[0] == "f") {
+        auto tokens_1 = tokens[1].split("/");
+        auto tokens_2 = tokens[2].split("/");
+        auto tokens_3 = tokens[3].split("/");
+
+        vertexIndices ~= tokens_1[0].to!uint - 1;
+        vertexIndices ~= tokens_2[0].to!uint - 1;
+        vertexIndices ~= tokens_3[0].to!uint - 1;
+
+        uvIndices ~= tokens_1[1].to!uint - 1;
+        uvIndices ~= tokens_2[1].to!uint - 1;
+        uvIndices ~= tokens_3[1].to!uint - 1;
+
+        normalIndices ~= tokens_1[2].to!uint - 1;
+        normalIndices ~= tokens_2[2].to!uint - 1;
+        normalIndices ~= tokens_3[2].to!uint - 1;
+      }
     }
 
-    foreach (i; 0..scene.mRootNode.mNumChildren) {
-      
+    foreach (i; 0..vertexIndices.length) {
+      positions ~= tmpPositions[vertexIndices[i]];
+      normals ~= tmpNormals[normalIndices[i]];
+      uvs ~= tmpUvs[uvIndices[i]];
+
+      vertices ~= Vertex(positions[i], normals[i], uvs[i]);
     }
-    return null;
+
+    Model model = new Model();
+    model.build(vertices, "res/textures/default.bmp");
+
+    return model;	
   }
 
   /**

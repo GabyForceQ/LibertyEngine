@@ -46,6 +46,14 @@ struct Renderer {
   /**
    *
   **/
+  ref Renderer setModel(Model model) {
+    this.model = model;
+    return this;
+  }
+
+  /**
+   *
+  **/
   Model getModel() {
     return model;
   }

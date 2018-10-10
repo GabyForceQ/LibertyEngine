@@ -14,6 +14,7 @@ public {
   import liberty.core.objects.camera;
   import liberty.core.objects.entity;
   import liberty.core.objects.light;
+  import liberty.core.objects.mesh;
   import liberty.core.objects.meta;
   import liberty.core.objects.node;
 }

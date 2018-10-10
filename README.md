@@ -5,12 +5,12 @@ A powerful 2D/3D engine written in the D programming language!
 ##### Release notes (v0.0.15) (To be released)
 * Project structure is simpler
 * More manager classes were added
-* No more Singletons
+* No more singletons
 * Texture caching
-* BSP Volumes and RawModel
-* Obj model loader using Assimp
+* BSP volumes and RawModel
 * Moved from SDL2 to GLFW
 * More comments and bug fixes
+* Experimental .obj model loader
 * Experimental flexible render pipline
 * Experimental lighting system
 

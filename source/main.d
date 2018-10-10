@@ -25,6 +25,8 @@ final class Player : Actor {
     PointLight light;
     float rotationSpeed = 100.0f;
     float direction = 1.0f;
+
+    StaticMesh mesh;
   }
 
   /**
@@ -36,18 +38,29 @@ final class Player : Actor {
       (cubes[i] = spawn!BSPCube("Cube" ~ i.to!string))
         .getTransform()
         .translate(cubesPos[i]);
+    
     (light = spawn!PointLight("PointLight"))
       .setPosition(Vector3F(0.0f, 0.0f, 2.0f));
+    
     (pyramid = spawn!BSPPyramid("Pyramid"))
       .getTransform()
       .translate(Vector3F(3.0f, 0.0f, 1.0f))
       .rotatePitch(90.0f);
+    
     (square = spawn!BSPSquare("Square"))
       .getTransform()
       .translate(Vector3F(4.5f, 0.0f, 0.0f));
+    
     (triangle = spawn!BSPTriangle("Triangle"))
       .getTransform()
       .translate(Vector3F(6.0f, 0.0f, 0.0f));
+
+    (mesh = spawn!StaticMesh("CubeMesh"))
+      .getRenderer()
+      .setModel(ResourceManager.loadModel("res/models/cube.obj"))
+      .getParent()
+      .getTransform()
+      .translate(-4.0f, 0.0f, 0.0f);
   }
 
   /**
