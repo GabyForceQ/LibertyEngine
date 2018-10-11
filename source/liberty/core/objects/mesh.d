@@ -17,7 +17,7 @@ import liberty.graphics.vertex : Vertex;
 /**
  *
 **/
-final class StaticMesh : Entity {
+final class StaticMesh : Entity!"core" {
   mixin(NodeBody);
 
   /**
@@ -25,6 +25,6 @@ final class StaticMesh : Entity {
   **/
   void constructor() {
     type = "core";
-    renderer = Renderer(this, new Model());
+    renderer = Renderer!"core"(this, new Model());
   }
 }

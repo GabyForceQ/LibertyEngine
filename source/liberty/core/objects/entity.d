@@ -15,7 +15,7 @@ import liberty.core.services : IRenderable;
 /**
  * An entity is a world object that should be rendered to the screen.
 **/
-abstract class Entity : WorldObject, IRenderable {
+abstract class Entity(string VERTEX) : WorldObject, IRenderable {
   /**
    *
   **/
@@ -24,7 +24,7 @@ abstract class Entity : WorldObject, IRenderable {
   /**
    * Renderer component used for rendering.
   **/
-  Renderer renderer;
+  Renderer!VERTEX renderer;
 
   /**
    * Entity constructor.
@@ -43,7 +43,7 @@ abstract class Entity : WorldObject, IRenderable {
   /**
    * Returns: reference to the current renderer component.
   **/
-  ref Renderer getRenderer() {
+  ref Renderer!VERTEX getRenderer() {
     return renderer;
   }
 }

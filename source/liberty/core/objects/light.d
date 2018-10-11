@@ -20,7 +20,7 @@ import liberty.core.math.functions : cos, radians;
 /**
  *
 **/
-final class PointLight : Entity {
+final class PointLight : Entity!"core" {
   mixin(NodeBody);
 
   private {
@@ -31,7 +31,7 @@ final class PointLight : Entity {
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, null);
+    renderer = Renderer!"core"(this, null);
 	}
 
   /**

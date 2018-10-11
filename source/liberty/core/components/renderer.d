@@ -9,21 +9,28 @@
 module liberty.core.components.renderer;
 
 import liberty.core.objects.node : WorldObject;
-import liberty.core.model : Model;
+import liberty.core.model : Model, TerrainModel;
 
 /**
  *
 **/
-struct Renderer {
+struct Renderer(string VERTEX) {
   private {
     WorldObject parent;
-    Model model;
+
+    static if (VERTEX == "core") {
+      Model model;
+      alias RendererModel = Model;
+    } else static if (VERTEX == "terrain") {
+      TerrainModel model;
+      alias RendererModel = TerrainModel;
+    }
   }
 
   /**
    *
   **/
-  this(WorldObject parent, Model model) {
+  this(WorldObject parent, RendererModel model) {
     this.parent = parent;
     this.model = model;
   }
@@ -32,16 +39,12 @@ struct Renderer {
    *
   **/
   void draw() {
-    switch (parent.getType()) {
-      case "core":
+    static if (VERTEX == "core")
         parent.getScene().getCoreShader().loadModelMatrix(parent.getTransform().getModelMatrix());
-        break;
-      case "terrain":
+    else static if (VERTEX == "terrain")
         parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
-        break;
-      default:
-        return;
-    }
+    else
+      return;
 
     model.draw();
   }
@@ -56,7 +59,7 @@ struct Renderer {
   /**
    *
   **/
-  ref Renderer setModel(Model model) {
+  ref Renderer!VERTEX setModel(RendererModel model) {
     this.model = model;
     return this;
   }
@@ -64,7 +67,7 @@ struct Renderer {
   /**
    *
   **/
-  Model getModel() {
+  RendererModel getModel() {
     return model;
   }
 }

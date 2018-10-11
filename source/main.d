@@ -44,7 +44,7 @@ final class Player : Actor {
    * If declared, it is called after all objects instantiation.
   **/
   override void start() {
-    foreach (i; 0..5)
+    /*foreach (i; 0..5)
       (cubes[i] = spawn!BSPCube("Cube" ~ i.to!string))
         .getTransform()
         .translate(cubesPos[i]);
@@ -63,7 +63,7 @@ final class Player : Actor {
     
     (triangle = spawn!BSPTriangle("Triangle"))
       .getTransform()
-      .translate(Vector3F(6.0f, 0.0f, 0.0f));
+      .translate(Vector3F(6.0f, 0.0f, 0.0f));*/
 
     (mesh = spawn!StaticMesh("CubeMesh"))
       .getRenderer()
@@ -73,7 +73,7 @@ final class Player : Actor {
       .translate(0.0f, 0.0f, -10.0f);
 
     (terrain = spawn!Terrain("Terrain"))
-      .build(0, 0);
+      .build(0, 1);
   }
 
   /**
@@ -81,7 +81,7 @@ final class Player : Actor {
    * If declared, it is called every frame.
   **/
   override void update() {
-    static float rotationVelocity = 0.0f;
+    /*static float rotationVelocity = 0.0f;
     rotationVelocity += rotationSpeed * direction * Time.getDelta();
     if (rotationVelocity >= 360.0f)
       rotationVelocity = 0.0f;
@@ -144,7 +144,7 @@ final class Player : Actor {
           getScene().getActiveCamera().processKeyboard(CameraMovement.DOWN);
       });
       getScene().getActiveCamera().lockMouseMove();
-    }
+    }*/
   }
 
   /**

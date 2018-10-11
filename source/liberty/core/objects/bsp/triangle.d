@@ -20,14 +20,14 @@ import liberty.graphics.vertex : Vertex;
 /**
  *
 **/
-final class BSPTriangle : BSPVolume {
+final class BSPTriangle : BSPVolume!"core" {
 	mixin(NodeBody);
 
   /**
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, (new Model()
+    renderer = Renderer!"core"(this, (new Model()
       .build(triangleVertices, triangleIndices, "res/textures/default.bmp")));
 	}
 }

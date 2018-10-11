@@ -19,14 +19,14 @@ import liberty.graphics.vertex : Vertex;
 /**
  *
 **/
-final class BSPSquare : BSPVolume {
+final class BSPSquare : BSPVolume!"core" {
 	mixin(NodeBody);
 
   /**
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, (new Model()
+    renderer = Renderer!"core"(this, (new Model()
       .build(squareVertices, squareIndices, "res/textures/default.bmp")));
 	}
 }

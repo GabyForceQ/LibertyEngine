@@ -20,14 +20,14 @@ import liberty.graphics.vertex : Vertex;
 /**
  *
 **/
-final class BSPCube : BSPVolume {
+final class BSPCube : BSPVolume!"core" {
 	mixin(NodeBody);
 
   /**
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, (new Model()
+    renderer = Renderer!"core"(this, (new Model()
       .build(cubeVertices, "res/textures/default.bmp")));
 	}
 }

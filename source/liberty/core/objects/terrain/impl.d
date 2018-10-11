@@ -15,13 +15,13 @@ import liberty.graphics.vertex : Vertex;
 
 import liberty.core.resource.manager : ResourceManager;
 
-import liberty.core.model.impl : Model;
+import liberty.core.model.impl : TerrainModel;
 import liberty.core.components.renderer : Renderer;
 
 /**
  *
 **/
-final class Terrain : Entity {
+final class Terrain : Entity!"terrain" {
   mixin(NodeBody);
 
   private {
@@ -33,7 +33,7 @@ final class Terrain : Entity {
 
   void constructor() {
     type = "terrain";
-    renderer = Renderer(this, new Model());
+    renderer = Renderer!"terrain"(this, new TerrainModel());
   }
 
   void build(int gridX, int gridZ) {
@@ -74,9 +74,9 @@ final class Terrain : Entity {
     int indexPtr;
     for (int gz; gz < vertexCount - 1; gz++) {
       for (int gx; gx < vertexCount - 1; gx++) {
-        const int topLeft = (gz*vertexCount)+gx;
+        const int topLeft = (gz * vertexCount) + gx;
         const int topRight = topLeft + 1;
-        const int bottomLeft = ((gz+1)*vertexCount)+gx;
+        const int bottomLeft = ((gz + 1) * vertexCount) + gx;
         const int bottomRight = bottomLeft + 1;
         indices[indexPtr++] = topLeft;
         indices[indexPtr++] = bottomLeft;
@@ -87,6 +87,18 @@ final class Terrain : Entity {
       }
     }
 
-    renderer.getModel().build(vertices, indices);
+     Vertex[] squareVertices = [
+  Vertex(Vector3F(-0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 1.0f)),
+  Vertex(Vector3F(-0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
+  Vertex(Vector3F( 0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f)),
+  Vertex(Vector3F( 0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 1.0f))
+];
+
+ uint[6] squareIndices = [
+  0, 1, 2,
+  0, 2, 3
+];
+
+    renderer.getModel().build(squareVertices, squareIndices, "res/textures/default.bmp");
   }
 }

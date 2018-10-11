@@ -14,7 +14,7 @@ import liberty.core.objects.node : WorldObject;
 /**
  *
 **/
-abstract class BSPVolume : Entity {
+abstract class BSPVolume(string VERTEX) : Entity!VERTEX {
   /**
    *
   **/

@@ -20,14 +20,14 @@ import liberty.graphics.vertex : Vertex;
 /**
  *
 **/
-final class BSPPyramid : BSPVolume {
+final class BSPPyramid : BSPVolume!"core" {
 	mixin(NodeBody);
 
   /**
    *
   **/
 	void constructor() {
-    renderer = Renderer(this, (new Model()
+    renderer = Renderer!"core"(this, (new Model()
       .build(pyramidVertices, "res/textures/default.bmp")));
 	}
 }

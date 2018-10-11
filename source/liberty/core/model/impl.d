@@ -132,3 +132,94 @@ final class Model {
     return hasIndices;
   }
 }
+
+/**
+ *
+**/
+final class TerrainModel {
+  private {
+    RawModel rawModel;
+    Material material;
+  }
+
+  /**
+   *
+  **/
+  this(Material material = Material.getDefault()) {
+    this.material = material;
+  }
+
+  /**
+   *
+  **/
+  TerrainModel build(Vertex[] vertices, uint[] indices, string texturePath = "") {
+    rawModel = ResourceManager.loadRawModel(vertices, indices);
+    build(texturePath);
+    return this;
+  }
+
+  private void build(string texturePath) {
+    // Bind the core shader
+    CoreEngine.getScene().getTerrainShader().bind();
+
+    // Add material only if a texture is specified
+    if (texturePath != "") {
+      material.setTexture(ResourceManager.loadTexture(texturePath));
+      CoreEngine.getScene().getTerrainShader().loadTexture(0);
+    }
+
+    // Unbind the core shader
+    CoreEngine.getScene().getTerrainShader().bind();
+  }
+
+  /**
+   *
+  **/
+  void draw() {
+    // Bind texture only if a texture is specified
+    if (material.getTexture().getId()) {
+      version (__OPENGL__) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, material.getTexture().getId());
+      }
+    }
+
+    version (__OPENGL__) {
+      glBindVertexArray(rawModel.getVaoID());
+      glEnableVertexAttribArray(0);
+      glEnableVertexAttribArray(1);
+      glEnableVertexAttribArray(2);
+    }
+
+    GfxUtil.drawElements(GfxDrawMode.Triangles, GfxVectorType.UnsignedInt, rawModel.getVertexCount());
+
+    version (__OPENGL__) {
+      glDisableVertexAttribArray(0);
+      glDisableVertexAttribArray(1);
+      glDisableVertexAttribArray(2);
+      glBindVertexArray(0);
+    }
+
+    // Bind texture only if a texture is specified
+    if (material.getTexture().getId()) {
+      version (__OPENGL__) {
+        glActiveTexture(0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+      }
+    }
+  }
+
+  /**
+   *
+  **/
+  RawModel getRawModel() pure nothrow {
+    return rawModel;
+  }
+
+  /**
+   *
+  **/
+  Material getMaterial() pure nothrow {
+    return material;
+  }
+}
