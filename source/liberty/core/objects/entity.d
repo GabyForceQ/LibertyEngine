@@ -15,7 +15,7 @@ import liberty.core.services : IRenderable;
 /**
  * An entity is a world object that should be rendered to the screen.
 **/
-abstract class Entity(string VERTEX) : WorldObject, IRenderable {
+abstract class Entity(VERTEX) : WorldObject, IRenderable {
   /**
    *
   **/

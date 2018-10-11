@@ -16,11 +16,12 @@ import liberty.core.model.generic : GenericModel;
 import liberty.core.objects.node : WorldObject;
 import liberty.core.objects.entity : Entity;
 import liberty.core.math.functions : cos, radians;
+import liberty.graphics.vertex : GenericVertex;
 
 /**
  *
 **/
-final class PointLight : Entity!"core" {
+final class PointLight : Entity!GenericVertex {
   mixin(NodeBody);
 
   private {
@@ -31,7 +32,7 @@ final class PointLight : Entity!"core" {
    *
   **/
 	void constructor() {
-    renderer = Renderer!"core"(this, null);
+    renderer = Renderer!GenericVertex(this, null);
 	}
 
   /**
@@ -39,7 +40,6 @@ final class PointLight : Entity!"core" {
   **/
   PointLight setColor(Vector3F color) {
     this.color = color;
-
     return this;
   }
 

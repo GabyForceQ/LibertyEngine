@@ -24,7 +24,7 @@ import liberty.graphics.buffer.impl : GfxBuffer;
 import liberty.graphics.texture.cache : TextureCache;
 import liberty.graphics.texture.impl : Texture;
 import liberty.graphics.util : GfxUtil;
-import liberty.graphics.vertex : Vertex;
+import liberty.graphics.vertex : GenericVertex;
 
 /**
  * The resource manager class provides static functions that gives you the possibility
@@ -59,7 +59,7 @@ final class ResourceManager {
    * Load a raw model into memory using vertex data.
    * Returns: newly created raw model.
   **/
-  static RawModel loadRawModel(Vertex[] data) {
+  static RawModel loadRawModel(VERTEX)(VERTEX[] data) {
     // Create vertex array object for the model
     GfxArray vao = GfxUtil.createArray();
     vaos ~= vao.getHandle();
@@ -69,9 +69,9 @@ final class ResourceManager {
     vbos ~= vbo.getHandle();
 
     version (__OPENGL__) {
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
-      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
-      glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
+      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
+      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);
+      glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
     }
     
     // Unbind vertex buffer object
@@ -88,7 +88,7 @@ final class ResourceManager {
    * Indices are stored into the internal vertex buffer object static array.
    * Returns: newly created raw model.
   **/
-  static RawModel loadRawModel(Vertex[] data, uint[] indices) {
+  static RawModel loadRawModel(VERTEX)(VERTEX[] data, uint[] indices) {
     // Create vertex array object for the model
     GfxArray vao = GfxUtil.createArray();
     vaos ~= vao.getHandle();
@@ -103,9 +103,9 @@ final class ResourceManager {
     vbos ~= ebo.getHandle();
 
     version (__OPENGL__) {
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.position.offsetof);
-      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.normal.offsetof);
-      glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, Vertex.sizeof, cast(void*)Vertex.texCoord.offsetof);
+      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
+      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);
+      glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
     }
     
     // Unbind vertex buffer object

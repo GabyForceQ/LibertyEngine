@@ -14,12 +14,11 @@ import liberty.core.objects.node : WorldObject;
 /**
  *
 **/
-abstract class BSPVolume(string VERTEX) : Entity!VERTEX {
+abstract class BSPVolume(VERTEX) : Entity!VERTEX {
   /**
    *
   **/
   this(string id, WorldObject parent) {
-    type = "core";
     super(id, parent);
   }
 }

@@ -10,18 +10,19 @@ module liberty.core.components.renderer;
 
 import liberty.core.objects.node : WorldObject;
 import liberty.core.model : GenericModel, TerrainModel;
+import liberty.graphics.vertex : GenericVertex, TerrainVertex;
 
 /**
  *
 **/
-struct Renderer(string VERTEX) {
+struct Renderer(VERTEX) {
   private {
     WorldObject parent;
 
-    static if (VERTEX == "core") {
+    static if (is(VERTEX == GenericVertex)) {
       GenericModel model;
       alias RendererModel = GenericModel;
-    } else static if (VERTEX == "terrain") {
+    } else static if (is(VERTEX == TerrainVertex)) {
       TerrainModel model;
       alias RendererModel = TerrainModel;
     }
@@ -39,9 +40,9 @@ struct Renderer(string VERTEX) {
    *
   **/
   void draw() {
-    static if (VERTEX == "core")
+    static if (is(VERTEX == GenericVertex))
         parent.getScene().getGenericShader().loadModelMatrix(parent.getTransform().getModelMatrix());
-    else static if (VERTEX == "terrain")
+    else static if (is(VERTEX == TerrainVertex))
         parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else
       return;

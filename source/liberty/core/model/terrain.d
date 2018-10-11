@@ -18,7 +18,7 @@ import liberty.core.material.impl : Material;
 import liberty.core.model.raw : RawModel;
 import liberty.graphics.constants : GfxDrawMode, GfxVectorType;
 import liberty.graphics.util : GfxUtil;
-import liberty.graphics.vertex : Vertex;
+import liberty.graphics.vertex : TerrainVertex;
 
 /**
  *
@@ -34,7 +34,7 @@ final class TerrainModel : Model {
   /**
    *
   **/
-  TerrainModel build(Vertex[] vertices, uint[] indices, string texturePath = "") {
+  TerrainModel build(TerrainVertex[] vertices, uint[] indices, string texturePath = "") {
     rawModel = ResourceManager.loadRawModel(vertices, indices);
     build(texturePath);
     return this;

@@ -17,7 +17,7 @@ import liberty.core.resource.manager : ResourceManager;
 import liberty.core.material.impl : Material;
 import liberty.graphics.constants : GfxDrawMode, GfxVectorType;
 import liberty.graphics.util : GfxUtil;
-import liberty.graphics.vertex : Vertex;
+import liberty.graphics.vertex : GenericVertex;
 
 /**
  *
@@ -37,7 +37,7 @@ final class GenericModel : Model {
   /**
    *
   **/
-  GenericModel build(Vertex[] vertices, string texturePath = "") {
+  GenericModel build(GenericVertex[] vertices, string texturePath = "") {
     rawModel = ResourceManager.loadRawModel(vertices);
     build(texturePath);
     return this;
@@ -46,7 +46,7 @@ final class GenericModel : Model {
   /**
    *
   **/
-  GenericModel build(Vertex[] vertices, uint[] indices, string texturePath = "") {
+  GenericModel build(GenericVertex[] vertices, uint[] indices, string texturePath = "") {
     hasIndices = true;
     rawModel = ResourceManager.loadRawModel(vertices, indices);
     build(texturePath);

@@ -12,19 +12,18 @@ import liberty.core.components.renderer : Renderer;
 import liberty.core.model.generic : GenericModel;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
-import liberty.graphics.vertex : Vertex;
+import liberty.graphics.vertex : GenericVertex;
 
 /**
  *
 **/
-final class StaticMesh : Entity!"core" {
+final class StaticMesh : Entity!GenericVertex {
   mixin(NodeBody);
 
   /**
    *
   **/
   void constructor() {
-    type = "core";
-    renderer = Renderer!"core"(this, new GenericModel());
+    renderer = Renderer!GenericVertex(this, new GenericModel());
   }
 }

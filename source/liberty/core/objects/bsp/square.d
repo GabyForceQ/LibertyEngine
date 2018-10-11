@@ -14,28 +14,28 @@ import liberty.core.components.renderer : Renderer;
 import liberty.core.objects.meta : NodeBody;
 import liberty.core.model.generic : GenericModel;
 import liberty.core.objects.bsp.impl : BSPVolume;
-import liberty.graphics.vertex : Vertex;
+import liberty.graphics.vertex : GenericVertex;
 
 /**
  *
 **/
-final class BSPSquare : BSPVolume!"core" {
+final class BSPSquare : BSPVolume!GenericVertex {
 	mixin(NodeBody);
 
   /**
    *
   **/
 	void constructor() {
-    renderer = Renderer!"core"(this, (new GenericModel()
+    renderer = Renderer!GenericVertex(this, (new GenericModel()
       .build(squareVertices, squareIndices, "res/textures/default.bmp")));
 	}
 }
 
-private Vertex[] squareVertices = [
-  Vertex(Vector3F(-0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 1.0f)),
-  Vertex(Vector3F(-0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
-  Vertex(Vector3F( 0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f)),
-  Vertex(Vector3F( 0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 1.0f))
+private GenericVertex[] squareVertices = [
+  GenericVertex(Vector3F(-0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 1.0f)),
+  GenericVertex(Vector3F(-0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
+  GenericVertex(Vector3F( 0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f)),
+  GenericVertex(Vector3F( 0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 1.0f))
 ];
 
 private uint[6] squareIndices = [

@@ -13,7 +13,36 @@ import liberty.core.math.vector : Vector2F, Vector3F;
 /**
  *
 **/
-struct Vertex {
+struct GenericVertex {
+  /**
+   *
+  **/
+  Vector3F position;
+
+  /**
+   *
+  **/
+  Vector3F normal;
+  
+  /**
+   *
+  **/
+  Vector2F texCoord;
+
+  /**
+   *
+  **/
+  this(Vector3F position, Vector3F normal, Vector2F texCoord) {
+    this.position = position;
+    this.normal = normal;
+    this.texCoord = texCoord;
+  }
+}
+
+/**
+ *
+**/
+struct TerrainVertex {
   /**
    *
   **/

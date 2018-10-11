@@ -11,7 +11,7 @@ module liberty.core.objects.terrain.impl;
 import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
-import liberty.graphics.vertex : Vertex;
+import liberty.graphics.vertex : TerrainVertex;
 
 import liberty.core.resource.manager : ResourceManager;
 
@@ -21,7 +21,7 @@ import liberty.core.components.renderer : Renderer;
 /**
  *
 **/
-final class Terrain : Entity!"terrain" {
+final class Terrain : Entity!TerrainVertex {
   mixin(NodeBody);
 
   private {
@@ -32,8 +32,7 @@ final class Terrain : Entity!"terrain" {
   }
 
   void constructor() {
-    type = "terrain";
-    renderer = Renderer!"terrain"(this, new TerrainModel());
+    renderer = Renderer!TerrainVertex(this, new TerrainModel());
   }
 
   void build(int gridX, int gridZ) {
@@ -53,7 +52,7 @@ final class Terrain : Entity!"terrain" {
   private void generateTerrain() {
     const int count = vertexCount * vertexCount;
 
-    Vertex[] vertices = new Vertex[count * 3];
+    TerrainVertex[] vertices = new TerrainVertex[count * 3];
 
     uint[] indices = new uint[6 * (vertexCount - 1) * (vertexCount - 1)];
 
@@ -87,11 +86,11 @@ final class Terrain : Entity!"terrain" {
       }
     }
 
-     Vertex[] squareVertices = [
-      Vertex(Vector3F(-10.5f,  10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 1.0f)),
-      Vertex(Vector3F(-10.5f, -10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
-      Vertex(Vector3F( 10.5f, -10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f)),
-      Vertex(Vector3F( 10.5f,  10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 1.0f))
+    TerrainVertex[] squareVertices = [
+      TerrainVertex(Vector3F(-10.5f,  10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 1.0f)),
+      TerrainVertex(Vector3F(-10.5f, -10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
+      TerrainVertex(Vector3F( 10.5f, -10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f)),
+      TerrainVertex(Vector3F( 10.5f,  10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 1.0f))
     ];
 
     uint[6] squareIndices = [
