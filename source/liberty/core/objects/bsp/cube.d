@@ -30,13 +30,6 @@ final class BSPCube : BSPVolume {
     renderer = Renderer(this, (new Model()
       .build(cubeVertices, "res/textures/default.bmp")));
 	}
-
-  /**
-   *
-  **/
-  override void render() {
-    renderer.draw();
-  }
 }
 
 private Vertex[36] cubeVertices = [

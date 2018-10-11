@@ -24,13 +24,7 @@ final class StaticMesh : Entity {
    *
   **/
   void constructor() {
-    renderer = Renderer(this, (new Model()));
-  }
-
-  /**
-   *
-  **/
-  override void render() {
-    renderer.draw();
+    type = "core";
+    renderer = Renderer(this, new Model());
   }
 }

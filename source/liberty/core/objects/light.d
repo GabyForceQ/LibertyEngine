@@ -53,10 +53,10 @@ final class PointLight : Entity {
       .loadShineDamper(1.0f)
       .loadReflectivity(0.0f);
 
-    /*CoreEngine.getScene().getTerrainShader()
+    CoreEngine.getScene().getTerrainShader()
       .loadLightPosition(getTransform().getWorldPosition())
       .loadLightColor(color)
       .loadShineDamper(1.0f)
-      .loadReflectivity(0.0f);*/
+      .loadReflectivity(0.0f);
   }
 }

@@ -38,11 +38,11 @@ immutable NodeBody = q{
 
     static if (__traits(isFinalClass, this)) {
       static foreach (el; ["start", "update", "render"]) {
-        static foreach (super_member; __traits(derivedMembers, typeof(super)))
+        static foreach (super_member; __traits(allMembers, typeof(super)))
           static if (super_member.stringof == "\"" ~ el ~ "\"")
             mixin("getScene().set" ~ el.capitalize() ~ "List(id, this);");
           
-        static foreach (member; __traits(derivedMembers, typeof(this)))
+        static foreach (member; __traits(allMembers, typeof(this)))
           static if (member.stringof == "\"" ~ el ~ "\"")
             mixin("getScene().set" ~ el.capitalize() ~ "List(id, this);");
       }

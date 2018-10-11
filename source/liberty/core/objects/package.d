@@ -17,4 +17,5 @@ public {
   import liberty.core.objects.mesh;
   import liberty.core.objects.meta;
   import liberty.core.objects.node;
+  import liberty.core.objects.terrain;
 }

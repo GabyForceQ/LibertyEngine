@@ -17,6 +17,11 @@ import liberty.core.services : IRenderable;
 **/
 abstract class Entity : WorldObject, IRenderable {
   /**
+   *
+  **/
+  immutable baseType = "Entity";
+
+  /**
    * Renderer component used for rendering.
   **/
   Renderer renderer;
@@ -29,10 +34,11 @@ abstract class Entity : WorldObject, IRenderable {
   }
 
   /**
-   * Empty function.
-   * You must override it.
+   *
   **/
-  override void render() {}
+  override void render() {
+    renderer.draw();
+  }
 
   /**
    * Returns: reference to the current renderer component.

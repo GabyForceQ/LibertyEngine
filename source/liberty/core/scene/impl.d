@@ -49,7 +49,7 @@ final class Scene : IUpdatable, IRenderable {
     tree = new RootObject();
 
     coreShader = new GfxCoreShader();
-    //terrainShader = new GfxTerrainShader();
+    terrainShader = new GfxTerrainShader();
   }
 
   /**
@@ -182,6 +182,10 @@ final class Scene : IUpdatable, IRenderable {
   **/
   void render() {
     coreShader
+      .loadProjectionMatrix(activeCamera.getProjectionMatrix())
+      .loadViewMatrix(activeCamera.getViewMatrix());
+    
+    terrainShader
       .loadProjectionMatrix(activeCamera.getProjectionMatrix())
       .loadViewMatrix(activeCamera.getViewMatrix());
 

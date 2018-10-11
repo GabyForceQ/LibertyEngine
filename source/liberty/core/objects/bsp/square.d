@@ -29,13 +29,6 @@ final class BSPSquare : BSPVolume {
     renderer = Renderer(this, (new Model()
       .build(squareVertices, squareIndices, "res/textures/default.bmp")));
 	}
-
-  /**
-   *
-  **/
-  override void render() {
-    renderer.draw();
-  }
 }
 
 private Vertex[] squareVertices = [

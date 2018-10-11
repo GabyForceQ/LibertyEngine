@@ -30,13 +30,6 @@ final class BSPTriangle : BSPVolume {
     renderer = Renderer(this, (new Model()
       .build(triangleVertices, triangleIndices, "res/textures/default.bmp")));
 	}
-
-  /**
-   *
-  **/
-  override void render() {
-    renderer.draw();
-  }
 }
 
 private Vertex[3] triangleVertices = [

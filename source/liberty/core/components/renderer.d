@@ -32,7 +32,17 @@ struct Renderer {
    *
   **/
   void draw() {
-    parent.getScene().getCoreShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+    switch (parent.getType()) {
+      case "core":
+        parent.getScene().getCoreShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+        break;
+      case "terrain":
+        parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+        break;
+      default:
+        return;
+    }
+
     model.draw();
   }
 

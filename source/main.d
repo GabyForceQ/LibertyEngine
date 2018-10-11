@@ -35,6 +35,8 @@ final class Player : Actor {
     float direction = 1.0f;
 
     StaticMesh mesh;
+
+    Terrain terrain;
   }
 
   /**
@@ -69,6 +71,9 @@ final class Player : Actor {
       .getParent()
       .getTransform()
       .translate(0.0f, 0.0f, -10.0f);
+
+    (terrain = spawn!Terrain("Terrain"))
+      .build(0, 0);
   }
 
   /**

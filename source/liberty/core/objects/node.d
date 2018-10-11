@@ -32,6 +32,18 @@ abstract class WorldObject : IStartable, IUpdatable {
   }
 
   /**
+   * Do not change this type ever.
+  **/
+  protected string type;
+
+  /**
+   *
+  **/
+  string getType() {
+    return type;
+  }
+
+  /**
    *
   **/
   this(string id, WorldObject parent) {

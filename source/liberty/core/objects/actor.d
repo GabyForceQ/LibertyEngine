@@ -19,6 +19,7 @@ abstract class Actor : WorldObject {
    *
   **/
   this(string id, WorldObject parent) {
+    type = "core";
     super(id, parent);
   }
 }
@@ -32,6 +33,8 @@ abstract class UniqueActor : Actor {
    *
   **/
   this(string id, WorldObject parent) {
+    type = "core";
+
     if (this.hasInstance) {
       Logger.error(
         "Cannot have multiple instances", 

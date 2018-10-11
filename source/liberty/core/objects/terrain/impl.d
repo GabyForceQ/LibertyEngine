@@ -13,8 +13,10 @@ import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
 import liberty.graphics.vertex : Vertex;
 
-import liberty.core.model.raw : RawModel;
 import liberty.core.resource.manager : ResourceManager;
+
+import liberty.core.model.impl : Model;
+import liberty.core.components.renderer : Renderer;
 
 /**
  *
@@ -27,13 +29,17 @@ final class Terrain : Entity {
     uint vertexCount = 128;
 
     float x, z;
-    RawModel model;
+  }
+
+  void constructor() {
+    type = "terrain";
+    renderer = Renderer(this, new Model());
   }
 
   void build(int gridX, int gridZ) {
     x = gridX * size;
     z = gridZ * size;
-    model = generateTerrain();
+    generateTerrain();
   }
 
   float getX() {
@@ -44,21 +50,10 @@ final class Terrain : Entity {
     return z;
   }
 
-  RawModel getModel() {
-    return model;
-  }
-
-  /**
-   *
-  **/
-  override void render() {
-
-  }
-
-  private RawModel generateTerrain() {
+  private void generateTerrain() {
     const int count = vertexCount * vertexCount;
 
-    Vertex[] vertices = new Vertex[count];
+    Vertex[] vertices = new Vertex[count * 3];
 
     uint[] indices = new uint[6 * (vertexCount - 1) * (vertexCount - 1)];
 
@@ -91,6 +86,7 @@ final class Terrain : Entity {
         indices[indexPtr++] = bottomRight;
       }
     }
-    return ResourceManager.loadRawModel(vertices, indices);
+
+    renderer.getModel().build(vertices, indices);
   }
 }

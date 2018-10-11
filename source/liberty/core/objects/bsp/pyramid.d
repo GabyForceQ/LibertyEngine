@@ -30,13 +30,6 @@ final class BSPPyramid : BSPVolume {
     renderer = Renderer(this, (new Model()
       .build(pyramidVertices, "res/textures/default.bmp")));
 	}
-
-  /**
-   *
-  **/
-  override void render() {
-    renderer.draw();
-  }
 }
 
 private Vertex[36] pyramidVertices = [

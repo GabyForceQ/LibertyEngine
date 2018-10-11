@@ -19,11 +19,7 @@ abstract class BSPVolume : Entity {
    *
   **/
   this(string id, WorldObject parent) {
+    type = "core";
     super(id, parent);
   }
-
-  /**
-   *
-  **/
-  override void render() {}
 }
