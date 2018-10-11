@@ -32,7 +32,7 @@ struct Renderer {
    *
   **/
   void draw() {
-    model.getMaterial().getShader().loadUniform("uModelMatrix", parent.getTransform().getModelMatrix());
+    parent.getScene().getCoreShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     model.draw();
   }
 

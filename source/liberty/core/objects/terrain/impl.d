@@ -8,8 +8,10 @@
 **/
 module liberty.core.objects.terrain.impl;
 
-import liberty,core.objects.entity : Entity;
+import liberty.core.math.vector : Vector2F, Vector3F;
+import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
+import liberty.graphics.vertex : Vertex;
 
 import liberty.core.model.raw : RawModel;
 import liberty.core.resource.manager : ResourceManager;
@@ -28,7 +30,7 @@ final class Terrain : Entity {
     RawModel model;
   }
 
-  this(int gridX, int gridZ) {
+  void build(int gridX, int gridZ) {
     x = gridX * size;
     z = gridZ * size;
     model = generateTerrain();
@@ -54,40 +56,41 @@ final class Terrain : Entity {
   }
 
   private RawModel generateTerrain() {
-    int count = vertexCount * vertexCount;
-    float[] vertices = new float[count * 3];
-    float[] normals = new float[count * 3];
-    float[] textureCoords = new float[count*2];
-    int[] indices = new int[6*(vertexCount-1)*(vertexCount-1)];
-    int vertexPointer = 0;
-    for(int i=0;i<vertexCount;i++){
-        for(int j=0;j<vertexCount;j++){
-            vertices[vertexPointer*3] = cast(float)j/(cast(float)vertexCount - 1) * size;
-            vertices[vertexPointer*3+1] = 0;
-            vertices[vertexPointer*3+2] = cast(float)i/(cast(float)vertexCount - 1) * size;
-            normals[vertexPointer*3] = 0;
-            normals[vertexPointer*3+1] = 1;
-            normals[vertexPointer*3+2] = 0;
-            textureCoords[vertexPointer*2] = cast(float)j/(cast(float)vertexCount - 1);
-            textureCoords[vertexPointer*2+1] = cast(float)i/(cast(float)vertexCount - 1);
-            vertexPointer++;
-        }
+    const int count = vertexCount * vertexCount;
+
+    Vertex[] vertices = new Vertex[count];
+
+    uint[] indices = new uint[6 * (vertexCount - 1) * (vertexCount - 1)];
+
+    int vertexPtr;
+    for (int i; i < vertexCount; i++) {
+      for (int j; j < vertexCount; j++) {
+        vertices[vertexPtr * 3].position = cast(float)j / (cast(float)vertexCount - 1) * size;
+        vertices[vertexPtr * 3 + 1].position = 0;
+        vertices[vertexPtr * 3 + 2].position = cast(float)i / (cast(float)vertexCount - 1) * size;
+        vertices[vertexPtr * 3].normal = 0;
+        vertices[vertexPtr * 3 + 1].normal = 1;
+        vertices[vertexPtr * 3 + 2].normal = 0;
+        vertices[vertexPtr * 2].texCoord = cast(float)j / (cast(float)vertexCount - 1);
+        vertices[vertexPtr * 2 + 1].texCoord = cast(float)i / (cast(float)vertexCount - 1);
+        vertexPtr++;
+      }
     }
-    int pointer = 0;
-    for(int gz=0;gz<vertexCount-1;gz++){
-        for(int gx=0;gx<vertexCount-1;gx++){
-            int topLeft = (gz*vertexCount)+gx;
-            int topRight = topLeft + 1;
-            int bottomLeft = ((gz+1)*vertexCount)+gx;
-            int bottomRight = bottomLeft + 1;
-            indices[pointer++] = topLeft;
-            indices[pointer++] = bottomLeft;
-            indices[pointer++] = topRight;
-            indices[pointer++] = topRight;
-            indices[pointer++] = bottomLeft;
-            indices[pointer++] = bottomRight;
-        }
+    int indexPtr;
+    for (int gz; gz < vertexCount - 1; gz++) {
+      for (int gx; gx < vertexCount - 1; gx++) {
+        const int topLeft = (gz*vertexCount)+gx;
+        const int topRight = topLeft + 1;
+        const int bottomLeft = ((gz+1)*vertexCount)+gx;
+        const int bottomRight = bottomLeft + 1;
+        indices[indexPtr++] = topLeft;
+        indices[indexPtr++] = bottomLeft;
+        indices[indexPtr++] = topRight;
+        indices[indexPtr++] = topRight;
+        indices[indexPtr++] = bottomLeft;
+        indices[indexPtr++] = bottomRight;
+      }
     }
-    return ResourceManager.loadRawModel(Vertex(vertices, normals, textureCoords), indices);
+    return ResourceManager.loadRawModel(vertices, indices);
   }
 }

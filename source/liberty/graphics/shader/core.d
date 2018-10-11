@@ -8,7 +8,8 @@
 **/
 module liberty.graphics.shader.core;
 
-import liberty.core.logger.impl : Logger;
+import liberty.core.math.matrix : Matrix4F;
+import liberty.core.math.vector : Vector3F;
 import liberty.graphics.shader.impl : GfxShader;
 
 /**
@@ -91,16 +92,78 @@ class GfxCoreShader : GfxShader {
       .bindAttribute("lNormal")
       .bindAttribute("lTexCoord")
       .bind()
+      .addUniform("uModelMatrix")
+      .addUniform("uViewMatrix")
+      .addUniform("uProjectionMatrix")
       .addUniform("uLightPosition")
       .addUniform("uLightColor")
       .addUniform("uTexture")
       .addUniform("uShineDamper")
       .addUniform("uReflectivity")
       .unbind();
-    
-    if (CoreEngine.getScene() is null)
-      Logger.error("Cannot bind a shader without a scene", typeof(this).stringof);
-    
-    CoreEngine.getScene().shaderList[typeof(this).stringof] = this;
+  }
+
+  /**
+   *
+  **/
+  GfxCoreShader loadModelMatrix(Matrix4F matrix) {
+    loadUniform("uModelMatrix", matrix);
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxCoreShader loadViewMatrix(Matrix4F matrix) {
+    loadUniform("uViewMatrix", matrix);
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxCoreShader loadProjectionMatrix(Matrix4F matrix) {
+    loadUniform("uProjectionMatrix", matrix);
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxCoreShader loadLightPosition(Vector3F position) {
+    loadUniform("uLightPosition", position);
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxCoreShader loadLightColor(Vector3F color) {
+    loadUniform("uLightColor", color);
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxCoreShader loadTexture(int id) {
+    loadUniform("uTexture", id);
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxCoreShader loadShineDamper(float value) {
+    loadUniform("uShineDamper", value);
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxCoreShader loadReflectivity(float value) {
+    loadUniform("uReflectivity", value);
+    return this;
   }
 }

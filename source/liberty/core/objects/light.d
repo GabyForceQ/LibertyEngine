@@ -47,10 +47,16 @@ final class PointLight : Entity {
    *
   **/
   override void render() {
-    CoreEngine.getScene().shaderList["CoreShader"]
-      .loadUniform("uLightPosition", getTransform().getWorldPosition())
-      .loadUniform("uLightColor", color)
-      .loadUniform("uShineDamper", 1.0f)
-      .loadUniform("uReflectivity", 0.0f);
+    CoreEngine.getScene().getCoreShader()
+      .loadLightPosition(getTransform().getWorldPosition())
+      .loadLightColor(color)
+      .loadShineDamper(1.0f)
+      .loadReflectivity(0.0f);
+
+    /*CoreEngine.getScene().getTerrainShader()
+      .loadLightPosition(getTransform().getWorldPosition())
+      .loadLightColor(color)
+      .loadShineDamper(1.0f)
+      .loadReflectivity(0.0f);*/
   }
 }

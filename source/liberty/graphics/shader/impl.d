@@ -15,12 +15,11 @@ import liberty.core.engine : CoreEngine;
 import liberty.core.logger : Logger;
 import liberty.core.math.vector : Vector2F, Vector3F, Vector4F;
 import liberty.core.math.matrix : Matrix4F;
-import liberty.core.services : IRenderable;
 
 /**
  *
 **/
-class GfxShader : IRenderable {
+class GfxShader {
   private {
     uint programID;
     uint vertexShaderID;
@@ -381,15 +380,6 @@ class GfxShader : IRenderable {
     }
 
     return shaderId;
-  }
-
-  /**
-   *
-  **/
-  void render() {
-    loadUniform("uProjectionMatrix", CoreEngine.getScene().getActiveCamera().getProjectionMatrix());
-    loadUniform("uViewMatrix", CoreEngine.getScene().getActiveCamera().getViewMatrix());
-    loadUniform("uViewPosition", CoreEngine.getScene().getActiveCamera().getPosition());
   }
 }
 

@@ -13,10 +13,10 @@ module liberty.core.scene.impl;
 
 import liberty.core.engine : CoreEngine;
 import liberty.core.math.vector : Vector3F;
-import liberty.graphics.shader : GfxShader;
+import liberty.core.objects.camera : Camera;
 import liberty.core.objects.node : WorldObject, RootObject;
 import liberty.core.services : IStartable, IUpdatable, IRenderable;
-import liberty.core.objects.camera : Camera;
+import liberty.graphics.shader : GfxShader, GfxCoreShader, GfxTerrainShader;
 
 /**
  *
@@ -34,12 +34,10 @@ final class Scene : IUpdatable, IRenderable {
     IStartable[string] startList;
     IUpdatable[string] updateList;
     IRenderable[string] renderList;
-  }
 
-  /**
-   *
-  **/
-  static GfxShader[string] shaderList;
+    GfxCoreShader coreShader;
+    GfxTerrainShader terrainShader;
+  }
 
   /**
    * Create a scene using a unique id.
@@ -47,8 +45,11 @@ final class Scene : IUpdatable, IRenderable {
   this(string id) {
     CoreEngine.loadScene(this);
 
-    this.id = id;
-    this.tree = new RootObject();
+    id = id;
+    tree = new RootObject();
+
+    coreShader = new GfxCoreShader();
+    //terrainShader = new GfxTerrainShader();
   }
 
   /**
@@ -180,19 +181,54 @@ final class Scene : IUpdatable, IRenderable {
    * It's called every frame.
   **/
   void render() {
-    foreach (shader; this.shaderList) {
-      shader.render();
-    }
+    coreShader
+      .loadProjectionMatrix(activeCamera.getProjectionMatrix())
+      .loadViewMatrix(activeCamera.getViewMatrix());
+
     foreach(i, node; this.renderList) {
       node.render();
     }
   }
 
+  /**
+   *
+  **/
   bool[string] getObjectsId() {
     return objectsId;
   }
 
+  /**
+   *
+  **/
   void setObjectId(string key, bool state = true) {
     objectsId[key] = state;
+  }
+
+  /**
+   *
+  **/
+  void setCoreShader(GfxCoreShader shader) {
+    coreShader = shader;
+  }
+
+  /**
+   *
+  **/
+  GfxCoreShader getCoreShader() {
+    return coreShader;
+  }
+
+  /**
+   *
+  **/
+  void setTerrainShader(GfxTerrainShader shader) {
+    terrainShader = shader;
+  }
+
+  /**
+   *
+  **/
+  GfxTerrainShader getTerrainShader() {
+    return terrainShader;
   }
 }

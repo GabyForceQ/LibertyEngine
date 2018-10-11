@@ -59,17 +59,16 @@ final class Model {
 
   private void build(string texturePath) {
     // Bind the core shader
-    CoreEngine.getScene().shaderList["CoreShader"].bind();
+    CoreEngine.getScene().getCoreShader().bind();
 
     // Add material only if a texture is specified
     if (texturePath != "") {
       material.setTexture(ResourceManager.loadTexture(texturePath));
-      CoreEngine.getScene().shaderList["CoreShader"]
-        .loadUniform("uTexture", 0);
+      CoreEngine.getScene().getCoreShader().loadTexture(0);
     }
 
     // Unbind the core shader
-    CoreEngine.getScene().shaderList["CoreShader"].unbind();
+    CoreEngine.getScene().getCoreShader().bind();
   }
 
   /**

@@ -85,9 +85,13 @@ class GfxEngine {
   static void render() {
     clearScreen();
 
-    CoreEngine.getScene().shaderList["CoreShader"].bind();
+    CoreEngine.getScene().getCoreShader().bind();
+    //CoreEngine.getScene().getTerrainShader().bind();
+
     CoreEngine.getScene().render();
-    CoreEngine.getScene().shaderList["CoreShader"].unbind();
+
+    //CoreEngine.getScene().getTerrainShader().unbind();
+    CoreEngine.getScene().getCoreShader().unbind();
 
     glfwSwapBuffers(Platform.getWindow().getHandle());
   }
@@ -99,7 +103,7 @@ class GfxEngine {
     version (__OPENGL__) {
       glClearDepth(1.0);
 	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-      glClearColor(0.1f, 0.1f, 0.44f, 1.0f);
+      glClearColor(0.5f, 1.0f, 1.0f, 1.0f);
     }
   }
 

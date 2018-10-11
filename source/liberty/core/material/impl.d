@@ -9,8 +9,7 @@
 module liberty.core.material.impl;
 
 import liberty.core.engine : CoreEngine;
-import liberty.graphics.shader : GfxShader;
-import liberty.graphics.shaders : CORE_VERTEX, CORE_FRAGMENT;
+import liberty.graphics.shader.impl : GfxShader;
 import liberty.graphics.texture.impl : Texture;
 
 /**
