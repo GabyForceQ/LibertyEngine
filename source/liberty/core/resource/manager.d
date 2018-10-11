@@ -15,7 +15,7 @@ version (__OPENGL__)
   import derelict.opengl : glVertexAttribPointer, GL_FLOAT, GL_FALSE;
 
 import liberty.core.logger.impl : Logger;
-import liberty.core.model.impl : Model;
+import liberty.core.model.impl : GenericModel;
 import liberty.core.model.raw : RawModel;
 import liberty.core.resource.obj : loadOBJFile;
 import liberty.graphics.array : GfxArray;
@@ -123,7 +123,7 @@ final class ResourceManager {
    * Currently it supports only format: 'v' 'vt' 'vn' and 'f a/a/a'.
    * Returns: newly created model.
   **/
-  static Model loadModel(string path, string texturePath = "") {
+  static GenericModel loadModel(string path, string texturePath = "") {
     import std.array : split;
 
     // Check extension

@@ -88,16 +88,16 @@ final class Terrain : Entity!"terrain" {
     }
 
      Vertex[] squareVertices = [
-  Vertex(Vector3F(-0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 1.0f)),
-  Vertex(Vector3F(-0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
-  Vertex(Vector3F( 0.5f, -0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f)),
-  Vertex(Vector3F( 0.5f,  0.5f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 1.0f))
-];
+      Vertex(Vector3F(-10.5f,  10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 1.0f)),
+      Vertex(Vector3F(-10.5f, -10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
+      Vertex(Vector3F( 10.5f, -10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f)),
+      Vertex(Vector3F( 10.5f,  10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 1.0f))
+    ];
 
- uint[6] squareIndices = [
-  0, 1, 2,
-  0, 2, 3
-];
+    uint[6] squareIndices = [
+      0, 1, 2,
+      0, 2, 3
+    ];
 
     renderer.getModel().build(squareVertices, squareIndices, "res/textures/default.bmp");
   }

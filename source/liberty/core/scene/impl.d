@@ -16,7 +16,7 @@ import liberty.core.math.vector : Vector3F;
 import liberty.core.objects.camera : Camera;
 import liberty.core.objects.node : WorldObject, RootObject;
 import liberty.core.services : IStartable, IUpdatable, IRenderable;
-import liberty.graphics.shader : GfxShader, GfxCoreShader, GfxTerrainShader;
+import liberty.graphics.shader : GfxShader, GfxGenericShader, GfxTerrainShader;
 
 /**
  *
@@ -35,7 +35,7 @@ final class Scene : IUpdatable, IRenderable {
     IUpdatable[string] updateList;
     IRenderable[string] renderList;
 
-    GfxCoreShader coreShader;
+    GfxGenericShader genericShader;
     GfxTerrainShader terrainShader;
   }
 
@@ -48,7 +48,7 @@ final class Scene : IUpdatable, IRenderable {
     id = id;
     tree = new RootObject();
 
-    coreShader = new GfxCoreShader();
+    genericShader = new GfxGenericShader();
     terrainShader = new GfxTerrainShader();
   }
 
@@ -181,7 +181,7 @@ final class Scene : IUpdatable, IRenderable {
    * It's called every frame.
   **/
   void render() {
-    coreShader
+    genericShader
       .loadProjectionMatrix(activeCamera.getProjectionMatrix())
       .loadViewMatrix(activeCamera.getViewMatrix());
     
@@ -211,15 +211,15 @@ final class Scene : IUpdatable, IRenderable {
   /**
    *
   **/
-  void setCoreShader(GfxCoreShader shader) {
-    coreShader = shader;
+  void setGenericShader(GfxGenericShader shader) {
+    genericShader = shader;
   }
 
   /**
    *
   **/
-  GfxCoreShader getCoreShader() {
-    return coreShader;
+  GfxGenericShader getGenericShader() {
+    return genericShader;
   }
 
   /**

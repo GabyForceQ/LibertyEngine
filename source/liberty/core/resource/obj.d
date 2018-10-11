@@ -16,10 +16,10 @@ import core.stdc.stdio : sscanf;
 
 import liberty.core.logger : Logger;
 import liberty.core.math : Vector2F, Vector3F;
-import liberty.core.model.impl : Model;
+import liberty.core.model.impl : GenericModel;
 import liberty.graphics.vertex : Vertex;
 
-package Model loadOBJFile(string path, string texturePath) {
+package GenericModel loadOBJFile(string path, string texturePath) {
   Vertex[] vertices;	
 
   Vector3F[] positions;
@@ -131,7 +131,7 @@ package Model loadOBJFile(string path, string texturePath) {
     vertices ~= Vertex(positions[i], normals[i], uvs[i]);
   }
 
-  Model model = new Model();
+  GenericModel model = new GenericModel();
   model.build(vertices, texturePath);
   //model.build(vertices);
 

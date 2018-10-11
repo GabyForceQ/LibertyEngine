@@ -15,7 +15,7 @@ import liberty.graphics.shader.impl : GfxShader;
 /**
  *
 **/
-class GfxCoreShader : GfxShader {
+class GfxGenericShader : GfxShader {
   private {
     static immutable CORE_VERTEX = q{
       #version 330 core
@@ -106,7 +106,7 @@ class GfxCoreShader : GfxShader {
   /**
    *
   **/
-  GfxCoreShader loadModelMatrix(Matrix4F matrix) {
+  GfxGenericShader loadModelMatrix(Matrix4F matrix) {
     loadUniform("uModelMatrix", matrix);
     return this;
   }
@@ -114,7 +114,7 @@ class GfxCoreShader : GfxShader {
   /**
    *
   **/
-  GfxCoreShader loadViewMatrix(Matrix4F matrix) {
+  GfxGenericShader loadViewMatrix(Matrix4F matrix) {
     loadUniform("uViewMatrix", matrix);
     return this;
   }
@@ -122,7 +122,7 @@ class GfxCoreShader : GfxShader {
   /**
    *
   **/
-  GfxCoreShader loadProjectionMatrix(Matrix4F matrix) {
+  GfxGenericShader loadProjectionMatrix(Matrix4F matrix) {
     loadUniform("uProjectionMatrix", matrix);
     return this;
   }
@@ -130,7 +130,7 @@ class GfxCoreShader : GfxShader {
   /**
    *
   **/
-  GfxCoreShader loadLightPosition(Vector3F position) {
+  GfxGenericShader loadLightPosition(Vector3F position) {
     loadUniform("uLightPosition", position);
     return this;
   }
@@ -138,7 +138,7 @@ class GfxCoreShader : GfxShader {
   /**
    *
   **/
-  GfxCoreShader loadLightColor(Vector3F color) {
+  GfxGenericShader loadLightColor(Vector3F color) {
     loadUniform("uLightColor", color);
     return this;
   }
@@ -146,7 +146,7 @@ class GfxCoreShader : GfxShader {
   /**
    *
   **/
-  GfxCoreShader loadTexture(int id) {
+  GfxGenericShader loadTexture(int id) {
     loadUniform("uTexture", id);
     return this;
   }
@@ -154,7 +154,7 @@ class GfxCoreShader : GfxShader {
   /**
    *
   **/
-  GfxCoreShader loadShineDamper(float value) {
+  GfxGenericShader loadShineDamper(float value) {
     loadUniform("uShineDamper", value);
     return this;
   }
@@ -162,7 +162,7 @@ class GfxCoreShader : GfxShader {
   /**
    *
   **/
-  GfxCoreShader loadReflectivity(float value) {
+  GfxGenericShader loadReflectivity(float value) {
     loadUniform("uReflectivity", value);
     return this;
   }

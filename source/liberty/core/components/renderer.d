@@ -9,7 +9,7 @@
 module liberty.core.components.renderer;
 
 import liberty.core.objects.node : WorldObject;
-import liberty.core.model : Model, TerrainModel;
+import liberty.core.model : GenericModel, TerrainModel;
 
 /**
  *
@@ -19,8 +19,8 @@ struct Renderer(string VERTEX) {
     WorldObject parent;
 
     static if (VERTEX == "core") {
-      Model model;
-      alias RendererModel = Model;
+      GenericModel model;
+      alias RendererModel = GenericModel;
     } else static if (VERTEX == "terrain") {
       TerrainModel model;
       alias RendererModel = TerrainModel;
@@ -40,7 +40,7 @@ struct Renderer(string VERTEX) {
   **/
   void draw() {
     static if (VERTEX == "core")
-        parent.getScene().getCoreShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+        parent.getScene().getGenericShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (VERTEX == "terrain")
         parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else

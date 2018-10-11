@@ -9,7 +9,7 @@
 module liberty.core.objects.mesh;
 
 import liberty.core.components.renderer : Renderer;
-import liberty.core.model.impl : Model;
+import liberty.core.model.impl : GenericModel;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
 import liberty.graphics.vertex : Vertex;
@@ -25,6 +25,6 @@ final class StaticMesh : Entity!"core" {
   **/
   void constructor() {
     type = "core";
-    renderer = Renderer!"core"(this, new Model());
+    renderer = Renderer!"core"(this, new GenericModel());
   }
 }

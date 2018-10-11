@@ -12,7 +12,7 @@ import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components.renderer : Renderer;
 import liberty.core.objects.meta : NodeBody;
-import liberty.core.model.impl : Model;
+import liberty.core.model.impl : GenericModel;
 import liberty.core.objects.node : WorldObject;
 import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.graphics.vertex : Vertex;
@@ -27,7 +27,7 @@ final class BSPTriangle : BSPVolume!"core" {
    *
   **/
 	void constructor() {
-    renderer = Renderer!"core"(this, (new Model()
+    renderer = Renderer!"core"(this, (new GenericModel()
       .build(triangleVertices, triangleIndices, "res/textures/default.bmp")));
 	}
 }

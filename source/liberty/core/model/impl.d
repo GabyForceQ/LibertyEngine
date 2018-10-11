@@ -24,7 +24,7 @@ import liberty.graphics.vertex : Vertex;
 /**
  *
 **/
-final class Model {
+final class GenericModel {
   private {
     RawModel rawModel;
     Material material;
@@ -41,7 +41,7 @@ final class Model {
   /**
    *
   **/
-  Model build(Vertex[] vertices, string texturePath = "") {
+  GenericModel build(Vertex[] vertices, string texturePath = "") {
     rawModel = ResourceManager.loadRawModel(vertices);
     build(texturePath);
     return this;
@@ -50,7 +50,7 @@ final class Model {
   /**
    *
   **/
-  Model build(Vertex[] vertices, uint[] indices, string texturePath = "") {
+  GenericModel build(Vertex[] vertices, uint[] indices, string texturePath = "") {
     hasIndices = true;
     rawModel = ResourceManager.loadRawModel(vertices, indices);
     build(texturePath);
@@ -59,16 +59,16 @@ final class Model {
 
   private void build(string texturePath) {
     // Bind the core shader
-    CoreEngine.getScene().getCoreShader().bind();
+    CoreEngine.getScene().getGenericShader().bind();
 
     // Add material only if a texture is specified
     if (texturePath != "") {
       material.setTexture(ResourceManager.loadTexture(texturePath));
-      CoreEngine.getScene().getCoreShader().loadTexture(0);
+      CoreEngine.getScene().getGenericShader().loadTexture(0);
     }
 
     // Unbind the core shader
-    CoreEngine.getScene().getCoreShader().bind();
+    CoreEngine.getScene().getGenericShader().bind();
   }
 
   /**
