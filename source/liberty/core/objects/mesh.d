@@ -9,7 +9,7 @@
 module liberty.core.objects.mesh;
 
 import liberty.core.components.renderer : Renderer;
-import liberty.core.model.impl : GenericModel;
+import liberty.core.model.generic : GenericModel;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
 import liberty.graphics.vertex : Vertex;

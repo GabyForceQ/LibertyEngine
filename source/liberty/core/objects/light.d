@@ -12,7 +12,7 @@ import liberty.core.math.vector : Vector3F;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components.renderer : Renderer;
 import liberty.core.objects.meta : NodeBody;
-import liberty.core.model.impl : GenericModel;
+import liberty.core.model.generic : GenericModel;
 import liberty.core.objects.node : WorldObject;
 import liberty.core.objects.entity : Entity;
 import liberty.core.math.functions : cos, radians;

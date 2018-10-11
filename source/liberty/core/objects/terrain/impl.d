@@ -15,7 +15,7 @@ import liberty.graphics.vertex : Vertex;
 
 import liberty.core.resource.manager : ResourceManager;
 
-import liberty.core.model.impl : TerrainModel;
+import liberty.core.model.terrain : TerrainModel;
 import liberty.core.components.renderer : Renderer;
 
 /**

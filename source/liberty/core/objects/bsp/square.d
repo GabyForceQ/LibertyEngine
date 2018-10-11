@@ -12,7 +12,7 @@ import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components.renderer : Renderer;
 import liberty.core.objects.meta : NodeBody;
-import liberty.core.model.impl : GenericModel;
+import liberty.core.model.generic : GenericModel;
 import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.graphics.vertex : Vertex;
 

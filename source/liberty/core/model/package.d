@@ -9,6 +9,8 @@
 module liberty.core.model;
 
 public {
+  import liberty.core.model.generic;
   import liberty.core.model.impl;
   import liberty.core.model.raw;
+  import liberty.core.model.terrain;
 }

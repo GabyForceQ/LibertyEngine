@@ -8,136 +8,14 @@
 **/
 module liberty.core.model.impl;
 
-version (__OPENGL__)
-  import derelict.opengl;
-
-import liberty.core.engine : CoreEngine;
-import liberty.core.resource.manager : ResourceManager;
 import liberty.core.material.impl : Material;
-import liberty.core.math.vector : Vector3F;
 import liberty.core.model.raw : RawModel;
-import liberty.core.utils : bufferSize;
-import liberty.graphics.constants : GfxDrawMode, GfxVectorType;
-import liberty.graphics.util : GfxUtil;
-import liberty.graphics.vertex : Vertex;
 
 /**
  *
 **/
-final class GenericModel {
-  private {
-    RawModel rawModel;
-    Material material;
-    bool hasIndices;
-  }
-
-  /**
-   *
-  **/
-  this(Material material = Material.getDefault()) {
-    this.material = material;
-  }
-
-  /**
-   *
-  **/
-  GenericModel build(Vertex[] vertices, string texturePath = "") {
-    rawModel = ResourceManager.loadRawModel(vertices);
-    build(texturePath);
-    return this;
-  }
-
-  /**
-   *
-  **/
-  GenericModel build(Vertex[] vertices, uint[] indices, string texturePath = "") {
-    hasIndices = true;
-    rawModel = ResourceManager.loadRawModel(vertices, indices);
-    build(texturePath);
-    return this;
-  }
-
-  private void build(string texturePath) {
-    // Bind the core shader
-    CoreEngine.getScene().getGenericShader().bind();
-
-    // Add material only if a texture is specified
-    if (texturePath != "") {
-      material.setTexture(ResourceManager.loadTexture(texturePath));
-      CoreEngine.getScene().getGenericShader().loadTexture(0);
-    }
-
-    // Unbind the core shader
-    CoreEngine.getScene().getGenericShader().bind();
-  }
-
-  /**
-   *
-  **/
-  void draw() {
-    // Bind texture only if a texture is specified
-    if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, material.getTexture().getId());
-      }
-    }
-
-    version (__OPENGL__) {
-      glBindVertexArray(rawModel.getVaoID());
-      glEnableVertexAttribArray(0);
-      glEnableVertexAttribArray(1);
-      glEnableVertexAttribArray(2);
-    }
-
-    if (hasIndices)
-      GfxUtil.drawElements(GfxDrawMode.Triangles, GfxVectorType.UnsignedInt, rawModel.getVertexCount());
-    else
-      GfxUtil.drawArrays(GfxDrawMode.Triangles, rawModel.getVertexCount());
-
-    version (__OPENGL__) {
-      glDisableVertexAttribArray(0);
-      glDisableVertexAttribArray(1);
-      glDisableVertexAttribArray(2);
-      glBindVertexArray(0);
-    }
-
-    // Bind texture only if a texture is specified
-    if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-      }
-    }
-  }
-
-  /**
-   *
-  **/
-  RawModel getRawModel() pure nothrow {
-    return rawModel;
-  }
-
-  /**
-   *
-  **/
-  Material getMaterial() pure nothrow {
-    return material;
-  }
-
-  /**
-   *
-  **/
-  bool usesIndices() pure nothrow const {
-    return hasIndices;
-  }
-}
-
-/**
- *
-**/
-final class TerrainModel {
-  private {
+abstract class Model {
+  protected {
     RawModel rawModel;
     Material material;
   }
@@ -147,66 +25,6 @@ final class TerrainModel {
   **/
   this(Material material = Material.getDefault()) {
     this.material = material;
-  }
-
-  /**
-   *
-  **/
-  TerrainModel build(Vertex[] vertices, uint[] indices, string texturePath = "") {
-    rawModel = ResourceManager.loadRawModel(vertices, indices);
-    build(texturePath);
-    return this;
-  }
-
-  private void build(string texturePath) {
-    // Bind the core shader
-    CoreEngine.getScene().getTerrainShader().bind();
-
-    // Add material only if a texture is specified
-    if (texturePath != "") {
-      material.setTexture(ResourceManager.loadTexture(texturePath));
-      CoreEngine.getScene().getTerrainShader().loadTexture(0);
-    }
-
-    // Unbind the core shader
-    CoreEngine.getScene().getTerrainShader().bind();
-  }
-
-  /**
-   *
-  **/
-  void draw() {
-    // Bind texture only if a texture is specified
-    if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, material.getTexture().getId());
-      }
-    }
-
-    version (__OPENGL__) {
-      glBindVertexArray(rawModel.getVaoID());
-      glEnableVertexAttribArray(0);
-      glEnableVertexAttribArray(1);
-      glEnableVertexAttribArray(2);
-    }
-
-    GfxUtil.drawElements(GfxDrawMode.Triangles, GfxVectorType.UnsignedInt, rawModel.getVertexCount());
-
-    version (__OPENGL__) {
-      glDisableVertexAttribArray(0);
-      glDisableVertexAttribArray(1);
-      glDisableVertexAttribArray(2);
-      glBindVertexArray(0);
-    }
-
-    // Bind texture only if a texture is specified
-    if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-      }
-    }
   }
 
   /**

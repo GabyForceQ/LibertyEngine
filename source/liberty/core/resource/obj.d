@@ -16,7 +16,7 @@ import core.stdc.stdio : sscanf;
 
 import liberty.core.logger : Logger;
 import liberty.core.math : Vector2F, Vector3F;
-import liberty.core.model.impl : GenericModel;
+import liberty.core.model.generic : GenericModel;
 import liberty.graphics.vertex : Vertex;
 
 package GenericModel loadOBJFile(string path, string texturePath) {
