@@ -26,4 +26,15 @@ final class StaticMesh : Entity!GenericVertex {
   void constructor() {
     renderer = Renderer!GenericVertex(this, new GenericModel());
   }
+
+  /**
+   *
+  **/
+  override void render() {
+    getScene()
+      .getGenericShader()
+      .loadUseFakeLighting(renderer.getModel().getUseFakeLighting());
+
+    super.render();
+  }
 }

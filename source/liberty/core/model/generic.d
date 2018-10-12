@@ -16,6 +16,7 @@ import liberty.core.engine : CoreEngine;
 import liberty.core.resource.manager : ResourceManager;
 import liberty.core.material.impl : Material;
 import liberty.graphics.constants : GfxDrawMode, GfxVectorType;
+import liberty.graphics.engine : GfxEngine;
 import liberty.graphics.util : GfxUtil;
 import liberty.graphics.vertex : GenericVertex;
 
@@ -25,6 +26,8 @@ import liberty.graphics.vertex : GenericVertex;
 final class GenericModel : Model {
   private {
     bool hasIndices;
+    bool hasTransparency;
+    bool useFakeLighting;
   }
 
   /**
@@ -79,6 +82,8 @@ final class GenericModel : Model {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, material.getTexture().getId());
       }
+      if (hasTransparency)
+        GfxEngine.disableCulling();
     }
 
     version (__OPENGL__) {
@@ -108,6 +113,9 @@ final class GenericModel : Model {
       }
     }
 
+    if (!hasTransparency)
+      GfxEngine.disableCulling();
+
     CoreEngine.getScene().getGenericShader().unbind();
   }
 
@@ -116,5 +124,33 @@ final class GenericModel : Model {
   **/
   bool usesIndices() pure nothrow const {
     return hasIndices;
+  }
+
+  /**
+   *
+  **/
+  void setHasTransparency(bool transparency) {
+    hasTransparency = transparency;
+  }
+
+  /**
+   *
+  **/
+  bool getHasTransparency() {
+    return hasTransparency;
+  }
+
+  /**
+   *
+  **/
+  void setUseFakeLighting(bool isFake) {
+    useFakeLighting = isFake;
+  }
+
+  /**
+   *
+  **/
+  bool getUseFakeLighting() {
+    return useFakeLighting;
   }
 }

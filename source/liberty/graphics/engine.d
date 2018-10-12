@@ -135,6 +135,21 @@ class GfxEngine {
   /**
    *
   **/
+  static void enableCulling() {
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+  }
+
+  /**
+   *
+  **/
+  static void disableCulling() {
+    glDisable(GL_CULL_FACE);
+  }
+
+  /**
+   *
+  **/
   static void resizeFrameBufferViewport(int width, int height) nothrow {
     try {
       version (__OPENGL__)

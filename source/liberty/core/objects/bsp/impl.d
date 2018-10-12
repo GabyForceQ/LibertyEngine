@@ -21,4 +21,15 @@ abstract class BSPVolume(VERTEX) : Entity!VERTEX {
   this(string id, WorldObject parent) {
     super(id, parent);
   }
+
+  /**
+   *
+  **/
+  override void render() {
+    getScene()
+      .getGenericShader()
+      .loadUseFakeLighting(renderer.getModel().getUseFakeLighting());
+
+    super.render();
+  }
 }

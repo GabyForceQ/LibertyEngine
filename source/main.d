@@ -95,14 +95,14 @@ final class Player : Actor {
 
     if (Input.isKeyHold(KeyCode.Z)) {
       if (rotationSpeed < 4999.8f)
-        rotationSpeed += 0.2f;
+        rotationSpeed += 100.0f * Time.getDelta();
       else
         rotationSpeed = 5000.0f;
     }
     
     if (Input.isKeyHold(KeyCode.X)) {
       if (rotationSpeed > 0.2f)
-        rotationSpeed -= 0.2f;
+        rotationSpeed -= 100.0f * Time.getDelta();
       else
         rotationSpeed = 0.0f;
     }

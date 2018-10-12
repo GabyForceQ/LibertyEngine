@@ -33,6 +33,7 @@ class GfxGenericShader : GfxShader {
       uniform mat4 uViewMatrix;
       uniform mat4 uProjectionMatrix;
       uniform vec3 uLightPosition;
+      uniform float uUseFakeLighting;
 
       void main() {
         tTexCoord = vec2(lTexCoord.x, -lTexCoord.y);
@@ -41,6 +42,10 @@ class GfxGenericShader : GfxShader {
         vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);
         tToLightVector = uLightPosition - worldPosition.xyz;
         tToCameraVector = (inverse(uViewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
+
+        vec3 actualNormal = lNormal;
+        if (uUseFakeLighting > 0.5)
+          actualNormal = vec3(0.0, 1.0, 0.0);
 
         // Compute vertex position
         gl_Position = uProjectionMatrix * uViewMatrix * worldPosition;
@@ -77,7 +82,12 @@ class GfxGenericShader : GfxShader {
         float dampedFactor = pow(specularFactor, uShineDamper);
         vec3 finalSpecular = dampedFactor * uReflectivity * uLightColor;
 
-        gl_FragColor = vec4(diffuse, 1.0) * texture(uTexture, tTexCoord) + vec4(finalSpecular, 1.0);
+        // Compute alpha channel of final texture
+        vec4 finalTexture = texture(uTexture, tTexCoord);
+        if (finalTexture.a < 0.5)
+          discard;
+
+        gl_FragColor = vec4(diffuse, 1.0) * finalTexture + vec4(finalSpecular, 1.0);
       }
     };
   }
@@ -100,6 +110,7 @@ class GfxGenericShader : GfxShader {
       .addUniform("uTexture")
       .addUniform("uShineDamper")
       .addUniform("uReflectivity")
+      .addUniform("uUseFakeLighting")
       .unbind();
   }
 
@@ -179,6 +190,16 @@ class GfxGenericShader : GfxShader {
   GfxGenericShader loadReflectivity(float value) {
     bind();
     loadUniform("uReflectivity", value);
+    unbind();
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxGenericShader loadUseFakeLighting(bool value) {
+    bind();
+    loadUniform("uUseFakeLighting", value);
     unbind();
     return this;
   }

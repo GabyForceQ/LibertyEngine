@@ -17,6 +17,7 @@ import liberty.core.resource.manager : ResourceManager;
 import liberty.core.material.impl : Material;
 import liberty.core.model.raw : RawModel;
 import liberty.graphics.constants : GfxDrawMode, GfxVectorType;
+import liberty.graphics.engine : GfxEngine;
 import liberty.graphics.util : GfxUtil;
 import liberty.graphics.vertex : TerrainVertex;
 
@@ -60,8 +61,7 @@ final class TerrainModel : Model {
   void draw() {
     CoreEngine.getScene().getTerrainShader().bind();
 
-    glEnable(GL_CULL_FACE); 
-    glCullFace(GL_BACK);
+    GfxEngine.enableCulling();
 
     // Bind texture only if a texture is specified
     if (material.getTexture().getId()) {
@@ -95,7 +95,7 @@ final class TerrainModel : Model {
       }
     }
 
-    glDisable(GL_CULL_FACE);
+    GfxEngine.disableCulling();
 
     CoreEngine.getScene().getTerrainShader().unbind();
   }
