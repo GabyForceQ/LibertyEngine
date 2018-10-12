@@ -35,7 +35,7 @@ class GfxTerrainShader : GfxShader {
       uniform vec3 uLightPosition;
 
       void main() {
-        tTexCoord = vec2(lTexCoord.x, -lTexCoord.y);
+        tTexCoord = vec2(lTexCoord.x, -lTexCoord.y) * 40.0;
         tNormal = (uModelMatrix * vec4(lNormal, 0.0)).xyz;
 
         vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);
@@ -107,7 +107,9 @@ class GfxTerrainShader : GfxShader {
    *
   **/
   GfxTerrainShader loadModelMatrix(Matrix4F matrix) {
+    bind();
     loadUniform("uModelMatrix", matrix);
+    unbind();
     return this;
   }
 
@@ -115,7 +117,9 @@ class GfxTerrainShader : GfxShader {
    *
   **/
   GfxTerrainShader loadViewMatrix(Matrix4F matrix) {
+    bind();
     loadUniform("uViewMatrix", matrix);
+    unbind();
     return this;
   }
 
@@ -123,7 +127,9 @@ class GfxTerrainShader : GfxShader {
    *
   **/
   GfxTerrainShader loadProjectionMatrix(Matrix4F matrix) {
+    bind();
     loadUniform("uProjectionMatrix", matrix);
+    unbind();
     return this;
   }
 
@@ -131,7 +137,9 @@ class GfxTerrainShader : GfxShader {
    *
   **/
   GfxTerrainShader loadLightPosition(Vector3F position) {
+    bind();
     loadUniform("uLightPosition", position);
+    unbind();
     return this;
   }
 
@@ -139,7 +147,9 @@ class GfxTerrainShader : GfxShader {
    *
   **/
   GfxTerrainShader loadLightColor(Vector3F color) {
+    bind();
     loadUniform("uLightColor", color);
+    unbind();
     return this;
   }
 
@@ -147,7 +157,9 @@ class GfxTerrainShader : GfxShader {
    *
   **/
   GfxTerrainShader loadTexture(int id) {
+    bind();
     loadUniform("uTexture", id);
+    unbind();
     return this;
   }
 
@@ -155,7 +167,9 @@ class GfxTerrainShader : GfxShader {
    *
   **/
   GfxTerrainShader loadShineDamper(float value) {
+    bind();
     loadUniform("uShineDamper", value);
+    unbind();
     return this;
   }
 
@@ -163,7 +177,9 @@ class GfxTerrainShader : GfxShader {
    *
   **/
   GfxTerrainShader loadReflectivity(float value) {
+    bind();
     loadUniform("uReflectivity", value);
+    unbind();
     return this;
   }
 }

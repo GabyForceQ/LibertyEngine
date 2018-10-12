@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/shader/core.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/shader/generic.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.graphics.shader.core;
+module liberty.graphics.shader.generic;
 
 import liberty.core.math.matrix : Matrix4F;
 import liberty.core.math.vector : Vector3F;
@@ -17,7 +17,7 @@ import liberty.graphics.shader.impl : GfxShader;
 **/
 class GfxGenericShader : GfxShader {
   private {
-    static immutable CORE_VERTEX = q{
+    static immutable GENERIC_VERTEX = q{
       #version 330 core
 
       layout (location = 0) in vec3 lPosition;
@@ -47,7 +47,7 @@ class GfxGenericShader : GfxShader {
       }
     };
 
-    static immutable CORE_FRAGMENT = q{
+    static immutable GENERIC_FRAGMENT = q{
       #version 330 core
 
       in vec3 tNormal;
@@ -86,7 +86,7 @@ class GfxGenericShader : GfxShader {
    *
   **/
   this() {
-    compileShaders(CORE_VERTEX, CORE_FRAGMENT)
+    compileShaders(GENERIC_VERTEX, GENERIC_FRAGMENT)
       .linkShaders()
       .bindAttribute("lPosition")
       .bindAttribute("lNormal")
@@ -107,7 +107,9 @@ class GfxGenericShader : GfxShader {
    *
   **/
   GfxGenericShader loadModelMatrix(Matrix4F matrix) {
+    bind();
     loadUniform("uModelMatrix", matrix);
+    unbind();
     return this;
   }
 
@@ -115,7 +117,9 @@ class GfxGenericShader : GfxShader {
    *
   **/
   GfxGenericShader loadViewMatrix(Matrix4F matrix) {
+    bind();
     loadUniform("uViewMatrix", matrix);
+    unbind();
     return this;
   }
 
@@ -123,7 +127,9 @@ class GfxGenericShader : GfxShader {
    *
   **/
   GfxGenericShader loadProjectionMatrix(Matrix4F matrix) {
+    bind();
     loadUniform("uProjectionMatrix", matrix);
+    unbind();
     return this;
   }
 
@@ -131,7 +137,9 @@ class GfxGenericShader : GfxShader {
    *
   **/
   GfxGenericShader loadLightPosition(Vector3F position) {
+    bind();
     loadUniform("uLightPosition", position);
+    unbind();
     return this;
   }
 
@@ -139,7 +147,9 @@ class GfxGenericShader : GfxShader {
    *
   **/
   GfxGenericShader loadLightColor(Vector3F color) {
+    bind();
     loadUniform("uLightColor", color);
+    unbind();
     return this;
   }
 
@@ -147,7 +157,9 @@ class GfxGenericShader : GfxShader {
    *
   **/
   GfxGenericShader loadTexture(int id) {
+    bind();
     loadUniform("uTexture", id);
+    unbind();
     return this;
   }
 
@@ -155,7 +167,9 @@ class GfxGenericShader : GfxShader {
    *
   **/
   GfxGenericShader loadShineDamper(float value) {
+    bind();
     loadUniform("uShineDamper", value);
+    unbind();
     return this;
   }
 
@@ -163,7 +177,9 @@ class GfxGenericShader : GfxShader {
    *
   **/
   GfxGenericShader loadReflectivity(float value) {
+    bind();
     loadUniform("uReflectivity", value);
+    unbind();
     return this;
   }
 }

@@ -71,6 +71,8 @@ final class GenericModel : Model {
    *
   **/
   void draw() {
+    CoreEngine.getScene().getGenericShader().bind();
+
     // Bind texture only if a texture is specified
     if (material.getTexture().getId()) {
       version (__OPENGL__) {
@@ -105,6 +107,8 @@ final class GenericModel : Model {
         glBindTexture(GL_TEXTURE_2D, 0);
       }
     }
+
+    CoreEngine.getScene().getGenericShader().unbind();
   }
 
   /**

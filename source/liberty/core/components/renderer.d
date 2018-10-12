@@ -41,11 +41,11 @@ struct Renderer(VERTEX) {
   **/
   void draw() {
     static if (is(VERTEX == GenericVertex))
-        parent.getScene().getGenericShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+      parent.getScene().getGenericShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (is(VERTEX == TerrainVertex))
-        parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+      parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else
-      return;
+      assert(0, "Unreachable");
 
     model.draw();
   }

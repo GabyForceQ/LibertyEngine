@@ -84,15 +84,7 @@ class GfxEngine {
   **/
   static void render() {
     clearScreen();
-
-    CoreEngine.getScene().getGenericShader().bind();
-    CoreEngine.getScene().getTerrainShader().bind();
-
     CoreEngine.getScene().render();
-
-    CoreEngine.getScene().getTerrainShader().unbind();
-    CoreEngine.getScene().getGenericShader().unbind();
-
     glfwSwapBuffers(Platform.getWindow().getHandle());
   }
 

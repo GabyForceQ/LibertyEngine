@@ -9,7 +9,7 @@
 module liberty.graphics.shader;
 
 public {
-  import liberty.graphics.shader.core;
+  import liberty.graphics.shader.generic;
   import liberty.graphics.shader.impl;
   import liberty.graphics.shader.terrain;
 }

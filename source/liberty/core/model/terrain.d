@@ -58,6 +58,8 @@ final class TerrainModel : Model {
    *
   **/
   void draw() {
+    CoreEngine.getScene().getTerrainShader().bind();
+
     // Bind texture only if a texture is specified
     if (material.getTexture().getId()) {
       version (__OPENGL__) {
@@ -89,5 +91,7 @@ final class TerrainModel : Model {
         glBindTexture(GL_TEXTURE_2D, 0);
       }
     }
+
+    CoreEngine.getScene().getTerrainShader().unbind();
   }
 }
