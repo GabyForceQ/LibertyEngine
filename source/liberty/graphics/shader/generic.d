@@ -36,16 +36,16 @@ class GfxGenericShader : GfxShader {
       uniform float uUseFakeLighting;
 
       void main() {
+        vec3 actualNormal = lNormal;
+        if (uUseFakeLighting > 0.5)
+          actualNormal = vec3(0.0, 1.0, 0.0);
+        
         tTexCoord = vec2(lTexCoord.x, -lTexCoord.y);
-        tNormal = (uModelMatrix * vec4(lNormal, 0.0)).xyz;
+        tNormal = (uModelMatrix * vec4(actualNormal, 0.0)).xyz;
 
         vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);
         tToLightVector = uLightPosition - worldPosition.xyz;
         tToCameraVector = (inverse(uViewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
-
-        vec3 actualNormal = lNormal;
-        if (uUseFakeLighting > 0.5)
-          actualNormal = vec3(0.0, 1.0, 0.0);
 
         // Compute vertex position
         gl_Position = uProjectionMatrix * uViewMatrix * worldPosition;
