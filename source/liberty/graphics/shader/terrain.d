@@ -28,12 +28,16 @@ class GfxTerrainShader : GfxShader {
       out vec2 tTexCoord;
       out vec3 tToLightVector;
       out vec3 tToCameraVector;
+      out float tVisibility;
       
       uniform mat4 uModelMatrix;
       uniform mat4 uViewMatrix;
       uniform mat4 uProjectionMatrix;
       uniform vec3 uLightPosition;
       uniform vec2 uTexCoordMultiplier;
+
+      const float density = 0.01;
+      const float gradient = 1.5;
 
       void main() {
         tTexCoord = vec2(lTexCoord.x, -lTexCoord.y) * uTexCoordMultiplier;
@@ -42,6 +46,12 @@ class GfxTerrainShader : GfxShader {
         vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);
         tToLightVector = uLightPosition - worldPosition.xyz;
         tToCameraVector = (inverse(uViewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
+
+        // Compute exponential heigh fog
+        vec4 positionRelativeToCamera = uViewMatrix * worldPosition;
+        float distance = length(positionRelativeToCamera.xyz);
+        tVisibility = exp(-pow((distance * density), gradient));
+        tVisibility = clamp(tVisibility, 0.0, 1.0);
 
         // Compute vertex position
         gl_Position = uProjectionMatrix * uViewMatrix * worldPosition;
@@ -55,11 +65,13 @@ class GfxTerrainShader : GfxShader {
       in vec2 tTexCoord;
       in vec3 tToLightVector;
       in vec3 tToCameraVector;
+      in float tVisibility;
 
       uniform sampler2D uTexture;
       uniform vec3 uLightColor;
       uniform float uShineDamper;
       uniform float uReflectivity;
+      uniform vec3 uSkyColor;
       
       void main() {
         vec3 unitNormal = normalize(tNormal);
@@ -78,7 +90,8 @@ class GfxTerrainShader : GfxShader {
         float dampedFactor = pow(specularFactor, uShineDamper);
         vec3 finalSpecular = dampedFactor * uReflectivity * uLightColor;
 
-        gl_FragColor = vec4(diffuse, 1.0) * texture(uTexture, tTexCoord) + vec4(finalSpecular, 1.0);
+        // Mix sky color with finalTexture
+        gl_FragColor = mix(vec4(uSkyColor, 1.0), vec4(diffuse, 1.0) * texture(uTexture, tTexCoord) + vec4(finalSpecular, 1.0), tVisibility);
       }
     };
   }
@@ -102,6 +115,7 @@ class GfxTerrainShader : GfxShader {
       .addUniform("uShineDamper")
       .addUniform("uReflectivity")
       .addUniform("uTexCoordMultiplier")
+      .addUniform("uSkyColor")
       .unbind();
   }
 
@@ -191,6 +205,16 @@ class GfxTerrainShader : GfxShader {
   GfxTerrainShader loadTexCoordMultiplier(Vector2F multiplier) {
     bind();
     loadUniform("uTexCoordMultiplier", multiplier);
+    unbind();
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxTerrainShader loadSkyColor(Vector3F color) {
+    bind();
+    loadUniform("uSkyColor", color);
     unbind();
     return this;
   }

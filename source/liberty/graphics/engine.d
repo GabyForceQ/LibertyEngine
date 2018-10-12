@@ -84,6 +84,9 @@ class GfxEngine {
   **/
   static void render() {
     clearScreen();
+    import liberty.core.math.vector : Vector3F;
+    CoreEngine.getScene().getGenericShader().loadSkyColor(Vector3F(0.5f, 0.8f, 0.8f));
+    CoreEngine.getScene().getTerrainShader().loadSkyColor(Vector3F(0.5f, 0.8f, 0.8f));
     CoreEngine.getScene().render();
     glfwSwapBuffers(Platform.getWindow().getHandle());
   }
@@ -95,7 +98,7 @@ class GfxEngine {
     version (__OPENGL__) {
       glClearDepth(1.0);
 	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-      glClearColor(0.5f, 1.0f, 1.0f, 1.0f);
+      glClearColor(0.5f, 0.8f, 0.8f, 1.0f);
     }
   }
 
