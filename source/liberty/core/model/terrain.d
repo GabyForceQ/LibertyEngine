@@ -60,6 +60,9 @@ final class TerrainModel : Model {
   void draw() {
     CoreEngine.getScene().getTerrainShader().bind();
 
+    glEnable(GL_CULL_FACE); 
+    glCullFace(GL_BACK);
+
     // Bind texture only if a texture is specified
     if (material.getTexture().getId()) {
       version (__OPENGL__) {
@@ -91,6 +94,8 @@ final class TerrainModel : Model {
         glBindTexture(GL_TEXTURE_2D, 0);
       }
     }
+
+    glDisable(GL_CULL_FACE);
 
     CoreEngine.getScene().getTerrainShader().unbind();
   }

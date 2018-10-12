@@ -8,6 +8,7 @@
 **/
 module liberty.core.objects.terrain.impl;
 
+import liberty.core.math.vector : Vector2F;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
 import liberty.graphics.vertex : TerrainVertex;
@@ -26,6 +27,8 @@ final class Terrain : Entity!TerrainVertex {
   private {
     float size;
     uint vertexCount;
+    
+    Vector2F texCoordMultiplier = Vector2F.one;
   }
 
   /**
@@ -43,6 +46,64 @@ final class Terrain : Entity!TerrainVertex {
     this.vertexCount = vertexCount;
     generateTerrain();
     getTransform().translate(-size / 2.0f, 0.0f, -size / 2.0f);
+    texCoordMultiplier = size;
+  }
+
+  /**
+   *
+  **/
+  override void render() {
+    getScene().getTerrainShader().loadTexCoordMultiplier(texCoordMultiplier);
+    super.render();
+  }
+
+  /**
+   *
+  **/
+  Vector2F getTexCoordMultiplier() {
+    return texCoordMultiplier;
+  }
+
+  /**
+   *
+  **/
+  void setTexCoordMultiplier(Vector2F multiplier) {
+    texCoordMultiplier = multiplier;
+  }
+
+  /**
+   *
+  **/
+  void setTexCoordMultiplier(float x, float y) {
+    texCoordMultiplier = Vector2F(x, y);
+  }
+
+  /**
+   *
+  **/
+  void increaseTexCoordMultiplier(Vector2F multiplier) {
+    texCoordMultiplier += multiplier;
+  }
+
+  /**
+   *
+  **/
+  void increaseTexCoordMultiplier(float x, float y) {
+    texCoordMultiplier += Vector2F(x, y);
+  }
+
+  /**
+   *
+  **/
+  void decreaseTexCoordMultiplier(Vector2F multiplier) {
+    texCoordMultiplier -= multiplier;
+  }
+
+  /**
+   *
+  **/
+  void decreaseTexCoordMultiplier(float x, float y) {
+    texCoordMultiplier -= Vector2F(x, y);
   }
 
   private void generateTerrain() {

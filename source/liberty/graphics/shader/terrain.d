@@ -9,7 +9,7 @@
 module liberty.graphics.shader.terrain;
 
 import liberty.core.math.matrix : Matrix4F;
-import liberty.core.math.vector : Vector3F;
+import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.graphics.shader.impl : GfxShader;
 
 /**
@@ -33,9 +33,10 @@ class GfxTerrainShader : GfxShader {
       uniform mat4 uViewMatrix;
       uniform mat4 uProjectionMatrix;
       uniform vec3 uLightPosition;
+      uniform vec2 uTexCoordMultiplier;
 
       void main() {
-        tTexCoord = vec2(lTexCoord.x, -lTexCoord.y) * 40.0;
+        tTexCoord = vec2(lTexCoord.x, -lTexCoord.y) * uTexCoordMultiplier;
         tNormal = (uModelMatrix * vec4(lNormal, 0.0)).xyz;
 
         vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);
@@ -100,6 +101,7 @@ class GfxTerrainShader : GfxShader {
       .addUniform("uTexture")
       .addUniform("uShineDamper")
       .addUniform("uReflectivity")
+      .addUniform("uTexCoordMultiplier")
       .unbind();
   }
 
@@ -179,6 +181,16 @@ class GfxTerrainShader : GfxShader {
   GfxTerrainShader loadReflectivity(float value) {
     bind();
     loadUniform("uReflectivity", value);
+    unbind();
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxTerrainShader loadTexCoordMultiplier(Vector2F multiplier) {
+    bind();
+    loadUniform("uTexCoordMultiplier", multiplier);
     unbind();
     return this;
   }

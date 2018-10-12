@@ -146,6 +146,14 @@ final class Player : Actor {
       });
       getScene().getActiveCamera().lockMouseMove();
     }
+
+    if (Input.isKeyDown(KeyCode.N))
+      terrain.increaseTexCoordMultiplier(-1.0f, -1.0f);
+    if (Input.isKeyDown(KeyCode.M))
+      terrain.decreaseTexCoordMultiplier(-1.0f, -1.0f);
+
+    if (Input.isKeyHold(KeyCode.I))
+      terrain.decreaseTexCoordMultiplier(5.0f * Time.getDelta(), 0.0f);
   }
 
   /**
