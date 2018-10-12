@@ -8,7 +8,6 @@
 **/
 module liberty.core.objects.terrain.impl;
 
-import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
 import liberty.graphics.vertex : TerrainVertex;
@@ -59,14 +58,14 @@ final class Terrain : Entity!TerrainVertex {
     int vertexPtr;
     for (int i; i < vertexCount; i++) {
       for (int j; j < vertexCount; j++) {
-        vertices[vertexPtr * 3].position = cast(float)j / (cast(float)vertexCount - 1) * size;
-        vertices[vertexPtr * 3 + 1].position = 0;
-        vertices[vertexPtr * 3 + 2].position = cast(float)i / (cast(float)vertexCount - 1) * size;
-        vertices[vertexPtr * 3].normal = 0;
-        vertices[vertexPtr * 3 + 1].normal = 1;
-        vertices[vertexPtr * 3 + 2].normal = 0;
-        vertices[vertexPtr * 2].texCoord = cast(float)j / (cast(float)vertexCount - 1);
-        vertices[vertexPtr * 2 + 1].texCoord = cast(float)i / (cast(float)vertexCount - 1);
+        vertices[vertexPtr].position.x = cast(float)j / (cast(float)vertexCount - 1) * size;
+        vertices[vertexPtr].position.y = 0;
+        vertices[vertexPtr].position.z = cast(float)i / (cast(float)vertexCount - 1) * size;
+        vertices[vertexPtr].normal.x = 0;
+        vertices[vertexPtr].normal.y = 1;
+        vertices[vertexPtr].normal.z = 0;
+        vertices[vertexPtr].texCoord.x = cast(float)j / (cast(float)vertexCount - 1);
+        vertices[vertexPtr].texCoord.y = cast(float)i / (cast(float)vertexCount - 1);
         vertexPtr++;
       }
     }
@@ -86,18 +85,6 @@ final class Terrain : Entity!TerrainVertex {
       }
     }
 
-    TerrainVertex[] squareVertices = [
-      TerrainVertex(Vector3F(-10.5f,  10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 1.0f)),
-      TerrainVertex(Vector3F(-10.5f, -10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(0.0f, 0.0f)),
-      TerrainVertex(Vector3F( 10.5f, -10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 0.0f)),
-      TerrainVertex(Vector3F( 10.5f,  10.5f, -50.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector2F(1.0f, 1.0f))
-    ];
-
-    uint[6] squareIndices = [
-      0, 1, 2,
-      0, 2, 3
-    ];
-
-    renderer.getModel().build(squareVertices, squareIndices, "res/textures/default.bmp");
+    renderer.getModel().build(vertices, indices, "res/textures/default.bmp");
   }
 }

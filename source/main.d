@@ -27,15 +27,16 @@ final class Player : Actor {
       Vector3F(0.0f, 1.2f, 0.0),
       Vector3F(0.0f, -1.2f, 0.0f)
     ];
+
     BSPTriangle triangle;
     BSPSquare square;
     BSPPyramid pyramid;
     PointLight light;
+
     float rotationSpeed = 100.0f;
     float direction = 1.0f;
 
     StaticMesh mesh;
-
     Terrain terrain;
   }
 
@@ -73,7 +74,7 @@ final class Player : Actor {
       .translate(0.0f, 0.0f, -10.0f);
 
     (terrain = spawn!Terrain("Terrain"))
-      .build(0, 1);
+      .build(0, 0);
   }
 
   /**
