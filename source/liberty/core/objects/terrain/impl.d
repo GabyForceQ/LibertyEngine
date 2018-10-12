@@ -24,28 +24,25 @@ final class Terrain : Entity!TerrainVertex {
   mixin(NodeBody);
 
   private {
-    float size = 800;
-    uint vertexCount = 128;
-
-    float x, z;
+    float size;
+    uint vertexCount;
   }
 
+  /**
+   *
+  **/
   void constructor() {
     renderer = Renderer!TerrainVertex(this, new TerrainModel());
   }
 
-  void build(int gridX, int gridZ) {
-    x = gridX * size;
-    z = gridZ * size;
+  /**
+   *
+  **/
+  void build(float size = 20.0f, uint vertexCount = 128) {
+    this.size = size;
+    this.vertexCount = vertexCount;
     generateTerrain();
-  }
-
-  float getX() {
-    return x;
-  }
- 
-  float getZ() {
-    return z;
+    getTransform().translate(-size / 2.0f, 0.0f, -size / 2.0f);
   }
 
   private void generateTerrain() {

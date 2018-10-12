@@ -21,11 +21,11 @@ final class Player : Actor {
   private {
     BSPCube[5] cubes;
     Vector3F[5] cubesPos = [
-      Vector3F.zero,
-      Vector3F(1.2f, 0.0f, 0.0f),
-      Vector3F(-1.2f, 0.0f, 0.0f),
-      Vector3F(0.0f, 1.2f, 0.0),
-      Vector3F(0.0f, -1.2f, 0.0f)
+      Vector3F(0.0f, 1.0f, 0.0f),
+      Vector3F(1.2f, 1.0f, 0.0f),
+      Vector3F(-1.2f, 1.0f, 0.0f),
+      Vector3F(0.0f, 2.2f, 0.0),
+      Vector3F(0.0f, -0.2f, 0.0f)
     ];
 
     BSPTriangle triangle;
@@ -55,26 +55,26 @@ final class Player : Actor {
     
     (pyramid = spawn!BSPPyramid("Pyramid"))
       .getTransform()
-      .translate(Vector3F(3.0f, 0.0f, 1.0f))
+      .translate(3.0f, 1.0f, 1.0f)
       .rotatePitch(90.0f);
     
     (square = spawn!BSPSquare("Square"))
       .getTransform()
-      .translate(Vector3F(4.5f, 0.0f, 0.0f));
+      .translate(4.5f, 1.0f, 0.0f);
     
     (triangle = spawn!BSPTriangle("Triangle"))
       .getTransform()
-      .translate(Vector3F(6.0f, 0.0f, 0.0f));
+      .translate(6.0f, 1.0f, 0.0f);
 
     (mesh = spawn!StaticMesh("CubeMesh"))
       .getRenderer()
       .setModel(ResourceManager.loadModel("res/models/cube.obj", "res/textures/default.bmp"))
       .getParent()
       .getTransform()
-      .translate(0.0f, 0.0f, -10.0f);
+      .translate(0.0f, 1.0f, -10.0f);
 
     (terrain = spawn!Terrain("Terrain"))
-      .build(0, 0);
+      .build();
   }
 
   /**
