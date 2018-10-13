@@ -14,7 +14,7 @@ void setDemoCameraPreset() {
   CoreEngine
     .getScene()
     .getActiveCamera()
-    .setPosition(-5.0f, 3.0f, 4.0f)
+    .setPosition(-5.0f, 3.0f, 1.0f)
     .setMovementSpeed(5.0f)
     .getPreset()
     .setKeyboardProcess((camera, direction, velocity) {

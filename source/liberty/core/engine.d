@@ -94,10 +94,10 @@ final class CoreEngine {
       } else {
         break;
       }
-			
-			GfxEngine.render();
 
       scene.getActiveCamera().getPreset().runImplicit(scene.getActiveCamera());
+			
+			GfxEngine.render();
 
       if (Input.isKeyDown(KeyCode.T))
 				glfwSetInputMode(Platform.getWindow().getHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
