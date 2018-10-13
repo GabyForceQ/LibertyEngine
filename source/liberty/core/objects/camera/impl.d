@@ -24,7 +24,7 @@ import liberty.core.objects.node : WorldObject;
 final class Camera : WorldObject {
   mixin(NodeBody);
 
-  private {
+  package {
     Vector3F positionVector = Vector3F(0.0f, 3.0f, 3.0f);
     Vector3F frontVector = Vector3F.forward;
     Vector3F upVector = Vector3F.up;
@@ -59,42 +59,20 @@ final class Camera : WorldObject {
    * Keyboard listener.
    * Works only if camera input listener isn't locked.
   **/
-  void processKeyboard(CameraMovement direction) {
+  Camera processKeyboard(CameraMovement direction) {
     if (!keyboardLocked) {
       const float velocity = movementSpeed * Time.getDelta();
-
-      final switch (direction) with (CameraMovement) {
-        case FORWARD:
-          positionVector += frontVector * velocity;
-          break;
-        
-        case BACKWARD:
-          positionVector -= frontVector * velocity;
-          break;
-
-        case LEFT:
-          positionVector -= rightVector * velocity;
-          break;
-
-        case RIGHT:
-          positionVector += rightVector * velocity;
-          break;
-
-        case UP:
-          positionVector += upVector * velocity;
-          break;
-
-        case DOWN:
-          positionVector -= upVector * velocity;
-      }
+      preset.processKeyboard(this, direction, velocity);
     }
+
+    return this;
   }
 
   /**
    * Mouse move listener.
    * Works only if camera input listener isn't locked.
   **/
-  void processMouseMovement(float xOffset, float yOffset, bool constrainPitch = true) {
+  Camera processMouseMovement(float xOffset, float yOffset, bool constrainPitch = true) {
     if (!mouseMoveLocked) {
       xOffset *= mouseSensitivity;
       yOffset *= mouseSensitivity;
@@ -111,13 +89,15 @@ final class Camera : WorldObject {
 
       updateCameraVectors();
     }
+
+    return this;
   }
 
   /**
    * Mouse scroll listener.
    * Works only if camera input listener isn't locked.
   **/
-  void processMouseScroll(float yOffset) {
+  Camera processMouseScroll(float yOffset) {
     if (!mouseScrollLocked) {
       if (fieldOfView >= 1.0f && fieldOfView <= FOV)
         fieldOfView -= yOffset;
@@ -126,6 +106,8 @@ final class Camera : WorldObject {
       if (fieldOfView >= FOV)
         fieldOfView = FOV;
     }
+
+    return this;
   }
 
   /**
@@ -153,10 +135,19 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Set camera position.
+   * Set camera position using a vector with x, y and z coordinates.
   **/
-  void setPosition(Vector3F positionVector) pure nothrow {
+  Camera setPosition(Vector3F positionVector) pure nothrow {
     this.positionVector = positionVector;
+    return this;
+  }
+
+  /**
+   * Set camera position using x, y and z scalars as coordinates.
+  **/
+  Camera setPosition(float x, float y, float z) pure nothrow {
+    this.positionVector = Vector3F(x, y, z);
+    return this;
   }
 
   /**
@@ -197,36 +188,39 @@ final class Camera : WorldObject {
   /**
    * Set camera yaw.
   **/
-  void setYaw(float yaw) pure nothrow {
+  Camera setYaw(float yaw) pure nothrow {
     this.yaw = yaw;
+    return this;
   }
 
   /**
    * Returns: camera yaw.
   **/
-  float getCameraYaw() pure nothrow const {
+  float getYaw() pure nothrow const {
     return yaw;
   }
 
   /**
    * Set camera pitch.
   **/
-  void setPitch(float pitch) pure nothrow {
+  Camera setPitch(float pitch) pure nothrow {
     this.pitch = pitch;
+    return this;
   }
 
   /**
    * Returns: camera pitch.
   **/
-  float getCameraPitch() pure nothrow const {
+  float getPitch() pure nothrow const {
     return pitch;
   }
 
   /**
    * Set camera movement speed.
   **/
-  void setMovementSpeed(float movementSpeed) pure nothrow {
+  Camera setMovementSpeed(float movementSpeed) pure nothrow {
     this.movementSpeed = movementSpeed;
+    return this;
   }
 
   /**
@@ -239,8 +233,9 @@ final class Camera : WorldObject {
   /**
    * Set camera mouse sensitivity.
   **/
-  void setMouseSensitivity(float mouseSensitivity) pure nothrow {
+  Camera setMouseSensitivity(float mouseSensitivity) pure nothrow {
     this.mouseSensitivity = mouseSensitivity;
+    return this;
   }
 
   /**
@@ -253,8 +248,9 @@ final class Camera : WorldObject {
   /**
    * Set camera field of view.
   **/
-  void setFieldOfView(float fieldOfView) pure nothrow {
+  Camera setFieldOfView(float fieldOfView) pure nothrow {
     this.fieldOfView = fieldOfView;
+    return this;
   }
 
   /**
@@ -267,8 +263,9 @@ final class Camera : WorldObject {
   /**
    *
   **/
-  void setPreset(CameraPreset preset) pure nothrow {
+  Camera setPreset(CameraPreset preset) pure nothrow {
     this.preset = preset;
+    return this;
   }
 
   /**
@@ -281,15 +278,17 @@ final class Camera : WorldObject {
   /**
    * Lock camera mouse move listener.
   **/
-  void lockMouseMove() pure nothrow {
+  Camera lockMouseMove() pure nothrow {
     mouseMoveLocked = true;
+    return this;
   }
 
   /**
    * Unlock camera mouse move listener.
   **/
-  void unlockMouseMove() pure nothrow {
+  Camera unlockMouseMove() pure nothrow {
     mouseMoveLocked = false;
+    return this;
   }
 
   /**
@@ -302,15 +301,17 @@ final class Camera : WorldObject {
   /**
    * Lock camera mouse scroll listener.
   **/
-  void lockMouseScroll() pure nothrow {
+  Camera lockMouseScroll() pure nothrow {
     mouseScrollLocked = true;
+    return this;
   }
 
   /**
    * Unlock camera mouse scroll listener.
   **/
-  void unlockMouseScroll() pure nothrow {
+  Camera unlockMouseScroll() pure nothrow {
     mouseScrollLocked = false;
+    return this;
   }
 
   /**
@@ -323,15 +324,17 @@ final class Camera : WorldObject {
   /**
    * Lock camera keyboard listener.
   **/
-  void lockKeyboard() pure nothrow {
+  Camera lockKeyboard() pure nothrow {
     keyboardLocked = true;
+    return this;
   }
 
   /**
    * Unlock camera keyboard listener.
   **/
-  void unlockKeyboard() pure nothrow {
+  Camera unlockKeyboard() pure nothrow {
     keyboardLocked = false;
+    return this;
   }
 
   /**

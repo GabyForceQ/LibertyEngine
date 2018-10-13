@@ -97,7 +97,7 @@ final class CoreEngine {
 			
 			GfxEngine.render();
 
-      scene.getActiveCamera().getPreset().runImplicit();
+      scene.getActiveCamera().getPreset().runImplicit(scene.getActiveCamera());
 
       if (Input.isKeyDown(KeyCode.T))
 				glfwSetInputMode(Platform.getWindow().getHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);

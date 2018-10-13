@@ -100,8 +100,8 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
             assert(Vector!(T, 3).zero == Vector!(T, 3)(0, 0, 0));
             assert(Vector!(T, 3).one == Vector!(T, 3)(1, 1, 1));
             assert(Vector!(T, 3).up == Vector!(T, 3)(0, 1, 0));
-            assert(Vector!(T, 3).right == Vector!(T, 3)(1, 0, 0));
             assert(Vector!(T, 3).down == Vector!(T, 3)(0, -1, 0));
+            assert(Vector!(T, 3).right == Vector!(T, 3)(1, 0, 0));
             assert(Vector!(T, 3).left == Vector!(T, 3)(-1, 0, 0));
             assert(Vector!(T, 3).forward == Vector!(T, 3)(0, 0, 1));
             assert(Vector!(T, 3).backward == Vector!(T, 3)(0, 0, -1));

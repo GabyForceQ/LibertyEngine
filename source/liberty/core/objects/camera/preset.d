@@ -13,45 +13,90 @@ import liberty.core.input.constants : KeyCode;
 import liberty.core.input.impl : Input;
 import liberty.core.objects.camera.constants : CameraMovement;
 
+import liberty.core.objects.camera;
+
 /**
  *
 **/
 class CameraPreset {
   private {
-    void delegate() runImplicitDelegate;
+    void delegate(Camera camera) runImplicitDelegate;
+    void delegate(Camera, CameraMovement, float) runKeyboardProcess;
   }
 
   /**
    *
   **/
-  this(void delegate() runImplicitDelegate) {
+  this(void delegate(Camera camera) runImplicitDelegate, void delegate(Camera, CameraMovement, float) runKeyboardProcess) {
     this.runImplicitDelegate = runImplicitDelegate;
+    this.runKeyboardProcess = runKeyboardProcess;
   }
 
   /**
    *
   **/
-  void setImplicit(void delegate() runImplicitDelegate) {
+  CameraPreset setImplicit(void delegate(Camera camera) runImplicitDelegate) {
     this.runImplicitDelegate = runImplicitDelegate;
+    return this;
   }
 
-  package(liberty.core) void runImplicit() {
-    runImplicitDelegate();
+  package(liberty.core) void runImplicit(Camera camera) {
+    runImplicitDelegate(camera);
+  }
+
+  /**
+   *
+  **/
+  CameraPreset setKeyboardProcess(void delegate(Camera, CameraMovement, float) runKeyboardProcess) {
+    this.runKeyboardProcess = runKeyboardProcess;
+    return this;
+  }
+
+  package void processKeyboard(Camera camera, CameraMovement direction, float velocity) {
+    runKeyboardProcess(camera, direction, velocity);
   }
 
   /**
    *
   **/
   static CameraPreset getDefault() {
-    return new CameraPreset(() {
+    return new CameraPreset((Camera camera) {
       if (Input.isKeyHold(KeyCode.W))
-				CoreEngine.getScene().getActiveCamera().processKeyboard(CameraMovement.FORWARD);
+				camera.processKeyboard(CameraMovement.FORWARD);
+
 			if (Input.isKeyHold(KeyCode.S))
-				CoreEngine.getScene().getActiveCamera().processKeyboard(CameraMovement.BACKWARD);
+				camera.processKeyboard(CameraMovement.BACKWARD);
+
 			if (Input.isKeyHold(KeyCode.A))
-				CoreEngine.getScene().getActiveCamera().processKeyboard(CameraMovement.LEFT);
+				camera.processKeyboard(CameraMovement.LEFT);
+
 			if (Input.isKeyHold(KeyCode.D))
-				CoreEngine.getScene().getActiveCamera().processKeyboard(CameraMovement.RIGHT);
+				camera.processKeyboard(CameraMovement.RIGHT);
+    }, (camera, direction, velocity) {
+      final switch (direction) with (CameraMovement) {
+        case FORWARD:
+          camera.positionVector += camera.frontVector * velocity;
+          break;
+        
+        case BACKWARD:
+          camera.positionVector -= camera.frontVector * velocity;
+          break;
+
+        case LEFT:
+          camera.positionVector -= camera.rightVector * velocity;
+          break;
+
+        case RIGHT:
+          camera.positionVector += camera.rightVector * velocity;
+          break;
+
+        case UP:
+          camera.positionVector += camera.upVector * velocity;
+          break;
+
+        case DOWN:
+          camera.positionVector -= camera.upVector * velocity;
+      }
     });
   }
 }
