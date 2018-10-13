@@ -18,6 +18,9 @@ final class Player : Actor {
 
   private {
     BSPCube playerBody;
+    float gravity = -20.0f;
+    float jumpPower = 7.0f;
+    float upSpeed = 0;
   }
 
   /**
@@ -49,5 +52,22 @@ final class Player : Actor {
 
     if (Input.isKeyHold(KeyCode.S))
       playerBody.getTransform().translateZ(cameraSpeed * deltaTime);
+
+    if (Input.isKeyDown(KeyCode.SPACE))
+      jump();
+
+    upSpeed += gravity * deltaTime;
+    playerBody.getTransform().translateY(upSpeed * deltaTime);
+    if (playerBody.getTransform().getWorldPosition().y < 0.5f)
+      stopJump();
+  }
+
+  private void jump() {
+    upSpeed = jumpPower;
+  }
+
+  private void stopJump() {
+    upSpeed = 0;
+    playerBody.getTransform().translateY(-playerBody.getTransform().getWorldPosition().y + 0.5f);
   }
 }
