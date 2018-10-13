@@ -14,13 +14,17 @@ version (__OPENGL__)
 /**
  *
 **/
-struct Texture {
+class Texture {
   private {
     uint _id;
   }
   
   uint width;
   uint height;
+
+  this() {
+    
+  }
 
   this(uint id) {
     _id = id;

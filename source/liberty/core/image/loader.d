@@ -30,7 +30,7 @@ final class ImageLoader {
   **/
   static Texture loadBMP(string resourcePath) {
     // Check if service is running
-    Texture texture;
+    Texture texture = new Texture();
 
     // Load texture form file
     auto bitmap = new Bitmap(resourcePath);
@@ -41,15 +41,16 @@ final class ImageLoader {
     version (__OPENGL__) {
       // Bind the texture
       glBindTexture(GL_TEXTURE_2D, texture.getId());
+
       glTexImage2D(
         GL_TEXTURE_2D, 
         0, 
-        GL_RGBA8, //GL_RGBA,
+        GL_BGRA,
         bitmap.getWidth(),
         bitmap.getHeight(),
         0,
-        GL_RGBA,
-        GL_UNSIGNED_INT_8_8_8_8, //GL_UNSIGNED_BYTE,
+        GL_BGRA,
+        GL_UNSIGNED_BYTE,
         bitmap.getData()
       );
 

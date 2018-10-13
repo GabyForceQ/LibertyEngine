@@ -34,13 +34,12 @@ class GfxTerrainShader : GfxShader {
       uniform mat4 uViewMatrix;
       uniform mat4 uProjectionMatrix;
       uniform vec3 uLightPosition;
-      uniform vec2 uTexCoordMultiplier;
 
       const float density = 0.01;
       const float gradient = 1.5;
 
       void main() {
-        tTexCoord = vec2(lTexCoord.x, -lTexCoord.y) * uTexCoordMultiplier;
+        tTexCoord = vec2(lTexCoord.x, -lTexCoord.y);
         tNormal = (uModelMatrix * vec4(lNormal, 0.0)).xyz;
 
         vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);
@@ -67,13 +66,29 @@ class GfxTerrainShader : GfxShader {
       in vec3 tToCameraVector;
       in float tVisibility;
 
-      uniform sampler2D uTexture;
+      uniform sampler2D uBackgroundTexture;
+      uniform sampler2D uRTexture;
+      uniform sampler2D uGTexture;
+      uniform sampler2D uBTexture;
+      uniform sampler2D uBlendMap;
+
+      uniform vec2 uTexCoordMultiplier;
       uniform vec3 uLightColor;
       uniform float uShineDamper;
       uniform float uReflectivity;
       uniform vec3 uSkyColor;
       
       void main() {
+        // Compute terrain textures
+        vec4 blendMapColor = texture(uBlendMap, tTexCoord);
+        float backTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);
+        vec2 tiledTexCoords = tTexCoord * uTexCoordMultiplier;
+        vec4 backgroundTextureColor = texture(uBackgroundTexture, tiledTexCoords) * backTextureAmount;
+        vec4 rTextureColor = texture(uRTexture, tiledTexCoords) * blendMapColor.r;
+        vec4 gTextureColor = texture(uGTexture, tiledTexCoords) * blendMapColor.g;
+        vec4 bTextureColor = texture(uBTexture, tiledTexCoords) * blendMapColor.b;
+        vec4 totalTextureColor = backgroundTextureColor + rTextureColor + gTextureColor + bTextureColor;
+
         vec3 unitNormal = normalize(tNormal);
         vec3 unitLightVector = normalize(tToLightVector);
 
@@ -91,7 +106,7 @@ class GfxTerrainShader : GfxShader {
         vec3 finalSpecular = dampedFactor * uReflectivity * uLightColor;
 
         // Mix sky color with finalTexture
-        gl_FragColor = mix(vec4(uSkyColor, 1.0), vec4(diffuse, 1.0) * texture(uTexture, tTexCoord) + vec4(finalSpecular, 1.0), tVisibility);
+        gl_FragColor = mix(vec4(uSkyColor, 1.0), vec4(diffuse, 1.0) * totalTextureColor + vec4(finalSpecular, 1.0), tVisibility);
       }
     };
   }
@@ -111,7 +126,11 @@ class GfxTerrainShader : GfxShader {
       .addUniform("uProjectionMatrix")
       .addUniform("uLightPosition")
       .addUniform("uLightColor")
-      .addUniform("uTexture")
+      .addUniform("uBackgroundTexture")
+      .addUniform("uRTexture")
+      .addUniform("uGTexture")
+      .addUniform("uBTexture")
+      .addUniform("uBlendMap")
       .addUniform("uShineDamper")
       .addUniform("uReflectivity")
       .addUniform("uTexCoordMultiplier")
@@ -172,13 +191,53 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadTexture(int id) {
+  GfxTerrainShader loadBackgroundTexture(int id) {
     bind();
-    loadUniform("uTexture", id);
+    loadUniform("uBackgroundTexture", id);
     unbind();
     return this;
   }
 
+  /**
+   *
+  **/
+  GfxTerrainShader loadRTexture(int id) {
+    bind();
+    loadUniform("uRTexture", id);
+    unbind();
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxTerrainShader loadGTexture(int id) {
+    bind();
+    loadUniform("uGTexture", id);
+    unbind();
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxTerrainShader loadBTexture(int id) {
+    bind();
+    loadUniform("uBTexture", id);
+    unbind();
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxTerrainShader loadBlendMap(int id) {
+    bind();
+    loadUniform("uBlendMap", id);
+    unbind();
+    return this;
+  }
+  
   /**
    *
   **/

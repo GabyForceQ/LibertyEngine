@@ -18,6 +18,12 @@ import liberty.graphics.texture.impl : Texture;
 final class Material {
   private {
     Texture texture;
+
+    Texture backgroundTexture;
+    Texture rTexture;
+    Texture gTexture;
+    Texture bTexture;
+    Texture blendMap;
   }
 
   /**
@@ -25,6 +31,16 @@ final class Material {
   **/
   this() {
  
+  }
+
+  /**
+   *
+  **/
+  this(Texture backgroundTexture, Texture rTexture, Texture gTexture, Texture bTexture, Texture blendMap) {
+    this.backgroundTexture = backgroundTexture;
+    this.rTexture = rTexture;
+    this.gTexture = gTexture;
+    this.bTexture = bTexture;
   }
 
   /**
@@ -46,5 +62,45 @@ final class Material {
   **/
   static Material getDefault() {
     return new Material();
+  }
+
+  void setBackgroundTexture(Texture texture) {
+    backgroundTexture = texture;
+  }
+
+  void setRTexture(Texture texture) {
+    rTexture = texture;
+  }
+  
+  void setGTexture(Texture texture) {
+    gTexture = texture;
+  }
+  
+  void setBTexture(Texture texture) {
+    bTexture = texture;
+  }
+
+  void setBlendMap(Texture texture) {
+    blendMap = texture;
+  }
+
+  Texture getBackgroundTexture() {
+    return backgroundTexture;
+  }
+
+  Texture getRTexture() {
+    return rTexture;
+  }
+  
+  Texture getGTexture() {
+    return gTexture;
+  }
+  
+  Texture getBTexture() {
+    return bTexture;
+  }
+
+  Texture getBlendMap() {
+    return blendMap;
   }
 }

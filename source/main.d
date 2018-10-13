@@ -146,6 +146,13 @@ final class Player : Actor {
       });
       getScene().getActiveCamera().lockMouseMove();
     }
+
+    if (Input.isKeyDown(KeyCode.SPACE)) {
+      getScene().getActiveCamera().setMovementSpeed(20.0f);
+    }
+    if (Input.isKeyUp(KeyCode.SPACE)) {
+      getScene().getActiveCamera().setMovementSpeed(3.0f);
+    }
   }
 
   /**

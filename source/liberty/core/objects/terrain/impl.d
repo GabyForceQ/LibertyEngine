@@ -41,12 +41,16 @@ final class Terrain : Entity!TerrainVertex {
   /**
    *
   **/
-  void build(float size = 20.0f, uint vertexCount = 128) {
+  Terrain build(float size = 20.0f, uint vertexCount = 128) {
     this.size = size;
     this.vertexCount = vertexCount;
+    
     generateTerrain();
+    
     getTransform().translate(-size / 2.0f, 0.0f, -size / 2.0f);
     texCoordMultiplier = size;
+
+    return this;
   }
 
   /**
@@ -67,43 +71,49 @@ final class Terrain : Entity!TerrainVertex {
   /**
    *
   **/
-  void setTexCoordMultiplier(Vector2F multiplier) {
+  Terrain setTexCoordMultiplier(Vector2F multiplier) {
     texCoordMultiplier = multiplier;
+    return this;
   }
 
   /**
    *
   **/
-  void setTexCoordMultiplier(float x, float y) {
+  Terrain setTexCoordMultiplier(float x, float y) {
     texCoordMultiplier = Vector2F(x, y);
+    return this;
   }
 
   /**
    *
   **/
-  void increaseTexCoordMultiplier(Vector2F multiplier) {
+  Terrain increaseTexCoordMultiplier(Vector2F multiplier) {
     texCoordMultiplier += multiplier;
+    return this;
   }
 
   /**
    *
   **/
-  void increaseTexCoordMultiplier(float x, float y) {
+  Terrain increaseTexCoordMultiplier(float x, float y) {
     texCoordMultiplier += Vector2F(x, y);
+    return this;
   }
 
   /**
    *
   **/
-  void decreaseTexCoordMultiplier(Vector2F multiplier) {
+  Terrain decreaseTexCoordMultiplier(Vector2F multiplier) {
     texCoordMultiplier -= multiplier;
+    return this;
   }
 
   /**
    *
   **/
-  void decreaseTexCoordMultiplier(float x, float y) {
+  Terrain decreaseTexCoordMultiplier(float x, float y) {
     texCoordMultiplier -= Vector2F(x, y);
+    return this;
   }
 
   private void generateTerrain() {
