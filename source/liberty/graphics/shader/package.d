@@ -12,4 +12,5 @@ public {
   import liberty.graphics.shader.generic;
   import liberty.graphics.shader.impl;
   import liberty.graphics.shader.terrain;
+  import liberty.graphics.shader.ui;
 }

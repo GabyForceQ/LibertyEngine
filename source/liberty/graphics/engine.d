@@ -233,7 +233,8 @@ class GfxEngine {
       if (er != GL_NO_ERROR) {
         string getErrorString = getErrorString(er);
         flushErrors();
-        Logger.error(getErrorString, typeof(this).stringof);
+        //Logger.error(getErrorString, typeof(this).stringof);
+        Logger.warning(getErrorString, typeof(this).stringof);
       }
     }
   }

@@ -12,6 +12,8 @@ import derelict.glfw3.glfw3 :
   glfwPollEvents, glfwSetInputMode,
   GLFW_CURSOR, GLFW_CURSOR_NORMAL, GLFW_CURSOR_DISABLED;
 
+import liberty.core.material.impl : Material;
+
 import liberty.core.image.manager : ImageManager;
 import liberty.core.input.constants : KeyCode;
 import liberty.core.input.impl : Input;
@@ -42,6 +44,7 @@ final class CoreEngine {
 		changeState(EngineState.Starting);
 
 		// Initialize other classes
+    Material.initializeMaterials();
 		ImageManager.initialize();
 		ResourceManager.initialize();
 		GfxEngine.initialize();

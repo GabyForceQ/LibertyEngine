@@ -26,6 +26,8 @@ abstract class BSPVolume(VERTEX) : Entity!VERTEX {
    *
   **/
   override void render() {
+    import liberty.graphics.vertex : UIVertex;
+    static if (!is(VERTEX == UIVertex))
     getScene()
       .getGenericShader()
       .loadUseFakeLighting(renderer.getModel().getUseFakeLighting());

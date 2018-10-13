@@ -21,6 +21,10 @@ final class Player : Actor {
     float gravity = -20.0f;
     float jumpPower = 7.0f;
     float upSpeed = 0;
+
+    UISquare square;
+
+    BSPCube cube;
   }
 
   /**
@@ -28,6 +32,8 @@ final class Player : Actor {
    * If declared, it is called after all objects instantiation.
   **/
   override void start() {
+    square = spawn!UISquare("UISquare");
+    
     (playerBody = spawn!BSPCube("Body"))
       .getTransform()
       .translate(-5.0f, 0.5f, -5.0f);
@@ -60,6 +66,9 @@ final class Player : Actor {
     playerBody.getTransform().translateY(upSpeed * deltaTime);
     if (playerBody.getTransform().getWorldPosition().y < 0.5f)
       stopJump();
+
+    if (Input.isKeyDown(KeyCode.B))
+      cube = spawn!BSPCube("cc");
   }
 
   private void jump() {

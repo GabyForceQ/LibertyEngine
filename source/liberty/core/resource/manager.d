@@ -24,7 +24,7 @@ import liberty.graphics.buffer.impl : GfxBuffer;
 import liberty.graphics.texture.cache : TextureCache;
 import liberty.graphics.texture.impl : Texture;
 import liberty.graphics.util : GfxUtil;
-import liberty.graphics.vertex : GenericVertex;
+import liberty.graphics.vertex : GenericVertex, UIVertex;
 
 /**
  * The resource manager class provides static functions that gives you the possibility
@@ -69,9 +69,14 @@ final class ResourceManager {
     vbos ~= vbo.getHandle();
 
     version (__OPENGL__) {
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
-      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);
-      glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
+      static if (is(VERTEX == UIVertex)) {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
+      } else {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
+      }
     }
     
     // Unbind vertex buffer object
@@ -103,9 +108,14 @@ final class ResourceManager {
     vbos ~= ebo.getHandle();
 
     version (__OPENGL__) {
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
-      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);
-      glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
+      static if (is(VERTEX == UIVertex)) {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
+      } else {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
+      }
     }
     
     // Unbind vertex buffer object

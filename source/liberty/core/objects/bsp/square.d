@@ -12,9 +12,9 @@ import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components.renderer : Renderer;
 import liberty.core.objects.meta : NodeBody;
-import liberty.core.model.generic : GenericModel;
+import liberty.core.model : GenericModel, UIModel;
 import liberty.core.objects.bsp.impl : BSPVolume;
-import liberty.graphics.vertex : GenericVertex;
+import liberty.graphics.vertex : GenericVertex, UIVertex;
 
 /**
  *
@@ -41,4 +41,26 @@ private GenericVertex[] squareVertices = [
 private uint[6] squareIndices = [
   0, 1, 2,
   0, 2, 3
+];
+
+/**
+ *
+**/
+final class UISquare : BSPVolume!UIVertex {
+  mixin(NodeBody);
+
+  /**
+   *
+  **/
+	void constructor() {
+    renderer = Renderer!UIVertex(this, (new UIModel()
+      .build(uiSquareVertices, squareIndices, "res/textures/default.bmp")));
+	}
+}
+
+private UIVertex[] uiSquareVertices = [
+  UIVertex(Vector3F(-0.05f,  0.05f, 0.0f), Vector2F(0.0f, 1.0f)),
+  UIVertex(Vector3F(-0.05f, -0.05f, 0.0f), Vector2F(0.0f, 0.0f)),
+  UIVertex(Vector3F( 0.05f, -0.05f, 0.0f), Vector2F(1.0f, 0.0f)),
+  UIVertex(Vector3F( 0.05f,  0.05f, 0.0f), Vector2F(1.0f, 1.0f))
 ];

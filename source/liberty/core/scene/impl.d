@@ -16,7 +16,7 @@ import liberty.core.math.vector : Vector3F;
 import liberty.core.objects.camera : Camera;
 import liberty.core.objects.node : WorldObject, RootObject;
 import liberty.core.services : IStartable, IUpdatable, IRenderable;
-import liberty.graphics.shader : GfxShader, GfxGenericShader, GfxTerrainShader;
+import liberty.graphics.shader : GfxShader, GfxGenericShader, GfxTerrainShader, GfxUIShader;
 
 /**
  *
@@ -37,6 +37,7 @@ final class Scene : IUpdatable, IRenderable {
 
     GfxGenericShader genericShader;
     GfxTerrainShader terrainShader;
+    GfxUIShader uiShader;
   }
 
   /**
@@ -50,6 +51,7 @@ final class Scene : IUpdatable, IRenderable {
 
     genericShader = new GfxGenericShader();
     terrainShader = new GfxTerrainShader();
+    uiShader = new GfxUIShader();
   }
 
   /**
@@ -204,15 +206,17 @@ final class Scene : IUpdatable, IRenderable {
   /**
    *
   **/
-  void setObjectId(string key, bool state = true) {
+  Scene setObjectId(string key, bool state = true) {
     objectsId[key] = state;
+    return this;
   }
 
   /**
    *
   **/
-  void setGenericShader(GfxGenericShader shader) {
+  Scene setGenericShader(GfxGenericShader shader) {
     genericShader = shader;
+    return this;
   }
 
   /**
@@ -225,8 +229,9 @@ final class Scene : IUpdatable, IRenderable {
   /**
    *
   **/
-  void setTerrainShader(GfxTerrainShader shader) {
+  Scene setTerrainShader(GfxTerrainShader shader) {
     terrainShader = shader;
+    return this;
   }
 
   /**
@@ -234,5 +239,20 @@ final class Scene : IUpdatable, IRenderable {
   **/
   GfxTerrainShader getTerrainShader() {
     return terrainShader;
+  }
+
+  /**
+   *
+  **/
+  Scene setUIShader(GfxUIShader shader) {
+    uiShader = shader;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxUIShader getUIShader() {
+    return uiShader;
   }
 }

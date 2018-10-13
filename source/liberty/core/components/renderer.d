@@ -9,8 +9,8 @@
 module liberty.core.components.renderer;
 
 import liberty.core.objects.node : WorldObject;
-import liberty.core.model : GenericModel, TerrainModel;
-import liberty.graphics.vertex : GenericVertex, TerrainVertex;
+import liberty.core.model : GenericModel, TerrainModel, UIModel;
+import liberty.graphics.vertex : GenericVertex, TerrainVertex, UIVertex;
 
 /**
  *
@@ -21,6 +21,8 @@ struct Renderer(VERTEX) {
       alias RendererModel = GenericModel;
     else static if (is(VERTEX == TerrainVertex))
       alias RendererModel = TerrainModel;
+    else static if (is(VERTEX == UIVertex))
+      alias RendererModel = UIModel;
 
     WorldObject parent;
     RendererModel model;
@@ -42,6 +44,8 @@ struct Renderer(VERTEX) {
       parent.getScene().getGenericShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (is(VERTEX == TerrainVertex))
       parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+    else static if (is(VERTEX == UIVertex))
+      {}
     else
       assert(0, "Unreachable");
 

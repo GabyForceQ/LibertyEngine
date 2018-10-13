@@ -67,3 +67,26 @@ struct TerrainVertex {
     this.texCoord = texCoord;
   }
 }
+
+/**
+ *
+**/
+struct UIVertex {
+  /**
+   *
+  **/
+  Vector3F position;
+  
+  /**
+   *
+  **/
+  Vector2F texCoord;
+
+  /**
+   *
+  **/
+  this(Vector3F position, Vector2F texCoord) {
+    this.position = position;
+    this.texCoord = texCoord;
+  }
+}

@@ -23,7 +23,7 @@ abstract class Model {
   /**
    *
   **/
-  this(Material material = Material.getDefault()) {
+  this(Material material) {
     this.material = material;
   }
 

@@ -7,3 +7,7 @@
  * Coverage:
  */
 module liberty.core.ui;
+
+public {
+  import liberty.core.ui.widget;
+}

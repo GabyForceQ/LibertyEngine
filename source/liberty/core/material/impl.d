@@ -57,11 +57,17 @@ final class Material {
     return texture;
   }
 
+  static Material defaultMaterial;
+
+  static void initializeMaterials() {
+    defaultMaterial = new Material();
+  }
+
   /**
    *
   **/
   static Material getDefault() {
-    return new Material();
+    return defaultMaterial;
   }
 
   void setBackgroundTexture(Texture texture) {
