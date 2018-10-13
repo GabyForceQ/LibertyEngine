@@ -40,12 +40,8 @@ class GfxShader {
   **/
   GfxShader bind() {
     version (__OPENGL__)
-      glUseProgram(this.programID);
+      glUseProgram(this.programID);    
 
-    //foreach (i; 0..this.attributeCount) {
-    //  glEnableVertexAttribArray(i);
-    //}
-    
     return this;
   }
 
@@ -55,10 +51,6 @@ class GfxShader {
   GfxShader unbind() {
     version (__OPENGL__)
       glUseProgram(0);
-
-    //foreach (i; 0..this.attributeCount) {
-    //  glDisableVertexAttribArray(i);
-    //}
 
     return this;
   }

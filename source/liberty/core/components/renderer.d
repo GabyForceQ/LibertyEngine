@@ -17,15 +17,13 @@ import liberty.graphics.vertex : GenericVertex, TerrainVertex;
 **/
 struct Renderer(VERTEX) {
   private {
-    WorldObject parent;
-
-    static if (is(VERTEX == GenericVertex)) {
-      GenericModel model;
+    static if (is(VERTEX == GenericVertex))
       alias RendererModel = GenericModel;
-    } else static if (is(VERTEX == TerrainVertex)) {
-      TerrainModel model;
+    else static if (is(VERTEX == TerrainVertex))
       alias RendererModel = TerrainModel;
-    }
+
+    WorldObject parent;
+    RendererModel model;
   }
 
   /**

@@ -57,17 +57,11 @@ final class GenericModel : Model {
   }
 
   private void build(string texturePath) {
-    // Bind the generic shader
-    CoreEngine.getScene().getGenericShader().bind();
-
     // Add material only if a texture is specified
     if (texturePath != "") {
       material.setTexture(ResourceManager.loadTexture(texturePath));
       CoreEngine.getScene().getGenericShader().loadTexture(0);
     }
-
-    // Unbind the generic shader
-    CoreEngine.getScene().getGenericShader().bind();
   }
 
   /**

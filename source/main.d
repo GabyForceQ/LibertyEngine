@@ -45,6 +45,9 @@ final class Player : Actor {
    * If declared, it is called after all objects instantiation.
   **/
   override void start() {
+    (terrain = spawn!Terrain("Terrain"))
+      .build(500.0f);
+
     foreach (i; 0..5)
       (cubes[i] = spawn!BSPCube("Cube" ~ i.to!string))
         .getTransform()
@@ -72,9 +75,6 @@ final class Player : Actor {
       .getParent()
       .getTransform()
       .translate(0.0f, 1.0f, -10.0f);
-
-    (terrain = spawn!Terrain("Terrain"))
-      .build(500.0f);
   }
 
   /**

@@ -14,11 +14,7 @@ version (__OPENGL__)
 import derelict.util.exception : ShouldThrow;
 import derelict.glfw3.glfw3 : glfwSwapInterval, glfwSwapBuffers;
 
-//import derelict.opengl :
-//  DerelictGL3, glClearDepth, glClearColor, glClear, glEnable, glBlendFunc,
-//  GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT, GL_STENCIL_BUFFER_BIT,
-//  GL_DEPTH_TEST, GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA;
-
+import liberty.core.math.vector : Vector3F;
 import liberty.core.engine : CoreEngine;
 import liberty.core.logger : Logger, InfoMessage;
 import liberty.core.platform : Platform;
@@ -84,7 +80,6 @@ class GfxEngine {
   **/
   static void render() {
     clearScreen();
-    import liberty.core.math.vector : Vector3F;
     CoreEngine.getScene().getGenericShader().loadSkyColor(Vector3F(0.5f, 0.8f, 0.8f));
     CoreEngine.getScene().getTerrainShader().loadSkyColor(Vector3F(0.5f, 0.8f, 0.8f));
     CoreEngine.getScene().render();

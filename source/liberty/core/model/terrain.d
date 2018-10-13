@@ -42,17 +42,11 @@ final class TerrainModel : Model {
   }
 
   private void build(string texturePath) {
-    // Bind the terrain shader
-    CoreEngine.getScene().getTerrainShader().bind();
-
     // Add material only if a texture is specified
     if (texturePath != "") {
       material.setTexture(ResourceManager.loadTexture(texturePath));
       CoreEngine.getScene().getTerrainShader().loadTexture(0);
     }
-
-    // Unbind the terrain shader
-    CoreEngine.getScene().getTerrainShader().bind();
   }
 
   /**
