@@ -24,7 +24,7 @@ void libertyMain() {
   new Scene("Scene")
     .getTree()
     .spawn!Terrain("DemoTerrain")
-    .build(500.0f)
+    .build(800.0f)
     .getScene()
     .getTree()
     .spawn!PointLight("DemoPointLight")
@@ -34,5 +34,5 @@ void libertyMain() {
     .getScene()
     .register();
 
-  setDemoCameraPreset();
+  //setDemoCameraPreset();
 }

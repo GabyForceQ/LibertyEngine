@@ -35,8 +35,8 @@ class GfxTerrainShader : GfxShader {
       uniform mat4 uProjectionMatrix;
       uniform vec3 uLightPosition;
 
-      const float density = 0.01;
-      const float gradient = 1.5;
+      const float density = 0.006;
+      const float gradient = 1.2;
 
       void main() {
         tTexCoord = vec2(lTexCoord.x, -lTexCoord.y);

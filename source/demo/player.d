@@ -32,11 +32,11 @@ final class Player : Actor {
    * If declared, it is called after all objects instantiation.
   **/
   override void start() {
-    square = spawn!UISquare("UISquare");
+    //square = spawn!UISquare("UISquare");
     
-    (playerBody = spawn!BSPCube("Body"))
-      .getTransform()
-      .translate(-5.0f, 0.5f, -5.0f);
+    //(playerBody = spawn!BSPCube("Body"))
+    //  .getTransform()
+    //  .translate(-5.0f, 0.5f, -5.0f);
   }
 
   /**
@@ -47,28 +47,24 @@ final class Player : Actor {
     const float deltaTime = Time.getDelta();
     const float cameraSpeed = getScene().getActiveCamera().getMovementSpeed();
 
-    if (Input.isKeyHold(KeyCode.A))
-      playerBody.getTransform().translateX(-cameraSpeed * deltaTime);
+    //if (Input.isKeyHold(KeyCode.A))
+    //  playerBody.getTransform().translateX(-cameraSpeed * deltaTime);
+    //if (Input.isKeyHold(KeyCode.D))
+    //  playerBody.getTransform().translateX(cameraSpeed * deltaTime);
+    //if (Input.isKeyHold(KeyCode.W))
+    //  playerBody.getTransform().translateZ(-cameraSpeed * deltaTime);
+    //if (Input.isKeyHold(KeyCode.S))
+    //  playerBody.getTransform().translateZ(cameraSpeed * deltaTime);
+    //if (Input.isKeyDown(KeyCode.SPACE))
+    //  jump();
 
-    if (Input.isKeyHold(KeyCode.D))
-      playerBody.getTransform().translateX(cameraSpeed * deltaTime);
-    
-    if (Input.isKeyHold(KeyCode.W))
-      playerBody.getTransform().translateZ(-cameraSpeed * deltaTime);
+    //upSpeed += gravity * deltaTime;
+    //playerBody.getTransform().translateY(upSpeed * deltaTime);
+    //if (playerBody.getTransform().getWorldPosition().y < 0.5f)
+    //  stopJump();
 
-    if (Input.isKeyHold(KeyCode.S))
-      playerBody.getTransform().translateZ(cameraSpeed * deltaTime);
-
-    if (Input.isKeyDown(KeyCode.SPACE))
-      jump();
-
-    upSpeed += gravity * deltaTime;
-    playerBody.getTransform().translateY(upSpeed * deltaTime);
-    if (playerBody.getTransform().getWorldPosition().y < 0.5f)
-      stopJump();
-
-    if (Input.isKeyDown(KeyCode.B))
-      cube = spawn!BSPCube("cc");
+    //if (Input.isKeyDown(KeyCode.B))
+    //  cube = spawn!BSPCube("cc");
   }
 
   private void jump() {

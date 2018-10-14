@@ -8,7 +8,9 @@
 **/
 module liberty.core.objects.terrain.impl;
 
-import liberty.core.math.vector : Vector2F;
+import liberty.core.image.bitmap : Bitmap;
+
+import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
 import liberty.graphics.vertex : TerrainVertex;
@@ -26,7 +28,9 @@ final class Terrain : Entity!TerrainVertex {
 
   private {
     float size;
-    uint vertexCount;
+    //uint vertexCount;
+    float maxHeight = 40;
+    float maxPixelColor = 256 ^^ 3;
     
     Vector2F texCoordMultiplier = Vector2F.one;
   }
@@ -41,11 +45,10 @@ final class Terrain : Entity!TerrainVertex {
   /**
    *
   **/
-  Terrain build(float size = 20.0f, uint vertexCount = 128) {
+  Terrain build(float size = 20.0f) {
     this.size = size;
-    this.vertexCount = vertexCount;
     
-    generateTerrain();
+    generateTerrain("res/textures/heightMap.bmp");
     
     getTransform().translate(-size / 2.0f, 0.0f, -size / 2.0f);
     texCoordMultiplier = size;
@@ -116,22 +119,28 @@ final class Terrain : Entity!TerrainVertex {
     return this;
   }
 
-  private void generateTerrain() {
+  private void generateTerrain(string heightMapPath) {
+    // Load height map form file
+    auto image = new Bitmap(heightMapPath);
+
+    const int vertexCount = image.getHeight();
     const int count = vertexCount * vertexCount;
 
     TerrainVertex[] vertices = new TerrainVertex[count * 3];
-
     uint[] indices = new uint[6 * (vertexCount - 1) * (vertexCount - 1)];
 
     int vertexPtr;
     for (int i; i < vertexCount; i++) {
       for (int j; j < vertexCount; j++) {
         vertices[vertexPtr].position.x = cast(float)j / (cast(float)vertexCount - 1) * size;
-        vertices[vertexPtr].position.y = 0;
+        vertices[vertexPtr].position.y = getHeight(j, i, image);
         vertices[vertexPtr].position.z = cast(float)i / (cast(float)vertexCount - 1) * size;
-        vertices[vertexPtr].normal.x = 0;
-        vertices[vertexPtr].normal.y = 1;
-        vertices[vertexPtr].normal.z = 0;
+
+        Vector3F normal = computeNormal(j, i, image);
+
+        vertices[vertexPtr].normal.x = normal.x;
+        vertices[vertexPtr].normal.y = normal.y;
+        vertices[vertexPtr].normal.z = normal.z;
         vertices[vertexPtr].texCoord.x = cast(float)j / (cast(float)vertexCount - 1);
         vertices[vertexPtr].texCoord.y = cast(float)i / (cast(float)vertexCount - 1);
         vertexPtr++;
@@ -154,5 +163,31 @@ final class Terrain : Entity!TerrainVertex {
     }
 
     renderer.getModel().build(vertices, indices, "res/textures/default.bmp");
+  }
+
+  private float getHeight(int x, int y, Bitmap image) {
+    if (x < 0 || x >= image.getHeight() || y < 0 || y >= image.getHeight())
+      return 0;
+
+    float height = image.getRGB(x, y);
+    height += maxPixelColor / 2.0f;
+    height /= maxPixelColor / 2.0f;
+    height *= maxHeight;
+
+    import liberty.engine;
+
+    return height;
+  }
+
+  private Vector3F computeNormal(int x, int y, Bitmap image) {
+    float heightL = getHeight(x - 1, y, image);
+    float heightR = getHeight(x + 1, y, image);
+    float heightD = getHeight(x, y - 1, image);
+    float heightU = getHeight(x, y + 1, image);
+
+    Vector3F normal = Vector3F(heightL - heightR, 2.0f, heightD - heightU);
+    normal.normalize();
+
+    return normal;
   }
 }

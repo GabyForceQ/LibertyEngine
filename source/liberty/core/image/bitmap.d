@@ -376,4 +376,13 @@ final class Bitmap {
     immutable uint samples = bytespp / getImageType().sizeof;
     return samples;
   }
+
+  /**
+   *
+  **/
+  int getRGB(int x, int y) {
+    RGBQUAD pixelColor;
+    FreeImage_GetPixelColor(_bitmap, x, y, &pixelColor);
+    return -((pixelColor.rgbRed << 16) | (pixelColor.rgbGreen << 8) | (pixelColor.rgbBlue << 0));
+  }
 }
