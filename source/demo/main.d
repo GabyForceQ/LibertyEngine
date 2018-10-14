@@ -24,7 +24,7 @@ void libertyMain() {
   new Scene("Scene")
     .getTree()
     .spawn!Terrain("DemoTerrain")
-    .build(800.0f)
+    .build(500.0f)
     .getScene()
     .getTree()
     .spawn!PointLight("DemoPointLight")

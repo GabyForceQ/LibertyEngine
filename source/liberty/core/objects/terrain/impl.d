@@ -10,6 +10,7 @@ module liberty.core.objects.terrain.impl;
 
 import liberty.core.image.bitmap : Bitmap;
 
+import liberty.core.math.functions : floor, barryCentric;
 import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
@@ -27,10 +28,11 @@ final class Terrain : Entity!TerrainVertex {
   mixin(NodeBody);
 
   private {
+    const float maxPixelColor = 256 ^^ 3;
+
     float size;
-    //uint vertexCount;
-    float maxHeight = 40;
-    float maxPixelColor = 256 ^^ 3;
+    float maxHeight = 20;
+    float[256][256] heights; // ????
     
     Vector2F texCoordMultiplier = Vector2F.one;
   }
@@ -119,12 +121,53 @@ final class Terrain : Entity!TerrainVertex {
     return this;
   }
 
+  /**
+   *
+  **/
+  float getHeight(float worldX, float worldZ) {
+    float terrainX = worldX - getTransform().getWorldPosition().x;
+    float terrainZ = worldZ - getTransform().getWorldPosition().z;
+
+    int heightLen = heights.length - 1;
+    const float gridSqareSize = size / cast(float)heightLen;
+    
+    int gridX = cast(int)floor(terrainX / gridSqareSize);
+    int gridZ = cast(int)floor(terrainZ / gridSqareSize);
+
+    if (gridX >= heightLen || gridZ >= heightLen || gridX < 0 || gridZ < 0)
+      return int.min;
+
+    float xCoord = (terrainX % gridSqareSize) / gridSqareSize;
+    float zCoord = (terrainZ % gridSqareSize) / gridSqareSize;
+
+    float finalPos;
+    if (xCoord <= (1 - zCoord)) {
+			finalPos = barryCentric(
+        Vector3F(0, heights[gridX][gridZ], 0),
+        Vector3F(1, heights[gridX + 1][gridZ], 0),
+        Vector3F(0, heights[gridX][gridZ + 1], 1),
+        Vector2F(xCoord, zCoord)
+      );
+		} else {
+			finalPos = barryCentric(
+        Vector3F(1, heights[gridX + 1][gridZ], 0),
+        Vector3F(1, heights[gridX + 1][gridZ + 1], 1),
+        Vector3F(0, heights[gridX][gridZ + 1], 1),
+        Vector2F(xCoord, zCoord)
+      );
+		}
+
+    return finalPos;
+  }
+
   private void generateTerrain(string heightMapPath) {
     // Load height map form file
     auto image = new Bitmap(heightMapPath);
 
-    const int vertexCount = image.getHeight();
-    const int count = vertexCount * vertexCount;
+    int vertexCount = image.getHeight();
+    int count = vertexCount * vertexCount;
+
+    //heights = new float[vertexCount][vertexCount]; // ???? vertexCount
 
     TerrainVertex[] vertices = new TerrainVertex[count * 3];
     uint[] indices = new uint[6 * (vertexCount - 1) * (vertexCount - 1)];
@@ -132,8 +175,11 @@ final class Terrain : Entity!TerrainVertex {
     int vertexPtr;
     for (int i; i < vertexCount; i++) {
       for (int j; j < vertexCount; j++) {
+        const float height = getHeight(j, i, image);
+        heights[j][i] = height;
+
         vertices[vertexPtr].position.x = cast(float)j / (cast(float)vertexCount - 1) * size;
-        vertices[vertexPtr].position.y = getHeight(j, i, image);
+        vertices[vertexPtr].position.y = height;
         vertices[vertexPtr].position.z = cast(float)i / (cast(float)vertexCount - 1) * size;
 
         Vector3F normal = computeNormal(j, i, image);

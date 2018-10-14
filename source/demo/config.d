@@ -15,7 +15,7 @@ void setDemoCameraPreset() {
     .getScene()
     .getActiveCamera()
     .setPosition(-5.0f, 3.0f, 1.0f)
-    .setMovementSpeed(5.0f)
+    .setMovementSpeed(100.0f)
     .getPreset()
     .setKeyboardProcess((camera, direction, velocity) {
       switch (direction) with (CameraMovement) {

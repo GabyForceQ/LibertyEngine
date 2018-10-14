@@ -92,20 +92,15 @@ final class CoreEngine {
 
 			if (engineState == EngineState.Running) {
 				scene.update();
+				scene.getActiveCamera().getPreset().runImplicit(scene.getActiveCamera());
+				// TODO: mouse actions here
 			} else if (this.engineState == EngineState.Paused) {
         
       } else {
         break;
       }
 
-      scene.getActiveCamera().getPreset().runImplicit(scene.getActiveCamera());
-			
 			GfxEngine.render();
-
-      if (Input.isKeyDown(KeyCode.T))
-				glfwSetInputMode(Platform.getWindow().getHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			if (Input.isKeyDown(KeyCode.Y))
-				glfwSetInputMode(Platform.getWindow().getHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 			if (Input.isKeyDown(KeyCode.ESC))
 				changeState(EngineState.ShouldQuit);

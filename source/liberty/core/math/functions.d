@@ -9,8 +9,9 @@
 module liberty.core.math.functions;
 
 public import std.math;
-
 import std.traits : isIntegral, isSigned, isFloatingPoint;
+
+import liberty.core.math.vector : Vector2F, Vector3F;
 
 version (D_InlineAsm_X86) {
   version = AsmX86;
@@ -232,4 +233,15 @@ T inverseSqrt(T)(T x) pure nothrow if (isFloatingPoint!T) {
 pure nothrow unittest {
 	assert (abs(inverseSqrt!float(1) - 1) < 1e-3 );
 	assert (abs(inverseSqrt!double(1) - 1) < 1e-3 );
+}
+
+/**
+ *
+**/
+float barryCentric(Vector3F p1, Vector3F p2, Vector3F p3, Vector2F pos) {
+	const float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
+	const float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;
+	const float l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
+	const float l3 = 1.0f - l1 - l2;
+	return l1 * p1.y + l2 * p2.y + l3 * p3.y;
 }

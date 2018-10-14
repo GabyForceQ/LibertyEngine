@@ -24,7 +24,7 @@ final class Player : Actor {
 
     UISquare square;
 
-    BSPCube cube;
+    int killZ = -10;
   }
 
   /**
@@ -34,9 +34,11 @@ final class Player : Actor {
   override void start() {
     //square = spawn!UISquare("UISquare");
     
-    //(playerBody = spawn!BSPCube("Body"))
-    //  .getTransform()
-    //  .translate(-5.0f, 0.5f, -5.0f);
+    (playerBody = spawn!BSPCube("Body"))
+      .getTransform()
+      .translate(0.0f, 10.0f, 0.0f);
+
+    getScene().getActiveCamera().setMovementSpeed(50.0f);
   }
 
   /**
@@ -47,32 +49,40 @@ final class Player : Actor {
     const float deltaTime = Time.getDelta();
     const float cameraSpeed = getScene().getActiveCamera().getMovementSpeed();
 
-    //if (Input.isKeyHold(KeyCode.A))
-    //  playerBody.getTransform().translateX(-cameraSpeed * deltaTime);
-    //if (Input.isKeyHold(KeyCode.D))
-    //  playerBody.getTransform().translateX(cameraSpeed * deltaTime);
-    //if (Input.isKeyHold(KeyCode.W))
-    //  playerBody.getTransform().translateZ(-cameraSpeed * deltaTime);
-    //if (Input.isKeyHold(KeyCode.S))
-    //  playerBody.getTransform().translateZ(cameraSpeed * deltaTime);
-    //if (Input.isKeyDown(KeyCode.SPACE))
-    //  jump();
+    if (Input.isKeyHold(KeyCode.LEFT))
+      playerBody.getTransform().translateX(-cameraSpeed * deltaTime);
 
-    //upSpeed += gravity * deltaTime;
-    //playerBody.getTransform().translateY(upSpeed * deltaTime);
-    //if (playerBody.getTransform().getWorldPosition().y < 0.5f)
-    //  stopJump();
+    if (Input.isKeyHold(KeyCode.RIGHT))
+      playerBody.getTransform().translateX(cameraSpeed * deltaTime);
+    
+    if (Input.isKeyHold(KeyCode.UP))
+      playerBody.getTransform().translateZ(-cameraSpeed * deltaTime);
 
-    //if (Input.isKeyDown(KeyCode.B))
-    //  cube = spawn!BSPCube("cc");
+    if (Input.isKeyHold(KeyCode.DOWN))
+      playerBody.getTransform().translateZ(cameraSpeed * deltaTime);
+
+    if (Input.isKeyDown(KeyCode.SPACE))
+      jump();
+
+    upSpeed += gravity * deltaTime;
+    playerBody.getTransform().translateY(upSpeed * deltaTime);
+    
+    const float terrainHeight = getScene().getTree().getChild!Terrain("DemoTerrain")
+      .getHeight(playerBody.getTransform().getWorldPosition().x, playerBody.getTransform().getWorldPosition().z) + 0.5f;
+    
+    if (playerBody.getTransform().getWorldPosition().y < terrainHeight) {
+      upSpeed = 0;
+      playerBody.getTransform().translateY(-playerBody.getTransform().getWorldPosition().y + terrainHeight);
+    }
+
+    if (Input.isKeyDown(KeyCode.B))
+      spawn!BSPCube("cc");
+
+    if (playerBody.getTransform().getWorldPosition().y < killZ)
+      CoreEngine.pause();
   }
 
   private void jump() {
     upSpeed = jumpPower;
-  }
-
-  private void stopJump() {
-    upSpeed = 0;
-    playerBody.getTransform().translateY(-playerBody.getTransform().getWorldPosition().y + 0.5f);
   }
 }
