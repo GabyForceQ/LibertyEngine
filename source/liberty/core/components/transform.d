@@ -118,6 +118,14 @@ struct Transform {
 		modelMatrix.rotateZ(angle.radians);
     return this;
 	}
+
+  /**
+   * Scale object using same value for x, y and z coordinates.
+  **/
+	ref Transform scale(float value) pure nothrow {
+		modelMatrix.scale(Vector3F(value));
+    return this;
+	}
   
   /**
    * Scale object using x, y and z scalars for coordinates.
