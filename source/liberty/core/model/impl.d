@@ -17,15 +17,15 @@ import liberty.core.model.raw : RawModel;
 abstract class Model {
   protected {
     RawModel rawModel;
-    Material material;
+    Material[] materials;
     bool shouldCull = true;
   }
 
   /**
    *
   **/
-  this(Material material) {
-    this.material = material;
+  this(Material[] materials) {
+    this.materials = materials;
   }
 
   /**
@@ -38,8 +38,8 @@ abstract class Model {
   /**
    *
   **/
-  Material getMaterial() pure nothrow {
-    return material;
+  Material[] getMaterials() pure nothrow {
+    return materials;
   }
 
   /**

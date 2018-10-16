@@ -21,6 +21,8 @@ import liberty.core.resource.manager : ResourceManager;
 import liberty.core.model.terrain : TerrainModel;
 import liberty.core.components.renderer : Renderer;
 
+import liberty.core.material : Material;
+
 /**
  *
 **/
@@ -40,14 +42,9 @@ final class Terrain : Entity!TerrainVertex {
   /**
    *
   **/
-  void constructor() {
-    renderer = Renderer!TerrainVertex(this, new TerrainModel());
-  }
+  Terrain build(float size, Material[] materials) {
+    renderer = Renderer!TerrainVertex(this, new TerrainModel(materials));
 
-  /**
-   *
-  **/
-  Terrain build(float size = 20.0f) {
     this.size = size;
     
     generateTerrain("res/textures/heightMap.bmp");

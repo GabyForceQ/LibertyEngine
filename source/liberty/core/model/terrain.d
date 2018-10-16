@@ -28,39 +28,25 @@ final class TerrainModel : Model {
   /**
    *
   **/
-  this(Material material = Material.getDefault()) {
-    super(material);
+  this(Material[] materials) {
+    super(materials);
   }
 
   /**
    *
   **/
-  TerrainModel build(TerrainVertex[] vertices, uint[] indices, string texturePath = "") {
+  TerrainModel build(TerrainVertex[] vertices, uint[] indices) {
     rawModel = ResourceManager.loadRawModel(vertices, indices);
-    build(texturePath);
+    build();
     return this;
   }
 
-  private void build(string texturePath) {
-    // Add material only if a texture is specified
-    //if (texturePath != "") {
-
-    material.setBackgroundTexture(ResourceManager.loadTexture("res/textures/grass.bmp"));
+  private void build() {
     CoreEngine.getScene().getTerrainShader().loadBackgroundTexture(0);
-
-    material.setRTexture(ResourceManager.loadTexture("res/textures/mud.bmp"));
     CoreEngine.getScene().getTerrainShader().loadRTexture(1);
-
-    material.setGTexture(ResourceManager.loadTexture("res/textures/grassFlowers.bmp"));
     CoreEngine.getScene().getTerrainShader().loadGTexture(2);
-
-    material.setBTexture(ResourceManager.loadTexture("res/textures/path.bmp"));
     CoreEngine.getScene().getTerrainShader().loadBTexture(3);
-
-    material.setBlendMap(ResourceManager.loadTexture("res/textures/blendMap.bmp"));
     CoreEngine.getScene().getTerrainShader().loadBlendMap(4);
-
-    //}
   }
 
   /**
@@ -72,25 +58,22 @@ final class TerrainModel : Model {
     if (shouldCull)
       GfxEngine.enableCulling();
 
-    // Bind texture only if a texture is specified
-    //if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, material.getBackgroundTexture().getId());
+    version (__OPENGL__) {
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
 
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, material.getRTexture().getId());
+      glActiveTexture(GL_TEXTURE1);
+      glBindTexture(GL_TEXTURE_2D, materials[2].getTexture().getId());
 
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, material.getGTexture().getId());
+      glActiveTexture(GL_TEXTURE2);
+      glBindTexture(GL_TEXTURE_2D, materials[3].getTexture().getId());
 
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, material.getBTexture().getId());
+      glActiveTexture(GL_TEXTURE3);
+      glBindTexture(GL_TEXTURE_2D, materials[4].getTexture().getId());
 
-        glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, material.getBlendMap().getId());
-      }
-    //}
+      glActiveTexture(GL_TEXTURE4);
+      glBindTexture(GL_TEXTURE_2D, materials[1].getTexture().getId());
+    }
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
@@ -108,25 +91,22 @@ final class TerrainModel : Model {
       glBindVertexArray(0);
     }
 
-    // Bind texture only if a texture is specified
-    //if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(0);
-        glBindTexture(GL_TEXTURE_2D, 0);
+    version (__OPENGL__) {
+      glActiveTexture(0);
+      glBindTexture(GL_TEXTURE_2D, 0);
 
-        glActiveTexture(1);
-        glBindTexture(GL_TEXTURE_2D, 1);
+      glActiveTexture(1);
+      glBindTexture(GL_TEXTURE_2D, 1);
 
-        glActiveTexture(2);
-        glBindTexture(GL_TEXTURE_2D, 2);
+      glActiveTexture(2);
+      glBindTexture(GL_TEXTURE_2D, 2);
 
-        glActiveTexture(3);
-        glBindTexture(GL_TEXTURE_2D, 3);
+      glActiveTexture(3);
+      glBindTexture(GL_TEXTURE_2D, 3);
 
-        glActiveTexture(4);
-        glBindTexture(GL_TEXTURE_2D, 4);
-      }
-    //}
+      glActiveTexture(4);
+      glBindTexture(GL_TEXTURE_2D, 4);
+    }
 
     if (shouldCull)
       GfxEngine.disableCulling();

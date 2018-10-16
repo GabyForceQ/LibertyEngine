@@ -32,9 +32,8 @@ final class UIModel : Model {
   /**
    *
   **/
-  this(Material material = Material.getDefault()) {
-    material = new Material();
-    super(material);
+  this(Material[] materials) {
+    super(materials);
   }
 
   /**
@@ -59,7 +58,7 @@ final class UIModel : Model {
   private void build(string texturePath) {
     // Add material only if a texture is specified
     if (texturePath != "") {
-      material.setTexture(ResourceManager.loadTexture(texturePath));
+      materials[0].setTexture(ResourceManager.loadTexture(texturePath));
       CoreEngine.getScene().getUIShader().loadTexture(0);
     }
   }
@@ -70,14 +69,12 @@ final class UIModel : Model {
   void draw() {
     CoreEngine.getScene().getUIShader().bind();
 
-    // Bind texture only if a texture is specified
-    if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, material.getTexture().getId());
-      }
-      //GfxEngine.disableCulling();
+    version (__OPENGL__) {
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
     }
+
+    //GfxEngine.enableCulling();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
@@ -96,12 +93,9 @@ final class UIModel : Model {
       glBindVertexArray(0);
     }
 
-    // Bind texture only if a texture is specified
-    if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-      }
+    version (__OPENGL__) {
+      glActiveTexture(0);
+      glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     //GfxEngine.disableCulling();

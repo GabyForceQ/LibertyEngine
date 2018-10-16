@@ -19,7 +19,9 @@ import liberty.core.math : Vector2F, Vector3F;
 import liberty.core.model.generic : GenericModel;
 import liberty.graphics.vertex : GenericVertex;
 
-package GenericModel loadOBJFile(string path, string texturePath) {
+import liberty.core.material.impl : Material;
+
+package GenericModel loadOBJFile(string path) {
   GenericVertex[] vertices;	
 
   Vector3F[] positions;
@@ -131,8 +133,8 @@ package GenericModel loadOBJFile(string path, string texturePath) {
     vertices ~= GenericVertex(positions[i], normals[i], uvs[i]);
   }
 
-  GenericModel model = new GenericModel();
-  model.build(vertices, texturePath);
+  GenericModel model = new GenericModel([Material.getDefault()]);
+  model.build(vertices);
   //model.build(vertices);
 
   return model;

@@ -14,6 +14,8 @@ import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
 import liberty.graphics.vertex : GenericVertex;
 
+import liberty.core.material.impl : Material;
+
 /**
  *
 **/
@@ -24,7 +26,7 @@ final class StaticMesh : Entity!GenericVertex {
    *
   **/
   void constructor() {
-    renderer = Renderer!GenericVertex(this, new GenericModel());
+    renderer = Renderer!GenericVertex(this, new GenericModel([Material.getDefault()]));
   }
 
   /**

@@ -44,12 +44,12 @@ final class CoreEngine {
 		changeState(EngineState.Starting);
 
 		// Initialize other classes
-    Material.initializeMaterials();
 		ImageManager.initialize();
 		ResourceManager.initialize();
 		GfxEngine.initialize();
 		Platform.initialize();
 		GfxEngine.reloadFeatures();
+    Material.initializeMaterials();
 
     // Set engine state to "started"
 		changeState(EngineState.Started);

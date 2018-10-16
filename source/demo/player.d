@@ -25,6 +25,8 @@ final class Player : Actor {
     UISquare square;
 
     int killZ = -10;
+
+    Material pyramidMaterial;
   }
 
   /**
@@ -33,9 +35,11 @@ final class Player : Actor {
   **/
   override void start() {
     //square = spawn!UISquare("UISquare");
+
+    pyramidMaterial = new Material("res/textures/mud.bmp");
     
     (playerBody = spawn!BSPPyramid("Body"))
-      .build("res/textures/mud.bmp")
+      .build()
       .getTransform()
       .translate(0.0f, 10.0f, 0.0f);
 

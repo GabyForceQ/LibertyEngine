@@ -33,35 +33,31 @@ final class GenericModel : Model {
   /**
    *
   **/
-  this(Material material = Material.getDefault()) {
-    super(material);
+  this(Material[] materials) {
+    super(materials);
   }
 
   /**
    *
   **/
-  GenericModel build(GenericVertex[] vertices, string texturePath = "") {
+  GenericModel build(GenericVertex[] vertices) {
     rawModel = ResourceManager.loadRawModel(vertices);
-    build(texturePath);
+    build();
     return this;
   }
 
   /**
    *
   **/
-  GenericModel build(GenericVertex[] vertices, uint[] indices, string texturePath = "") {
+  GenericModel build(GenericVertex[] vertices, uint[] indices) {
     hasIndices = true;
     rawModel = ResourceManager.loadRawModel(vertices, indices);
-    build(texturePath);
+    build();
     return this;
   }
 
-  private void build(string texturePath) {
-    // Add material only if a texture is specified
-    if (texturePath != "") {
-      material.setTexture(ResourceManager.loadTexture(texturePath));
-      CoreEngine.getScene().getGenericShader().loadTexture(0);
-    }
+  private void build() {
+    CoreEngine.getScene().getGenericShader().loadTexture(0);
   }
 
   /**
@@ -73,15 +69,13 @@ final class GenericModel : Model {
     if (shouldCull)
       GfxEngine.enableCulling();
 
-    // Bind texture only if a texture is specified
-    if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, material.getTexture().getId());
-      }
-      if (hasTransparency)
-        GfxEngine.disableCulling();
+    version (__OPENGL__) {
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
     }
+
+    if (hasTransparency)
+      GfxEngine.disableCulling();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
@@ -102,12 +96,9 @@ final class GenericModel : Model {
       glBindVertexArray(0);
     }
 
-    // Bind texture only if a texture is specified
-    if (material.getTexture().getId()) {
-      version (__OPENGL__) {
-        glActiveTexture(0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-      }
+    version (__OPENGL__) {
+      glActiveTexture(0);
+      glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     if (!hasTransparency)

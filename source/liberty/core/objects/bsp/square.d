@@ -16,6 +16,8 @@ import liberty.core.model : GenericModel, UIModel;
 import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.graphics.vertex : GenericVertex, UIVertex;
 
+import liberty.core.material.impl : Material;
+
 /**
  *
 **/
@@ -25,9 +27,9 @@ final class BSPSquare : BSPVolume!GenericVertex {
   /**
    *
   **/
-	BSPSquare constructor(string texturePath = "res/textures/default.bmp") {
-    renderer = Renderer!GenericVertex(this, (new GenericModel()
-      .build(squareVertices, squareIndices, texturePath)));
+	BSPSquare build(Material material = Material.getDefault()) {
+    renderer = Renderer!GenericVertex(this, (new GenericModel([material])
+      .build(squareVertices, squareIndices)));
 
     return this;
 	}
@@ -55,7 +57,7 @@ final class UISquare : BSPVolume!UIVertex {
    *
   **/
 	void constructor() {
-    renderer = Renderer!UIVertex(this, (new UIModel()
+    renderer = Renderer!UIVertex(this, (new UIModel([new Material("res/textures/default2.bmp")])
       .build(uiSquareVertices, squareIndices, "res/textures/default.bmp")));
 	}
 }

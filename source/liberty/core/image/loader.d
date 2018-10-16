@@ -68,8 +68,7 @@ final class ImageLoader {
     }
 
     // Set Texture width and height
-    texture.width = bitmap.getWidth();
-    texture.height = bitmap.getHeight();
+    texture.setExtent(bitmap.getWidth(), bitmap.getHeight());
 
     return texture;
   }

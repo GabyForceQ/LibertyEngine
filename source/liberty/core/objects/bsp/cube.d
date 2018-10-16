@@ -17,6 +17,8 @@ import liberty.core.objects.node : WorldObject;
 import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.graphics.vertex : GenericVertex;
 
+import liberty.core.material.impl : Material;
+
 /**
  *
 **/
@@ -26,9 +28,9 @@ final class BSPCube : BSPVolume!GenericVertex {
   /**
    *
   **/
-	BSPCube constructor(string texturePath = "res/textures/default.bmp") {
-    renderer = Renderer!GenericVertex(this, (new GenericModel()
-      .build(cubeVertices, texturePath)));
+	BSPCube build(Material material = Material.getDefault()) {
+    renderer = Renderer!GenericVertex(this, (new GenericModel([material])
+      .build(cubeVertices)));
 
     return this;
 	}

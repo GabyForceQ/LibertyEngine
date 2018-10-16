@@ -14,38 +14,106 @@ version (__OPENGL__)
 /**
  *
 **/
-class Texture {
+final class Texture {
   private {
-    uint _id;
-  }
-  
-  uint width;
-  uint height;
-
-  this() {
-    
+    uint id;
+    string path;
+    uint width;
+    uint height;
   }
 
+  /**
+   *
+  **/
+  this() {}
+
+  /**
+   *
+  **/
   this(uint id) {
-    _id = id;
+    this.id = id;
   }
 
-  void generateTextures() {
+  /**
+   *
+  **/
+  Texture generateTextures() {
     version (__OPENGL__)
-      glGenTextures(1, &_id);
+      glGenTextures(1, &id);
+
+    return this;
   }
 
-  void deleteTextures() {
+  /**
+   *
+  **/
+  Texture deleteTextures() {
     version (__OPENGL__)
-      glDeleteTextures(1, &_id);
+      glDeleteTextures(1, &id);
+
+    return this;
   }
 
-  void bind() {
+  /**
+   *
+  **/
+  Texture bind() {
     version (__OPENGL__)
-      glBindTexture(GL_TEXTURE_2D, _id);
+      glBindTexture(GL_TEXTURE_2D, id);
+
+    return this;
   }
 
-  int getId() {
-    return _id;
+  /**
+   *
+  **/
+  uint getId() pure nothrow const {
+    return id;
+  }
+
+  /**
+   *
+  **/
+  string getPath() pure nothrow const {
+    return path;
+  }
+
+  /**
+   *
+  **/
+  Texture setExtent(uint width, uint height) pure nothrow {
+    this.width = width;
+    this.height = height;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  Texture setWidth(uint width) pure nothrow {
+    this.width = width;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  uint getWidth() pure nothrow const {
+    return width;
+  }
+
+  /**
+   *
+  **/
+  Texture setHeight(uint height) pure nothrow {
+    this.height = height;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  uint getHeight() pure nothrow const {
+    return height;
   }
 }
