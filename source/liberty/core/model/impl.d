@@ -18,6 +18,7 @@ abstract class Model {
   protected {
     RawModel rawModel;
     Material material;
+    bool shouldCull = true;
   }
 
   /**
@@ -39,5 +40,20 @@ abstract class Model {
   **/
   Material getMaterial() pure nothrow {
     return material;
+  }
+
+  /**
+   * Enable or disable culling on this model.
+   * It is enabled by default.
+  **/
+  void setShouldCull(bool shouldCull) pure nothrow {
+    this.shouldCull = shouldCull;
+  }
+
+  /**
+   * Returns model culling state.
+  **/
+  bool getShouldCull() pure nothrow const {
+    return shouldCull;
   }
 }

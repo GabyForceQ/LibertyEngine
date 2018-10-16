@@ -70,7 +70,8 @@ final class GenericModel : Model {
   void draw() {
     CoreEngine.getScene().getGenericShader().bind();
 
-    GfxEngine.enableCulling();
+    if (shouldCull)
+      GfxEngine.enableCulling();
 
     // Bind texture only if a texture is specified
     if (material.getTexture().getId()) {
@@ -112,7 +113,8 @@ final class GenericModel : Model {
     if (!hasTransparency)
       GfxEngine.disableCulling();
 
-    GfxEngine.disableCulling();
+    if (shouldCull)
+      GfxEngine.disableCulling();
 
     CoreEngine.getScene().getGenericShader().unbind();
   }

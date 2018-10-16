@@ -69,7 +69,8 @@ final class TerrainModel : Model {
   void draw() {
     CoreEngine.getScene().getTerrainShader().bind();
 
-    GfxEngine.enableCulling();
+    if (shouldCull)
+      GfxEngine.enableCulling();
 
     // Bind texture only if a texture is specified
     //if (material.getTexture().getId()) {
@@ -127,7 +128,8 @@ final class TerrainModel : Model {
       }
     //}
 
-    GfxEngine.disableCulling();
+    if (shouldCull)
+      GfxEngine.disableCulling();
 
     CoreEngine.getScene().getTerrainShader().unbind();
   }
