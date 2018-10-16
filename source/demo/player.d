@@ -91,6 +91,9 @@ final class Player : Actor {
 
     if (playerBody.getTransform().getWorldPosition().y < killZ)
       CoreEngine.pause();
+
+    if (Input.isKeyDown(KeyCode.ENTER))
+      playerBody.getRenderer().getModel().toggleMaterials([Material.getDefault()], [pyramidMaterial]);
   }
 
   private void jump() {

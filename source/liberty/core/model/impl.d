@@ -38,6 +38,22 @@ abstract class Model {
   /**
    *
   **/
+  Model toggleMaterials(Material[] materialsLhs, Material[] materialsRhs) {
+    materials = (materials == materialsLhs) ? materialsRhs : materialsLhs;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  Model setMaterials(Material[] materials) pure nothrow {
+    this.materials = materials;
+    return this;
+  }
+
+  /**
+   *
+  **/
   Material[] getMaterials() pure nothrow {
     return materials;
   }
@@ -46,8 +62,9 @@ abstract class Model {
    * Enable or disable culling on this model.
    * It is enabled by default.
   **/
-  void setShouldCull(bool shouldCull) pure nothrow {
+  Model setShouldCull(bool shouldCull) pure nothrow {
     this.shouldCull = shouldCull;
+    return this;
   }
 
   /**
