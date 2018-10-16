@@ -562,6 +562,17 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		}
 	}
 	static if (isSquare && R == 4 && isFloatingPoint!T) {
+		/**
+		 * Transform a Vector4 by a Matrix4.
+		**/
+		static Vector4!T transformation(Matrix lhs, Vector4!T rhs) {
+			const T x = lhs.c[0][0] * rhs.x + lhs.c[1][0] * rhs.y + lhs.c[2][0] * rhs.z + lhs.c[3][0] * rhs.w;
+			const T y = lhs.c[0][1] * rhs.x + lhs.c[1][1] * rhs.y + lhs.c[2][1] * rhs.z + lhs.c[3][1] * rhs.w;
+			const T z = lhs.c[0][2] * rhs.x + lhs.c[1][2] * rhs.y + lhs.c[2][2] * rhs.z + lhs.c[3][2] * rhs.w;
+			const T w = lhs.c[0][3] * rhs.x + lhs.c[1][3] * rhs.y + lhs.c[2][3] * rhs.z + lhs.c[3][3] * rhs.w;
+
+			return Vector4!T(x, y, z, w);
+		}
 		///
 		//static Matrix orthographic(T left, T right, T bottom, T top) pure nothrow {
 		//  return Matrix(

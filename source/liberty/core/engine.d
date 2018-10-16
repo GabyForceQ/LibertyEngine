@@ -9,7 +9,7 @@
 module liberty.core.engine;
 
 import derelict.glfw3.glfw3 :
-  glfwPollEvents, glfwSetInputMode,
+  glfwPollEvents, glfwSetInputMode, glfwSwapBuffers, glfwSwapInterval,
   GLFW_CURSOR, GLFW_CURSOR_NORMAL, GLFW_CURSOR_DISABLED;
 
 import liberty.core.material.impl : Material;
@@ -50,6 +50,7 @@ final class CoreEngine {
 		Platform.initialize();
 		GfxEngine.reloadFeatures();
     Material.initializeMaterials();
+		Input.initialize();
 
     // Set engine state to "started"
 		changeState(EngineState.Started);
@@ -82,25 +83,44 @@ final class CoreEngine {
 			// Process time
 			Time.processTime();
 
+			// Update input and pull events
 			Input.update();
-
-			// Pull events
 			glfwPollEvents();
 			Platform.getWindow().resizeFrameBuffer();
 
-			//Input.update();
+			switch (engineState) with (EngineState) {
+				case Running:
+					import liberty.core.objects.terrain.impl : Terrain;
+					Input.getMousePicker()
+						.update(scene.getActiveCamera(), scene.getTree().getChild!Terrain("DemoTerrain"));
 
-			if (engineState == EngineState.Running) {
-				scene.update();
-				scene.getActiveCamera().getPreset().runImplicit(scene.getActiveCamera());
-				// TODO: mouse actions here
-			} else if (this.engineState == EngineState.Paused) {
-        
-      } else {
-        break;
-      }
+					scene.update();
+					scene.getActiveCamera()
+						.getPreset()
+						.runImplicit(scene.getActiveCamera());
 
-			GfxEngine.render();
+					
+					/*static int oo = 0;
+					if (oo == 200) {
+						import liberty.engine;
+						Logger.exception(Input.getMousePicker().getCurrentRay().toString());
+						Logger.exception(Input.getMousePicker().getCurrentTerrainPoint().toString());
+						oo = 0;
+					}
+					oo++;*/
+
+					break;
+				case Paused:
+					break; // TODO.
+				default:
+					Logger.warning("Unreachable.", typeof(this).stringof);
+					break;
+			}
+
+			// Render to the screen
+			GfxEngine.clearScreen();
+			CoreEngine.getScene().render();
+			glfwSwapBuffers(Platform.getWindow().getHandle());
 
 			if (Input.isKeyDown(KeyCode.ESC))
 				changeState(EngineState.ShouldQuit);
@@ -161,6 +181,20 @@ final class CoreEngine {
 	static Scene getScene() nothrow {
 		return scene;
 	}
+
+	/**
+   *
+  **/
+  static void enableVSync() {
+    glfwSwapInterval(1);
+  }
+
+  /**
+   *
+  **/
+  static void disableVSync() {
+    glfwSwapInterval(0);
+  }
 
 	package static void changeState(EngineState engineState) {
 		this.engineState = engineState;

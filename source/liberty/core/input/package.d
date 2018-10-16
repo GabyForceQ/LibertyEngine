@@ -12,4 +12,5 @@ public {
   import liberty.core.input.constants;
   import liberty.core.input.event;
   import liberty.core.input.impl;
+  import liberty.core.input.picker;
 }

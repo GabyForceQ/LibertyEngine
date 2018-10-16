@@ -24,12 +24,12 @@ void libertyMain() {
   new Scene("Scene")
     .getTree()
     .spawn!Terrain("DemoTerrain")
-    .build(800.0f, [
-      new Material("res/textures/grass.bmp"),
+    .build(40.0f, 0.0f, [
+      new Material("res/textures/default.bmp"),
       new Material("res/textures/blendMap.bmp"),
       new Material("res/textures/default.bmp"),
-      new Material("res/textures/grassFlowers.bmp"),
-      new Material("res/textures/path.bmp")
+      new Material("res/textures/default.bmp"),
+      new Material("res/textures/default.bmp")
     ])
     .getScene()
     .getTree()

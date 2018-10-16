@@ -12,7 +12,6 @@ version (__OPENGL__)
   import derelict.opengl;
 
 import derelict.util.exception : ShouldThrow;
-import derelict.glfw3.glfw3 : glfwSwapInterval, glfwSwapBuffers;
 
 import liberty.core.math.vector : Vector3F;
 import liberty.core.engine : CoreEngine;
@@ -94,15 +93,6 @@ class GfxEngine {
   /**
    *
   **/
-  static void render() {
-    clearScreen();
-    CoreEngine.getScene().render();
-    glfwSwapBuffers(Platform.getWindow().getHandle());
-  }
-
-  /**
-   *
-  **/
   static void clearScreen() {
     version (__OPENGL__) {
       glClearDepth(1.0);
@@ -118,20 +108,6 @@ class GfxEngine {
     version (__OPENGL__) {
       glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
     }
-  }
-
-  /**
-   *
-  **/
-  static void enableVSync() {
-    glfwSwapInterval(1);
-  }
-
-  /**
-   *
-  **/
-  static void disableVSync() {
-    glfwSwapInterval(0);
   }
 
   /**

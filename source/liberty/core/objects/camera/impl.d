@@ -188,8 +188,9 @@ final class Camera : WorldObject {
   /**
    * Set camera yaw.
   **/
-  Camera setYaw(float yaw) pure nothrow {
+  Camera setYaw(float yaw) {
     this.yaw = yaw;
+    updateCameraVectors();
     return this;
   }
 
@@ -203,8 +204,9 @@ final class Camera : WorldObject {
   /**
    * Set camera pitch.
   **/
-  Camera setPitch(float pitch) pure nothrow {
+  Camera setPitch(float pitch) {
     this.pitch = pitch;
+    updateCameraVectors();
     return this;
   }
 

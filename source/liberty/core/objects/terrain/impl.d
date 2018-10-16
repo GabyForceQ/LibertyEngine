@@ -33,7 +33,7 @@ final class Terrain : Entity!TerrainVertex {
     const float maxPixelColor = 256 ^^ 3;
 
     float size;
-    float maxHeight = 20;
+    float maxHeight = 0;
     float[256][256] heights; // ????
     
     Vector2F texCoordMultiplier = Vector2F.one;
@@ -42,10 +42,11 @@ final class Terrain : Entity!TerrainVertex {
   /**
    *
   **/
-  Terrain build(float size, Material[] materials) {
+  Terrain build(float size, float maxHeight, Material[] materials) {
     renderer = Renderer!TerrainVertex(this, new TerrainModel(materials));
 
     this.size = size;
+    this.maxHeight = maxHeight;
     
     generateTerrain("res/textures/heightMap.bmp");
     

@@ -46,7 +46,7 @@ final class Player : Actor {
       .getTransform()
       .translate(0.0f, 10.0f, 0.0f);
 
-    getScene().getActiveCamera().setMovementSpeed(10.0f);
+    getScene().getActiveCamera().setMovementSpeed(10.0f).lockMouseMove().setPitch(-90.0f);
   }
 
   /**
@@ -94,6 +94,18 @@ final class Player : Actor {
 
     if (Input.isKeyDown(KeyCode.ENTER))
       playerBody.getRenderer().getModel().toggleMaterials([Material.getDefault()], [pyramidMaterial]);
+
+    Vector3F terrainPoint = Input.getMousePicker().getCurrentTerrainPoint();
+
+    static int oo = 0;
+    if (oo == 200) {
+      Logger.exception(terrainPoint.toString());
+      oo = 0;
+    }
+    oo++;
+
+    if (Input.isMouseButtonDown(MouseButton.LEFT))
+      playerBody.getTransform().translate(-playerBody.getTransform().getWorldPosition() + terrainPoint);
   }
 
   private void jump() {

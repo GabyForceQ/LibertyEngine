@@ -10,8 +10,11 @@ module liberty.core.input.impl;
 
 import derelict.glfw3.glfw3;
 
+import liberty.core.math.vector : Vector2F;
 import liberty.core.input.constants : KeyCode, MouseButton, KEY_CODES, MOUSE_BUTTONS;
+import liberty.core.input.picker : MousePicker;
 import liberty.core.platform : Platform;
+import liberty.core.window : Window;
 
 /**
  *
@@ -20,6 +23,7 @@ final class Input {
   private {
     static bool[KEY_CODES] keyState;
     static bool[KEY_CODES] mouseBtnState;
+    static MousePicker mousePicker;
   }
 
   @disable this();
@@ -30,6 +34,13 @@ final class Input {
     
     static foreach (i; 0..MOUSE_BUTTONS)
       mouseBtnState[i] = isMouseButtonHold(cast(MouseButton)i);
+  }
+
+  /**
+   * Create the implicit mouse picker.
+  **/
+  static void initialize() {
+    mousePicker = new MousePicker();
   }
 
   /**
@@ -96,5 +107,22 @@ final class Input {
   **/
   static bool isMouseButtonNone(MouseButton btn) {
     return glfwGetMouseButton(Platform.getWindow().getHandle(), btn) == GLFW_RELEASE;
+  }
+
+  /**
+   * Returns a 2d vector containing mouse position in the current window.
+   * You can choose what window to test with the given argument.
+  **/
+  static Vector2F getMousePostion(Window window = Platform.getWindow()) nothrow {
+    double x, y;
+    glfwGetCursorPos(window.getHandle(), &x, &y);
+    return Vector2F(cast(float)x, cast(float)y);
+  }
+
+  /**
+   * Returns a reference to current mouse picker.
+  **/
+  static MousePicker getMousePicker() nothrow {
+    return mousePicker;
   }
 }

@@ -65,7 +65,7 @@ final class Platform {
     glfwSetCursorPosCallback(window.getHandle(), &Event.mouseCallback);
 		glfwSetScrollCallback(window.getHandle(), &Event.scrollCallback);
     
-    glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     Logger.info(InfoMessage.Created, typeof(this).stringof);
   }
