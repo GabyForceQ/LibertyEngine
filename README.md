@@ -2,22 +2,29 @@
 ##### Description:
 A powerful 2D/3D engine written in the D programming language!
 
-##### Release notes (v0.0.15) (To be released)
-* Project structure is simpler
-* More manager classes were added
-* No more singletons
-* Texture caching
-* BSP volumes and RawModel
-* Terrain entity
-* Core shader and terrain shader were added
+##### Release notes (v0.0.15) (29-Oct-2018)
 * Moved from SDL2 to GLFW
-* More comments and bug fixes
+* Project structure is simpler
+* More manager classes were added (no more singletons)
+* BSP volumes and different kinds of model
+* Texture caching using resource manager
+* Terrain entity with collision, height map and multiple material support
+* Core shader, terrain shader and UI shader were added
+* Camera improvements and dynamic custom camera settings
+* Dynamic material loader on BSP volumes
+* (x) Skybox.
+* (x) Day/night cycle.
+* (x) Mouse picker.
+* (x) Cell shading.
 * Experimental .obj model loader
 * Experimental flexible render pipline
 * Experimental lighting system
+* Experimental UI
+* Fixes and small features
+* This is still work in progress. If you find a bug, please report it on github.
 
 ##### D compiler versions recommended:
-* DMD 2.082.0
+* DMD 2.082.1
 
 ##### Operating systems supported (tested):
 * Windows 10 x86 (32-bits)
@@ -44,6 +51,6 @@ If you want to do something at construction time, you should use 'void construct
 // Only in beta/release version
 ```
 
-> *Do not use this framework in production until version 0.1 is released!*
+> *Please, do not use this framework in production as long as it is not officially released!*
 
 ![](screenshot.png?raw=true "Just a demo image!")
