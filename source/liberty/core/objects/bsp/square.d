@@ -56,15 +56,17 @@ final class UISquare : BSPVolume!UIVertex {
   /**
    *
   **/
-	void constructor() {
-    renderer = Renderer!UIVertex(this, (new UIModel([new Material("res/textures/default2.bmp")])
-      .build(uiSquareVertices, squareIndices, "res/textures/default.bmp")));
+	UISquare build(Material material) {
+    renderer = Renderer!UIVertex(this, (new UIModel([material])
+      .build(uiSquareVertices, squareIndices)));
+
+    return this;
 	}
 }
 
 private UIVertex[] uiSquareVertices = [
-  UIVertex(Vector3F(-0.05f,  0.05f, 0.0f), Vector2F(0.0f, 1.0f)),
-  UIVertex(Vector3F(-0.05f, -0.05f, 0.0f), Vector2F(0.0f, 0.0f)),
-  UIVertex(Vector3F( 0.05f, -0.05f, 0.0f), Vector2F(1.0f, 0.0f)),
-  UIVertex(Vector3F( 0.05f,  0.05f, 0.0f), Vector2F(1.0f, 1.0f))
+  UIVertex(Vector3F(-0.02f,  0.02f, 0.0f), Vector2F(0.0f, 1.0f)),
+  UIVertex(Vector3F(-0.02f, -0.02f, 0.0f), Vector2F(0.0f, 0.0f)),
+  UIVertex(Vector3F( 0.02f, -0.02f, 0.0f), Vector2F(1.0f, 0.0f)),
+  UIVertex(Vector3F( 0.02f,  0.02f, 0.0f), Vector2F(1.0f, 1.0f))
 ];

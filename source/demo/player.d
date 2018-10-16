@@ -27,6 +27,7 @@ final class Player : Actor {
     int killZ = -10;
 
     Material pyramidMaterial;
+    Material squareMaterial;
   }
 
   /**
@@ -34,9 +35,11 @@ final class Player : Actor {
    * If declared, it is called after all objects instantiation.
   **/
   override void start() {
-    //square = spawn!UISquare("UISquare");
-
     pyramidMaterial = new Material("res/textures/mud.bmp");
+    squareMaterial = new Material("res/textures/default2.bmp");
+
+    (square = spawn!UISquare("UISquare"))
+      .build(squareMaterial);
     
     (playerBody = spawn!BSPPyramid("Body"))
       .build()

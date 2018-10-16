@@ -39,28 +39,24 @@ final class UIModel : Model {
   /**
    *
   **/
-  UIModel build(UIVertex[] vertices, string texturePath = "") {
+  UIModel build(UIVertex[] vertices) {
     rawModel = ResourceManager.loadRawModel(vertices);
-    build(texturePath);
+    build();
     return this;
   }
 
   /**
    *
   **/
-  UIModel build(UIVertex[] vertices, uint[] indices, string texturePath = "") {
+  UIModel build(UIVertex[] vertices, uint[] indices) {
     hasIndices = true;
     rawModel = ResourceManager.loadRawModel(vertices, indices);
-    build(texturePath);
+    build();
     return this;
   }
 
-  private void build(string texturePath) {
-    // Add material only if a texture is specified
-    if (texturePath != "") {
-      materials[0].setTexture(ResourceManager.loadTexture(texturePath));
-      CoreEngine.getScene().getUIShader().loadTexture(0);
-    }
+  private void build() {
+    CoreEngine.getScene().getUIShader().loadTexture(0);
   }
 
   /**
