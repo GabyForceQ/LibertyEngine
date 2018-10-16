@@ -25,9 +25,11 @@ final class BSPSquare : BSPVolume!GenericVertex {
   /**
    *
   **/
-	void constructor() {
+	BSPSquare constructor(string texturePath = "res/textures/default.bmp") {
     renderer = Renderer!GenericVertex(this, (new GenericModel()
-      .build(squareVertices, squareIndices, "res/textures/default.bmp")));
+      .build(squareVertices, squareIndices, texturePath)));
+
+    return this;
 	}
 }
 

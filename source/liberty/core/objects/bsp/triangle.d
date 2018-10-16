@@ -26,9 +26,11 @@ final class BSPTriangle : BSPVolume!GenericVertex {
   /**
    *
   **/
-	void constructor() {
+	BSPTriangle constructor(string texturePath = "res/textures/default.bmp") {
     renderer = Renderer!GenericVertex(this, (new GenericModel()
-      .build(triangleVertices, triangleIndices, "res/textures/default.bmp")));
+      .build(triangleVertices, triangleIndices, texturePath)));
+
+    return this;
 	}
 }
 

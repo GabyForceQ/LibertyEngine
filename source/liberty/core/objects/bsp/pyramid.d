@@ -26,9 +26,11 @@ final class BSPPyramid : BSPVolume!GenericVertex {
   /**
    *
   **/
-	void constructor() {
+	BSPPyramid build(string texturePath = "res/textures/default.bmp") {
     renderer = Renderer!GenericVertex(this, (new GenericModel()
-      .build(pyramidVertices, "res/textures/default.bmp")));
+      .build(pyramidVertices, texturePath)));
+    
+    return this;
 	}
 }
 

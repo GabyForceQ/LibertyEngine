@@ -45,7 +45,7 @@ final class ImageLoader {
       glTexImage2D(
         GL_TEXTURE_2D, 
         0, 
-        GL_RGBA, // GL_BGRA
+        GL_RGBA,
         bitmap.getWidth(),
         bitmap.getHeight(),
         0,

@@ -39,7 +39,7 @@ class GfxTerrainShader : GfxShader {
       const float gradient = 1.2;
 
       void main() {
-        tTexCoord = vec2(lTexCoord.x, -lTexCoord.y);
+        tTexCoord = lTexCoord; //vec2(lTexCoord.x, -lTexCoord.y);
         tNormal = (uModelMatrix * vec4(lNormal, 0.0)).xyz;
 
         vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);

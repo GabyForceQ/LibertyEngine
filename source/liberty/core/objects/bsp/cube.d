@@ -26,9 +26,11 @@ final class BSPCube : BSPVolume!GenericVertex {
   /**
    *
   **/
-	void constructor() {
+	BSPCube constructor(string texturePath = "res/textures/default.bmp") {
     renderer = Renderer!GenericVertex(this, (new GenericModel()
-      .build(cubeVertices, "res/textures/mud.bmp")));
+      .build(cubeVertices, texturePath)));
+
+    return this;
 	}
 }
 
