@@ -80,8 +80,6 @@ class GfxEngine {
   **/
   static void render() {
     clearScreen();
-    CoreEngine.getScene().getGenericShader().loadSkyColor(Vector3F(0.5f, 0.8f, 0.8f));
-    CoreEngine.getScene().getTerrainShader().loadSkyColor(Vector3F(0.5f, 0.8f, 0.8f));
     CoreEngine.getScene().render();
     glfwSwapBuffers(Platform.getWindow().getHandle());
   }

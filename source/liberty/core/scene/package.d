@@ -13,4 +13,5 @@ module liberty.core.scene;
 
 public {
   import liberty.core.scene.impl;
+  import liberty.core.scene.world;
 }

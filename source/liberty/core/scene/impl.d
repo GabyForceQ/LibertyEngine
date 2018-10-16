@@ -15,6 +15,7 @@ import liberty.core.engine : CoreEngine;
 import liberty.core.math.vector : Vector3F;
 import liberty.core.objects.camera : Camera;
 import liberty.core.objects.node : WorldObject, RootObject;
+import liberty.core.scene.world : WorldSettings;
 import liberty.core.services : IStartable, IUpdatable, IRenderable;
 import liberty.graphics.shader : GfxShader, GfxGenericShader, GfxTerrainShader, GfxUIShader;
 
@@ -38,6 +39,8 @@ final class Scene : IUpdatable, IRenderable {
     GfxGenericShader genericShader;
     GfxTerrainShader terrainShader;
     GfxUIShader uiShader;
+
+    WorldSettings worldSettings;
   }
 
   /**
@@ -52,6 +55,8 @@ final class Scene : IUpdatable, IRenderable {
     genericShader = new GfxGenericShader();
     terrainShader = new GfxTerrainShader();
     uiShader = new GfxUIShader();
+
+    worldSettings = new WorldSettings();
   }
 
   /**
@@ -158,12 +163,12 @@ final class Scene : IUpdatable, IRenderable {
   **/
 	void register() {
 		registered = true;
-		if (activeCamera is null) {
+
+		if (activeCamera is null)
 			activeCamera = tree.spawn!Camera("DefaultCamera");
-		}
-    foreach (node; startList) {
+
+    foreach (node; startList)
 			node.start();
-		}
 	}
 
   /**
@@ -172,9 +177,8 @@ final class Scene : IUpdatable, IRenderable {
    * It's called every frame.
   **/
   void update() {
-    foreach (node; this.updateList) {
+    foreach (node; this.updateList)
       node.update();
-    }
   }
 
   /**
@@ -183,17 +187,10 @@ final class Scene : IUpdatable, IRenderable {
    * It's called every frame.
   **/
   void render() {
-    genericShader
-      .loadProjectionMatrix(activeCamera.getProjectionMatrix())
-      .loadViewMatrix(activeCamera.getViewMatrix());
-    
-    terrainShader
-      .loadProjectionMatrix(activeCamera.getProjectionMatrix())
-      .loadViewMatrix(activeCamera.getViewMatrix());
+    worldSettings.updateShaders(this, activeCamera);
 
-    foreach(i, node; this.renderList) {
+    foreach(i, node; this.renderList)
       node.render();
-    }
   }
 
   /**
@@ -254,5 +251,20 @@ final class Scene : IUpdatable, IRenderable {
   **/
   GfxUIShader getUIShader() {
     return uiShader;
+  }
+
+  /**
+   *
+  **/
+  Scene setWorldSettings(WorldSettings worldSettings) {
+    this.worldSettings = worldSettings;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  WorldSettings getWorldSettings() {
+    return worldSettings;
   }
 }
