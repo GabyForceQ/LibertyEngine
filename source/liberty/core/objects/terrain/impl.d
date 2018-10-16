@@ -208,7 +208,7 @@ final class Terrain : Entity!TerrainVertex {
       }
     }
 
-    renderer.getModel().build(vertices, indices, "res/textures/default.bmp");
+    renderer.getModel().build(vertices, indices);
   }
 
   private float getHeight(int x, int y, Bitmap image) {

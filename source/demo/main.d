@@ -34,5 +34,7 @@ void libertyMain() {
     .getScene()
     .register();
 
+  //GfxEngine.toggleWireframe();
+
   //setDemoCameraPreset();
 }

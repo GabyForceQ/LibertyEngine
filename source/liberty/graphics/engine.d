@@ -30,9 +30,25 @@ class GfxEngine {
     static int _majorVersion;
     static int _minorVersion;
     static int _maxColorAttachments;
+    static bool wireframe;
   }
 
   @disable this();
+
+  /**
+   *
+  **/
+  static void toggleWireframe() {
+    if (!wireframe) {
+      version (__OPENGL__)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    } else {
+      version (__OPENGL__)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
+
+    wireframe = !wireframe;
+  }
 
   /**
    *
