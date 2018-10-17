@@ -21,8 +21,8 @@ import liberty.core.window : Window;
 **/
 final class MousePicker {
   private {
-    static const int recursionCount = 200;
-    static const float rayRange = 600;
+    static const int recursionCount = 20;
+    static const float rayRange = 60;
 
     Camera camera;
     Terrain terrain;
@@ -53,12 +53,11 @@ final class MousePicker {
 
     currentRay = computeMouseRay();
 
-    if (intersectionInRange(0, rayRange, currentRay)) {
+    // (ISSUE #35)
+    //if (intersectionInRange(0, rayRange, currentRay))
       currentTerrainPoint = binarySearch(0, 0, rayRange, currentRay);
-      //currentTerrainPoint.y = 0; ///////
-    }
-    else
-      currentTerrainPoint = Vector3F(float.nan, float.nan, float.nan);
+    //else
+    //  currentTerrainPoint = Vector3F(float.nan, float.nan, float.nan);
   }
 
   private Vector3F computeMouseRay() {
@@ -74,11 +73,12 @@ final class MousePicker {
       oo = 0;
     }
     oo++;*/
+
     return worldRay;
   }
 
   private Vector3F toWorldCoords(Vector4F eyeCoords) {
-    Matrix4F invView = camera.getViewMatrix().inverse();
+    Matrix4F invView = camera.getViewMatrix();
     Vector4F rayWorld = Matrix4F.transformation(invView, eyeCoords);
     Vector3F mouseRay = Vector3F(rayWorld.x, rayWorld.y, rayWorld.z);
     mouseRay.normalize();

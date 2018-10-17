@@ -65,12 +65,12 @@ final class Player : Actor {
 
     Vector3F terrainPoint = Input.getMousePicker().getCurrentTerrainPoint();
 
-    /*static int oo = 0;
+    static int oo = 0;
     if (oo == 40) {
       Logger.exception(terrainPoint.toString());
       oo = 0;
     }
-    oo++;*/
+    oo++;
 
     if (Input.isMouseButtonDown(MouseButton.LEFT) && !terrainPoint.x.isNaN() && !terrainPoint.y.isNaN() && !terrainPoint.z.isNaN())
       playerBody.getTransform().setPosition(terrainPoint);
@@ -104,7 +104,7 @@ final class Player : Actor {
     if (Input.isKeyDown(KeyCode.SPACE))
       jump();
 
-    upSpeed += gravity * deltaTime;
+    //upSpeed += gravity * deltaTime;
     playerBody.getTransform().setPosition!"+="(0.0f, upSpeed * deltaTime, 0.0f);
     
     const float terrainHeight = getScene().getTree().getChild!Terrain("DemoTerrain")

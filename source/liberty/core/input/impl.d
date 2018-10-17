@@ -129,20 +129,10 @@ final class Input {
   }
 
   /**
-   *
+   * Set current cursor mode.
+   * Available options: $(D, CursorType).
   **/
   static void setMode(CursorType cursorType, Window window = Platform.getWindow()) {
     glfwSetInputMode(window.getHandle(), GLFW_CURSOR, cursorType);
-    /*final switch (cursorType) with (CursorType) {
-      case NORMAL:
-        glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-        break;
-      case HIDDEN:
-        glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-        break;
-      case DISABLED:
-        glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        break;
-    }*/
   }
 }
