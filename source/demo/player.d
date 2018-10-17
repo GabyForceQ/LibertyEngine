@@ -17,7 +17,7 @@ final class Player : Actor {
   mixin(NodeBody);
 
   private {
-    BSPPyramid playerBody;
+    BSPCube playerBody;
     float gravity = -80.0f;
     float jumpPower = 20.0f;
     float upSpeed = 0;
@@ -41,7 +41,7 @@ final class Player : Actor {
     (square = spawn!UISquare("UISquare"))
       .build(squareMaterial);
     
-    (playerBody = spawn!BSPPyramid("Body"))
+    (playerBody = spawn!BSPCube("Body"))
       .build()
       .getTransform()
       .setPosition(0.0f, 5.0f, 0.0f);

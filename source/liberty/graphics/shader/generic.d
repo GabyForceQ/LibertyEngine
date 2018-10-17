@@ -8,6 +8,8 @@
 **/
 module liberty.graphics.shader.generic;
 
+import std.conv : to;
+
 import liberty.core.math.matrix : Matrix4F;
 import liberty.core.math.vector : Vector3F;
 import liberty.graphics.shader.impl : GfxShader;
@@ -26,14 +28,14 @@ class GfxGenericShader : GfxShader {
 
       out vec3 tNormal;
       out vec2 tTexCoord;
-      out vec3 tToLightVector;
+      out vec3 tToLightVector[4];
       out vec3 tToCameraVector;
       out float tVisibility;
       
       uniform mat4 uModelMatrix;
       uniform mat4 uViewMatrix;
       uniform mat4 uProjectionMatrix;
-      uniform vec3 uLightPosition;
+      uniform vec3 uLightPosition[4];
       uniform float uUseFakeLighting;
 
       const float density = 0.01;
@@ -49,7 +51,9 @@ class GfxGenericShader : GfxShader {
         tNormal = (uModelMatrix * vec4(actualNormal, 0.0)).xyz;
 
         vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);
-        tToLightVector = uLightPosition - worldPosition.xyz;
+        for (int i = 0; i < 4; i++) {
+          tToLightVector[i] = uLightPosition[i] - worldPosition.xyz;
+        }
         tToCameraVector = (inverse(uViewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 
         // Compute exponential heigh fog
@@ -68,32 +72,37 @@ class GfxGenericShader : GfxShader {
 
       in vec3 tNormal;
       in vec2 tTexCoord;
-      in vec3 tToLightVector;
+      in vec3 tToLightVector[4];
       in vec3 tToCameraVector;
       in float tVisibility;
 
       uniform sampler2D uTexture;
-      uniform vec3 uLightColor;
+      uniform vec3 uLightColor[4];
       uniform float uShineDamper;
       uniform float uReflectivity;
       uniform vec3 uSkyColor;
       
       void main() {
         vec3 unitNormal = normalize(tNormal);
-        vec3 unitLightVector = normalize(tToLightVector);
-
-        float dotComputation = dot(unitNormal, unitLightVector);
-        float brightness = max(dotComputation, 0.4);
-        vec3 diffuse = brightness * uLightColor;
-
         vec3 unitVectorToCamera = normalize(tToCameraVector);
-        vec3 lightDirection = -unitLightVector;
-        vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
 
-        float specularFactor = dot(reflectedLightDirection, unitVectorToCamera);
-        specularFactor = max(specularFactor, 0.0);
-        float dampedFactor = pow(specularFactor, uShineDamper);
-        vec3 finalSpecular = dampedFactor * uReflectivity * uLightColor;
+        vec3 totalDiffuse = vec3(0.0);
+        vec3 totalSpecular = vec3(0.0);
+
+        for (int i = 0; i < 4; i++) {
+          vec3 unitLightVector = normalize(tToLightVector[i]);
+          float dotComputation = dot(unitNormal, unitLightVector);
+          float brightness = max(dotComputation, 0.0);
+          vec3 lightDirection = -unitLightVector;
+          vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
+          float specularFactor = dot(reflectedLightDirection, unitVectorToCamera);
+          specularFactor = max(specularFactor, 0.0);
+          float dampedFactor = pow(specularFactor, uShineDamper);
+          totalDiffuse += brightness * uLightColor[i];
+          totalSpecular += dampedFactor * uReflectivity * uLightColor[i];
+        }
+
+        totalDiffuse = max(totalDiffuse, 0.4);
 
         // Compute alpha channel of final texture if necessary
         vec4 finalTexture = texture(uTexture, tTexCoord);
@@ -101,7 +110,7 @@ class GfxGenericShader : GfxShader {
           discard;
 
         // Mix sky color with finalTexture
-        gl_FragColor = mix(vec4(uSkyColor, 1.0), vec4(diffuse, 1.0) * finalTexture + vec4(finalSpecular, 1.0), tVisibility);
+        gl_FragColor = mix(vec4(uSkyColor, 1.0), vec4(totalDiffuse, 1.0) * finalTexture + vec4(totalSpecular, 1.0), tVisibility);
       }
     };
   }
@@ -119,8 +128,14 @@ class GfxGenericShader : GfxShader {
       .addUniform("uModelMatrix")
       .addUniform("uViewMatrix")
       .addUniform("uProjectionMatrix")
-      .addUniform("uLightPosition")
-      .addUniform("uLightColor")
+      .addUniform("uLightPosition[0]")
+      .addUniform("uLightPosition[1]")
+      .addUniform("uLightPosition[2]")
+      .addUniform("uLightPosition[3]")
+      .addUniform("uLightColor[0]")
+      .addUniform("uLightColor[1]")
+      .addUniform("uLightColor[2]")
+      .addUniform("uLightColor[3]")
       .addUniform("uTexture")
       .addUniform("uShineDamper")
       .addUniform("uReflectivity")
@@ -162,9 +177,9 @@ class GfxGenericShader : GfxShader {
   /**
    *
   **/
-  GfxGenericShader loadLightPosition(Vector3F position) {
+  GfxGenericShader loadLightPosition(uint index, Vector3F position) {
     bind();
-    loadUniform("uLightPosition", position);
+    loadUniform("uLightPosition[" ~ index.to!string ~ "]", position);
     unbind();
     return this;
   }
@@ -172,9 +187,9 @@ class GfxGenericShader : GfxShader {
   /**
    *
   **/
-  GfxGenericShader loadLightColor(Vector3F color) {
+  GfxGenericShader loadLightColor(uint index, Vector3F color) {
     bind();
-    loadUniform("uLightColor", color);
+    loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
     unbind();
     return this;
   }

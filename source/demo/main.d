@@ -36,6 +36,10 @@ void libertyMain() {
     .spawn!PointLight("DemoPointLight")
     .getScene()
     .getTree()
+    .spawn!PointLight("DemoPointLight2")
+    .setColor(Vector3F(0.0f, 0.0f, 1.0f))
+    .getScene()
+    .getTree()
     .spawn!Player("Player", false)
     .getScene()
     .register();

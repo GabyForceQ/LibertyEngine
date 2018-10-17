@@ -8,6 +8,7 @@
 **/
 module liberty.core.objects.light;
 
+import liberty.core.logger.impl : Logger;
 import liberty.core.math.vector : Vector3F;
 import liberty.core.engine : CoreEngine;
 import liberty.core.components.renderer : Renderer;
@@ -25,6 +26,9 @@ final class PointLight : Entity!GenericVertex {
   mixin(NodeBody);
 
   private {
+    static uint numberOfLights;
+
+    uint index;
     Vector3F color = Vector3F.one;
   }
 
@@ -34,7 +38,13 @@ final class PointLight : Entity!GenericVertex {
 	void constructor() {
     renderer = Renderer!GenericVertex(this, null);
     getTransform().setPosition(0.0f, 200.0f, 0.0f);
+    index = numberOfLights;
+    numberOfLights++;
 	}
+
+  ~this() {
+    numberOfLights--;
+  }
 
   /**
    *
@@ -48,16 +58,19 @@ final class PointLight : Entity!GenericVertex {
    *
   **/
   override void render() {
-    CoreEngine.getScene().getGenericShader()
-      .loadLightPosition(getTransform().getWorldPosition())
-      .loadLightColor(color)
-      .loadShineDamper(1.0f)
-      .loadReflectivity(0.0f);
+    if (index < 4) {
+      CoreEngine.getScene().getGenericShader()
+        .loadLightPosition(index, getTransform().getWorldPosition())
+        .loadLightColor(index, color)
+        .loadShineDamper(1.0f)
+        .loadReflectivity(0.0f);
 
-    CoreEngine.getScene().getTerrainShader()
-      .loadLightPosition(getTransform().getWorldPosition())
-      .loadLightColor(color)
-      .loadShineDamper(1.0f)
-      .loadReflectivity(0.0f);
+      CoreEngine.getScene().getTerrainShader()
+        .loadLightPosition(getTransform().getWorldPosition())
+        .loadLightColor(color)
+        .loadShineDamper(1.0f)
+        .loadReflectivity(0.0f);
+    } else
+      Logger.warning("GfxEngine can't render more than 4 lights.", typeof(this).stringof);
   }
 }
