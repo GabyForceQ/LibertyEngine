@@ -158,3 +158,12 @@ enum KeyCode : short {
   RIGHT_SUPER = GLFW_KEY_RIGHT_SUPER,
   MENU = GLFW_KEY_MENU,
 }
+
+/**
+ *
+**/
+enum CursorType : int {
+  NORMAL = GLFW_CURSOR_NORMAL,
+  HIDDEN = GLFW_CURSOR_HIDDEN,
+  DISABLED = GLFW_CURSOR_DISABLED
+}

@@ -53,18 +53,27 @@ final class MousePicker {
 
     currentRay = computeMouseRay();
 
-    if (intersectionInRange(0, rayRange, currentRay))
+    if (intersectionInRange(0, rayRange, currentRay)) {
       currentTerrainPoint = binarySearch(0, 0, rayRange, currentRay);
-    else currentTerrainPoint = Vector3F(float.nan, float.nan, float.nan);
+      //currentTerrainPoint.y = 0; ///////
+    }
+    else
+      currentTerrainPoint = Vector3F(float.nan, float.nan, float.nan);
   }
 
   private Vector3F computeMouseRay() {
-    Vector2F mousePos = Input.getMousePostion();
-    Vector2F normalizedCoords = getNormalizedDeviceCoords(mousePos);
+    Vector2F normalizedCoords = getNormalizedDeviceCoords(Input.getMousePostion());
     Vector4F clipCoords = Vector4F(normalizedCoords.x , normalizedCoords.y, -1.0f, 1.0f);
     Vector4F eyeCoords = toEyeCoords(clipCoords);
     Vector3F worldRay = toWorldCoords(eyeCoords);
 
+    static int oo = 0;
+    if (oo == 40) {
+      import liberty.engine;
+      Logger.exception(worldRay.toString());
+      oo = 0;
+    }
+    oo++;
     return worldRay;
   }
 
@@ -92,20 +101,14 @@ final class MousePicker {
   }
 
   private Vector3F getPointOnRay(Vector3F ray, float distance) {
-		Vector3F camPos = camera.getPosition();
-		Vector3F start = Vector3F(camPos.x, camPos.y, camPos.z);
-		Vector3F scaledRay = Vector3F(ray.x * distance, ray.y * distance, ray.z * distance);
-
-		return start + scaledRay;
+		return camera.getPosition() + ray * distance;
 	}
 	
 	private Vector3F binarySearch(int count, float start, float finish, Vector3F ray) {
-		float half = start + ((finish - start) / 2f);
+		const float half = start + ((finish - start) / 2.0f);
 
-		if (count >= recursionCount) {
-			Vector3F endPoint = getPointOnRay(ray, half);
-      return (terrain !is null) ? endPoint : Vector3F.zero;
-		}
+		if (count >= recursionCount)
+			return getPointOnRay(ray, half);
 
 		if (intersectionInRange(start, half, ray))
 			return binarySearch(count + 1, start, half, ray);
@@ -123,8 +126,7 @@ final class MousePicker {
 	private bool isUnderGround(Vector3F testPoint) {
 		float height = 0;
 
-		if (terrain !is null)
-			height = terrain.getHeight(testPoint.x, testPoint.z);
+    height = terrain.getHeight(testPoint.x, testPoint.z);
 
 		return testPoint.y < height;
 	}

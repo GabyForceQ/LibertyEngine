@@ -55,8 +55,8 @@ final class Platform {
 
     // Create main window
     window = new Window(
-      2560,
-      1440,
+      1280,
+      720,
       "Liberty Engine v0.0.15-beta.1"
     );
 
@@ -64,8 +64,6 @@ final class Platform {
 
     glfwSetCursorPosCallback(window.getHandle(), &Event.mouseCallback);
 		glfwSetScrollCallback(window.getHandle(), &Event.scrollCallback);
-    
-    //glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     Logger.info(InfoMessage.Created, typeof(this).stringof);
   }

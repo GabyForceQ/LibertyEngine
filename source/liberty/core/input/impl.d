@@ -11,7 +11,9 @@ module liberty.core.input.impl;
 import derelict.glfw3.glfw3;
 
 import liberty.core.math.vector : Vector2F;
-import liberty.core.input.constants : KeyCode, MouseButton, KEY_CODES, MOUSE_BUTTONS;
+import liberty.core.input.constants :
+  KeyCode, MouseButton, CursorType,
+  KEY_CODES, MOUSE_BUTTONS;
 import liberty.core.input.picker : MousePicker;
 import liberty.core.platform : Platform;
 import liberty.core.window : Window;
@@ -124,5 +126,23 @@ final class Input {
   **/
   static MousePicker getMousePicker() nothrow {
     return mousePicker;
+  }
+
+  /**
+   *
+  **/
+  static void setMode(CursorType cursorType, Window window = Platform.getWindow()) {
+    glfwSetInputMode(window.getHandle(), GLFW_CURSOR, cursorType);
+    /*final switch (cursorType) with (CursorType) {
+      case NORMAL:
+        glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        break;
+      case HIDDEN:
+        glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        break;
+      case DISABLED:
+        glfwSetInputMode(window.getHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        break;
+    }*/
   }
 }

@@ -46,7 +46,7 @@ final class Player : Actor {
       .getTransform()
       .translate(0.0f, 10.0f, 0.0f);
 
-    getScene().getActiveCamera().setMovementSpeed(10.0f).lockMouseMove().setPitch(-90.0f);
+    getScene().getActiveCamera().setMovementSpeed(10.0f).lockMouseMove();//.setPitch(-90.0f).setYaw(90.0f);
   }
 
   /**
@@ -54,6 +54,32 @@ final class Player : Actor {
    * If declared, it is called every frame.
   **/
   override void update() {
+    updateMouseMode();
+    updateBody();
+
+    if (Input.isKeyDown(KeyCode.T))
+      GfxEngine.toggleWireframe();
+
+    if (Input.isKeyDown(KeyCode.ENTER))
+      playerBody.getRenderer().getModel().toggleMaterials([Material.getDefault()], [pyramidMaterial]);
+
+    Vector3F terrainPoint = Input.getMousePicker().getCurrentTerrainPoint();
+
+    static int oo = 0;
+    if (oo == 40) {
+      Logger.exception(terrainPoint.toString());
+      oo = 0;
+    }
+    oo++;
+
+    if (Input.isMouseButtonDown(MouseButton.LEFT) && !terrainPoint.x.isNaN() && !terrainPoint.y.isNaN() && !terrainPoint.z.isNaN())
+      playerBody.getTransform().translate(-playerBody.getTransform().getWorldPosition() + terrainPoint);
+
+    if (Input.isKeyHold(KeyCode.Z))
+      getScene().getActiveCamera().setPitch(getScene().getActiveCamera().getPitch() - 0.2f);
+  }
+
+  private void updateBody() {
     const float deltaTime = Time.getDelta();
     const float cameraSpeed = getScene().getActiveCamera().getMovementSpeed();
 
@@ -82,30 +108,18 @@ final class Player : Actor {
       upSpeed = 0;
       playerBody.getTransform().translateY(-playerBody.getTransform().getWorldPosition().y + terrainHeight);
     }
+  }
 
-    if (Input.isKeyDown(KeyCode.B))
-      spawn!BSPCube("cc");
-
-    if (Input.isKeyDown(KeyCode.T))
-      GfxEngine.toggleWireframe();
-
-    if (playerBody.getTransform().getWorldPosition().y < killZ)
-      CoreEngine.pause();
-
-    if (Input.isKeyDown(KeyCode.ENTER))
-      playerBody.getRenderer().getModel().toggleMaterials([Material.getDefault()], [pyramidMaterial]);
-
-    Vector3F terrainPoint = Input.getMousePicker().getCurrentTerrainPoint();
-
-    static int oo = 0;
-    if (oo == 200) {
-      Logger.exception(terrainPoint.toString());
-      oo = 0;
+  private void updateMouseMode() {
+    if (Input.isMouseButtonHold(MouseButton.RIGHT)) {
+      getScene().getActiveCamera().unlockMouseMove();
+      Input.setMode(CursorType.DISABLED);
     }
-    oo++;
-
-    if (Input.isMouseButtonDown(MouseButton.LEFT))
-      playerBody.getTransform().translate(-playerBody.getTransform().getWorldPosition() + terrainPoint);
+    
+    if (Input.isMouseButtonUp(MouseButton.RIGHT)) {
+      getScene().getActiveCamera().lockMouseMove();
+      Input.setMode(CursorType.NORMAL);
+    }
   }
 
   private void jump() {

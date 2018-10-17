@@ -91,13 +91,15 @@ final class CoreEngine {
 			switch (engineState) with (EngineState) {
 				case Running:
 					import liberty.core.objects.terrain.impl : Terrain;
-					Input.getMousePicker()
-						.update(scene.getActiveCamera(), scene.getTree().getChild!Terrain("DemoTerrain"));
+					
 
 					scene.update();
 					scene.getActiveCamera()
 						.getPreset()
 						.runImplicit(scene.getActiveCamera());
+
+          Input.getMousePicker()
+						.update(scene.getActiveCamera(), scene.getTree().getChild!Terrain("DemoTerrain"));
 
 					
 					/*static int oo = 0;

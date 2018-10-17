@@ -9,7 +9,7 @@
 module liberty.core.objects.camera.constants;
 
 package {
-  immutable float YAW = -90.0f;
+  immutable float YAW = 0.0f;
   immutable float PITCH = 0.0f;
   immutable float SPEED = 3.0f;
   immutable float SENSITIVITY = 0.1f;

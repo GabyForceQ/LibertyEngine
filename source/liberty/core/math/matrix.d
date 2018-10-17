@@ -573,6 +573,14 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 
 			return Vector4!T(x, y, z, w);
 		}
+    static Vector4!T transformation_(Matrix lhs, Vector4!T rhs) {
+			const T x = lhs.c[0][0] * rhs.x + lhs.c[0][1] * rhs.y + lhs.c[0][2] * rhs.z + lhs.c[0][3] * rhs.w;
+			const T y = lhs.c[1][0] * rhs.x + lhs.c[1][1] * rhs.y + lhs.c[1][2] * rhs.z + lhs.c[1][3] * rhs.w;
+			const T z = lhs.c[2][0] * rhs.x + lhs.c[2][1] * rhs.y + lhs.c[2][2] * rhs.z + lhs.c[2][3] * rhs.w;
+			const T w = lhs.c[3][0] * rhs.x + lhs.c[3][1] * rhs.y + lhs.c[3][2] * rhs.z + lhs.c[3][3] * rhs.w;
+
+			return Vector4!T(x, y, z, w);
+		}
 		///
 		//static Matrix orthographic(T left, T right, T bottom, T top) pure nothrow {
 		//  return Matrix(
