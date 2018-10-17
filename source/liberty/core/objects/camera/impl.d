@@ -43,6 +43,8 @@ final class Camera : WorldObject {
     bool mouseMoveLocked;
     bool mouseScrollLocked;
     bool keyboardLocked;
+
+    bool constrainPitch = true;
   }
 
   /**
@@ -72,7 +74,7 @@ final class Camera : WorldObject {
    * Mouse move listener.
    * Works only if camera input listener isn't locked.
   **/
-  Camera processMouseMovement(float xOffset, float yOffset, bool constrainPitch = true) {
+  Camera processMouseMovement(float xOffset, float yOffset) {
     if (!mouseMoveLocked) {
       xOffset *= mouseSensitivity;
       yOffset *= mouseSensitivity;
@@ -80,13 +82,7 @@ final class Camera : WorldObject {
       yaw += xOffset;
       pitch += yOffset;
 
-      if (constrainPitch) {
-        if (pitch > 89.0f)
-          pitch = 89.0f;
-        if (pitch < -89.0f)
-          pitch = -89.0f;
-      }
-
+      checkPitchLimits();
       updateCameraVectors();
     }
 
@@ -188,8 +184,8 @@ final class Camera : WorldObject {
   /**
    * Set camera yaw.
   **/
-  Camera setYaw(float yaw) {
-    this.yaw = yaw;
+  Camera setYaw(string op = "=")(float yaw) {
+    mixin ("this.yaw " ~ op ~ " yaw;");
     updateCameraVectors();
     return this;
   }
@@ -204,8 +200,9 @@ final class Camera : WorldObject {
   /**
    * Set camera pitch.
   **/
-  Camera setPitch(float pitch) {
-    this.pitch = pitch;
+  Camera setPitch(string op = "=")(float pitch) {
+    mixin ("this.pitch " ~ op ~ " pitch;");
+    checkPitchLimits();
     updateCameraVectors();
     return this;
   }
@@ -355,5 +352,14 @@ final class Camera : WorldObject {
 
     rightVector = cross(frontVector, worldUpVector).normalized();
     upVector = cross(rightVector, frontVector).normalized();
+  }
+
+  private void checkPitchLimits() {
+    if (constrainPitch) {
+      if (pitch > 89.0f)
+        pitch = 89.0f;
+      if (pitch < -89.0f)
+        pitch = -89.0f;
+    }
   }
 }

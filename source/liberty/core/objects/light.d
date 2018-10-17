@@ -33,7 +33,7 @@ final class PointLight : Entity!GenericVertex {
   **/
 	void constructor() {
     renderer = Renderer!GenericVertex(this, null);
-    getTransform().translateY(200.0f);
+    getTransform().setPosition(0.0f, 200.0f, 0.0f);
 	}
 
   /**

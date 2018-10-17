@@ -39,59 +39,98 @@ struct Transform {
   /**
    * Translate position using x, y and z scalars as coordinates.
   **/
-	ref Transform translate(float x, float y, float z) pure nothrow {
-		return translate(Vector3F(x, y, z));
+	ref Transform setPosition(string op = "=")(float x, float y, float z) pure nothrow {
+		return setPosition!op(Vector3F(x, y, z));
 	}
 
   /**
    * Translate position using a vector with x, y and z coordinates.
   **/
-	ref Transform translate(Vector3F translation) pure nothrow {
-		position += translation;
-		modelMatrix.translate(translation);
+	ref Transform setPosition(string op = "=")(Vector3F position) pure nothrow {  
+    static if (op == "=")
+      modelMatrix.translate(-this.position + position);
+    else static if (op == "+=")
+      modelMatrix.translate(position);
+    else static if (op == "-=")
+      modelMatrix.translate(-position);
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    mixin ("this.position " ~ op ~ " position;");
 		return this;
 	}
 
   /**
    * Translate x-coordinate position.
   **/
-	ref Transform translateX(float value) pure nothrow {
-		position += Vector3F(value, 0.0f, 0.0f);
-		modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
+	ref Transform setPositionX(string op = "=")(float value) pure nothrow {
+		static if (op == "=")
+      modelMatrix.translate(Vector3F(-position.x + value, 0.0f, 0.0f));
+    else static if (op == "+=")
+      modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
+    else static if (op == "-=")
+      modelMatrix.translate(Vector3F(-value, 0.0f, 0.0f));
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    mixin ("this.position.x " ~ op ~ " value;");
     return this;
 	}
   
   /**
    * Translate y-coordinate position.
   **/
-	ref Transform translateY(float value) pure nothrow {
-		position += Vector3F(0.0f, value, 0.0f);
-		modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
+	ref Transform setPositionY(string op = "=")(float value) pure nothrow {
+    static if (op == "=")
+      modelMatrix.translate(Vector3F(0.0f, -position.y + value, 0.0f));
+    else static if (op == "+=")
+      modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
+    else static if (op == "-=")
+      modelMatrix.translate(Vector3F(0.0f, -value, 0.0f));
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    mixin ("this.position.y " ~ op ~ " value;");
     return this;
 	}
   
   /**
    * Translate z-coordinate position.
   **/
-	ref Transform translateZ(float value) pure nothrow {
-		position += Vector3F(0.0f, 0.0f, value);
-		modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
+	ref Transform setPositionZ(string op = "=")(float value) pure nothrow {
+		static if (op == "=")
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, -position.z + value));
+    else static if (op == "+=")
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
+    else static if (op == "-=")
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, -value));
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    mixin ("this.position.z " ~ op ~ " value;");
     return this;
 	}
   
   /**
    * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
   **/
-	ref Transform rotate(float angle, float rotationX, float rotationY, float rotationZ) pure nothrow {
-		modelMatrix.rotate(angle, Vector3F(rotationX, rotationY, rotationZ));
-    return this;
+	ref Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure nothrow {
+		return setRotation!op(angle, Vector3F(rotX, rotY, rotZ));
 	}
   
   /**
    * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
   **/
-	ref Transform rotate(float angle, Vector3F rotation) pure nothrow {
-		modelMatrix.rotate(angle, rotation);
+	ref Transform setRotation(string op = "=")(float angle, Vector3F rotation) pure nothrow {
+    static if (op == "=")
+      assert(0, "Not implemented yet.");
+    static if (op == "+=")
+		  modelMatrix.rotate(angle, rotation);
+    else static if (op == "-=")
+      modelMatrix.rotate(-angle, rotation);
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+    
     return this;
 	}
   

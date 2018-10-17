@@ -67,13 +67,13 @@ final class MousePicker {
     Vector4F eyeCoords = toEyeCoords(clipCoords);
     Vector3F worldRay = toWorldCoords(eyeCoords);
 
-    static int oo = 0;
+    /*static int oo = 0;
     if (oo == 40) {
       import liberty.engine;
       Logger.exception(worldRay.toString());
       oo = 0;
     }
-    oo++;
+    oo++;*/
     return worldRay;
   }
 

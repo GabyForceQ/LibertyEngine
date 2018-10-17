@@ -44,7 +44,7 @@ final class Player : Actor {
     (playerBody = spawn!BSPPyramid("Body"))
       .build()
       .getTransform()
-      .translate(0.0f, 10.0f, 0.0f);
+      .setPosition(0.0f, 5.0f, 0.0f);
 
     getScene().getActiveCamera().setMovementSpeed(10.0f).lockMouseMove();//.setPitch(-90.0f).setYaw(90.0f);
   }
@@ -65,18 +65,24 @@ final class Player : Actor {
 
     Vector3F terrainPoint = Input.getMousePicker().getCurrentTerrainPoint();
 
-    static int oo = 0;
+    /*static int oo = 0;
     if (oo == 40) {
       Logger.exception(terrainPoint.toString());
       oo = 0;
     }
-    oo++;
+    oo++;*/
 
     if (Input.isMouseButtonDown(MouseButton.LEFT) && !terrainPoint.x.isNaN() && !terrainPoint.y.isNaN() && !terrainPoint.z.isNaN())
-      playerBody.getTransform().translate(-playerBody.getTransform().getWorldPosition() + terrainPoint);
+      playerBody.getTransform().setPosition(terrainPoint);
 
     if (Input.isKeyHold(KeyCode.Z))
-      getScene().getActiveCamera().setPitch(getScene().getActiveCamera().getPitch() - 0.2f);
+      getScene().getActiveCamera().setPitch!"-="(1.0f);
+    if (Input.isKeyHold(KeyCode.X))
+      getScene().getActiveCamera().setPitch!"+="(1.0f);
+    if (Input.isKeyHold(KeyCode.N))
+      getScene().getActiveCamera().setYaw!"+="(1.0f);
+    if (Input.isKeyHold(KeyCode.M))
+      getScene().getActiveCamera().setYaw!"-="(1.0f);
   }
 
   private void updateBody() {
@@ -84,29 +90,29 @@ final class Player : Actor {
     const float cameraSpeed = getScene().getActiveCamera().getMovementSpeed();
 
     if (Input.isKeyHold(KeyCode.LEFT))
-      playerBody.getTransform().translateX(-cameraSpeed * deltaTime);
+      playerBody.getTransform().setPosition!"+="(-cameraSpeed * deltaTime, 0.0f, 0.0f);
 
     if (Input.isKeyHold(KeyCode.RIGHT))
-      playerBody.getTransform().translateX(cameraSpeed * deltaTime);
+      playerBody.getTransform().setPosition!"+="(cameraSpeed * deltaTime, 0.0f, 0.0f);
     
     if (Input.isKeyHold(KeyCode.UP))
-      playerBody.getTransform().translateZ(-cameraSpeed * deltaTime);
+      playerBody.getTransform().setPosition!"+="(0.0f, 0.0f, -cameraSpeed * deltaTime);
 
     if (Input.isKeyHold(KeyCode.DOWN))
-      playerBody.getTransform().translateZ(cameraSpeed * deltaTime);
+      playerBody.getTransform().setPosition!"+="(0.0f, 0.0f, cameraSpeed * deltaTime);
 
     if (Input.isKeyDown(KeyCode.SPACE))
       jump();
 
     upSpeed += gravity * deltaTime;
-    playerBody.getTransform().translateY(upSpeed * deltaTime);
+    playerBody.getTransform().setPosition!"+="(0.0f, upSpeed * deltaTime, 0.0f);
     
     const float terrainHeight = getScene().getTree().getChild!Terrain("DemoTerrain")
       .getHeight(playerBody.getTransform().getWorldPosition().x, playerBody.getTransform().getWorldPosition().z) + 0.5f;
     
     if (playerBody.getTransform().getWorldPosition().y < terrainHeight) {
       upSpeed = 0;
-      playerBody.getTransform().translateY(-playerBody.getTransform().getWorldPosition().y + terrainHeight);
+      playerBody.getTransform().setPositionY(terrainHeight);
     }
   }
 
