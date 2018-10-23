@@ -13,7 +13,7 @@ module liberty.core.image.loader;
 
 //
 version (__OPENGL__)
-  import derelict.opengl;
+  import bindbc.opengl;
 
 import liberty.core.logger.impl : Logger;
 import liberty.core.image.bitmap : Bitmap;

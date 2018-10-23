@@ -9,7 +9,7 @@
 module liberty.core.model.generic;
 
 version (__OPENGL__)
-  import derelict.opengl;
+  import bindbc.opengl;
 
 import liberty.core.model.impl : Model;
 import liberty.core.engine : CoreEngine;

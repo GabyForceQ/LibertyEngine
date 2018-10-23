@@ -8,7 +8,7 @@
 **/
 module liberty.core.window;
 
-import derelict.glfw3.glfw3;
+import bindbc.glfw;
 
 import liberty.core.input.event : Event;
 import liberty.core.logger : Logger, InfoMessage;

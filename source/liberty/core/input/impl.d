@@ -8,7 +8,7 @@
 **/
 module liberty.core.input.impl;
 
-import derelict.glfw3.glfw3;
+import bindbc.glfw;
 
 import liberty.core.math.vector : Vector2F;
 import liberty.core.input.constants :

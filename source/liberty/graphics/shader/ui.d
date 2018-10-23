@@ -17,7 +17,7 @@ import liberty.graphics.shader.impl : GfxShader;
 class GfxUIShader : GfxShader {
   private {
     static immutable UI_VERTEX = q{
-      #version 330 core
+      #version 450 core
 
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec2 lTexCoord;
@@ -34,7 +34,7 @@ class GfxUIShader : GfxShader {
     };
 
     static immutable UI_FRAGMENT = q{
-      #version 330 core
+      #version 450 core
 
       in vec2 tTexCoord;
       

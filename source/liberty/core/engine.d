@@ -8,9 +8,7 @@
 **/
 module liberty.core.engine;
 
-import derelict.glfw3.glfw3 :
-  glfwPollEvents, glfwSetInputMode, glfwSwapBuffers, glfwSwapInterval,
-  GLFW_CURSOR, GLFW_CURSOR_NORMAL, GLFW_CURSOR_DISABLED;
+import bindbc.glfw;
 
 import liberty.core.material.impl : Material;
 

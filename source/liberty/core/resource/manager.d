@@ -12,7 +12,7 @@
 module liberty.core.resource.manager;
 
 version (__OPENGL__)
-  import derelict.opengl : glVertexAttribPointer, GL_FLOAT, GL_FALSE;
+  import bindbc.opengl;
 
 import liberty.core.logger.impl : Logger;
 import liberty.core.model.generic : GenericModel;

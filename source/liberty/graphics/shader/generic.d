@@ -20,7 +20,7 @@ import liberty.graphics.shader.impl : GfxShader;
 class GfxGenericShader : GfxShader {
   private {
     static immutable GENERIC_VERTEX = q{
-      #version 330 core
+      #version 450 core
 
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec3 lNormal;
@@ -68,7 +68,7 @@ class GfxGenericShader : GfxShader {
     };
 
     static immutable GENERIC_FRAGMENT = q{
-      #version 330 core
+      #version 450 core
 
       in vec3 tNormal;
       in vec2 tTexCoord;

@@ -11,7 +11,7 @@
 **/
 module liberty.core.input.constants;
 
-import derelict.glfw3.glfw3;
+import bindbc.glfw;
 
 /**
  *

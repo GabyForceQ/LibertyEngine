@@ -8,7 +8,7 @@
 **/
 module liberty.core.input.event;
 
-import derelict.glfw3.glfw3 : GLFWwindow, GLFW_KEY_ESCAPE, GLFW_PRESS, GLFW_RELEASE, GLFW_REPEAT;
+import bindbc.glfw;
 
 import liberty.core.engine : CoreEngine, EngineState;
 import liberty.core.input.constants : KeyCode, MouseButton;

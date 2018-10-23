@@ -18,7 +18,7 @@ import liberty.graphics.shader.impl : GfxShader;
 class GfxTerrainShader : GfxShader {
   private {
     static immutable TERRAIN_VERTEX = q{
-      #version 330 core
+      #version 450 core
 
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec3 lNormal;
@@ -58,7 +58,7 @@ class GfxTerrainShader : GfxShader {
     };
 
     static immutable TERRAIN_FRAGMENT = q{
-      #version 330 core
+      #version 450 core
 
       in vec3 tNormal;
       in vec2 tTexCoord;

@@ -9,8 +9,7 @@
 module liberty.graphics.array;
 
 version (__OPENGL__)
-  import derelict.opengl :
-    glGenVertexArrays, glDeleteVertexArrays, glBindVertexArray;
+  import bindbc.opengl;
 
 import liberty.graphics.engine : GfxEngine;
 

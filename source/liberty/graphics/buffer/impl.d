@@ -9,9 +9,7 @@
 module liberty.graphics.buffer.impl;
 
 version (__OPENGL__)
-  import derelict.opengl :
-    glGenBuffers, glBindBuffer, glDeleteBuffers,
-    glBufferData, glBufferSubData, glGetBufferSubData;
+  import bindbc.opengl;
 
 import liberty.core.utils : bufferSize;
 import liberty.graphics.engine : GfxEngine;

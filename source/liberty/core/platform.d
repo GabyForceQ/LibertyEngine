@@ -8,7 +8,7 @@
 **/
 module liberty.core.platform;
 
-import derelict.glfw3.glfw3;
+import bindbc.glfw;
 
 import liberty.core.engine : CoreEngine;
 import liberty.core.input.event : Event;
@@ -36,13 +36,12 @@ final class Platform {
     Logger.info(InfoMessage.Creating, typeof(this).stringof);
 
     // Load GLFW Library
-    try {
-      DerelictGLFW3.load();
-    } catch (Exception e) {
-      Logger.error(
-        "Failed to load GLFW library",
-        typeof(this).stringof
-      );
+    const res = loadGLFW();
+    if (res != glfwSupport) {
+      if (res == GLFWSupport.noLibrary)
+        Logger.error("No GLFW library", typeof(this).stringof);
+      else if (res == glfwSupport.badLibrary)
+        Logger.error("Bad GLFW library", typeof(this).stringof);
     }
 
     if (!glfwInit()) {
@@ -50,8 +49,8 @@ final class Platform {
       return;
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 
     // Create main window
     window = new Window(

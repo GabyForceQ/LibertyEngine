@@ -9,7 +9,7 @@
 module liberty.graphics.texture.impl;
 
 version (__OPENGL__)
-  import derelict.opengl;
+  import bindbc.opengl;
 
 /**
  *

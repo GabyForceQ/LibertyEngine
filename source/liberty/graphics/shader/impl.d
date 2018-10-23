@@ -9,7 +9,7 @@
 module liberty.graphics.shader.impl;
 
 version (__OPENGL__)
-  import derelict.opengl;
+  import bindbc.opengl;
 
 import liberty.core.engine : CoreEngine;
 import liberty.core.logger : Logger;

@@ -8,7 +8,7 @@
 **/
 module liberty.core.time;
 
-import derelict.glfw3.glfw3 : glfwGetTime;
+import bindbc.glfw;
 
 import std.conv : to;
 

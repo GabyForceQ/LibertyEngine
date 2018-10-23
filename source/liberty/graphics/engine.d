@@ -9,7 +9,7 @@
 module liberty.graphics.engine;
 
 version (__OPENGL__)
-  import derelict.opengl;
+  import bindbc.opengl;
 
 import derelict.util.exception : ShouldThrow;
 
@@ -55,21 +55,6 @@ class GfxEngine {
   static void initialize() {
     Logger.info(InfoMessage.Creating, typeof(this).stringof);
 
-    ShouldThrow missingSymbolFunc(string name) {
-      if (name == "glGetSubroutineUniformLocation")
-        return ShouldThrow.No;
-      if (name == "glVertexAttribL1d")
-        return ShouldThrow.No;
-      return ShouldThrow.Yes;
-    }
-    
-    version (__OPENGL__) {
-      DerelictGL3.missingSymbolCallback = &missingSymbolFunc;
-      DerelictGL3.load();
-    }
-
-    getLimits(false);
-
     Logger.info(InfoMessage.Created, typeof(this).stringof);
   }
 
@@ -79,13 +64,13 @@ class GfxEngine {
   static void reloadFeatures() {
     Logger.info("Start realoading OpenGL", typeof(this).stringof);
 
-    version (__OPENGL__)
-      DerelictGL3.reload();
-    
-    getLimits(true);
+    const res = loadOpenGL();
+    if (res == glSupport.gl45)
+      Logger.info("OpenGL 4.5 loaded", typeof(this).stringof);
+    else
+      Logger.error("No OpenGL library", typeof(this).stringof);
 
-    version (__OPENGL__)
-      glEnable(GL_DEPTH_TEST);
+    enable3DCapabilities();
 
     Logger.info("Finish realoading OpenGL", typeof(this).stringof);
   }
@@ -145,59 +130,10 @@ class GfxEngine {
     } catch (Exception e) {}
   }
 
-  private static void getLimits(bool isReload) {
-    version (__OPENGL__) {
-      import std.algorithm.searching : countUntil;
-      import std.conv : to;
-      import std.array : split;
-      if (isReload) {
-        const(char)[] verString = getVersionString;
-        int firstSpace = cast(int)countUntil(verString, " ");
-        if (firstSpace != -1)
-          verString = verString[0..firstSpace];
-        const(char)[][] verParts = split(verString, ".");
-        if (verParts.length < 2) {
-          cant_parse:
-          _majorVersion = 1;
-          _minorVersion = 1;
-        } else {
-          try {
-            _majorVersion = to!int(verParts[0]);
-          } catch (Exception e) {
-            goto cant_parse;
-          }
-          try {
-            _minorVersion = to!int(verParts[1]);
-          } catch (Exception e) {
-            goto cant_parse;
-          }
-        }
-        if (_majorVersion < 3)
-          _extensions = split(getString(GL_EXTENSIONS).idup);
-        else {
-          immutable int numExtensions = getInt(GL_NUM_EXTENSIONS);
-          _extensions.length = 0;
-          for (int i; i < numExtensions; ++i)
-            _extensions ~= getString(GL_EXTENSIONS, i).idup;
-        }
-        _maxColorAttachments = getInt(GL_MAX_COLOR_ATTACHMENTS);
-      } else {
-        _majorVersion = 1;
-        _minorVersion = 1;
-        _extensions = [];
-        _maxColorAttachments = 0;
-      }
-    }
-  }
-
   static void enable3DCapabilities() {
     version (__OPENGL__) {
-      glFrontFace(GL_CW);
-      glCullFace(GL_FRONT);
-      glEnable(GL_CULL_FACE);
       glEnable(GL_DEPTH_TEST);
     }
-    enableTextures();
   }
 
   static void enableTextures() {

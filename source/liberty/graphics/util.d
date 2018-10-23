@@ -9,7 +9,7 @@
 module liberty.graphics.util;
 
 version (__OPENGL__)
-  import derelict.opengl;
+  import bindbc.opengl;
 
 import liberty.graphics.array : GfxArray;
 import liberty.graphics.buffer.constants : GfxBufferTarget, GfxDataUsage;

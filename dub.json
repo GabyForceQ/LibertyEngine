@@ -10,15 +10,16 @@
 	"license": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007",
   "copyright": "Copyright © 2018, Gabriel Gheorghe",
   "versions": [
-    "__OPENGL__"
+    "__OPENGL__",
+    "GL_45"
   ],
 	"stringImportPaths": [
 		"res"
 	],
 	"dependencies": {
-		"derelict-util": "~>3.0.0-beta.2",
-		"derelict-gl3": "~>2.0.0-beta.7",
-		"derelict-glfw3": "~>4.0.0-beta.1",
+    "bindbc-loader": "~>0.1.0",
+    "bindbc-glfw": "~>0.1.0",
+    "bindbc-opengl": "~>0.2.1",
     "derelict-fi": "~>3.0.0-beta.1"
   }
 }
