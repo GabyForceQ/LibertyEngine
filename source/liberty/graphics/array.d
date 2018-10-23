@@ -33,10 +33,10 @@ final class GfxArray {
       bind();
   }
 
-  ~this() {
+  /*~this() {
     version (__OPENGL__)
       glDeleteVertexArrays(1, &handle);
-  }
+  }*/
 
   /**
    * Bind this vertex array object.

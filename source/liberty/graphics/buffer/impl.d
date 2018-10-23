@@ -47,11 +47,6 @@ final class GfxBuffer {
     setData(buffer);
   }
 
-  ~this() {
-    version (__OPENGL__)
-      glDeleteBuffers(1, &buffer);
-  }
-
   /**
    *
   **/
