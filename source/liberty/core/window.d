@@ -21,8 +21,6 @@ final class Window {
 		int width;
 		int height;
     GLFWwindow* windowHandle;
-    uint id;
-    bool surfaceNeedRenew;
 		int frameBufferWidth;
 		int frameBufferHeight;
 	}
@@ -60,9 +58,6 @@ final class Window {
       );
 
 		Logger.info(InfoMessage.Created, typeof(this).stringof);
-
-		// Store the window id
-    this.id = this.getWindowId();
 	}
 
 	~this() {
@@ -101,13 +96,6 @@ final class Window {
   **/
   GLFWwindow* getHandle() pure nothrow {
     return windowHandle;
-  }
-
-  /**
-	 *
-	**/ 
-	uint getWindowId() pure nothrow const {
-    return id;
   }
 
 	/**

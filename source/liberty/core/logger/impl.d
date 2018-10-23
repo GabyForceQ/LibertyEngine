@@ -19,7 +19,6 @@ import liberty.core.logger.constants : LogType;
  * You can log a message to the system console or to a file: "logs.txt".
  * You can change the log file name.
  * You can activate or deactivate logger any time.
- * It's a manager class so it implements $(D ManagerBody).
 **/
 final class Logger {
   @disable this();

@@ -52,6 +52,8 @@ final class CoreEngine {
     Material.initializeMaterials();
 		Input.initialize();
 
+    disableVSync();
+
     // Set engine state to "started"
 		changeState(EngineState.Started);
   }

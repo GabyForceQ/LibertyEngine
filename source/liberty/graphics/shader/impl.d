@@ -135,7 +135,7 @@ class GfxShader {
     
     version (__OPENGL__) {
       immutable location = glGetUniformLocation(this.programID, name.toStringz);
-      if (location == GL_INVALID_INDEX) {
+      if (location == GL_INVALID_VALUE) {
         Logger.error("Could not find uniform: " ~ name, typeof(this).stringof);
       }
     }
