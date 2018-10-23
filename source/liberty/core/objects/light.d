@@ -30,6 +30,7 @@ final class PointLight : Entity!GenericVertex {
 
     uint index;
     Vector3F color = Vector3F.one;
+    Vector3F attenuation = Vector3F(1.0f, 0.0f, 0.0f);
   }
 
   /**
@@ -57,11 +58,34 @@ final class PointLight : Entity!GenericVertex {
   /**
    *
   **/
+  Vector3F getColor() pure nothrow {
+    return color;
+  }
+
+  /**
+   *
+  **/
+  PointLight setAttenuation(Vector3F attenuation) {
+    this.attenuation = attenuation;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  Vector3F getAttenuation() pure nothrow {
+    return attenuation;
+  }
+
+  /**
+   *
+  **/
   override void render() {
     if (index < 4) {
       CoreEngine.getScene().getGenericShader()
         .loadLightPosition(index, getTransform().getWorldPosition())
         .loadLightColor(index, color)
+        .loadLightAttenuation(index, attenuation)
         .loadShineDamper(1.0f)
         .loadReflectivity(0.0f);
 

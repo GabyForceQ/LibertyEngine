@@ -78,6 +78,7 @@ class GfxGenericShader : GfxShader {
 
       uniform sampler2D uTexture;
       uniform vec3 uLightColor[4];
+      uniform vec3 uLightAttenuation[4];
       uniform float uShineDamper;
       uniform float uReflectivity;
       uniform vec3 uSkyColor;
@@ -90,7 +91,12 @@ class GfxGenericShader : GfxShader {
         vec3 totalSpecular = vec3(0.0);
 
         for (int i = 0; i < 4; i++) {
+          float distance = length(tToLightVector[i]);
+          float attenuationFactor = uLightAttenuation[i].x + 
+            (uLightAttenuation[i].y * distance) + 
+            (uLightAttenuation[i].z * distance * distance);
           vec3 unitLightVector = normalize(tToLightVector[i]);
+
           float dotComputation = dot(unitNormal, unitLightVector);
           float brightness = max(dotComputation, 0.0);
           vec3 lightDirection = -unitLightVector;
@@ -98,8 +104,8 @@ class GfxGenericShader : GfxShader {
           float specularFactor = dot(reflectedLightDirection, unitVectorToCamera);
           specularFactor = max(specularFactor, 0.0);
           float dampedFactor = pow(specularFactor, uShineDamper);
-          totalDiffuse += brightness * uLightColor[i];
-          totalSpecular += dampedFactor * uReflectivity * uLightColor[i];
+          totalDiffuse += (brightness * uLightColor[i]) / 2*attenuationFactor;
+          totalSpecular += (dampedFactor * uReflectivity * uLightColor[i]) / 2*attenuationFactor;
         }
 
         totalDiffuse = max(totalDiffuse, 0.4);
@@ -136,6 +142,10 @@ class GfxGenericShader : GfxShader {
       .addUniform("uLightColor[1]")
       .addUniform("uLightColor[2]")
       .addUniform("uLightColor[3]")
+      .addUniform("uLightAttenuation[0]")
+      .addUniform("uLightAttenuation[1]")
+      .addUniform("uLightAttenuation[2]")
+      .addUniform("uLightAttenuation[3]")
       .addUniform("uTexture")
       .addUniform("uShineDamper")
       .addUniform("uReflectivity")
@@ -190,6 +200,16 @@ class GfxGenericShader : GfxShader {
   GfxGenericShader loadLightColor(uint index, Vector3F color) {
     bind();
     loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
+    unbind();
+    return this;
+  }
+
+  /**
+   *
+  **/
+  GfxGenericShader loadLightAttenuation(uint index, Vector3F attenuation) {
+    bind();
+    loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation);
     unbind();
     return this;
   }
