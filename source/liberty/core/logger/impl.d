@@ -62,8 +62,8 @@ final class Logger {
    *      message = the information message
    *      obj = current class reference, mostly you pass 'this'
   **/
-  static void info(string message, string objectName) {
-    log(LogType.Info, objectName ~ " -> " ~ message);
+  static void info(string message, string objectName, bool onlyToConsole = false) {
+    log(LogType.Info, objectName ~ " -> " ~ message, onlyToConsole);
   }
   
   /**
@@ -73,8 +73,8 @@ final class Logger {
    *      message = the warning message
    *      obj = current class reference, mostly you pass 'this'
   **/
-  static void warning(string message, string objectName) {
-    log(LogType.Warning, objectName ~ " -> " ~ message);
+  static void warning(string message, string objectName, bool onlyToConsole = false) {
+    log(LogType.Warning, objectName ~ " -> " ~ message, onlyToConsole);
   }
 
   /**
@@ -85,12 +85,11 @@ final class Logger {
    *      message = the error message
    *      obj = current class reference, mostly you pass 'this'
   **/
-  static void error(string message, string objectName) {
-    log(LogType.Error, objectName ~ " -> " ~ message);
-    version (unittest) {
-    } else {
+  static void error(string message, string objectName, bool onlyToConsole = false) {
+    log(LogType.Error, objectName ~ " -> " ~ message, onlyToConsole);
+    version (unittest) {}
+    else
       CoreEngine.forceShutDown(true);
-    }
   }
 
   /**
@@ -99,8 +98,8 @@ final class Logger {
    * Params:
    *      message = the exception message
   **/
-  static void exception(string message) {
-    log(LogType.Exception, message);
+  static void exception(string message, bool onlyToConsole = false) {
+    log(LogType.Exception, message, onlyToConsole);
   }
 
   /**
@@ -111,8 +110,8 @@ final class Logger {
    *      message = the debug information message
    *      obj = current class reference, mostly you pass 'this'
   **/
-  static void console(string message, string objectName) {
-    log(LogType.Debug, objectName ~ " -> " ~ message);
+  static void console(string message, string objectName, bool onlyToConsole = false) {
+    log(LogType.Debug, objectName ~ " -> " ~ message, onlyToConsole);
   }
 
   /**
@@ -122,40 +121,46 @@ final class Logger {
    *      message = the todo message
    *      obj = current class reference, mostly you pass 'this'
   **/
-  static void todo(string message, string objectName) {
-    log(LogType.Todo, objectName ~ " -> " ~ message);
+  static void todo(string message, string objectName, bool onlyToConsole = false) {
+    log(LogType.Todo, objectName ~ " -> " ~ message, onlyToConsole);
   }
 
   /**
    * Log a message using LogType.
   **/
-  static void log(LogType type, string message) {
+  static void log(LogType type, string message, bool onlyToConsole = false) {
     if (isActive) {
       string currentTime = Clock.currTime().toString().split(".")[0];
       final switch (type) with (LogType) {
         case Info:
           debug writeln(currentTime ~ " -> LOG_INFO: " ~ message);
-          logFile.writeln(currentTime ~ " -> LOG_INFO: " ~ message);
+          if (!onlyToConsole)
+            logFile.writeln(currentTime ~ " -> LOG_INFO: " ~ message);
           break;
         case Warning:
           debug writeln(currentTime ~ " -> LOG_WARNING: " ~ message);
-          logFile.writeln(currentTime ~ " -> LOG_WARNING: " ~ message);
+          if (!onlyToConsole)
+            logFile.writeln(currentTime ~ " -> LOG_WARNING: " ~ message);
           break;
         case Error:
           debug writeln(currentTime ~ " -> LOG_ERROR: " ~ message);
-          logFile.writeln(currentTime ~ " -> LOG_ERROR: " ~ message);
+          if (!onlyToConsole)
+            logFile.writeln(currentTime ~ " -> LOG_ERROR: " ~ message);
           break;
         case Exception:
           debug writeln(currentTime ~ " -> LOG_EXCEPTION: " ~ message);
-          logFile.writeln(currentTime ~ " -> LOG_EXCEPTION: " ~ message);
+          if (!onlyToConsole)
+            logFile.writeln(currentTime ~ " -> LOG_EXCEPTION: " ~ message);
           break;
         case Debug:
           debug writeln(currentTime ~ " -> LOG_DEBUG: " ~ message);
-          debug logFile.writeln(currentTime ~ " -> LOG_DEBUG: " ~ message);
+          if (!onlyToConsole)
+            debug logFile.writeln(currentTime ~ " -> LOG_DEBUG: " ~ message);
           break;
         case Todo:
           debug writeln(currentTime ~ " -> LOG_TODO: " ~ message);
-          logFile.writeln(currentTime ~ " -> LOG_TODO: " ~ message);
+          if (!onlyToConsole)
+            logFile.writeln(currentTime ~ " -> LOG_TODO: " ~ message);
           break;
       }
     }
