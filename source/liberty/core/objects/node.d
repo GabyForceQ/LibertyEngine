@@ -15,8 +15,10 @@ import liberty.core.logger : Logger;
 import liberty.core.engine : CoreEngine;
 import liberty.core.services : IStartable, IUpdatable;
 import liberty.core.scene : Scene;
+import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.core.objects.camera : Camera;
 import liberty.core.components.transform : Transform;
+import liberty.graphics.vertex;
 
 /**
  * Represents base object in the scene tree.
@@ -210,18 +212,24 @@ abstract class WorldObject : IStartable, IUpdatable {
 	 * Returns old/new node reference.
 	**/
   T spawnOnce(T : WorldObject)(string id, bool start = true) {
-		if (id in _singletonList) {
+		if (id in singletonList)
 			return cast(T)this.singletonList[id];
-		}
+
 		T node = new T(id, this);
 		insert(node);
-		static if (is(T == Camera)) {
+
+		static if (is(T == Camera))
 			this.scene.registerCamera(node);
-		}
+
 		this.singletonList[id] = node;
-		if (start) {
+
+		if (start)
 			node.start();
-		}
+
+    static if (is(T : BSPVolume!GenericVertex) || is(T : BSPVolume!TerrainVertex) || is(T : BSPVolume!UIVertex)) {
+      node.build();
+    }
+
 		return node;
 	}
 

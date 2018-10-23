@@ -107,6 +107,11 @@ final class Player : Actor {
       upSpeed = 0;
       playerBody.getTransform().setPositionY(terrainHeight);
     }
+
+    if (Input.isKeyHold(KeyCode.R))
+      (spawnOnce!BSPPyramid("Pyramid"))
+        .getTransform()
+        .setPositionX!"+="(2.0f * deltaTime);
   }
 
   private void updateMouseMode() {
