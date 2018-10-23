@@ -39,8 +39,7 @@ final class ImageLoader {
     texture.generateTextures();
 
     version (__OPENGL__) {
-      // Bind the texture
-      glBindTexture(GL_TEXTURE_2D, texture.getId());
+      texture.bind();
 
       glTexImage2D(
         GL_TEXTURE_2D, 
@@ -54,17 +53,15 @@ final class ImageLoader {
         bitmap.getData()
       );
 
-      // Set texture parameters
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
-      // Generate mipmap
-      glGenerateMipmap(GL_TEXTURE_2D);
-
-      // Unbind the current texture
-      glBindTexture(GL_TEXTURE_2D, 0);
+      
+      texture
+        .setLODBias(0.0f)
+        .generateMipmap()
+        .unbind();
     }
 
     // Set Texture width and height

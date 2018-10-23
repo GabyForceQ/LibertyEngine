@@ -76,6 +76,28 @@ final class Player : Actor {
       getScene().getActiveCamera().setYaw!"+="(1.0f);
     if (Input.isKeyHold(KeyCode.M))
       getScene().getActiveCamera().setYaw!"-="(1.0f);
+
+    if (Input.isKeyHold(KeyCode.R))
+      (spawnOnce!BSPPyramid("Pyramid"))
+        .getTransform()
+        .setPositionX!"+="(2.0f * Time.getDelta());
+
+    // not working
+    if (Input.isKeyDown(KeyCode.O)) {
+      getScene()
+        .getTree()
+        .getChild!Terrain("DemoTerrain")
+          .getRenderer()
+          .getModel()
+          .getMaterials()
+          .map!(e => e.getTexture().setLODBias!"+="(0.1f));
+      
+      playerBody
+        .getRenderer()
+        .getModel()
+        .getMaterials()
+        .map!(e => e.getTexture().setLODBias!"+="(0.1f));
+    }
   }
 
   private void updateBody() {
@@ -107,11 +129,6 @@ final class Player : Actor {
       upSpeed = 0;
       playerBody.getTransform().setPositionY(terrainHeight);
     }
-
-    if (Input.isKeyHold(KeyCode.R))
-      (spawnOnce!BSPPyramid("Pyramid"))
-        .getTransform()
-        .setPositionX!"+="(2.0f * deltaTime);
   }
 
   private void updateMouseMode() {

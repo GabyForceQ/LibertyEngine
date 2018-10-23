@@ -20,6 +20,8 @@ final class Texture {
     string path;
     uint width;
     uint height;
+    bool isBind = false;
+    float lodBias = float.nan;
   }
 
   /**
@@ -61,6 +63,18 @@ final class Texture {
     version (__OPENGL__)
       glBindTexture(GL_TEXTURE_2D, id);
 
+    isBind = true;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  Texture unbind() {
+    version (__OPENGL__)
+      glBindTexture(GL_TEXTURE_2D, 0);
+
+    isBind = false;
     return this;
   }
 
@@ -115,5 +129,42 @@ final class Texture {
   **/
   uint getHeight() pure nothrow const {
     return height;
+  }
+
+  /**
+   *
+  **/
+  Texture generateMipmap() {
+    version (__OPENGL__)
+      glGenerateMipmap(GL_TEXTURE_2D);
+      
+    return this;
+  }
+
+  /**
+   *
+  **/
+  Texture setLODBias(string op = "=")(float value)
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=" || op == "%=") {
+    mixin ("lodBias " ~ op ~ " value;");
+    const bindUnbind = !isBind; 
+
+    if (bindUnbind)
+      bind();
+
+    version (__OPENGL__)
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, lodBias);
+
+    if (bindUnbind)
+      unbind();
+
+    return this;
+  }
+
+  /**
+   *
+  **/
+  float getLODBias() pure nothrow const {
+    return lodBias;
   }
 }
