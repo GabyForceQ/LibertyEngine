@@ -38,10 +38,12 @@ final class CoreEngine {
    * Initialize core engine features.
   **/
   static void initialize() {
+    Logger.initialize();
+    
     // Set engine state to "starting"
 		changeState(EngineState.Starting);
 
-		// Initialize other classes
+		// Initialize other classes    
 		ImageManager.initialize();
 		ResourceManager.initialize();
 		GfxEngine.initialize();
@@ -69,6 +71,8 @@ final class CoreEngine {
 
     // Set engine state to "stopped"
     changeState(EngineState.Stopped);
+
+    Logger.deinitialize();
   }
 
   /**

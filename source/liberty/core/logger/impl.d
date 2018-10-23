@@ -11,6 +11,10 @@
 **/
 module liberty.core.logger.impl;
 
+import std.stdio : writeln, File;
+import std.datetime.systime : SysTime, Clock;
+import std.array : split;
+
 import liberty.core.engine : CoreEngine;
 import liberty.core.logger.constants : LogType;
 
@@ -22,6 +26,24 @@ import liberty.core.logger.constants : LogType;
 **/
 final class Logger {
   @disable this();
+
+  private {
+    static File logFile;
+  }
+
+  /**
+   *
+  **/
+  static void initialize() {
+    logFile = File(logFileName, "a");
+  }
+
+  /**
+   *
+  **/
+  static void deinitialize() {
+    logFile.close();
+  }
   
   /**
    * Set false if you don't want logger to run.
@@ -108,40 +130,33 @@ final class Logger {
    * Log a message using LogType.
   **/
   static void log(LogType type, string message) {
-    synchronized {
-      if (isActive) {
-        import std.stdio : writeln, File;
-        import std.datetime.systime : SysTime, Clock;
-        import std.array : split;
-        SysTime st = Clock.currTime();
-        auto file = File(logFileName, "a");
-        scope (exit) file.close();
-        final switch (type) with (LogType) {
-          case Info:
-            debug writeln(st.toString().split(".")[0] ~ " -> LOG_INFO: " ~ message);
-            file.writeln(st.toString().split(".")[0] ~ " -> LOG_INFO: " ~ message);
-            break;
-          case Warning:
-            debug writeln(st.toString().split(".")[0] ~ " -> LOG_WARNING: " ~ message);
-            file.writeln(st.toString().split(".")[0] ~ " -> LOG_WARNING: " ~ message);
-            break;
-          case Error:
-            debug writeln(st.toString().split(".")[0] ~ " -> LOG_ERROR: " ~ message);
-            file.writeln(st.toString().split(".")[0] ~ " -> LOG_ERROR: " ~ message);
-            break;
-          case Exception:
-            debug writeln(st.toString().split(".")[0] ~ " -> LOG_EXCEPTION: " ~ message);
-            file.writeln(st.toString().split(".")[0] ~ " -> LOG_EXCEPTION: " ~ message);
-            break;
-          case Debug:
-            debug writeln(st.toString().split(".")[0] ~ " -> LOG_DEBUG: " ~ message);
-            debug file.writeln(st.toString().split(".")[0] ~ " -> LOG_DEBUG: " ~ message);
-            break;
-          case Todo:
-            debug writeln(st.toString().split(".")[0] ~ " -> LOG_TODO: " ~ message);
-            file.writeln(st.toString().split(".")[0] ~ " -> LOG_TODO: " ~ message);
-            break;
-        }
+    if (isActive) {
+      string currentTime = Clock.currTime().toString().split(".")[0];
+      final switch (type) with (LogType) {
+        case Info:
+          debug writeln(currentTime ~ " -> LOG_INFO: " ~ message);
+          logFile.writeln(currentTime ~ " -> LOG_INFO: " ~ message);
+          break;
+        case Warning:
+          debug writeln(currentTime ~ " -> LOG_WARNING: " ~ message);
+          logFile.writeln(currentTime ~ " -> LOG_WARNING: " ~ message);
+          break;
+        case Error:
+          debug writeln(currentTime ~ " -> LOG_ERROR: " ~ message);
+          logFile.writeln(currentTime ~ " -> LOG_ERROR: " ~ message);
+          break;
+        case Exception:
+          debug writeln(currentTime ~ " -> LOG_EXCEPTION: " ~ message);
+          logFile.writeln(currentTime ~ " -> LOG_EXCEPTION: " ~ message);
+          break;
+        case Debug:
+          debug writeln(currentTime ~ " -> LOG_DEBUG: " ~ message);
+          debug logFile.writeln(currentTime ~ " -> LOG_DEBUG: " ~ message);
+          break;
+        case Todo:
+          debug writeln(currentTime ~ " -> LOG_TODO: " ~ message);
+          logFile.writeln(currentTime ~ " -> LOG_TODO: " ~ message);
+          break;
       }
     }
   }
@@ -151,7 +166,7 @@ final class Logger {
  * Example for Logger usage:
  */
 unittest {
-  class Class {
+  class LogClass {
     this() {
       Logger.console("Test message!", typeof(this).stringof);
       Logger.info("Info test message!", typeof(this).stringof);
@@ -168,7 +183,5 @@ unittest {
     }
   }
 
-  Class c = new Class();
-  c.destroy();
-  c = null;
+  new LogClass();
 }
