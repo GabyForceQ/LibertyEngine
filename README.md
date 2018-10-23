@@ -12,9 +12,9 @@ A powerful 2D/3D engine written in the D programming language!
 - [x] Core shader, terrain shader and UI shader were added
 - [x] Camera improvements and dynamic custom camera settings
 - [x] Dynamic material loader on BSP volumes
-- [] Skybox.
-- [] Day/night cycle.
-- [] Cell shading.
+- [ ] Skybox.
+- [ ] Day/night cycle.
+- [ ] Cell shading.
 - [x] Experimental .obj model loader
 - [x] Experimental flexible render pipline
 - [x] Experimental lighting system
@@ -28,7 +28,7 @@ A powerful 2D/3D engine written in the D programming language!
 
 ##### Operating systems supported (tested):
 - [x] Windows 10 x86 (32-bits)
-- [] Windows 10 x64 (64-bits)
+- [ ] Windows 10 x64 (64-bits)
 
 ##### Graphics APIs supported (tested):
 - [x] OpenGL 4.5 (Windows) <Shader: 450 core>
