@@ -20,9 +20,14 @@ final class Window {
 	private {
 		int width;
 		int height;
-    GLFWwindow* windowHandle;
+    GLFWwindow* handle;
 		int frameBufferWidth;
 		int frameBufferHeight;
+		bool fullscreen;
+		int lastXStartPos;
+		int lastYStartPos;
+		int lastXSize;
+		int lastYSize;
 	}
 
 	/**
@@ -36,7 +41,7 @@ final class Window {
 		Logger.info(InfoMessage.Creating, typeof(this).stringof);
     
 		// Create window internally
-    windowHandle = glfwCreateWindow(
+    handle = glfwCreateWindow(
       width,
       height,
       "Liberty Engine v0.0.15-beta.1",
@@ -45,17 +50,14 @@ final class Window {
     );
 
 		resizeFrameBuffer();
-		glfwSetFramebufferSizeCallback(windowHandle, &Event.frameBufferResizeCallback);
+		glfwSetFramebufferSizeCallback(handle, &Event.frameBufferResizeCallback);
 
 		// Create the current context
-    glfwMakeContextCurrent(windowHandle);
+    glfwMakeContextCurrent(handle);
 
 		// Check if window is created
-    if (this.windowHandle is null)
-      Logger.error(
-        "Failed to create window", 
-        typeof(this).stringof
-      );
+    if (this.handle is null)
+      Logger.error("Failed to create window", typeof(this).stringof);
 
 		Logger.info(InfoMessage.Created, typeof(this).stringof);
 	}
@@ -64,9 +66,9 @@ final class Window {
 		Logger.info(InfoMessage.Destroying, typeof(this).stringof);
 
 		// Destroy the window if not null
-		if (this.windowHandle !is null) {
+		if (handle !is null) {
       glfwTerminate();
-      this.windowHandle = null;
+      handle = null;
     } else {
       Logger.warning(
         "You are trying to destory a non-existent window",
@@ -95,7 +97,7 @@ final class Window {
    *
   **/
   GLFWwindow* getHandle() pure nothrow {
-    return windowHandle;
+    return handle;
   }
 
 	/**
@@ -116,6 +118,35 @@ final class Window {
 	 *
 	**/
 	void resizeFrameBuffer() {
-		glfwGetFramebufferSize(windowHandle, &frameBufferWidth, &frameBufferHeight);
+		glfwGetFramebufferSize(handle, &frameBufferWidth, &frameBufferHeight);
+	}
+
+	/**
+	 *
+	**/
+	Window setFullscreen(bool fullscreen) {
+		if (fullscreen) {
+			// Backup window position and window size
+			glfwGetWindowPos(handle, &lastXStartPos, &lastYStartPos);
+			glfwGetWindowSize(handle, &lastXSize, &lastYSize);
+
+			// Get resolution of monitor
+			const(GLFWvidmode)* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+			// Switch to fullscreen
+			glfwSetWindowMonitor(handle, glfwGetPrimaryMonitor(), 0, 0, mode.width, mode.height, 0);
+		} else
+			// Restore last window size and position
+			glfwSetWindowMonitor(handle, null, lastXStartPos, lastYStartPos, lastXSize, lastYSize, 0);
+
+		this.fullscreen = fullscreen;
+		return this;
+	}
+
+	/**
+	 *
+	**/
+	bool isFullscreen() pure nothrow const {
+		return isFullscreen;
 	}
 }

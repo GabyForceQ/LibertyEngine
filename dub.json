@@ -11,7 +11,8 @@
   "copyright": "Copyright © 2018, Gabriel Gheorghe",
   "versions": [
     "__OPENGL__",
-    "GL_45"
+		"GL_45",
+		"GLFW_32"
   ],
 	"stringImportPaths": [
 		"res"
