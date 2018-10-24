@@ -20,7 +20,7 @@ There are so many features to come.
 - [x] Experimental UI
 - [x] Experimental mouse picker
 - [x] Fixes and small features
-- [ ] Demos
+- [x] Demos
 
 ##### D compiler versions recommended:
 * DMD 2.082.1
