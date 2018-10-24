@@ -1,7 +1,7 @@
 # LibertyEngine
 ##### Description:
 A powerful 2D/3D engine written in the D programming language.
-This is still work in progress. If you find a bug, please report it on github.
+This is still work in progress. If you find a bug, please report via github.
 There are so many features to come.
 
 ##### Release notes (v0.0.15) (29-Oct-2018)
