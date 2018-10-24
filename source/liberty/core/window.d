@@ -10,6 +10,7 @@ module liberty.core.window;
 
 import bindbc.glfw;
 
+import liberty.core.engine : CoreEngine;
 import liberty.core.input.event : Event;
 import liberty.core.logger : Logger, InfoMessage;
 
@@ -138,6 +139,12 @@ final class Window {
 		} else
 			// Restore last window size and position
 			glfwSetWindowMonitor(handle, null, lastXStartPos, lastYStartPos, lastXSize, lastYSize, 0);
+
+		// Update vsync state
+		if (CoreEngine.isVSyncEnabled())
+			CoreEngine.enableVSync();
+		else
+			CoreEngine.disableVSync();
 
 		this.fullscreen = fullscreen;
 		return this;

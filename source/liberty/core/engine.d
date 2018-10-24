@@ -30,6 +30,7 @@ final class CoreEngine {
   private {
     static EngineState engineState = EngineState.None;
 		static Scene scene;
+		static bool vsync;
   }
 
 	@disable this();
@@ -193,6 +194,7 @@ final class CoreEngine {
   **/
   static void enableVSync() {
     glfwSwapInterval(1);
+		vsync = true;
   }
 
   /**
@@ -200,7 +202,15 @@ final class CoreEngine {
   **/
   static void disableVSync() {
     glfwSwapInterval(0);
+		vsync = false;
   }
+
+	/**
+	 *
+	**/
+	static bool isVSyncEnabled() nothrow {
+		return vsync;
+	}
 
 	package static void changeState(EngineState engineState) {
 		this.engineState = engineState;
