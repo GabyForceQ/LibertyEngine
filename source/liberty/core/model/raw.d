@@ -14,13 +14,13 @@ module liberty.core.model.raw;
 class RawModel {
   private {
     uint vaoID;
-    uint vertexCount;
+    size_t vertexCount;
   }
 
   /**
    *
   **/
-  this(uint vaoID, uint vertexCount) {
+  this(uint vaoID, size_t vertexCount) {
     this.vaoID = vaoID;
     this.vertexCount = vertexCount;
   }
@@ -35,7 +35,7 @@ class RawModel {
   /**
    *
   **/
-  uint getVertexCount() {
+  size_t getVertexCount() {
     return vertexCount;
   }
 }

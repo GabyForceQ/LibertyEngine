@@ -145,6 +145,6 @@ final class GfxBuffer {
   **/
   static void releaseBuffers(uint[] buff) {
     version (__OPENGL__)
-      glDeleteBuffers(buff.length, cast(uint*)buff);
+      glDeleteBuffers(cast(int)buff.length, cast(uint*)buff);
   }
 }

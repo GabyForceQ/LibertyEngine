@@ -80,7 +80,7 @@ final class GfxUtil {
   /**
    *
   **/
-  static void drawElements(GfxDrawMode drawMode, GfxVectorType type, int count) {
+  static void drawElements(GfxDrawMode drawMode, GfxVectorType type, size_t count) {
     version (__OPENGL__) {
       GLenum _drawMode, _type;
 
@@ -92,14 +92,14 @@ final class GfxUtil {
         case UnsignedInt: _type = GL_UNSIGNED_INT;
       }
       
-      glDrawElements(_drawMode, count, _type, null);
+      glDrawElements(_drawMode, cast(int)count, _type, null);
     }
   }
 
   /**
    *
   **/
-  static void drawArrays(GfxDrawMode drawMode, int count) {
+  static void drawArrays(GfxDrawMode drawMode, size_t count) {
     version (__OPENGL__) {
       GLenum _drawMode;
 
@@ -107,7 +107,7 @@ final class GfxUtil {
         case Triangles: _drawMode = GL_TRIANGLES;
       }
       
-      glDrawArrays(_drawMode, 0, count);
+      glDrawArrays(_drawMode, 0, cast(int)count);
     }
   }
 }

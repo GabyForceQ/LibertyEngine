@@ -65,6 +65,6 @@ final class GfxArray {
   **/
   static void releaseVertexArrays(uint[] buff) {
     version (__OPENGL__)
-      glDeleteVertexArrays(buff.length, cast(uint*)buff);
+      glDeleteVertexArrays(cast(int)buff.length, cast(uint*)buff);
   }
 }
