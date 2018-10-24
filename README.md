@@ -18,8 +18,9 @@ There are so many features to come.
 - [x] Experimental flexible render pipline
 - [x] Experimental lighting system
 - [x] Experimental UI
-- [x] Experimental mouse picker.
+- [x] Experimental mouse picker
 - [x] Fixes and small features
+- [ ] Demos
 
 ##### D compiler versions recommended:
 * DMD 2.082.1
@@ -40,14 +41,6 @@ in the final object file.
 * All "start" methods are invoked after all scene objects are instantiated. 
 If you want to do something at construction time, you should use 'void constructor() {}'
 * Smart, flexible and safe hierarchy for scenes, objects and components.
-
-### Instructions:
-* Coming in beta/release version
-
-### Example:
-```D
-// Only in beta/release version
-```
 
 > *Please, do not use this framework in production as long as it is not officially released!*
 
