@@ -1,4 +1,5 @@
 /.dub/*
-/bin/*
+/.vscode/*
+/lib/*
 *dub.selections.json
 *logs.txt
