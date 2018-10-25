@@ -29,7 +29,7 @@ struct Transform {
    *
   **/
   this(WorldObject parent, Vector3F position = Vector3F.zero, 
-  Vector3F rotation = Vector3F.zero, Vector3F scaling = Vector3F.one) {
+  Vector3F rotation = Vector3F.zero, Vector3F scaling = Vector3F.one) pure {
     this.parent = parent;
     this.position = position;
     this.rotation = rotation;
@@ -39,14 +39,14 @@ struct Transform {
   /**
    * Translate position using x, y and z scalars as coordinates.
   **/
-	ref Transform setPosition(string op = "=")(float x, float y, float z) pure nothrow {
+	ref Transform setPosition(string op = "=")(float x, float y, float z) pure {
 		return setPosition!op(Vector3F(x, y, z));
 	}
 
   /**
    * Translate position using a vector with x, y and z coordinates.
   **/
-	ref Transform setPosition(string op = "=")(Vector3F position) pure nothrow {  
+	ref Transform setPosition(string op = "=")(Vector3F position) pure {  
     static if (op == "=")
       modelMatrix.translate(-this.position + position);
     else static if (op == "+=")
@@ -57,13 +57,18 @@ struct Transform {
       static assert(0, "Only =, +=, -= acceped.");
 
     mixin ("this.position " ~ op ~ " position;");
+
+    // Set position to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().setPosition!op(position);
+
 		return this;
 	}
 
   /**
    * Translate x-coordinate position.
   **/
-	ref Transform setPositionX(string op = "=")(float value) pure nothrow {
+	ref Transform setPositionX(string op = "=")(float value) pure {
 		static if (op == "=")
       modelMatrix.translate(Vector3F(-position.x + value, 0.0f, 0.0f));
     else static if (op == "+=")
@@ -74,13 +79,18 @@ struct Transform {
       static assert(0, "Only =, +=, -= acceped.");
 
     mixin ("this.position.x " ~ op ~ " value;");
+
+    // Set position x to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().setPositionX!op(value);
+
     return this;
 	}
   
   /**
    * Translate y-coordinate position.
   **/
-	ref Transform setPositionY(string op = "=")(float value) pure nothrow {
+	ref Transform setPositionY(string op = "=")(float value) pure {
     static if (op == "=")
       modelMatrix.translate(Vector3F(0.0f, -position.y + value, 0.0f));
     else static if (op == "+=")
@@ -91,13 +101,18 @@ struct Transform {
       static assert(0, "Only =, +=, -= acceped.");
 
     mixin ("this.position.y " ~ op ~ " value;");
+
+    // Set position y to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().setPositionY!op(value);
+
     return this;
 	}
   
   /**
    * Translate z-coordinate position.
   **/
-	ref Transform setPositionZ(string op = "=")(float value) pure nothrow {
+	ref Transform setPositionZ(string op = "=")(float value) pure {
 		static if (op == "=")
       modelMatrix.translate(Vector3F(0.0f, 0.0f, -position.z + value));
     else static if (op == "+=")
@@ -108,20 +123,25 @@ struct Transform {
       static assert(0, "Only =, +=, -= acceped.");
 
     mixin ("this.position.z " ~ op ~ " value;");
+
+    // Set position z to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().setPositionZ!op(value);
+
     return this;
 	}
   
   /**
    * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
   **/
-	ref Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure nothrow {
+	ref Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure {
 		return setRotation!op(angle, Vector3F(rotX, rotY, rotZ));
 	}
   
   /**
    * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
   **/
-	ref Transform setRotation(string op = "=")(float angle, Vector3F rotation) pure nothrow {
+	ref Transform setRotation(string op = "=")(float angle, Vector3F rotation) pure {
     static if (op == "=")
       assert(0, "Not implemented yet.");
     static if (op == "+=")
@@ -130,6 +150,10 @@ struct Transform {
       modelMatrix.rotate(-angle, rotation);
     else
       static assert(0, "Only =, +=, -= acceped.");
+
+    // Set rotation to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().setRotation!op(angle, rotation);
     
     return this;
 	}
@@ -137,72 +161,117 @@ struct Transform {
   /**
    * Rotate object specifying the rotation angle for pitch axis.
   **/
-	ref Transform rotatePitch(float angle) pure nothrow {
+	ref Transform rotatePitch(float angle) pure {
 		modelMatrix.rotateX(angle.radians);
+
+    // Set pitch rotation to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().rotatePitch(angle);
+
     return this;
 	}
 
   /**
    * Rotate object specifying the rotation angle for yaw axis.
   **/
-	ref Transform rotateYaw(float angle) pure nothrow {
+	ref Transform rotateYaw(float angle) pure {
 		modelMatrix.rotateY(angle.radians);
+
+    // Set yaw rotation to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().rotateYaw(angle);
+
     return this;
 	}
 
   /**
    * Rotate object specifying the rotation angle for roll axis.
   **/
-	ref Transform rotateRoll(float angle) pure nothrow {
+	ref Transform rotateRoll(float angle) pure {
 		modelMatrix.rotateZ(angle.radians);
+
+    // Set roll rotation to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().rotateRoll(angle);
+
     return this;
 	}
 
   /**
    * Scale object using same value for x, y and z coordinates.
   **/
-	ref Transform scale(float value) pure nothrow {
+	ref Transform scale(float value) pure {
 		modelMatrix.scale(Vector3F(value));
+
+    // Set scale to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().scale(value);
+
     return this;
 	}
   
   /**
    * Scale object using x, y and z scalars for coordinates.
   **/
-	ref Transform scale(float x, float y, float z) pure nothrow {
+	ref Transform scale(float x, float y, float z) pure {
 		modelMatrix.scale(Vector3F(x, y, z));
+
+    // Set scale to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().scale(x, y, z);
+
     return this;
 	}
   
   /**
    * Scale object using a vector with x, y and z scalars for coordinates.
   **/
-	ref Transform scale(Vector3F scaling) pure nothrow {
+	ref Transform scale(Vector3F scaling) pure {
 		modelMatrix.scale(scaling);
+
+    // Set scale to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().scale(scaling);
+
     return this;
 	}
   
   /**
    * Scale object on x axis.
   **/
-	ref Transform scaleX(float value) pure nothrow {
+	ref Transform scaleX(float value) pure {
 		modelMatrix.scale(Vector3F(value, 0.0f, 0.0f));
+
+    // Set scale x to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().scaleX(value);
+
     return this;
 	}
   
   /**
    * Scale object on y axis.
   **/
-	ref Transform scaleY(float value) pure nothrow {
+	ref Transform scaleY(float value) pure {
 		modelMatrix.scale(Vector3F(0.0f, value, 0.0f));
+
+    // Set scale y to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().scaleY(value);
+
     return this;
 	}
   
   /**
    * Scale object on z axis.
   **/
-	ref Transform scaleZ(float value) pure nothrow {
+	ref Transform scaleZ(float value) pure {
 		modelMatrix.scale(Vector3F(0.0f, 0.0f, value));
+
+    // Set scale z to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().scaleZ(value);
+
     return this;
 	}
   
