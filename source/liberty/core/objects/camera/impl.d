@@ -27,7 +27,6 @@ final class Camera : WorldObject {
   mixin(NodeBody);
 
   package {
-    Vector3F positionVector = Vector3F(0.0f, 3.0f, 3.0f);
     Vector3F frontVector = Vector3F.forward;
     Vector3F upVector = Vector3F.up;
     Vector3F rightVector = Vector3F.zero;
@@ -57,6 +56,7 @@ final class Camera : WorldObject {
   void constructor() {
     updateCameraVectors();
     preset = CameraPreset.getDefault();
+    getTransform().setLocalPosition(0.0f, 3.0f, 4.0f);
   }
 
   /**
@@ -113,8 +113,8 @@ final class Camera : WorldObject {
   **/
   Matrix4F getViewMatrix() {
     return Matrix4F.lookAt(
-      positionVector,
-      positionVector + frontVector,
+      getTransform().getPosition(),
+      getTransform().getPosition() + frontVector,
       upVector
     );
   }
@@ -130,29 +130,6 @@ final class Camera : WorldObject {
       0.01f,
       1000.0f
     );
-  }
-
-  /**
-   * Set camera position using a vector with x, y and z coordinates.
-  **/
-  Camera setPosition(Vector3F positionVector) pure nothrow {
-    this.positionVector = positionVector;
-    return this;
-  }
-
-  /**
-   * Set camera position using x, y and z scalars as coordinates.
-  **/
-  Camera setPosition(float x, float y, float z) pure nothrow {
-    this.positionVector = Vector3F(x, y, z);
-    return this;
-  }
-
-  /**
-   * Returns: camera position.
-  **/
-  Vector3F getPosition() pure nothrow const {
-    return positionVector;
   }
 
   /**

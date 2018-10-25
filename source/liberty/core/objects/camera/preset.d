@@ -59,6 +59,15 @@ class CameraPreset {
   /**
    *
   **/
+  static CameraPreset getEmpty() {
+    return new CameraPreset((Camera camera) {
+    }, (camera, direction, velocity) {
+    });
+  }
+
+  /**
+   *
+  **/
   static CameraPreset getDefault() {
     return new CameraPreset((Camera camera) {
       if (Input.isKeyHold(KeyCode.W))
@@ -75,27 +84,27 @@ class CameraPreset {
     }, (camera, direction, velocity) {
       final switch (direction) with (CameraMovement) {
         case FORWARD:
-          camera.positionVector += camera.frontVector * velocity;
+          camera.getTransform().setWorldPosition!"+="(camera.frontVector * velocity);
           break;
         
         case BACKWARD:
-          camera.positionVector -= camera.frontVector * velocity;
+          camera.getTransform().setWorldPosition!"-="(camera.frontVector * velocity);
           break;
 
         case LEFT:
-          camera.positionVector -= camera.rightVector * velocity;
+          camera.getTransform().setWorldPosition!"-="(camera.rightVector * velocity);
           break;
 
         case RIGHT:
-          camera.positionVector += camera.rightVector * velocity;
+          camera.getTransform().setWorldPosition!"+="(camera.rightVector * velocity);
           break;
 
         case UP:
-          camera.positionVector += camera.upVector * velocity;
+          camera.getTransform().setWorldPosition!"+="(camera.upVector * velocity);
           break;
 
         case DOWN:
-          camera.positionVector -= camera.upVector * velocity;
+          camera.getTransform().setWorldPosition!"-="(camera.upVector * velocity);
       }
     });
   }

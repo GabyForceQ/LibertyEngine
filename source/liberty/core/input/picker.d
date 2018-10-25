@@ -101,7 +101,7 @@ final class MousePicker {
   }
 
   private Vector3F getPointOnRay(Vector3F ray, float distance) {
-		return camera.getPosition() + ray * distance;
+		return camera.getTransform().getWorldPosition() + ray * distance;
 	}
 	
 	private Vector3F binarySearch(int count, float start, float finish, Vector3F ray) {
