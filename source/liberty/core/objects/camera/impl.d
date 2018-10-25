@@ -8,6 +8,7 @@
 **/
 module liberty.core.objects.camera.impl;
 
+import liberty.core.engine : CoreEngine;
 import liberty.core.math.functions : radians, sin, cos;
 import liberty.core.math.vector : Vector2I, Vector3F, cross;
 import liberty.core.math.matrix : Matrix4F;
@@ -17,6 +18,7 @@ import liberty.core.objects.camera.constants;
 import liberty.core.objects.camera.preset : CameraPreset;
 import liberty.core.objects.meta : NodeBody;
 import liberty.core.objects.node : WorldObject;
+import liberty.core.scene.impl : Scene;
 
 /**
  *
@@ -341,6 +343,14 @@ final class Camera : WorldObject {
   **/
   bool isKeyboardLocked() pure nothrow const {
     return keyboardLocked;
+  }
+
+  /**
+   *
+  **/
+  Camera registerToScene(Scene scene = CoreEngine.getScene()) {
+    scene.setActiveCamera(this);
+    return this;
   }
 
   private void updateCameraVectors() {

@@ -8,6 +8,7 @@
 **/
 module liberty.core.components.transform;
 
+import liberty.core.logger.impl : Logger;
 import liberty.core.math.functions : radians;
 import liberty.core.math.vector : Vector3F;
 import liberty.core.math.matrix : Matrix4F;
@@ -18,37 +19,38 @@ import liberty.core.objects : WorldObject;
 **/
 struct Transform {
   private {
-    Matrix4F modelMatrix = Matrix4F.identity();
-    Vector3F position;
-    Vector3F rotation;
-    Vector3F scaling;
     WorldObject parent;
+    Matrix4F modelMatrix = Matrix4F.identity();
+    
+    Vector3F localPosition = Vector3F.zero;
+    Vector3F localRotation = Vector3F.zero;
+    Vector3F localScaling = Vector3F.one;
+    
+    Vector3F worldPosition = Vector3F.zero;
+    Vector3F worldRotation = Vector3F.zero;
+    Vector3F worldScaling = Vector3F.one;
   }
 
   /**
    *
   **/
-  this(WorldObject parent, Vector3F position = Vector3F.zero, 
-  Vector3F rotation = Vector3F.zero, Vector3F scaling = Vector3F.one) pure {
+  this(WorldObject parent) pure {
     this.parent = parent;
-    this.position = position;
-    this.rotation = rotation;
-    this.scaling = scaling;
   }
 
   /**
-   * Translate position using x, y and z scalars as coordinates.
+   *
   **/
-	ref Transform setPosition(string op = "=")(float x, float y, float z) pure {
-		return setPosition!op(Vector3F(x, y, z));
-	}
+  ref const(Transform) setLocalPosition(string op = "=")(float x, float y, float z) pure {
+    return setLocalPosition!op(Vector3F(x, y, z));
+  }
 
   /**
-   * Translate position using a vector with x, y and z coordinates.
+   *
   **/
-	ref Transform setPosition(string op = "=")(Vector3F position) pure {  
+  ref const(Transform) setLocalPosition(string op = "=")(Vector3F position) pure {
     static if (op == "=")
-      modelMatrix.translate(-this.position + position);
+      modelMatrix.translate(-this.localPosition + position);
     else static if (op == "+=")
       modelMatrix.translate(position);
     else static if (op == "-=")
@@ -56,21 +58,18 @@ struct Transform {
     else
       static assert(0, "Only =, +=, -= acceped.");
 
-    mixin ("this.position " ~ op ~ " position;");
+    mixin ("localPosition " ~ op ~ " position;");
 
-    // Set position to the current object children too
-    foreach (child; parent.getChildren())
-      child.getTransform().setPosition!op(position);
-
-		return this;
-	}
+    return this;
+  }
 
   /**
-   * Translate x-coordinate position.
+   * 
+   * 
   **/
-	ref Transform setPositionX(string op = "=")(float value) pure {
+	ref Transform setLocalPositionX(string op = "=")(float value) pure {
 		static if (op == "=")
-      modelMatrix.translate(Vector3F(-position.x + value, 0.0f, 0.0f));
+      modelMatrix.translate(Vector3F(-localPosition.x + value, 0.0f, 0.0f));
     else static if (op == "+=")
       modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
     else static if (op == "-=")
@@ -78,21 +77,18 @@ struct Transform {
     else
       static assert(0, "Only =, +=, -= acceped.");
 
-    mixin ("this.position.x " ~ op ~ " value;");
-
-    // Set position x to the current object children too
-    foreach (child; parent.getChildren())
-      child.getTransform().setPositionX!op(value);
+    mixin ("localPosition.x " ~ op ~ " value;");
 
     return this;
 	}
   
   /**
-   * Translate y-coordinate position.
+   * 
+   * 
   **/
-	ref Transform setPositionY(string op = "=")(float value) pure {
-    static if (op == "=")
-      modelMatrix.translate(Vector3F(0.0f, -position.y + value, 0.0f));
+	ref Transform setLocalPositionY(string op = "=")(float value) pure {
+		static if (op == "=")
+      modelMatrix.translate(Vector3F(0.0f, -localPosition.y + value, 0.0f));
     else static if (op == "+=")
       modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
     else static if (op == "-=")
@@ -100,21 +96,18 @@ struct Transform {
     else
       static assert(0, "Only =, +=, -= acceped.");
 
-    mixin ("this.position.y " ~ op ~ " value;");
-
-    // Set position y to the current object children too
-    foreach (child; parent.getChildren())
-      child.getTransform().setPositionY!op(value);
+    mixin ("localPosition.y " ~ op ~ " value;");
 
     return this;
 	}
-  
+
   /**
-   * Translate z-coordinate position.
+   * 
+   * 
   **/
-	ref Transform setPositionZ(string op = "=")(float value) pure {
+	ref Transform setLocalPositionZ(string op = "=")(float value) pure {
 		static if (op == "=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, -position.z + value));
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, -localPosition.z + value));
     else static if (op == "+=")
       modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
     else static if (op == "-=")
@@ -122,11 +115,115 @@ struct Transform {
     else
       static assert(0, "Only =, +=, -= acceped.");
 
-    mixin ("this.position.z " ~ op ~ " value;");
+    mixin ("localPosition.z " ~ op ~ " value;");
+
+    return this;
+	}
+
+  /**
+   * Translate position using x, y and z scalars as coordinates.
+   * Translation is done in world space.
+  **/
+	ref Transform setWorldPosition(string op = "=", bool force = false)(float x, float y, float z)  {
+		return setWorldPosition!(op, force)(Vector3F(x, y, z));
+	}
+
+  /**
+   * Translate position using a vector with x, y and z coordinates.
+   * Translation is done in world space.
+  **/
+	ref Transform setWorldPosition(string op = "=", bool force = false)(Vector3F position)  {
+    mixin (forceBody);
+
+    static if (op == "=")
+      modelMatrix.translate(-this.worldPosition + position);
+    else static if (op == "+=")
+      modelMatrix.translate(position);
+    else static if (op == "-=")
+      modelMatrix.translate(-position);
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    mixin ("worldPosition " ~ op ~ " position;");
+
+    // Set position to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().setWorldPosition!(op, true)(position);
+
+		return this;
+	}
+
+  /**
+   * Translate x-coordinate position.
+   * Translation is done in world space.
+  **/
+	ref Transform setWorldPositionX(string op = "=", bool force = true)(float value) {
+    mixin (forceBody);
+
+		static if (op == "=")
+      modelMatrix.translate(Vector3F(-worldPosition.x + value, 0.0f, 0.0f));
+    else static if (op == "+=")
+      modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
+    else static if (op == "-=")
+      modelMatrix.translate(Vector3F(-value, 0.0f, 0.0f));
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    mixin ("worldPosition.x " ~ op ~ " value;");
+
+    // Set position x to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().setWorldPositionX!(op, true)(value);
+
+    return this;
+	}
+  
+  /**
+   * Translate y-coordinate position.
+   * Translation is done in world space.
+  **/
+	ref Transform setWorldPositionY(string op = "=", bool force = false)(float value) {
+    mixin (forceBody);
+
+    static if (op == "=")
+      modelMatrix.translate(Vector3F(0.0f, -worldPosition.y + value, 0.0f));
+    else static if (op == "+=")
+      modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
+    else static if (op == "-=")
+      modelMatrix.translate(Vector3F(0.0f, -value, 0.0f));
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    mixin ("worldPosition.y " ~ op ~ " value;");
+
+    // Set position y to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().setWorldPositionY!(op, true)(value);
+
+    return this;
+	}
+  
+  /**
+   * Translate z-coordinate position.
+   * Translation is done in world space.
+  **/
+	ref Transform setWorldPositionZ(string op = "=", bool force = false)(float value) {
+    mixin (forceBody);
+
+		static if (op == "=")
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, -worldPosition.z + value));
+    else static if (op == "+=")
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
+    else static if (op == "-=")
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, -value));
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    mixin ("worldPosition.z " ~ op ~ " value;");
 
     // Set position z to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().setPositionZ!op(value);
+      child.getTransform().setWorldPositionZ!(op, true)(value);
 
     return this;
 	}
@@ -276,24 +373,66 @@ struct Transform {
 	}
   
   /**
+   * Returns: object position in local space.
+  **/
+	ref const(Vector3F) getLocalPosition() pure nothrow const {
+		return localPosition;
+	}
+
+  /**
    * Returns: object position in world space.
   **/
 	ref const(Vector3F) getWorldPosition() pure nothrow const {
-		return position;
+		return worldPosition;
 	}
   
   /**
    * Returns: object rotation in local space.
   **/
 	ref const(Vector3F) getLocalRotation() pure nothrow const {
-		return rotation;
+		return localRotation;
+	}
+
+  /**
+   * Returns: object rotation in world space.
+  **/
+	ref const(Vector3F) getWorldRotation() pure nothrow const {
+		return worldRotation;
 	}
   
   /**
    * Returns: object scale in local space.
   **/
 	ref const(Vector3F) getLocalScale() pure nothrow const {
-		return scaling;
+		return localScaling;
+	}
+
+  /**
+   * Returns: object scale in world space.
+  **/
+	ref const(Vector3F) getWorldScale() pure nothrow const {
+		return worldScaling;
+	}
+
+  /**
+   * Returns: object position in true space.
+  **/
+	Vector3F getPosition() pure nothrow const {
+		return worldPosition + localPosition;
+	}
+
+  /**
+   * Returns: object rotation in true space.
+  **/
+	Vector3F getRotation() pure nothrow const {
+		return worldRotation + localRotation;
+	}
+  
+  /**
+   * Returns: object scale in true space.
+  **/
+	Vector3F getScale() pure nothrow const {
+		return worldScaling + localScaling;
 	}
   
   /**
@@ -303,3 +442,16 @@ struct Transform {
 		return modelMatrix;
 	}
 }
+
+private immutable forceBody = q{
+  static if (!force)
+    if (!parent.isRootObject()) {
+      Logger.warning(
+        "You are trying to perform transformation a non-root object (id: " 
+        ~ parent.getId() 
+        ~ ") in world space.",
+        typeof(this).stringof
+      );
+      return this;
+    }
+};

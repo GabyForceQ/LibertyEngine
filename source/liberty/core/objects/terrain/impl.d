@@ -50,7 +50,7 @@ final class Terrain : Entity!TerrainVertex {
     
     generateTerrain("res/textures/heightMap.bmp");
     
-    getTransform().setPosition(-size / 2.0f, 0.0f, -size / 2.0f);
+    getTransform().setWorldPosition(-size / 2.0f, 0.0f, -size / 2.0f);
     texCoordMultiplier = size;
 
     return this;

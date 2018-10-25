@@ -104,6 +104,13 @@ abstract class WorldObject : IStartable, IUpdatable {
   }
 
   /**
+   *
+  **/
+  bool isRootObject() pure nothrow {
+    return parent.id == scene.getTree().id;
+  }
+
+  /**
    * Remove a child node using its reference.
   **/
   void remove(T : WorldObject)(ref T child) {
