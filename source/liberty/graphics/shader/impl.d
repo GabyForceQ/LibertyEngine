@@ -365,8 +365,7 @@ class GfxShader {
         glDeleteShader(shaderId);
 
         // Log the error
-        Logger.error("Shader failed to compile", typeof(this).stringof);
-        Logger.error(shaderCode, typeof(this).stringof);
+        Logger.error("Shader failed to compile: " ~ shaderCode, typeof(this).stringof);
         assert(0);
       }
     }

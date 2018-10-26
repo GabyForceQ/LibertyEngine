@@ -47,7 +47,7 @@ class GfxGenericShader : GfxShader {
         if (uUseFakeLighting > 0.5)
           actualNormal = vec3(0.0, 1.0, 0.0);
         
-        tTexCoord = lTexCoord;// vec2(lTexCoord.x, -lTexCoord.y);
+        tTexCoord = lTexCoord;
         tNormal = (uModelMatrix * vec4(actualNormal, 0.0)).xyz;
 
         vec4 worldPosition = uModelMatrix * vec4(lPosition, 1.0);

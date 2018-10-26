@@ -83,15 +83,16 @@ final class PointLight : Entity!GenericVertex {
   override void render() {
     if (index < 4) {
       CoreEngine.getScene().getGenericShader()
-        .loadLightPosition(index, getTransform().getWorldPosition())
+        .loadLightPosition(index, getTransform().getPosition())
         .loadLightColor(index, color)
         .loadLightAttenuation(index, attenuation)
         .loadShineDamper(1.0f)
         .loadReflectivity(0.0f);
 
       CoreEngine.getScene().getTerrainShader()
-        .loadLightPosition(getTransform().getWorldPosition())
-        .loadLightColor(color)
+        .loadLightPosition(index, getTransform().getPosition())
+        .loadLightColor(index, color)
+        .loadLightAttenuation(index, attenuation)
         .loadShineDamper(1.0f)
         .loadReflectivity(0.0f);
     } else
