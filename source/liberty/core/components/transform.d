@@ -29,6 +29,8 @@ struct Transform {
     Vector3F worldPosition = Vector3F.zero;
     Vector3F worldRotation = Vector3F.zero;
     Vector3F worldScaling = Vector3F.one;
+
+    Vector3F pivot = Vector3F.zero;
   }
 
   /**
@@ -441,6 +443,92 @@ struct Transform {
 	ref const(Matrix4F) getModelMatrix() pure nothrow const {
 		return modelMatrix;
 	}
+
+  /**
+   *
+  **/
+  ref const(Transform) setPivot(string op = "=")(float x, float y, float z) pure {
+    return setPivot!op(Vector3F(x, y, z));
+  }
+
+  /**
+   *
+  **/
+  ref const(Transform) setPivot(string op = "=")(Vector3F pivot) pure {
+    static if (op == "=")
+      modelMatrix.translate(-this.pivot + pivot);
+    else static if (op == "+=")
+      modelMatrix.translate(pivot);
+    else static if (op == "-=")
+      modelMatrix.translate(-pivot);
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    mixin ("this.pivot " ~ op ~ " pivot;");
+    
+    return this;
+  }
+
+  /**
+   * 
+  **/
+	ref Transform setPivotX(string op = "=")(float value) pure {
+    static if (op == "=")
+      modelMatrix.translate(Vector3F(-pivot.x + value, 0.0f, 0.0f));
+    else static if (op == "+=")
+      modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
+    else static if (op == "-=")
+      modelMatrix.translate(Vector3F(-value, 0.0f, 0.0f));
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    
+    mixin ("pivot.x " ~ op ~ " value;");
+    return this;
+	}
+
+  /**
+   * 
+  **/
+	ref Transform setPivotY(string op = "=")(float value) pure {
+    static if (op == "=")
+      modelMatrix.translate(Vector3F(0.0f, -pivot.y + value, 0.0f));
+    else static if (op == "+=")
+      modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
+    else static if (op == "-=")
+      modelMatrix.translate(Vector3F(0.0f, -value, 0.0f));
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+    
+    mixin ("pivot.y " ~ op ~ " value;");
+
+    return this;
+	}
+
+  /**
+   * 
+  **/
+	ref Transform setPivotZ(string op = "=")(float value) pure {
+    static if (op == "=")
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, -pivot.z + value));
+    else static if (op == "+=")
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
+    else static if (op == "-=")
+      modelMatrix.translate(Vector3F(0.0f, 0.0f, -value));
+    else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    
+    mixin ("pivot.z " ~ op ~ " value;");
+    return this;
+	}
+
+  /**
+   *
+  **/
+  ref const(Vector3F) getPivot() pure nothrow const {
+    return pivot;
+  }
 }
 
 private immutable forceBody = q{
