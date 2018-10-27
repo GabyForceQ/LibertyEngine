@@ -91,9 +91,10 @@ abstract class WorldObject : IStartable, IUpdatable {
 
   /**
    * Returns a child reference using its ID.
+   * If child doesn't exist then returns null.
   **/
   T getChild(T)(string id) pure nothrow {
-    return cast(T)this.children[id];
+    return (id in children) ? cast(T)children[id] : null;
   }
 
   /**
