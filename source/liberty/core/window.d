@@ -42,7 +42,7 @@ final class Window {
 		Logger.info(InfoMessage.Creating, typeof(this).stringof);
     
 		// Create window internally
-    handle = glfwCreateWindow(width, height, title, null, null);
+    handle = glfwCreateWindow(width, height, cast(const(char)*)title, null, null);
 
 		resizeFrameBuffer();
 		glfwSetFramebufferSizeCallback(handle, &Event.frameBufferResizeCallback);
