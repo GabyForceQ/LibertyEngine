@@ -33,11 +33,22 @@ struct Transform {
     Vector3F pivot = Vector3F.zero;
   }
 
+
   /**
    *
   **/
-  this(WorldObject parent) pure {
+  this(WorldObject parent) {
     this.parent = parent;
+  }
+
+  /**
+   *
+  **/
+  this(WorldObject parent, Transform transform) {
+    this(parent);
+    
+    worldPosition = transform.worldPosition;
+    modelMatrix.translate(worldPosition);
   }
 
   /**

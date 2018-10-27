@@ -41,7 +41,10 @@ abstract class WorldObject : IStartable, IUpdatable {
     scene = CoreEngine.getScene();
 
     // Set transformation
-    transform = Transform(this);
+    if (parent is null)
+      transform = Transform(this);
+    else
+      transform = Transform(this, parent.getTransform());
     
     // Check if given id is unique
     if (id in this.scene.getObjectsId()) {
@@ -91,7 +94,6 @@ abstract class WorldObject : IStartable, IUpdatable {
 
   /**
    * Returns a child reference using its ID.
-   * If child doesn't exist then returns null.
   **/
   T getChild(T)(string id) pure nothrow {
     return (id in children) ? cast(T)children[id] : null;
