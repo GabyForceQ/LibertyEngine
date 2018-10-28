@@ -61,7 +61,7 @@ final class MousePicker {
   }
 
   private Vector3F computeMouseRay() {
-    Vector2F normalizedCoords = getNormalizedDeviceCoords(Input.getMousePostion());
+    Vector2F normalizedCoords = Input.getNormalizedDeviceCoords(Input.getMousePostion());
     Vector4F clipCoords = Vector4F(normalizedCoords.x , normalizedCoords.y, -1.0f, 1.0f);
     Vector4F eyeCoords = toEyeCoords(clipCoords);
     Vector3F worldRay = toWorldCoords(eyeCoords);
@@ -91,13 +91,6 @@ final class MousePicker {
     Vector4F eyeCoords = Matrix4F.transformation(invProjection, clipCoords);
 
     return Vector4F(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
-  }
-
-  private Vector2F getNormalizedDeviceCoords(Vector2F mousePos, Window window = Platform.getWindow()) {
-    return Vector2F(
-      (2.0f * mousePos.x) / window.getWidth() - 1.0f,
-      -((2.0f * mousePos.y) / window.getHeight() - 1.0f)
-    );
   }
 
   private Vector3F getPointOnRay(Vector3F ray, float distance) {

@@ -8,36 +8,61 @@
  */
 module liberty.core.ui.widget;
 
-import liberty.core.math.vector : Vector2F;
-import liberty.core.objects.bsp.square : UISquare;
+import liberty.core.engine : CoreEngine;
+import liberty.core.components.renderer : Renderer;
+import liberty.core.material.impl : Material;
+import liberty.core.math.matrix : Matrix4F;
+import liberty.core.math.vector : Vector2F, Vector3F;
+import liberty.core.model : GenericModel, UIModel;
+import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
-import liberty.graphics.vertex : UIVertex;
+import liberty.core.objects.node : WorldObject;
+import liberty.graphics.vertex : GenericVertex, UIVertex;
+
+import liberty.engine;
 
 /**
  *
 **/
-final class Widget : Entity!UIVertex {
-  mixin(NodeBody);
-
+abstract class Widget : Entity!UIVertex {
   private {
-    Vector2F position;
-    Vector2F extent;
-    UISquare shape;
+    Vector2F position = Vector2F.zero;
+    Vector2F extent = Vector2F(0.25f, 0.25f);
   }
 
   /**
    *
   **/
-  void constructor() {
-    shape = spawn!UISquare("WidgetSqare");
+  this(string id, WorldObject parent) {
+    super(id, parent);
+    getTransform().setWorldPosition(Vector3F(position.x, position.y, 0.0f));
+    //getTransform().scale(Vector3F(extent.x, extent.y, 1.0f));
   }
+
+  /**
+   *
+  **/
+  override void render() {
+    super.render();
+  }
+
+  /**
+   *
+  **/
+	Widget build(Material material) {
+    renderer = Renderer!UIVertex(this, (new UIModel([material])
+      .build(uiSquareVertices, uiSquareIndices)));
+
+    return this;
+	}
 
   /**
    *
   **/
   Widget setPosition(Vector2F position) {
     this.position = position;
+    getTransform().setWorldPosition(Vector3F(position.x, position.y, 0.0f));
     return this;
   }
 
@@ -52,7 +77,8 @@ final class Widget : Entity!UIVertex {
    *
   **/
   Widget setExtent(Vector2F extent) {
-    this.extent = extent;
+    //this.extent = extent;
+    //getTransform().scale(Vector3F(extent.x, extent.y, 1.0f));
     return this;
   }
 
@@ -62,4 +88,25 @@ final class Widget : Entity!UIVertex {
   Vector2F getExtent() {
     return extent;
   }
+
+  /**
+   *
+  **/
+  override void update() {
+    Vector2F normalizedCoords = Input.getNormalizedDeviceCoords();
+    //if (normalizedCoords.x >= position.x && normalizedCoords.y >= position.y)
+    Logger.exception(normalizedCoords.toString() ~ " -- " ~ position.toString());
+  }
 }
+
+private uint[6] uiSquareIndices = [
+  0, 1, 2,
+  0, 2, 3
+];
+
+private UIVertex[] uiSquareVertices = [
+  UIVertex(Vector3F(-1.0f,  1.0f, 0.0f), Vector2F(0.0f, 1.0f)),
+  UIVertex(Vector3F(-1.0f, -1.0f, 0.0f), Vector2F(0.0f, 0.0f)),
+  UIVertex(Vector3F( 1.0f, -1.0f, 0.0f), Vector2F(1.0f, 0.0f)),
+  UIVertex(Vector3F( 1.0f,  1.0f, 0.0f), Vector2F(1.0f, 1.0f))
+];

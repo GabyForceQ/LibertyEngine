@@ -10,6 +10,7 @@ module liberty.core.objects.bsp.impl;
 
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.node : WorldObject;
+import liberty.graphics.vertex : GenericVertex, TerrainVertex;
 
 /**
  *
@@ -26,8 +27,7 @@ abstract class BSPVolume(VERTEX) : Entity!VERTEX {
    *
   **/
   override void render() {
-    import liberty.graphics.vertex : UIVertex;
-    static if (!is(VERTEX == UIVertex))
+    static if (is(VERTEX == GenericVertex) || is(VERTEX == TerrainVertex))
       getScene()
         .getGenericShader()
         .loadUseFakeLighting(renderer.getModel().getUseFakeLighting());

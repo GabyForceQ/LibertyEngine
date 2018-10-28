@@ -9,5 +9,6 @@
 module liberty.core.ui;
 
 public {
+  import liberty.core.ui.button;
   import liberty.core.ui.widget;
 }

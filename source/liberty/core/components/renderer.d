@@ -45,7 +45,7 @@ struct Renderer(VERTEX) {
     else static if (is(VERTEX == TerrainVertex))
       parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (is(VERTEX == UIVertex))
-      {}
+      parent.getScene().getUIShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else
       assert(0, "Unreachable");
 

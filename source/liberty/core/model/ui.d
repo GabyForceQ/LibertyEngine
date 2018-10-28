@@ -70,7 +70,11 @@ final class UIModel : Model {
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
     }
 
-    //GfxEngine.enableCulling();
+    if (shouldCull)
+      GfxEngine.enableCulling();
+    
+    GfxEngine.enableAlphaBlend();
+    //GfxEngine.disableDepthTest();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
@@ -94,7 +98,11 @@ final class UIModel : Model {
       glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    //GfxEngine.disableCulling();
+    //GfxEngine.enableDepthTest();
+    GfxEngine.disableBlend();
+
+    if (shouldCull)
+      GfxEngine.disableCulling();
 
     CoreEngine.getScene().getUIShader().unbind();
   }

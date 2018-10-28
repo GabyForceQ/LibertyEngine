@@ -70,7 +70,7 @@ class GfxEngine {
     else
       Logger.error("No OpenGL library", typeof(this).stringof);
 
-    enable3DCapabilities();
+    enableDepthTest();
 
     Logger.info("Finish realoading OpenGL", typeof(this).stringof);
   }
@@ -108,6 +108,14 @@ class GfxEngine {
   /**
    *
   **/
+  static void disableBlend() {
+    version (__OPENGL__)
+      glDisable(GL_BLEND);
+  }
+
+  /**
+   *
+  **/
   static void enableCulling() {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
@@ -130,9 +138,15 @@ class GfxEngine {
     } catch (Exception e) {}
   }
 
-  static void enable3DCapabilities() {
+  static void enableDepthTest() {
     version (__OPENGL__) {
       glEnable(GL_DEPTH_TEST);
+    }
+  }
+
+  static void disableDepthTest() {
+    version (__OPENGL__) {
+      glDisable(GL_DEPTH_TEST);
     }
   }
 

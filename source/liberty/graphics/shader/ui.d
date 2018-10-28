@@ -8,6 +8,7 @@
 **/
 module liberty.graphics.shader.ui;
 
+import liberty.core.math.matrix : Matrix4F;
 import liberty.core.math.vector : Vector2F, Vector3F;
 import liberty.graphics.shader.impl : GfxShader;
 
@@ -24,12 +25,12 @@ class GfxUIShader : GfxShader {
 
       out vec2 tTexCoord;
 
-      //uniform mat4 uTransformationMatrix;
+      uniform mat4 uModelMatrix;
 
       void main() {
         tTexCoord = vec2((lPosition.x + 1.0) / 2.0, 1.0 - (lPosition.y + 1.0) / 2.0);
 
-        gl_Position = vec4(lPosition, 1.0);
+        gl_Position = uModelMatrix * vec4(lPosition, 1.0);
       }
     };
 
@@ -55,8 +56,20 @@ class GfxUIShader : GfxShader {
       .bindAttribute("lPosition")
       .bindAttribute("lTexCoord")
       .bind()
+      .addUniform("uModelMatrix")
       .addUniform("uTexture")
       .unbind();
+  }
+
+  /**
+   *
+   * Returns reference to this.
+  **/
+  GfxUIShader loadModelMatrix(Matrix4F matrix) {
+    bind();
+    loadUniform("uModelMatrix", matrix);
+    unbind();
+    return this;
   }
 
   /**

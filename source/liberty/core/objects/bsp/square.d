@@ -46,27 +46,3 @@ private uint[6] squareIndices = [
   0, 1, 2,
   0, 2, 3
 ];
-
-/**
- *
-**/
-final class UISquare : BSPVolume!UIVertex {
-  mixin(NodeBody);
-
-  /**
-   *
-  **/
-	UISquare build(Material material) {
-    renderer = Renderer!UIVertex(this, (new UIModel([material])
-      .build(uiSquareVertices, squareIndices)));
-
-    return this;
-	}
-}
-
-private UIVertex[] uiSquareVertices = [
-  UIVertex(Vector3F(-0.02f,  0.02f, 0.0f), Vector2F(0.0f, 1.0f)),
-  UIVertex(Vector3F(-0.02f, -0.02f, 0.0f), Vector2F(0.0f, 0.0f)),
-  UIVertex(Vector3F( 0.02f, -0.02f, 0.0f), Vector2F(1.0f, 0.0f)),
-  UIVertex(Vector3F( 0.02f,  0.02f, 0.0f), Vector2F(1.0f, 1.0f))
-];
