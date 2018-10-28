@@ -15,7 +15,7 @@ import liberty.core.input.event : Event;
 import liberty.core.logger : Logger, InfoMessage;
 
 /**
- *
+ * It represents an OS window.
 **/
 final class Window {
 	private {
@@ -32,7 +32,7 @@ final class Window {
 	}
 
 	/**
-	 *
+	 * Create a new system window specifying the width, the height and its title.
 	**/
 	this(int width, int height, string title) {
 		// Set window size
@@ -75,49 +75,49 @@ final class Window {
 	}
 
 	/**
-	 *
+	 * Returns window width.
 	**/
 	int getWidth() pure nothrow const {
 		return width;
 	}
 
 	/**
-	 *
+	 * Returns window height.
 	**/
 	int getHeight() pure nothrow const {
 		return height;
 	}
 
   /**
-   *
+   * Returns handle to this window.
   **/
   GLFWwindow* getHandle() pure nothrow {
     return handle;
   }
 
 	/**
-	 *
+	 * Returns frame buffer width.
 	**/
 	int getFrameBufferWidth() pure nothrow const {
 		return frameBufferWidth;
 	}
 
 	/**
-	 *
+	 * Returns frame buffer height.
 	**/
 	int getFrameBufferHeight() pure nothrow const {
 		return frameBufferHeight;
 	}
 
 	/**
-	 *
+	 * Resize the current frame buffer of the window.
 	**/
 	void resizeFrameBuffer() {
 		glfwGetFramebufferSize(handle, &frameBufferWidth, &frameBufferHeight);
 	}
 
 	/**
-	 *
+	 * Enter or leave fullscreen mode.
 	**/
 	Window setFullscreen(bool fullscreen) {
 		if (fullscreen) {
@@ -145,9 +145,16 @@ final class Window {
 	}
 
 	/**
-	 *
+	 * Toggle window fullscreen/windowed mode.
+	**/
+	Window toggleFullscreen() {
+		return setFullscreen(!fullscreen);
+	}
+
+	/**
+	 * Returns true if window is in fullscreen mode.
 	**/
 	bool isFullscreen() pure nothrow const {
-		return isFullscreen;
+		return fullscreen;
 	}
 }
