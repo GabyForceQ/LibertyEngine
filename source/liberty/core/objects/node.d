@@ -34,7 +34,7 @@ abstract class WorldObject : IStartable, IUpdatable {
   }
 
   /**
-   *
+   * Construct an object using a unique id and parent for it.
   **/
   this(string id, WorldObject parent) {
     // Set model scene
@@ -65,14 +65,14 @@ abstract class WorldObject : IStartable, IUpdatable {
   }
 
   /**
-   *
+   * Retuns object unique id.
   **/
   string getId() {
     return this.id;
   }
 
   /**
-   *
+   * Returns transform.
   **/
   ref Transform getTransform() pure nothrow {
     return transform;
@@ -100,14 +100,14 @@ abstract class WorldObject : IStartable, IUpdatable {
   }
 
   /**
-   *
+   * Returns scene that object is attached to.
   **/
   Scene getScene() pure nothrow {
     return this.scene;
   }
 
   /**
-   *
+   * Returns true if this object is the root object.
   **/
   bool isRootObject() pure nothrow {
     return parent.id == scene.getTree().id;
@@ -244,12 +244,14 @@ abstract class WorldObject : IStartable, IUpdatable {
 	}
 
   /**
-   * Called after all objects instantiation. Optional.
+   * Called after all objects instantiation.
+   * It is optional.
   **/
   void start() {}
 
   /**
-   * Called every frame. Optional.
+   * Called every frame to update the current state of the object.
+   * It is optional.
   **/
   void update() {}
 
@@ -260,11 +262,12 @@ abstract class WorldObject : IStartable, IUpdatable {
 }
 
 /**
- *
+ * The root object of a scene.
+ * It is the big parent of all objects.
 **/
 final class RootObject : WorldObject {
   /**
-   *
+   * Create the root object with the id "Root" and no parent.
   **/
   this() {
     super("Root", null);

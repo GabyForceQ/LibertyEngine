@@ -13,42 +13,61 @@ import liberty.core.objects.camera : Camera;
 import liberty.core.scene.impl : Scene;
 
 /**
- *
+ * World settings class used in a scene.
 **/
 final class WorldSettings {
+  enum {
+    /**
+     * The default value of exponential height fog is r: 0.5; g:0.8; b:0.8;
+    **/
+    DEFAULT_EXP_HEIGHT_FOG_COLOR = Vector3F(0.5f, 0.8f, 0.8f)
+  }
+
   private {
-    Vector3F exponentialHeighFogColor = Vector3F(0.5f, 0.8f, 0.8f);
+    Vector3F expHeightFogColor = DEFAULT_EXP_HEIGHT_FOG_COLOR;
   }
 
   /**
-   *
+   * Update generic shader: projection matrix, view matrix, sky color.
+   * Update terrain shader: projection matrix, view matrix, sky color.
+   * Returns reference to this.
   **/
   WorldSettings updateShaders(Scene scene, Camera camera) {
     scene.getGenericShader()
       .loadProjectionMatrix(camera.getProjectionMatrix())
       .loadViewMatrix(camera.getViewMatrix())
-      .loadSkyColor(exponentialHeighFogColor);
+      .loadSkyColor(expHeightFogColor);
     
     scene.getTerrainShader()
       .loadProjectionMatrix(camera.getProjectionMatrix())
       .loadViewMatrix(camera.getViewMatrix())
-      .loadSkyColor(exponentialHeighFogColor);
+      .loadSkyColor(expHeightFogColor);
     
     return this;
   }
 
   /**
-   *
+   * Set the exp height fog of the scene using a 3 floats for the color (RGB).
+   * Returns reference to this.
   **/
-  WorldSettings setExponentialHeighFogColor(Vector3F exponentialHeighFogColor) pure nothrow {
-    this.exponentialHeighFogColor = exponentialHeighFogColor;
+  WorldSettings setexpHeightFogColor(float r, float g, float b) pure nothrow {
+    this.expHeightFogColor = Vector3F(r, g, b);
+    return this;
+  }
+
+  /**
+   * Set the exp height fog of the scene using a vector of 3 values for the color (RGB).
+   * Returns reference to this.
+  **/
+  WorldSettings setexpHeightFogColor(Vector3F expHeightFogColor) pure nothrow {
+    this.expHeightFogColor = expHeightFogColor;
     return this;
   }
 
   /**
    *
   **/
-  Vector3F getExponentialHeighFogColor() pure nothrow {
-    return exponentialHeighFogColor;
+  Vector3F getexpHeightFogColor() pure nothrow {
+    return expHeightFogColor;
   }
 }

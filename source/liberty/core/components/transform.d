@@ -53,13 +53,14 @@ struct Transform {
 
   /**
    *
+   * Returns reference to this.
   **/
   ref const(Transform) setLocalPosition(string op = "=")(float x, float y, float z) pure {
     return setLocalPosition!op(Vector3F(x, y, z));
   }
 
   /**
-   *
+   * Returns reference to this.
   **/
   ref const(Transform) setLocalPosition(string op = "=")(Vector3F position) pure {
     static if (op == "=")
@@ -78,7 +79,7 @@ struct Transform {
 
   /**
    * 
-   * 
+   * Returns reference to this.
   **/
 	ref Transform setLocalPositionX(string op = "=")(float value) pure {
 		static if (op == "=")
@@ -97,7 +98,7 @@ struct Transform {
   
   /**
    * 
-   * 
+   * Returns reference to this.
   **/
 	ref Transform setLocalPositionY(string op = "=")(float value) pure {
 		static if (op == "=")
@@ -116,7 +117,7 @@ struct Transform {
 
   /**
    * 
-   * 
+   * Returns reference to this.
   **/
 	ref Transform setLocalPositionZ(string op = "=")(float value) pure {
 		static if (op == "=")
@@ -144,6 +145,7 @@ struct Transform {
   /**
    * Translate position using a vector with x, y and z coordinates.
    * Translation is done in world space.
+   * Returns reference to this.
   **/
 	ref Transform setWorldPosition(string op = "=", bool force = false)(Vector3F position)  {
     mixin (forceBody);
@@ -169,6 +171,7 @@ struct Transform {
   /**
    * Translate x-coordinate position.
    * Translation is done in world space.
+   * Returns reference to this.
   **/
 	ref Transform setWorldPositionX(string op = "=", bool force = true)(float value) {
     mixin (forceBody);
@@ -194,6 +197,7 @@ struct Transform {
   /**
    * Translate y-coordinate position.
    * Translation is done in world space.
+   * Returns reference to this.
   **/
 	ref Transform setWorldPositionY(string op = "=", bool force = false)(float value) {
     mixin (forceBody);
@@ -219,6 +223,7 @@ struct Transform {
   /**
    * Translate z-coordinate position.
    * Translation is done in world space.
+   * Returns reference to this.
   **/
 	ref Transform setWorldPositionZ(string op = "=", bool force = false)(float value) {
     mixin (forceBody);
@@ -243,6 +248,7 @@ struct Transform {
   
   /**
    * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
+   * Returns reference to this.
   **/
 	ref Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure {
 		return setRotation!op(angle, Vector3F(rotX, rotY, rotZ));
@@ -250,6 +256,7 @@ struct Transform {
   
   /**
    * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
+   * Returns reference to this.
   **/
 	ref Transform setRotation(string op = "=")(float angle, Vector3F rotation) pure {
     static if (op == "=")
@@ -270,6 +277,7 @@ struct Transform {
   
   /**
    * Rotate object specifying the rotation angle for pitch axis.
+   * Returns reference to this.
   **/
 	ref Transform rotatePitch(float angle) pure {
 		modelMatrix.rotateX(angle.radians);
@@ -283,6 +291,7 @@ struct Transform {
 
   /**
    * Rotate object specifying the rotation angle for yaw axis.
+   * Returns reference to this.
   **/
 	ref Transform rotateYaw(float angle) pure {
 		modelMatrix.rotateY(angle.radians);
@@ -296,6 +305,7 @@ struct Transform {
 
   /**
    * Rotate object specifying the rotation angle for roll axis.
+   * Returns reference to this.
   **/
 	ref Transform rotateRoll(float angle) pure {
 		modelMatrix.rotateZ(angle.radians);
@@ -309,6 +319,7 @@ struct Transform {
 
   /**
    * Scale object using same value for x, y and z coordinates.
+   * Returns reference to this.
   **/
 	ref Transform scale(float value) pure {
 		modelMatrix.scale(Vector3F(value));
@@ -322,6 +333,7 @@ struct Transform {
   
   /**
    * Scale object using x, y and z scalars for coordinates.
+   * Returns reference to this.
   **/
 	ref Transform scale(float x, float y, float z) pure {
 		modelMatrix.scale(Vector3F(x, y, z));
@@ -335,6 +347,7 @@ struct Transform {
   
   /**
    * Scale object using a vector with x, y and z scalars for coordinates.
+   * Returns reference to this.
   **/
 	ref Transform scale(Vector3F scaling) pure {
 		modelMatrix.scale(scaling);
@@ -348,6 +361,7 @@ struct Transform {
   
   /**
    * Scale object on x axis.
+   * Returns reference to this.
   **/
 	ref Transform scaleX(float value) pure {
 		modelMatrix.scale(Vector3F(value, 0.0f, 0.0f));
@@ -361,6 +375,7 @@ struct Transform {
   
   /**
    * Scale object on y axis.
+   * Returns reference to this.
   **/
 	ref Transform scaleY(float value) pure {
 		modelMatrix.scale(Vector3F(0.0f, value, 0.0f));
@@ -374,6 +389,7 @@ struct Transform {
   
   /**
    * Scale object on z axis.
+   * Returns reference to this.
   **/
 	ref Transform scaleZ(float value) pure {
 		modelMatrix.scale(Vector3F(0.0f, 0.0f, value));
@@ -386,70 +402,70 @@ struct Transform {
 	}
   
   /**
-   * Returns: object position in local space.
+   * Returns object position in local space.
   **/
 	ref const(Vector3F) getLocalPosition() pure nothrow const {
 		return localPosition;
 	}
 
   /**
-   * Returns: object position in world space.
+   * Returns object position in world space.
   **/
 	ref const(Vector3F) getWorldPosition() pure nothrow const {
 		return worldPosition;
 	}
   
   /**
-   * Returns: object rotation in local space.
+   * Returns object rotation in local space.
   **/
 	ref const(Vector3F) getLocalRotation() pure nothrow const {
 		return localRotation;
 	}
 
   /**
-   * Returns: object rotation in world space.
+   * Returns object rotation in world space.
   **/
 	ref const(Vector3F) getWorldRotation() pure nothrow const {
 		return worldRotation;
 	}
   
   /**
-   * Returns: object scale in local space.
+   * Returns object scale in local space.
   **/
 	ref const(Vector3F) getLocalScale() pure nothrow const {
 		return localScaling;
 	}
 
   /**
-   * Returns: object scale in world space.
+   * Returns object scale in world space.
   **/
 	ref const(Vector3F) getWorldScale() pure nothrow const {
 		return worldScaling;
 	}
 
   /**
-   * Returns: object position in true space.
+   * Returns object position in true space.
   **/
 	Vector3F getPosition() pure nothrow const {
 		return worldPosition + localPosition;
 	}
 
   /**
-   * Returns: object rotation in true space.
+   * Returns object rotation in true space.
   **/
 	Vector3F getRotation() pure nothrow const {
 		return worldRotation + localRotation;
 	}
   
   /**
-   * Returns: object scale in true space.
+   * Returns object scale in true space.
   **/
 	Vector3F getScale() pure nothrow const {
 		return worldScaling + localScaling;
 	}
   
   /**
-   * Returns: model matrix for the object representation.
+   * Returns model matrix for the object representation.
   **/
 	ref const(Matrix4F) getModelMatrix() pure nothrow const {
 		return modelMatrix;
@@ -464,6 +480,7 @@ struct Transform {
 
   /**
    *
+   * Returns reference to this.
   **/
   ref const(Transform) setPivot(string op = "=")(Vector3F pivot) pure {
     static if (op == "=")
@@ -481,7 +498,8 @@ struct Transform {
   }
 
   /**
-   * 
+   *
+   * Returns reference to this.
   **/
 	ref Transform setPivotX(string op = "=")(float value) pure {
     static if (op == "=")
@@ -499,7 +517,8 @@ struct Transform {
 	}
 
   /**
-   * 
+   *
+   * Returns reference to this.
   **/
 	ref Transform setPivotY(string op = "=")(float value) pure {
     static if (op == "=")
@@ -517,7 +536,8 @@ struct Transform {
 	}
 
   /**
-   * 
+   *
+   * Returns reference to this.
   **/
 	ref Transform setPivotZ(string op = "=")(float value) pure {
     static if (op == "=")

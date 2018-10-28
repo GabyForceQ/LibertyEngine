@@ -49,7 +49,7 @@ final class ResourceManager {
   /**
    * Load a texture into memory using a relative resource path.
    * If texture is already loaded then just return it.
-   * Returns: newly created texture.
+   * Returns newly created texture.
   **/
   static Texture loadTexture(string resourcePath) {
     return textureCache.getTexture(resourcePath);
@@ -57,7 +57,7 @@ final class ResourceManager {
 
   /**
    * Load a raw model into memory using vertex data.
-   * Returns: newly created raw model.
+   * Returns newly created raw model.
   **/
   static RawModel loadRawModel(VERTEX)(VERTEX[] data) {
     // Create vertex array object for the model
@@ -91,7 +91,7 @@ final class ResourceManager {
   /**
    * Load a raw model into memory using vertex data and indices.
    * Indices are stored into the internal vertex buffer object static array.
-   * Returns: newly created raw model.
+   * Returns newly created raw model.
   **/
   static RawModel loadRawModel(VERTEX)(VERTEX[] data, uint[] indices) {
     // Create vertex array object for the model
@@ -131,7 +131,7 @@ final class ResourceManager {
    * Load a model into memory using a file with .obj extension.
    * Indices are stored into the internal vertex buffer object static array.
    * Currently it supports only format: 'v' 'vt' 'vn' and 'f a/a/a'.
-   * Returns: newly created model.
+   * Returns newly created model.
   **/
   static GenericModel loadModel(string path) {
     import std.array : split;

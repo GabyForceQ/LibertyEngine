@@ -41,6 +41,7 @@ final class Terrain : Entity!TerrainVertex {
 
   /**
    *
+   * Returns reference to this.
   **/
   Terrain build(float size, float maxHeight, Material[] materials) {
     renderer = Renderer!TerrainVertex(this, new TerrainModel(materials));
@@ -73,6 +74,7 @@ final class Terrain : Entity!TerrainVertex {
 
   /**
    *
+   * Returns reference to this.
   **/
   Terrain setTexCoordMultiplier(Vector2F multiplier) {
     texCoordMultiplier = multiplier;
@@ -81,6 +83,7 @@ final class Terrain : Entity!TerrainVertex {
 
   /**
    *
+   * Returns reference to this.
   **/
   Terrain setTexCoordMultiplier(float x, float y) {
     texCoordMultiplier = Vector2F(x, y);
@@ -89,6 +92,7 @@ final class Terrain : Entity!TerrainVertex {
 
   /**
    *
+   * Returns reference to this.
   **/
   Terrain increaseTexCoordMultiplier(Vector2F multiplier) {
     texCoordMultiplier += multiplier;
@@ -97,6 +101,7 @@ final class Terrain : Entity!TerrainVertex {
 
   /**
    *
+   * Returns reference to this.
   **/
   Terrain increaseTexCoordMultiplier(float x, float y) {
     texCoordMultiplier += Vector2F(x, y);
@@ -105,6 +110,7 @@ final class Terrain : Entity!TerrainVertex {
 
   /**
    *
+   * Returns reference to this.
   **/
   Terrain decreaseTexCoordMultiplier(Vector2F multiplier) {
     texCoordMultiplier -= multiplier;
@@ -113,6 +119,7 @@ final class Terrain : Entity!TerrainVertex {
 
   /**
    *
+   * Returns reference to this.
   **/
   Terrain decreaseTexCoordMultiplier(float x, float y) {
     texCoordMultiplier -= Vector2F(x, y);

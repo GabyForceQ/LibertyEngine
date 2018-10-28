@@ -34,6 +34,7 @@ class CameraPreset {
 
   /**
    *
+   * Returns reference to this.
   **/
   CameraPreset setImplicit(void delegate(Camera camera) runImplicitDelegate) {
     this.runImplicitDelegate = runImplicitDelegate;
@@ -46,6 +47,7 @@ class CameraPreset {
 
   /**
    *
+   * Returns reference to this.
   **/
   CameraPreset setKeyboardProcess(void delegate(Camera, CameraMovement, float) runKeyboardProcess) {
     this.runKeyboardProcess = runKeyboardProcess;

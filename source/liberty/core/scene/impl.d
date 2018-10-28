@@ -35,11 +35,9 @@ final class Scene : IUpdatable, IRenderable {
     IStartable[string] startList;
     IUpdatable[string] updateList;
     IRenderable[string] renderList;
-
     GfxGenericShader genericShader;
     GfxTerrainShader terrainShader;
     GfxUIShader uiShader;
-
     WorldSettings worldSettings;
   }
 
@@ -95,73 +93,84 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   *
+   * Returns the camera in use by the player.
   **/
   Camera getActiveCamera() {
     return activeCamera;
   }
 
   /**
-   *
+   * Set camera as the current view camera.
+   * Returns reference to this.
   **/
-  void setActiveCamera(Camera camera) {
+  Scene setActiveCamera(Camera camera) {
     activeCamera = camera;
+    return this;
   }
 
   /**
-   *
+   * Register camera to the camera map.
+   * Returns reference to this.
   **/
-  void registerCamera(Camera camera) {
+  Scene registerCamera(Camera camera) {
 		camerasMap[camera.getId()] = camera;
+    return this;
 	}
 
   /**
-   *
+   * Returns a list with startable objects.
   **/
   IStartable[string] getStartList() pure nothrow {
     return startList;
   }
 
   /**
-   *
+   * Returns a list with updatable objects.
   **/
   IUpdatable[string] getUpdateList() pure nothrow {
     return updateList;
   }
 
   /**
-   *
+   * Returns a list with renderable objects.
   **/
   IRenderable[string] getRenderList() pure nothrow {
     return renderList;
   }
 
   /**
-   *
+   * Add an object to the startable list.
+   * Returns reference to this.
   **/
-  void setStartList(string id, IStartable node) pure nothrow {
+  Scene setStartList(string id, IStartable node) pure nothrow {
     startList[id] = node;
+    return this;
   }
 
   /**
-   *
+   * Add an object to the updatable list.
+   * Returns reference to this.
   **/
-  void setUpdateList(string id, IUpdatable node) pure nothrow {
+  Scene setUpdateList(string id, IUpdatable node) pure nothrow {
     updateList[id] = node;
+    return this;
   }
 
   /**
-   *
+   * Add an object to the renderable list.
+   * Returns reference to this.
   **/
-  void setRenderList(string id, IRenderable node) pure nothrow {
+  Scene setRenderList(string id, IRenderable node) pure nothrow {
     renderList[id] = node;
+    return this;
   }
 
   /**
    * Register scene to the CoreEngine.
 	 * Invoke start for all IStartable objects that have an start() method.
+   * Returns reference to this.
   **/
-	void register() {
+	Scene register() {
 		registered = true;
 
 		if (activeCamera is null)
@@ -169,6 +178,8 @@ final class Scene : IUpdatable, IRenderable {
 
     foreach (node; startList)
 			node.start();
+
+    return this;
 	}
 
   /**
@@ -194,14 +205,15 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   *
+   * Returns a dictionary with all objects id.
   **/
   bool[string] getObjectsId() {
     return objectsId;
   }
 
   /**
-   *
+   * Add an object id to the dictionary.
+   * Returns reference to this.
   **/
   Scene setObjectId(string key, bool state = true) {
     objectsId[key] = state;
@@ -209,7 +221,8 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   *
+   * Set the default generic shader.
+   * Returns reference to this.
   **/
   Scene setGenericShader(GfxGenericShader shader) {
     genericShader = shader;
@@ -217,14 +230,15 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   *
+   * Returns the default generic shader.
   **/
   GfxGenericShader getGenericShader() {
     return genericShader;
   }
 
   /**
-   *
+   * Set the default terrain shader.
+   * Returns reference to this.
   **/
   Scene setTerrainShader(GfxTerrainShader shader) {
     terrainShader = shader;
@@ -232,14 +246,15 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   *
+   * Returns the default terrain shader.
   **/
   GfxTerrainShader getTerrainShader() {
     return terrainShader;
   }
 
   /**
-   *
+   * Set the default ui shader.
+   * Returns reference to this.
   **/
   Scene setUIShader(GfxUIShader shader) {
     uiShader = shader;
@@ -247,14 +262,15 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   *
+   * Returns the default ui shader.
   **/
   GfxUIShader getUIShader() {
     return uiShader;
   }
 
   /**
-   *
+   * Set the world settings for the scene.
+   * Returns reference to this.
   **/
   Scene setWorldSettings(WorldSettings worldSettings) {
     this.worldSettings = worldSettings;
@@ -262,7 +278,7 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   *
+   * Returns the world settings of the scene.
   **/
   WorldSettings getWorldSettings() {
     return worldSettings;

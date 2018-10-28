@@ -60,7 +60,7 @@ struct Renderer(VERTEX) {
   }
 
   /**
-   *
+   * Returns reference to this.
   **/
   ref Renderer!VERTEX setModel(RendererModel model) {
     this.model = model;

@@ -183,7 +183,7 @@ final class CoreEngine {
 	}
 
 	/**
-	 * Returns: current scene.
+	 * Returns current scene.
 	**/
 	static Scene getScene() nothrow {
 		return scene;

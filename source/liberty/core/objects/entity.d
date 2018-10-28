@@ -41,7 +41,7 @@ abstract class Entity(VERTEX) : WorldObject, IRenderable {
   }
 
   /**
-   * Returns: reference to the current renderer component.
+   * Returns reference to the current renderer component.
   **/
   ref Renderer!VERTEX getRenderer() {
     return renderer;

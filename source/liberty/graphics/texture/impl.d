@@ -25,19 +25,20 @@ final class Texture {
   }
 
   /**
-   *
+   * Craete an empty texture.
   **/
   this() {}
 
   /**
-   *
+   * Create a texture with a given id.
   **/
   this(uint id) {
     this.id = id;
   }
 
   /**
-   *
+   * Generate texture internally.
+   * Returns reference to this.
   **/
   Texture generateTextures() {
     version (__OPENGL__)
@@ -47,7 +48,8 @@ final class Texture {
   }
 
   /**
-   *
+   * Delete texture internally.
+   * Returns reference to this.
   **/
   Texture deleteTextures() {
     version (__OPENGL__)
@@ -57,7 +59,8 @@ final class Texture {
   }
 
   /**
-   *
+   * Bind the texture.
+   * Returns reference to this.
   **/
   Texture bind() {
     version (__OPENGL__)
@@ -68,7 +71,8 @@ final class Texture {
   }
 
   /**
-   *
+   * Unbind the texture.
+   * Returns reference to this.
   **/
   Texture unbind() {
     version (__OPENGL__)
@@ -79,21 +83,22 @@ final class Texture {
   }
 
   /**
-   *
+   * Returns texture unique id.
   **/
   uint getId() pure nothrow const {
     return id;
   }
 
   /**
-   *
+   * Returns the relative texure path.
   **/
-  string getPath() pure nothrow const {
+  string getRelativePath() pure nothrow const {
     return path;
   }
 
   /**
-   *
+   * Set both width and height of texture.
+   * Returns reference to this.
   **/
   Texture setExtent(uint width, uint height) pure nothrow {
     this.width = width;
@@ -102,7 +107,8 @@ final class Texture {
   }
 
   /**
-   *
+   * Set the texture width.
+   * Returns reference to this.
   **/
   Texture setWidth(uint width) pure nothrow {
     this.width = width;
@@ -110,14 +116,15 @@ final class Texture {
   }
 
   /**
-   *
+   * Returns texture width.
   **/
   uint getWidth() pure nothrow const {
     return width;
   }
 
   /**
-   *
+   * Set the texture height.
+   * Returns reference to this.
   **/
   Texture setHeight(uint height) pure nothrow {
     this.height = height;
@@ -125,14 +132,15 @@ final class Texture {
   }
 
   /**
-   *
+   * Returns texture height.
   **/
   uint getHeight() pure nothrow const {
     return height;
   }
 
   /**
-   *
+   * Generate mipmap for texture 2D.
+   * Returns reference to this.
   **/
   Texture generateMipmap() {
     version (__OPENGL__)
@@ -142,7 +150,8 @@ final class Texture {
   }
 
   /**
-   *
+   * Set texture level of detail bias.
+   * Returns reference to this.
   **/
   Texture setLODBias(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=" || op == "%=") {
@@ -162,7 +171,7 @@ final class Texture {
   }
 
   /**
-   *
+   * Returns the texture level of detail bias.
   **/
   float getLODBias() pure nothrow const {
     return lodBias;

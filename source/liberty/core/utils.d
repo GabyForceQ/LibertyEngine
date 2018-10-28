@@ -9,7 +9,7 @@
 module liberty.core.utils;
 
 /**
- *
+ * Returns the exact length of a buffer.
 **/
 size_t bufferSize(T)(T[] buffer) pure nothrow {
 	return buffer.length * T.sizeof;

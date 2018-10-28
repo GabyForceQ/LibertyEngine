@@ -12,31 +12,31 @@
 module liberty.core.services;
 
 /**
- *
+ * Service used in startable world objects.
 **/
 interface IStartable {
 	/**
-	 *
+	 * Called after all objects instantiation.
 	**/
 	void start();
 }
 
 /**
- *
+ * Service used in updatable world objects.
 **/
 interface IUpdatable {
 	/**
-	 *
+	 * Called every frame to update the current state of the object.
 	**/
 	void update();
 }
 
 /**
- *
+ * Service used in renderable world objects.
 **/
 interface IRenderable {
   /**
-   *
+   * Called every frame to render the object.
   **/
 	void render();
 }

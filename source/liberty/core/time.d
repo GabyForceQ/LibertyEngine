@@ -13,9 +13,9 @@ import bindbc.glfw;
 import std.conv : to;
 
 /**
- *
+ * Basic time manager class.
 **/
-static class Time {
+final class Time {
   private {
     static float delta = 0.0f;
     static float lastFrame = 0.0f;
@@ -23,7 +23,7 @@ static class Time {
   }
 
   /**
-	 *
+	 * Returns current time ticks in milliseconds.
 	**/
 	static float getTime() nothrow {
 		return glfwGetTime();
@@ -71,8 +71,8 @@ static class Time {
     return elapsed.to!string;
   }
 
-  // Time should be porcessed every single frame
   package static void processTime() nothrow {
+    // Time should be porcessed every single frame
     elapsed = getTime();
     delta = elapsed - lastFrame;
     lastFrame = elapsed;

@@ -61,6 +61,7 @@ class GfxUIShader : GfxShader {
 
   /**
    *
+   * Returns reference to this.
   **/
   GfxUIShader loadTexture(int id) {
     bind();

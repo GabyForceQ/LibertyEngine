@@ -111,13 +111,16 @@ final class Window {
 
 	/**
 	 * Resize the current frame buffer of the window.
+	 * Returns reference to this.
 	**/
-	void resizeFrameBuffer() {
+	Window resizeFrameBuffer() {
 		glfwGetFramebufferSize(handle, &frameBufferWidth, &frameBufferHeight);
+		return this;
 	}
 
 	/**
 	 * Enter or leave fullscreen mode.
+	 * Returns reference to this.
 	**/
 	Window setFullscreen(bool fullscreen) {
 		if (fullscreen) {

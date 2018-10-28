@@ -109,7 +109,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: camera view matrix.
+   * Returns camera view matrix.
   **/
   Matrix4F getViewMatrix() {
     return Matrix4F.lookAt(
@@ -120,7 +120,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: camera projection matrix.
+   * Returns camera projection matrix.
   **/
   Matrix4F getProjectionMatrix() nothrow {
     return Matrix4F.perspective(
@@ -133,28 +133,28 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: camera front vector.
+   * Returns camera front vector.
   **/
   Vector3F getFrontVector() pure nothrow {
     return frontVector;
   }
 
   /**
-   * Returns: camera up vector.
+   * Returns camera up vector.
   **/
   Vector3F getUpVector() pure nothrow const {
     return upVector;
   }
 
   /**
-   * Returns: camera right vector.
+   * Returns camera right vector.
   **/
   Vector3F getRightVector() pure nothrow {
     return rightVector;
   }
 
   /**
-   * Returns: camera world up vector.
+   * Returns camera world up vector.
   **/
   Vector3F getWorldUpVector() pure nothrow const {
     return worldUpVector;
@@ -170,7 +170,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: camera yaw.
+   * Returns camera yaw.
   **/
   float getYaw() pure nothrow const {
     return yaw;
@@ -187,7 +187,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: camera pitch.
+   * Returns camera pitch.
   **/
   float getPitch() pure nothrow const {
     return pitch;
@@ -202,7 +202,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: camera movement speed.
+   * Returns camera movement speed.
   **/
   float getMovementSpeed() pure nothrow const {
     return movementSpeed;
@@ -217,7 +217,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: camera mouse sensitivity.
+   * Returns camera mouse sensitivity.
   **/
   float getMouseSensitivity() pure nothrow const {
     return mouseSensitivity;
@@ -232,7 +232,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: camera field of view.
+   * Returns camera field of view.
   **/
   float getFieldOfView() pure nothrow const {
     return fieldOfView;
@@ -247,7 +247,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: current camera preset.
+   * Returns current camera preset.
   **/
   CameraPreset getPreset() pure nothrow {
     return preset;
@@ -270,7 +270,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: true if mouse move listener is locked.
+   * Returns true if mouse move listener is locked.
   **/
   bool isMouseMoveLocked() pure nothrow const {
     return mouseMoveLocked;
@@ -293,7 +293,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: true if mouse scroll listener is locked.
+   * Returns true if mouse scroll listener is locked.
   **/
   bool isMouseScrollLocked() pure nothrow const {
     return mouseScrollLocked;
@@ -316,7 +316,7 @@ final class Camera : WorldObject {
   }
 
   /**
-   * Returns: true if keyboard listener is locked.
+   * Returns true if keyboard listener is locked.
   **/
   bool isKeyboardLocked() pure nothrow const {
     return keyboardLocked;
