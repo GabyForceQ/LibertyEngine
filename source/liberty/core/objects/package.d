@@ -9,13 +9,14 @@
 module liberty.core.objects;
 
 public {
-  import liberty.core.objects.actor;
   import liberty.core.objects.bsp;
   import liberty.core.objects.camera;
+  import liberty.core.objects.terrain;
+
+  import liberty.core.objects.actor;
   import liberty.core.objects.entity;
   import liberty.core.objects.light;
   import liberty.core.objects.mesh;
   import liberty.core.objects.meta;
   import liberty.core.objects.node;
-  import liberty.core.objects.terrain;
 }
