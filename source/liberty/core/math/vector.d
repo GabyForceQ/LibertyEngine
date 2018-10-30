@@ -56,17 +56,17 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
             }
         }
     }
-    static if (N == 2 && is(T == float)) {
+    static if (N == 2 && is(T == float) || is(T == int)) {
         /// Vector2 with values of 0.
         static const Vector!(T, 2) zero = Vector!(T, 2)(0, 0);
         /// Vector2 with values of 1.
         static const Vector!(T, 2) one = Vector!(T, 2)(1, 1);
         /// Vector2 pointing up.
-        static const Vector!(T, 2) up = Vector!(T, 2)(0, 1);
+        static const Vector!(T, 2) up = Vector!(T, 2)(0, -1);
         /// Vector2 pointing right.
         static const Vector!(T, 2) right = Vector!(T, 2)(1, 0);
         /// Vector2 pointing down.
-        static const Vector!(T, 2) down = Vector!(T, 2)(0, -1);
+        static const Vector!(T, 2) down = Vector!(T, 2)(0, 1);
         /// Vector2 pointing left.
         static const Vector!(T, 2) left = Vector!(T, 2)(-1, 0);
         ///

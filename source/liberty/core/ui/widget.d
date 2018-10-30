@@ -12,7 +12,7 @@ import liberty.core.engine : CoreEngine;
 import liberty.core.components.renderer : Renderer;
 import liberty.core.material.impl : Material;
 import liberty.core.math.matrix : Matrix4F;
-import liberty.core.math.vector : Vector2F, Vector3F;
+import liberty.core.math.vector : Vector2I, Vector3F;
 import liberty.core.model : GenericModel, UIModel;
 import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.core.objects.entity : Entity;
@@ -28,8 +28,8 @@ import liberty.engine;
 **/
 abstract class Widget : Entity!UIVertex {
   private {
-    Vector2F position = Vector2F(10.0f, 10.0f);
-    Vector2F extent = Vector2F(500.0f, 500.0f);
+    Vector2I position = Vector2I(10, 10);
+    Vector2I extent = Vector2I(200, 200);
   }
 
   /**
@@ -37,15 +37,18 @@ abstract class Widget : Entity!UIVertex {
   **/
   this(string id, WorldObject parent) {
     super(id, parent);
+
     getTransform().scale(Vector3F(
-      extent.x / Platform.getWindow().getWidth(),
-      extent.y / Platform.getWindow().getHeight(),
+      cast(float)extent.x / 2.0f,
+      cast(float)extent.y / 2.0f,
       1.0f
     ));
+    
     getTransform().setWorldPosition(Vector3F(
-      ((2.0f * position.x) / Platform.getWindow().getWidth() - 1.0f) * Platform.getWindow().getWidth() / extent.x + 1.0f,
-      ((2.0f * position.y) / Platform.getWindow().getHeight() - 1.0f) * -Platform.getWindow().getHeight() / extent.y - 1.0f,
-      0));
+      cast(float)position.x / extent.x * 2.0f + 1.0f,
+      cast(float)-position.y / extent.y * 2.0f - 1.0f,
+      0.0f
+    ));
   }
 
   /**
@@ -68,40 +71,49 @@ abstract class Widget : Entity!UIVertex {
   /**
    *
   **/
-  Widget setPosition(string op = "=")(Vector2F position) {
-    this.position = position;
-    getTransform().setWorldPosition!op(Vector3F(
-      ((2.0f * position.x) / Platform.getWindow().getWidth() - 1.0f) * Platform.getWindow().getWidth() / extent.x + 1.0f,
-      ((2.0f * position.y) / Platform.getWindow().getHeight() - 1.0f) * -Platform.getWindow().getHeight() / extent.y - 1.0f,
-      0
-    ));
+  Widget setPosition(string op = "=")(Vector2I position) {
+    mixin("this.position " ~ op ~ " position;");
+    
+    static if (op == "=") {
+      float xPos = cast(float)position.x / extent.x * 2.0f + 1.0f;
+      float yPos = cast(float)-position.y / extent.y * 2.0f - 1.0f;
+    } else static if (op == "+=" || op == "-=") {
+      float xPos = cast(float)position.x / extent.x * 2.0f;
+      float yPos = cast(float)-position.y / extent.y * 2.0f;
+    } else
+      static assert(0, "Only =, +=, -= acceped.");
+
+    getTransform().setWorldPosition!op(Vector3F(xPos, yPos, 0.0f));
+
     return this;
   }
 
   /**
    *
   **/
-  Vector2F getPosition() {
+  Vector2I getPosition() {
     return position;
   }
 
   /**
    *
   **/
-  Widget setExtent(Vector2F extent) {
+  /*Widget setExtent(Vector2I extent) { // todo set scale
     this.extent = extent;
+
     getTransform().scale(Vector3F(
-      extent.x / Platform.getWindow().getWidth(),
-      extent.y / Platform.getWindow().getHeight(),
+      cast(float)extent.x,
+      cast(float)extent.y,
       1.0f
     ));
+    
     return this;
-  }
+  }*/
 
   /**
    *
   **/
-  Vector2F getExtent() {
+  Vector2I getExtent() {
     return extent;
   }
 
@@ -109,8 +121,11 @@ abstract class Widget : Entity!UIVertex {
    *
   **/
   override void update() {
-    Vector2F normalizedCoords = Input.getNormalizedDeviceCoords();
-    //if (normalizedCoords.x >= position.x && normalizedCoords.y >= position.y)
+  }
+
+  bool isMouseInside() {
+    Vector2F mousePos = Input.getMousePostion();
+    return mousePos.x >= position.x && mousePos.x <= position.x + extent.x && mousePos.y >= position.y && mousePos.y <= position.y + extent.y;
   }
 }
 

@@ -26,11 +26,12 @@ class GfxUIShader : GfxShader {
       out vec2 tTexCoord;
 
       uniform mat4 uModelMatrix;
+      uniform mat4 uProjectionMatrix;
 
       void main() {
-        tTexCoord = vec2((lPosition.x + 1.0) / 2.0, 1.0 - (lPosition.y + 1.0) / 2.0);
+        tTexCoord = lTexCoord;
 
-        gl_Position = uModelMatrix * vec4(lPosition, 1.0);
+        gl_Position = uProjectionMatrix * uModelMatrix * vec4(lPosition, 1.0);
       }
     };
 
@@ -42,7 +43,7 @@ class GfxUIShader : GfxShader {
       uniform sampler2D uTexture;
 
       void main() {
-        gl_FragColor = texture(uTexture, tTexCoord);
+        gl_FragColor = texture(uTexture, tTexCoord) * vec4(1.0, 1.0, 1.0, 1.0);
       }
     };
   }
@@ -57,6 +58,7 @@ class GfxUIShader : GfxShader {
       .bindAttribute("lTexCoord")
       .bind()
       .addUniform("uModelMatrix")
+      .addUniform("uProjectionMatrix")
       .addUniform("uTexture")
       .unbind();
   }
@@ -68,6 +70,17 @@ class GfxUIShader : GfxShader {
   GfxUIShader loadModelMatrix(Matrix4F matrix) {
     bind();
     loadUniform("uModelMatrix", matrix);
+    unbind();
+    return this;
+  }
+
+  /**
+   *
+   * Returns reference to this.
+  **/
+  GfxUIShader loadProjectionMatrix(Matrix4F matrix) {
+    bind();
+    loadUniform("uProjectionMatrix", matrix);
     unbind();
     return this;
   }

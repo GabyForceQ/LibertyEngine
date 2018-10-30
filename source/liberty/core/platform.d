@@ -54,8 +54,8 @@ final class Platform {
 
     // Create main window
     window = new Window(
-      1600,
-      900,
+      1280,
+      720,
       "Liberty Engine v0.0.15"
     );
 

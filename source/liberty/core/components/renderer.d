@@ -44,8 +44,46 @@ struct Renderer(VERTEX) {
       parent.getScene().getGenericShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (is(VERTEX == TerrainVertex))
       parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
-    else static if (is(VERTEX == UIVertex))
+    else static if (is(VERTEX == UIVertex)) {
+      import liberty.core.math;
+      Matrix4F proj = Matrix4F.orthographic(0.0f, 1280.0f, 720.0f, 0.0f, -1.0f, 1.0f);
+      import liberty.engine;
+
+      //proj.c[0][0] = 0.00125f;
+      //proj.c[1][1] = 0.00222f;
+      //proj.c[2][2] = -1.0f;
+
+      /*Logger.exception(proj.row[0].toString());
+      Logger.exception(proj.row[1].toString());
+      Logger.exception(proj.row[2].toString());
+      Logger.exception(proj.row[3].toString());*/
+
+      //Logger.exception("-----------");
+
+      Matrix4F model1 = parent.getTransform().getModelMatrix();
+
+      /*Logger.exception(model1.row[0].toString());
+      Logger.exception(model1.row[1].toString());
+      Logger.exception(model1.row[2].toString());
+      Logger.exception(model1.row[3].toString());*/
+
+      //Logger.exception("-----------");
+
+      Matrix4F mp = proj * model1;
+
+      /*Logger.exception(mp.row[0].toString());
+      Logger.exception(mp.row[1].toString());
+      Logger.exception(mp.row[2].toString());
+      Logger.exception(mp.row[3].toString());*/
+
+      //Logger.exception("-----------");
+
+      
+
+      parent.getScene().getUIShader().loadProjectionMatrix(proj);
       parent.getScene().getUIShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+      
+    }
     else
       assert(0, "Unreachable");
 
