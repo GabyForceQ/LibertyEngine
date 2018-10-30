@@ -9,7 +9,7 @@
 module liberty.core.objects.bsp.impl;
 
 import liberty.core.objects.entity : Entity;
-import liberty.core.objects.node : WorldObject;
+import liberty.core.objects.node : SceneNode;
 import liberty.graphics.vertex : GenericVertex, TerrainVertex;
 
 /**
@@ -19,7 +19,7 @@ abstract class BSPVolume(VERTEX) : Entity!VERTEX {
   /**
    *
   **/
-  this(string id, WorldObject parent) {
+  this(string id, SceneNode parent) {
     super(id, parent);
   }
 

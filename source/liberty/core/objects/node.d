@@ -11,40 +11,34 @@
 **/
 module liberty.core.objects.node;
 
+import liberty.core.components.transform : Transform;
 import liberty.core.logger : Logger;
 import liberty.core.engine : CoreEngine;
 import liberty.core.services : IStartable, IUpdatable;
 import liberty.core.scene : Scene;
 import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.core.objects.camera : Camera;
-import liberty.core.components.transform : Transform;
 import liberty.graphics.vertex;
 
 /**
  * Represents base object in the scene tree.
 **/
-abstract class WorldObject : IStartable, IUpdatable {
+abstract class SceneNode : IStartable, IUpdatable {
   private {
     string id;
-    WorldObject parent;
-    WorldObject[string] children;
+    SceneNode parent;
+    SceneNode[string] children;
     Scene scene;
-    WorldObject[string] singletonList;
+    SceneNode[string] singletonList;
     Transform transform;
   }
 
   /**
    * Construct an object using a unique id and parent for it.
   **/
-  this(string id, WorldObject parent) {
+  this(string id, SceneNode parent) {
     // Set model scene
     scene = CoreEngine.getScene();
-
-    // Set transformation
-    if (parent is null)
-      transform = Transform(this);
-    else
-      transform = Transform(this, parent.getTransform());
     
     // Check if given id is unique
     if (id in this.scene.getObjectsId()) {
@@ -53,6 +47,12 @@ abstract class WorldObject : IStartable, IUpdatable {
         typeof(this).stringof
       );
 		}
+
+    // Set transformation
+    if (parent is null)
+      transform = new Transform(this);
+    else
+      transform = new Transform(this, parent.getTransform());
 
     // Now save the id in the ids map
     scene.setObjectId(id);
@@ -72,23 +72,16 @@ abstract class WorldObject : IStartable, IUpdatable {
   }
 
   /**
-   * Returns transform.
-  **/
-  ref Transform getTransform() pure nothrow {
-    return transform;
-  }
-
-  /**
    * Returns parent.
 	**/
-  WorldObject getParent() pure nothrow {
+  SceneNode getParent() pure nothrow {
 		return this.parent;
 	}
 
   /**
 	 * Returns an array with children references.
   **/
-  WorldObject[string] getChildren() pure nothrow {
+  SceneNode[string] getChildren() pure nothrow {
     return this.children;
   }
 
@@ -116,7 +109,7 @@ abstract class WorldObject : IStartable, IUpdatable {
   /**
    * Remove a child node using its reference.
   **/
-  void remove(T : WorldObject)(ref T child) {
+  void remove(T : SceneNode)(ref T child) {
     if (child in _children) {
       this.children.remove(child.id);
       this.scene.getStartList().remove(child.id);
@@ -166,7 +159,7 @@ abstract class WorldObject : IStartable, IUpdatable {
 	 * You can specify where to spawn. By default is set to scene tree.
 	 * Returns new nodes reference.
 	**/
-  ref T spawn(T : WorldObject)(ref T node, string id, bool start = true) {
+  ref T spawn(T : SceneNode)(ref T node, string id, bool start = true) {
 		node = new T(id, this);
 		insert(node);
 		static if (is(T == Camera)) {
@@ -183,7 +176,7 @@ abstract class WorldObject : IStartable, IUpdatable {
 	 * Second time you call this method for the same id, an assertion is produced.
 	 * Returns new node reference.
 	**/
-  T spawn(T : WorldObject)(string id, bool start = true) {
+  T spawn(T : SceneNode)(string id, bool start = true) {
 		T node = new T(id, this);
 		insert(node);
 		static if (is(T == Camera)) {
@@ -200,7 +193,7 @@ abstract class WorldObject : IStartable, IUpdatable {
 	 * Second time you call this method for the same id, nothing happens.
 	 * Returns old/new node reference.
 	**/
-  ref T spawnOnce(T : WorldObject)(ref T node, string id, bool start = true) {
+  ref T spawnOnce(T : SceneNode)(ref T node, string id, bool start = true) {
 		if (id in _singletonList) {
 			return cast(T)_singletonList[id];
 		}
@@ -221,7 +214,7 @@ abstract class WorldObject : IStartable, IUpdatable {
 	 * Second time you call this method for the same id, nothing happens.
 	 * Returns old/new node reference.
 	**/
-  T spawnOnce(T : WorldObject)(string id, bool start = true) {
+  T spawnOnce(T : SceneNode)(string id, bool start = true) {
 		if (id in singletonList)
 			return cast(T)this.singletonList[id];
 
@@ -255,7 +248,14 @@ abstract class WorldObject : IStartable, IUpdatable {
   **/
   void update() {}
 
-  private void insert(T : WorldObject)(ref T child) {
+  /**
+   * Returns transform.
+  **/
+  Transform getTransform() pure nothrow {
+    return transform;
+  }
+
+  private void insert(T : SceneNode)(ref T child) {
     // Insert a child node using its reference.
     this.children[child.getId()] = child;
   }
@@ -265,7 +265,7 @@ abstract class WorldObject : IStartable, IUpdatable {
  * The root object of a scene.
  * It is the big parent of all objects.
 **/
-final class RootObject : WorldObject {
+final class RootObject : SceneNode {
   /**
    * Create the root object with the id "Root" and no parent.
   **/

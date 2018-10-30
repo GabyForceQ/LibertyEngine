@@ -590,21 +590,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		//    -(right + left) / (right - left), -(top + bottom) / (top - bottom), 0, 0
 		//  );
 		//}
-		/// Returns orthographic projection.
-		static Matrix orthographic(T left, T right, T bottom, T top, T near, T far) pure nothrow {
-			T dx = right - left;
-			T dy = top - bottom;
-			T dz = far - near;
-			T tx = -(right + left) / dx;
-			T ty = -(top + bottom) / dy;
-			T tz = -(far + near) / dz;
-			return Matrix(
-				2 / dx,      0,       0, tx, 
-						 0, -2 / dy,      0, ty, 
-						 0,      0, -2 / dz, tz, 
-						 0,      0,       0,  1
-			);
-		}
+
 		///
 		pure nothrow unittest {
 		}

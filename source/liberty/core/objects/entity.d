@@ -9,18 +9,13 @@
 module liberty.core.objects.entity;
 
 import liberty.core.components.renderer : Renderer;
-import liberty.core.objects.node : WorldObject;
+import liberty.core.objects.node : SceneNode;
 import liberty.core.services : IRenderable;
 
 /**
  * An entity is a world object that should be rendered to the screen.
 **/
-abstract class Entity(VERTEX) : WorldObject, IRenderable {
-  /**
-   *
-  **/
-  immutable baseType = "Entity";
-
+abstract class Entity(VERTEX) : SceneNode, IRenderable {
   /**
    * Renderer component used for rendering.
   **/
@@ -29,7 +24,7 @@ abstract class Entity(VERTEX) : WorldObject, IRenderable {
   /**
    * Entity constructor.
   **/
-  this(string id, WorldObject parent) {
+  this(string id, SceneNode parent) {
     super(id, parent);
   }
 

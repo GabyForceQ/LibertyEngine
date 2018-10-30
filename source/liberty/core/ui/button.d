@@ -10,10 +10,16 @@ module liberty.core.ui.button;
 
 import liberty.core.objects.meta : NodeBody;
 import liberty.core.ui.widget : Widget;
+import liberty.core.ui.frame : Frame;
 
 /**
  *
 **/
 final class Button : Widget {
-  mixin (NodeBody);
+  /**
+   *
+  **/
+  this(string name, Frame frame) {
+    super(name, frame);
+  }
 }

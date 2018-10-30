@@ -17,8 +17,9 @@ import liberty.core.model : GenericModel, UIModel;
 import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
-import liberty.core.objects.node : WorldObject;
+import liberty.core.objects.node : SceneNode;
 import liberty.core.platform : Platform;
+import liberty.core.ui.frame : Frame;
 import liberty.graphics.vertex : GenericVertex, UIVertex;
 
 import liberty.engine;
@@ -26,8 +27,15 @@ import liberty.engine;
 /**
  *
 **/
-abstract class Widget : Entity!UIVertex {
+abstract class Widget : IRenderable {
+  /**
+   * Renderer component used for rendering.
+  **/
+  Renderer!(UIVertex, Frame) renderer;
+
   private {
+    string id;
+    Frame frame;
     Vector2I position = Vector2I(10, 10);
     Vector2I extent = Vector2I(200, 200);
   }
@@ -35,8 +43,43 @@ abstract class Widget : Entity!UIVertex {
   /**
    *
   **/
-  this(string id, WorldObject parent) {
-    super(id, parent);
+  this(string id, Frame frame) {
+    renderer = Renderer!(UIVertex, Frame)(this, (new UIModel([Material.getDefault()])
+      .build(uiSquareVertices, uiSquareIndices)));
+
+    this.id = id;
+    this.frame = frame;
+    frame.addWidget(this);
+  }
+
+  /**
+   *
+  **/
+  final string getId() pure nothrow const {
+    return id;
+  }
+
+  /**
+   *
+  **/
+  final override void render() {
+    renderer.draw();
+  }
+
+  /**
+   *
+  **/
+  final Frame getFrame() pure nothrow {
+    return frame;
+  }
+
+
+  Matrix4F getModelMatrix() {
+    return Matrix4F();
+  }
+
+/*
+  this(string id, SceneNode parent) {
 
     getTransform().scale(Vector3F(
       cast(float)extent.x / 2.0f,
@@ -51,16 +94,7 @@ abstract class Widget : Entity!UIVertex {
     ));
   }
 
-  /**
-   *
-  **/
-  override void render() {
-    super.render();
-  }
 
-  /**
-   *
-  **/
 	Widget build(Material material) {
     renderer = Renderer!UIVertex(this, (new UIModel([material])
       .build(uiSquareVertices, uiSquareIndices)));
@@ -68,9 +102,6 @@ abstract class Widget : Entity!UIVertex {
     return this;
 	}
 
-  /**
-   *
-  **/
   Widget setPosition(string op = "=")(Vector2I position) {
     mixin("this.position " ~ op ~ " position;");
     
@@ -88,17 +119,13 @@ abstract class Widget : Entity!UIVertex {
     return this;
   }
 
-  /**
-   *
-  **/
+
   Vector2I getPosition() {
     return position;
   }
 
-  /**
-   *
-  **/
-  /*Widget setExtent(Vector2I extent) { // todo set scale
+
+  Widget setExtent(Vector2I extent) { // todo set scale
     this.extent = extent;
 
     getTransform().scale(Vector3F(
@@ -108,25 +135,16 @@ abstract class Widget : Entity!UIVertex {
     ));
     
     return this;
-  }*/
-
-  /**
-   *
-  **/
-  Vector2I getExtent() {
-    return extent;
   }
 
-  /**
-   *
-  **/
-  override void update() {
+  Vector2I getExtent() {
+    return extent;
   }
 
   bool isMouseInside() {
     Vector2F mousePos = Input.getMousePostion();
     return mousePos.x >= position.x && mousePos.x <= position.x + extent.x && mousePos.y >= position.y && mousePos.y <= position.y + extent.y;
-  }
+  }*/
 }
 
 private uint[6] uiSquareIndices = [

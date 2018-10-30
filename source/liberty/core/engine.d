@@ -103,8 +103,8 @@ final class CoreEngine {
 						.getPreset()
 						.runImplicit(scene.getActiveCamera());
 
-          Input.getMousePicker()
-						.update(scene.getActiveCamera(), scene.getTree().getChild!Terrain("DemoTerrain"));
+          //Input.getMousePicker()
+					//	.update(scene.getActiveCamera(), scene.getTree().getChild!Terrain("DemoTerrain"));
 
 					
 					/*static int oo = 0;

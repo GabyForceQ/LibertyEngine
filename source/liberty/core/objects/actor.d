@@ -9,16 +9,16 @@
 module liberty.core.objects.actor;
 
 import liberty.core.logger : Logger;
-import liberty.core.objects.node : WorldObject;
+import liberty.core.objects.node : SceneNode;
 
 /**
  * An actor has action mapping implemented.
 **/
-abstract class Actor : WorldObject {
+abstract class Actor : SceneNode {
   /**
    *
   **/
-  this(string id, WorldObject parent) {
+  this(string id, SceneNode parent) {
     super(id, parent);
   }
 }
@@ -31,7 +31,7 @@ abstract class UniqueActor : Actor {
   /**
    *
   **/
-  this(string id, WorldObject parent) {
+  this(string id, SceneNode parent) {
     if (this.hasInstance) {
       Logger.error(
         "Cannot have multiple instances", 

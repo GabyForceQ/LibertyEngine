@@ -56,7 +56,7 @@ final class Platform {
     window = new Window(
       1280,
       720,
-      "Liberty Engine v0.0.15"
+      "Liberty Engine v0.0.16-alpha.dev"
     );
 
     Event.initialize();

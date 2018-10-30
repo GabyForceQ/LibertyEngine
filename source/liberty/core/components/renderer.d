@@ -8,14 +8,16 @@
 **/
 module liberty.core.components.renderer;
 
-import liberty.core.objects.node : WorldObject;
+import liberty.core.objects.node : SceneNode;
 import liberty.core.model : GenericModel, TerrainModel, UIModel;
+import liberty.core.ui.frame : Frame;
+import liberty.core.ui.widget : Widget;
 import liberty.graphics.vertex : GenericVertex, TerrainVertex, UIVertex;
 
 /**
  *
 **/
-struct Renderer(VERTEX) {
+struct Renderer(VERTEX, NODETYPE = SceneNode) {
   private {
     static if (is(VERTEX == GenericVertex))
       alias RendererModel = GenericModel;
@@ -24,14 +26,19 @@ struct Renderer(VERTEX) {
     else static if (is(VERTEX == UIVertex))
       alias RendererModel = UIModel;
 
-    WorldObject parent;
+    static if (is(NODETYPE == SceneNode))
+      alias RendererNode = SceneNode;
+    else static if (is(NODETYPE == Frame))
+      alias RendererNode = Widget;
+    
+    RendererNode parent;
     RendererModel model;
   }
 
   /**
    *
   **/
-  this(WorldObject parent, RendererModel model) {
+  this(RendererNode parent, RendererModel model) pure nothrow {
     this.parent = parent;
     this.model = model;
   }
@@ -44,46 +51,8 @@ struct Renderer(VERTEX) {
       parent.getScene().getGenericShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (is(VERTEX == TerrainVertex))
       parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
-    else static if (is(VERTEX == UIVertex)) {
-      import liberty.core.math;
-      Matrix4F proj = Matrix4F.orthographic(0.0f, 1280.0f, 720.0f, 0.0f, -1.0f, 1.0f);
-      import liberty.engine;
-
-      //proj.c[0][0] = 0.00125f;
-      //proj.c[1][1] = 0.00222f;
-      //proj.c[2][2] = -1.0f;
-
-      /*Logger.exception(proj.row[0].toString());
-      Logger.exception(proj.row[1].toString());
-      Logger.exception(proj.row[2].toString());
-      Logger.exception(proj.row[3].toString());*/
-
-      //Logger.exception("-----------");
-
-      Matrix4F model1 = parent.getTransform().getModelMatrix();
-
-      /*Logger.exception(model1.row[0].toString());
-      Logger.exception(model1.row[1].toString());
-      Logger.exception(model1.row[2].toString());
-      Logger.exception(model1.row[3].toString());*/
-
-      //Logger.exception("-----------");
-
-      Matrix4F mp = proj * model1;
-
-      /*Logger.exception(mp.row[0].toString());
-      Logger.exception(mp.row[1].toString());
-      Logger.exception(mp.row[2].toString());
-      Logger.exception(mp.row[3].toString());*/
-
-      //Logger.exception("-----------");
-
-      
-
-      parent.getScene().getUIShader().loadProjectionMatrix(proj);
-      parent.getScene().getUIShader().loadModelMatrix(parent.getTransform().getModelMatrix());
-      
-    }
+    else static if (is(VERTEX == UIVertex))
+      parent.getFrame().getScene().getUIShader().loadModelMatrix(parent.getModelMatrix());
     else
       assert(0, "Unreachable");
 
@@ -93,14 +62,14 @@ struct Renderer(VERTEX) {
   /**
    *
   **/
-  WorldObject getParent() {
+  RendererNode getParent() pure nothrow {
     return parent;
   }
 
   /**
    * Returns reference to this.
   **/
-  ref Renderer!VERTEX setModel(RendererModel model) {
+  ref Renderer!(VERTEX, NODETYPE) setModel(RendererModel model) pure nothrow {
     this.model = model;
     return this;
   }
@@ -108,7 +77,7 @@ struct Renderer(VERTEX) {
   /**
    *
   **/
-  RendererModel getModel() {
+  RendererModel getModel() pure nothrow {
     return model;
   }
 }

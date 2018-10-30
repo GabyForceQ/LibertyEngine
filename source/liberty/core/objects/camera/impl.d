@@ -17,13 +17,13 @@ import liberty.core.time : Time;
 import liberty.core.objects.camera.constants;
 import liberty.core.objects.camera.preset : CameraPreset;
 import liberty.core.objects.meta : NodeBody;
-import liberty.core.objects.node : WorldObject;
+import liberty.core.objects.node : SceneNode;
 import liberty.core.scene.impl : Scene;
 
 /**
  *
 **/
-final class Camera : WorldObject {
+final class Camera : SceneNode {
   mixin(NodeBody);
 
   package {

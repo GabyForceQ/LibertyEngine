@@ -16,9 +16,9 @@ module liberty.core.objects.meta;
 **/
 immutable NodeBody = q{
   import liberty.core.engine : CoreEngine;
-  import liberty.core.objects.node : WorldObject;
+  import liberty.core.objects.node : SceneNode;
 
-  this(string id, WorldObject parent = CoreEngine.getScene().getTree()) {
+  this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
     if (parent is null)
       assert(0, "Parent object cannot be null");
 

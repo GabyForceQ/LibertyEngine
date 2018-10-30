@@ -14,7 +14,7 @@ module liberty.core.scene.impl;
 import liberty.core.engine : CoreEngine;
 import liberty.core.math.vector : Vector3F;
 import liberty.core.objects.camera : Camera;
-import liberty.core.objects.node : WorldObject, RootObject;
+import liberty.core.objects.node : SceneNode, RootObject;
 import liberty.core.scene.world : WorldSettings;
 import liberty.core.services : IStartable, IUpdatable, IRenderable;
 import liberty.graphics.shader : GfxShader, GfxGenericShader, GfxTerrainShader, GfxUIShader;
@@ -27,7 +27,7 @@ final class Scene : IUpdatable, IRenderable {
     string id;
     bool ready;
     bool registered;
-    WorldObject tree;
+    SceneNode tree;
     Vector3F startPoint;
     Camera activeCamera;
     Camera[string] camerasMap;
@@ -81,7 +81,7 @@ final class Scene : IUpdatable, IRenderable {
   /**
    * Returns a scene tree reference.
   **/
-  WorldObject getTree() pure nothrow {
+  SceneNode getTree() pure nothrow {
     return tree;
   }
 

@@ -14,7 +14,7 @@ import liberty.core.engine : CoreEngine;
 import liberty.core.components.renderer : Renderer;
 import liberty.core.objects.meta : NodeBody;
 import liberty.core.model.generic : GenericModel;
-import liberty.core.objects.node : WorldObject;
+import liberty.core.objects.node : SceneNode;
 import liberty.core.objects.entity : Entity;
 import liberty.core.math.functions : cos, radians;
 import liberty.graphics.vertex : GenericVertex;

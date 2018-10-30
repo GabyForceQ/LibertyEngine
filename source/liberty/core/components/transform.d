@@ -12,14 +12,14 @@ import liberty.core.logger.impl : Logger;
 import liberty.core.math.functions : radians;
 import liberty.core.math.vector : Vector3F;
 import liberty.core.math.matrix : Matrix4F;
-import liberty.core.objects : WorldObject;
+import liberty.core.objects : SceneNode;
 
 /**
  *
 **/
-struct Transform {
+final class Transform {
   private {
-    WorldObject parent;
+    SceneNode parent;
     Matrix4F modelMatrix = Matrix4F.identity();
     
     Vector3F localPosition = Vector3F.zero;
@@ -40,14 +40,14 @@ struct Transform {
   /**
    *
   **/
-  this(WorldObject parent) {
+  this(SceneNode parent) {
     this.parent = parent;
   }
 
   /**
    *
   **/
-  this(WorldObject parent, Transform transform) {
+  this(SceneNode parent, Transform transform) {
     this(parent);
     
     worldPosition = transform.worldPosition;
@@ -58,14 +58,14 @@ struct Transform {
    *
    * Returns reference to this.
   **/
-  ref const(Transform) setLocalPosition(string op = "=")(float x, float y, float z) pure {
+  Transform setLocalPosition(string op = "=")(float x, float y, float z) pure {
     return setLocalPosition!op(Vector3F(x, y, z));
   }
 
   /**
    * Returns reference to this.
   **/
-  ref const(Transform) setLocalPosition(string op = "=")(Vector3F position) pure {
+  Transform setLocalPosition(string op = "=")(Vector3F position) pure {
     static if (op == "=")
       modelMatrix.translate(-this.localPosition + position);
     else static if (op == "+=")
@@ -84,7 +84,7 @@ struct Transform {
    * 
    * Returns reference to this.
   **/
-	ref Transform setLocalPositionX(string op = "=")(float value) pure {
+	Transform setLocalPositionX(string op = "=")(float value) pure {
 		static if (op == "=")
       modelMatrix.translate(Vector3F(-localPosition.x + value, 0.0f, 0.0f));
     else static if (op == "+=")
@@ -103,7 +103,7 @@ struct Transform {
    * 
    * Returns reference to this.
   **/
-	ref Transform setLocalPositionY(string op = "=")(float value) pure {
+	Transform setLocalPositionY(string op = "=")(float value) pure {
 		static if (op == "=")
       modelMatrix.translate(Vector3F(0.0f, -localPosition.y + value, 0.0f));
     else static if (op == "+=")
@@ -122,7 +122,7 @@ struct Transform {
    * 
    * Returns reference to this.
   **/
-	ref Transform setLocalPositionZ(string op = "=")(float value) pure {
+	Transform setLocalPositionZ(string op = "=")(float value) pure {
 		static if (op == "=")
       modelMatrix.translate(Vector3F(0.0f, 0.0f, -localPosition.z + value));
     else static if (op == "+=")
@@ -141,7 +141,7 @@ struct Transform {
    * Translate position using x, y and z scalars as coordinates.
    * Translation is done in world space.
   **/
-	ref Transform setWorldPosition(string op = "=", bool force = false)(float x, float y, float z)  {
+	Transform setWorldPosition(string op = "=", bool force = false)(float x, float y, float z)  {
 		return setWorldPosition!(op, force)(Vector3F(x, y, z));
 	}
 
@@ -150,7 +150,7 @@ struct Transform {
    * Translation is done in world space.
    * Returns reference to this.
   **/
-	ref Transform setWorldPosition(string op = "=", bool force = false)(Vector3F position)  {
+	Transform setWorldPosition(string op = "=", bool force = false)(Vector3F position)  {
     mixin (forceBody);
 
     static if (op == "=")
@@ -176,7 +176,7 @@ struct Transform {
    * Translation is done in world space.
    * Returns reference to this.
   **/
-	ref Transform setWorldPositionX(string op = "=", bool force = true)(float value) {
+	Transform setWorldPositionX(string op = "=", bool force = true)(float value) {
     mixin (forceBody);
 
 		static if (op == "=")
@@ -202,7 +202,7 @@ struct Transform {
    * Translation is done in world space.
    * Returns reference to this.
   **/
-	ref Transform setWorldPositionY(string op = "=", bool force = false)(float value) {
+	Transform setWorldPositionY(string op = "=", bool force = false)(float value) {
     mixin (forceBody);
 
     static if (op == "=")
@@ -228,7 +228,7 @@ struct Transform {
    * Translation is done in world space.
    * Returns reference to this.
   **/
-	ref Transform setWorldPositionZ(string op = "=", bool force = false)(float value) {
+	Transform setWorldPositionZ(string op = "=", bool force = false)(float value) {
     mixin (forceBody);
 
 		static if (op == "=")
@@ -253,7 +253,7 @@ struct Transform {
    * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
    * Returns reference to this.
   **/
-	ref Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure {
+	Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure {
 		return setRotation!op(angle, Vector3F(rotX, rotY, rotZ));
 	}
   
@@ -261,7 +261,7 @@ struct Transform {
    * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
    * Returns reference to this.
   **/
-	ref Transform setRotation(string op = "=")(float angle, Vector3F rotation) pure {
+	Transform setRotation(string op = "=")(float angle, Vector3F rotation) pure {
     static if (op == "=")
       assert(0, "Not implemented yet.");
     static if (op == "+=")
@@ -282,7 +282,7 @@ struct Transform {
    * Rotate object specifying the rotation angle for pitch axis.
    * Returns reference to this.
   **/
-	ref Transform rotatePitch(float angle) pure {
+	Transform rotatePitch(float angle) pure {
 		modelMatrix.rotateX(angle.radians);
 
     // Set pitch rotation to the current object children too
@@ -296,7 +296,7 @@ struct Transform {
    * Rotate object specifying the rotation angle for yaw axis.
    * Returns reference to this.
   **/
-	ref Transform rotateYaw(float angle) pure {
+	Transform rotateYaw(float angle) pure {
 		modelMatrix.rotateY(angle.radians);
 
     // Set yaw rotation to the current object children too
@@ -310,7 +310,7 @@ struct Transform {
    * Rotate object specifying the rotation angle for roll axis.
    * Returns reference to this.
   **/
-	ref Transform rotateRoll(float angle) pure {
+	Transform rotateRoll(float angle) pure {
 		modelMatrix.rotateZ(angle.radians);
 
     // Set roll rotation to the current object children too
@@ -324,7 +324,7 @@ struct Transform {
    * Scale object using same value for x, y and z coordinates.
    * Returns reference to this.
   **/
-	ref Transform scale(float value) pure {
+	Transform scale(float value) pure {
 		modelMatrix.scale(Vector3F(value));
 
     // Set scale to the current object children too
@@ -338,7 +338,7 @@ struct Transform {
    * Scale object using x, y and z scalars for coordinates.
    * Returns reference to this.
   **/
-	ref Transform scale(float x, float y, float z) pure {
+	Transform scale(float x, float y, float z) pure {
 		modelMatrix.scale(Vector3F(x, y, z));
 
     // Set scale to the current object children too
@@ -352,7 +352,7 @@ struct Transform {
    * Scale object using a vector with x, y and z scalars for coordinates.
    * Returns reference to this.
   **/
-	ref Transform scale(Vector3F scaling) pure {
+	Transform scale(Vector3F scaling) pure {
 		modelMatrix.scale(scaling);
 
     // Set scale to the current object children too
@@ -366,7 +366,7 @@ struct Transform {
    * Scale object on x axis.
    * Returns reference to this.
   **/
-	ref Transform scaleX(float value) pure {
+	Transform scaleX(float value) pure {
 		modelMatrix.scale(Vector3F(value, 0.0f, 0.0f));
 
     // Set scale x to the current object children too
@@ -380,7 +380,7 @@ struct Transform {
    * Scale object on y axis.
    * Returns reference to this.
   **/
-	ref Transform scaleY(float value) pure {
+	Transform scaleY(float value) pure {
 		modelMatrix.scale(Vector3F(0.0f, value, 0.0f));
 
     // Set scale y to the current object children too
@@ -394,7 +394,7 @@ struct Transform {
    * Scale object on z axis.
    * Returns reference to this.
   **/
-	ref Transform scaleZ(float value) pure {
+	Transform scaleZ(float value) pure {
 		modelMatrix.scale(Vector3F(0.0f, 0.0f, value));
 
     // Set scale z to the current object children too
@@ -477,7 +477,7 @@ struct Transform {
   /**
    *
   **/
-  ref const(Transform) setPivot(string op = "=")(float x, float y, float z) pure {
+  Transform setPivot(string op = "=")(float x, float y, float z) pure {
     return setPivot!op(Vector3F(x, y, z));
   }
 
@@ -485,7 +485,7 @@ struct Transform {
    *
    * Returns reference to this.
   **/
-  ref const(Transform) setPivot(string op = "=")(Vector3F pivot) pure {
+  Transform setPivot(string op = "=")(Vector3F pivot) pure {
     static if (op == "=")
       modelMatrix.translate(-this.pivot + pivot);
     else static if (op == "+=")
@@ -504,7 +504,7 @@ struct Transform {
    *
    * Returns reference to this.
   **/
-	ref Transform setPivotX(string op = "=")(float value) pure {
+	Transform setPivotX(string op = "=")(float value) pure {
     static if (op == "=")
       modelMatrix.translate(Vector3F(-pivot.x + value, 0.0f, 0.0f));
     else static if (op == "+=")
@@ -523,7 +523,7 @@ struct Transform {
    *
    * Returns reference to this.
   **/
-	ref Transform setPivotY(string op = "=")(float value) pure {
+	Transform setPivotY(string op = "=")(float value) pure {
     static if (op == "=")
       modelMatrix.translate(Vector3F(0.0f, -pivot.y + value, 0.0f));
     else static if (op == "+=")
@@ -542,7 +542,7 @@ struct Transform {
    *
    * Returns reference to this.
   **/
-	ref Transform setPivotZ(string op = "=")(float value) pure {
+	Transform setPivotZ(string op = "=")(float value) pure {
     static if (op == "=")
       modelMatrix.translate(Vector3F(0.0f, 0.0f, -pivot.z + value));
     else static if (op == "+=")
