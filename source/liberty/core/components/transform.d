@@ -33,6 +33,9 @@ struct Transform {
     Vector3F pivot = Vector3F.zero;
   }
 
+  void setModelMatrix(Matrix4F mat) {
+    modelMatrix = mat;
+  }
 
   /**
    *

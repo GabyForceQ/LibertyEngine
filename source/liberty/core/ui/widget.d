@@ -18,6 +18,7 @@ import liberty.core.objects.bsp.impl : BSPVolume;
 import liberty.core.objects.entity : Entity;
 import liberty.core.objects.meta : NodeBody;
 import liberty.core.objects.node : WorldObject;
+import liberty.core.platform : Platform;
 import liberty.graphics.vertex : GenericVertex, UIVertex;
 
 import liberty.engine;
@@ -27,8 +28,8 @@ import liberty.engine;
 **/
 abstract class Widget : Entity!UIVertex {
   private {
-    Vector2F position = Vector2F.zero;
-    Vector2F extent = Vector2F(0.25f, 0.25f);
+    Vector2F position = Vector2F(10.0f, 10.0f);
+    Vector2F extent = Vector2F(500.0f, 500.0f);
   }
 
   /**
@@ -36,8 +37,15 @@ abstract class Widget : Entity!UIVertex {
   **/
   this(string id, WorldObject parent) {
     super(id, parent);
-    getTransform().setWorldPosition(Vector3F(position.x, position.y, 0.0f));
-    //getTransform().scale(Vector3F(extent.x, extent.y, 1.0f));
+    getTransform().scale(Vector3F(
+      extent.x / Platform.getWindow().getWidth(),
+      extent.y / Platform.getWindow().getHeight(),
+      1.0f
+    ));
+    getTransform().setWorldPosition(Vector3F(
+      ((2.0f * position.x) / Platform.getWindow().getWidth() - 1.0f) * Platform.getWindow().getWidth() / extent.x + 1.0f,
+      ((2.0f * position.y) / Platform.getWindow().getHeight() - 1.0f) * -Platform.getWindow().getHeight() / extent.y - 1.0f,
+      0));
   }
 
   /**
@@ -60,9 +68,13 @@ abstract class Widget : Entity!UIVertex {
   /**
    *
   **/
-  Widget setPosition(Vector2F position) {
+  Widget setPosition(string op = "=")(Vector2F position) {
     this.position = position;
-    getTransform().setWorldPosition(Vector3F(position.x, position.y, 0.0f));
+    getTransform().setWorldPosition!op(Vector3F(
+      ((2.0f * position.x) / Platform.getWindow().getWidth() - 1.0f) * Platform.getWindow().getWidth() / extent.x + 1.0f,
+      ((2.0f * position.y) / Platform.getWindow().getHeight() - 1.0f) * -Platform.getWindow().getHeight() / extent.y - 1.0f,
+      0
+    ));
     return this;
   }
 
@@ -77,8 +89,12 @@ abstract class Widget : Entity!UIVertex {
    *
   **/
   Widget setExtent(Vector2F extent) {
-    //this.extent = extent;
-    //getTransform().scale(Vector3F(extent.x, extent.y, 1.0f));
+    this.extent = extent;
+    getTransform().scale(Vector3F(
+      extent.x / Platform.getWindow().getWidth(),
+      extent.y / Platform.getWindow().getHeight(),
+      1.0f
+    ));
     return this;
   }
 
@@ -95,7 +111,6 @@ abstract class Widget : Entity!UIVertex {
   override void update() {
     Vector2F normalizedCoords = Input.getNormalizedDeviceCoords();
     //if (normalizedCoords.x >= position.x && normalizedCoords.y >= position.y)
-    Logger.exception(normalizedCoords.toString() ~ " -- " ~ position.toString());
   }
 }
 
