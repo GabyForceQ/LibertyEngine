@@ -29,7 +29,7 @@ final class BSPPyramid : BSPVolume!GenericVertex {
    *
   **/
 	BSPPyramid build(Material material = Material.getDefault()) {
-    renderer = Renderer!GenericVertex(this, (new GenericModel([material])
+    renderer = new Renderer!GenericVertex(this, (new GenericModel([material])
       .build(pyramidVertices)));
     
     return this;

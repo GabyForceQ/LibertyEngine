@@ -17,7 +17,7 @@ import liberty.graphics.vertex : GenericVertex, TerrainVertex, UIVertex;
 /**
  *
 **/
-struct Renderer(VERTEX, NODETYPE = SceneNode) {
+class Renderer(VERTEX, NODETYPE = SceneNode) {
   private {
     static if (is(VERTEX == GenericVertex))
       alias RendererModel = GenericModel;
@@ -69,7 +69,7 @@ struct Renderer(VERTEX, NODETYPE = SceneNode) {
   /**
    * Returns reference to this.
   **/
-  ref Renderer!(VERTEX, NODETYPE) setModel(RendererModel model) pure nothrow {
+  Renderer!(VERTEX, NODETYPE) setModel(RendererModel model) pure nothrow {
     this.model = model;
     return this;
   }

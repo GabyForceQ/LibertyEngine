@@ -26,7 +26,7 @@ final class StaticMesh : Entity!GenericVertex {
    *
   **/
   void constructor() {
-    renderer = Renderer!GenericVertex(this, new GenericModel([Material.getDefault()]));
+    renderer = new Renderer!GenericVertex(this, new GenericModel([Material.getDefault()]));
   }
 
   /**

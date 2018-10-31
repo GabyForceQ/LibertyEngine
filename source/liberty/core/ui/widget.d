@@ -43,14 +43,13 @@ abstract class Widget : IRenderable {
    *
   **/
   this(string id, Frame frame) {
-    renderer = Renderer!(UIVertex, Frame)(this, (new UIModel([Material.getDefault()])
+    renderer = new Renderer!(UIVertex, Frame)(this, (new UIModel([Material.getDefault()])
       .build(uiSquareVertices, uiSquareIndices)));
 
     this.id = id;
     this.frame = frame;
 
     transform = new Transform2(this);
-
     frame.addWidget(this);
   }
 
@@ -87,7 +86,6 @@ abstract class Widget : IRenderable {
   **/
   bool isMouseInside() {
     Vector2F mousePos = Input.getMousePostion();
-    //Logger.exception(transform.getPosition.toString());
     return mousePos.x >= transform.getPosition.x - transform.getExtent.x / 2 && 
       mousePos.x <= transform.getPosition.x + transform.getExtent.x / 2 && 
       mousePos.y >= transform.getPosition.y - transform.getExtent.y / 2 && 
@@ -97,77 +95,9 @@ abstract class Widget : IRenderable {
   /**
    * Returns reference to the current renderer component.
   **/
-  ref Renderer!(UIVertex, Frame) getRenderer() {
+  Renderer!(UIVertex, Frame) getRenderer() {
     return renderer;
   }
-
-/*
-  this(string id, SceneNode parent) {
-
-    getTransform().scale(Vector3F(
-      cast(float)extent.x / 2.0f,
-      cast(float)extent.y / 2.0f,
-      1.0f
-    ));
-    
-    getTransform().setWorldPosition(Vector3F(
-      cast(float)position.x / extent.x * 2.0f + 1.0f,
-      cast(float)-position.y / extent.y * 2.0f - 1.0f,
-      0.0f
-    ));
-  }
-
-
-	Widget build(Material material) {
-    renderer = Renderer!UIVertex(this, (new UIModel([material])
-      .build(uiSquareVertices, uiSquareIndices)));
-
-    return this;
-	}
-
-  Widget setPosition(string op = "=")(Vector2I position) {
-    mixin("this.position " ~ op ~ " position;");
-    
-    static if (op == "=") {
-      float xPos = cast(float)position.x / extent.x * 2.0f + 1.0f;
-      float yPos = cast(float)-position.y / extent.y * 2.0f - 1.0f;
-    } else static if (op == "+=" || op == "-=") {
-      float xPos = cast(float)position.x / extent.x * 2.0f;
-      float yPos = cast(float)-position.y / extent.y * 2.0f;
-    } else
-      static assert(0, "Only =, +=, -= acceped.");
-
-    getTransform().setWorldPosition!op(Vector3F(xPos, yPos, 0.0f));
-
-    return this;
-  }
-
-
-  Vector2I getPosition() {
-    return position;
-  }
-
-
-  Widget setExtent(Vector2I extent) { // todo set scale
-    this.extent = extent;
-
-    getTransform().scale(Vector3F(
-      cast(float)extent.x,
-      cast(float)extent.y,
-      1.0f
-    ));
-    
-    return this;
-  }
-
-  Vector2I getExtent() {
-    return extent;
-  }
-
-  bool isMouseInside() {
-    Vector2F mousePos = Input.getMousePostion();
-    return mousePos.x >= position.x && mousePos.x <= position.x + extent.x && mousePos.y >= position.y && mousePos.y <= position.y + extent.y;
-  }*/
 }
 
 private uint[6] uiSquareIndices = [

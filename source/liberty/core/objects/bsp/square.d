@@ -28,7 +28,7 @@ final class BSPSquare : BSPVolume!GenericVertex {
    *
   **/
 	BSPSquare build(Material material = Material.getDefault()) {
-    renderer = Renderer!GenericVertex(this, (new GenericModel([material])
+    renderer = new Renderer!GenericVertex(this, (new GenericModel([material])
       .build(squareVertices, squareIndices)));
 
     return this;

@@ -37,7 +37,7 @@ final class PointLight : Entity!GenericVertex {
    *
   **/
 	void constructor() {
-    renderer = Renderer!GenericVertex(this, null);
+    renderer = new Renderer!GenericVertex(this, null);
     getTransform().setWorldPosition(0.0f, 200.0f, 0.0f);
     index = numberOfLights;
     numberOfLights++;

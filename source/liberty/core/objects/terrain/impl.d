@@ -44,7 +44,7 @@ final class Terrain : Entity!TerrainVertex {
    * Returns reference to this.
   **/
   Terrain build(float size, float maxHeight, Material[] materials) {
-    renderer = Renderer!TerrainVertex(this, new TerrainModel(materials));
+    renderer = new Renderer!TerrainVertex(this, new TerrainModel(materials));
 
     this.size = size;
     this.maxHeight = maxHeight;

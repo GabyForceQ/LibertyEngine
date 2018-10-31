@@ -38,7 +38,7 @@ abstract class Entity(VERTEX) : SceneNode, IRenderable {
   /**
    * Returns reference to the current renderer component.
   **/
-  ref Renderer!VERTEX getRenderer() {
+  Renderer!VERTEX getRenderer() {
     return renderer;
   }
 }
