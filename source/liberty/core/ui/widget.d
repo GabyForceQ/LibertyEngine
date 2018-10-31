@@ -36,8 +36,7 @@ abstract class Widget : IRenderable {
   private {
     string id;
     Frame frame;
-    Vector2I position = Vector2I(10, 10);
-    Vector2I extent = Vector2I(200, 200);
+    Transform2 transform;
   }
 
   /**
@@ -49,6 +48,9 @@ abstract class Widget : IRenderable {
 
     this.id = id;
     this.frame = frame;
+
+    transform = new Transform2(this);
+
     frame.addWidget(this);
   }
 
@@ -73,9 +75,30 @@ abstract class Widget : IRenderable {
     return frame;
   }
 
+  /**
+   *
+  **/
+  Transform2 getTransform() pure nothrow {
+    return transform;
+  }
 
-  Matrix4F getModelMatrix() {
-    return Matrix4F();
+  /**
+   *
+  **/
+  bool isMouseInside() {
+    Vector2F mousePos = Input.getMousePostion();
+    //Logger.exception(transform.getPosition.toString());
+    return mousePos.x >= transform.getPosition.x - transform.getExtent.x / 2 && 
+      mousePos.x <= transform.getPosition.x + transform.getExtent.x / 2 && 
+      mousePos.y >= transform.getPosition.y - transform.getExtent.y / 2 && 
+      mousePos.y <= transform.getPosition.y + transform.getExtent.y / 2;
+  }
+
+  /**
+   * Returns reference to the current renderer component.
+  **/
+  ref Renderer!(UIVertex, Frame) getRenderer() {
+    return renderer;
   }
 
 /*

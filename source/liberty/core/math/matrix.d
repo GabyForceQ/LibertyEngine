@@ -42,6 +42,22 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		/// Components.
 		T[C][R] c;
 	}
+
+  static if (R == 4 && C == 4) {
+    void setTranslation(Vector3!T translation) pure nothrow {
+      c[0][3] = translation.x;
+      c[1][3] = translation.y;
+      c[2][3] = translation.z;
+    }
+
+    void setScale(Vector3!T scale) pure nothrow {
+      c[0][0] = scale.x;
+      c[1][1] = scale.y;
+      c[2][2] = scale.z;
+    }
+  }
+
+
 	///
 	this(U...)(U values) pure nothrow {
 		import std.meta : allSatisfy;

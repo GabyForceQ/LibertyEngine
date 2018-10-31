@@ -52,7 +52,7 @@ struct Renderer(VERTEX, NODETYPE = SceneNode) {
     else static if (is(VERTEX == TerrainVertex))
       parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (is(VERTEX == UIVertex))
-      parent.getFrame().getScene().getUIShader().loadModelMatrix(parent.getModelMatrix());
+      parent.getFrame().getScene().getUIShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else
       assert(0, "Unreachable");
 
