@@ -25,6 +25,9 @@ final class Input {
   private {
     static bool[KEY_CODES] keyState;
     static bool[KEY_CODES] mouseBtnState;
+    static Vector2F mousePosition;
+    static Vector2F previousMousePosition;
+    static Vector2F lastMousePosition;
     static MousePicker mousePicker;
   }
 
@@ -120,6 +123,90 @@ final class Input {
     glfwGetCursorPos(window.getHandle(), &x, &y);
     return Vector2F(cast(float)x, cast(float)y);
   }
+  
+  /**
+   * Returns a 2d vector containing previous mouse position.
+  **/
+  static Vector2F getPreviousMousePostion() nothrow {
+    return previousMousePosition;
+  }
+
+  /**
+   * Returns a 2d vector containing last mouse position.
+  **/
+  static Vector2F getLastMousePostion() nothrow {
+    return lastMousePosition;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving left.
+  **/
+  static bool isMouseMovingLeft() nothrow {
+    return lastMousePosition.x > mousePosition.x;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving right.
+  **/
+  static bool isMouseMovingRight() nothrow {
+    return lastMousePosition.x < mousePosition.x;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving up.
+  **/
+  static bool isMouseMovingUp() nothrow {
+    return lastMousePosition.y > mousePosition.y;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving down.
+  **/
+  static bool isMouseMovingDown() nothrow {
+    return lastMousePosition.y < mousePosition.y;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving.
+  **/
+  static bool isMouseMoving() nothrow {
+    return lastMousePosition != mousePosition;
+  }
+
+  /**
+   * Returns true if mouse cursor is staying.
+  **/
+  static bool isMouseStaying() nothrow {
+    return lastMousePosition == mousePosition;
+  }
+
+  /**
+   * Returns true if mouse cursor was moving left.
+  **/
+  static bool wasMouseMovingLeft() nothrow {
+    return previousMousePosition.x > mousePosition.x;
+  }
+
+  /**
+   * Returns true if mouse cursor was moving right.
+  **/
+  static bool wasMouseMovingRight() nothrow {
+    return previousMousePosition.x < mousePosition.x;
+  }
+
+  /**
+   * Returns true if mouse cursor was moving up.
+  **/
+  static bool wasMouseMovingUp() nothrow {
+    return previousMousePosition.y > mousePosition.y;
+  }
+
+  /**
+   * Returns true if mouse cursor was moving down.
+  **/
+  static bool wasMouseMovingDown() nothrow {
+    return previousMousePosition.y < mousePosition.y;
+  }
 
   /**
    * Returns a reference to current mouse picker.
@@ -144,5 +231,17 @@ final class Input {
       (2.0f * mousePos.x) / window.getWidth() - 1.0f,
       -((2.0f * mousePos.y) / window.getHeight() - 1.0f)
     );
+  }
+
+  static package void setMousePosition(Vector2F position) nothrow {
+    mousePosition = position;
+  }
+
+  static package void setPreviousMousePostion(Vector2F position) nothrow {
+    previousMousePosition = position;
+  }
+
+  static package void setLastMousePosition(Vector2F position) nothrow {
+    lastMousePosition = position;
   }
 }

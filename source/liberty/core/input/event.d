@@ -10,6 +10,7 @@ module liberty.core.input.event;
 
 import bindbc.glfw;
 
+import liberty.core.math.vector : Vector2F;
 import liberty.core.engine : CoreEngine, EngineState;
 import liberty.core.input.constants : KeyCode, MouseButton;
 import liberty.core.input.impl : Input;
@@ -38,6 +39,9 @@ package(liberty.core) class Event {
     float xOffset = xPos - lastX;
     float yOffset = lastY - yPos;
 
+    Input.setPreviousMousePostion(Vector2F(lastX, lastY));
+    Input.setMousePosition(Vector2F(xPos, yPos));
+
     lastX = xPos;
     lastY = yPos;
 
@@ -54,5 +58,9 @@ package(liberty.core) class Event {
 
   extern(C) static void frameBufferResizeCallback(GLFWwindow* window, int width, int height) nothrow {
     GfxEngine.resizeFrameBufferViewport(width, height);
+  }
+
+  static void updateLastMousePosition() {
+    Input.setLastMousePosition(Vector2F(lastX, lastY));
   }
 }

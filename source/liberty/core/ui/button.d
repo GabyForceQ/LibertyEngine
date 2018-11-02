@@ -8,27 +8,26 @@
  */
 module liberty.core.ui.button;
 
+import std.traits : EnumMembers;
+
 import liberty.core.objects.meta : NodeBody;
 import liberty.core.ui.widget : Widget;
 import liberty.core.ui.frame : Frame;
 import liberty.core.input.impl : Input;
 import liberty.core.input.constants : MouseButton;
+import liberty.core.ui.events : ButtonEvent;
 
 /**
  *
 **/
 final class Button : Widget {
   private {
-    void delegate() onLeftClick = null;
-    void delegate() onMiddleClick = null;
-    void delegate() onRightClick = null;
-    void delegate() onMouseInside = null;
-    void delegate() onUpdate = null;
-
-    bool isOnLeftClick;
-    bool isOnMiddleClick;
-    bool isOnRightClick;
-    bool isOnMouseInside;
+    static foreach (member; EnumMembers!ButtonEvent) {
+      mixin ("void delegate() on" ~ member ~ " = null;");
+      
+      static if (member != "Update")
+        mixin ("bool isOn" ~ member ~ ";");
+    }
   }
 
   /**
@@ -50,111 +49,59 @@ final class Button : Widget {
         isOnMouseInside = true;
       }
 
-      if (hasOnLeftClick()) {
+      if (hasOnMouseMove())
+        if (Input.isMouseMoving()) {
+          onMouseMove();
+          isOnMouseMove = true;
+        }
+
+      if (hasOnMouseLeftClick())
         if (Input.isMouseButtonDown(MouseButton.LEFT)) {
-          onLeftClick();
-          isOnLeftClick = true;
+          onMouseLeftClick();
+          isOnMouseLeftClick = true;
         }
-      }
 
-      if (hasOnMiddleClick()) {
+      if (hasOnMouseMiddleClick())
         if (Input.isMouseButtonDown(MouseButton.MIDDLE)) {
-          onMiddleClick();
-          isOnMiddleClick = true;
+          onMouseMiddleClick();
+          isOnMouseMiddleClick = true;
         }
-      }
 
-      if (hasOnRightClick()) {
+      if (hasOnMouseRightClick())
         if (Input.isMouseButtonDown(MouseButton.RIGHT)) {
-          onRightClick();
-          isOnRightClick = true;
+          onMouseRightClick();
+          isOnMouseRightClick = true;
         }
-      }
     }
 
     if (onUpdate !is null)
       onUpdate();
   }
 
-  /**
-   *
-  **/
-  Button setOnLeftClick(void delegate() onLeftClick) pure nothrow {
-    this.onLeftClick = onLeftClick;
-    return this;
-  }
+  static foreach (member; EnumMembers!ButtonEvent) {
+    /**
+     *
+    **/
+    mixin ("Button setOn" ~ member ~ "(void delegate() on" ~ member ~ ") pure nothrow {" ~
+      "this.on" ~ member ~ " = on" ~ member ~ "; return this; }");
 
-  /**
-   *
-  **/
-  Button setOnMiddleClick(void delegate() onMiddleClick) pure nothrow {
-    this.onMiddleClick = onMiddleClick;
-    return this;
-  }
-
-  /**
-   *
-  **/
-  Button setOnRightClick(void delegate() onRightClick) pure nothrow {
-    this.onRightClick = onRightClick;
-    return this;
-  }
-
-  /**
-   *
-  **/
-  Button setOnMouseInside(void delegate() onMouseInside) pure nothrow {
-    this.onMouseInside = onMouseInside;
-    return this;
-  }
-
-  /**
-   *
-  **/
-  Button setOnUpdate(void delegate() onUpdate) pure nothrow {
-    this.onUpdate = onUpdate;
-    return this;
-  }
-
-  /**
-   *
-  **/
-  bool hasOnLeftClick() pure nothrow const {
-    return onLeftClick !is null;
-  }
-
-  /**
-   *
-  **/
-  bool hasOnMiddleClick() pure nothrow const {
-    return onMiddleClick !is null;
-  }
-
-  /**
-   *
-  **/
-  bool hasOnRightClick() pure nothrow const {
-    return onRightClick !is null;
-  }
-
-  /**
-   *
-  **/
-  bool hasOnMouseInside() pure nothrow const {
-    return onMouseInside !is null;
+    static if (member != "Update")
+      /**
+       *
+      **/
+      mixin ("bool hasOn" ~ member ~ "() pure nothrow const {" ~
+        "return on" ~ member ~ " !is null; }");
   }
 
   private void clearAllBooleans() {
-    isOnLeftClick = false;
-    isOnMiddleClick = false;
-    isOnRightClick = false;
-    isOnMouseInside = false;
+    static foreach (member; EnumMembers!ButtonEvent)
+      static if (member != "Update")
+        mixin ("isOn" ~ member ~ " = false;");
   }
 
   private void clearAllEvents() {
-    onLeftClick = null;
-    onMiddleClick = null;
-    onRightClick = null;
-    onMouseInside = null;
+    static foreach (member; EnumMembers!ButtonEvent)
+      static if (member != "Update")
+        mixin ("on" ~ member ~ " = null;");
   }
 }

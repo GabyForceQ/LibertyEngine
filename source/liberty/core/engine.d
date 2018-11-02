@@ -21,6 +21,7 @@ import liberty.core.platform : Platform;
 import liberty.core.resource.manager : ResourceManager;
 import liberty.core.scene : Scene;
 import liberty.core.time : Time;
+import liberty.core.input.event : Event;
 import liberty.graphics.engine : GfxEngine;
 
 /**
@@ -131,6 +132,8 @@ final class CoreEngine {
 
 			if (Input.isKeyDown(KeyCode.ESC))
 				changeState(EngineState.ShouldQuit);
+
+      Event.updateLastMousePosition();
 		}
 
     // Main loop ended so engine shutdowns

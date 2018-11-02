@@ -11,24 +11,34 @@ module liberty.core.ui.events;
 /**
  *
 **/
-enum ButtonEvent : ubyte {
+enum ButtonEvent : string {
   /**
    *
   **/
-  MouseLeftClick = 0x00,
+  MouseLeftClick = "MouseLeftClick",
 
   /**
    *
   **/
-  MouseMiddleClick = 0x01,
+  MouseMiddleClick = "MouseMiddleClick",
 
   /**
    *
   **/
-  MouseRightClick = 0x02,
+  MouseRightClick = "MouseRightClick",
 
   /**
    *
   **/
-  MouseInside = 0x03
+  MouseInside = "MouseInside",
+
+  /**
+   *
+  **/
+  MouseMove = "MouseMove",
+
+  /**
+   *
+  **/
+  Update = "Update"
 }
