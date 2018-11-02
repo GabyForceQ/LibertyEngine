@@ -10,7 +10,9 @@ module liberty.core.ui;
 
 public {
   import liberty.core.ui.button;
+  import liberty.core.ui.events;
   import liberty.core.ui.frame;
+  import liberty.core.ui.meta;
   import liberty.core.ui.transform;
   import liberty.core.ui.widget;
 }

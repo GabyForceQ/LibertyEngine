@@ -27,7 +27,7 @@ import liberty.engine;
 /**
  *
 **/
-abstract class Widget : IRenderable {
+abstract class Widget : IRenderable, IUpdatable {
   /**
    * Renderer component used for rendering.
   **/
@@ -77,14 +77,14 @@ abstract class Widget : IRenderable {
   /**
    *
   **/
-  Transform2 getTransform() pure nothrow {
+  final Transform2 getTransform() pure nothrow {
     return transform;
   }
 
   /**
    *
   **/
-  bool isMouseInside() {
+  final bool isMouseColliding() {
     Vector2F mousePos = Input.getMousePostion();
     return mousePos.x >= transform.getPosition.x - transform.getExtent.x / 2 && 
       mousePos.x <= transform.getPosition.x + transform.getExtent.x / 2 && 
@@ -95,8 +95,12 @@ abstract class Widget : IRenderable {
   /**
    * Returns reference to the current renderer component.
   **/
-  Renderer!(UIVertex, Frame) getRenderer() {
+  final Renderer!(UIVertex, Frame) getRenderer() {
     return renderer;
+  }
+
+  override void update() {
+    
   }
 }
 
