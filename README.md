@@ -4,26 +4,8 @@ A powerful 2D/3D engine written in the D programming language.
 This is still work in progress. If you find a bug, please report via github.
 There are so many features to come.
 
-##### Release notes (v0.0.15)
-- [x] Moved from SDL2 to GLFW
-- [x] Project structure is simpler
-- [x] More manager classes were added (no more singletons)
-- [x] BSP volumes and different kinds of model
-- [x] Texture caching using resource manager
-- [x] Terrain entity with collision, height map and multiple material support
-- [x] Core shader, terrain shader and UI shader were added
-- [x] Camera improvements and dynamic custom camera settings
-- [x] Dynamic material loader on BSP volumes
-- [x] Experimental .obj model loader
-- [x] Experimental flexible render pipline
-- [x] Experimental lighting system
-- [x] Experimental UI
-- [x] Experimental mouse picker
-- [x] Fixes and small features
-- [x] Demos
-
 ##### D compiler versions recommended:
-* DMD 2.082.1
+* DMD 2.083.0
 
 ##### Operating systems supported (tested):
 * Windows 10 x86 (32-bits)
