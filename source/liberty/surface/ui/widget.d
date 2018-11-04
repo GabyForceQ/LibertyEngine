@@ -9,12 +9,12 @@
 module liberty.surface.ui.widget;
 
 import liberty.math.vector;
-import liberty.components.renderer;
-import liberty.components.transform2;
+import liberty.graphics.renderer;
+import liberty.surface.transform;
 import liberty.surface.ui.frame;
 import liberty.graphics.vertex;
 import liberty.graphics.material.impl;
-import liberty.model.core;
+import liberty.primitive.model;
 import liberty.services;
 import liberty.surface.model;
 import liberty.input.impl;

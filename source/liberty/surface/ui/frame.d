@@ -10,7 +10,7 @@ module liberty.surface.ui.frame;
 
 import liberty.math.matrix;
 import liberty.math.util;
-import liberty.objects.node;
+import liberty.scene.node;
 import liberty.core.platform;
 import liberty.scene.impl;
 import liberty.surface.ui.widget;

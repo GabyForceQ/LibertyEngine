@@ -10,7 +10,7 @@ module liberty.surface.shader;
 
 import liberty.math.matrix;
 import liberty.math.vector;
-import liberty.graphics.shader.impl;
+import liberty.graphics.shader;
 
 /**
  *

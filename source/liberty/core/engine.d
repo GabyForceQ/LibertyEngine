@@ -10,18 +10,18 @@ module liberty.core.engine;
 
 import bindbc.glfw;
 
-import liberty.graphics.material.impl : Material;
-import liberty.image.manager : ImageManager;
-import liberty.input.constants : KeyCode;
-import liberty.input.impl : Input;
-import liberty.logger : Logger;
-import liberty.objects.camera : CameraMovement;
-import liberty.core.platform : Platform;
-import liberty.resource.manager : ResourceManager;
-import liberty.scene : Scene;
-import liberty.time : Time;
-import liberty.input.event : Event;
-import liberty.graphics.engine : GfxEngine;
+import liberty.graphics.material.impl;
+import liberty.image.manager;
+import liberty.input.constants;
+import liberty.input.impl;
+import liberty.logger;
+import liberty.camera;
+import liberty.core.platform;
+import liberty.resource;
+import liberty.scene;
+import liberty.time;
+import liberty.input.event;
+import liberty.graphics.engine;
 
 /**
  * Core engine class containing engine base static functions.
@@ -95,7 +95,7 @@ final class CoreEngine {
 
 			switch (engineState) with (EngineState) {
 				case Running:
-					import liberty.objects.terrain.impl : Terrain;
+					import liberty.terrain;
 					
 
 					scene.update();

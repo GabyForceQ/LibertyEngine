@@ -13,7 +13,7 @@ import liberty.math.vector : Vector2F, Vector3F;
 /**
  *
 **/
-struct GenericVertex {
+struct PrimitiveVertex {
   /**
    *
   **/

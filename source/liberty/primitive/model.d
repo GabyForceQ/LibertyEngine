@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/model.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/primitive/model.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.surface.model;
+module liberty.primitive.model;
 
 version (__OPENGL__)
   import bindbc.opengl;
@@ -23,11 +23,13 @@ import liberty.graphics.vertex;
 /**
  *
 **/
-final class SurfaceModel : Model {
+final class PrimitiveModel : Model {
   private {
     bool hasIndices;
+    bool hasTransparency;
+    bool useFakeLighting;
   }
-  
+
   /**
    *
   **/
@@ -38,7 +40,7 @@ final class SurfaceModel : Model {
   /**
    *
   **/
-  SurfaceModel build(UIVertex[] vertices) {
+  PrimitiveModel build(PrimitiveVertex[] vertices) {
     rawModel = ResourceManager.loadRawModel(vertices);
     build();
     return this;
@@ -47,7 +49,7 @@ final class SurfaceModel : Model {
   /**
    *
   **/
-  SurfaceModel build(UIVertex[] vertices, uint[] indices) {
+  PrimitiveModel build(PrimitiveVertex[] vertices, uint[] indices) {
     hasIndices = true;
     rawModel = ResourceManager.loadRawModel(vertices, indices);
     build();
@@ -55,30 +57,31 @@ final class SurfaceModel : Model {
   }
 
   private void build() {
-    CoreEngine.getScene().getSurfaceShader().loadTexture(0);
+    CoreEngine.getScene().getprimitiveShader().loadTexture(0);
   }
 
   /**
    *
   **/
   void draw() {
-    CoreEngine.getScene().getSurfaceShader().bind();
+    CoreEngine.getScene().getprimitiveShader().bind();
+
+    if (shouldCull)
+      GfxEngine.enableCulling();
 
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
     }
 
-    if (shouldCull)
-      GfxEngine.enableCulling();
-    
-    GfxEngine.enableAlphaBlend();
-    //GfxEngine.disableDepthTest();
+    if (hasTransparency)
+      GfxEngine.disableCulling();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
       glEnableVertexAttribArray(0);
       glEnableVertexAttribArray(1);
+      glEnableVertexAttribArray(2);
     }
 
     if (hasIndices)
@@ -89,6 +92,7 @@ final class SurfaceModel : Model {
     version (__OPENGL__) {
       glDisableVertexAttribArray(0);
       glDisableVertexAttribArray(1);
+      glDisableVertexAttribArray(2);
       glBindVertexArray(0);
     }
 
@@ -97,13 +101,13 @@ final class SurfaceModel : Model {
       glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    //GfxEngine.enableDepthTest();
-    GfxEngine.disableBlend();
+    if (!hasTransparency)
+      GfxEngine.disableCulling();
 
     if (shouldCull)
       GfxEngine.disableCulling();
 
-    CoreEngine.getScene().getSurfaceShader().unbind();
+    CoreEngine.getScene().getprimitiveShader().unbind();
   }
 
   /**
@@ -111,5 +115,33 @@ final class SurfaceModel : Model {
   **/
   bool usesIndices() pure nothrow const {
     return hasIndices;
+  }
+
+  /**
+   *
+  **/
+  void setHasTransparency(bool transparency) {
+    hasTransparency = transparency;
+  }
+
+  /**
+   *
+  **/
+  bool getHasTransparency() {
+    return hasTransparency;
+  }
+
+  /**
+   *
+  **/
+  void setUseFakeLighting(bool isFake) {
+    useFakeLighting = isFake;
+  }
+
+  /**
+   *
+  **/
+  bool getUseFakeLighting() {
+    return useFakeLighting;
   }
 }

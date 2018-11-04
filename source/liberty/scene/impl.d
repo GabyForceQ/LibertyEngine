@@ -13,12 +13,14 @@ module liberty.scene.impl;
 
 import liberty.core.engine;
 import liberty.math.vector;
-import liberty.objects.camera;
-import liberty.objects.node;
+import liberty.camera;
+import liberty.scene.node;
 import liberty.scene.world;
 import liberty.services;
 import liberty.graphics.shader;
 import liberty.surface.shader;
+import liberty.primitive.shader;
+import liberty.terrain.shader;
 
 /**
  *
@@ -36,7 +38,7 @@ final class Scene : IUpdatable, IRenderable {
     IStartable[string] startList;
     IUpdatable[string] updateList;
     IRenderable[string] renderList;
-    CoreShader coreShader;
+    PrimitiveShader primitiveShader;
     TerrainShader terrainShader;
     SurfaceShader surfaceShader;
     WorldSettings worldSettings;
@@ -51,7 +53,7 @@ final class Scene : IUpdatable, IRenderable {
     id = id;
     tree = new RootObject();
 
-    coreShader = new CoreShader();
+    primitiveShader = new PrimitiveShader();
     terrainShader = new TerrainShader();
     surfaceShader = new SurfaceShader();
 
@@ -225,16 +227,16 @@ final class Scene : IUpdatable, IRenderable {
    * Set the default generic shader.
    * Returns reference to this.
   **/
-  Scene setcoreShader(CoreShader shader) {
-    coreShader = shader;
+  Scene setprimitiveShader(PrimitiveShader shader) {
+    primitiveShader = shader;
     return this;
   }
 
   /**
    * Returns the default generic shader.
   **/
-  CoreShader getcoreShader() {
-    return coreShader;
+  PrimitiveShader getprimitiveShader() {
+    return primitiveShader;
   }
 
   /**

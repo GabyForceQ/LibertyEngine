@@ -10,7 +10,7 @@ module liberty.surface.ui.button;
 
 import std.traits : EnumMembers;
 
-import liberty.objects.meta;
+import liberty.meta;
 import liberty.surface.ui.widget;
 import liberty.surface.ui.frame;
 import liberty.input.impl;

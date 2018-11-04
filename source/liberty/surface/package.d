@@ -11,6 +11,8 @@ module liberty.surface;
 public {
   import liberty.surface.ui;
   
+  import liberty.surface.actor;
   import liberty.surface.model;
   import liberty.surface.shader;
+  import liberty.surface.transform;
 }

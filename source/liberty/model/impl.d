@@ -8,8 +8,39 @@
 **/
 module liberty.model.impl;
 
-import liberty.graphics.material.impl : Material;
-import liberty.model.raw : RawModel;
+import liberty.graphics.material.impl;
+
+/**
+ *
+**/
+class RawModel {
+  private {
+    uint vaoID;
+    size_t vertexCount;
+  }
+
+  /**
+   *
+  **/
+  this(uint vaoID, size_t vertexCount) {
+    this.vaoID = vaoID;
+    this.vertexCount = vertexCount;
+  }
+
+  /**
+   *
+  **/
+  uint getVaoID() {
+    return vaoID;
+  }
+
+  /**
+   *
+  **/
+  size_t getVertexCount() {
+    return vertexCount;
+  }
+}
 
 /**
  *

@@ -8,11 +8,10 @@
 **/
 module liberty.graphics.material.impl;
 
-import liberty.core.engine : CoreEngine;
-import liberty.graphics.shader.impl : Shader;
-import liberty.graphics.texture.impl : Texture;
-
-import liberty.resource.manager : ResourceManager;
+import liberty.core.engine;
+import liberty.graphics.shader;
+import liberty.graphics.texture.impl;
+import liberty.resource;
 
 /**
  *

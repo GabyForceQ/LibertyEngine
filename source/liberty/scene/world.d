@@ -9,7 +9,7 @@
 module liberty.scene.world;
 
 import liberty.math.vector;
-import liberty.objects.camera;
+import liberty.camera;
 import liberty.scene.impl;
 
 /**
@@ -33,7 +33,7 @@ final class WorldSettings {
    * Returns reference to this.
   **/
   WorldSettings updateShaders(Scene scene, Camera camera) {
-    scene.getcoreShader()
+    scene.getprimitiveShader()
       .loadProjectionMatrix(camera.getProjectionMatrix())
       .loadViewMatrix(camera.getViewMatrix())
       .loadSkyColor(expHeightFogColor);

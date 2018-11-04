@@ -9,22 +9,24 @@
 module liberty.engine;
 
 public {
-  import liberty.components;
+  import liberty.camera;
+  import liberty.core;
   import liberty.graphics;
   import liberty.image;
   import liberty.input;
   import liberty.io;
+  import liberty.light;
   import liberty.logger;
   import liberty.math;
+  import liberty.meta;
   import liberty.model;
   import liberty.physics;
-  import liberty.objects;
-  import liberty.resource;
+  import liberty.primitive;
   import liberty.scene;
   import liberty.security;
   import liberty.surface;
   
-  import liberty.core;
+  import liberty.resource;
   import liberty.services;
   import liberty.time;
   import liberty.utils;

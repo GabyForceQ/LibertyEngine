@@ -8,13 +8,13 @@
 **/
 module liberty.input.picker;
 
-import liberty.input.impl : Input;
-import liberty.math.vector : Vector2F, Vector3F, Vector4F;
-import liberty.math.matrix : Matrix4F;
-import liberty.objects.camera.impl : Camera;
-import liberty.objects.terrain.impl : Terrain;
-import liberty.core.platform : Platform;
-import liberty.core.window : Window;
+import liberty.input.impl;
+import liberty.math.vector;
+import liberty.math.matrix;
+import liberty.camera.impl;
+import liberty.terrain;
+import liberty.core.platform;
+import liberty.core.window;
 
 /**
  *
