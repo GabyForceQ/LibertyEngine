@@ -8,7 +8,7 @@
 **/
 module liberty.graphics.vertex;
 
-import liberty.core.math.vector : Vector2F, Vector3F;
+import liberty.math.vector : Vector2F, Vector3F;
 
 /**
  *

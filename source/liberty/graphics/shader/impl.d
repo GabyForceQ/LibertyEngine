@@ -12,14 +12,14 @@ version (__OPENGL__)
   import bindbc.opengl;
 
 import liberty.core.engine : CoreEngine;
-import liberty.core.logger : Logger;
-import liberty.core.math.vector : Vector2F, Vector3F, Vector4F;
-import liberty.core.math.matrix : Matrix4F;
+import liberty.logger : Logger;
+import liberty.math.vector : Vector2F, Vector3F, Vector4F;
+import liberty.math.matrix : Matrix4F;
 
 /**
  *
 **/
-class GfxShader {
+class Shader {
   private {
     uint programID;
     uint vertexShaderID;
@@ -38,7 +38,7 @@ class GfxShader {
   /**
    *
   **/
-  GfxShader bind() {
+  Shader bind() {
     version (__OPENGL__)
       glUseProgram(this.programID);    
 
@@ -48,7 +48,7 @@ class GfxShader {
   /**
    *
   **/
-  GfxShader unbind() {
+  Shader unbind() {
     version (__OPENGL__)
       glUseProgram(0);
 
@@ -58,7 +58,7 @@ class GfxShader {
   /**
    *
   **/
-  GfxShader bindAttribute(string name) {
+  Shader bindAttribute(string name) {
     import std.string : toStringz;
 
     version (__OPENGL__)
@@ -70,7 +70,7 @@ class GfxShader {
   /**
    *
   **/
-  GfxShader compileShaders(string vertexShader, string fragmentShader) {
+  Shader compileShaders(string vertexShader, string fragmentShader) {
     // Create program
     version (__OPENGL__)
       this.programID = glCreateProgram();
@@ -85,7 +85,7 @@ class GfxShader {
   /**
    *
   **/
-  GfxShader linkShaders() {
+  Shader linkShaders() {
     version (__OPENGL__) {
       // Attach shaders to program
       glAttachShader(this.programID, this.vertexShaderID);
@@ -130,7 +130,7 @@ class GfxShader {
   /**
    *
   **/
-  GfxShader addUniform(string name) {
+  Shader addUniform(string name) {
     import std.string : toStringz;
     
     version (__OPENGL__) {
@@ -150,7 +150,7 @@ class GfxShader {
   /**
    * Load bool uniform using location id and value.
   **/
-  GfxShader loadUniform(int locationID, bool value) nothrow {
+  Shader loadUniform(int locationID, bool value) nothrow {
     version (__OPENGL__)
       glUniform1i(locationID, cast(int)value);
 
@@ -160,7 +160,7 @@ class GfxShader {
   /**
    * Load int uniform using location id and value.
   **/
-  GfxShader loadUniform(int locationID, int value) nothrow {
+  Shader loadUniform(int locationID, int value) nothrow {
     version (__OPENGL__)
       glUniform1i(locationID, value);
 
@@ -170,7 +170,7 @@ class GfxShader {
   /**
    * Load uint uniform using location id and value.
   **/
-  GfxShader loadUniform(int locationID, uint value) nothrow {
+  Shader loadUniform(int locationID, uint value) nothrow {
     version (__OPENGL__)
       glUniform1ui(locationID, value);
 
@@ -180,7 +180,7 @@ class GfxShader {
   /**
    * Load float uniform using location id and value.
   **/
-  GfxShader loadUniform(int locationID, float value) nothrow {
+  Shader loadUniform(int locationID, float value) nothrow {
     version (__OPENGL__)
       glUniform1f(locationID, value);
 
@@ -190,7 +190,7 @@ class GfxShader {
   /**
    * Load Vector2F uniform using location id and value.
   **/
-  GfxShader loadUniform(int locationID, Vector2F vector) nothrow {
+  Shader loadUniform(int locationID, Vector2F vector) nothrow {
     version (__OPENGL__)
       glUniform2f(locationID, vector.x, vector.y);
 
@@ -200,7 +200,7 @@ class GfxShader {
   /**
    * Load Vector3F uniform using location id and value.
   **/
-  GfxShader loadUniform(int locationID, Vector3F vector) nothrow {
+  Shader loadUniform(int locationID, Vector3F vector) nothrow {
     version (__OPENGL__)
       glUniform3f(locationID, vector.x, vector.y, vector.z);
 
@@ -210,7 +210,7 @@ class GfxShader {
   /**
    * Load Vector4F uniform using location id and value.
   **/
-  GfxShader loadUniform(int locationID, Vector4F vector) nothrow {
+  Shader loadUniform(int locationID, Vector4F vector) nothrow {
     version (__OPENGL__)
       glUniform4f(locationID, vector.x, vector.y, vector.z, vector.w);
     
@@ -220,7 +220,7 @@ class GfxShader {
   /**
    * Load Matrix4F uniform using location id and value.
   **/
-  GfxShader loadUniform(int locationID, Matrix4F matrix) nothrow {
+  Shader loadUniform(int locationID, Matrix4F matrix) nothrow {
     //glUniform4fv(locationID, matrix.ptr); // TODO?
     //glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
     return this;
@@ -229,7 +229,7 @@ class GfxShader {
   /**
    * Load bool uniform using uniform name and value.
   **/
-  GfxShader loadUniform(string name, bool value) nothrow {
+  Shader loadUniform(string name, bool value) nothrow {
     version (__OPENGL__)
       glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), cast(int)value);
     
@@ -239,7 +239,7 @@ class GfxShader {
   /**
    * Load int uniform using uniform name and value.
   **/
-  GfxShader loadUniform(string name, int value) nothrow {
+  Shader loadUniform(string name, int value) nothrow {
     version (__OPENGL__)
       glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
     
@@ -249,7 +249,7 @@ class GfxShader {
   /**
    * Load uint uniform using uniform name and value.
   **/
-  GfxShader loadUniform(string name, uint value) nothrow {
+  Shader loadUniform(string name, uint value) nothrow {
     version (__OPENGL__)
       glUniform1ui(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
     
@@ -259,7 +259,7 @@ class GfxShader {
   /**
    * Load float uniform using uniform name and value.
   **/
-  GfxShader loadUniform(string name, float value) nothrow {
+  Shader loadUniform(string name, float value) nothrow {
     version (__OPENGL__)
       glUniform1f(this.uniforms[name], value);
     
@@ -269,7 +269,7 @@ class GfxShader {
   /**
    * Load Vector2F uniform using uniform name and value.
   **/
-  GfxShader loadUniform(string name, Vector2F vector) nothrow {
+  Shader loadUniform(string name, Vector2F vector) nothrow {
     version (__OPENGL__)
       glUniform2f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y);
     
@@ -279,7 +279,7 @@ class GfxShader {
   /**
    * Load Vector3F uniform using uniform name and value.
   **/
-  GfxShader loadUniform(string name, Vector3F vector) nothrow {
+  Shader loadUniform(string name, Vector3F vector) nothrow {
     version (__OPENGL__)
       glUniform3f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z);
     
@@ -289,7 +289,7 @@ class GfxShader {
   /**
    * Load Vector4F uniform using uniform name and value.
   **/
-  GfxShader loadUniform(string name, Vector4F vector) nothrow {
+  Shader loadUniform(string name, Vector4F vector) nothrow {
     version (__OPENGL__)
       glUniform4f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z, vector.w);
     
@@ -299,7 +299,7 @@ class GfxShader {
   /**
    * Load Matrix4F uniform using uniform name and value.
   **/
-  GfxShader loadUniform(string name, Matrix4F matrix) nothrow {
+  Shader loadUniform(string name, Matrix4F matrix) nothrow {
     version (__OPENGL__)
       glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
     

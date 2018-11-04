@@ -10,14 +10,14 @@ module liberty.graphics.shader.terrain;
 
 import std.conv : to;
 
-import liberty.core.math.matrix : Matrix4F;
-import liberty.core.math.vector : Vector2F, Vector3F;
-import liberty.graphics.shader.impl : GfxShader;
+import liberty.math.matrix : Matrix4F;
+import liberty.math.vector : Vector2F, Vector3F;
+import liberty.graphics.shader.impl : Shader;
 
 /**
  *
 **/
-class GfxTerrainShader : GfxShader {
+class TerrainShader : Shader {
   private {
     static immutable TERRAIN_VERTEX = q{
       #version 450 core
@@ -166,7 +166,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadModelMatrix(Matrix4F matrix) {
+  TerrainShader loadModelMatrix(Matrix4F matrix) {
     bind();
     loadUniform("uModelMatrix", matrix);
     unbind();
@@ -176,7 +176,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadViewMatrix(Matrix4F matrix) {
+  TerrainShader loadViewMatrix(Matrix4F matrix) {
     bind();
     loadUniform("uViewMatrix", matrix);
     unbind();
@@ -186,7 +186,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadProjectionMatrix(Matrix4F matrix) {
+  TerrainShader loadProjectionMatrix(Matrix4F matrix) {
     bind();
     loadUniform("uProjectionMatrix", matrix);
     unbind();
@@ -196,7 +196,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadLightPosition(uint index, Vector3F position) {
+  TerrainShader loadLightPosition(uint index, Vector3F position) {
     bind();
     loadUniform("uLightPosition[" ~ index.to!string ~ "]", position);
     unbind();
@@ -206,7 +206,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadLightColor(uint index, Vector3F color) {
+  TerrainShader loadLightColor(uint index, Vector3F color) {
     bind();
     loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
     unbind();
@@ -216,7 +216,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadLightAttenuation(uint index, Vector3F attenuation) {
+  TerrainShader loadLightAttenuation(uint index, Vector3F attenuation) {
     bind();
     loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation);
     unbind();
@@ -226,7 +226,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadBackgroundTexture(int id) {
+  TerrainShader loadBackgroundTexture(int id) {
     bind();
     loadUniform("uBackgroundTexture", id);
     unbind();
@@ -236,7 +236,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadRTexture(int id) {
+  TerrainShader loadRTexture(int id) {
     bind();
     loadUniform("uRTexture", id);
     unbind();
@@ -246,7 +246,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadGTexture(int id) {
+  TerrainShader loadGTexture(int id) {
     bind();
     loadUniform("uGTexture", id);
     unbind();
@@ -256,7 +256,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadBTexture(int id) {
+  TerrainShader loadBTexture(int id) {
     bind();
     loadUniform("uBTexture", id);
     unbind();
@@ -266,7 +266,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadBlendMap(int id) {
+  TerrainShader loadBlendMap(int id) {
     bind();
     loadUniform("uBlendMap", id);
     unbind();
@@ -276,7 +276,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadShineDamper(float value) {
+  TerrainShader loadShineDamper(float value) {
     bind();
     loadUniform("uShineDamper", value);
     unbind();
@@ -286,7 +286,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadReflectivity(float value) {
+  TerrainShader loadReflectivity(float value) {
     bind();
     loadUniform("uReflectivity", value);
     unbind();
@@ -296,7 +296,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadTexCoordMultiplier(Vector2F multiplier) {
+  TerrainShader loadTexCoordMultiplier(Vector2F multiplier) {
     bind();
     loadUniform("uTexCoordMultiplier", multiplier);
     unbind();
@@ -306,7 +306,7 @@ class GfxTerrainShader : GfxShader {
   /**
    *
   **/
-  GfxTerrainShader loadSkyColor(Vector3F color) {
+  TerrainShader loadSkyColor(Vector3F color) {
     bind();
     loadUniform("uSkyColor", color);
     unbind();

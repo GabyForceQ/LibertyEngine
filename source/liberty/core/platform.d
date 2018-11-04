@@ -11,8 +11,8 @@ module liberty.core.platform;
 import bindbc.glfw;
 
 import liberty.core.engine : CoreEngine;
-import liberty.core.input.event : Event;
-import liberty.core.logger : Logger, InfoMessage;
+import liberty.input.event : Event;
+import liberty.logger : Logger, InfoMessage;
 import liberty.core.window : Window;
 
 /**

@@ -13,9 +13,9 @@ version (__OPENGL__)
 
 import derelict.util.exception : ShouldThrow;
 
-import liberty.core.math.vector : Vector3F;
+import liberty.math.vector : Vector3F;
 import liberty.core.engine : CoreEngine;
-import liberty.core.logger : Logger, InfoMessage;
+import liberty.logger : Logger, InfoMessage;
 import liberty.core.platform : Platform;
 import liberty.graphics.color : Color;
 import liberty.graphics.constants : GfxVendor;

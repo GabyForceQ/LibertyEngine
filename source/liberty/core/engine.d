@@ -10,18 +10,17 @@ module liberty.core.engine;
 
 import bindbc.glfw;
 
-import liberty.core.material.impl : Material;
-
-import liberty.core.image.manager : ImageManager;
-import liberty.core.input.constants : KeyCode;
-import liberty.core.input.impl : Input;
-import liberty.core.logger : Logger;
-import liberty.core.objects.camera : CameraMovement;
+import liberty.graphics.material.impl : Material;
+import liberty.image.manager : ImageManager;
+import liberty.input.constants : KeyCode;
+import liberty.input.impl : Input;
+import liberty.logger : Logger;
+import liberty.objects.camera : CameraMovement;
 import liberty.core.platform : Platform;
-import liberty.core.resource.manager : ResourceManager;
-import liberty.core.scene : Scene;
-import liberty.core.time : Time;
-import liberty.core.input.event : Event;
+import liberty.resource.manager : ResourceManager;
+import liberty.scene : Scene;
+import liberty.time : Time;
+import liberty.input.event : Event;
 import liberty.graphics.engine : GfxEngine;
 
 /**
@@ -96,7 +95,7 @@ final class CoreEngine {
 
 			switch (engineState) with (EngineState) {
 				case Running:
-					import liberty.core.objects.terrain.impl : Terrain;
+					import liberty.objects.terrain.impl : Terrain;
 					
 
 					scene.update();
@@ -110,7 +109,7 @@ final class CoreEngine {
 					
 					/*static int oo = 0;
 					if (oo == 200) {
-						import liberty.engine;
+						import liberty.core.engine;
 						Logger.exception(Input.getMousePicker().getCurrentRay().toString());
 						Logger.exception(Input.getMousePicker().getCurrentTerrainPoint().toString());
 						oo = 0;

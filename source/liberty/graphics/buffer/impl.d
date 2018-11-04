@@ -11,7 +11,7 @@ module liberty.graphics.buffer.impl;
 version (__OPENGL__)
   import bindbc.opengl;
 
-import liberty.core.utils : bufferSize;
+import liberty.utils : bufferSize;
 import liberty.graphics.engine : GfxEngine;
 
 /**
