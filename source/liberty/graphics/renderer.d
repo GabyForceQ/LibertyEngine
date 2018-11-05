@@ -10,7 +10,7 @@ module liberty.graphics.renderer;
 
 import liberty.scene.node;
 import liberty.model;
-import liberty.surface.ui.frame;
+import liberty.surface.impl;
 import liberty.surface.ui.widget;
 import liberty.graphics.vertex;
 import liberty.meta;
@@ -28,12 +28,12 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
       alias RendererModel = PrimitiveModel;
     else static if (is(VERTEX == TerrainVertex))
       alias RendererModel = TerrainModel;
-    else static if (is(VERTEX == UIVertex))
+    else static if (is(VERTEX == SurfaceVertex))
       alias RendererModel = SurfaceModel;
 
     static if (is(NODETYPE == SceneNode))
       alias RendererNode = SceneNode;
-    else static if (is(NODETYPE == Frame))
+    else static if (is(NODETYPE == Surface))
       alias RendererNode = Widget;
     
     RendererNode parent;
@@ -56,8 +56,8 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
       parent.getScene().getprimitiveShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (is(VERTEX == TerrainVertex))
       parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
-    else static if (is(VERTEX == UIVertex))
-      parent.getFrame().getScene().getSurfaceShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+    else static if (is(VERTEX == SurfaceVertex))
+      parent.getSurface().getScene().getSurfaceShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else
       assert(0, "Unreachable");
 

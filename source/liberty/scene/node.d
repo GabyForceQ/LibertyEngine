@@ -229,7 +229,7 @@ abstract class SceneNode : IStartable, IUpdatable {
 		if (start)
 			node.start();
 
-    static if (is(T : BSPVolume!PrimitiveVertex) || is(T : BSPVolume!TerrainVertex) || is(T : BSPVolume!UIVertex)) {
+    static if (is(T : BSPVolume!PrimitiveVertex) || is(T : BSPVolume!TerrainVertex) || is(T : BSPVolume!SurfaceVertex)) {
       node.build();
     }
 

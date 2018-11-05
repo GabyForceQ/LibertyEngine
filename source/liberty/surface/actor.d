@@ -1,7 +1,7 @@
 module liberty.surface.actor;
 
 import liberty.logger;
-import liberty.surface.ui.frame;
+import liberty.surface.impl;
 import liberty.surface.ui.widget;
 
 /**
@@ -11,8 +11,8 @@ abstract class Actor2D : Widget {
   /**
    *
   **/
-  this(string id, Frame frame) {
-    super(id, frame);
+  this(string id, Surface surface) {
+    super(id, surface);
   }
 }
 
@@ -24,14 +24,14 @@ abstract class UniqueActor2D : Actor2D {
   /**
    *
   **/
-  this(string id, Frame frame) {
+  this(string id, Surface surface) {
     if (this.hasInstance) {
       Logger.error(
         "Cannot have multiple instances", 
         typeof(this).stringof
       );
     }
-    super(id, frame);
+    super(id, surface);
     this.hasInstance = true;
   }
 }

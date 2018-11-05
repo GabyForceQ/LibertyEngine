@@ -71,7 +71,7 @@ struct TerrainVertex {
 /**
  *
 **/
-struct UIVertex {
+struct SurfaceVertex {
   /**
    *
   **/

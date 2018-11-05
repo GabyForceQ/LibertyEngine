@@ -12,7 +12,7 @@ import std.traits : EnumMembers;
 
 import liberty.meta;
 import liberty.surface.ui.widget;
-import liberty.surface.ui.frame;
+import liberty.surface.impl;
 import liberty.input.impl;
 import liberty.input.constants;
 
@@ -32,8 +32,8 @@ final class Button : Widget {
   /**
    *
   **/
-  this(string name, Frame frame) {
-    super(name, frame);
+  this(string name, Surface surface) {
+    super(name, surface);
   }
 
   /**

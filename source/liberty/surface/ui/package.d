@@ -10,7 +10,6 @@ module liberty.surface.ui;
 
 public {
   import liberty.surface.ui.button;
-  import liberty.surface.ui.frame;
   import liberty.surface.ui.meta;
   import liberty.surface.ui.widget;
 }

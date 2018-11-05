@@ -11,7 +11,7 @@ module liberty.surface.ui.widget;
 import liberty.math.vector;
 import liberty.graphics.renderer;
 import liberty.surface.transform;
-import liberty.surface.ui.frame;
+import liberty.surface.impl;
 import liberty.graphics.vertex;
 import liberty.graphics.material.impl;
 import liberty.primitive.model;
@@ -26,26 +26,26 @@ abstract class Widget : IRenderable, IUpdatable {
   /**
    * Renderer component used for rendering.
   **/
-  Renderer!(UIVertex, Frame) renderer;
+  Renderer!(SurfaceVertex, Surface) renderer;
 
   private {
     string id;
-    Frame frame;
+    Surface surface;
     Transform2D transform;
   }
 
   /**
    *
   **/
-  this(string id, Frame frame) {
-    renderer = new Renderer!(UIVertex, Frame)(this, (new SurfaceModel([Material.getDefault()])
+  this(string id, Surface surface) {
+    renderer = new Renderer!(SurfaceVertex, Surface)(this, (new SurfaceModel([Material.getDefault()])
       .build(uiSquareVertices, uiSquareIndices)));
 
     this.id = id;
-    this.frame = frame;
+    this.surface = surface;
 
     transform = new Transform2D(this);
-    frame.addWidget(this);
+    surface.addWidget(this);
   }
 
   /**
@@ -65,8 +65,8 @@ abstract class Widget : IRenderable, IUpdatable {
   /**
    *
   **/
-  final Frame getFrame() pure nothrow {
-    return frame;
+  final Surface getSurface() pure nothrow {
+    return surface;
   }
 
   /**
@@ -90,7 +90,7 @@ abstract class Widget : IRenderable, IUpdatable {
   /**
    * Returns reference to the current renderer component.
   **/
-  final Renderer!(UIVertex, Frame) getRenderer() {
+  final Renderer!(SurfaceVertex, Surface) getRenderer() {
     return renderer;
   }
 
@@ -104,9 +104,9 @@ private uint[6] uiSquareIndices = [
   0, 2, 3
 ];
 
-private UIVertex[] uiSquareVertices = [
-  UIVertex(Vector3F(-1.0f,  1.0f, 0.0f), Vector2F(0.0f, 1.0f)),
-  UIVertex(Vector3F(-1.0f, -1.0f, 0.0f), Vector2F(0.0f, 0.0f)),
-  UIVertex(Vector3F( 1.0f, -1.0f, 0.0f), Vector2F(1.0f, 0.0f)),
-  UIVertex(Vector3F( 1.0f,  1.0f, 0.0f), Vector2F(1.0f, 1.0f))
+private SurfaceVertex[] uiSquareVertices = [
+  SurfaceVertex(Vector3F(-1.0f,  1.0f, 0.0f), Vector2F(0.0f, 1.0f)),
+  SurfaceVertex(Vector3F(-1.0f, -1.0f, 0.0f), Vector2F(0.0f, 0.0f)),
+  SurfaceVertex(Vector3F( 1.0f, -1.0f, 0.0f), Vector2F(1.0f, 0.0f)),
+  SurfaceVertex(Vector3F( 1.0f,  1.0f, 0.0f), Vector2F(1.0f, 1.0f))
 ];

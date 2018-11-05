@@ -69,7 +69,7 @@ final class ResourceManager {
     vbos ~= vbo.getHandle();
 
     version (__OPENGL__) {
-      static if (is(VERTEX == UIVertex)) {
+      static if (is(VERTEX == SurfaceVertex)) {
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
       } else {
@@ -108,7 +108,7 @@ final class ResourceManager {
     vbos ~= ebo.getHandle();
 
     version (__OPENGL__) {
-      static if (is(VERTEX == UIVertex)) {
+      static if (is(VERTEX == SurfaceVertex)) {
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
       } else {

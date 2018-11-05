@@ -38,7 +38,7 @@ final class SurfaceModel : Model {
   /**
    *
   **/
-  SurfaceModel build(UIVertex[] vertices) {
+  SurfaceModel build(SurfaceVertex[] vertices) {
     rawModel = ResourceManager.loadRawModel(vertices);
     build();
     return this;
@@ -47,7 +47,7 @@ final class SurfaceModel : Model {
   /**
    *
   **/
-  SurfaceModel build(UIVertex[] vertices, uint[] indices) {
+  SurfaceModel build(SurfaceVertex[] vertices, uint[] indices) {
     hasIndices = true;
     rawModel = ResourceManager.loadRawModel(vertices, indices);
     build();

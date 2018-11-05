@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/ui/frame.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/impl.d)
  * Documentation:
  * Coverage:
  */
-module liberty.surface.ui.frame;
+module liberty.surface.impl;
 
 import liberty.math.matrix;
 import liberty.math.util;
@@ -19,7 +19,7 @@ import liberty.services;
 /**
  *
 **/
-abstract class Frame : SceneNode, IRenderable, IUpdatable {
+abstract class Surface : SceneNode, IRenderable, IUpdatable {
   private {
     int xStart;
     int yStart;
@@ -43,7 +43,7 @@ abstract class Frame : SceneNode, IRenderable, IUpdatable {
   /**
    *
   **/
-  package final Frame addWidget(Widget widget) {
+  package final Surface addWidget(Widget widget) {
     widgets[widget.getId()] = widget;
     return this;
   }
@@ -51,7 +51,7 @@ abstract class Frame : SceneNode, IRenderable, IUpdatable {
   /**
    *
   **/
-  final Frame updateProjection(bool autoScale = true) {
+  final Surface updateProjection(bool autoScale = true) {
     if (autoScale) {
       width = Platform.getWindow().getWidth();
       height = Platform.getWindow().getHeight();
