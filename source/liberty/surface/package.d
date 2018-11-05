@@ -14,7 +14,9 @@ public {
   import liberty.surface.actor;
   import liberty.surface.impl;
   import liberty.surface.model;
+  import liberty.surface.renderer;
   import liberty.surface.shader;
   import liberty.surface.tilemap;
   import liberty.surface.transform;
+  import liberty.surface.vertex;
 }

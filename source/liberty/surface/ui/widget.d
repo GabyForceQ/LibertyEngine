@@ -12,12 +12,12 @@ import liberty.math.vector;
 import liberty.graphics.renderer;
 import liberty.surface.transform;
 import liberty.surface.impl;
-import liberty.graphics.vertex;
 import liberty.graphics.material.impl;
 import liberty.primitive.model;
 import liberty.services;
 import liberty.surface.model;
 import liberty.input.impl;
+import liberty.surface.vertex;
 
 /**
  *

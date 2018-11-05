@@ -25,6 +25,7 @@ public {
   import liberty.scene;
   import liberty.security;
   import liberty.surface;
+  import liberty.terrain;
   
   import liberty.resource;
   import liberty.services;

@@ -33,15 +33,19 @@ final class WorldSettings {
    * Returns reference to this.
   **/
   WorldSettings updateShaders(Scene scene, Camera camera) {
-    scene.getprimitiveShader()
+    scene.getPrimitiveShader()
+      .bind()
       .loadProjectionMatrix(camera.getProjectionMatrix())
       .loadViewMatrix(camera.getViewMatrix())
-      .loadSkyColor(expHeightFogColor);
+      .loadSkyColor(expHeightFogColor)
+      .unbind();
     
     scene.getTerrainShader()
+      .bind()
       .loadProjectionMatrix(camera.getProjectionMatrix())
       .loadViewMatrix(camera.getViewMatrix())
-      .loadSkyColor(expHeightFogColor);
+      .loadSkyColor(expHeightFogColor)
+      .unbind();
     
     return this;
   }

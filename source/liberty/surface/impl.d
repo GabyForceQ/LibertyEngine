@@ -63,7 +63,12 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
       cast(float)zNear, cast(float)zFar
     );
     
-    getScene().getSurfaceShader().loadProjectionMatrix(projectionMatrix);
+    getScene()
+      .getSurfaceShader()
+      .bind()
+      .loadProjectionMatrix(projectionMatrix)
+      .unbind();
+
     return this;
   }
 

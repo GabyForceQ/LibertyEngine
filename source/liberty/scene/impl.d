@@ -20,7 +20,15 @@ import liberty.services;
 import liberty.graphics.shader;
 import liberty.surface.shader;
 import liberty.primitive.shader;
+import liberty.primitive.renderer;
+import liberty.primitive.impl;
 import liberty.terrain.shader;
+import liberty.terrain.renderer;
+import liberty.terrain.impl;
+import liberty.surface.renderer;
+import liberty.surface.impl;
+import liberty.light.point;
+import liberty.light.renderer;
 
 /**
  *
@@ -30,18 +38,33 @@ final class Scene : IUpdatable, IRenderable {
     string id;
     bool ready;
     bool registered;
+    
     SceneNode tree;
     Vector3F startPoint;
+    WorldSettings worldSettings;
+    
     Camera activeCamera;
     Camera[string] camerasMap;
     bool[string] objectsId;
+
     IStartable[string] startList;
     IUpdatable[string] updateList;
     IRenderable[string] renderList;
+    
+    PrimitiveRenderer primitiveRenderer;
     PrimitiveShader primitiveShader;
-    TerrainShader terrainShader;
+    Primitive[string] primitiveMap;
+    
+    SurfaceRenderer surfaceRenderer;
     SurfaceShader surfaceShader;
-    WorldSettings worldSettings;
+    Surface[string] surfaceMap;
+
+    TerrainRenderer terrainRenderer;
+    TerrainShader terrainShader;
+    Terrain[string] terrainMap;
+
+    LightRenderer lightRenderer;
+    PointLight[string] lightMap;
   }
 
   /**
@@ -52,12 +75,22 @@ final class Scene : IUpdatable, IRenderable {
 
     id = id;
     tree = new RootObject();
+    worldSettings = new WorldSettings();
 
+    // Init primitive system
+    primitiveRenderer = new PrimitiveRenderer(this);
     primitiveShader = new PrimitiveShader();
-    terrainShader = new TerrainShader();
+    
+    // Init surface system
+    surfaceRenderer = new SurfaceRenderer(this);
     surfaceShader = new SurfaceShader();
 
-    worldSettings = new WorldSettings();
+    // Init terrain system
+    terrainRenderer = new TerrainRenderer(this);
+    terrainShader = new TerrainShader();
+
+    // Init light system
+    lightRenderer = new LightRenderer(this);
   }
 
   /**
@@ -203,8 +236,17 @@ final class Scene : IUpdatable, IRenderable {
   void render() {
     worldSettings.updateShaders(this, activeCamera);
 
-    foreach(i, node; this.renderList)
-      node.render();
+    // Render all scene lights
+    lightRenderer.render();
+
+    // Render all scene terrains
+    terrainRenderer.render();
+
+    // Render all scene primitives
+    primitiveRenderer.render();
+
+    // Render all scene surfaces
+    surfaceRenderer.render();
   }
 
   /**
@@ -227,7 +269,7 @@ final class Scene : IUpdatable, IRenderable {
    * Set the default generic shader.
    * Returns reference to this.
   **/
-  Scene setprimitiveShader(PrimitiveShader shader) {
+  Scene setPrimitiveShader(PrimitiveShader shader) {
     primitiveShader = shader;
     return this;
   }
@@ -235,7 +277,7 @@ final class Scene : IUpdatable, IRenderable {
   /**
    * Returns the default generic shader.
   **/
-  PrimitiveShader getprimitiveShader() {
+  PrimitiveShader getPrimitiveShader() {
     return primitiveShader;
   }
 
@@ -283,7 +325,123 @@ final class Scene : IUpdatable, IRenderable {
   /**
    * Returns the world settings of the scene.
   **/
-  WorldSettings getWorldSettings() {
+  WorldSettings getWorldSettings() pure nothrow {
     return worldSettings;
+  }
+
+  /**
+   *
+  **/
+  Scene registerPrimitive(Primitive node) {
+    primitiveMap[node.getId()] = node;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  Primitive[string] getPrimitiveMap() pure nothrow {
+    return primitiveMap;
+  }
+
+  /**
+   *
+  **/
+  Primitive getPrimitive(string id) pure nothrow {
+    return primitiveMap[id];
+  }
+
+  /**
+   *
+  **/
+  PrimitiveRenderer getPrimitiveRenderer() pure nothrow {
+    return primitiveRenderer;
+  }
+
+  /**
+   *
+  **/
+  Scene registerSurface(Surface node) {
+    surfaceMap[node.getId()] = node;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  Surface[string] getSurfaceMap() pure nothrow {
+    return surfaceMap;
+  }
+
+  /**
+   *
+  **/
+  Surface getSurface(string id) pure nothrow {
+    return surfaceMap[id];
+  }
+
+  /**
+   *
+  **/
+  SurfaceRenderer getSurfaceRenderer() pure nothrow {
+    return surfaceRenderer;
+  }
+
+  /**
+   *
+  **/
+  Scene registerTerrain(Terrain node) {
+    terrainMap[node.getId()] = node;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  Terrain[string] getTerrainMap() pure nothrow {
+    return terrainMap;
+  }
+
+  /**
+   *
+  **/
+  Terrain getTerrain(string id) pure nothrow {
+    return terrainMap[id];
+  }
+
+  /**
+   *
+  **/
+  TerrainRenderer getTerrainRenderer() pure nothrow {
+    return terrainRenderer;
+  }
+
+  /**
+   *
+  **/
+  Scene registerLight(PointLight node) {
+    lightMap[node.getId()] = node;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  PointLight[string] getLightMap() pure nothrow {
+    return lightMap;
+  }
+
+  /**
+   *
+  **/
+  PointLight getLight(string id) pure nothrow {
+    return lightMap[id];
+  }
+
+  /**
+   *
+  **/
+  LightRenderer getLightRenderer() pure nothrow {
+    return lightRenderer;
   }
 }

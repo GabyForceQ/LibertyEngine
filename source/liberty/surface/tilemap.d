@@ -22,7 +22,7 @@ import liberty.surface.ui.button;
 /**
  *
 **/
-final class TileMap : Actor2D {
+final class TileMap : Actor {
   private {
     Vector2I dimension = Vector2I.zero;
     Widget[] tiles;

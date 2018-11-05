@@ -12,18 +12,19 @@ import liberty.image.bitmap : Bitmap;
 
 import liberty.math.functions;
 import liberty.math.vector;
-import liberty.graphics.entity;
 import liberty.meta;
-import liberty.graphics.vertex;
+import liberty.terrain.vertex;
 import liberty.resource;
 import liberty.terrain.model;
 import liberty.graphics.renderer;
 import liberty.graphics.material;
+import liberty.scene.node;
+import liberty.services;
 
 /**
  *
 **/
-final class Terrain : Entity!TerrainVertex {
+final class Terrain : SceneNode, IRenderable {
   mixin(NodeBody);
 
   private {
@@ -34,6 +35,9 @@ final class Terrain : Entity!TerrainVertex {
     float[256][256] heights; // ????
     
     Vector2F texCoordMultiplier = Vector2F.one;
+
+    // Renderer component used for rendering a terrain vertex
+    Renderer!TerrainVertex renderer;
   }
 
   /**
@@ -52,14 +56,6 @@ final class Terrain : Entity!TerrainVertex {
     texCoordMultiplier = size;
 
     return this;
-  }
-
-  /**
-   *
-  **/
-  override void render() {
-    getScene().getTerrainShader().loadTexCoordMultiplier(texCoordMultiplier);
-    super.render();
   }
 
   /**
@@ -237,5 +233,20 @@ final class Terrain : Entity!TerrainVertex {
     normal.normalize();
 
     return normal;
+  }
+
+  /**
+   *
+  **/
+  override void render() {
+    getScene().getTerrainShader().loadTexCoordMultiplier(texCoordMultiplier);
+    renderer.draw();
+  }
+
+  /**
+   * Returns reference to the current renderer component.
+  **/
+  Renderer!TerrainVertex getRenderer() {
+    return renderer;
   }
 }

@@ -18,7 +18,7 @@ import liberty.graphics.material.impl;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.graphics.util;
-import liberty.graphics.vertex;
+import liberty.terrain.vertex;
 
 /**
  *
@@ -41,19 +41,22 @@ final class TerrainModel : Model {
   }
 
   private void build() {
-    CoreEngine.getScene().getTerrainShader().loadBackgroundTexture(0);
-    CoreEngine.getScene().getTerrainShader().loadRTexture(1);
-    CoreEngine.getScene().getTerrainShader().loadGTexture(2);
-    CoreEngine.getScene().getTerrainShader().loadBTexture(3);
-    CoreEngine.getScene().getTerrainShader().loadBlendMap(4);
+    CoreEngine
+      .getScene()
+      .getTerrainShader()
+      .bind()
+      .loadBackgroundTexture(0)
+      .loadRTexture(1)
+      .loadGTexture(2)
+      .loadBTexture(3)
+      .loadBlendMap(4)
+      .unbind();
   }
 
   /**
    *
   **/
   void draw() {
-    CoreEngine.getScene().getTerrainShader().bind();
-
     if (shouldCull)
       GfxEngine.enableCulling();
 
@@ -109,7 +112,5 @@ final class TerrainModel : Model {
 
     if (shouldCull)
       GfxEngine.disableCulling();
-
-    CoreEngine.getScene().getTerrainShader().unbind();
   }
 }

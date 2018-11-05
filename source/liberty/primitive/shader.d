@@ -92,7 +92,7 @@ class PrimitiveShader : Shader {
 
         for (int i = 0; i < 4; i++) {
           float distance = length(tToLightVector[i]);
-          float attenuationFactor = uLightAttenuation[i].x + 
+          float attenuationFprimitive = uLightAttenuation[i].x + 
             (uLightAttenuation[i].y * distance) + 
             (uLightAttenuation[i].z * distance * distance);
           vec3 unitLightVector = normalize(tToLightVector[i]);
@@ -101,11 +101,11 @@ class PrimitiveShader : Shader {
           float brightness = max(dotComputation, 0.0);
           vec3 lightDirection = -unitLightVector;
           vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
-          float specularFactor = dot(reflectedLightDirection, unitVectorToCamera);
-          specularFactor = max(specularFactor, 0.0);
-          float dampedFactor = pow(specularFactor, uShineDamper);
-          totalDiffuse += (brightness * uLightColor[i]) / 2*attenuationFactor;
-          totalSpecular += (dampedFactor * uReflectivity * uLightColor[i]) / 2*attenuationFactor;
+          float specularFprimitive = dot(reflectedLightDirection, unitVectorToCamera);
+          specularFprimitive = max(specularFprimitive, 0.0);
+          float dampedFprimitive = pow(specularFprimitive, uShineDamper);
+          totalDiffuse += (brightness * uLightColor[i]) / 2*attenuationFprimitive;
+          totalSpecular += (dampedFprimitive * uReflectivity * uLightColor[i]) / 2*attenuationFprimitive;
         }
 
         totalDiffuse = max(totalDiffuse, 0.4);
@@ -157,10 +157,22 @@ class PrimitiveShader : Shader {
   /**
    *
   **/
+  override PrimitiveShader bind() {
+    return cast(PrimitiveShader)super.bind();
+  }
+
+  /**
+   *
+  **/
+  override PrimitiveShader unbind() {
+    return cast(PrimitiveShader)super.unbind();
+  }
+
+  /**
+   *
+  **/
   PrimitiveShader loadModelMatrix(Matrix4F matrix) {
-    bind();
     loadUniform("uModelMatrix", matrix);
-    unbind();
     return this;
   }
 
@@ -168,9 +180,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadViewMatrix(Matrix4F matrix) {
-    bind();
     loadUniform("uViewMatrix", matrix);
-    unbind();
     return this;
   }
 
@@ -178,9 +188,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadProjectionMatrix(Matrix4F matrix) {
-    bind();
     loadUniform("uProjectionMatrix", matrix);
-    unbind();
     return this;
   }
 
@@ -188,9 +196,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadLightPosition(uint index, Vector3F position) {
-    bind();
     loadUniform("uLightPosition[" ~ index.to!string ~ "]", position);
-    unbind();
     return this;
   }
 
@@ -198,9 +204,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadLightColor(uint index, Vector3F color) {
-    bind();
     loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
-    unbind();
     return this;
   }
 
@@ -208,9 +212,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadLightAttenuation(uint index, Vector3F attenuation) {
-    bind();
     loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation);
-    unbind();
     return this;
   }
 
@@ -218,9 +220,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadTexture(int id) {
-    bind();
     loadUniform("uTexture", id);
-    unbind();
     return this;
   }
 
@@ -228,9 +228,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadShineDamper(float value) {
-    bind();
     loadUniform("uShineDamper", value);
-    unbind();
     return this;
   }
 
@@ -238,9 +236,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadReflectivity(float value) {
-    bind();
     loadUniform("uReflectivity", value);
-    unbind();
     return this;
   }
 
@@ -248,9 +244,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadUseFakeLighting(bool value) {
-    bind();
     loadUniform("uUseFakeLighting", value);
-    unbind();
     return this;
   }
 
@@ -258,9 +252,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadSkyColor(Vector3F color) {
-    bind();
     loadUniform("uSkyColor", color);
-    unbind();
     return this;
   }
 }

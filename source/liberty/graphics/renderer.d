@@ -12,11 +12,13 @@ import liberty.scene.node;
 import liberty.model;
 import liberty.surface.impl;
 import liberty.surface.ui.widget;
-import liberty.graphics.vertex;
 import liberty.meta;
 import liberty.surface.model;
 import liberty.terrain;
 import liberty.primitive.model;
+import liberty.primitive.vertex;
+import liberty.surface.vertex;
+import liberty.terrain.vertex;
 
 /**
  *
@@ -53,7 +55,7 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
   **/
   void draw() {
     static if (is(VERTEX == PrimitiveVertex))
-      parent.getScene().getprimitiveShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+      parent.getScene().getPrimitiveShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (is(VERTEX == TerrainVertex))
       parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
     else static if (is(VERTEX == SurfaceVertex))

@@ -17,8 +17,8 @@ struct Component;
  *
 **/
 immutable NodeBody = q{
-  import liberty.core.engine : CoreEngine;
-  import liberty.scene.node : SceneNode;
+  import liberty.core.engine;
+  import liberty.scene.node;
 
   this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
     if (parent is null)
@@ -49,5 +49,17 @@ immutable NodeBody = q{
             mixin("getScene().set" ~ el.capitalize() ~ "List(id, this);");
       }
     }
+
+    static if (typeof(this).stringof == "Terrain")
+      getScene().registerTerrain(this);
+
+    static if (typeof(super).stringof == "Surface")
+      getScene().registerSurface(this);
+
+    static if (typeof(super).stringof == "Primitive" || typeof(super).stringof == "BSPVolume")
+      getScene().registerPrimitive(this);
+
+    static if (typeof(this).stringof == "PointLight")
+      getScene().registerLight(this);
   }
 };

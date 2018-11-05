@@ -18,7 +18,7 @@ import liberty.graphics.material.impl;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.graphics.util;
-import liberty.graphics.vertex;
+import liberty.primitive.vertex;
 
 /**
  *
@@ -57,15 +57,18 @@ final class PrimitiveModel : Model {
   }
 
   private void build() {
-    CoreEngine.getScene().getprimitiveShader().loadTexture(0);
+    CoreEngine
+      .getScene()
+      .getPrimitiveShader()
+      .bind()
+      .loadTexture(0)
+      .unbind();
   }
 
   /**
    *
   **/
   void draw() {
-    CoreEngine.getScene().getprimitiveShader().bind();
-
     if (shouldCull)
       GfxEngine.enableCulling();
 
@@ -74,8 +77,8 @@ final class PrimitiveModel : Model {
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
     }
 
-    if (hasTransparency)
-      GfxEngine.disableCulling();
+    //if (hasTransparency)
+    //  GfxEngine.disableCulling();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
@@ -101,13 +104,11 @@ final class PrimitiveModel : Model {
       glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    if (!hasTransparency)
-      GfxEngine.disableCulling();
+    //if (!hasTransparency)
+    //  GfxEngine.disableCulling();
 
     if (shouldCull)
       GfxEngine.disableCulling();
-
-    CoreEngine.getScene().getprimitiveShader().unbind();
   }
 
   /**

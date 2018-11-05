@@ -10,4 +10,5 @@ module liberty.light;
 
 public {
   import liberty.light.point;
+  import liberty.light.renderer;
 }

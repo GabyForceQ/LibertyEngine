@@ -24,7 +24,7 @@ import liberty.graphics.buffer.impl;
 import liberty.graphics.texture.cache;
 import liberty.graphics.texture.impl;
 import liberty.graphics.util;
-import liberty.graphics.vertex;
+import liberty.surface.vertex;
 
 /**
  * The resource manager class provides static functions that gives you the possibility

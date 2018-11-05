@@ -156,11 +156,11 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	Matrix opBinary(string op)(T factor) pure nothrow const if (op == "*") {
+	Matrix opBinary(string op)(T fprimitive) pure nothrow const if (op == "*") {
 		Matrix ret = void;
 		static foreach (i; 0..R) {
 			static foreach (j; 0..C) {
-				ret.c[i][j] = c[i][j] * factor;
+				ret.c[i][j] = c[i][j] * fprimitive;
 			}
 		}
 		return ret;

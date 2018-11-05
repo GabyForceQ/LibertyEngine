@@ -11,16 +11,17 @@ module liberty.primitive.bsp;
 import liberty.meta;
 import liberty.graphics.material.impl;
 import liberty.math.vector;
-import liberty.graphics.entity;
 import liberty.scene.node;
-import liberty.graphics.vertex;
 import liberty.graphics.renderer;
 import liberty.primitive.model;
+import liberty.primitive.vertex;
+import liberty.terrain.vertex;
+import liberty.primitive.impl;
 
 /**
  *
 **/
-abstract class BSPVolume(VERTEX) : Entity!VERTEX {
+abstract class BSPVolume : Primitive {
   /**
    *
   **/
@@ -32,10 +33,9 @@ abstract class BSPVolume(VERTEX) : Entity!VERTEX {
    *
   **/
   override void render() {
-    static if (is(VERTEX == PrimitiveVertex) || is(VERTEX == TerrainVertex))
-      getScene()
-        .getprimitiveShader()
-        .loadUseFakeLighting(renderer.getModel().getUseFakeLighting());
+    getScene()
+      .getPrimitiveShader()
+      .loadUseFakeLighting(renderer.getModel().getUseFakeLighting());
 
     super.render();
   }
@@ -44,7 +44,7 @@ abstract class BSPVolume(VERTEX) : Entity!VERTEX {
 /**
  *
 **/
-final class BSPCube : BSPVolume!PrimitiveVertex {
+final class BSPCube : BSPVolume {
 	mixin(NodeBody);
 
   /**
@@ -61,7 +61,7 @@ final class BSPCube : BSPVolume!PrimitiveVertex {
 /**
  *
 **/
-final class BSPPyramid : BSPVolume!PrimitiveVertex {
+final class BSPPyramid : BSPVolume {
 	mixin(NodeBody);
 
   /**
@@ -78,7 +78,7 @@ final class BSPPyramid : BSPVolume!PrimitiveVertex {
 /**
  *
 **/
-final class BSPSquare : BSPVolume!PrimitiveVertex {
+final class BSPSquare : BSPVolume {
 	mixin(NodeBody);
 
   /**
@@ -95,7 +95,7 @@ final class BSPSquare : BSPVolume!PrimitiveVertex {
 /**
  *
 **/
-final class BSPTriangle : BSPVolume!PrimitiveVertex {
+final class BSPTriangle : BSPVolume {
 	mixin(NodeBody);
 
   /**

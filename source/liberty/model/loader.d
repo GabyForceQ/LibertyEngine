@@ -17,7 +17,7 @@ import core.stdc.stdio : sscanf;
 import liberty.logger;
 import liberty.math;
 import liberty.primitive.model;
-import liberty.graphics.vertex;
+import liberty.primitive.vertex;
 import liberty.graphics.material.impl;
 
 

@@ -18,7 +18,7 @@ import liberty.graphics.material.impl;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.graphics.util;
-import liberty.graphics.vertex;
+import liberty.surface.vertex;
 
 /**
  *
@@ -55,15 +55,18 @@ final class SurfaceModel : Model {
   }
 
   private void build() {
-    CoreEngine.getScene().getSurfaceShader().loadTexture(0);
+    CoreEngine
+      .getScene()
+      .getSurfaceShader()
+      .bind()
+      .loadTexture(0)
+      .unbind();
   }
 
   /**
    *
   **/
   void draw() {
-    CoreEngine.getScene().getSurfaceShader().bind();
-
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
@@ -102,8 +105,6 @@ final class SurfaceModel : Model {
 
     if (shouldCull)
       GfxEngine.disableCulling();
-
-    CoreEngine.getScene().getSurfaceShader().unbind();
   }
 
   /**

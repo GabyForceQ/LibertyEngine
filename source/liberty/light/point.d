@@ -15,14 +15,16 @@ import liberty.graphics.renderer;
 import liberty.meta;
 import liberty.primitive.model;
 import liberty.scene.node;
-import liberty.graphics.entity;
 import liberty.math.functions;
-import liberty.graphics.vertex;
+import liberty.primitive.vertex;
+import liberty.primitive.impl;
+import liberty.primitive.shader;
+import liberty.terrain.shader;
 
 /**
  *
 **/
-final class PointLight : Entity!PrimitiveVertex {
+final class PointLight : SceneNode {
   mixin(NodeBody);
 
   private {
@@ -37,7 +39,6 @@ final class PointLight : Entity!PrimitiveVertex {
    *
   **/
 	void constructor() {
-    renderer = new Renderer!PrimitiveVertex(this, null);
     getTransform().setWorldPosition(0.0f, 200.0f, 0.0f);
     index = numberOfLights;
     numberOfLights++;
@@ -80,16 +81,24 @@ final class PointLight : Entity!PrimitiveVertex {
   /**
    *
   **/
-  override void render() {
+  void applyToPrimitiveMap(PrimitiveShader shader) {
     if (index < 4) {
-      CoreEngine.getScene().getprimitiveShader()
+      shader
         .loadLightPosition(index, getTransform().getPosition())
         .loadLightColor(index, color)
         .loadLightAttenuation(index, attenuation)
         .loadShineDamper(1.0f)
         .loadReflectivity(0.0f);
+    } else
+      Logger.warning("GfxEngine can't render more than 4 lights.", typeof(this).stringof);
+  }
 
-      CoreEngine.getScene().getTerrainShader()
+  /**
+   *
+  **/
+  void applyToTerrainMap(TerrainShader shader) {
+    if (index < 4) {
+      shader
         .loadLightPosition(index, getTransform().getPosition())
         .loadLightColor(index, color)
         .loadLightAttenuation(index, attenuation)

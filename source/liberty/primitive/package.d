@@ -9,10 +9,12 @@
 module liberty.primitive;
 
 public {
-  import liberty.primitive.actor;
+  import liberty.primitive.impl;
   import liberty.primitive.bsp;
   import liberty.primitive.mesh;
   import liberty.primitive.model;
+  import liberty.primitive.renderer;
   import liberty.primitive.shader;
   import liberty.primitive.transform;
+  import liberty.primitive.vertex;
 }

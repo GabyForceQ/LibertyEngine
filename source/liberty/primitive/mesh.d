@@ -10,15 +10,16 @@ module liberty.primitive.mesh;
 
 import liberty.graphics.renderer;
 import liberty.primitive.model;
-import liberty.graphics.entity;
+import liberty.scene.node;
 import liberty.meta;
-import liberty.graphics.vertex;
 import liberty.graphics.material.impl;
+import liberty.primitive.vertex;
+import liberty.primitive.impl;
 
 /**
  *
 **/
-final class StaticMesh : Entity!PrimitiveVertex {
+final class StaticMesh : Primitive {
   mixin(NodeBody);
 
   /**
@@ -33,7 +34,7 @@ final class StaticMesh : Entity!PrimitiveVertex {
   **/
   override void render() {
     getScene()
-      .getprimitiveShader()
+      .getPrimitiveShader()
       .loadUseFakeLighting(renderer.getModel().getUseFakeLighting());
 
     super.render();

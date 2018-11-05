@@ -40,12 +40,3 @@ interface IRenderable {
   **/
 	void render();
 }
-
-/**
- *
-**/
-interface IListener {
-  /**
-   *
-  **/
-}

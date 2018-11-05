@@ -18,7 +18,9 @@ import liberty.services;
 import liberty.scene.impl;
 import liberty.primitive.bsp;
 import liberty.camera;
-import liberty.graphics.vertex;
+import liberty.primitive.vertex;
+import liberty.surface.vertex;
+import liberty.terrain.vertex;
 
 /**
  * Represents base object in the scene tree.
@@ -30,6 +32,8 @@ abstract class SceneNode : IStartable, IUpdatable {
     SceneNode[string] children;
     Scene scene;
     SceneNode[string] singletonList;
+    
+    // Transform component used for translation, rotation and scale
     Transform transform;
   }
 
@@ -229,7 +233,7 @@ abstract class SceneNode : IStartable, IUpdatable {
 		if (start)
 			node.start();
 
-    static if (is(T : BSPVolume!PrimitiveVertex) || is(T : BSPVolume!TerrainVertex) || is(T : BSPVolume!SurfaceVertex)) {
+    static if (is(T : BSPVolume)) {
       node.build();
     }
 

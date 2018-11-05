@@ -14,6 +14,8 @@ import liberty.math.vector;
 import liberty.math.matrix;
 import liberty.meta;
 import liberty.scene.node;
+import liberty.primitive.vertex;
+import liberty.terrain.vertex;
 
 /**
  *

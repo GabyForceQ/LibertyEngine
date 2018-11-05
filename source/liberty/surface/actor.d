@@ -7,7 +7,7 @@ import liberty.surface.ui.widget;
 /**
  *
 **/
-abstract class Actor2D : Widget {
+abstract class Actor : Widget {
   /**
    *
   **/
@@ -19,7 +19,7 @@ abstract class Actor2D : Widget {
 /**
  *
 **/
-abstract class UniqueActor2D : Actor2D {
+abstract class UniqueActor : Actor {
   private static bool hasInstance;
   /**
    *

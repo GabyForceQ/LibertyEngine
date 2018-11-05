@@ -65,12 +65,24 @@ class SurfaceShader : Shader {
 
   /**
    *
+  **/
+  override SurfaceShader bind() {
+    return cast(SurfaceShader)super.bind();
+  }
+
+  /**
+   *
+  **/
+  override SurfaceShader unbind() {
+    return cast(SurfaceShader)super.unbind();
+  }
+
+  /**
+   *
    * Returns reference to this.
   **/
   SurfaceShader loadModelMatrix(Matrix4F matrix) {
-    bind();
     loadUniform("uModelMatrix", matrix);
-    unbind();
     return this;
   }
 
@@ -79,9 +91,7 @@ class SurfaceShader : Shader {
    * Returns reference to this.
   **/
   SurfaceShader loadProjectionMatrix(Matrix4F matrix) {
-    bind();
     loadUniform("uProjectionMatrix", matrix);
-    unbind();
     return this;
   }
 
@@ -90,9 +100,7 @@ class SurfaceShader : Shader {
    * Returns reference to this.
   **/
   SurfaceShader loadTexture(int id) {
-    bind();
     loadUniform("uTexture", id);
-    unbind();
     return this;
   }
 }

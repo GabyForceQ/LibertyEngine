@@ -17,9 +17,7 @@ public {
   import liberty.graphics.color;
   import liberty.graphics.constants;
   import liberty.graphics.engine;
-  import liberty.graphics.entity;
   import liberty.graphics.material;
   import liberty.graphics.renderer;
   import liberty.graphics.util;
-  import liberty.graphics.vertex;
 }
