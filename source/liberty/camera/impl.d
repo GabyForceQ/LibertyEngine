@@ -56,7 +56,7 @@ final class Camera : SceneNode {
   void constructor() {
     updateCameraVectors();
     preset = CameraPreset.getDefault();
-    getTransform().setLocalPosition(0.0f, 3.0f, 4.0f);
+    getTransform().setRelativeLocation(0.0f, 3.0f, 4.0f);
   }
 
   /**
@@ -113,8 +113,8 @@ final class Camera : SceneNode {
   **/
   Matrix4F getViewMatrix() {
     return Matrix4F.lookAt(
-      getTransform().getPosition(),
-      getTransform().getPosition() + frontVector,
+      getTransform().getLocation(),
+      getTransform().getLocation() + frontVector,
       upVector
     );
   }

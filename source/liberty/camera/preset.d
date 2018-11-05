@@ -84,27 +84,27 @@ class CameraPreset {
     }, (camera, direction, velocity) {
       final switch (direction) with (CameraMovement) {
         case FORWARD:
-          camera.getTransform().setWorldPosition!"+="(camera.frontVector * velocity);
+          camera.getTransform().setAbsoluteLocation!"+="(camera.frontVector * velocity);
           break;
         
         case BACKWARD:
-          camera.getTransform().setWorldPosition!"-="(camera.frontVector * velocity);
+          camera.getTransform().setAbsoluteLocation!"-="(camera.frontVector * velocity);
           break;
 
         case LEFT:
-          camera.getTransform().setWorldPosition!"-="(camera.rightVector * velocity);
+          camera.getTransform().setAbsoluteLocation!"-="(camera.rightVector * velocity);
           break;
 
         case RIGHT:
-          camera.getTransform().setWorldPosition!"+="(camera.rightVector * velocity);
+          camera.getTransform().setAbsoluteLocation!"+="(camera.rightVector * velocity);
           break;
 
         case UP:
-          camera.getTransform().setWorldPosition!"+="(camera.upVector * velocity);
+          camera.getTransform().setAbsoluteLocation!"+="(camera.upVector * velocity);
           break;
 
         case DOWN:
-          camera.getTransform().setWorldPosition!"-="(camera.upVector * velocity);
+          camera.getTransform().setAbsoluteLocation!"-="(camera.upVector * velocity);
       }
     });
   }

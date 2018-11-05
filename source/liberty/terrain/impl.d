@@ -52,7 +52,7 @@ final class Terrain : SceneNode, IRenderable {
     
     generateTerrain("res/textures/heightMap.bmp");
     
-    getTransform().setWorldPosition(-size / 2.0f, 0.0f, -size / 2.0f);
+    getTransform().setAbsoluteLocation(-size / 2.0f, 0.0f, -size / 2.0f);
     texCoordMultiplier = size;
 
     return this;
@@ -123,8 +123,8 @@ final class Terrain : SceneNode, IRenderable {
    *
   **/
   float getHeight(float worldX, float worldZ) {
-    float terrainX = worldX - getTransform().getWorldPosition().x;
-    float terrainZ = worldZ - getTransform().getWorldPosition().z;
+    float terrainX = worldX - getTransform().getAbsoluteLocation().x;
+    float terrainZ = worldZ - getTransform().getAbsoluteLocation().z;
 
     int heightLen = heights.length - 1;
     const float gridSqareSize = size / cast(float)heightLen;

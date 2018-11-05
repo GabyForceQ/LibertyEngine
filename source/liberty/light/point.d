@@ -39,7 +39,7 @@ final class PointLight : SceneNode {
    *
   **/
 	void constructor() {
-    getTransform().setWorldPosition(0.0f, 200.0f, 0.0f);
+    getTransform().setAbsoluteLocation(0.0f, 200.0f, 0.0f);
     index = numberOfLights;
     numberOfLights++;
 	}
@@ -84,7 +84,7 @@ final class PointLight : SceneNode {
   void applyToPrimitiveMap(PrimitiveShader shader) {
     if (index < 4) {
       shader
-        .loadLightPosition(index, getTransform().getPosition())
+        .loadLightPosition(index, getTransform().getLocation())
         .loadLightColor(index, color)
         .loadLightAttenuation(index, attenuation)
         .loadShineDamper(1.0f)
@@ -99,7 +99,7 @@ final class PointLight : SceneNode {
   void applyToTerrainMap(TerrainShader shader) {
     if (index < 4) {
       shader
-        .loadLightPosition(index, getTransform().getPosition())
+        .loadLightPosition(index, getTransform().getLocation())
         .loadLightColor(index, color)
         .loadLightAttenuation(index, attenuation)
         .loadShineDamper(1.0f)

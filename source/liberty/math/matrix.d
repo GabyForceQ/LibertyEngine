@@ -44,16 +44,20 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	}
 
   static if (R == 4 && C == 4) {
-    void setTranslation(Vector3!T translation) pure nothrow {
-      c[0][3] = translation.x;
-      c[1][3] = translation.y;
-      c[2][3] = translation.z;
+    void setTranslation(string op = "=")(Vector3!T translation) pure nothrow
+    if (op == "=" || op == "+=" || op == "-=")
+    do {
+      mixin("c[0][3] " ~ op ~ " translation.x;");
+      mixin("c[1][3] " ~ op ~ " translation.y;");
+      mixin("c[2][3] " ~ op ~ " translation.z;");
     }
 
-    void setScale(Vector3!T scale) pure nothrow {
-      c[0][0] = scale.x;
-      c[1][1] = scale.y;
-      c[2][2] = scale.z;
+    void setScale(string op = "=")(Vector3!T scale) pure nothrow
+    if (op == "=" || op == "+=" || op == "-=")
+    do {
+      mixin("c[0][0] " ~ op ~ " scale.x;");
+      mixin("c[1][1] " ~ op ~ " scale.y;");
+      mixin("c[2][2] " ~ op ~ " scale.z;");
     }
   }
 
@@ -450,17 +454,6 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			auto m1 = Matrix!(int, 3).diag(v1);
 			assert (m1.v == [4, 0, 0, /**/ 0, 5, 0, /**/ 0, 0, -1]);
 		}
-		/// In-place translate by (v, 1).
-		void translate(Vector!(T, R-1) v) pure nothrow {
-			T _dot = 0;
-			static foreach (i; 0..R) {
-				static foreach (j; 0..C - 1) {
-					_dot += v.v[j] * c[i][j];
-				}
-				c[i][C - 1] += _dot;
-				_dot = 0;
-			}
-		}
 		///
 		pure nothrow unittest {
 		}
@@ -471,17 +464,6 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 				ret.c[i][C - 1] += v.v[i];
 			}
 			return ret;
-		}
-		///
-		pure nothrow unittest {
-		}
-		/// In-place matrix scaling.
-		void scale(Vector!(T, R-1) v) pure nothrow {
-			static foreach (i; 0..R) {
-				static foreach (j; 0..C - 1) {
-					c[i][j] *= v.v[j];
-				}
-			}
 		}
 		///
 		pure nothrow unittest {

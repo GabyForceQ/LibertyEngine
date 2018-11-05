@@ -25,14 +25,15 @@ final class Transform {
   private {
     SceneNode parent;
     Matrix4F modelMatrix = Matrix4F.identity();
+    Matrix4F tempModelMatrix = Matrix4F.identity();
     
-    Vector3F localPosition = Vector3F.zero;
-    Vector3F localRotation = Vector3F.zero;
-    Vector3F localScaling = Vector3F.one;
+    Vector3F relativeLocation = Vector3F.zero;
+    Vector3F relativeRotation = Vector3F.zero;
+    Vector3F relativeScale = Vector3F.one;
     
-    Vector3F worldPosition = Vector3F.zero;
-    Vector3F worldRotation = Vector3F.zero;
-    Vector3F worldScaling = Vector3F.one;
+    Vector3F absoluteLocation = Vector3F.zero;
+    Vector3F absoluteRotation = Vector3F.zero;
+    Vector3F absoluteScale = Vector3F.one;
 
     Vector3F pivot = Vector3F.zero;
   }
@@ -41,7 +42,7 @@ final class Transform {
    *
   **/
   void setModelMatrix(Matrix4F mat) {
-    modelMatrix = mat;
+    tempModelMatrix = mat;
   }
 
   /**
@@ -54,36 +55,37 @@ final class Transform {
   /**
    *
   **/
-  this(SceneNode parent, Transform Transform) {
+  this(SceneNode parent, Transform transform) {
     this(parent);
-    
-    worldPosition = Transform.worldPosition;
-    modelMatrix.translate(worldPosition);
+    absoluteLocation = transform.absoluteLocation;
+
+    tempModelMatrix.c[0][3] += absoluteLocation.x;
+    tempModelMatrix.c[1][3] += absoluteLocation.y;
+    tempModelMatrix.c[2][3] += absoluteLocation.z;
+
+    updateModelMatrix();
   }
 
   /**
    *
    * Returns reference to this.
   **/
-  Transform setLocalPosition(string op = "=")(float x, float y, float z) pure {
-    return setLocalPosition!op(Vector3F(x, y, z));
+  Transform setRelativeLocation(string op = "=")(float x, float y, float z) pure {
+    return setRelativeLocation!op(Vector3F(x, y, z));
   }
 
   /**
    * Returns reference to this.
   **/
-  Transform setLocalPosition(string op = "=")(Vector3F position) pure {
-    static if (op == "=")
-      modelMatrix.translate(-this.localPosition + position);
-    else static if (op == "+=")
-      modelMatrix.translate(position);
-    else static if (op == "-=")
-      modelMatrix.translate(-position);
-    else
-      static assert(0, "Only =, +=, -= acceped.");
+  Transform setRelativeLocation(string op = "=")(Vector3F location) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {  
+    mixin ("tempModelMatrix.c[0][3] " ~ op ~ " location.x;");
+    mixin ("tempModelMatrix.c[1][3] " ~ op ~ " location.y;");
+    mixin ("tempModelMatrix.c[2][3] " ~ op ~ " location.z;");
+    mixin ("relativeLocation " ~ op ~ " location;");
 
-    mixin ("localPosition " ~ op ~ " position;");
-
+    updateModelMatrix();
     return this;
   }
 
@@ -91,18 +93,13 @@ final class Transform {
    * 
    * Returns reference to this.
   **/
-	Transform setLocalPositionX(string op = "=")(float value) pure {
-		static if (op == "=")
-      modelMatrix.translate(Vector3F(-localPosition.x + value, 0.0f, 0.0f));
-    else static if (op == "+=")
-      modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
-    else static if (op == "-=")
-      modelMatrix.translate(Vector3F(-value, 0.0f, 0.0f));
-    else
-      static assert(0, "Only =, +=, -= acceped.");
+	Transform setRelativeLocationX(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+		mixin ("tempModelMatrix.c[0][3] " ~ op ~ " value;");
+    mixin ("relativeLocation.x " ~ op ~ " value;");
 
-    mixin ("localPosition.x " ~ op ~ " value;");
-
+    updateModelMatrix();
     return this;
 	}
   
@@ -110,18 +107,13 @@ final class Transform {
    * 
    * Returns reference to this.
   **/
-	Transform setLocalPositionY(string op = "=")(float value) pure {
-		static if (op == "=")
-      modelMatrix.translate(Vector3F(0.0f, -localPosition.y + value, 0.0f));
-    else static if (op == "+=")
-      modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
-    else static if (op == "-=")
-      modelMatrix.translate(Vector3F(0.0f, -value, 0.0f));
-    else
-      static assert(0, "Only =, +=, -= acceped.");
+	Transform setRelativeLocationY(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+		mixin ("tempModelMatrix.c[1][3] " ~ op ~ " value;");
+    mixin ("relativeLocation.y " ~ op ~ " value;");
 
-    mixin ("localPosition.y " ~ op ~ " value;");
-
+    updateModelMatrix();
     return this;
 	}
 
@@ -129,130 +121,124 @@ final class Transform {
    * 
    * Returns reference to this.
   **/
-	Transform setLocalPositionZ(string op = "=")(float value) pure {
-		static if (op == "=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, -localPosition.z + value));
-    else static if (op == "+=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
-    else static if (op == "-=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, -value));
-    else
-      static assert(0, "Only =, +=, -= acceped.");
+	Transform setRelativeLocationZ(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+		mixin ("tempModelMatrix.c[2][3] " ~ op ~ " value;");
+    mixin ("relativeLocation.z " ~ op ~ " value;");
 
-    mixin ("localPosition.z " ~ op ~ " value;");
-
+    updateModelMatrix();
     return this;
 	}
 
   /**
-   * Translate position using x, y and z scalars as coordinates.
-   * Translation is done in world space.
+   * Translate location using x, y and z scalars as coordinates.
+   * Location is done in absolute space.
   **/
-	Transform setWorldPosition(string op = "=", bool force = false)(float x, float y, float z)  {
-		return setWorldPosition!(op, force)(Vector3F(x, y, z));
+	Transform setAbsoluteLocation(string op = "=", bool force = false)(float x, float y, float z)
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+		return setAbsoluteLocation!(op, force)(Vector3F(x, y, z));
 	}
 
   /**
-   * Translate position using a vector with x, y and z coordinates.
-   * Translation is done in world space.
+   * Translate location using a vector with x, y and z coordinates.
+   * Location is done in absolute space.
    * Returns reference to this.
   **/
-	Transform setWorldPosition(string op = "=", bool force = false)(Vector3F position)  {
+	Transform setAbsoluteLocation(string op = "=", bool force = false)(Vector3F location)
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
     mixin (forceBody);
 
-    static if (op == "=")
-      modelMatrix.translate(-this.worldPosition + position);
-    else static if (op == "+=")
-      modelMatrix.translate(position);
-    else static if (op == "-=")
-      modelMatrix.translate(-position);
-    else
-      static assert(0, "Only =, +=, -= acceped.");
+    static if (op == "=") {
+      mixin ("tempModelMatrix.c[0][3] " ~ op ~ "relativeLocation.x + location.x;");
+      mixin ("tempModelMatrix.c[1][3] " ~ op ~ "relativeLocation.y + location.y;");
+      mixin ("tempModelMatrix.c[2][3] " ~ op ~ "relativeLocation.z + location.z;");
+    } else {
+      mixin ("tempModelMatrix.c[0][3] " ~ op ~ " location.x;");
+      mixin ("tempModelMatrix.c[1][3] " ~ op ~ " location.y;");
+      mixin ("tempModelMatrix.c[2][3] " ~ op ~ " location.z;");
+    }
+    mixin ("absoluteLocation " ~ op ~ " location;");
 
-    mixin ("worldPosition " ~ op ~ " position;");
-
-    // Set position to the current object children too
+    // Set location to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().setWorldPosition!(op, true)(position);
+      child.getTransform().setAbsoluteLocation!(op, true)(location);
 
+    updateModelMatrix();
 		return this;
 	}
 
   /**
-   * Translate x-coordinate position.
-   * Translation is done in world space.
+   * Translate x-coordinate location.
+   * Location is done in absolute space.
    * Returns reference to this.
   **/
-	Transform setWorldPositionX(string op = "=", bool force = true)(float value) {
-    mixin (forceBody);
-
-		static if (op == "=")
-      modelMatrix.translate(Vector3F(-worldPosition.x + value, 0.0f, 0.0f));
-    else static if (op == "+=")
-      modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
-    else static if (op == "-=")
-      modelMatrix.translate(Vector3F(-value, 0.0f, 0.0f));
-    else
-      static assert(0, "Only =, +=, -= acceped.");
-
-    mixin ("worldPosition.x " ~ op ~ " value;");
-
-    // Set position x to the current object children too
-    foreach (child; parent.getChildren())
-      child.getTransform().setWorldPositionX!(op, true)(value);
-
-    return this;
-	}
-  
-  /**
-   * Translate y-coordinate position.
-   * Translation is done in world space.
-   * Returns reference to this.
-  **/
-	Transform setWorldPositionY(string op = "=", bool force = false)(float value) {
+	Transform setAbsoluteLocationX(string op = "=", bool force = true)(float value)
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
     mixin (forceBody);
 
     static if (op == "=")
-      modelMatrix.translate(Vector3F(0.0f, -worldPosition.y + value, 0.0f));
-    else static if (op == "+=")
-      modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
-    else static if (op == "-=")
-      modelMatrix.translate(Vector3F(0.0f, -value, 0.0f));
+      mixin ("tempModelMatrix.c[0][3] " ~ op ~ "relativeLocation.x + value;");
     else
-      static assert(0, "Only =, +=, -= acceped.");
+      mixin ("tempModelMatrix.c[0][3] " ~ op ~ " value;");
+    mixin ("absoluteLocation.x " ~ op ~ " value;");
 
-    mixin ("worldPosition.y " ~ op ~ " value;");
-
-    // Set position y to the current object children too
+    // Set location x to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().setWorldPositionY!(op, true)(value);
+      child.getTransform().setAbsoluteLocationX!(op, true)(value);
 
+    updateModelMatrix();
     return this;
 	}
   
   /**
-   * Translate z-coordinate position.
-   * Translation is done in world space.
+   * Translate y-coordinate location.
+   * Location is done in absolute space.
    * Returns reference to this.
   **/
-	Transform setWorldPositionZ(string op = "=", bool force = false)(float value) {
+	Transform setAbsoluteLocationY(string op = "=", bool force = false)(float value)
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
     mixin (forceBody);
 
-		static if (op == "=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, -worldPosition.z + value));
-    else static if (op == "+=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
-    else static if (op == "-=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, -value));
+    static if (op == "=")
+      mixin ("tempModelMatrix.c[1][3] " ~ op ~ "relativeLocation.y + value;");
     else
-      static assert(0, "Only =, +=, -= acceped.");
+      mixin ("tempModelMatrix.c[1][3] " ~ op ~ " value;");
+    mixin ("absoluteLocation.y " ~ op ~ " value;");
 
-    mixin ("worldPosition.z " ~ op ~ " value;");
-
-    // Set position z to the current object children too
+    // Set location y to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().setWorldPositionZ!(op, true)(value);
+      child.getTransform().setAbsoluteLocationY!(op, true)(value);
 
+    updateModelMatrix();
+    return this;
+	}
+  
+  /**
+   * Translate z-coordinate location.
+   * Location is done in absolute space.
+   * Returns reference to this.
+  **/
+	Transform setAbsoluteLocationZ(string op = "=", bool force = false)(float value)
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+    mixin (forceBody);
+
+    static if (op == "=")
+      mixin ("tempModelMatrix.c[2][3] " ~ op ~ "relativeLocation.z + value;");
+    else
+      mixin ("tempModelMatrix.c[2][3] " ~ op ~ " value;");
+    mixin ("absoluteLocation.z " ~ op ~ " value;");
+
+    // Set location z to the current object children too
+    foreach (child; parent.getChildren())
+      child.getTransform().setAbsoluteLocationZ!(op, true)(value);
+
+    updateModelMatrix();
     return this;
 	}
   
@@ -260,42 +246,41 @@ final class Transform {
    * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
    * Returns reference to this.
   **/
-	Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure {
-		return setRotation!op(angle, Vector3F(rotX, rotY, rotZ));
-	}
+	//Transform setAbsoluteRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure
+  //if (op == "=" || op == "+=" || op == "-=")
+  //do {
+	//	return setRotation!op(angle, Vector3F(rotX, rotY, rotZ));
+	//}
   
   /**
    * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
    * Returns reference to this.
   **/
-	Transform setRotation(string op = "=")(float angle, Vector3F rotation) pure {
-    static if (op == "=")
-      assert(0, "Not implemented yet.");
-    static if (op == "+=")
-		  modelMatrix.rotate(angle, rotation);
-    else static if (op == "-=")
-      modelMatrix.rotate(-angle, rotation);
-    else
-      static assert(0, "Only =, +=, -= acceped.");
-
-    // Set rotation to the current object children too
-    foreach (child; parent.getChildren())
-      child.getTransform().setRotation!op(angle, rotation);
-    
-    return this;
-	}
+	//Transform setAbsoluteRotation(string op = "=")(float angle, Vector3F rotation) pure
+  //if (op == "=" || op == "+=" || op == "-=")
+  //do {
+  //  // Set rotation to the current object children too
+  //  foreach (child; parent.getChildren())
+  //    child.getTransform().setRotation!op(angle, rotation);
+  //  
+  //  return this;
+	//}
   
   /**
    * Rotate object specifying the rotation angle for pitch axis.
    * Returns reference to this.
   **/
-	Transform rotatePitch(float angle) pure {
-		modelMatrix.rotateX(angle.radians);
+	Transform rotatePitch(string op = "=")(float angle) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+    mixin ("absoluteRotation.x " ~ op ~ " angle;");
+		tempModelMatrix.rotateX(absoluteRotation.x.radians);
 
     // Set pitch rotation to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().rotatePitch(angle);
+      child.getTransform().rotatePitch!op(angle);
 
+    updateModelMatrix();
     return this;
 	}
 
@@ -303,13 +288,17 @@ final class Transform {
    * Rotate object specifying the rotation angle for yaw axis.
    * Returns reference to this.
   **/
-	Transform rotateYaw(float angle) pure {
-		modelMatrix.rotateY(angle.radians);
+	Transform rotateYaw(string op = "=")(float angle) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+    mixin ("absoluteRotation.y " ~ op ~ " angle;");
+		tempModelMatrix.rotateY(absoluteRotation.y.radians);
 
     // Set yaw rotation to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().rotateYaw(angle);
+      child.getTransform().rotateYaw!op(angle);
 
+    updateModelMatrix();
     return this;
 	}
 
@@ -317,13 +306,17 @@ final class Transform {
    * Rotate object specifying the rotation angle for roll axis.
    * Returns reference to this.
   **/
-	Transform rotateRoll(float angle) pure {
-		modelMatrix.rotateZ(angle.radians);
+	Transform rotateRoll(string op = "=")(float angle) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+    mixin ("absoluteRotation.z " ~ op ~ " angle;");
+		tempModelMatrix.rotateZ(absoluteRotation.z.radians);
 
     // Set roll rotation to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().rotateRoll(angle);
+      child.getTransform().rotateRoll!op(angle);
 
+    updateModelMatrix();
     return this;
 	}
 
@@ -331,41 +324,38 @@ final class Transform {
    * Scale object using same value for x, y and z coordinates.
    * Returns reference to this.
   **/
-	Transform scale(float value) pure {
-		modelMatrix.scale(Vector3F(value));
-
-    // Set scale to the current object children too
-    foreach (child; parent.getChildren())
-      child.getTransform().scale(value);
-
-    return this;
+	Transform setAbsoluteScale(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+    return setAbsoluteScale!op(Vector3F(value, value, value));
 	}
   
   /**
    * Scale object using x, y and z scalars for coordinates.
    * Returns reference to this.
   **/
-	Transform scale(float x, float y, float z) pure {
-		modelMatrix.scale(Vector3F(x, y, z));
-
-    // Set scale to the current object children too
-    foreach (child; parent.getChildren())
-      child.getTransform().scale(x, y, z);
-
-    return this;
+	Transform setAbsoluteScale(string op = "=")(float x, float y, float z) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+    return setAbsoluteScale!op(Vector3F(x, y, z));
 	}
   
   /**
    * Scale object using a vector with x, y and z scalars for coordinates.
    * Returns reference to this.
   **/
-	Transform scale(Vector3F scaling) pure {
-		modelMatrix.scale(scaling);
+	Transform setAbsoluteScale(string op = "=")(Vector3F scale) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+		mixin("tempModelMatrix.c[0][0] " ~ op ~ " scale.x;");
+    mixin("tempModelMatrix.c[1][1] " ~ op ~ " scale.y;");
+    mixin("tempModelMatrix.c[2][2] " ~ op ~ " scale.z;");
 
     // Set scale to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().scale(scaling);
+      child.getTransform().setAbsoluteScale!op(scale);
 
+    updateModelMatrix();
     return this;
 	}
   
@@ -373,13 +363,16 @@ final class Transform {
    * Scale object on x axis.
    * Returns reference to this.
   **/
-	Transform scaleX(float value) pure {
-		modelMatrix.scale(Vector3F(value, 0.0f, 0.0f));
+	Transform setAbsoluteScaleX(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+		mixin("tempModelMatrix.c[0][0] " ~ op ~ " value;");
 
     // Set scale x to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().scaleX(value);
+      child.getTransform().setAbsoluteScaleX!op(value);
 
+    updateModelMatrix();
     return this;
 	}
   
@@ -387,13 +380,16 @@ final class Transform {
    * Scale object on y axis.
    * Returns reference to this.
   **/
-	Transform scaleY(float value) pure {
-		modelMatrix.scale(Vector3F(0.0f, value, 0.0f));
+	Transform setAbsoluteScaleY(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+		mixin("tempModelMatrix.c[1][1] " ~ op ~ " value;");
 
     // Set scale y to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().scaleY(value);
+      child.getTransform().setAbsoluteScaleY!op(value);
 
+    updateModelMatrix();
     return this;
 	}
   
@@ -401,90 +397,88 @@ final class Transform {
    * Scale object on z axis.
    * Returns reference to this.
   **/
-	Transform scaleZ(float value) pure {
-		modelMatrix.scale(Vector3F(0.0f, 0.0f, value));
+	Transform setAbsoluteScaleZ(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
+		mixin("tempModelMatrix.c[2][2] " ~ op ~ " value;");
 
     // Set scale z to the current object children too
     foreach (child; parent.getChildren())
-      child.getTransform().scaleZ(value);
+      child.getTransform().setAbsoluteScaleZ!op(value);
 
+    updateModelMatrix();
     return this;
 	}
   
   /**
-   * Returns object position in local space.
+   * Returns object location in relative space.
   **/
-	ref const(Vector3F) getLocalPosition() pure nothrow const {
-		return localPosition;
+	ref const(Vector3F) getRelativeLocation() pure nothrow const {
+		return relativeLocation;
 	}
 
   /**
-   * Returns object position in world space.
+   * Returns object location in absolute space.
   **/
-	ref const(Vector3F) getWorldPosition() pure nothrow const {
-		return worldPosition;
+	ref const(Vector3F) getAbsoluteLocation() pure nothrow const {
+		return absoluteLocation;
 	}
   
   /**
-   * Returns object rotation in local space.
+   * Returns object rotation in relative space.
   **/
-	ref const(Vector3F) getLocalRotation() pure nothrow const {
-		return localRotation;
+	ref const(Vector3F) getRelativeRotation() pure nothrow const {
+		return relativeRotation;
 	}
 
   /**
-   * Returns object rotation in world space.
+   * Returns object rotation in absolute space.
   **/
-	ref const(Vector3F) getWorldRotation() pure nothrow const {
-		return worldRotation;
+	ref const(Vector3F) getAbsoluteRotation() pure nothrow const {
+		return absoluteRotation;
 	}
   
   /**
-   * Returns object scale in local space.
+   * Returns object scale in relative space.
   **/
-	ref const(Vector3F) getLocalScale() pure nothrow const {
-		return localScaling;
+	ref const(Vector3F) getRelativeScale() pure nothrow const {
+		return relativeScale;
 	}
 
   /**
-   * Returns object scale in world space.
+   * Returns object scale in absolute space.
   **/
-	ref const(Vector3F) getWorldScale() pure nothrow const {
-		return worldScaling;
+	ref const(Vector3F) getAbsoluteScale() pure nothrow const {
+		return absoluteScale;
 	}
 
   /**
-   * Returns object position in true space.
+   * Returns object location in true space.
   **/
-	Vector3F getPosition() pure nothrow const {
-		return worldPosition + localPosition;
+	Vector3F getLocation() pure nothrow const {
+		return absoluteLocation + relativeLocation;
 	}
 
   /**
    * Returns object rotation in true space.
   **/
 	Vector3F getRotation() pure nothrow const {
-		return worldRotation + localRotation;
+		return absoluteRotation + relativeRotation;
 	}
   
   /**
    * Returns object scale in true space.
   **/
 	Vector3F getScale() pure nothrow const {
-		return worldScaling + localScaling;
-	}
-  
-  /**
-   * Returns model matrix for the object representation.
-  **/
-	ref const(Matrix4F) getModelMatrix() pure nothrow const {
-		return modelMatrix;
+		return absoluteScale + relativeScale;
 	}
 
   /**
    *
   **/
-  Transform setPivot(string op = "=")(float x, float y, float z) pure {
+  Transform setPivot(string op = "=")(float x, float y, float z) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
     return setPivot!op(Vector3F(x, y, z));
   }
 
@@ -492,18 +486,11 @@ final class Transform {
    *
    * Returns reference to this.
   **/
-  Transform setPivot(string op = "=")(Vector3F pivot) pure {
-    static if (op == "=")
-      modelMatrix.translate(-this.pivot + pivot);
-    else static if (op == "+=")
-      modelMatrix.translate(pivot);
-    else static if (op == "-=")
-      modelMatrix.translate(-pivot);
-    else
-      static assert(0, "Only =, +=, -= acceped.");
-
+  Transform setPivot(string op = "=")(Vector3F pivot) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
     mixin ("this.pivot " ~ op ~ " pivot;");
-    
+    updateModelMatrix();
     return this;
   }
 
@@ -511,18 +498,11 @@ final class Transform {
    *
    * Returns reference to this.
   **/
-	Transform setPivotX(string op = "=")(float value) pure {
-    static if (op == "=")
-      modelMatrix.translate(Vector3F(-pivot.x + value, 0.0f, 0.0f));
-    else static if (op == "+=")
-      modelMatrix.translate(Vector3F(value, 0.0f, 0.0f));
-    else static if (op == "-=")
-      modelMatrix.translate(Vector3F(-value, 0.0f, 0.0f));
-    else
-      static assert(0, "Only =, +=, -= acceped.");
-
-    
+	Transform setPivotX(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
     mixin ("pivot.x " ~ op ~ " value;");
+    updateModelMatrix();
     return this;
 	}
 
@@ -530,18 +510,11 @@ final class Transform {
    *
    * Returns reference to this.
   **/
-	Transform setPivotY(string op = "=")(float value) pure {
-    static if (op == "=")
-      modelMatrix.translate(Vector3F(0.0f, -pivot.y + value, 0.0f));
-    else static if (op == "+=")
-      modelMatrix.translate(Vector3F(0.0f, value, 0.0f));
-    else static if (op == "-=")
-      modelMatrix.translate(Vector3F(0.0f, -value, 0.0f));
-    else
-      static assert(0, "Only =, +=, -= acceped.");
-    
+	Transform setPivotY(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
     mixin ("pivot.y " ~ op ~ " value;");
-
+    updateModelMatrix();
     return this;
 	}
 
@@ -549,18 +522,11 @@ final class Transform {
    *
    * Returns reference to this.
   **/
-	Transform setPivotZ(string op = "=")(float value) pure {
-    static if (op == "=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, -pivot.z + value));
-    else static if (op == "+=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, value));
-    else static if (op == "-=")
-      modelMatrix.translate(Vector3F(0.0f, 0.0f, -value));
-    else
-      static assert(0, "Only =, +=, -= acceped.");
-
-    
+	Transform setPivotZ(string op = "=")(float value) pure
+  if (op == "=" || op == "+=" || op == "-=")
+  do {
     mixin ("pivot.z " ~ op ~ " value;");
+    updateModelMatrix();
     return this;
 	}
 
@@ -570,6 +536,20 @@ final class Transform {
   ref const(Vector3F) getPivot() pure nothrow const {
     return pivot;
   }
+  
+  /**
+   * Returns model matrix for the object representation.
+  **/
+	ref const(Matrix4F) getModelMatrix() pure nothrow const {
+		return modelMatrix;
+	}
+
+  private void updateModelMatrix() pure nothrow {
+    modelMatrix = tempModelMatrix;
+    modelMatrix.c[0][3] += pivot.x;
+    modelMatrix.c[1][3] -= pivot.y;
+    modelMatrix.c[2][3] += pivot.z;
+  }
 }
 
 private immutable forceBody = q{
@@ -578,7 +558,7 @@ private immutable forceBody = q{
       Logger.warning(
         "You are trying to perform Transformation a non-root object (id: " 
         ~ parent.getId() 
-        ~ ") in world space.",
+        ~ ") in absolute space.",
         typeof(this).stringof
       );
       return this;
