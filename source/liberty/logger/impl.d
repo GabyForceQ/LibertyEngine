@@ -29,6 +29,11 @@ final class Logger {
 
   private {
     static File logFile;
+    
+    version (Win32)
+      static string platformName = " [Win_x86]";
+    else version (Win64)
+      static string platformName = " [Win_x64]";
   }
 
   /**
@@ -130,7 +135,7 @@ final class Logger {
   **/
   static void log(LogType type, string message, bool onlyToConsole = false) {
     if (isActive) {
-      string currentTime = Clock.currTime().toString().split(".")[0];
+      string currentTime = Clock.currTime().toString().split(".")[0] ~ platformName;
       final switch (type) with (LogType) {
         case Info:
           debug writeln(currentTime ~ " -> LOG_INFO: " ~ message);
