@@ -38,7 +38,7 @@ final class Texture {
 
   /**
    * Generate texture internally.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Texture generateTextures() {
     version (__OPENGL__)
@@ -49,7 +49,7 @@ final class Texture {
 
   /**
    * Delete texture internally.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Texture deleteTextures() {
     version (__OPENGL__)
@@ -60,7 +60,7 @@ final class Texture {
 
   /**
    * Bind the texture.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Texture bind() {
     version (__OPENGL__)
@@ -72,7 +72,7 @@ final class Texture {
 
   /**
    * Unbind the texture.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Texture unbind() {
     version (__OPENGL__)
@@ -98,7 +98,7 @@ final class Texture {
 
   /**
    * Set both width and height of texture.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Texture setExtent(uint width, uint height) pure nothrow {
     this.width = width;
@@ -108,7 +108,7 @@ final class Texture {
 
   /**
    * Set the texture width.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Texture setWidth(uint width) pure nothrow {
     this.width = width;
@@ -124,7 +124,7 @@ final class Texture {
 
   /**
    * Set the texture height.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Texture setHeight(uint height) pure nothrow {
     this.height = height;
@@ -140,7 +140,7 @@ final class Texture {
 
   /**
    * Generate mipmap for texture 2D.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Texture generateMipmap() {
     version (__OPENGL__)
@@ -151,7 +151,7 @@ final class Texture {
 
   /**
    * Set texture level of detail bias.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Texture setLODBias(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=" || op == "%=") {

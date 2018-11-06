@@ -30,7 +30,7 @@ final class WorldSettings {
   /**
    * Update generic shader: projection matrix, view matrix, sky color.
    * Update terrain shader: projection matrix, view matrix, sky color.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   WorldSettings updateShaders(Scene scene, Camera camera) {
     scene.getPrimitiveShader()
@@ -52,7 +52,7 @@ final class WorldSettings {
 
   /**
    * Set the exp height fog of the scene using a 3 floats for the color (RGB).
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   WorldSettings setexpHeightFogColor(float r, float g, float b) pure nothrow {
     this.expHeightFogColor = Vector3F(r, g, b);
@@ -61,7 +61,7 @@ final class WorldSettings {
 
   /**
    * Set the exp height fog of the scene using a vector of 3 values for the color (RGB).
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   WorldSettings setexpHeightFogColor(Vector3F expHeightFogColor) pure nothrow {
     this.expHeightFogColor = expHeightFogColor;

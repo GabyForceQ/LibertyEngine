@@ -68,7 +68,7 @@ abstract class Model {
 
   /**
    *
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Model toggleMaterials(Material[] materialsLhs, Material[] materialsRhs) {
     materials = (materials == materialsLhs) ? materialsRhs : materialsLhs;
@@ -77,7 +77,7 @@ abstract class Model {
 
   /**
    *
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Model setMaterials(Material[] materials) pure nothrow {
     this.materials = materials;
@@ -94,7 +94,7 @@ abstract class Model {
   /**
    * Enable or disable culling on this model.
    * It is enabled by default.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Model setShouldCull(bool shouldCull) pure nothrow {
     this.shouldCull = shouldCull;

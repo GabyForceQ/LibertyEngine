@@ -68,14 +68,14 @@ final class Transform {
 
   /**
    *
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Transform setRelativeLocation(string op = "=")(float x, float y, float z) pure {
     return setRelativeLocation!op(Vector3F(x, y, z));
   }
 
   /**
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Transform setRelativeLocation(string op = "=")(Vector3F location) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -91,7 +91,7 @@ final class Transform {
 
   /**
    * 
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setRelativeLocationX(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -105,7 +105,7 @@ final class Transform {
   
   /**
    * 
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setRelativeLocationY(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -119,7 +119,7 @@ final class Transform {
 
   /**
    * 
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setRelativeLocationZ(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -144,7 +144,7 @@ final class Transform {
   /**
    * Translate location using a vector with x, y and z coordinates.
    * Location is done in absolute space.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteLocation(string op = "=", bool force = false)(Vector3F location)
   if (op == "=" || op == "+=" || op == "-=")
@@ -173,7 +173,7 @@ final class Transform {
   /**
    * Translate x-coordinate location.
    * Location is done in absolute space.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteLocationX(string op = "=", bool force = true)(float value)
   if (op == "=" || op == "+=" || op == "-=")
@@ -197,7 +197,7 @@ final class Transform {
   /**
    * Translate y-coordinate location.
    * Location is done in absolute space.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteLocationY(string op = "=", bool force = false)(float value)
   if (op == "=" || op == "+=" || op == "-=")
@@ -221,7 +221,7 @@ final class Transform {
   /**
    * Translate z-coordinate location.
    * Location is done in absolute space.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteLocationZ(string op = "=", bool force = false)(float value)
   if (op == "=" || op == "+=" || op == "-=")
@@ -244,7 +244,7 @@ final class Transform {
   
   /**
    * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	//Transform setAbsoluteRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure
   //if (op == "=" || op == "+=" || op == "-=")
@@ -254,7 +254,7 @@ final class Transform {
   
   /**
    * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	//Transform setAbsoluteRotation(string op = "=")(float angle, Vector3F rotation) pure
   //if (op == "=" || op == "+=" || op == "-=")
@@ -291,7 +291,7 @@ final class Transform {
   
   /**
    * Rotate object specifying the rotation angle for pitch axis.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform rotatePitch(string op = "=")(float angle) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -309,7 +309,7 @@ final class Transform {
 
   /**
    * Rotate object specifying the rotation angle for yaw axis.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform rotateYaw(string op = "=")(float angle) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -327,7 +327,7 @@ final class Transform {
 
   /**
    * Rotate object specifying the rotation angle for roll axis.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform rotateRoll(string op = "=")(float angle) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -345,7 +345,7 @@ final class Transform {
 
   /**
    * Scale object using same value for x, y and z coordinates.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteScale(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -355,7 +355,7 @@ final class Transform {
   
   /**
    * Scale object using x, y and z scalars for coordinates.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteScale(string op = "=")(float x, float y, float z) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -365,7 +365,7 @@ final class Transform {
   
   /**
    * Scale object using a vector with x, y and z scalars for coordinates.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteScale(string op = "=")(Vector3F scale) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -384,7 +384,7 @@ final class Transform {
   
   /**
    * Scale object on x axis.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteScaleX(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -401,7 +401,7 @@ final class Transform {
   
   /**
    * Scale object on y axis.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteScaleY(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -418,7 +418,7 @@ final class Transform {
   
   /**
    * Scale object on z axis.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setAbsoluteScaleZ(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -507,7 +507,7 @@ final class Transform {
 
   /**
    *
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Transform setPivot(string op = "=")(Vector3F pivot) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -519,7 +519,7 @@ final class Transform {
 
   /**
    *
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setPivotX(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -531,7 +531,7 @@ final class Transform {
 
   /**
    *
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setPivotY(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
@@ -543,7 +543,7 @@ final class Transform {
 
   /**
    *
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Transform setPivotZ(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")

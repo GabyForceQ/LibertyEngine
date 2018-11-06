@@ -74,7 +74,7 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
   }
 
   /**
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Renderer!(VERTEX, NODETYPE) setModel(RendererModel model) pure nothrow {
     this.model = model;

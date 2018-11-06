@@ -9,7 +9,7 @@
 module liberty.camera;
 
 public {
-  import liberty.camera.constants;
   import liberty.camera.impl;
+  import liberty.camera.movement;
   import liberty.camera.preset;
 }

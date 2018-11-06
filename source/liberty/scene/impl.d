@@ -144,7 +144,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Set camera as the current view camera.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene setActiveCamera(Camera camera) {
     activeCamera = camera;
@@ -153,7 +153,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Register camera to the camera map.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene registerCamera(Camera camera) {
 		camerasMap[camera.getId()] = camera;
@@ -183,7 +183,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Add an object to the startable list.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene setStartList(string id, IStartable node) pure nothrow {
     startList[id] = node;
@@ -192,7 +192,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Add an object to the updatable list.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene setUpdateList(string id, IUpdatable node) pure nothrow {
     updateList[id] = node;
@@ -201,7 +201,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Add an object to the renderable list.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene setRenderList(string id, IRenderable node) pure nothrow {
     renderList[id] = node;
@@ -211,7 +211,7 @@ final class Scene : IUpdatable, IRenderable {
   /**
    * Register scene to the CoreEngine.
 	 * Invoke start for all IStartable objects that have an start() method.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
 	Scene register() {
 		registered = true;
@@ -265,7 +265,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Add an object id to the dictionary.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene setObjectId(string key, bool state = true) {
     objectsId[key] = state;
@@ -274,7 +274,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Set the default generic shader.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene setPrimitiveShader(PrimitiveShader shader) {
     primitiveShader = shader;
@@ -290,7 +290,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Set the default terrain shader.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene setTerrainShader(TerrainShader shader) {
     terrainShader = shader;
@@ -306,7 +306,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Set the default ui shader.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene setSurfaceShader(SurfaceShader shader) {
     surfaceShader = shader;
@@ -322,7 +322,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Set the world settings for the scene.
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   Scene setWorldSettings(WorldSettings worldSettings) {
     this.worldSettings = worldSettings;

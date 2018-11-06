@@ -14,7 +14,7 @@ import liberty.input.impl;
 import liberty.camera;
 
 /**
- *
+ * A camera custom setting.
 **/
 class CameraPreset {
   private {
@@ -32,7 +32,7 @@ class CameraPreset {
 
   /**
    *
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   CameraPreset setImplicit(void delegate(Camera camera) runImplicitDelegate) {
     this.runImplicitDelegate = runImplicitDelegate;
@@ -45,7 +45,7 @@ class CameraPreset {
 
   /**
    *
-   * Returns reference to this.
+   * Returns reference to this and can be used in a stream.
   **/
   CameraPreset setKeyboardProcess(void delegate(Camera, CameraMovement, float) runKeyboardProcess) {
     this.runKeyboardProcess = runKeyboardProcess;
@@ -57,7 +57,7 @@ class CameraPreset {
   }
 
   /**
-   *
+   * Returns an empty camera preset.
   **/
   static CameraPreset getEmpty() {
     return new CameraPreset((Camera camera) {
@@ -66,7 +66,7 @@ class CameraPreset {
   }
 
   /**
-   *
+   * Returns implicit camera preset.
   **/
   static CameraPreset getDefault() {
     return new CameraPreset((Camera camera) {

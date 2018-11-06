@@ -14,44 +14,64 @@ import liberty.math.vector;
 import liberty.math.matrix;
 import liberty.core.platform;
 import liberty.time;
-import liberty.camera.constants;
+import liberty.camera.movement;
 import liberty.camera.preset;
 import liberty.meta;
 import liberty.scene.node;
 import liberty.scene.impl;
 
 /**
- *
+ * Represents the view of the observer.
+ * Everything that is rendered to the screen is processed within the projection matrix and view matrix of a camera.
+ * Inheriths (D SceneNode) class and encapsulates (D NodeBody) macro.
 **/
 final class Camera : SceneNode {
-  mixin(NodeBody);
+  mixin (NodeBody);
 
   package {
+    immutable float DEFAULT_YAW = -90.0f;
+    immutable float DEFAULT_PITCH = -30.0f;
+    immutable float DEFAULT_SPEED = 3.0f;
+    immutable float DEFAULT_SENSITIVITY = 0.1f;
+    immutable float DEFAULT_FOV = 45.0f;
+
+    // getFrontVector
     Vector3F frontVector = Vector3F.forward;
+    // getUpVector
     Vector3F upVector = Vector3F.up;
+    // getRightVector
     Vector3F rightVector = Vector3F.zero;
+    // getWorldUpVector
     Vector3F worldUpVector = Vector3F.up;
 
-    float yaw = YAW;
-    float pitch = PITCH;
+    // setYaw, setDefaultYaw, getYaw
+    float yaw = DEFAULT_YAW;
+    // setPitch, setDefaultPitch, getPitch
+    float pitch = DEFAULT_PITCH;
+    // setMovementSpeed, setDefaultMovementSpeed, getMovementSpeed
+    float movementSpeed = DEFAULT_SPEED;
+    // setMouseSensitivity, setDefaultMouseSensitivity, getMouseSensitivity
+    float mouseSensitivity = DEFAULT_SENSITIVITY;
+    // setFieldOfView, setDefaultFieldOfView, getFieldOfView
+    float fieldOfView = DEFAULT_FOV;
 
-    float movementSpeed = SPEED;
-    float mouseSensitivity = SENSITIVITY;
-    float fieldOfView = FOV;
-
-    CameraPreset preset;
-
+    // setMouseMoveLocked, isMouseMoveLocked
     bool mouseMoveLocked;
+    // setIsMouseScrollLocked, isMouseScrollLocked
     bool mouseScrollLocked;
+    // setKeyboardLocked, isKeyboardLocked
     bool keyboardLocked;
-
+    // setConstrainPitchEnabled, isConstrainPitchEnabled
     bool constrainPitch = true;
+
+    // setPreset, getPreset
+    CameraPreset preset;
   }
 
   /**
    * Camera custom constructor.
-   * Calls: $(D, updateCameraVectors).
-   * It adds default $(D, CameraPreset).
+   * Calls: $(D updateCameraVectors).
+   * It adds default $(D CameraPreset).
   **/
   void constructor() {
     updateCameraVectors();
@@ -60,8 +80,9 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Keyboard listener.
-   * Works only if camera input listener isn't locked.
+   * Set keyboard listener using a camera movement direction.
+   * Works only if camera keyboard listener isn't locked.
+   * Returns reference to this and can be used in a stream.
   **/
   Camera processKeyboard(CameraMovement direction) {
     if (!keyboardLocked) {
@@ -73,8 +94,10 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Mouse move listener.
-   * Works only if camera input listener isn't locked.
+   * Set mouse move listener using x and y offsets.
+   * Works only if camera mouse move listener isn't locked.
+   * If it works then it updates camera vectors at the end.
+   * Returns reference to this and can be used in a stream.
   **/
   Camera processMouseMovement(float xOffset, float yOffset) {
     if (!mouseMoveLocked) {
@@ -92,17 +115,18 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Mouse scroll listener.
-   * Works only if camera input listener isn't locked.
+   * Set mouse scroll listener using y offset.
+   * Works only if camera mouse scroll listener isn't locked.
+   * Returns reference to this and can be used in a stream.
   **/
-  Camera processMouseScroll(float yOffset) {
+  Camera processMouseScroll(float yOffset) pure nothrow {
     if (!mouseScrollLocked) {
-      if (fieldOfView >= 1.0f && fieldOfView <= FOV)
+      if (fieldOfView >= 1.0f && fieldOfView <= DEFAULT_FOV)
         fieldOfView -= yOffset;
       if (fieldOfView <= 1.0f)
         fieldOfView = 1.0f;
-      if (fieldOfView >= FOV)
-        fieldOfView = FOV;
+      if (fieldOfView >= DEFAULT_FOV)
+        fieldOfView = DEFAULT_FOV;
     }
 
     return this;
@@ -127,15 +151,15 @@ final class Camera : SceneNode {
       fieldOfView.radians,
       cast(float)Platform.getWindow().getFrameBufferWidth(),
       cast(float)Platform.getWindow().getFrameBufferHeight(),
-      0.01f,
-      1000.0f
+      0.01f, // TODO: zNear
+      1000.0f // TODO: zFar
     );
   }
 
   /**
    * Returns camera front vector.
   **/
-  Vector3F getFrontVector() pure nothrow {
+  Vector3F getFrontVector() pure nothrow const {
     return frontVector;
   }
 
@@ -149,7 +173,7 @@ final class Camera : SceneNode {
   /**
    * Returns camera right vector.
   **/
-  Vector3F getRightVector() pure nothrow {
+  Vector3F getRightVector() pure nothrow const {
     return rightVector;
   }
 
@@ -161,11 +185,29 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera yaw.
+   * Set camera yaw using a template stream function.
+   * Assign a value to camera yaw using camera.setYaw(value) or camera.setYaw!"="(value).
+   * Increment camera yaw by value using camera.setYaw!"+="(value).
+   * Decrement camera yaw by value using camera.setYaw!"-="(value).
+   * Multiply camera yaw by value using camera.setYaw!"*="(value).
+   * Divide camera yaw by value using camera.setYaw!"/="(value).
+   * It updates camera vectors after setting yaw.
+   * Returns reference to this and can be used in a stream.
   **/
-  Camera setYaw(string op = "=")(float yaw) {
-    mixin ("this.yaw " ~ op ~ " yaw;");
+  Camera setYaw(string op = "=")(float value)
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
+  do {
+    mixin ("yaw " ~ op ~ " value;");
     updateCameraVectors();
+    return this;
+  }
+
+  /**
+   * Set camera yaw to the default value which is (D DEFAULT_YAW).
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setDefaultYaw() pure nothrow {
+    yaw = DEFAULT_YAW;
     return this;
   }
 
@@ -177,12 +219,32 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera pitch.
+   * Set camera pitch using a template stream function.
+   * Assign a value to camera pitch using camera.setPitch(value) or camera.setPitch!"="(value).
+   * Increment camera pitch by value using camera.setPitch!"+="(value).
+   * Decrement camera pitch by value using camera.setPitch!"-="(value).
+   * Multiply camera pitch by value using camera.setPitch!"*="(value).
+   * Divide camera pitch by value using camera.setPitch!"/="(value).
+   * It updates camera vectors after setting pitch.
+   * Pitch takes value in range [-89.0f, 89.0f] if constrain pitch is set to true.
+   * To enable/disable constrain pitch see $(D setConstrainPitchEnabled) function.
+   * Returns reference to this and can be used in a stream.
   **/
-  Camera setPitch(string op = "=")(float pitch) {
-    mixin ("this.pitch " ~ op ~ " pitch;");
+  Camera setPitch(string op = "=")(float value)
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
+  do {
+    mixin ("pitch " ~ op ~ " value;");
     checkPitchLimits();
     updateCameraVectors();
+    return this;
+  }
+
+  /**
+   * Set camera pitch to the default value which is (D DEFAULT_PITCH).
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setDefaultPitch() pure nothrow {
+    yaw = DEFAULT_PITCH;
     return this;
   }
 
@@ -194,10 +256,18 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera movement speed.
+   * Set camera movement speed using a template stream function.
+   * Assign a value to camera movement speed using camera.setMovementSpeed(value) or camera.setMovementSpeed!"="(value).
+   * Increment camera movement speed by value using camera.setMovementSpeed!"+="(value).
+   * Decrement camera movement speed by value using camera.setMovementSpeed!"-="(value).
+   * Multiply camera movement speed by value using camera.setMovementSpeed!"*="(value).
+   * Divide camera movement speed by value using camera.setMovementSpeed!"/="(value).
+   * Returns reference to this and can be used in a stream.
   **/
-  Camera setMovementSpeed(float movementSpeed) pure nothrow {
-    this.movementSpeed = movementSpeed;
+  Camera setMovementSpeed(string op = "=")(float value) pure nothrow
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
+  do {
+    mixin ("movementSpeed " ~ op ~ " value;");
     return this;
   }
 
@@ -209,10 +279,18 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera mouse sensitivity.
+   * Set camera mouse sensitivity using a template stream function.
+   * Assign a value to camera mouse sensitivity using camera.setMouseSensitivity(value) or camera.setMouseSensitivity!"="(value).
+   * Increment camera mouse sensitivity by value using camera.setMouseSensitivity!"+="(value).
+   * Decrement camera mouse sensitivity by value using camera.setMouseSensitivity!"-="(value).
+   * Multiply camera mouse sensitivity by value using camera.setMouseSensitivity!"*="(value).
+   * Divide camera mouse sensitivity by value using camera.setMouseSensitivity!"/="(value).
+   * Returns reference to this and can be used in a stream.
   **/
-  Camera setMouseSensitivity(float mouseSensitivity) pure nothrow {
-    this.mouseSensitivity = mouseSensitivity;
+  Camera setMouseSensitivity(string op = "=")(float value) pure nothrow
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
+  do {
+    mixin ("mouseSensitivity " ~ op ~ " value;");
     return this;
   }
 
@@ -224,10 +302,18 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera field of view.
+   * Set camera field of view using a template stream function.
+   * Assign a value to camera field of view using camera.setFieldOfView(value) or camera.setFieldOfView!"="(value).
+   * Increment camera field of view by value using camera.setFieldOfView!"+="(value).
+   * Decrement camera field of view by value using camera.setFieldOfView!"-="(value).
+   * Multiply camera field of view by value using camera.setFieldOfView!"*="(value).
+   * Divide camera field of view by value using camera.setFieldOfView!"/="(value).
+   * Returns reference to this and can be used in a stream.
   **/
-  Camera setFieldOfView(float fieldOfView) pure nothrow {
-    this.fieldOfView = fieldOfView;
+  Camera setFieldOfView(string op = "=")(float value) pure nothrow
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
+  do {
+    mixin ("fieldOfView " ~ op ~ " value;");
     return this;
   }
 
@@ -239,7 +325,72 @@ final class Camera : SceneNode {
   }
 
   /**
-   *
+   * Set if mouse move listener should be locked or not.
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setMouseMoveLocked(bool locked = true) pure nothrow {
+    mouseMoveLocked = locked;
+    return this;
+  }
+
+  /**
+   * Returns true if mouse move listener is locked.
+  **/
+  bool isMouseMoveLocked() pure nothrow const {
+    return mouseMoveLocked;
+  }
+
+  /**
+   * Set if mouse scroll listener should be locked or not.
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setIsMouseScrollLocked(bool locked = true) pure nothrow {
+    mouseScrollLocked = locked;
+    return this;
+  }
+
+  /**
+   * Returns true if mouse scroll listener is locked.
+  **/
+  bool isMouseScrollLocked() pure nothrow const {
+    return mouseScrollLocked;
+  }
+
+  /**
+   * Set if keyboard listener should be locked or not.
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setKeyboardLocked(bool locked) pure nothrow {
+    keyboardLocked = locked;
+    return this;
+  }
+
+  /**
+   * Returns true if keyboard listener is locked.
+  **/
+  bool isKeyboardLocked() pure nothrow const {
+    return keyboardLocked;
+  }
+
+  /**
+   * Set if constrain pitch should be enabled or not.
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setConstrainPitchEnabled(bool enabled = true) pure nothrow {
+    constrainPitch = enabled;
+    return this;
+  }
+
+  /**
+   * Returns true if constrain pitch is enabled.
+  **/
+  bool isConstrainPitchEnabled() pure nothrow const {
+    return constrainPitch;
+  }
+
+  /**
+   * Set camera preset.
+   * Returns reference to this and can be used in a stream.
   **/
   Camera setPreset(CameraPreset preset) pure nothrow {
     this.preset = preset;
@@ -254,76 +405,9 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Lock camera mouse move listener.
-  **/
-  Camera lockMouseMove() pure nothrow {
-    mouseMoveLocked = true;
-    return this;
-  }
-
-  /**
-   * Unlock camera mouse move listener.
-  **/
-  Camera unlockMouseMove() pure nothrow {
-    mouseMoveLocked = false;
-    return this;
-  }
-
-  /**
-   * Returns true if mouse move listener is locked.
-  **/
-  bool isMouseMoveLocked() pure nothrow const {
-    return mouseMoveLocked;
-  }
-
-  /**
-   * Lock camera mouse scroll listener.
-  **/
-  Camera lockMouseScroll() pure nothrow {
-    mouseScrollLocked = true;
-    return this;
-  }
-
-  /**
-   * Unlock camera mouse scroll listener.
-  **/
-  Camera unlockMouseScroll() pure nothrow {
-    mouseScrollLocked = false;
-    return this;
-  }
-
-  /**
-   * Returns true if mouse scroll listener is locked.
-  **/
-  bool isMouseScrollLocked() pure nothrow const {
-    return mouseScrollLocked;
-  }
-
-  /**
-   * Lock camera keyboard listener.
-  **/
-  Camera lockKeyboard() pure nothrow {
-    keyboardLocked = true;
-    return this;
-  }
-
-  /**
-   * Unlock camera keyboard listener.
-  **/
-  Camera unlockKeyboard() pure nothrow {
-    keyboardLocked = false;
-    return this;
-  }
-
-  /**
-   * Returns true if keyboard listener is locked.
-  **/
-  bool isKeyboardLocked() pure nothrow const {
-    return keyboardLocked;
-  }
-
-  /**
-   *
+   * Register camera to a specific scene (optional).
+   * By deafult it is set to (D CoreEngine) active scene.
+   * Returns reference to this and can be used in a stream.
   **/
   Camera registerToScene(Scene scene = CoreEngine.getScene()) {
     scene.setActiveCamera(this);
