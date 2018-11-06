@@ -14,5 +14,6 @@ module liberty.scene;
 public {
   import liberty.scene.impl;
   import liberty.scene.node;
+  import liberty.scene.serializer;
   import liberty.scene.world;
 }

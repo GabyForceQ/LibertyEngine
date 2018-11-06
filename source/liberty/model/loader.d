@@ -22,6 +22,8 @@ import liberty.graphics.material.impl;
 
 
 package(liberty) class ModelLoader {
+  @disable this();
+
   static PrimitiveModel loadOBJFile(string path) {
     PrimitiveVertex[] vertices;	
 
@@ -37,11 +39,11 @@ package(liberty) class ModelLoader {
     uint[] normalIndices;
     uint[] uvIndices;
     
-      // Open the file	
+    // Open the file
     auto file = File(path);
     scope (exit) file.close();
 
-    // Read the file and build mesh data	
+    // Read the file and build mesh data
     auto range = file.byLine();
     foreach (line; range) {
       line = line.strip();

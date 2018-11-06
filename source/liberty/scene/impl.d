@@ -29,6 +29,7 @@ import liberty.surface.renderer;
 import liberty.surface.impl;
 import liberty.light.point;
 import liberty.light.renderer;
+import liberty.scene.serializer;
 
 /**
  *
@@ -42,6 +43,7 @@ final class Scene : IUpdatable, IRenderable {
     SceneNode tree;
     Vector3F startPoint;
     WorldSettings worldSettings;
+    SceneSerializer serializer;
     
     Camera activeCamera;
     Camera[string] camerasMap;
@@ -70,10 +72,9 @@ final class Scene : IUpdatable, IRenderable {
   /**
    * Create a scene using a unique id.
   **/
-  this(string id) {
+  this(SceneSerializer serializer) {
     CoreEngine.loadScene(this);
 
-    id = id;
     tree = new RootObject();
     worldSettings = new WorldSettings();
 
@@ -91,6 +92,12 @@ final class Scene : IUpdatable, IRenderable {
 
     // Init light system
     lightRenderer = new LightRenderer(this);
+
+    // Init serializer
+    serializer
+      .registerScene(this)
+      .deserialize();
+    this.serializer = serializer;
   }
 
   /**
@@ -443,5 +450,16 @@ final class Scene : IUpdatable, IRenderable {
   **/
   LightRenderer getLightRenderer() pure nothrow {
     return lightRenderer;
+  }
+
+  /**
+   *
+  **/
+  SceneSerializer getSerializer() pure nothrow {
+    return serializer;
+  }
+
+  package void setId(string id) pure nothrow {
+    this.id = id;
   }
 }

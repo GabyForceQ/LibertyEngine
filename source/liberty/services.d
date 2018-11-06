@@ -12,31 +12,46 @@
 module liberty.services;
 
 /**
- * Service used in startable world objects.
+ * Service used in startable scene nodes.
 **/
 interface IStartable {
 	/**
-	 * Called after all objects instantiation.
+	 * Called after all scene nodes instantiation.
 	**/
 	void start();
 }
 
 /**
- * Service used in updatable world objects.
+ * Service used in updatable scene nodes.
 **/
 interface IUpdatable {
 	/**
-	 * Called every frame to update the current state of the object.
+	 * Called every frame to update the current state of the scene node.
 	**/
 	void update();
 }
 
 /**
- * Service used in renderable world objects.
+ * Service used in renderable scene nodes.
 **/
 interface IRenderable {
   /**
-   * Called every frame to render the object.
+   * Called every frame to render the scene node.
   **/
 	void render();
+}
+
+/**
+ *
+**/
+interface ISerializable {
+  /**
+   *
+  **/
+  void serialize();
+
+  /**
+   *
+  **/
+  void deserialize();
 }
