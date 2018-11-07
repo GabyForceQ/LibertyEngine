@@ -278,6 +278,15 @@ final class Camera : SceneNode {
   }
 
   /**
+   * Set camera movement speed to default value (D DEFAULT_SPEED).
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setDefaultMovementSpeed() pure nothrow {
+    movementSpeed = DEFAULT_SPEED;
+    return this;
+  }
+
+  /**
    * Returns camera movement speed.
   **/
   float getMovementSpeed() pure nothrow const {
@@ -301,6 +310,15 @@ final class Camera : SceneNode {
   }
 
   /**
+   * Set camera mouse sensitivity to default value (D DEFAULT_SENSITIVITY).
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setDefaultMouseSensitivity() pure nothrow {
+    mouseSensitivity = DEFAULT_SENSITIVITY;
+    return this;
+  }
+
+  /**
    * Returns camera mouse sensitivity.
   **/
   float getMouseSensitivity() pure nothrow const {
@@ -320,6 +338,15 @@ final class Camera : SceneNode {
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     mixin ("fieldOfView " ~ op ~ " value;");
+    return this;
+  }
+
+  /**
+   * Set camera field of view to default value (D DEFAULT_FOV).
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setDefaultFieldOfView() pure nothrow {
+    fieldOfView = DEFAULT_FOV;
     return this;
   }
 
@@ -488,7 +515,6 @@ final class Camera : SceneNode {
     return this;
   }
 
-  pragma (inline, true)
   private void updateCameraVectors() {
     Vector3F front;
     front.x = cos(radians(yaw)) * cos(radians(pitch));
@@ -501,7 +527,7 @@ final class Camera : SceneNode {
   }
 
   pragma (inline, true)
-  private void checkPitchLimits() {
+  private void checkPitchLimits() pure nothrow {
     if (constrainPitch) {
       if (pitch > 89.0f)
         pitch = 89.0f;
@@ -511,7 +537,7 @@ final class Camera : SceneNode {
   }
 
   pragma (inline, true)
-  private void checkZNearLimits() {
+  private void checkZNearLimits() pure nothrow {
     if (zNear < 0.001f)
       zNear = 0.001f;
     if (zNear > 10_000.0f)
@@ -519,7 +545,7 @@ final class Camera : SceneNode {
   }
 
   pragma (inline, true)
-  private void checkZFarLimits() {
+  private void checkZFarLimits() pure nothrow {
     if (zFar < 0.001f)
       zFar = 0.0001f;
     if (zFar > 10_000.0f)
