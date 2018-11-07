@@ -73,9 +73,9 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         unittest {
             assert(Vector!(T, 2).zero == Vector!(T, 2)(0, 0));
             assert(Vector!(T, 2).one == Vector!(T, 2)(1, 1));
-            assert(Vector!(T, 2).up == Vector!(T, 2)(0, 1));
+            assert(Vector!(T, 2).up == Vector!(T, 2)(0, -1));
             assert(Vector!(T, 2).right == Vector!(T, 2)(1, 0));
-            assert(Vector!(T, 2).down == Vector!(T, 2)(0, -1));
+            assert(Vector!(T, 2).down == Vector!(T, 2)(0, 1));
             assert(Vector!(T, 2).left == Vector!(T, 2)(-1, 0));
         }
     } else static if (N == 3 && is(T == float)) {

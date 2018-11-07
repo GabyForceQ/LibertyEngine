@@ -178,6 +178,8 @@ final class Logger {
 unittest {
   class LogClass {
     this() {
+      Logger.initialize();
+      scope (exit) Logger.deinitialize();
       Logger.console("Test message!", typeof(this).stringof);
       Logger.info("Info test message!", typeof(this).stringof);
       Logger.warning("Warning test message!", typeof(this).stringof);

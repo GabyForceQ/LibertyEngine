@@ -817,9 +817,9 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 			mult(MatrixType.perspective(FOVInRadians, width, height, zNear, zFar));
 		}
 		///
-		void orthographic(T left, T right, T bottom, T top, T near, T far) pure nothrow {
-			mult(MatrixType.orthographic(left, right, bottom, top, near, far));
-		}
+		//void orthographic(T left, T right, T bottom, T top, T near, T far) pure nothrow {
+		//	mult(MatrixType.orthographic(left, right, bottom, top, near, far));
+		//}
 		///
 		void lookAt(Vector!(T, 3) eye, Vector!(T, 3) target, Vector!(T, 3) up) pure nothrow {
 			mult(MatrixType.lookAt(eye, target, up));
