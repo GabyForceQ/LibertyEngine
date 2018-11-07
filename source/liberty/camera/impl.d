@@ -34,6 +34,8 @@ final class Camera : SceneNode {
     immutable float DEFAULT_SPEED = 3.0f;
     immutable float DEFAULT_SENSITIVITY = 0.1f;
     immutable float DEFAULT_FOV = 45.0f;
+    immutable float DEFAULT_ZNEAR = 0.01f;
+    immutable float DEFAULT_ZFAR = 1000.0f;
 
     // getFrontVector
     Vector3F frontVector = Vector3F.forward;
@@ -54,6 +56,10 @@ final class Camera : SceneNode {
     float mouseSensitivity = DEFAULT_SENSITIVITY;
     // setFieldOfView, setDefaultFieldOfView, getFieldOfView
     float fieldOfView = DEFAULT_FOV;
+    // setZNear, setDefaultZNear, getZNear
+    float zNear = DEFAULT_ZNEAR;
+    // setZFar, setDefaultZFar, getZFar
+    float zFar = DEFAULT_ZFAR;
 
     // setMouseMoveLocked, isMouseMoveLocked
     bool mouseMoveLocked;
@@ -151,8 +157,8 @@ final class Camera : SceneNode {
       fieldOfView.radians,
       cast(float)Platform.getWindow().getFrameBufferWidth(),
       cast(float)Platform.getWindow().getFrameBufferHeight(),
-      0.01f, // TODO: zNear
-      1000.0f // TODO: zFar
+      zNear,
+      zFar
     );
   }
 
@@ -203,7 +209,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera yaw to the default value which is (D DEFAULT_YAW).
+   * Set camera yaw to default value (D DEFAULT_YAW).
    * Returns reference to this and can be used in a stream.
   **/
   Camera setDefaultYaw() pure nothrow {
@@ -240,7 +246,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera pitch to the default value which is (D DEFAULT_PITCH).
+   * Set camera pitch to default value (D DEFAULT_PITCH).
    * Returns reference to this and can be used in a stream.
   **/
   Camera setDefaultPitch() pure nothrow {
@@ -324,6 +330,74 @@ final class Camera : SceneNode {
     return fieldOfView;
   }
 
+  /**
+   * Set camera zNear a template stream function.
+   * Assign a value to camera zNear using camera.setZNear(value) or camera.setZNear!"="(value).
+   * Increment camera zNear by value using camera.setZNear!"+="(value).
+   * Decrement camera zNear by value using camera.setZNear!"-="(value).
+   * Multiply camera zNear by value using camera.setZNear!"*="(value).
+   * Divide camera zNear by value using camera.setZNear!"/="(value).
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setZNear(string op = "=")(float value) pure nothrow
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
+  do {
+    mixin ("zNear " ~ op ~ " value;");
+    checkZNearLimits();
+    return this;
+  }
+
+  /**
+   * Set camera zNear to default value (D DEFAULT_ZNEAR).
+   * ZNear takes value in range [0.001f, 10_000.0f].
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setDefaultZNear() pure nothrow {
+    zNear = DEFAULT_ZNEAR;
+    return this;
+  }
+
+  /**
+   * Returns camera zNear.
+  **/
+  float getZNear() pure nothrow const {
+    return zNear;
+  }
+
+  /**
+   * Set camera zFar a template stream function.
+   * Assign a value to camera zFar using camera.setZFar(value) or camera.setZFar!"="(value).
+   * Increment camera zFar by value using camera.setZFar!"+="(value).
+   * Decrement camera zFar by value using camera.setZFar!"-="(value).
+   * Multiply camera zFar by value using camera.setZFar!"*="(value).
+   * Divide camera zFar by value using camera.setZFar!"/="(value).
+   * ZFar takes value in range [0.001f, 10_000.0f].
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setZFar(string op = "=")(float value) pure nothrow
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
+  do {
+    mixin ("zFar " ~ op ~ " value;");
+    checkZFarLimits();
+    return this;
+  }
+
+  /**
+   * Set camera zFar to default value (D DEFAULT_ZFAR).
+   * Returns reference to this and can be used in a stream.
+  **/
+  Camera setDefaultZFar() pure nothrow {
+    zFar = DEFAULT_ZFAR;
+    return this;
+  }
+
+  /**
+   * Returns camera zFar.
+  **/
+  float getZFar() pure nothrow const {
+    return zFar;
+  }
+  
   /**
    * Set if mouse move listener should be locked or not.
    * Returns reference to this and can be used in a stream.
@@ -414,6 +488,7 @@ final class Camera : SceneNode {
     return this;
   }
 
+  pragma (inline, true)
   private void updateCameraVectors() {
     Vector3F front;
     front.x = cos(radians(yaw)) * cos(radians(pitch));
@@ -425,6 +500,7 @@ final class Camera : SceneNode {
     upVector = cross(rightVector, frontVector).normalized();
   }
 
+  pragma (inline, true)
   private void checkPitchLimits() {
     if (constrainPitch) {
       if (pitch > 89.0f)
@@ -432,5 +508,21 @@ final class Camera : SceneNode {
       if (pitch < -89.0f)
         pitch = -89.0f;
     }
+  }
+
+  pragma (inline, true)
+  private void checkZNearLimits() {
+    if (zNear < 0.001f)
+      zNear = 0.001f;
+    if (zNear > 10_000.0f)
+      zNear = 10_000.0f;
+  }
+
+  pragma (inline, true)
+  private void checkZFarLimits() {
+    if (zFar < 0.001f)
+      zFar = 0.0001f;
+    if (zFar > 10_000.0f)
+      zFar = 10_000.0f;
   }
 }
