@@ -160,4 +160,11 @@ final class Window {
 	bool isFullscreen() pure nothrow const {
 		return fullscreen;
 	}
+
+  /**
+   *
+  **/
+  bool shouldClose() {
+    return cast(bool)glfwWindowShouldClose(handle);
+  }
 }

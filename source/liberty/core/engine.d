@@ -129,7 +129,7 @@ final class CoreEngine {
 			CoreEngine.getScene().render();
 			glfwSwapBuffers(Platform.getWindow().getHandle());
 
-			if (Input.isKeyDown(KeyCode.ESC))
+			if (Platform.getWindow().shouldClose())
 				changeState(EngineState.ShouldQuit);
 
       Event.updateLastMousePosition();
