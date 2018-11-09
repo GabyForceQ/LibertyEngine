@@ -25,6 +25,7 @@ import liberty.graphics.texture.cache;
 import liberty.graphics.texture.impl;
 import liberty.graphics.util;
 import liberty.surface.vertex;
+import liberty.font.loader;
 
 /**
  * The resource manager class provides static functions that gives you the possibility
@@ -145,6 +146,28 @@ final class ResourceManager {
       default:
         Logger.error(	
           "File format not supported for mesh data: " ~ extension,	
+          typeof(this).stringof	
+        );
+    }
+
+    assert(0, "Unreachable");
+  }
+
+  /**
+   *
+  **/
+  static void loadFont(string path) {
+    import std.array : split;
+
+    // Check extension
+    string[] splitArray = path.split(".");	
+    immutable extension = splitArray[$ - 1];
+    switch (extension) {
+      case "fnt":
+        return FontLoader.loadFNTFile(path);
+      default:
+        Logger.error(	
+          "File format not supported for font data: " ~ extension,	
           typeof(this).stringof	
         );
     }
