@@ -21,7 +21,7 @@ final class SkyboxTexture {
   /**
    *
   **/
-  this(in byte[] buffer, int width, int height) {
+  this(byte[] buffer, int width, int height) {
     this.buffer = buffer;
     this.width = width;
     this.height = height;
@@ -44,7 +44,7 @@ final class SkyboxTexture {
   /**
    *
   **/
-  byte[] getBuffer() pure nothrow const {
+  byte[] getBuffer() pure nothrow {
     return buffer;
   }
 
