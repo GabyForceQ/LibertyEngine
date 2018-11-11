@@ -9,7 +9,9 @@
 module liberty.image;
 
 public {
-  import liberty.image.bitmap;
-  import liberty.image.loader;
+  import liberty.image.format;
+
+  import liberty.image.impl;
+  import liberty.image.io;
   import liberty.image.manager;
 }

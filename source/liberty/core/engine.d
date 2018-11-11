@@ -45,7 +45,6 @@ final class CoreEngine {
 		changeState(EngineState.Starting);
 
 		// Initialize other classes    
-		ImageManager.initialize();
 		ResourceManager.initialize();
 		GfxEngine.initialize();
 		Platform.initialize();

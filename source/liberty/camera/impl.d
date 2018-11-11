@@ -31,7 +31,7 @@ final class Camera : SceneNode {
   package {
     static immutable float DEFAULT_YAW = -90.0f;
     static immutable float DEFAULT_PITCH = -30.0f;
-    static immutable float DEFAULT_SPEED = 3.0f;
+    static immutable float DEFAULT_SPEED = 30.0f;
     static immutable float DEFAULT_SENSITIVITY = 0.1f;
     static immutable float DEFAULT_FOV = 45.0f;
     static immutable float DEFAULT_ZNEAR = 0.01f;

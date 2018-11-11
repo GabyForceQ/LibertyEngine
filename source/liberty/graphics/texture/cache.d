@@ -8,8 +8,8 @@
 **/
 module liberty.graphics.texture.cache;
 
-import liberty.image.loader : ImageLoader;
-import liberty.graphics.texture.impl : Texture;
+import liberty.image.io;
+import liberty.graphics.texture.impl;
 
 /**
  *
@@ -26,7 +26,7 @@ class TextureCache {
     // Check if texture is in the map
     // If it's not then load a new one and return it
     if (path !in _textureMap) {
-      Texture tex = ImageLoader.loadBMP(path);
+      Texture tex = ImageIO.loadBMPAsTexture(path);
       _textureMap[path] = tex;
       return tex;
     }

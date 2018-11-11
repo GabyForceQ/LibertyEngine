@@ -5,10 +5,10 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/terrain/impl.d)
  * Documentation:
  * Coverage:
+ * TODO:
+ *  - use resource manager to load png within a texture
 **/
 module liberty.terrain.impl;
-
-import liberty.image.bitmap : Bitmap;
 
 import liberty.math.functions;
 import liberty.math.vector;
@@ -20,6 +20,8 @@ import liberty.graphics.renderer;
 import liberty.graphics.material;
 import liberty.scene.node;
 import liberty.services;
+
+import liberty.image;
 
 /**
  *
@@ -160,7 +162,7 @@ final class Terrain : SceneNode, IRenderable {
 
   private void generateTerrain(string heightMapPath) {
     // Load height map form file
-    auto image = new Bitmap(heightMapPath);
+    auto image = cast(BMPImage)ResourceManager.loadImage(heightMapPath);
 
     int vertexCount = image.getHeight();
     int count = vertexCount * vertexCount;
@@ -209,11 +211,11 @@ final class Terrain : SceneNode, IRenderable {
     renderer.getModel().build(vertices, indices);
   }
 
-  private float getHeight(int x, int y, Bitmap image) {
+  private float getHeight(int x, int y, BMPImage image) {
     if (x < 0 || x >= image.getHeight() || y < 0 || y >= image.getHeight())
       return 0;
 
-    float height = image.getRGB(x, y);
+    float height = image.getRGBPixelColor(x, y);
     height += maxPixelColor / 2.0f;
     height /= maxPixelColor / 2.0f;
     height *= maxHeight;
@@ -223,7 +225,7 @@ final class Terrain : SceneNode, IRenderable {
     return height;
   }
 
-  private Vector3F computeNormal(int x, int y, Bitmap image) {
+  private Vector3F computeNormal(int x, int y, BMPImage image) {
     float heightL = getHeight(x - 1, y, image);
     float heightR = getHeight(x + 1, y, image);
     float heightD = getHeight(x, y - 1, image);

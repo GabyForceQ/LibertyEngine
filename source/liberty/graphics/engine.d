@@ -11,8 +11,6 @@ module liberty.graphics.engine;
 version (__OPENGL__)
   import bindbc.opengl;
 
-import derelict.util.exception : ShouldThrow;
-
 import liberty.math.vector : Vector3F;
 import liberty.core.engine : CoreEngine;
 import liberty.logger : Logger, InfoMessage;

@@ -48,7 +48,7 @@ final class Material {
    *
   **/
   static void initializeMaterials() {
-    defaultMaterial = new Material("res/textures/default.bmp");
+    defaultMaterial = new Material("res/textures/default2.bmp");
   }
 
   /**
