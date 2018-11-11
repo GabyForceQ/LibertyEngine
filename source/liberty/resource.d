@@ -17,7 +17,7 @@ version (__OPENGL__)
 import liberty.logger.impl;
 import liberty.primitive.model;
 import liberty.model;
-import liberty.model.loader;
+import liberty.model.io;
 import liberty.graphics.array;
 import liberty.graphics.buffer.constants;
 import liberty.graphics.buffer.impl;
@@ -25,7 +25,7 @@ import liberty.graphics.texture.cache;
 import liberty.graphics.texture.impl;
 import liberty.graphics.util;
 import liberty.surface.vertex;
-import liberty.font.loader;
+import liberty.font.io;
 import liberty.image.io;
 import liberty.image.impl;
 
@@ -144,7 +144,7 @@ final class ResourceManager {
     immutable extension = splitArray[$ - 1];
     switch (extension) {
       case "obj":
-        return ModelLoader.loadOBJFile(path);
+        return ModelIO.loadOBJFile(path);
       default:
         Logger.error(	
           "File format not supported for mesh data: " ~ extension,	
@@ -190,7 +190,7 @@ final class ResourceManager {
     immutable extension = splitArray[$ - 1];
     switch (extension) {
       case "fnt":
-        return FontLoader.loadFNTFile(path);
+        return FontIO.loadFNTFile(path);
       default:
         Logger.error(	
           "File format not supported for font data: " ~ extension,	

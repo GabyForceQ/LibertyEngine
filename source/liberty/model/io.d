@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/model/loader.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/model/io.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.model.loader;
+module liberty.model.io;
 
 import std.array : split;
 import std.conv : to;
@@ -21,7 +21,7 @@ import liberty.primitive.vertex;
 import liberty.graphics.material.impl;
 
 
-package(liberty) class ModelLoader {
+package(liberty) class ModelIO {
   @disable this();
 
   static PrimitiveModel loadOBJFile(string path) {

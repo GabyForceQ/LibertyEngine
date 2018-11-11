@@ -10,5 +10,5 @@ module liberty.model;
 
 public {
   import liberty.model.impl;
-  import liberty.model.loader;
+  import liberty.model.io;
 }

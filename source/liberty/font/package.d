@@ -12,8 +12,8 @@ public {
   import liberty.font.character;
   import liberty.font.file;
   import liberty.font.impl;
+  import liberty.font.io;
   import liberty.font.line;
-  import liberty.font.loader;
   import liberty.font.renderer;
   import liberty.font.shader;
   import liberty.font.word;
