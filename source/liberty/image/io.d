@@ -11,10 +11,6 @@
 **/
 module liberty.image.io;
 
-//
-version (__OPENGL__)
-  import bindbc.opengl;
-
 import liberty.image.format;
 import liberty.image.impl;
 import liberty.io.manager;
@@ -26,6 +22,8 @@ import liberty.resource;
  * It's a manager class so it implements $(D ManagerBody).
 **/
 final class ImageIO {
+  @disable this();
+
   /**
    *
   **/
@@ -85,51 +83,6 @@ final class ImageIO {
     Logger.error("Previous TODO", typeof(this).stringof);
 
     return null;
-  }
-
-  /**
-   *
-  **/
-  static Texture loadBMPAsTexture(string resourcePath) {
-    // Check if service is running
-    Texture texture = new Texture();
-
-    // Load texture form file
-    auto image = cast(BMPImage)ResourceManager.loadImage(resourcePath);
-
-    // Generate OpenGL texture
-    texture.generateTextures();
-
-    version (__OPENGL__) {
-      texture.bind();
-
-      glTexImage2D(
-        GL_TEXTURE_2D, 
-        0, 
-        GL_RGBA,
-        image.getWidth(),
-        image.getHeight(),
-        0,
-        GL_BGRA,
-        GL_UNSIGNED_BYTE,
-        cast(ubyte*)image.getPixelData()
-      );
-
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-      
-      texture
-        .setLODBias(0.0f)
-        .generateMipmap()
-        .unbind();
-    }
-
-    // Set Texture width and height
-    texture.setExtent(image.getWidth(), image.getHeight());
-
-    return texture;
   }
 
   private static bool isBMPFormat(in char[2] bytes) nothrow {

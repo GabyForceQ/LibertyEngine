@@ -10,6 +10,8 @@ module liberty.graphics.texture.cache;
 
 import liberty.image.io;
 import liberty.graphics.texture.impl;
+import liberty.graphics.texture.io;
+import liberty.logger.impl;
 
 /**
  *
@@ -26,7 +28,24 @@ class TextureCache {
     // Check if texture is in the map
     // If it's not then load a new one and return it
     if (path !in _textureMap) {
-      Texture tex = ImageIO.loadBMPAsTexture(path);
+      import std.array : split;
+
+      Texture tex;
+
+      // Check extension
+      string[] splitArray = path.split(".");	
+      immutable extension = splitArray[$ - 1];
+      switch (extension) {
+        case "bmp":
+          tex = TextureIO.loadBMP(path);
+          break;
+        default:
+          Logger.error(	
+            "File format not supported for texture data: " ~ extension,	
+            typeof(this).stringof	
+          );
+      }
+
       _textureMap[path] = tex;
       return tex;
     }

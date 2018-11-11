@@ -12,8 +12,6 @@ import liberty.terrain.impl;
 import liberty.light.point;
 import liberty.graphics.material.impl;
 
-import liberty.logger;
-
 /**
  *
 **/
