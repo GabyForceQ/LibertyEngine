@@ -14,6 +14,26 @@ There are so many features to come.
 ##### Graphics APIs supported (tested):
 * OpenGL 4.5 (450 core) - Windows
 
+##### Release notes (v0.0.16)
+- [x] BMP Decoder feature. Freeimage is not needed any more. (#46)
+- [x] Close OS window when press x top-right button. (#42)
+- [x] Properties zNear and zFar were added to camera. (#41)
+- [x] Transform improvements and fixes. (#38)
+- [ ] Support for joystick was added. (#44)
+- [ ] Experimental particle effects. (#45)
+- [ ] Incorrect texture uvs on bsp volumes was fixed. (#43)
+- [ ] Now, you can rotate object on multiple axis the same time. (#40)
+- [ ] Font manager was added. (#39)
+- [ ] Method spawnOnce can now capture a method to initialize node in use. (#37)
+- [ ] Day/night cycle feature. (#33)
+- [ ] Skybox was added. (#30)
+- [ ] Scene serializer/deserializer was added. (#12)
+- [ ] Now, you can switch between perspective and orthographic cameras. (#9)
+- [ ] Math has a new implementation. (#10)
+- [ ] Now, you can load .obj models without any crashes. (#16)
+- [ ] Crash during spawn calls is gone. (#27)
+- Other bug fixes, documentation improvements and more unittests.
+
 ##### Cool features:
 * Tree-based scene (every node is created and registered to the engine with "spawn" 
 or "spawnOnce" templates, "new" is never used in this case).
