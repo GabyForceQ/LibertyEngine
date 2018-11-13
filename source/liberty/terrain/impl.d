@@ -32,7 +32,9 @@ final class Terrain : SceneNode, IRenderable {
   private {
     const float maxPixelColor = 256 ^^ 3;
 
+    // getSize
     float size;
+    // getMaxHeight
     float maxHeight = 0;
     float[256][256] heights; // ????
     
@@ -250,5 +252,19 @@ final class Terrain : SceneNode, IRenderable {
   **/
   Renderer!TerrainVertex getRenderer() {
     return renderer;
+  }
+
+  /**
+   *
+  **/
+  float getSize() pure nothrow const {
+    return size;
+  }
+
+  /**
+   *
+  **/
+  float getMaxHeight() pure nothrow const {
+    return maxHeight;
   }
 }

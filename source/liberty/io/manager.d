@@ -24,7 +24,7 @@ final class IOManager {
   static bool readFileToBuffer(string filePath, ref char[] buffer, string mode = "r") {
     // Try to open and read file
     auto file = File(filePath, mode);
-    scope (success) file.close();
+    scope (exit) file.close();
 
     // Check file loaded successfully
     if (file.error()) {

@@ -47,6 +47,7 @@ class TextureCache {
       }
 
       _textureMap[path] = tex;
+      tex.setRealtivePath(path);
       return tex;
     }
 

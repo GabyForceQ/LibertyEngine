@@ -27,7 +27,7 @@ There are so many features to come.
 - [ ] Method spawnOnce can now capture a method to initialize node in use. (#37)
 - [ ] Day/night cycle feature. (#33)
 - [ ] Skybox was added. (#30)
-- [ ] Scene serializer/deserializer was added. (#12)
+- [x] Basic scene serializer/deserializer was implemented. (#12)
 - [ ] Now, you can switch between perspective and orthographic cameras. (#9)
 - [ ] Math has a new implementation. (#10)
 - [ ] Now, you can load .obj models without any crashes. (#16)

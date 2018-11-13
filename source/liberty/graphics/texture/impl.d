@@ -176,4 +176,8 @@ final class Texture {
   float getLODBias() pure nothrow const {
     return lodBias;
   }
+
+  package void setRealtivePath(string path) pure nothrow {
+    this.path = path;
+  }
 }
