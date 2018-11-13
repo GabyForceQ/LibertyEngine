@@ -16,9 +16,7 @@ import liberty.graphics.shader;
 **/
 class SkyboxShader : Shader {
   private {
-    static immutable SKYBOX_VERTEX = q{
-      #version 450 core
-
+    static immutable SKYBOX_VERTEX = SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
 
       out vec3 tTexCoord;
@@ -33,9 +31,7 @@ class SkyboxShader : Shader {
       }
     };
 
-    static immutable SKYBOX_FRAGMENT = q{
-      #version 450 core
-
+    static immutable SKYBOX_FRAGMENT = SHADER_CORE_VERSION ~ q{
       in vec2 tTexCoord;
       
       uniform sampler2D uCubeMap;

@@ -16,9 +16,7 @@ import liberty.graphics.shader;
 **/
 class SurfaceShader : Shader {
   private {
-    static immutable UI_VERTEX = q{
-      #version 450 core
-
+    static immutable UI_VERTEX = SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec2 lTexCoord;
 
@@ -34,9 +32,7 @@ class SurfaceShader : Shader {
       }
     };
 
-    static immutable UI_FRAGMENT = q{
-      #version 450 core
-
+    static immutable UI_FRAGMENT = SHADER_CORE_VERSION ~ q{
       in vec2 tTexCoord;
       
       uniform sampler2D uTexture;

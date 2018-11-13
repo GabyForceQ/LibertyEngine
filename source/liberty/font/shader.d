@@ -16,9 +16,7 @@ import liberty.graphics.shader;
 **/
 class FontShader : Shader {
   private {
-    static immutable FONT_VERTEX = q{
-      #version 450 core
-
+    static immutable FONT_VERTEX = SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec2 lTexCoord;
 
@@ -33,9 +31,7 @@ class FontShader : Shader {
       }
     };
 
-    static immutable FONT_FRAGMENT = q{
-      #version 450 core
-
+    static immutable FONT_FRAGMENT = SHADER_CORE_VERSION ~ q{
       out vec2 tTexCoord;
 
       uniform vec3 uColor;

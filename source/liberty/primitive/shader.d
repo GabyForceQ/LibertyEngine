@@ -19,9 +19,7 @@ import liberty.graphics.shader;
 **/
 class PrimitiveShader : Shader {
   private {
-    static immutable GENERIC_VERTEX = q{
-      #version 450 core
-
+    static immutable GENERIC_VERTEX = SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec3 lNormal;
       layout (location = 2) in vec2 lTexCoord;
@@ -67,9 +65,7 @@ class PrimitiveShader : Shader {
       }
     };
 
-    static immutable GENERIC_FRAGMENT = q{
-      #version 450 core
-
+    static immutable GENERIC_FRAGMENT = SHADER_CORE_VERSION ~ q{
       in vec3 tNormal;
       in vec2 tTexCoord;
       in vec3 tToLightVector[4];

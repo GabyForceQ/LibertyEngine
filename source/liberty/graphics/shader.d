@@ -16,6 +16,13 @@ import liberty.logger : Logger;
 import liberty.math.vector : Vector2F, Vector3F, Vector4F;
 import liberty.math.matrix : Matrix4F;
 
+version (Windows)
+  enum SHADER_CORE_VERSION = "#version 450 core\n";
+else version (linux)
+  enum SHADER_CORE_VERSION = "#version 330 core\n";
+else
+  static assert (0, "Shader core not supported on this platform.");
+
 /**
  *
 **/
