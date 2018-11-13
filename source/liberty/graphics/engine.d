@@ -165,23 +165,24 @@ class GfxEngine {
     return false;
   }
 
-  debug static void runtimeCheck() {
+  debug static void runtimeCheckErr() {
     version (__OPENGL__) {
-      GLint er = glGetError();
+      immutable GLint er = glGetError();
       if (er != GL_NO_ERROR) {
         string getErrorString = getErrorString(er);
         flushErrors();
-        //Logger.error(getErrorString, typeof(this).stringof);
-        Logger.warning(getErrorString, typeof(this).stringof);
+        Logger.error(getErrorString, typeof(this).stringof);
       }
     }
   }
 
-  debug static bool runtimeCheckNothrow() nothrow {
+  debug static bool runtimeCheckWarn() {
     version (__OPENGL__) {
-      immutable GLint r = glGetError();
-      if (r != GL_NO_ERROR) {
+      immutable GLint er = glGetError();
+      if (er != GL_NO_ERROR) {
+        string getErrorString = getErrorString(er);
         flushErrors();
+        Logger.warning(getErrorString, typeof(this).stringof);
         return false;
       }
       return true;
@@ -198,7 +199,7 @@ class GfxEngine {
     else
       const(char)* sZ = "";
     
-    debug runtimeCheck();
+    debug runtimeCheckErr();
     
     if (sZ is null)
       return "(unknown)";
@@ -214,7 +215,7 @@ class GfxEngine {
     else
       const(char)* sZ = "";
     
-    debug runtimeCheck();
+    debug runtimeCheckErr();
     
     if (sZ is null)
       return "(unknown)";
@@ -279,7 +280,7 @@ class GfxEngine {
     version (__OPENGL__) {
       GLint param;
       glGetIntegerv(pname, &param);
-      debug runtimeCheck();
+      debug runtimeCheckErr();
       return param;
     }
     else
@@ -290,7 +291,7 @@ class GfxEngine {
     version (__OPENGL__) {
       GLfloat res;
       glGetFloatv(pname, &res);
-      debug runtimeCheck();
+      debug runtimeCheckErr();
       return res;
     }
     else
@@ -305,7 +306,7 @@ class GfxEngine {
     version (__OPENGL__)
       glActiveTexture(GL_TEXTURE0 + texture_id);
     
-    debug runtimeCheck();
+    debug runtimeCheckErr();
   }
 
   private static string getErrorString(int er) nothrow {

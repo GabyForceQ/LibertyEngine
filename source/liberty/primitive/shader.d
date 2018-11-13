@@ -244,7 +244,7 @@ class PrimitiveShader : Shader {
    *
   **/
   PrimitiveShader loadUseFakeLighting(bool value) {
-    loadUniform("uUseFakeLighting", value);
+    loadUniform("uUseFakeLighting", cast(float)value);
     return this;
   }
 

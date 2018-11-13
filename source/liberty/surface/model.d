@@ -67,16 +67,18 @@ final class SurfaceModel : Model {
    *
   **/
   void draw() {
+    if (shouldCull)
+      GfxEngine.enableCulling();
+    
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
     }
-
-    if (shouldCull)
-      GfxEngine.enableCulling();
     
-    GfxEngine.enableAlphaBlend();
+    //GfxEngine.enableAlphaBlend();
     //GfxEngine.disableDepthTest();
+    //GfxEngine.enableDepthTest();
+    //GfxEngine.disableBlend();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
@@ -96,12 +98,9 @@ final class SurfaceModel : Model {
     }
 
     version (__OPENGL__) {
-      glActiveTexture(0);
+      glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, 0);
     }
-
-    //GfxEngine.enableDepthTest();
-    GfxEngine.disableBlend();
 
     if (shouldCull)
       GfxEngine.disableCulling();

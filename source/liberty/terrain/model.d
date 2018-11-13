@@ -94,20 +94,20 @@ final class TerrainModel : Model {
     }
 
     version (__OPENGL__) {
-      glActiveTexture(0);
+      glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, 0);
 
-      glActiveTexture(1);
-      glBindTexture(GL_TEXTURE_2D, 1);
+      glActiveTexture(GL_TEXTURE1);
+      glBindTexture(GL_TEXTURE_2D, 0);
 
-      glActiveTexture(2);
-      glBindTexture(GL_TEXTURE_2D, 2);
+      glActiveTexture(GL_TEXTURE2);
+      glBindTexture(GL_TEXTURE_2D, 0);
 
-      glActiveTexture(3);
-      glBindTexture(GL_TEXTURE_2D, 3);
+      glActiveTexture(GL_TEXTURE3);
+      glBindTexture(GL_TEXTURE_2D, 0);
 
-      glActiveTexture(4);
-      glBindTexture(GL_TEXTURE_2D, 4);
+      glActiveTexture(GL_TEXTURE4);
+      glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     if (shouldCull)

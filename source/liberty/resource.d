@@ -63,7 +63,7 @@ final class ResourceManager {
    * Returns newly created raw model.
   **/
   static RawModel loadRawModel(VERTEX)(VERTEX[] data) {
-    // Create vertex array object for the model
+    // Create vertex array object for the model    
     GfxArray vao = GfxUtil.createArray();
     vaos ~= vao.getHandle();
 

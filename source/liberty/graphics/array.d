@@ -28,7 +28,8 @@ final class GfxArray {
     version (__OPENGL__)
       glGenVertexArrays(1, &handle);
     
-    debug GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheckErr();
+    
     if (shouldBind)
       bind();
   }
@@ -40,7 +41,7 @@ final class GfxArray {
     version (__OPENGL__)
       glBindVertexArray(handle);
     
-    debug GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheckErr();
   }
 
   /**
@@ -50,7 +51,7 @@ final class GfxArray {
     version (__OPENGL__)
       glBindVertexArray(0);
     
-    debug GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheckErr();
   }
 
   /**

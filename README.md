@@ -31,7 +31,7 @@ There are so many features to come.
 - [ ] Now, you can switch between perspective and orthographic cameras. (#9)
 - [ ] Math has a new implementation. (#10)
 - [ ] Now, you can load .obj models without any crashes. (#16)
-- [ ] Crash during spawn calls is gone. (#27)
+- [x] No more opengl errors for now. (#27)
 - Other bug fixes, documentation improvements and more unittests.
 
 ##### Cool features:

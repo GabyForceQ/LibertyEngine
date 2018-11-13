@@ -78,7 +78,7 @@ final class PrimitiveModel : Model {
     }
 
     //if (hasTransparency)
-    //  GfxEngine.disableCulling();
+    //  GfxEngine.();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
@@ -100,12 +100,12 @@ final class PrimitiveModel : Model {
     }
 
     version (__OPENGL__) {
-      glActiveTexture(0);
+      glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     //if (!hasTransparency)
-    //  GfxEngine.disableCulling();
+    //  GfxEngine.();
 
     if (shouldCull)
       GfxEngine.disableCulling();

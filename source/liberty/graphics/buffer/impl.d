@@ -36,7 +36,7 @@ final class GfxBuffer {
     version (__OPENGL__)
       glGenBuffers(1, &buffer);
     
-    debug GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheckErr();
   }
 
   /**
@@ -78,7 +78,7 @@ final class GfxBuffer {
       }
     }
     
-    debug GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheckErr();
     firstLoad = false;
   }
 
@@ -91,7 +91,7 @@ final class GfxBuffer {
     version (__OPENGL__)
       glBufferSubData(target, offset, size, data);
     
-    debug GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheckErr();
   }
 
   /**
@@ -103,7 +103,7 @@ final class GfxBuffer {
     version (__OPENGL__)
       glGetBufferSubData(target, offset, size, data);
     
-    debug GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheckErr();
   }
 
   /**
@@ -122,7 +122,7 @@ final class GfxBuffer {
     version (__OPENGL__)
       glBindBuffer(target, buffer);
    
-    debug GfxEngine.runtimeCheck();
+    debug GfxEngine.runtimeCheckErr();
   }
 
   /**

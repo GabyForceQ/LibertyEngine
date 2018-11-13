@@ -166,13 +166,14 @@ abstract class SceneNode : IStartable, IUpdatable {
   ref T spawn(T : SceneNode)(ref T node, string id, bool start = true) {
 		node = new T(id, this);
 		insert(node);
-		static if (is(T == Camera)) {
+
+		static if (is(T == Camera))
 			this.scene.registerCamera(node);
-		}
-		if (start) {
+		
+    if (start)
 			node.start();
-		}
-		return node;
+		
+    return node;
 	}
 
   /**
@@ -183,12 +184,13 @@ abstract class SceneNode : IStartable, IUpdatable {
   T spawn(T : SceneNode)(string id, bool start = true) {
 		T node = new T(id, this);
 		insert(node);
-		static if (is(T == Camera)) {
+		
+    static if (is(T == Camera))
 			this.scene.registerCamera(node);
-		}
-		if (start) {
+		
+    if (start)
 			node.start();
-		}
+
 		return node;
 	}
   
@@ -198,19 +200,21 @@ abstract class SceneNode : IStartable, IUpdatable {
 	 * Returns old/new node reference.
 	**/
   ref T spawnOnce(T : SceneNode)(ref T node, string id, bool start = true) {
-		if (id in _singletonList) {
+		if (id in _singletonList)
 			return cast(T)_singletonList[id];
-		}
+		
 		node = new T(id, this);
 		insert(node);
-		static if (is(T == Camera)) {
+		
+    static if (is(T == Camera))
 			this.scene.registerCamera(node);
-		}
+    
 		this.singletonList[id] = node;
-		if (start) {
+		
+    if (start)
 			node.start();
-		}
-		return node;
+		
+    return node;
 	}
 
   /**
@@ -218,7 +222,7 @@ abstract class SceneNode : IStartable, IUpdatable {
 	 * Second time you call this method for the same id, nothing happens.
 	 * Returns old/new node reference.
 	**/
-  T spawnOnce(T : SceneNode)(string id, bool start = true) {
+  T spawnOnce(T : SceneNode)(string id, bool start = true) {    
 		if (id in singletonList)
 			return cast(T)this.singletonList[id];
 
@@ -233,9 +237,8 @@ abstract class SceneNode : IStartable, IUpdatable {
 		if (start)
 			node.start();
 
-    static if (is(T : BSPVolume)) {
+    static if (is(T : BSPVolume))
       node.build();
-    }
 
 		return node;
 	}
