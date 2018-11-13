@@ -21,7 +21,7 @@ There are so many features to come.
 - [x] Transform improvements and fixes. (#38)
 - [ ] Support for joystick was added. (#44)
 - [ ] Experimental particle effects. (#45)
-- [ ] Incorrect texture uvs on bsp volumes was fixed. (#43)
+- [x] Incorrect texture uvs on bsp volumes was fixed. (#43)
 - [ ] Now, you can rotate object on multiple axis the same time. (#40)
 - [ ] Font manager was added. (#39)
 - [ ] Method spawnOnce can now capture a method to initialize node in use. (#37)
