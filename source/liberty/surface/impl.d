@@ -8,6 +8,9 @@
  */
 module liberty.surface.impl;
 
+import std.traits : EnumMembers;
+import std.typecons : Tuple;
+
 import liberty.math.matrix;
 import liberty.math.util;
 import liberty.scene.node;
@@ -15,6 +18,7 @@ import liberty.core.platform;
 import liberty.scene.impl;
 import liberty.surface.ui.widget;
 import liberty.services;
+import liberty.surface.ui.button;
 
 /**
  *
@@ -30,6 +34,8 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
 
     Matrix4F projectionMatrix = Matrix4F.identity();
     Widget[string] widgets;
+
+    void delegate(Widget, Event)[string] actionMap;
   }
 
   /**
@@ -107,5 +113,44 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   **/
   final Widget getWidget(string id) pure nothrow {
     return widgets[id];
+  }
+
+  /**
+   *
+  **/
+  final Surface addAction(string id, void delegate(Widget, Event) action,
+    Tuple!(Widget, Event)[] objEvList) pure nothrow
+  do {
+    actionMap[id] = action;
+    
+    foreach(e; objEvList)
+      SW: final switch (e[1]) with (Event) {
+        static foreach (member; EnumMembers!ButtonEvent)
+          mixin ("case " ~ member ~ ": (cast(Button)e[0]).setOn" ~ member ~ "(action); break SW;");
+      }
+    
+    return this;
+  }
+
+  /**
+   *
+  **/
+  final Surface removeAction(string id) pure nothrow {
+    actionMap.remove(id);
+    return this;
+  }
+
+  /**
+   *
+  **/
+  final void delegate(Widget, Event)[string] getActionMap() pure nothrow {
+    return actionMap;
+  }
+
+  /**
+   *
+  **/
+  final void delegate(Widget, Event) getAction(string name) pure nothrow {
+    return actionMap[name];
   }
 }

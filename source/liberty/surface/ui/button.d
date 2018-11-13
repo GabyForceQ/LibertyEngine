@@ -22,7 +22,7 @@ import liberty.input.constants;
 final class Button : Widget {
   private {
     static foreach (member; EnumMembers!ButtonEvent) {
-      mixin ("void delegate() on" ~ member ~ " = null;");
+      mixin ("void delegate(Widget, Event) on" ~ member ~ " = null;");
       
       static if (member != "Update")
         mixin ("bool isOn" ~ member ~ ";");
@@ -43,45 +43,45 @@ final class Button : Widget {
     clearAllBooleans();
 
     if (isMouseColliding()) {
-      if (hasOnMouseInside()) {
-        onMouseInside();
-        isOnMouseInside = true;
+      if (hasOnMouseOver()) {
+        onMouseOver(this, Event.MouseOver);
+        isOnMouseOver = true;
       }
 
       if (hasOnMouseMove())
         if (Input.isMouseMoving()) {
-          onMouseMove();
+          onMouseMove(this, Event.MouseMove);
           isOnMouseMove = true;
         }
 
       if (hasOnMouseLeftClick())
         if (Input.isMouseButtonDown(MouseButton.LEFT)) {
-          onMouseLeftClick();
+          onMouseLeftClick(this, Event.MouseLeftClick);
           isOnMouseLeftClick = true;
         }
 
       if (hasOnMouseMiddleClick())
         if (Input.isMouseButtonDown(MouseButton.MIDDLE)) {
-          onMouseMiddleClick();
+          onMouseMiddleClick(this, Event.MouseMiddleClick);
           isOnMouseMiddleClick = true;
         }
 
       if (hasOnMouseRightClick())
         if (Input.isMouseButtonDown(MouseButton.RIGHT)) {
-          onMouseRightClick();
+          onMouseRightClick(this, Event.MouseRightClick);
           isOnMouseRightClick = true;
         }
     }
 
     if (onUpdate !is null)
-      onUpdate();
+      onUpdate(this, Event.Update);
   }
 
   static foreach (member; EnumMembers!ButtonEvent) {
     /**
      *
     **/
-    mixin ("Button setOn" ~ member ~ "(void delegate() on" ~ member ~ ") pure nothrow {" ~
+    mixin ("Button setOn" ~ member ~ "(void delegate(Widget, Event) on" ~ member ~ ") pure nothrow {" ~
       "this.on" ~ member ~ " = on" ~ member ~ "; return this; }");
 
     static if (member != "Update")
@@ -91,7 +91,7 @@ final class Button : Widget {
       mixin ("bool hasOn" ~ member ~ "() pure nothrow const {" ~
         "return on" ~ member ~ " !is null; }");
   }
-
+  
   private void clearAllBooleans() {
     static foreach (member; EnumMembers!ButtonEvent)
       static if (member != "Update")
@@ -127,7 +127,7 @@ enum ButtonEvent : string {
   /**
    *
   **/
-  MouseInside = "MouseInside",
+  MouseOver = "MouseOver",
 
   /**
    *

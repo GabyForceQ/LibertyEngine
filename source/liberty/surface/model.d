@@ -75,10 +75,9 @@ final class SurfaceModel : Model {
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
     }
     
-    //GfxEngine.enableAlphaBlend();
+    GfxEngine.enableAlphaBlend();
     //GfxEngine.disableDepthTest();
     //GfxEngine.enableDepthTest();
-    //GfxEngine.disableBlend();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
@@ -101,6 +100,8 @@ final class SurfaceModel : Model {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, 0);
     }
+
+    GfxEngine.disableBlend();
 
     if (shouldCull)
       GfxEngine.disableCulling();

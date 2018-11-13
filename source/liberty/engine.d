@@ -37,4 +37,5 @@ public {
 	import std.conv : to;
 	import std.random : uniform;
   import std.algorithm : filter, map;
+  import std.typecons : tuple, Tuple;
 }

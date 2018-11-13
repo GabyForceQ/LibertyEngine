@@ -32,6 +32,7 @@ There are so many features to come.
 - [ ] Math has new implementation. (#10)
 - [ ] Now, you can load .obj models without any crashes. (#16)
 - [x] No more opengl errors for now. (#27)
+- [x] UI Signals are more general. (#47)
 - Other bug fixes, documentation improvements and more unittests.
 
 ##### Cool features:

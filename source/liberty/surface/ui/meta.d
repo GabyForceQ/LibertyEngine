@@ -13,6 +13,16 @@ import liberty.surface.ui.button;
 /**
  *
 **/
+struct Action {
+  /**
+   *
+  **/
+  string name;
+}
+
+/**
+ *
+**/
 struct Signal(WIDGET) {
   /**
    *
@@ -38,7 +48,11 @@ immutable ListenerBody = q{
     // Go through all members
     static foreach (member; __traits(derivedMembers, typeof(this)))
       // Go through all attributes of current member if exist
-      static foreach (i; 0..getUDAs!(__traits(getMember, typeof(this), member), Signal).length)
+      static foreach (i; 0..getUDAs!(__traits(getMember, typeof(this), member), Signal).length) {
+        // Check if it is a registered event
+        //static if (hasUDA!(__traits(getMember, typeof(this), member), Action))
+          
+
         // Check if it is a button event
         static if (hasUDA!(__traits(getMember, typeof(this), member), Signal!Button))
           // Go through all button events
@@ -48,5 +62,6 @@ immutable ListenerBody = q{
               // Register the event to the engine
               mixin ("(cast(Button)getWidget(getUDAs!(__traits(getMember, typeof(this), member), Signal!Button)[i].id))
                 .setOn" ~ j ~ "(&mixin (member));");
+      }
   }
 };

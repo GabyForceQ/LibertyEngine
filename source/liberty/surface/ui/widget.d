@@ -110,3 +110,38 @@ private SurfaceVertex[] uiSquareVertices = [
   SurfaceVertex(Vector3F( 1.0f, -1.0f, 0.0f), Vector2F(1.0f, 0.0f)),
   SurfaceVertex(Vector3F( 1.0f,  1.0f, 0.0f), Vector2F(1.0f, 1.0f))
 ];
+
+/**
+ *
+**/
+enum Event : string {
+  /**
+   *
+  **/
+  MouseLeftClick = "MouseLeftClick",
+
+  /**
+   *
+  **/
+  MouseMiddleClick = "MouseMiddleClick",
+
+  /**
+   *
+  **/
+  MouseRightClick = "MouseRightClick",
+
+  /**
+   *
+  **/
+  MouseOver = "MouseOver",
+
+  /**
+   *
+  **/
+  MouseMove = "MouseMove",
+
+  /**
+   *
+  **/
+  Update = "Update"
+}

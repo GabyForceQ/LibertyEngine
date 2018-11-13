@@ -10,10 +10,10 @@ module liberty.core.platform;
 
 import bindbc.glfw;
 
-import liberty.core.engine : CoreEngine;
-import liberty.input.event : Event;
-import liberty.logger : Logger, InfoMessage;
-import liberty.core.window : Window;
+import liberty.core.engine;
+import liberty.input.event;
+import liberty.logger;
+import liberty.core.window;
 
 /**
  * A platform represents the root system for window manager.
@@ -59,10 +59,10 @@ final class Platform {
       "Liberty Engine v0.0.16-alpha.dev"
     );
 
-    Event.initialize();
+    EventManager.initialize();
 
-    glfwSetCursorPosCallback(window.getHandle(), &Event.mouseCallback);
-		glfwSetScrollCallback(window.getHandle(), &Event.scrollCallback);
+    glfwSetCursorPosCallback(window.getHandle(), &EventManager.mouseCallback);
+		glfwSetScrollCallback(window.getHandle(), &EventManager.scrollCallback);
 
     Logger.info(InfoMessage.Created, typeof(this).stringof);
   }

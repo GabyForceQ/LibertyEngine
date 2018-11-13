@@ -130,7 +130,7 @@ final class CoreEngine {
 			if (Platform.getWindow().shouldClose())
 				changeState(EngineState.ShouldQuit);
 
-      Event.updateLastMousePosition();
+      EventManager.updateLastMousePosition();
 		}
 
     // Main loop ended so engine shutdowns

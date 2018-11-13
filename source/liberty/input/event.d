@@ -17,7 +17,7 @@ import liberty.input.impl : Input;
 import liberty.core.platform : Platform;
 import liberty.graphics.engine : GfxEngine;
 
-package(liberty) class Event {
+package(liberty) class EventManager {
   private {
     static bool firstMouse = true;
 	  static float lastX;

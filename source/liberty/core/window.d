@@ -10,9 +10,9 @@ module liberty.core.window;
 
 import bindbc.glfw;
 
-import liberty.core.engine : CoreEngine;
-import liberty.input.event : Event;
-import liberty.logger : Logger, InfoMessage;
+import liberty.core.engine;
+import liberty.input.event;
+import liberty.logger;
 
 /**
  * It represents an OS window.
@@ -45,7 +45,7 @@ final class Window {
     handle = glfwCreateWindow(width, height, cast(const(char)*)title, null, null);
 
 		resizeFrameBuffer();
-		glfwSetFramebufferSizeCallback(handle, &Event.frameBufferResizeCallback);
+		glfwSetFramebufferSizeCallback(handle, &EventManager.frameBufferResizeCallback);
 
 		// Create the current context
     glfwMakeContextCurrent(handle);
