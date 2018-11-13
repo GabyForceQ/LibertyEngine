@@ -9,5 +9,10 @@
 module liberty.physics;
 
 public {
+  import liberty.physics.primitive;
+
+  import liberty.physics.collider;
+  import liberty.physics.constants;
   import liberty.physics.engine;
+  import liberty.physics.rigidbody;
 }
