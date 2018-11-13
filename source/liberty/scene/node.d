@@ -163,15 +163,18 @@ abstract class SceneNode : IStartable, IUpdatable {
 	 * You can specify where to spawn. By default is set to scene tree.
 	 * Returns new nodes reference.
 	**/
-  ref T spawn(T : SceneNode)(ref T node, string id, bool start = true) {
+  ref T spawn(T : SceneNode, bool STRAT = true)(ref T node, string id, void delegate(T) initMethod = null) {
 		node = new T(id, this);
 		insert(node);
 
 		static if (is(T == Camera))
 			this.scene.registerCamera(node);
 		
-    if (start)
+    static if (STRAT)
 			node.start();
+
+    if (initMethod !is null)
+      initMethod(node);
 		
     return node;
 	}
@@ -181,15 +184,18 @@ abstract class SceneNode : IStartable, IUpdatable {
 	 * Second time you call this method for the same id, an assertion is produced.
 	 * Returns new node reference.
 	**/
-  T spawn(T : SceneNode)(string id, bool start = true) {
+  T spawn(T : SceneNode, bool STRAT = true)(string id, void delegate(T) initMethod = null) {
 		T node = new T(id, this);
 		insert(node);
 		
     static if (is(T == Camera))
 			this.scene.registerCamera(node);
 		
-    if (start)
+    static if (STRAT)
 			node.start();
+
+    if (initMethod !is null)
+      initMethod(node);
 
 		return node;
 	}
@@ -199,7 +205,7 @@ abstract class SceneNode : IStartable, IUpdatable {
 	 * Second time you call this method for the same id, nothing happens.
 	 * Returns old/new node reference.
 	**/
-  ref T spawnOnce(T : SceneNode)(ref T node, string id, bool start = true) {
+  ref T spawnOnce(T : SceneNode, bool STRAT = true)(ref T node, string id, void delegate(T) initMethod = null) {
 		if (id in _singletonList)
 			return cast(T)_singletonList[id];
 		
@@ -211,18 +217,21 @@ abstract class SceneNode : IStartable, IUpdatable {
     
 		this.singletonList[id] = node;
 		
-    if (start)
+    static if (STRAT)
 			node.start();
+
+    if (initMethod !is null)
+      initMethod(node);
 		
     return node;
 	}
 
   /**
-	 * Spawn an object using its ID only once.
+	 * Spawn an object using its ID.
 	 * Second time you call this method for the same id, nothing happens.
 	 * Returns old/new node reference.
 	**/
-  T spawnOnce(T : SceneNode)(string id, bool start = true) {    
+  T spawnOnce(T : SceneNode, bool STRAT = true)(string id, void delegate(T) initMethod = null) {    
 		if (id in singletonList)
 			return cast(T)this.singletonList[id];
 
@@ -234,11 +243,11 @@ abstract class SceneNode : IStartable, IUpdatable {
 
 		this.singletonList[id] = node;
 
-		if (start)
+		static if (STRAT)
 			node.start();
 
-    static if (is(T : BSPVolume))
-      node.build();
+    if (initMethod !is null)
+      initMethod(node);
 
 		return node;
 	}
