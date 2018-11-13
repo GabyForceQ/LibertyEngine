@@ -21,28 +21,55 @@ import liberty.graphics.constants : GfxVendor;
 /**
  *
 **/
-class GfxEngine {
+struct GfxEngineInfo {
+  /**
+   *
+  **/
+  string[] apiExtensions;
+
+  /**
+   *
+  **/
+  int apiMajorVersion;
+
+  /**
+   *
+  **/
+  int apiMinorVersion;
+
+  /**
+   *
+  **/
+  int apiMaxColorAttachments;
+}
+
+/**
+ *
+**/
+final class GfxEngine {
   private {
-    static string[] _extensions;
-    static int _majorVersion;
-    static int _minorVersion;
-    static int _maxColorAttachments;
+    static GfxEngineInfo info;
     static bool wireframe;
   }
 
   @disable this();
 
   /**
-   *
+   * Set wireframe mode.
+  **/
+  static void setWireframe(bool value = true) {
+    version (__OPENGL__)
+      glPolygonMode(GL_FRONT_AND_BACK, value ? GL_LINE : GL_FILL);
+
+    wireframe = value;
+  }
+
+  /**
+   * Switch between wireframe and non-wireframe mode.
   **/
   static void toggleWireframe() {
-    if (!wireframe) {
-      version (__OPENGL__)
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    } else {
-      version (__OPENGL__)
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    }
+    version (__OPENGL__)
+      glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_FILL : GL_LINE);
 
     wireframe = !wireframe;
   }
@@ -51,20 +78,18 @@ class GfxEngine {
    *
   **/
   static void initialize() {
-    Logger.info(InfoMessage.Creating, typeof(this).stringof);
-
-    Logger.info(InfoMessage.Created, typeof(this).stringof);
-  }
-
-  /**
-   *
-  **/
-  static void reloadFeatures() {
     Logger.info("Start realoading OpenGL", typeof(this).stringof);
 
     const res = loadOpenGL();
-    if (res == glSupport.gl45)
+    if (res == glSupport.gl45) {
       Logger.info("OpenGL 4.5 loaded", typeof(this).stringof);
+      info.apiMajorVersion = 4;
+      info.apiMinorVersion = 5;
+    } else if (res == glSupport.gl30) {
+      Logger.info("OpenGL 3.0 loaded", typeof(this).stringof);
+      info.apiMajorVersion = 3;
+      info.apiMinorVersion = 0;
+    }
     else
       Logger.error("No OpenGL library", typeof(this).stringof);
 
@@ -159,7 +184,7 @@ class GfxEngine {
   }
 
   static bool supportsExtension(string extension) nothrow {
-    foreach (el; _extensions)
+    foreach (el; info.apiExtensions)
       if (el == extension)
         return true;
     return false;
@@ -224,11 +249,11 @@ class GfxEngine {
   }
 
   static int getMajorVersion() nothrow {
-    return _majorVersion;
+    return info.apiMajorVersion;
   }
 
   static int getMinorVersion() nothrow {
-    return _minorVersion;
+    return info.apiMinorVersion;
   }
 
   static const(char)[] getVersionString() {
@@ -273,7 +298,7 @@ class GfxEngine {
   }
 
   static string[] getExtensions() nothrow {
-    return _extensions;
+    return info.apiExtensions;
   }
 
   static int getInt(uint pname) {
@@ -299,7 +324,7 @@ class GfxEngine {
   }
 
   static int getMaxColorAttachments() nothrow {
-    return _maxColorAttachments;
+    return info.apiMaxColorAttachments;
   }
 
   static void getActiveTexture(int texture_id) {
@@ -311,7 +336,7 @@ class GfxEngine {
 
   private static string getErrorString(int er) nothrow {
     version (__OPENGL__)
-      switch(er) {
+      switch (er) {
         case GL_NO_ERROR:
           return "GL_NO_ERROR";
         case GL_INVALID_ENUM:
@@ -331,12 +356,11 @@ class GfxEngine {
 
   private static void flushErrors() nothrow {
     int timeout;
-    while (++timeout <= 5) {
+    while (++timeout <= 5)
       version (__OPENGL__) {
         immutable GLint r = glGetError();
         if (r == GL_NO_ERROR)
           break;
       }
-    }
   }
 }

@@ -46,9 +46,8 @@ final class CoreEngine {
 
 		// Initialize other classes    
 		ResourceManager.initialize();
-		GfxEngine.initialize();
 		Platform.initialize();
-		GfxEngine.reloadFeatures();
+		GfxEngine.initialize();
     Material.initializeMaterials();
 		Input.initialize();
 

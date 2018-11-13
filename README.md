@@ -24,7 +24,7 @@ There are so many features to come.
 - [x] Incorrect texture uvs on bsp volumes was fixed. (#43)
 - [ ] Now, you can rotate object on multiple axis the same time. (#40)
 - [ ] Font manager was added. (#39)
-- [x] Spawn and spawnOnce methods can now capture a method to initialize node in use. (#37)
+- [x] Spawn and spawnOnce can capture lambda expression. (#37)
 - [ ] Day/night cycle feature. (#33)
 - [ ] Skybox was added. (#30)
 - [x] Basic scene serializer/deserializer was implemented. (#12)
