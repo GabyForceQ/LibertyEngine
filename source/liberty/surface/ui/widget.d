@@ -97,6 +97,13 @@ abstract class Widget : IRenderable, IUpdatable {
   override void update() {
     
   }
+
+  /**
+   *
+  **/
+  Widget asWidget() pure nothrow {
+    return this;
+  }
 }
 
 private uint[6] uiSquareIndices = [

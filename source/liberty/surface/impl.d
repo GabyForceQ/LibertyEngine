@@ -135,6 +135,14 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   /**
    *
   **/
+  final Surface launchAction(string id, Widget sender, Event event) {
+    actionMap[id](sender, event);
+    return this;
+  }
+
+  /**
+   *
+  **/
   final Surface removeAction(string id) pure nothrow {
     actionMap.remove(id);
     return this;
