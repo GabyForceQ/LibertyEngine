@@ -28,6 +28,7 @@ final class Input {
     static Vector2F mousePosition;
     static Vector2F previousMousePosition;
     static Vector2F lastMousePosition;
+    static CursorType cursorType;
     static MousePicker mousePicker;
   }
 
@@ -216,11 +217,20 @@ final class Input {
   }
 
   /**
-   * Set current cursor mode.
-   * Available options: $(D, CursorType).
+   * Set current cursor type.
+   * For available options see $(D CursorType).
   **/
-  static void setMode(CursorType cursorType, Window window = Platform.getWindow()) {
+  static void setCursorType(CursorType cursorType, Window window = Platform.getWindow()) {
     glfwSetInputMode(window.getHandle(), GLFW_CURSOR, cursorType);
+    this.cursorType = cursorType;
+  }
+
+  /**
+   * Returns the type of the cursor.
+   * For available returned values see $(D CursorType).
+  **/
+  static CursorType getCursorType() nothrow {
+    return cursorType;
   }
 
   /**

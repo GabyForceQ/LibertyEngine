@@ -42,38 +42,37 @@ final class Button : Widget {
   override void update() {
     clearAllBooleans();
 
-    
+    if (Input.getCursorType() != CursorType.DISABLED)
+      if (isMouseColliding()) {
+        if (hasOnMouseOver()) {
+          onMouseOver(this, Event.MouseOver);
+          isOnMouseOver = true;
+        }
 
-    if (isMouseColliding()) {
-      if (hasOnMouseOver()) {
-        onMouseOver(this, Event.MouseOver);
-        isOnMouseOver = true;
+        if (hasOnMouseMove())
+          if (Input.isMouseMoving()) {
+            onMouseMove(this, Event.MouseMove);
+            isOnMouseMove = true;
+          }
+
+        if (hasOnMouseLeftClick())
+          if (Input.isMouseButtonDown(MouseButton.LEFT)) {
+            onMouseLeftClick(this, Event.MouseLeftClick);
+            isOnMouseLeftClick = true;
+          }
+
+        if (hasOnMouseMiddleClick())
+          if (Input.isMouseButtonDown(MouseButton.MIDDLE)) {
+            onMouseMiddleClick(this, Event.MouseMiddleClick);
+            isOnMouseMiddleClick = true;
+          }
+
+        if (hasOnMouseRightClick())
+          if (Input.isMouseButtonDown(MouseButton.RIGHT)) {
+            onMouseRightClick(this, Event.MouseRightClick);
+            isOnMouseRightClick = true;
+          }
       }
-
-      if (hasOnMouseMove())
-        if (Input.isMouseMoving()) {
-          onMouseMove(this, Event.MouseMove);
-          isOnMouseMove = true;
-        }
-
-      if (hasOnMouseLeftClick())
-        if (Input.isMouseButtonDown(MouseButton.LEFT)) {
-          onMouseLeftClick(this, Event.MouseLeftClick);
-          isOnMouseLeftClick = true;
-        }
-
-      if (hasOnMouseMiddleClick())
-        if (Input.isMouseButtonDown(MouseButton.MIDDLE)) {
-          onMouseMiddleClick(this, Event.MouseMiddleClick);
-          isOnMouseMiddleClick = true;
-        }
-
-      if (hasOnMouseRightClick())
-        if (Input.isMouseButtonDown(MouseButton.RIGHT)) {
-          onMouseRightClick(this, Event.MouseRightClick);
-          isOnMouseRightClick = true;
-        }
-    }
 
     if (onUpdate !is null)
       onUpdate(this, Event.Update);
