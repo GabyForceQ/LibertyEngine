@@ -115,22 +115,27 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
     return widgets[id];
   }
 
+  import std.stdio;
+
   /**
    *
   **/
-  final Surface addAction(string id, void delegate(Widget, Event) action,
-    Tuple!(Widget, Event)[] objEvList) pure nothrow
-  do {
+  Surface addAction(string id, void delegate(Widget, Event) action, Tuple!(Widget, Event)[] objEvList)  {
     actionMap[id] = action;
     
-    foreach(e; objEvList)
-      SW: final switch (e[1]) with (Event) {
-        static foreach (member; EnumMembers!ButtonEvent)
-          mixin ("case " ~ member ~ ": (cast(Button)e[0]).setOn" ~ member ~ "(action); break SW;");
+    static foreach (s; ["Button"])
+      foreach(e; objEvList) {
+        if (mixin ("__traits(compiles, e[0].as" ~ s ~ ")"))
+          SW: final switch (e[1]) with (Event) {
+            static foreach (member; mixin ("EnumMembers!" ~ s ~ "Event"))
+              mixin ("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~ "(action); break SW;");
+          }
       }
     
     return this;
   }
+
+  
 
   /**
    *
@@ -162,3 +167,20 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
     return actionMap[name];
   }
 }
+
+/**
+else static if (is(OEL == Tuple!(Widget[], Event)[]))
+      foreach(e; objEvList)
+        SW: final switch (e[1]) with (Event) {
+          static foreach (member; EnumMembers!ButtonEvent)
+            mixin ("case " ~ member ~ ": (cast(Button)e[0]).setOn" ~ member ~ "(action); break SW;");
+        }
+    else static if (is(OEL == Tuple!(Widget[][], Event)[]))
+      foreach(e; objEvList)
+        SW: final switch (e[1]) with (Event) {
+          static foreach (member; EnumMembers!ButtonEvent)
+            mixin ("case " ~ member ~ ": foreach (i; e[0]) (cast(Button)i).setOn" ~ member ~ "(action); break SW;");
+        }
+    else
+      static assert (0, "Invalid tuple.");
+**/

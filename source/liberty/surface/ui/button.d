@@ -32,8 +32,8 @@ final class Button : Widget {
   /**
    *
   **/
-  this(string name, Surface surface) {
-    super(name, surface);
+  this(string id, Surface surface) {
+    super(id, surface);
   }
 
   /**

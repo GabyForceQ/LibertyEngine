@@ -55,7 +55,7 @@ final class TextureIO {
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
       
       texture
-        .setLODBias(0.0f)
+        .setLODBias(-0.4f)
         .generateMipmap()
         .unbind();
     }
