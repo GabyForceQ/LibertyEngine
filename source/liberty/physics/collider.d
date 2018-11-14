@@ -8,6 +8,9 @@
 **/
 module liberty.physics.collider;
 
+/**
+ *
+**/
 abstract class Collider {
   private {
     // setMass, getMass
@@ -20,39 +23,39 @@ abstract class Collider {
     bool static_;
   }
 
-  Collider setMass(float value) pure nothrow {
+  final Collider setMass(float value) pure nothrow {
     mass = value;
     return this;
   }
 
-  float getMass() pure nothrow const {
+  final float getMass() pure nothrow const {
     return mass;
   }
 
-  Collider setLayer(ulong value) pure nothrow {
+  final Collider setLayer(ulong value) pure nothrow {
     layer = value;
     return this;
   }
 
-  float getLayer() pure nothrow const {
+  final float getLayer() pure nothrow const {
     return layer;
   }
 
-  Collider setTriggered(bool value) pure nothrow {
+  final Collider setTriggered(bool value) pure nothrow {
     triggered = value;
     return this;
   }
 
-  float getTriggered() pure nothrow const {
+  final float getTriggered() pure nothrow const {
     return triggered;
   }
 
-  Collider setStatic(bool value) pure nothrow {
+  final Collider setStatic(bool value) pure nothrow {
     static_ = value;
     return this;
   }
 
-  float getStatic() pure nothrow const {
+  final float getStatic() pure nothrow const {
     return static_;
   }
 }

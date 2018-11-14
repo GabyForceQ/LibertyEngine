@@ -93,9 +93,6 @@ final class CoreEngine {
 
 			switch (engineState) with (EngineState) {
 				case Running:
-					import liberty.terrain;
-					
-
 					scene.update();
 					scene.getActiveCamera()
 						.getPreset()
@@ -103,16 +100,6 @@ final class CoreEngine {
 
           //Input.getMousePicker()
 					//	.update(scene.getActiveCamera(), scene.getTree().getChild!Terrain("DemoTerrain"));
-
-					
-					/*static int oo = 0;
-					if (oo == 200) {
-						import liberty.core.engine;
-						Logger.exception(Input.getMousePicker().getCurrentRay().toString());
-						Logger.exception(Input.getMousePicker().getCurrentTerrainPoint().toString());
-						oo = 0;
-					}
-					oo++;*/
 
 					break;
 				case Paused:

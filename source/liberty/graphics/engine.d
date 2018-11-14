@@ -161,28 +161,43 @@ final class GfxEngine {
     } catch (Exception e) {}
   }
 
+  /**
+   *
+  **/
   static void enableDepthTest() {
     version (__OPENGL__) {
       glEnable(GL_DEPTH_TEST);
     }
   }
 
+  /**
+   *
+  **/
   static void disableDepthTest() {
     version (__OPENGL__) {
       glDisable(GL_DEPTH_TEST);
     }
   }
 
+  /**
+   *
+  **/
   static void enableTextures() {
     version (__OPENGL__)
       glEnable(GL_TEXTURE_2D);
   }
 
+  /**
+   *
+  **/
   static void disableTextures() {
     version (__OPENGL__)
       glDisable(GL_TEXTURE_2D);
   }
 
+  /**
+   *
+  **/
   static bool supportsExtension(string extension) nothrow {
     foreach (el; info.apiExtensions)
       if (el == extension)
@@ -190,6 +205,9 @@ final class GfxEngine {
     return false;
   }
 
+  /**
+   *
+  **/
   debug static void runtimeCheckErr() {
     version (__OPENGL__) {
       immutable GLint er = glGetError();
@@ -201,6 +219,9 @@ final class GfxEngine {
     }
   }
 
+  /**
+   *
+  **/
   debug static bool runtimeCheckWarn() {
     version (__OPENGL__) {
       immutable GLint er = glGetError();

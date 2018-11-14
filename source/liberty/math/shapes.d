@@ -164,7 +164,7 @@ struct Ray(T, int N) if (N == 2 || N == 3) {
 			if (abs(det) < T.epsilon) {
 				return false;
 			}
-			T invDet = 1 / det;
+			const T invDet = 1 / det;
 			PointType tvec = origin - triangle.a;
 			u = dot(tvec, pvec) * invDet;
 			if (u < 0 || u > 1) {

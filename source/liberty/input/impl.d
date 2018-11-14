@@ -236,7 +236,9 @@ final class Input {
   /**
    * Returns mouse position in normalized device coordinates.
   **/
-  static Vector2F getNormalizedDeviceCoords(Vector2F mousePos = getMousePostion(), Window window = Platform.getWindow()) {
+  static Vector2F getNormalizedDeviceCoords(Vector2F mousePos = getMousePostion(),
+    Window window = Platform.getWindow())
+  do {
     return Vector2F(
       (2.0f * mousePos.x) / window.getWidth() - 1.0f,
       -((2.0f * mousePos.y) / window.getHeight() - 1.0f)

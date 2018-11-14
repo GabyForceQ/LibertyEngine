@@ -133,19 +133,19 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     }
     ///
     pure nothrow unittest {
-        auto v1 = Vector2I(4, 2);
+        const v1 = Vector2I(4, 2);
         assert (v1.v == [4, 2]);
-        auto v2 = Vector2I(5);
+        const v2 = Vector2I(5);
         assert (v2.v == [5, 5]);
-        auto v3 = Vector3I([1, 2, 3]);
+        const v3 = Vector3I([1, 2, 3]);
         assert (v3.v == [1, 2, 3]);
-        auto v4 = Vector4I();
+        const v4 = Vector4I();
         assert (v4.v == [0, 0, 0, 0]);
-        auto v5 = Vector3I(Vector2I(1, 3), 5);
+        const v5 = Vector3I(Vector2I(1, 3), 5);
         assert (v5.v == [1, 3, 5]);
-        auto v6 = Vector4I(Vector3I(-2, 1, 3), 5);
+        const v6 = Vector4I(Vector3I(-2, 1, 3), 5);
         assert (v6.v == [-2, 1, 3, 5]);
-        auto v7 = Vector4I(Vector2I(1, 3), Vector2I(5, 4));
+        const v7 = Vector4I(Vector2I(1, 3), Vector2I(5, 4));
         assert (v7.v == [1, 3, 5, 4]);
     }
     // TODO: remove this constructors
@@ -204,10 +204,10 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     }
     ///
     pure nothrow unittest {
-        auto v1 = Vector2F(4.5f, 6.0f);
+        const v1 = Vector2F(4.5f, 6.0f);
         assert (v1 == Vector2F(4.5f, 6.0f));
         assert (v1 != Vector2F(4.5f, 8.0f));
-        auto v2 = Vector3I(-1, -1, -1);
+        const v2 = Vector3I(-1, -1, -1);
         assert (v2 == -1);
         assert (v2 != 0);
     }
@@ -221,7 +221,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 	}
     ///
     pure nothrow unittest {
-        auto v1 = Vector2I(2, -5);
+        const v1 = Vector2I(2, -5);
         assert ((+v1).v == [2, -5]);
         assert ((-v1).v == [-2, 5]);
         assert ((~v1).v == [-3, 4]);
@@ -247,8 +247,8 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 	}
     ///
     pure nothrow unittest {
-        auto v1 = Vector2I(4, -5);
-        auto v2 = Vector2I(7, 2);
+        const v1 = Vector2I(4, -5);
+        const v2 = Vector2I(7, 2);
         auto v3 = v1 + v2;
         assert (v3.v == [11, -3]);
         v3 = v2 - 2;
@@ -272,8 +272,8 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     }
     ///
     pure nothrow unittest {
-        auto v1 = Vector2I(4, -5);
-        auto v2 = 3 + v1;
+        const v1 = Vector2I(4, -5);
+        const v2 = 3 + v1;
         assert (v2.v == [7, -2]);
     }
     ///
@@ -290,7 +290,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         auto v1 = Vector2I(2, -8);
         v1 += 3;
         assert (v1.v == [5, -5]);
-        auto v2 = Vector2I(1, 2);
+        const v2 = Vector2I(1, 2);
         v1 -= v2;
         assert (v1.v == [4, -7]);
     }
@@ -316,7 +316,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 	}
     ///
     pure nothrow unittest {
-        auto v1 = Vector2F(1.3f, -5.7f);
+        const v1 = Vector2F(1.3f, -5.7f);
         auto v2 = cast(Vector2I)v1;
         assert (v2.v == [1, -5]);
     }
@@ -384,7 +384,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		}
 		/// In-place normalization.
 		void normalize() pure nothrow {
-			auto invMag = inverseMagnitude();
+			const invMag = inverseMagnitude();
 			v[] *= invMag;
 		}
 		/// Returns normalized vector.
@@ -395,7 +395,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		}
 		/// Faster but less accurate in-place normalization.
 		void fastNormalize() pure nothrow {
-			auto invLength = fastInverseMagnitude();
+			const invLength = fastInverseMagnitude();
 			v[] *= invLength;
 		}
 		/// Faster but less accurate vector normalization. Returns normalized vector.
@@ -414,18 +414,21 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 	}
 
   static if (is(T == float) && N == 3) {
+    /**
+     *
+    **/
     ref Vector!(T, 3) rotate(float angle, Vector!(T, 3) axis) {
-      float sinHalfAngle = sin(radians(angle / 2));
-      float cosHalfAngle = cos(radians(angle / 2));
+      const sinHalfAngle = sin(radians(angle / 2));
+      const cosHalfAngle = cos(radians(angle / 2));
 
-      float rX = axis.x * sinHalfAngle;
-      float rY = axis.y * sinHalfAngle;
-      float rZ = axis.z * sinHalfAngle;
-      float rW = cosHalfAngle;
+      const rX = axis.x * sinHalfAngle;
+      const rY = axis.y * sinHalfAngle;
+      const rZ = axis.z * sinHalfAngle;
+      const rW = cosHalfAngle;
 
       Quaternion!T rotation = Quaternion!T(rX, rY, rZ, rW);
-      Quaternion!T conjugate = rotation.inversed();
-      Quaternion!T w = rotation.mul(this) * conjugate;
+      const Quaternion!T conjugate = rotation.inversed();
+      const Quaternion!T w = rotation.mul(this) * conjugate;
 
       x = w.x;
       y = w.y;

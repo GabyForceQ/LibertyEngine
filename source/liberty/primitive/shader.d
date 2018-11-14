@@ -112,7 +112,8 @@ class PrimitiveShader : Shader {
           discard;
 
         // Mix sky color with finalTexture
-        gl_FragColor = mix(vec4(uSkyColor, 1.0), vec4(totalDiffuse, 1.0) * finalTexture + vec4(totalSpecular, 1.0), tVisibility);
+        gl_FragColor = mix(vec4(uSkyColor, 1.0), vec4(totalDiffuse, 1.0)
+          * finalTexture + vec4(totalSpecular, 1.0), tVisibility);
       }
     };
   }

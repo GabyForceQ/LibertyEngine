@@ -17,8 +17,14 @@ import liberty.math.vector : Vector2F, Vector3F, Vector4F;
 import liberty.math.matrix : Matrix4F;
 
 version (Windows)
+  /**
+   *
+  **/
   enum SHADER_CORE_VERSION = "#version 450 core\n";
 else version (linux)
+  /**
+   *
+  **/
   enum SHADER_CORE_VERSION = "#version 330 core\n";
 else
   static assert (0, "Shader core not supported on this platform.");
@@ -227,11 +233,11 @@ class Shader {
   /**
    * Load Matrix4F uniform using location id and value.
   **/
-  Shader loadUniform(int locationID, Matrix4F matrix) nothrow {
+  //Shader loadUniform(int locationID, Matrix4F matrix) nothrow {
     //glUniform4fv(locationID, matrix.ptr); // TODO?
     //glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
-    return this;
-  }
+    //return this;
+  //}
 
   /**
    * Load bool uniform using uniform name and value.

@@ -117,7 +117,8 @@ class TerrainShader : Shader {
         totalDiffuse = max(totalDiffuse, 0.4);
 
         // Mix sky color with finalTexture
-        gl_FragColor = mix(vec4(uSkyColor, 1.0), vec4(totalDiffuse, 1.0) * totalTextureColor + vec4(totalSpecular, 1.0), tVisibility);
+        gl_FragColor = mix(vec4(uSkyColor, 1.0), vec4(totalDiffuse, 1.0)
+          * totalTextureColor + vec4(totalSpecular, 1.0), tVisibility);
       }
     };
   }

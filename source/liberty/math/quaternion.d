@@ -48,14 +48,14 @@ struct Quaternion(T) {
 	static Quaternion fromEulerAngles(T roll, T pitch, T yaw) pure nothrow {
 		import liberty.math.functions : sin, cos;
 		Quaternion q = void;
-		T sinPitch = sin(pitch / 2);
-		T cosPitch = cos(pitch / 2);
-		T sinYaw = sin(yaw / 2);
-		T cosYaw = cos(yaw / 2);
-		T sinRoll = sin(roll / 2);
-		T cosRoll = cos(roll / 2);
-		T cosPitchCosYaw = cosPitch * cosYaw;
-		T sinPitchSinYaw = sinPitch * sinYaw;
+		const T sinPitch = sin(pitch / 2);
+		const T cosPitch = cos(pitch / 2);
+		const T sinYaw = sin(yaw / 2);
+		const T cosYaw = cos(yaw / 2);
+		const T sinRoll = sin(roll / 2);
+		const T cosRoll = cos(roll / 2);
+		const T cosPitchCosYaw = cosPitch * cosYaw;
+		const T sinPitchSinYaw = sinPitch * sinYaw;
 		q.x = sinRoll * cosPitchCosYaw    - cosRoll * sinPitchSinYaw;
 		q.y = cosRoll * sinPitch * cosYaw + sinRoll * cosPitch * sinYaw;
 		q.z = cosRoll * cosPitch * sinYaw - sinRoll * sinPitch * cosYaw;
@@ -123,10 +123,10 @@ struct Quaternion(T) {
 	}
 	///
 	ref Quaternion opOpAssign(string op, U)(U q) pure nothrow if (is(U : Quaternion) && (op == "*")) {
-		T nx = w * q.x + x * q.w + y * q.z - z * q.y,
-		ny = w * q.y + y * q.w + z * q.x - x * q.z,
-		nz = w * q.z + z * q.w + x * q.y - y * q.x,
-		nw = w * q.w - x * q.x - y * q.y - z * q.z;
+		const T nx = w * q.x + x * q.w + y * q.z - z * q.y;
+		const T ny = w * q.y + y * q.w + z * q.x - x * q.z;
+		const T nz = w * q.z + z * q.w + x * q.y - y * q.x;
+		const T nw = w * q.w - x * q.x - y * q.y - z * q.z;
 		x = nx;
 		y = ny;
 		z = nz;
@@ -153,16 +153,24 @@ struct Quaternion(T) {
 		return opEquals(conv);
 	}
 	/// Convert to a 3x3 rotation matrix.
-	U opCast(U)() pure nothrow const if (isMatrixInstance!U && is(U.type : type) && (U.rowCount == 3) && (U.columnCount == 3)) {
-		T norm = x*x + y*y + z*z + w*w;
-		T s = (norm > 0) ? 2 / norm : 0;
+	U opCast(U)() pure nothrow const
+  if (isMatrixInstance!U && is(U.type : type) && (U.rowCount == 3) && (U.columnCount == 3))
+  do {
+		const T norm = x*x + y*y + z*z + w*w;
+		const T s = (norm > 0) ? 2 / norm : 0;
 		T xx = x * x * s, xy = x * y * s, xz = x * z * s, xw = x * w * s,
 		yy = y * y * s, yz = y * z * s, yw = y * w * s,
 		zz = z * z * s, zw = z * w * s;
-		return Matrix!(U.type, 3)(1 - (yy + zz), (xy - zw), (xz + yw), (xy + zw), 1 - (xx + zz), (yz - xw), (xz - yw), (yz + xw), 1 - (xx + yy));
+		return Matrix!(U.type, 3)(
+      1 - (yy + zz), (xy - zw), (xz + yw),
+      (xy + zw), 1 - (xx + zz), (yz - xw),
+      (xz - yw), (yz + xw), 1 - (xx + yy)
+    );
 	}
 	/// Converts a to a 4x4 rotation matrix.
-	U opCast(U)() pure nothrow const if (isMatrixInstance!U && is(U.type : type) && (U.rowCount == 4) && (U.columnCount == 4)) {
+	U opCast(U)() pure nothrow const
+  if (isMatrixInstance!U && is(U.type : type) && (U.rowCount == 4) && (U.columnCount == 4))
+  do {
 		auto m3 = cast(Matrix!(U.type, 3))(this);
 		return cast(U)(m3);
 	}
@@ -177,11 +185,14 @@ struct Quaternion(T) {
   import liberty.math.vector : Vector3F;
 
   static if (is(T == float)) {
+    /**
+     *
+    **/
     Quaternion mul(Vector3F r) {
-      float w_ = -x * r.x - y * r.y - z * r.z;
-      float x_ =  w * r.x + y * r.z - z * r.y;
-      float y_ =  w * r.y + z * r.x - x * r.z;
-      float z_ =  w * r.z + x * r.y - y * r.x;
+      const float w_ = -x * r.x - y * r.y - z * r.z;
+      const float x_ =  w * r.x + y * r.z - z * r.y;
+      const float y_ =  w * r.y + z * r.x - x * r.z;
+      const float z_ =  w * r.z + x * r.y - y * r.x;
       
       return Quaternion(x_, y_, z_, w_);
     }
@@ -221,12 +232,12 @@ in {
 		b.v *= -1;
 		dotProduct = dot(a.v, b.v);
 	}
-	immutable T threshold = 10 * T.epsilon;
+	const T threshold = 10 * T.epsilon;
 	if ((1 - dotProduct) > threshold) {
 		return lerp(a, b, t);
 	}
-	T theta_0 = funcs.safeAcos(dotProduct);
-	T theta = theta_0 * t;
+	const T theta_0 = funcs.safeAcos(dotProduct);
+	const T theta = theta_0 * t;
 	vec3!T v2 = dot(b.v, a.v * dotProduct);
 	v2.normalize();
 	ret.v = dot(b.v, a.v * dotProduct);

@@ -133,7 +133,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
    * Returns true if empty.
   **/
 	bool isEmpty() pure nothrow const {
-		BoundType size = getSize();
+		//const BoundType size = getSize();
 		static foreach (i; 0..N) {
 			if (min[i] == max[i]) {
 				return true;

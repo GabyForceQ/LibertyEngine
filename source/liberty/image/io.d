@@ -66,7 +66,7 @@ final class ImageIO {
    *
   **/
   static PNGImage loadPNGFile(string resourcePath) {
-    /*char[] buf;
+    char[] buf;
 
     // Read png file and put its content into a buffer
     if (!IOManager.readFileToBuffer(resourcePath, buf, "rb")) {
@@ -76,7 +76,7 @@ final class ImageIO {
     // Check if it is really a png image
     if (!isPNGFormat(buf[0x00..0x08])) {
       assert (0, "Not PNG image!");
-    }*/
+    }
 
     import liberty.logger : Logger;
     Logger.todo("static PNGImage loadPNGFile(string resourcePath) {..}", typeof(this).stringof);

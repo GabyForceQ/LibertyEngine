@@ -82,13 +82,13 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	///
 	pure nothrow unittest {
 		// Create a matrix using all values.
-		auto matrix1 = Matrix!(int, 2)(1, 2, 3, 4);
+		const matrix1 = Matrix!(int, 2)(1, 2, 3, 4);
 		assert (matrix1.v == [1, 2, /**/ 3, 4]);
 		// Create a matrix from one value.
-		auto matrix2 = Matrix!(float, 2)(5.2f);
+		const matrix2 = Matrix!(float, 2)(5.2f);
 		assert (matrix2.v == [5.2f, 5.2f, /**/ 5.2f, 5.2f]);
 		// Create a matrix with no value (implicit 0).
-		auto matrix3 = Matrix!(short, 2)();
+		const matrix3 = Matrix!(short, 2)();
 		assert (matrix3.v == [0, 0, /**/ 0, 0]);
 	}
 	/// Construct a matrix from columns.
@@ -116,7 +116,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	///
 	pure nothrow unittest {
 		auto row = Vector!(double, 2)(2.0, 4.5);
-		auto matrix = Matrix!(double, 2).fromRows([row, row]);
+		const matrix = Matrix!(double, 2).fromRows([row, row]);
 		assert (matrix.v == [2.0, 4.5, /**/ 2.0, 4.5]);
 	}
 	/// Returns an identity matrix.
@@ -135,7 +135,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	}
 	///
 	pure nothrow unittest {
-		auto matrix = Matrix!(uint, 3).identity();
+		const matrix = Matrix!(uint, 3).identity();
 		assert (matrix.v == [1, 0, 0, /**/ 0, 1, 0, /**/ 0, 0, 1]);
 	}
 	/// Returns a constant matrix.
@@ -148,7 +148,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	}
 	///
 	pure nothrow unittest {
-		auto matrix = Matrix!(int, 2, 3).constant(7);
+		const matrix = Matrix!(int, 2, 3).constant(7);
 		assert (matrix.v == [7, 7, 7, /**/ 7, 7, 7]);
 	}
 	///
@@ -171,8 +171,8 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	}
 	///
 	pure nothrow unittest {
-		auto m1 = Matrix2I(3);
-		auto m2 = m1 * 4;
+		const m1 = Matrix2I(3);
+		const m2 = m1 * 4;
 		assert (m2.v == [12, 12, /**/ 12, 12]);
 	}
 	///
@@ -227,11 +227,11 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	}
 	///
 	pure nothrow unittest {
-		auto m1 = Matrix2I(1, 3, /**/ -1, 4);
-		auto m2 = Matrix2I(5, 2, /**/ 1, 0);
-		auto m3 = m1 + m2;
+		const m1 = Matrix2I(1, 3, /**/ -1, 4);
+		const m2 = Matrix2I(5, 2, /**/ 1, 0);
+		const m3 = m1 + m2;
 		assert (m3.v == [6, 5, /**/ 0, 4]);
-		auto m4 = m1 - 7;
+		const m4 = m1 - 7;
 		assert (m4.v == [-6, -4, /**/ -8, -3]);
 	}
 	///
@@ -239,14 +239,16 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		static if (is(U : Matrix) || is(U : T)) {
 			mixin("this = this " ~ op ~ " rhs;");
 		} else {
-			static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Matrix.stringof);
+			static assert (0, "Cannot assign a variable of type " ~ U.stringof ~
+        " within a variable of type " ~ Matrix.stringof
+      );
 		}
 		return this;
 	}
 	///
 	pure nothrow unittest {
 		auto m1 = Matrix2I(1, 3, /**/ -1, 4);
-		auto m2 = Matrix2I(5, 2, /**/ 1, 0);
+		const m2 = Matrix2I(5, 2, /**/ 1, 0);
 		m1 += m2;
 		assert (m1.v == [6, 5, /**/ 0, 4]);
 		m1 -= 2;
@@ -262,7 +264,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	}
 	///
 	pure nothrow unittest {
-		auto m1 = Matrix2I(1, 3, /**/ -1, 0);
+		const m1 = Matrix2I(1, 3, /**/ -1, 0);
 		assert ((+m1).v == [1, 3, /**/ -1, 0]);
 		assert ((-m1).v == [-1, -3, /**/ 1, 0]);
 		assert ((~m1).v == [-2, -4, /**/ 0, -1]);
@@ -303,18 +305,20 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 				}
 			}
 		} else {
-			static assert (0, "Cannot compare a variable of type " ~ U.stringof ~ " with a variable of type " ~ Matrix.stringof);
+			static assert (0, "Cannot compare a variable of type " ~ 
+        U.stringof ~ " with a variable of type " ~ Matrix.stringof
+      );
 		}
 		return true;
 	}
 	///
 	pure nothrow unittest {
-		auto m1 = Matrix2I(6, 3, /**/ -1, 0);
-		auto m2 = Matrix2I(6, 3, /**/ -1, 0);
-		auto m3 = Matrix2I(1, 4, /**/ -1, 7);
+		const m1 = Matrix2I(6, 3, /**/ -1, 0);
+		const m2 = Matrix2I(6, 3, /**/ -1, 0);
+		const m3 = Matrix2I(1, 4, /**/ -1, 7);
 		assert (m1 == m2);
 		assert (m1 != m3);
-		auto m4 = Matrix2I(3, 3, /**/ 3, 3);
+		const m4 = Matrix2I(3, 3, /**/ 3, 3);
 		assert (m4 == 3);
 		assert (m4 != -3);
 	}
@@ -342,8 +346,10 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	static if (isFloatingPoint!T && R == 3 && C == 3) {
 		/// Returns inverse of matrix 3x3.
 		Matrix inverse() pure nothrow const {
-			T det = c[0][0] * (c[1][1] * c[2][2] - c[2][1] * c[1][2]) - c[0][1] * (c[1][0] * c[2][2] - c[1][2] * c[2][0]) + c[0][2] * (c[1][0] * c[2][1] - c[1][1] * c[2][0]);
-			T invDet = 1 / det;
+			const T det = c[0][0] * (c[1][1] * c[2][2] - c[2][1] * c[1][2])
+        - c[0][1] * (c[1][0] * c[2][2] - c[1][2] * c[2][0]) 
+        + c[0][2] * (c[1][0] * c[2][1] - c[1][1] * c[2][0]);
+			const T invDet = 1 / det;
 			Matrix ret = void;
 			ret.c[0][0] =  (c[1][1] * c[2][2] - c[2][1] * c[1][2]) * invDet;
 			ret.c[0][1] = -(c[0][1] * c[2][2] - c[0][2] * c[2][1]) * invDet;
@@ -363,42 +369,42 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	static if (isFloatingPoint!T && R == 4 && C == 4) {
 		/// Returns inverse of matrix 4x4.
 		Matrix inverse() pure nothrow const {
-			T det2_01_01 = c[0][0] * c[1][1] - c[0][1] * c[1][0];
-			T det2_01_02 = c[0][0] * c[1][2] - c[0][2] * c[1][0];
-			T det2_01_03 = c[0][0] * c[1][3] - c[0][3] * c[1][0];
-			T det2_01_12 = c[0][1] * c[1][2] - c[0][2] * c[1][1];
-			T det2_01_13 = c[0][1] * c[1][3] - c[0][3] * c[1][1];
-			T det2_01_23 = c[0][2] * c[1][3] - c[0][3] * c[1][2];
-			T det3_201_012 = c[2][0] * det2_01_12 - c[2][1] * det2_01_02 + c[2][2] * det2_01_01;
-			T det3_201_013 = c[2][0] * det2_01_13 - c[2][1] * det2_01_03 + c[2][3] * det2_01_01;
-			T det3_201_023 = c[2][0] * det2_01_23 - c[2][2] * det2_01_03 + c[2][3] * det2_01_02;
-			T det3_201_123 = c[2][1] * det2_01_23 - c[2][2] * det2_01_13 + c[2][3] * det2_01_12;
-			T det = - det3_201_123 * c[3][0] + det3_201_023 * c[3][1] - det3_201_013 * c[3][2] + det3_201_012 * c[3][3];
-			T invDet = 1 / det;
-			T det2_03_01 = c[0][0] * c[3][1] - c[0][1] * c[3][0];
-			T det2_03_02 = c[0][0] * c[3][2] - c[0][2] * c[3][0];
-			T det2_03_03 = c[0][0] * c[3][3] - c[0][3] * c[3][0];
-			T det2_03_12 = c[0][1] * c[3][2] - c[0][2] * c[3][1];
-			T det2_03_13 = c[0][1] * c[3][3] - c[0][3] * c[3][1];
-			T det2_03_23 = c[0][2] * c[3][3] - c[0][3] * c[3][2];
-			T det2_13_01 = c[1][0] * c[3][1] - c[1][1] * c[3][0];
-			T det2_13_02 = c[1][0] * c[3][2] - c[1][2] * c[3][0];
-			T det2_13_03 = c[1][0] * c[3][3] - c[1][3] * c[3][0];
-			T det2_13_12 = c[1][1] * c[3][2] - c[1][2] * c[3][1];
-			T det2_13_13 = c[1][1] * c[3][3] - c[1][3] * c[3][1];
-			T det2_13_23 = c[1][2] * c[3][3] - c[1][3] * c[3][2];
-			T det3_203_012 = c[2][0] * det2_03_12 - c[2][1] * det2_03_02 + c[2][2] * det2_03_01;
-			T det3_203_013 = c[2][0] * det2_03_13 - c[2][1] * det2_03_03 + c[2][3] * det2_03_01;
-			T det3_203_023 = c[2][0] * det2_03_23 - c[2][2] * det2_03_03 + c[2][3] * det2_03_02;
-			T det3_203_123 = c[2][1] * det2_03_23 - c[2][2] * det2_03_13 + c[2][3] * det2_03_12;
-			T det3_213_012 = c[2][0] * det2_13_12 - c[2][1] * det2_13_02 + c[2][2] * det2_13_01;
-			T det3_213_013 = c[2][0] * det2_13_13 - c[2][1] * det2_13_03 + c[2][3] * det2_13_01;
-			T det3_213_023 = c[2][0] * det2_13_23 - c[2][2] * det2_13_03 + c[2][3] * det2_13_02;
-			T det3_213_123 = c[2][1] * det2_13_23 - c[2][2] * det2_13_13 + c[2][3] * det2_13_12;
-			T det3_301_012 = c[3][0] * det2_01_12 - c[3][1] * det2_01_02 + c[3][2] * det2_01_01;
-			T det3_301_013 = c[3][0] * det2_01_13 - c[3][1] * det2_01_03 + c[3][3] * det2_01_01;
-			T det3_301_023 = c[3][0] * det2_01_23 - c[3][2] * det2_01_03 + c[3][3] * det2_01_02;
-			T det3_301_123 = c[3][1] * det2_01_23 - c[3][2] * det2_01_13 + c[3][3] * det2_01_12;
+			const T det2_01_01 = c[0][0] * c[1][1] - c[0][1] * c[1][0];
+			const T det2_01_02 = c[0][0] * c[1][2] - c[0][2] * c[1][0];
+			const T det2_01_03 = c[0][0] * c[1][3] - c[0][3] * c[1][0];
+			const T det2_01_12 = c[0][1] * c[1][2] - c[0][2] * c[1][1];
+			const T det2_01_13 = c[0][1] * c[1][3] - c[0][3] * c[1][1];
+			const T det2_01_23 = c[0][2] * c[1][3] - c[0][3] * c[1][2];
+			const T det3_201_012 = c[2][0] * det2_01_12 - c[2][1] * det2_01_02 + c[2][2] * det2_01_01;
+			const T det3_201_013 = c[2][0] * det2_01_13 - c[2][1] * det2_01_03 + c[2][3] * det2_01_01;
+			const T det3_201_023 = c[2][0] * det2_01_23 - c[2][2] * det2_01_03 + c[2][3] * det2_01_02;
+			const T det3_201_123 = c[2][1] * det2_01_23 - c[2][2] * det2_01_13 + c[2][3] * det2_01_12;
+			const T det = - det3_201_123 * c[3][0] + det3_201_023 * c[3][1] - det3_201_013 * c[3][2] + det3_201_012 * c[3][3];
+			const T invDet = 1 / det;
+			const T det2_03_01 = c[0][0] * c[3][1] - c[0][1] * c[3][0];
+			const T det2_03_02 = c[0][0] * c[3][2] - c[0][2] * c[3][0];
+			const T det2_03_03 = c[0][0] * c[3][3] - c[0][3] * c[3][0];
+			const T det2_03_12 = c[0][1] * c[3][2] - c[0][2] * c[3][1];
+			const T det2_03_13 = c[0][1] * c[3][3] - c[0][3] * c[3][1];
+			const T det2_03_23 = c[0][2] * c[3][3] - c[0][3] * c[3][2];
+			const T det2_13_01 = c[1][0] * c[3][1] - c[1][1] * c[3][0];
+			const T det2_13_02 = c[1][0] * c[3][2] - c[1][2] * c[3][0];
+			const T det2_13_03 = c[1][0] * c[3][3] - c[1][3] * c[3][0];
+			const T det2_13_12 = c[1][1] * c[3][2] - c[1][2] * c[3][1];
+			const T det2_13_13 = c[1][1] * c[3][3] - c[1][3] * c[3][1];
+			const T det2_13_23 = c[1][2] * c[3][3] - c[1][3] * c[3][2];
+			const T det3_203_012 = c[2][0] * det2_03_12 - c[2][1] * det2_03_02 + c[2][2] * det2_03_01;
+			const T det3_203_013 = c[2][0] * det2_03_13 - c[2][1] * det2_03_03 + c[2][3] * det2_03_01;
+			const T det3_203_023 = c[2][0] * det2_03_23 - c[2][2] * det2_03_03 + c[2][3] * det2_03_02;
+			const T det3_203_123 = c[2][1] * det2_03_23 - c[2][2] * det2_03_13 + c[2][3] * det2_03_12;
+			const T det3_213_012 = c[2][0] * det2_13_12 - c[2][1] * det2_13_02 + c[2][2] * det2_13_01;
+			const T det3_213_013 = c[2][0] * det2_13_13 - c[2][1] * det2_13_03 + c[2][3] * det2_13_01;
+			const T det3_213_023 = c[2][0] * det2_13_23 - c[2][2] * det2_13_03 + c[2][3] * det2_13_02;
+			const T det3_213_123 = c[2][1] * det2_13_23 - c[2][2] * det2_13_13 + c[2][3] * det2_13_12;
+			const T det3_301_012 = c[3][0] * det2_01_12 - c[3][1] * det2_01_02 + c[3][2] * det2_01_01;
+			const T det3_301_013 = c[3][0] * det2_01_13 - c[3][1] * det2_01_03 + c[3][3] * det2_01_01;
+			const T det3_301_023 = c[3][0] * det2_01_23 - c[3][2] * det2_01_03 + c[3][3] * det2_01_02;
+			const T det3_301_123 = c[3][1] * det2_01_23 - c[3][2] * det2_01_13 + c[3][3] * det2_01_12;
 			Matrix ret = void;
 			ret.c[0][0] = - det3_213_123 * invDet;
 			ret.c[1][0] = + det3_213_023 * invDet;
@@ -450,8 +456,8 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		}
 		///
 		pure nothrow unittest {
-			auto v1 = Vector!(int, 3)(4, 5, -1);
-			auto m1 = Matrix!(int, 3).diag(v1);
+			const v1 = Vector!(int, 3)(4, 5, -1);
+			const m1 = Matrix!(int, 3).diag(v1);
 			assert (m1.v == [4, 0, 0, /**/ 0, 5, 0, /**/ 0, 0, -1]);
 		}
 		///
@@ -538,10 +544,10 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			const oneMinusC = 1 - c;
 			const T s = sin(angle);
 			axis = axis.normalized();
-			T x = axis.x,
+			const T x = axis.x,
 			y = axis.y,
 			z = axis.z;
-			T xy = x * y,
+			const T xy = x * y,
 			yz = y * z,
 			xz = x * z;
 			ret.c[0][0] = x * x * oneMinusC + c;
@@ -571,14 +577,6 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 
 			return Vector4!T(x, y, z, w);
 		}
-    static Vector4!T transformation_(Matrix lhs, Vector4!T rhs) {
-			const T x = lhs.c[0][0] * rhs.x + lhs.c[0][1] * rhs.y + lhs.c[0][2] * rhs.z + lhs.c[0][3] * rhs.w;
-			const T y = lhs.c[1][0] * rhs.x + lhs.c[1][1] * rhs.y + lhs.c[1][2] * rhs.z + lhs.c[1][3] * rhs.w;
-			const T z = lhs.c[2][0] * rhs.x + lhs.c[2][1] * rhs.y + lhs.c[2][2] * rhs.z + lhs.c[2][3] * rhs.w;
-			const T w = lhs.c[3][0] * rhs.x + lhs.c[3][1] * rhs.y + lhs.c[3][2] * rhs.z + lhs.c[3][3] * rhs.w;
-
-			return Vector4!T(x, y, z, w);
-		}
 		///
 		//static Matrix orthographic(T left, T right, T bottom, T top) pure nothrow {
 		//  return Matrix(
@@ -597,7 +595,12 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			import liberty.math.functions : tan;
 			T f = 1 / tan(FOVInRadians / 2);
 			T d = 1 / (zNear - zFar);
-			return Matrix(f / (width / height), 0, 0, 0, 0, f, 0, 0, 0, 0, (zFar + zNear) * d, 2 * d * zFar * zNear, 0, 0, -1, 0);
+			return Matrix(
+        f / (width / height), 0, 0, 0,
+        0, f, 0, 0,
+        0, 0, (zFar + zNear) * d, 2 * d * zFar * zNear,
+        0, 0, -1, 0
+      );
 		}
 		///
 		pure nothrow unittest {
@@ -740,7 +743,7 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 	} do {
 		import core.stdc.stdlib : malloc;
 		size_t memory_needed = MatrixType.sizeof * depth * 2;
-		void* data = malloc(memory_needed * 2);
+		const void* data = malloc(memory_needed * 2);
 		_matrices = cast(MatrixType*)data;
 		_invMatrices = cast(MatrixType*)(data + memory_needed);
 		_top = 0;

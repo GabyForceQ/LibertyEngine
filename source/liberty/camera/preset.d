@@ -25,7 +25,9 @@ class CameraPreset {
   /**
    *
   **/
-  this(void delegate(Camera camera) runImplicitDelegate, void delegate(Camera, CameraMovement, float) runKeyboardProcess) {
+  this(void delegate(Camera camera) runImplicitDelegate,
+    void delegate(Camera, CameraMovement, float) runKeyboardProcess)
+  do {
     this.runImplicitDelegate = runImplicitDelegate;
     this.runKeyboardProcess = runKeyboardProcess;
   }

@@ -127,10 +127,10 @@ final class Terrain : SceneNode, IRenderable {
    *
   **/
   float getHeight(float worldX, float worldZ) {
-    float terrainX = worldX - getTransform().getAbsoluteLocation().x;
-    float terrainZ = worldZ - getTransform().getAbsoluteLocation().z;
+    const float terrainX = worldX - getTransform().getAbsoluteLocation().x;
+    const float terrainZ = worldZ - getTransform().getAbsoluteLocation().z;
 
-    int heightLen = heights.length - 1;
+    const int heightLen = (heights.length) - 1;
     const float gridSqareSize = size / cast(float)heightLen;
     
     int gridX = cast(int)floor(terrainX / gridSqareSize);
@@ -166,8 +166,8 @@ final class Terrain : SceneNode, IRenderable {
     // Load height map form file
     auto image = cast(BMPImage)ResourceManager.loadImage(heightMapPath);
 
-    int vertexCount = image.getHeight();
-    int count = vertexCount * vertexCount;
+    const int vertexCount = image.getHeight();
+    const int count = vertexCount * vertexCount;
 
     //heights = new float[vertexCount][vertexCount]; // ???? vertexCount
 
@@ -222,16 +222,14 @@ final class Terrain : SceneNode, IRenderable {
     height /= maxPixelColor / 2.0f;
     height *= maxHeight;
 
-    import liberty.core.engine;
-
     return height;
   }
 
   private Vector3F computeNormal(int x, int y, BMPImage image) {
-    float heightL = getHeight(x - 1, y, image);
-    float heightR = getHeight(x + 1, y, image);
-    float heightD = getHeight(x, y - 1, image);
-    float heightU = getHeight(x, y + 1, image);
+    const float heightL = getHeight(x - 1, y, image);
+    const float heightR = getHeight(x + 1, y, image);
+    const float heightD = getHeight(x, y - 1, image);
+    const float heightU = getHeight(x, y + 1, image);
 
     Vector3F normal = Vector3F(heightL - heightR, 2.0f, heightD - heightU);
     normal.normalize();
