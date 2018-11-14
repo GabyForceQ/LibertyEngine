@@ -18,6 +18,7 @@ import liberty.services;
 import liberty.surface.model;
 import liberty.input.impl;
 import liberty.surface.vertex;
+import liberty.surface.ui.button;
 
 /**
  *
@@ -103,6 +104,13 @@ abstract class Widget : IRenderable, IUpdatable {
   **/
   Widget asWidget() pure nothrow {
     return this;
+  }
+
+  /**
+   *
+  **/
+  Button asButton() pure nothrow {
+    return cast(Button)this;
   }
 }
 
