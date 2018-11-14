@@ -5,6 +5,8 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/impl.d)
  * Documentation:
  * Coverage:
+ * TODO:
+ *    - Change action delegate and objEvList dinamically.
  */
 module liberty.surface.impl;
 
@@ -19,6 +21,7 @@ import liberty.scene.impl;
 import liberty.surface.ui.widget;
 import liberty.services;
 import liberty.surface.ui.button;
+import liberty.action;
 
 /**
  *
@@ -35,7 +38,7 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
     Matrix4F projectionMatrix = Matrix4F.identity();
     Widget[string] widgets;
 
-    void delegate(Widget, Event)[string] actionMap;
+    UIAction[string] actionMap;
   }
 
   /**
@@ -115,33 +118,33 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
     return widgets[id];
   }
 
-  import std.stdio;
-
   /**
    *
   **/
-  Surface addAction(string id, void delegate(Widget, Event) action, Tuple!(Widget, Event)[] objEvList)  {
-    actionMap[id] = action;
+  Surface addAction(string id, void delegate(Widget, Event) action,
+    Tuple!(Widget, Event)[] objEvList = null, int priority = 0)
+  do {
+    actionMap[id] = new UIAction(id, action, priority);
     
-    static foreach (s; ["Button"])
-      foreach(e; objEvList) {
-        if (mixin ("__traits(compiles, e[0].as" ~ s ~ ")"))
-          SW: final switch (e[1]) with (Event) {
-            static foreach (member; mixin ("EnumMembers!" ~ s ~ "Event"))
-              mixin ("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~ "(action); break SW;");
-          }
-      }
+    if (objEvList !is null) {
+      static foreach (s; ["Button"])
+        foreach(e; objEvList) {
+          if (mixin ("__traits(compiles, e[0].as" ~ s ~ ")"))
+            SW: final switch (e[1]) with (Event) {
+              static foreach (member; mixin ("EnumMembers!" ~ s ~ "Event"))
+                mixin ("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~ "(action); break SW;");
+            }
+        }
+    }
     
     return this;
   }
-
-  
 
   /**
    *
   **/
   final Surface launchAction(string id, Widget sender, Event event) {
-    actionMap[id](sender, event);
+    actionMap[id].callEvent(sender, event);
     return this;
   }
 
@@ -156,31 +159,14 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   /**
    *
   **/
-  final void delegate(Widget, Event)[string] getActionMap() pure nothrow {
+  final UIAction[string] getActionMap() pure nothrow {
     return actionMap;
   }
 
   /**
    *
   **/
-  final void delegate(Widget, Event) getAction(string name) pure nothrow {
+  final UIAction getAction(string name) pure nothrow {
     return actionMap[name];
   }
 }
-
-/**
-else static if (is(OEL == Tuple!(Widget[], Event)[]))
-      foreach(e; objEvList)
-        SW: final switch (e[1]) with (Event) {
-          static foreach (member; EnumMembers!ButtonEvent)
-            mixin ("case " ~ member ~ ": (cast(Button)e[0]).setOn" ~ member ~ "(action); break SW;");
-        }
-    else static if (is(OEL == Tuple!(Widget[][], Event)[]))
-      foreach(e; objEvList)
-        SW: final switch (e[1]) with (Event) {
-          static foreach (member; EnumMembers!ButtonEvent)
-            mixin ("case " ~ member ~ ": foreach (i; e[0]) (cast(Button)i).setOn" ~ member ~ "(action); break SW;");
-        }
-    else
-      static assert (0, "Invalid tuple.");
-**/

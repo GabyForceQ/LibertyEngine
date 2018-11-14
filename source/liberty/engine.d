@@ -19,7 +19,6 @@ public {
   import liberty.light;
   import liberty.logger;
   import liberty.math;
-  import liberty.meta;
   import liberty.model;
   import liberty.physics;
   import liberty.primitive;
@@ -29,6 +28,8 @@ public {
   import liberty.surface;
   import liberty.terrain;
   
+  import liberty.action;
+  import liberty.meta;
   import liberty.resource;
   import liberty.services;
   import liberty.time;

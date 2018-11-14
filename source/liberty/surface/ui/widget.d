@@ -33,6 +33,7 @@ abstract class Widget : IRenderable, IUpdatable {
     string id;
     Surface surface;
     Transform2D transform;
+    Vector2I index;
   }
 
   /**
@@ -75,6 +76,28 @@ abstract class Widget : IRenderable, IUpdatable {
   **/
   final Transform2D getTransform() pure nothrow {
     return transform;
+  }
+
+  /**
+   *
+  **/
+  Widget setIndex(int x, int y) pure nothrow {
+    return setIndex(Vector2I(x, y));
+  }
+
+  /**
+   *
+  **/
+  Widget setIndex(Vector2I value) pure nothrow {
+    index = value;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  final Vector2I getIndex() pure nothrow {
+    return index;
   }
 
   /**

@@ -42,6 +42,8 @@ final class Button : Widget {
   override void update() {
     clearAllBooleans();
 
+    
+
     if (isMouseColliding()) {
       if (hasOnMouseOver()) {
         onMouseOver(this, Event.MouseOver);
