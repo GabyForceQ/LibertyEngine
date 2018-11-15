@@ -8,8 +8,10 @@
 **/
 module liberty.surface.tilemap;
 
+import std.algorithm : filter;
 import std.container.array : Array;
 import std.conv : to;
+import std.typecons : tuple, Tuple;
 
 import liberty.math.vector;
 import liberty.surface.impl;
@@ -25,6 +27,7 @@ final class TileMap : Widget {
   private {
     Vector2I dimension = Vector2I.zero;
     Widget[] tiles;
+    Tuple!(Widget, Event)[] mouseOverEvents;
   }
 
   /**
@@ -52,10 +55,13 @@ final class TileMap : Widget {
     foreach (i; 0..dimension.y)
       foreach (j; 0..dimension.x) {
         tiles ~= new Button(getId() ~ "Tile_" ~ i.to!string ~ "_" ~ j.to!string, getSurface());
-        tiles[$ - 1].getTransform().setPosition(
-          j * 100 + getTransform.getPosition.x,
-          i * 100 + getTransform.getPosition.y
-        );
+        tiles[$ - 1]
+          .setIndex(i, j)
+          .getTransform()
+          .setPosition(
+            j * 100 + getTransform.getPosition.x,
+            i * 100 + getTransform.getPosition.y
+          );
       }
 
     return this;
@@ -64,7 +70,31 @@ final class TileMap : Widget {
   /**
    *
   **/
-  Widget getBlock(int x, int y) {
-    return tiles[6]; /////////////
+  TileMap createMouseOverEvent() pure nothrow {
+    foreach (i; 0..dimension.x * dimension.y)
+      mouseOverEvents ~= tuple(tiles[$ - 1].asWidget(), Event.MouseOver);
+    
+    return this;
+  }
+
+  /**
+   *
+  **/
+  Widget[] getTiles() pure nothrow {
+    return tiles;
+  }
+
+  /**
+   *
+  **/
+  Widget getTile(int x, int y) pure nothrow {
+    return filter!(tile => tile.getIndex() == Vector2I(x, y))(tiles)._input[0];
+  }
+
+  /**
+   *
+  **/
+  Tuple!(Widget, Event)[] getMouseOverEvents() pure nothrow {
+    return mouseOverEvents;
   }
 }
