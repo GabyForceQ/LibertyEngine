@@ -12,7 +12,6 @@ import std.container.array : Array;
 import std.conv : to;
 
 import liberty.math.vector;
-import liberty.surface.actor;
 import liberty.surface.impl;
 import liberty.surface.transform;
 import liberty.surface.ui.widget;
@@ -22,7 +21,7 @@ import liberty.surface.ui.button;
 /**
  *
 **/
-final class TileMap : Actor {
+final class TileMap : Widget {
   private {
     Vector2I dimension = Vector2I.zero;
     Widget[] tiles;
