@@ -80,8 +80,8 @@ abstract class Model {
    * Returns reference to this and can be used in a stream.
   **/
   Model toggleMaterials(Material[2][] arr) {
-    foreach (i, material; materials)
-      material = (material == arr[0][i]) ? arr[1][i] : arr[0][i];
+    foreach (i, ref material; materials)
+      material = (material == arr[i][0]) ? arr[i][1] : arr[i][0];
 
     return this;
   }
