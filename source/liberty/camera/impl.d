@@ -23,7 +23,7 @@ import liberty.scene.impl;
 /**
  * Represents the view of the observer.
  * Everything that is rendered to the screen is processed within the projection matrix and view matrix of a camera.
- * Inheriths (D SceneNode) class and encapsulates (D NodeBody) macro.
+ * Inheriths $(D SceneNode) class and encapsulates $(D NodeBody) macro.
 **/
 final class Camera : SceneNode {
   mixin (NodeBody);

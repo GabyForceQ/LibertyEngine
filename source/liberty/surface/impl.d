@@ -24,7 +24,8 @@ import liberty.surface.ui.button;
 import liberty.action;
 
 /**
- *
+ * A surface represents a 2-dimensional view containting user interface elements.
+ * Inheriths $(D SceneNode) class and implements $(D IRenderable) and $(D IUpdatable) interfaces.
 **/
 abstract class Surface : SceneNode, IRenderable, IUpdatable {
   private {
@@ -42,23 +43,23 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   }
 
   /**
-   *
+   * Create a new surface using an id and a parent.
   **/
   this(string id, SceneNode parent) {
     super(id, parent);
     updateProjection();
   }
 
-  /**
-   *
-  **/
   package final Surface addWidget(Widget widget) {
+    // Add a new widget to the surface widgets.
     widgets[widget.getId()] = widget;
+
+    // Returns reference to this and can be used in a stream.
     return this;
   }
   
   /**
-   *
+   * Update the surface projection matrix.
   **/
   final Surface updateProjection(bool autoScale = true) {
     if (autoScale) {
@@ -82,14 +83,14 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   }
 
   /**
-   *
+   * Returns the surface projection matrix.
   **/
   final Matrix4F getProjectionMatrix() pure nothrow const {
     return projectionMatrix;
   }
 
   /**
-   *
+   * Call render for all widgets.
   **/
   final override void render() {
     foreach (w; widgets)
@@ -97,7 +98,7 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   }
 
   /**
-   *
+   * Call update for all widgets.
   **/
   override void update() {
     foreach (w; widgets)
@@ -105,24 +106,27 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   }
 
   /**
-   *
+   * Returns the widgets map.
   **/
   final Widget[string] getWidgets() pure nothrow {
     return widgets;
   }
 
   /**
-   *
+   * Returns a widget by given id
   **/
   final Widget getWidget(string id) pure nothrow {
     return widgets[id];
   }
 
   /**
-   *
+   * Add a new action for the current surface using an id, an event,
+   * an array of tuple containing the wanted widget and its event and a priority.
+   * The priority param is optional, its default value is 0.
+   * Returns reference to this and can be used in a stream.
   **/
   Surface addAction(string id, void delegate(Widget, Event) action,
-    Tuple!(Widget, Event)[] objEvList = null, int priority = 0)
+    Tuple!(Widget, Event)[] objEvList = null, ubyte priority = 0)
   do {
     actionMap[id] = new UIAction(id, action, priority);
     
@@ -141,15 +145,17 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   }
 
   /**
-   *
+   * Simulate an action by starting it right now.
+   * Returns reference to this and can be used in a stream.
   **/
-  final Surface launchAction(string id, Widget sender, Event event) {
+  final Surface simulateAction(string id, Widget sender, Event event) {
     actionMap[id].callEvent(sender, event);
     return this;
   }
 
   /**
-   *
+   * Remove an user interface action from the memory.
+   * Returns reference to this and can be used in a stream.
   **/
   final Surface removeAction(string id) pure nothrow {
     actionMap.remove(id);
@@ -157,14 +163,14 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   }
 
   /**
-   *
+   * Returns the action map for user interface elements.
   **/
   final UIAction[string] getActionMap() pure nothrow {
     return actionMap;
   }
 
   /**
-   *
+   * Returns an action by given id for user interface elements.
   **/
   final UIAction getAction(string name) pure nothrow {
     return actionMap[name];
