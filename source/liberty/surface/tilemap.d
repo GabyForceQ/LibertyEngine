@@ -8,11 +8,11 @@
 **/
 module liberty.surface.tilemap;
 
-import std.algorithm : filter;
 import std.container.array : Array;
 import std.conv : to;
 import std.typecons : tuple, Tuple;
 
+import liberty.logger;
 import liberty.math.vector;
 import liberty.surface.impl;
 import liberty.surface.transform;
@@ -50,11 +50,13 @@ final class TileMap : Widget {
   TileMap build(Vector2I dimension) {
     this.dimension = dimension;
 
-    //getTransform().setExtent(dimension.x * 100, dimension.y * 100);
-
     foreach (i; 0..dimension.y)
       foreach (j; 0..dimension.x) {
-        tiles ~= new Button(getId() ~ "Tile_" ~ i.to!string ~ "_" ~ j.to!string, getSurface());
+        tiles ~= new Button(
+          getId() ~ "_Tile_" ~ i.to!string ~ "_" ~ j.to!string,
+          getSurface()
+        );
+        
         tiles[$ - 1]
           .setIndex(i, j)
           .getTransform()
@@ -72,7 +74,7 @@ final class TileMap : Widget {
   **/
   TileMap createMouseOverEvent() pure nothrow {
     foreach (i; 0..dimension.x * dimension.y)
-      mouseOverEvents ~= tuple(tiles[$ - 1].asWidget(), Event.MouseOver);
+      mouseOverEvents ~= tuple(tiles[i].asWidget(), Event.MouseOver);
     
     return this;
   }
@@ -87,8 +89,24 @@ final class TileMap : Widget {
   /**
    *
   **/
-  Widget getTile(int x, int y) pure nothrow {
-    return filter!(tile => tile.getIndex() == Vector2I(x, y))(tiles)._input[0];
+  Widget getTile(int x, int y) {
+    return getTile(Vector2I(x, y));
+  }
+
+  /**
+   *
+  **/
+  Widget getTile(Vector2I index) {
+    foreach (tile; tiles)
+      if (tile.getIndex() == index)
+        return tile;
+    
+    Logger.warning(
+      "Tile with given index doesn't exist, so null is returned.",
+      typeof(this).stringof
+    );
+
+    return null;
   }
 
   /**
