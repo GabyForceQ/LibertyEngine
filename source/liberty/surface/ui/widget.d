@@ -167,6 +167,16 @@ enum Event : string {
   /**
    *
   **/
+  MouseEnter = "MouseEnter",
+
+  /**
+   *
+  **/
+  MouseLeave = "MouseLeave",
+
+  /**
+   *
+  **/
   Update = "Update"
 }
 

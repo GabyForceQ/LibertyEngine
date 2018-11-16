@@ -10,6 +10,7 @@ module liberty.surface.tilemap;
 
 import std.container.array : Array;
 import std.conv : to;
+import std.traits : EnumMembers;
 import std.typecons : tuple, Tuple;
 
 import liberty.math.vector;
@@ -26,7 +27,9 @@ final class TileMap : Widget {
   private {
     Vector2I dimension = Vector2I.zero;
     Widget[] tiles;
-    Tuple!(Widget, Event)[] mouseOverEvents;
+
+    static foreach (member; EnumMembers!TileMapEvent)
+      mixin("Tuple!(Widget, Event)[] eventMap" ~ member ~ ";");
   }
 
   /**
@@ -71,16 +74,6 @@ final class TileMap : Widget {
   /**
    *
   **/
-  TileMap createMouseOverEvent() pure nothrow {
-    foreach (i; 0..dimension.x * dimension.y)
-      mouseOverEvents ~= tuple(tiles[i], Event.MouseOver);
-    
-    return this;
-  }
-
-  /**
-   *
-  **/
   Widget[] getTiles() pure nothrow {
     return tiles;
   }
@@ -99,10 +92,64 @@ final class TileMap : Widget {
     return tiles[dimension.x * index.x + index.y];
   }
 
+  static foreach (member; EnumMembers!TileMapEvent)
+    /**
+     *
+    **/
+    mixin("TileMap create" ~ member ~ "Event() pure nothrow {"
+      ~ "foreach (i; 0..dimension.x * dimension.y)"
+      ~ "eventMap" ~ member ~ "~= tuple(tiles[i], Event." ~ member ~ ");"
+      ~ "return this; }");
+
+  static foreach (member; EnumMembers!TileMapEvent)
+    /**
+     *
+    **/
+    mixin("Tuple!(Widget, Event)[] get" ~ member ~ "Event() pure nothrow"
+      ~ "{ return eventMap" ~ member ~ "; }");
+}
+
+/**
+ *
+**/
+enum TileMapEvent : string {
   /**
    *
   **/
-  Tuple!(Widget, Event)[] getMouseOverEvents() pure nothrow {
-    return mouseOverEvents;
-  }
+  MouseLeftClick = "MouseLeftClick",
+
+  /**
+   *
+  **/
+  MouseMiddleClick = "MouseMiddleClick",
+
+  /**
+   *
+  **/
+  MouseRightClick = "MouseRightClick",
+
+  /**
+   *
+  **/
+  MouseOver = "MouseOver",
+
+  /**
+   *
+  **/
+  MouseMove = "MouseMove",
+
+  /**
+   *
+  **/
+  MouseEnter = "MouseEnter",
+
+  /**
+   *
+  **/
+  MouseLeave = "MouseLeave",
+
+  /**
+   *
+  **/
+  Update = "Update"
 }
