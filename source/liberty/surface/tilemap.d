@@ -36,7 +36,7 @@ final class TileMap : Widget {
    *
   **/
   this(string id, Surface surface) {
-    super(id, surface);
+    super(id, surface, false);
   }
 
   /**
@@ -67,7 +67,7 @@ final class TileMap : Widget {
             i * 100 + getTransform.getPosition.y
           );
       }
-
+    
     return this;
   }
 

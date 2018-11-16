@@ -39,9 +39,10 @@ abstract class Widget : IRenderable, IUpdatable {
   /**
    *
   **/
-  this(string id, Surface surface) {
-    renderer = new Renderer!(SurfaceVertex, Surface)(this, (new SurfaceModel([Material.getDefault()])
-      .build(uiSquareVertices, uiSquareIndices)));
+  this(string id, Surface surface, bool hasRenderer = true) {
+    if (hasRenderer)
+      renderer = new Renderer!(SurfaceVertex, Surface)(this, (new SurfaceModel([Material.getDefault()])
+        .build(uiSquareVertices, uiSquareIndices)));
 
     this.id = id;
     this.surface = surface;
@@ -61,7 +62,8 @@ abstract class Widget : IRenderable, IUpdatable {
    *
   **/
   final override void render() {
-    renderer.draw();
+    if (renderer !is null)
+      renderer.draw();
   }
 
   /**

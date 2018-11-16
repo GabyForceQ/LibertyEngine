@@ -33,7 +33,8 @@ There are so many features to come.
 - [ ] Now, you can load .obj models without any crashes. (#16)
 - [x] No more opengl errors for now. (#27)
 - [x] UI Signals are more general. (#47)
-- Other bug fixes, documentation improvements and more unittests.
+- [x] Mouse enter/leave events were added. (#49)
+- Other bug fixes, user interface + documentation improvements and more unittests.
 
 ##### Cool features:
 * Tree-based scene (every node is created and registered to the engine with "spawn" 

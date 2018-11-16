@@ -27,6 +27,8 @@ final class Button : Widget {
       static if (member != "Update")
         mixin ("bool isOn" ~ member ~ ";");
     }
+
+    bool mouseEntered;
   }
 
   /**
@@ -42,7 +44,7 @@ final class Button : Widget {
   override void update() {
     clearAllBooleans();
 
-    if (Input.getCursorType() != CursorType.DISABLED)
+    if (Input.getCursorType() != CursorType.DISABLED) {
       if (isMouseColliding()) {
         if (hasOnMouseOver()) {
           onMouseOver(this, Event.MouseOver);
@@ -54,6 +56,12 @@ final class Button : Widget {
             onMouseMove(this, Event.MouseMove);
             isOnMouseMove = true;
           }
+
+        if (hasOnMouseEnter() && !mouseEntered) {
+          onMouseEnter(this, Event.MouseEnter);
+          mouseEntered = true;
+          isOnMouseEnter = true;
+        }
 
         if (hasOnMouseLeftClick())
           if (Input.isMouseButtonDown(MouseButton.LEFT)) {
@@ -72,7 +80,12 @@ final class Button : Widget {
             onMouseRightClick(this, Event.MouseRightClick);
             isOnMouseRightClick = true;
           }
+      } else if (hasOnMouseLeave() && mouseEntered) {
+        onMouseLeave(this, Event.MouseLeave);
+        mouseEntered = false;
+        isOnMouseLeave = true;
       }
+    }
 
     if (onUpdate !is null)
       onUpdate(this, Event.Update);
