@@ -13,5 +13,4 @@ public {
 
   import liberty.image.impl;
   import liberty.image.io;
-  import liberty.image.manager;
 }
