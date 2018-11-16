@@ -169,3 +169,13 @@ enum Event : string {
   **/
   Update = "Update"
 }
+
+/**
+ *
+**/
+enum WidgetType : string {
+  /**
+   *
+  **/
+  Button = "Button"
+}

@@ -148,8 +148,8 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
    * Simulate an action by starting it right now.
    * Returns reference to this and can be used in a stream.
   **/
-  final Surface simulateAction(string id, Widget sender, Event event) {
-    actionMap[id].callEvent(sender, event);
+  final Surface simulateAction(string id, Widget sender, Event e) {
+    actionMap[id].callEvent(sender, e);
     return this;
   }
 

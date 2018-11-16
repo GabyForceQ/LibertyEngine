@@ -8,18 +8,6 @@
  */
 module liberty.surface.ui.meta;
 
-import liberty.surface.ui.button;
-
-/**
- *
-**/
-struct Action {
-  /**
-   *
-  **/
-  string name;
-}
-
 /**
  *
 **/
@@ -29,13 +17,10 @@ struct Signal(WIDGET) {
   **/
   string id;
 
-  static if (is(WIDGET == Button))
-    /**
-     *
-    **/
-    ButtonEvent event;
-  else
-    static assert (0, "Object " ~ WIDGET.stringof ~ " does not support signals.");
+  /**
+   *
+  **/
+  string event;
 }
 
 /**
@@ -48,20 +33,17 @@ immutable ListenerBody = q{
     // Go through all members
     static foreach (member; __traits(derivedMembers, typeof(this)))
       // Go through all attributes of current member if exist
-      static foreach (i; 0..getUDAs!(__traits(getMember, typeof(this), member), Signal).length) {
-        // Check if it is a registered event
-        //static if (hasUDA!(__traits(getMember, typeof(this), member), Action))
-          
-
-        // Check if it is a button event
-        static if (hasUDA!(__traits(getMember, typeof(this), member), Signal!Button))
-          // Go through all button events
-          static foreach (j; EnumMembers!ButtonEvent)
-            // Check if event is defined
-            static if (getUDAs!(__traits(getMember, typeof(this), member), Signal!Button)[i].event == j)
-              // Register the event to the engine
-              mixin ("(cast(Button)getWidget(getUDAs!(__traits(getMember, typeof(this), member), Signal!Button)[i].id))
-                .setOn" ~ j ~ "(&mixin (member));");
-      }
+      static foreach (i; 0..getUDAs!(__traits(getMember, typeof(this), member), Signal).length)
+        // Go through all ui elements
+        static foreach (ui; EnumMembers!WidgetType)
+          // Check if it is a specific ui event
+          static if (hasUDA!(__traits(getMember, typeof(this), member), mixin("Signal!" ~ ui)))
+            // Go through all specific ui events
+            static foreach (j; mixin("EnumMembers!" ~ ui ~ "Event"))
+              // Check if event is defined
+              static if (getUDAs!(__traits(getMember, typeof(this), member), mixin("Signal!" ~ ui))[i].event == j)
+                // Register the event to the engine
+                mixin ("(cast(" ~ ui ~ ")getWidget(getUDAs!(__traits(getMember, typeof(this), member),
+                  mixin(`Signal!` ~ ui))[i].id)).setOn" ~ j ~ "(&mixin (member));");
   }
 };
