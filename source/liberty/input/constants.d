@@ -26,6 +26,11 @@ enum short KEY_CODES = 512;
 /**
  *
 **/
+enum byte JOYSTICK_BUTTONS = 14;
+
+/**
+ *
+**/
 enum MouseButton : byte {
   LEFT = GLFW_MOUSE_BUTTON_1,
   RIGHT = GLFW_MOUSE_BUTTON_2,
@@ -188,4 +193,24 @@ enum JoystickNumber : byte {
   NO_14 = GLFW_JOYSTICK_14,
   NO_15 = GLFW_JOYSTICK_15,
   NO_16 = GLFW_JOYSTICK_16
+}
+
+/**
+ *
+**/
+enum JoystickButton : byte {
+  A = 0x00,
+  B = 0x01,
+  X = 0x02,
+  Y = 0x03,
+  LB = 0x04,
+  RB = 0x05,
+  BACK = 0x06,
+  START = 0x07,
+  LAXIS = 0x08,
+  RAXIS = 0x09,
+  PAD_UP = 0x0A,
+  PAD_RIGHT = 0x0B,
+  PAD_DOWN = 0x0C,
+  PAD_LEFT = 0x0D
 }

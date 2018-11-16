@@ -29,7 +29,7 @@ package(liberty) class EventManager {
     lastY = Platform.getWindow().getWidth() / 2.0f;
   }
 
-  extern(C) static void mouseCallback(GLFWwindow* window, double xPos, double yPos) nothrow {
+  extern (C) static void mouseCallback(GLFWwindow* window, double xPos, double yPos) nothrow {
     if (firstMouse) {
       lastX = xPos;
       lastY = yPos;
@@ -50,13 +50,20 @@ package(liberty) class EventManager {
     } catch (Exception e) {}
   }
 
-  extern(C) static void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) nothrow {
+  extern (C) static void joystickCallback(int joy, int event) nothrow {
+    if (event == GLFW_CONNECTED)
+      Input.setJoystickConnected(true);
+    else if (event == GLFW_DISCONNECTED)
+      Input.setJoystickConnected(false);
+  }
+
+  extern (C) static void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) nothrow {
     try {
       CoreEngine.getScene().getActiveCamera().processMouseScroll(yOffset);
     } catch (Exception e) {}
   }
 
-  extern(C) static void frameBufferResizeCallback(GLFWwindow* window, int width, int height) nothrow {
+  extern (C) static void frameBufferResizeCallback(GLFWwindow* window, int width, int height) nothrow {
     GfxEngine.resizeFrameBufferViewport(width, height);
   }
 

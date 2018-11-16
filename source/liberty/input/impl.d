@@ -10,26 +10,27 @@ module liberty.input.impl;
 
 import bindbc.glfw;
 
-import liberty.math.vector : Vector2F;
-import liberty.input.constants :
-  KeyCode, MouseButton, CursorType,
-  KEY_CODES, MOUSE_BUTTONS;
-import liberty.input.picker : MousePicker;
-import liberty.core.platform : Platform;
-import liberty.core.window : Window;
+import liberty.math.vector;
+import liberty.input.constants;
+import liberty.input.picker;
+import liberty.core.platform;
+import liberty.core.window;
 
 /**
  *
 **/
 final class Input {
   private {
+    static bool joystickConnected;
     static bool[KEY_CODES] keyState;
-    static bool[KEY_CODES] mouseBtnState;
+    static bool[MOUSE_BUTTONS] mouseBtnState;
+    static bool[JOYSTICK_BUTTONS] joystickBtnState;
     static Vector2F mousePosition;
     static Vector2F previousMousePosition;
     static Vector2F lastMousePosition;
     static CursorType cursorType;
     static MousePicker mousePicker;
+    static ubyte* joystickButtons;
   }
 
   @disable this();
@@ -40,6 +41,12 @@ final class Input {
     
     static foreach (i; 0..MOUSE_BUTTONS)
       mouseBtnState[i] = isMouseButtonHold(cast(MouseButton)i);
+    
+    if (joystickConnected)
+      static foreach (i; 0..JOYSTICK_BUTTONS)
+        joystickBtnState[i] = isJoystickButtonHold(cast(JoystickButton)i);
+  
+    processJoystickButtons();
   }
 
   /**
@@ -47,6 +54,12 @@ final class Input {
   **/
   static void initialize() {
     mousePicker = new MousePicker();
+    
+    const int present1 = glfwJoystickPresent(JoystickNumber.NO_1);
+    if (present1)
+      joystickConnected = true;
+
+    processJoystickButtons();
   }
 
   /**
@@ -113,6 +126,35 @@ final class Input {
   **/
   static bool isMouseButtonNone(MouseButton btn) {
     return glfwGetMouseButton(Platform.getWindow().getHandle(), btn) == GLFW_RELEASE;
+  }
+
+  /**
+   * Returns true if joystick button was just pressed in an event loop.
+  **/
+  static bool isJoystickButtonDown(JoystickButton btn) {
+    return isJoystickButtonHold(btn) && !joystickBtnState[btn];
+  }
+
+  /**
+   * Returns true if joystick button was just released in an event loop.
+  **/
+  static bool isJoystickButtonUp(JoystickButton btn) {
+    return !isJoystickButtonHold(btn) && joystickBtnState[btn];
+  }
+
+  /**
+   * Returns true if joystick button is still pressed in an event loop.
+   * Use case: shooting something.
+  **/
+  static bool isJoystickButtonHold(return JoystickButton btn) {
+    return joystickButtons[btn] == GLFW_PRESS;
+  }
+
+  /**
+   * Returns true if joystick button has no input action in an event loop.
+  **/
+  static bool isJoystickButtonNone(JoystickButton btn) {
+    return joystickButtons[btn] == GLFW_RELEASE;
   }
 
   /**
@@ -245,6 +287,13 @@ final class Input {
     );
   }
 
+  /**
+   * Returns true if joystick is connected.
+  **/
+  static bool isJoystickConnected() nothrow {
+    return joystickConnected;
+  }
+
   static package void setMousePosition(Vector2F position) nothrow {
     mousePosition = position;
   }
@@ -255,5 +304,14 @@ final class Input {
 
   static package void setLastMousePosition(Vector2F position) nothrow {
     lastMousePosition = position;
+  }
+
+  static package void setJoystickConnected(bool value) nothrow {
+    joystickConnected = value;
+  }
+
+  static private void processJoystickButtons() {
+    int count;
+    joystickButtons = glfwGetJoystickButtons(JoystickNumber.NO_1, &count);
   }
 }

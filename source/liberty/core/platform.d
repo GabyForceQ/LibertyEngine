@@ -63,6 +63,7 @@ final class Platform {
 
     glfwSetCursorPosCallback(window.getHandle(), &EventManager.mouseCallback);
 		glfwSetScrollCallback(window.getHandle(), &EventManager.scrollCallback);
+    glfwSetJoystickCallback(&EventManager.joystickCallback);
 
     Logger.info(InfoMessage.Created, typeof(this).stringof);
   }

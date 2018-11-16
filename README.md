@@ -19,7 +19,7 @@ There are so many features to come.
 - [x] Close OS window when press x top-right button. (#42)
 - [x] Properties zNear and zFar were added to camera. (#41)
 - [x] Transform improvements and fixes. (#38)
-- [ ] Support for joystick was added. (#44)
+- [x] Support for joystick was added. (#44)
 - [ ] Experimental particle effects. (#45)
 - [x] Incorrect texture uvs on bsp volumes was fixed. (#43)
 - [ ] Now, you can rotate object on multiple axis the same time. (#40)
