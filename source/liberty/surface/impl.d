@@ -125,15 +125,15 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
    * The priority param is optional, its default value is 0.
    * Returns reference to this and can be used in a stream.
   **/
-  Surface addAction(string id, void delegate(Widget, Event) action,
-    Tuple!(Widget, Event)[] objEvList = null, ubyte priority = 0)
+  Surface addAction(T)(string id, void delegate(Widget, Event) action,
+    Tuple!(T, Event)[] objEvList = null, ubyte priority = 0)
   do {
     actionMap[id] = new UIAction(id, action, priority);
     
     if (objEvList !is null) {
       static foreach (s; ["Button"])
         foreach(e; objEvList) {
-          if (mixin ("__traits(compiles, e[0].as" ~ s ~ ")"))
+          if (mixin ("__traits(compiles, cast(" ~ s ~ ")e[0])"))
             SW: final switch (e[1]) with (Event) {
               static foreach (member; mixin ("EnumMembers!" ~ s ~ "Event"))
                 mixin ("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~ "(action); break SW;");

@@ -12,7 +12,6 @@ import std.container.array : Array;
 import std.conv : to;
 import std.typecons : tuple, Tuple;
 
-import liberty.logger;
 import liberty.math.vector;
 import liberty.surface.impl;
 import liberty.surface.transform;
@@ -74,7 +73,7 @@ final class TileMap : Widget {
   **/
   TileMap createMouseOverEvent() pure nothrow {
     foreach (i; 0..dimension.x * dimension.y)
-      mouseOverEvents ~= tuple(tiles[i].asWidget(), Event.MouseOver);
+      mouseOverEvents ~= tuple(tiles[i], Event.MouseOver);
     
     return this;
   }
@@ -97,16 +96,7 @@ final class TileMap : Widget {
    *
   **/
   Widget getTile(Vector2I index) {
-    foreach (tile; tiles)
-      if (tile.getIndex() == index)
-        return tile;
-    
-    Logger.warning(
-      "Tile with given index doesn't exist, so null is returned.",
-      typeof(this).stringof
-    );
-
-    return null;
+    return tiles[dimension.x * index.x + index.y];
   }
 
   /**

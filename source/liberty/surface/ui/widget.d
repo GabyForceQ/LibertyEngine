@@ -121,20 +121,6 @@ abstract class Widget : IRenderable, IUpdatable {
   override void update() {
     
   }
-
-  /**
-   *
-  **/
-  Widget asWidget() pure nothrow {
-    return this;
-  }
-
-  /**
-   *
-  **/
-  Button asButton() pure nothrow {
-    return cast(Button)this;
-  }
 }
 
 private uint[6] uiSquareIndices = [
