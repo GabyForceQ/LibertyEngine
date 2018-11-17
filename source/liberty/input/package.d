@@ -16,5 +16,4 @@ public {
 
   import liberty.input.event;
   import liberty.input.impl;
-  import liberty.input.picker;
 }

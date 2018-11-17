@@ -11,4 +11,5 @@ module liberty.input.mouse;
 public {
   import liberty.input.mouse.constants;
   import liberty.input.mouse.impl;
+  import liberty.input.mouse.picker;
 }

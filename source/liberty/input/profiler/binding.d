@@ -59,7 +59,7 @@ final class InputActionBinding {
     
     static foreach (type; ["mouse", "keyboard", "joystick"])
       foreach (e; mixin(type))
-        if (mixin("Input.is" ~ type.capitalize() ~ "Action(e.button, e.action)"))
+        if (mixin("Input.get" ~ type.capitalize() ~ "().isUnfolding(e.button, e.action)"))
           return true;
 
     return false;

@@ -106,7 +106,7 @@ abstract class Widget : IRenderable, IUpdatable {
    *
   **/
   final bool isMouseColliding() {
-    Vector2F mousePos = Input.getMousePostion();
+    Vector2F mousePos = Input.getMouse.getPostion();
     return mousePos.x >= transform.getPosition.x - transform.getExtent.x / 2 && 
       mousePos.x <= transform.getPosition.x + transform.getExtent.x / 2 && 
       mousePos.y >= transform.getPosition.y - transform.getExtent.y / 2 && 

@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/input/picker.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/input/mouse/picker.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.input.picker;
+module liberty.input.mouse.picker;
 
 import liberty.input.impl;
 import liberty.math.vector;
@@ -61,7 +61,7 @@ final class MousePicker {
   }
 
   private Vector3F computeMouseRay() {
-    Vector2F normalizedCoords = Input.getNormalizedDeviceCoords(Input.getMousePostion());
+    Vector2F normalizedCoords = Input.getNormalizedDeviceCoords(Input.getMouse().getPostion());
     Vector4F clipCoords = Vector4F(normalizedCoords.x , normalizedCoords.y, -1.0f, 1.0f);
     Vector4F eyeCoords = toEyeCoords(clipCoords);
     Vector3F worldRay = toWorldCoords(eyeCoords);

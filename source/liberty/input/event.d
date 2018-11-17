@@ -40,28 +40,40 @@ package(liberty) class EventManager {
     float xOffset = xPos - lastX;
     float yOffset = lastY - yPos;
 
-    Input.setPreviousMousePostion(Vector2F(lastX, lastY));
-    Input.setMousePosition(Vector2F(xPos, yPos));
+    Input
+      .getMouse()
+      .setPreviousPostion(Vector2F(lastX, lastY))
+      .setPosition(Vector2F(xPos, yPos));
 
     lastX = xPos;
     lastY = yPos;
 
     try {
-      CoreEngine.getScene().getActiveCamera().processMouseMovement(xOffset, yOffset);
+      CoreEngine
+        .getScene()
+        .getActiveCamera()
+        .processMouseMovement(xOffset, yOffset);
     } catch (Exception e) {}
   }
 
   extern (C) static void joystickCallback(int joy, int event) nothrow {
     if (event == GLFW_CONNECTED) {
-      Input.setJoystickConnected(true);
-      Input.processJoystickButtons();
+      Input
+        .getJoystick()
+        .setConnected(true)
+        .processButtons();
     } else if (event == GLFW_DISCONNECTED)
-      Input.setJoystickConnected(false);
+      Input
+        .getJoystick()
+        .setConnected(false);
   }
 
   extern (C) static void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) nothrow {
     try {
-      CoreEngine.getScene().getActiveCamera().processMouseScroll(yOffset);
+      CoreEngine
+        .getScene()
+        .getActiveCamera()
+        .processMouseScroll(yOffset);
     } catch (Exception e) {}
   }
 
@@ -70,6 +82,8 @@ package(liberty) class EventManager {
   }
 
   static void updateLastMousePosition() {
-    Input.setLastMousePosition(Vector2F(lastX, lastY));
+    Input
+      .getMouse()
+      .setLastPosition(Vector2F(lastX, lastY));
   }
 }

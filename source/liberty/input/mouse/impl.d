@@ -8,9 +8,198 @@
 **/
 module liberty.input.mouse.impl;
 
+import bindbc.glfw;
+
+import liberty.core.platform;
+import liberty.core.window;
+import liberty.math.vector;
+import liberty.input.mouse.constants;
+
 /**
  *
 **/
 final class Mouse {
+  private {
+    bool[MOUSE_BUTTONS] buttonsState;
+    Vector2F position;
+    Vector2F previousPosition;
+    Vector2F lastPosition;
+    CursorType cursorType;
+  }
+
+  /**
+   * Returns true if mouse button was just pressed in an event loop.
+  **/
+  bool isButtonDown(MouseButton button) {
+    return isButtonHold(button) && !buttonsState[button];
+  }
+
+  /**
+   * Returns true if mouse button was just released in an event loop.
+  **/
+  bool isButtonUp(MouseButton button) {
+    return !isButtonHold(button) && buttonsState[button];
+  }
+
+  /**
+   * Returns true if mouse button is still pressed in an event loop.
+   * Use case: shooting something.
+  **/
+  bool isButtonHold(MouseButton button) {
+    return glfwGetMouseButton(Platform.getWindow().getHandle(), button) == GLFW_PRESS;
+  }
+
+  /**
+   * Returns true if mouse button has no input action in an event loop.
+  **/
+  bool isButtonNone(MouseButton button) {
+    return glfwGetMouseButton(Platform.getWindow().getHandle(), button) == GLFW_RELEASE;
+  }
+
+  /**
+   *
+  **/
+  bool isUnfolding(MouseButton button, MouseAction action) {
+    final switch (action) with (MouseAction) {
+      case NONE:
+        return isButtonNone(button);
+      case DOWN:
+        return isButtonDown(button);
+      case UP:
+        return isButtonUp(button);
+      case HOLD:
+        return isButtonHold(button);
+    }
+  }
+
+  /**
+   * Returns a 2d vector containing mouse position in the current window.
+   * You can choose what window to test with the given argument.
+  **/
+  Vector2F getPostion(Window window = Platform.getWindow()) nothrow {
+    double x, y;
+    glfwGetCursorPos(window.getHandle(), &x, &y);
+    return Vector2F(cast(float)x, cast(float)y);
+  }
   
+  /**
+   * Returns a 2d vector containing previous mouse position.
+  **/
+  Vector2F getPreviousPostion() nothrow {
+    return previousPosition;
+  }
+
+  /**
+   * Returns a 2d vector containing last mouse position.
+  **/
+  Vector2F getLastPostion() nothrow {
+    return lastPosition;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving left.
+  **/
+  bool isMovingLeft() nothrow {
+    return lastPosition.x > position.x;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving right.
+  **/
+  bool isMovingRight() nothrow {
+    return lastPosition.x < position.x;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving up.
+  **/
+  bool isMovingUp() nothrow {
+    return lastPosition.y > position.y;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving down.
+  **/
+  bool isMovingDown() nothrow {
+    return lastPosition.y < position.y;
+  }
+
+  /**
+   * Returns true if mouse cursor is moving.
+  **/
+  bool isMoving() nothrow {
+    return lastPosition != position;
+  }
+
+  /**
+   * Returns true if mouse cursor is staying.
+  **/
+  bool isStaying() nothrow {
+    return lastPosition == position;
+  }
+
+  /**
+   * Returns true if mouse cursor was moving left.
+  **/
+  bool wasMovingLeft() nothrow {
+    return previousPosition.x > position.x;
+  }
+
+  /**
+   * Returns true if mouse cursor was moving right.
+  **/
+  bool wasMovingRight() nothrow {
+    return previousPosition.x < position.x;
+  }
+
+  /**
+   * Returns true if mouse cursor was moving up.
+  **/
+  bool wasMovingUp() nothrow {
+    return previousPosition.y > position.y;
+  }
+
+  /**
+   * Returns true if mouse cursor was moving down.
+  **/
+  bool wasMovingDown() nothrow {
+    return previousPosition.y < position.y;
+  }
+
+  /**
+   * Set current cursor type.
+   * For available options see $(D CursorType).
+  **/
+  void setCursorType(CursorType cursorType, Window window = Platform.getWindow()) {
+    glfwSetInputMode(window.getHandle(), GLFW_CURSOR, cursorType);
+    this.cursorType = cursorType;
+  }
+
+  /**
+   * Returns the type of the cursor.
+   * For available returned values see $(D CursorType).
+  **/
+  CursorType getCursorType() nothrow {
+    return cursorType;
+  }
+
+  package(liberty.input) void update() {
+    static foreach (i; 0..MOUSE_BUTTONS)
+      buttonsState[i] = isButtonHold(cast(MouseButton)i);
+  }
+
+  package(liberty.input) Mouse setPosition(Vector2F position) nothrow {
+    this.position = position;
+    return this;
+  }
+
+  package(liberty.input) Mouse setPreviousPostion(Vector2F position) nothrow {
+    previousPosition = position;
+    return this;
+  }
+
+  package(liberty.input) Mouse setLastPosition(Vector2F position) nothrow {
+    lastPosition = position;
+    return this;
+  }
 }

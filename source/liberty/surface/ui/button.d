@@ -44,7 +44,7 @@ final class Button : Widget {
   override void update() {
     clearAllBooleans();
 
-    if (Input.getCursorType() != CursorType.DISABLED) {
+    if (Input.getMouse().getCursorType() != CursorType.DISABLED) {
       if (isMouseColliding()) {
         if (hasOnMouseOver()) {
           onMouseOver(this, Event.MouseOver);
@@ -52,7 +52,7 @@ final class Button : Widget {
         }
 
         if (hasOnMouseMove())
-          if (Input.isMouseMoving()) {
+          if (Input.getMouse().isMoving()) {
             onMouseMove(this, Event.MouseMove);
             isOnMouseMove = true;
           }
@@ -64,19 +64,19 @@ final class Button : Widget {
         }
 
         if (hasOnMouseLeftClick())
-          if (Input.isMouseButtonDown(MouseButton.LEFT)) {
+          if (Input.getMouse().isButtonDown(MouseButton.LEFT)) {
             onMouseLeftClick(this, Event.MouseLeftClick);
             isOnMouseLeftClick = true;
           }
 
         if (hasOnMouseMiddleClick())
-          if (Input.isMouseButtonDown(MouseButton.MIDDLE)) {
+          if (Input.getMouse().isButtonDown(MouseButton.MIDDLE)) {
             onMouseMiddleClick(this, Event.MouseMiddleClick);
             isOnMouseMiddleClick = true;
           }
 
         if (hasOnMouseRightClick())
-          if (Input.isMouseButtonDown(MouseButton.RIGHT)) {
+          if (Input.getMouse().isButtonDown(MouseButton.RIGHT)) {
             onMouseRightClick(this, Event.MouseRightClick);
             isOnMouseRightClick = true;
           }
