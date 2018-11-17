@@ -2,215 +2,660 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/input/constants.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/input/keyboard/constants.d)
  * Documentation:
  * Coverage:
- *
- * TODO:
- *    - implement keymod constants + mouse constants + joystick constants
 **/
-module liberty.input.constants;
+module liberty.input.keyboard.constants;
 
 import bindbc.glfw;
 
 /**
  *
 **/
-enum byte MOUSE_BUTTONS = 3;
+enum short KEYBOARD_BUTTONS = 512;
 
 /**
  *
 **/
-enum short KEY_CODES = 512;
+struct KeyboardAxis {}
 
 /**
  *
 **/
-enum byte JOYSTICK_BUTTONS = 14;
-
-/**
- *
-**/
-enum MouseButton : byte {
-  LEFT = GLFW_MOUSE_BUTTON_1,
-  RIGHT = GLFW_MOUSE_BUTTON_2,
-  MIDDLE = GLFW_MOUSE_BUTTON_3
+enum KeyboardAction : byte {
+  /**
+   *
+  **/
+  NONE,
+  
+  /**
+   *
+  **/
+  DOWN,
+  
+  /**
+   *
+  **/
+  UP,
+  
+  /**
+   *
+  **/
+  HOLD,
+  
+  /**
+   *
+  **/
+  REPEAT
 }
 
 /**
  *
 **/
-enum KeyCode : short {
+enum KeyboardButton : short {
+  /**
+   *
+  **/
   UNKNOWN = GLFW_KEY_UNKNOWN,
+  
+  /**
+   *
+  **/
   SPACE = GLFW_KEY_SPACE,
+  
+  /**
+   *
+  **/
   APOSTROPHE = GLFW_KEY_APOSTROPHE,
+  
+  /**
+   *
+  **/
   COMMA = GLFW_KEY_COMMA,
+  
+  /**
+   *
+  **/
   MINUS = GLFW_KEY_MINUS,
+  
+  /**
+   *
+  **/
   PERIOD = GLFW_KEY_PERIOD,
+  
+  /**
+   *
+  **/
   SLASH = GLFW_KEY_SLASH,
+  
+  /**
+   *
+  **/
   NUM_0 = GLFW_KEY_0,
+  
+  /**
+   *
+  **/
   NUM_1 = GLFW_KEY_1,
+  
+  /**
+   *
+  **/
   NUM_2 = GLFW_KEY_2,
+  
+  /**
+   *
+  **/
   NUM_3 = GLFW_KEY_3,
+  
+  /**
+   *
+  **/
   NUM_4 = GLFW_KEY_4,
+  
+  /**
+   *
+  **/
   NUM_5 = GLFW_KEY_5,
+  
+  /**
+   *
+  **/
   NUM_6 = GLFW_KEY_6,
+  
+  /**
+   *
+  **/
   NUM_7 = GLFW_KEY_7,
+  
+  /**
+   *
+  **/
   NUM_8 = GLFW_KEY_8,
+  
+  /**
+   *
+  **/
   NUM_9 = GLFW_KEY_9,
+  
+  /**
+   *
+  **/
   SEMICOLON = GLFW_KEY_SEMICOLON,
+  
+  /**
+   *
+  **/
   EQUAL = GLFW_KEY_EQUAL,
+  
+  /**
+   *
+  **/
   A = GLFW_KEY_A,
+  
+  /**
+   *
+  **/
   B = GLFW_KEY_B,
+  
+  /**
+   *
+  **/
   C = GLFW_KEY_C,
+  
+  /**
+   *
+  **/
   D = GLFW_KEY_D,
+  
+  /**
+   *
+  **/
   E = GLFW_KEY_E,
+  
+  /**
+   *
+  **/
   F = GLFW_KEY_F,
+  
+  /**
+   *
+  **/
   G = GLFW_KEY_G,
+  
+  /**
+   *
+  **/
   H = GLFW_KEY_H,
+  
+  /**
+   *
+  **/
   I = GLFW_KEY_I,
+  
+  /**
+   *
+  **/
   J = GLFW_KEY_J,
+  
+  /**
+   *
+  **/
   K = GLFW_KEY_K,
+  
+  /**
+   *
+  **/
   L = GLFW_KEY_L,
+  
+  /**
+   *
+  **/
   M = GLFW_KEY_M,
+  
+  /**
+   *
+  **/
   N = GLFW_KEY_N,
+  
+  /**
+   *
+  **/
   O = GLFW_KEY_O,
+  
+  /**
+   *
+  **/
   P = GLFW_KEY_P,
+  
+  /**
+   *
+  **/
   Q = GLFW_KEY_Q,
+  
+  /**
+   *
+  **/
   R = GLFW_KEY_R,
+  
+  /**
+   *
+  **/
   S = GLFW_KEY_S,
+  
+  /**
+   *
+  **/
   T = GLFW_KEY_T,
+  
+  /**
+   *
+  **/
   U = GLFW_KEY_U,
+  
+  /**
+   *
+  **/
   V = GLFW_KEY_V,
+  
+  /**
+   *
+  **/
   W = GLFW_KEY_W,
+  
+  /**
+   *
+  **/
   X = GLFW_KEY_X,
+  
+  /**
+   *
+  **/
   Y = GLFW_KEY_Y,
+  
+  /**
+   *
+  **/
   Z = GLFW_KEY_Z,
+  
+  /**
+   *
+  **/
   BRACKET = GLFW_KEY_LEFT_BRACKET,
+  
+  /**
+   *
+  **/
   BACKSLASH = GLFW_KEY_BACKSLASH,
+  
+  /**
+   *
+  **/
   RIGHT_BRACKET = GLFW_KEY_RIGHT_BRACKET,
+  
+  /**
+   *
+  **/
   GRAVE_ACCENT = GLFW_KEY_GRAVE_ACCENT,
+  
+  /**
+   *
+  **/
   WORLD_1 = GLFW_KEY_WORLD_1,
+  
+  /**
+   *
+  **/
   WORLD_2 = GLFW_KEY_WORLD_2,
+  
+  /**
+   *
+  **/
   ESC = GLFW_KEY_ESCAPE,
+  
+  /**
+   *
+  **/
   ENTER = GLFW_KEY_ENTER,
+  
+  /**
+   *
+  **/
   TAB = GLFW_KEY_TAB,
+  
+  /**
+   *
+  **/
   BACKSPACE = GLFW_KEY_BACKSPACE,
+  
+  /**
+   *
+  **/
   INSERT = GLFW_KEY_INSERT,
+  
+  /**
+   *
+  **/
   DELETE = GLFW_KEY_DELETE,
+  
+  /**
+   *
+  **/
   RIGHT = GLFW_KEY_RIGHT,
+  
+  /**
+   *
+  **/
   LEFT = GLFW_KEY_LEFT,
+  
+  /**
+   *
+  **/
   DOWN = GLFW_KEY_DOWN,
+  
+  /**
+   *
+  **/
   UP = GLFW_KEY_UP,
+  
+  /**
+   *
+  **/
   PAGE_UP = GLFW_KEY_PAGE_UP,
+  
+  /**
+   *
+  **/
   PAGE_DOWN = GLFW_KEY_PAGE_DOWN,
+  
+  /**
+   *
+  **/
   HOME = GLFW_KEY_HOME,
+  
+  /**
+   *
+  **/
   END = GLFW_KEY_END,
+  
+  /**
+   *
+  **/
   CAPS_LOCK = GLFW_KEY_CAPS_LOCK,
+  
+  /**
+   *
+  **/
   SCROLL_LOCK = GLFW_KEY_SCROLL_LOCK,
+  
+  /**
+   *
+  **/
   NUM_LOCK = GLFW_KEY_NUM_LOCK,
+  
+  /**
+   *
+  **/
   PRINT_SCREEN = GLFW_KEY_PRINT_SCREEN,
+  
+  /**
+   *
+  **/
   KEY_PAUSE = GLFW_KEY_PAUSE,
+  
+  /**
+   *
+  **/
   F1 = GLFW_KEY_F1,
+  
+  /**
+   *
+  **/
   F2 = GLFW_KEY_F2,
+  
+  /**
+   *
+  **/
   F3 = GLFW_KEY_F3,
+  
+  /**
+   *
+  **/
   F4 = GLFW_KEY_F4,
+  
+  /**
+   *
+  **/
   F5 = GLFW_KEY_F5,
+  
+  /**
+   *
+  **/
   F6 = GLFW_KEY_F6,
+  
+  /**
+   *
+  **/
   F7 = GLFW_KEY_F7,
+  
+  /**
+   *
+  **/
   F8 = GLFW_KEY_F8,
+  
+  /**
+   *
+  **/
   F9 = GLFW_KEY_F9,
+  
+  /**
+   *
+  **/
   F10 = GLFW_KEY_F10,
+  
+  /**
+   *
+  **/
   F11 = GLFW_KEY_F11,
+  
+  /**
+   *
+  **/
   F12 = GLFW_KEY_F12,
+  
+  /**
+   *
+  **/
   F13 = GLFW_KEY_F13,
+  
+  /**
+   *
+  **/
   F14 = GLFW_KEY_F14,
+  
+  /**
+   *
+  **/
   F15 = GLFW_KEY_F15,
+  
+  /**
+   *
+  **/
   F16 = GLFW_KEY_F16,
+  
+  /**
+   *
+  **/
   F17 = GLFW_KEY_F17,
+  
+  /**
+   *
+  **/
   F18 = GLFW_KEY_F18,
+  
+  /**
+   *
+  **/
   F19 = GLFW_KEY_F19,
+  
+  /**
+   *
+  **/
   F20 = GLFW_KEY_F20,
+  
+  /**
+   *
+  **/
   F21 = GLFW_KEY_F21,
+  
+  /**
+   *
+  **/
   F22 = GLFW_KEY_F22,
+  
+  /**
+   *
+  **/
   F23 = GLFW_KEY_F23,
+  
+  /**
+   *
+  **/
   F24 = GLFW_KEY_F24,
+  
+  /**
+   *
+  **/
   F25 = GLFW_KEY_F25,
+  
+  /**
+   *
+  **/
   KP_0 = GLFW_KEY_KP_0,
+  
+  /**
+   *
+  **/
   KP_1 = GLFW_KEY_KP_1,
+  
+  /**
+   *
+  **/
   KP_2 = GLFW_KEY_KP_2,
+  
+  /**
+   *
+  **/
   KP_3 = GLFW_KEY_KP_3,
+  
+  /**
+   *
+  **/
   KP_4 = GLFW_KEY_KP_4,
+  
+  /**
+   *
+  **/
   KP_5 = GLFW_KEY_KP_5,
+  
+  /**
+   *
+  **/
   KP_6 = GLFW_KEY_KP_6,
+  
+  /**
+   *
+  **/
   KP_7 = GLFW_KEY_KP_7,
+  
+  /**
+   *
+  **/
   KP_8 = GLFW_KEY_KP_8,
+  
+  /**
+   *
+  **/
   KP_9 = GLFW_KEY_KP_9,
+  
+  /**
+   *
+  **/
   KP_DECIMAL = GLFW_KEY_KP_DECIMAL,
+  
+  /**
+   *
+  **/
   KP_DIVIDE = GLFW_KEY_KP_DIVIDE,
+  
+  /**
+   *
+  **/
   KP_MULTIPLY = GLFW_KEY_KP_MULTIPLY,
+  
+  /**
+   *
+  **/
   KP_SUBTRACT = GLFW_KEY_KP_SUBTRACT,
+  
+  /**
+   *
+  **/
   KP_ADD = GLFW_KEY_KP_ADD,
+  
+  /**
+   *
+  **/
   KP_ENTER = GLFW_KEY_KP_ENTER,
+  
+  /**
+   *
+  **/
   KP_EQUAL = GLFW_KEY_KP_EQUAL,
+  
+  /**
+   *
+  **/
   LEFT_SHIFT = GLFW_KEY_LEFT_SHIFT,
+  
+  /**
+   *
+  **/
   LEFT_CONTROL = GLFW_KEY_LEFT_CONTROL,
+  
+  /**
+   *
+  **/
   LEFT_ALT = GLFW_KEY_LEFT_ALT,
+  
+  /**
+   *
+  **/
   LEFT_SUPER = GLFW_KEY_LEFT_SUPER,
+  
+  /**
+   *
+  **/
   RIGHT_SHIFT = GLFW_KEY_RIGHT_SHIFT,
+  
+  /**
+   *
+  **/
   RIGHT_CONTROL = GLFW_KEY_RIGHT_CONTROL,
+  
+  /**
+   *
+  **/
   RIGHT_ALT = GLFW_KEY_RIGHT_ALT,
+  
+  /**
+   *
+  **/
   RIGHT_SUPER = GLFW_KEY_RIGHT_SUPER,
+  
+  /**
+   *
+  **/
   MENU = GLFW_KEY_MENU,
-}
-
-/**
- *
-**/
-enum CursorType : int {
-  NORMAL = GLFW_CURSOR_NORMAL,
-  HIDDEN = GLFW_CURSOR_HIDDEN,
-  DISABLED = GLFW_CURSOR_DISABLED
-}
-
-/**
- *
-**/
-enum JoystickNumber : byte {
-  NO_1 = GLFW_JOYSTICK_1,
-  NO_2 = GLFW_JOYSTICK_2,
-  NO_3 = GLFW_JOYSTICK_3,
-  NO_4 = GLFW_JOYSTICK_4,
-  NO_5 = GLFW_JOYSTICK_5,
-  NO_6 = GLFW_JOYSTICK_6,
-  NO_7 = GLFW_JOYSTICK_7,
-  NO_8 = GLFW_JOYSTICK_8,
-  NO_9 = GLFW_JOYSTICK_9,
-  NO_10 = GLFW_JOYSTICK_10,
-  NO_11 = GLFW_JOYSTICK_11,
-  NO_12 = GLFW_JOYSTICK_12,
-  NO_13 = GLFW_JOYSTICK_13,
-  NO_14 = GLFW_JOYSTICK_14,
-  NO_15 = GLFW_JOYSTICK_15,
-  NO_16 = GLFW_JOYSTICK_16
-}
-
-/**
- *
-**/
-enum JoystickButton : byte {
-  A = 0x00,
-  B = 0x01,
-  X = 0x02,
-  Y = 0x03,
-  LB = 0x04,
-  RB = 0x05,
-  BACK = 0x06,
-  START = 0x07,
-  LAXIS = 0x08,
-  RAXIS = 0x09,
-  PAD_UP = 0x0A,
-  PAD_RIGHT = 0x0B,
-  PAD_DOWN = 0x0C,
-  PAD_LEFT = 0x0D
 }

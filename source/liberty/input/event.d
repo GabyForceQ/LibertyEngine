@@ -10,12 +10,13 @@ module liberty.input.event;
 
 import bindbc.glfw;
 
-import liberty.math.vector : Vector2F;
-import liberty.core.engine : CoreEngine, EngineState;
-import liberty.input.constants : KeyCode, MouseButton;
-import liberty.input.impl : Input;
-import liberty.core.platform : Platform;
-import liberty.graphics.engine : GfxEngine;
+import liberty.math.vector;
+import liberty.core.engine;
+import liberty.input.keyboard.constants;
+import liberty.input.mouse.constants;
+import liberty.input.impl;
+import liberty.core.platform;
+import liberty.graphics.engine;
 
 package(liberty) class EventManager {
   private {

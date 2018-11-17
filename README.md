@@ -34,6 +34,7 @@ There are so many features to come.
 - [x] No more opengl errors for now. (#27)
 - [x] UI Signals are more general. (#47)
 - [x] Mouse enter/leave events were added. (#49)
+- [x] Input profiler was added. (#50)
 - Other bug fixes, user interface + documentation improvements and more unittests.
 
 ##### Cool features:

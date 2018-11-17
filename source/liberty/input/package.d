@@ -9,7 +9,11 @@
 module liberty.input;
 
 public {
-  import liberty.input.constants;
+  import liberty.input.joystick;
+  import liberty.input.keyboard;
+  import liberty.input.mouse;
+  import liberty.input.profiler;
+
   import liberty.input.event;
   import liberty.input.impl;
   import liberty.input.picker;

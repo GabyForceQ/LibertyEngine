@@ -9,8 +9,8 @@
 module liberty.camera.preset;
 
 import liberty.core.engine;
-import liberty.input.constants;
 import liberty.input.impl;
+import liberty.input.keyboard.constants;
 import liberty.camera;
 
 /**
@@ -72,16 +72,16 @@ class CameraPreset {
   **/
   static CameraPreset getDefault() {
     return new CameraPreset((Camera camera) {
-      if (Input.isKeyHold(KeyCode.W))
+      if (Input.isKeyHold(KeyboardButton.W))
 				camera.processKeyboard(CameraMovement.FORWARD);
 
-			if (Input.isKeyHold(KeyCode.S))
+			if (Input.isKeyHold(KeyboardButton.S))
 				camera.processKeyboard(CameraMovement.BACKWARD);
 
-			if (Input.isKeyHold(KeyCode.A))
+			if (Input.isKeyHold(KeyboardButton.A))
 				camera.processKeyboard(CameraMovement.LEFT);
 
-			if (Input.isKeyHold(KeyCode.D))
+			if (Input.isKeyHold(KeyboardButton.D))
 				camera.processKeyboard(CameraMovement.RIGHT);
     }, (camera, direction, velocity) {
       final switch (direction) with (CameraMovement) {

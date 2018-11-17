@@ -11,8 +11,11 @@ module liberty.input.impl;
 import bindbc.glfw;
 
 import liberty.math.vector;
-import liberty.input.constants;
+import liberty.input.joystick.constants;
+import liberty.input.keyboard.constants;
+import liberty.input.mouse.constants;
 import liberty.input.picker;
+import liberty.input.profiler;
 import liberty.core.platform;
 import liberty.core.window;
 
@@ -22,7 +25,7 @@ import liberty.core.window;
 final class Input {
   private {
     static bool joystickConnected;
-    static bool[KEY_CODES] keyState;
+    static bool[KEYBOARD_BUTTONS] keyState;
     static bool[MOUSE_BUTTONS] mouseBtnState;
     static bool[JOYSTICK_BUTTONS] joystickBtnState;
     static Vector2F mousePosition;
@@ -31,13 +34,14 @@ final class Input {
     static CursorType cursorType;
     static MousePicker mousePicker;
     static ubyte* joystickButtons;
+    static InputProfiler[string] profilerMap;
   }
 
   @disable this();
 
   package(liberty) static void update() {
-    static foreach (i; 0..KEY_CODES)
-      keyState[i] = isKeyHold(cast(KeyCode)i);
+    static foreach (i; 0..KEYBOARD_BUTTONS)
+      keyState[i] = isKeyHold(cast(KeyboardButton)i);
     
     static foreach (i; 0..MOUSE_BUTTONS)
       mouseBtnState[i] = isMouseButtonHold(cast(MouseButton)i);
@@ -63,16 +67,66 @@ final class Input {
   }
 
   /**
+   *
+  **/
+  static bool isKeyboardAction(KeyboardButton key, KeyboardAction action) {
+    final switch (action) with (KeyboardAction) {
+      case NONE:
+        return isKeyNone(key);
+      case DOWN:
+        return isKeyDown(key);
+      case UP:
+        return isKeyUp(key);
+      case HOLD:
+        return isKeyHold(key);
+      case REPEAT:
+        return isKeyRepeat(key);
+    }
+  }
+
+  /**
+   *
+  **/
+  static bool isJoystickAction(JoystickButton button, JoystickAction action) {
+    final switch (action) with (JoystickAction) {
+      case NONE:
+        return isJoystickButtonNone(button);
+      case DOWN:
+        return isJoystickButtonDown(button);
+      case UP:
+        return isJoystickButtonUp(button);
+      case HOLD:
+        return isJoystickButtonHold(button);
+    }
+  }
+
+  /**
+   *
+  **/
+  static bool isMouseAction(MouseButton button, MouseAction action) {
+    final switch (action) with (MouseAction) {
+      case NONE:
+        return isMouseButtonNone(button);
+      case DOWN:
+        return isMouseButtonDown(button);
+      case UP:
+        return isMouseButtonUp(button);
+      case HOLD:
+        return isMouseButtonHold(button);
+    }
+  }
+
+  /**
    * Returns true if key was just pressed in an event loop.
   **/
-  static bool isKeyDown(KeyCode key) {
+  static bool isKeyDown(KeyboardButton key) {
     return isKeyHold(key) && !keyState[key];
   }
 
   /**
    * Returns true if key was just released in an event loop.
   **/
-  static bool isKeyUp(KeyCode key) {
+  static bool isKeyUp(KeyboardButton key) {
     return !isKeyHold(key) && keyState[key];
   }
 
@@ -80,7 +134,7 @@ final class Input {
    * Returns true if key is still pressed in an event loop.
    * Use case: player movement.
   **/
-  static bool isKeyHold(KeyCode key) {
+  static bool isKeyHold(KeyboardButton key) {
     return glfwGetKey(Platform.getWindow().getHandle(), key) == GLFW_PRESS;
   }
 
@@ -88,14 +142,14 @@ final class Input {
    * Returns true if key is still pressed in an event loop after a while since pressed.
    * Strongly recommended for text input.
   **/
-  static bool isKeyRepeat(KeyCode key) {
+  static bool isKeyRepeat(KeyboardButton key) {
     return glfwGetKey(Platform.getWindow().getHandle(), key) == GLFW_REPEAT;
   }
 
   /**
    * Returns true if key has no input action in an event loop.
   **/
-  static bool isKeyNone(KeyCode key) {
+  static bool isKeyNone(KeyboardButton key) {
     return glfwGetKey(Platform.getWindow().getHandle(), key) == GLFW_RELEASE;
   }
 
@@ -292,6 +346,28 @@ final class Input {
   **/
   static bool isJoystickConnected() nothrow {
     return joystickConnected;
+  }
+
+  /**
+   *
+  **/
+  static InputProfiler createProfile(string id) nothrow {
+    profilerMap[id] = new InputProfiler(id);
+    return profilerMap[id];
+  }
+
+  /**
+   *
+  **/
+  static void removeProfile(string id) nothrow {
+    profilerMap.remove(id);
+  }
+
+  /**
+   *
+  **/
+  static InputProfiler getProfile(string id) nothrow {
+    return profilerMap[id];
   }
 
   static package void setMousePosition(Vector2F position) nothrow {

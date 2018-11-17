@@ -14,7 +14,7 @@ import liberty.meta;
 import liberty.surface.ui.widget;
 import liberty.surface.impl;
 import liberty.input.impl;
-import liberty.input.constants;
+import liberty.input.mouse.constants;
 
 /**
  *

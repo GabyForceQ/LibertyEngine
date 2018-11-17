@@ -11,7 +11,6 @@ module liberty.core.engine;
 import bindbc.glfw;
 
 import liberty.graphics.material.impl;
-import liberty.input.constants;
 import liberty.input.impl;
 import liberty.logger;
 import liberty.camera;

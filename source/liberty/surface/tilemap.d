@@ -42,18 +42,19 @@ final class TileMap : Widget {
   /**
    *
   **/
-  TileMap build(int xDim, int yDim) {
-    return build(Vector2I(xDim, yDim));
+  TileMap build(int xStartLoc, int yStartLoc, int xDim, int yDim) {
+    return build(Vector2I(xStartLoc, yStartLoc), Vector2I(xDim, yDim));
   }
 
   /**
    *
   **/
-  TileMap build(Vector2I dimension) {
+  TileMap build(Vector2I startLocation, Vector2I dimension) {
     this.dimension = dimension;
+    getTransform.setPosition(startLocation);
 
-    foreach (i; 0..dimension.y)
-      foreach (j; 0..dimension.x) {
+    foreach (i; 0..dimension.x)
+      foreach (j; 0..dimension.y) {
         tiles ~= new Button(
           getId() ~ "_Tile_" ~ i.to!string ~ "_" ~ j.to!string,
           getSurface()
@@ -63,8 +64,8 @@ final class TileMap : Widget {
           .setIndex(i, j)
           .getTransform()
           .setPosition(
-            j * 100 + getTransform.getPosition.x,
-            i * 100 + getTransform.getPosition.y
+            i * 100 + getTransform.getPosition.x,
+            j * 100 + getTransform.getPosition.y
           );
       }
     
@@ -89,7 +90,14 @@ final class TileMap : Widget {
    *
   **/
   Widget getTile(Vector2I index) {
-    return tiles[dimension.x * index.x + index.y];
+    return tiles[dimension.y * index.x + index.y];
+  }
+
+  /**
+   *
+  **/
+  Vector2I getDimension() pure nothrow {
+    return dimension;
   }
 
   static foreach (member; EnumMembers!TileMapEvent)
