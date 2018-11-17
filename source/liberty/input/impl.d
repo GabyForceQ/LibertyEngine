@@ -147,14 +147,14 @@ final class Input {
    * Use case: shooting something.
   **/
   static bool isJoystickButtonHold(return JoystickButton btn) {
-    return joystickButtons[btn] == GLFW_PRESS;
+    return joystickConnected ? joystickButtons[btn] == GLFW_PRESS : false;
   }
 
   /**
    * Returns true if joystick button has no input action in an event loop.
   **/
   static bool isJoystickButtonNone(JoystickButton btn) {
-    return joystickButtons[btn] == GLFW_RELEASE;
+    return joystickConnected ? joystickButtons[btn] == GLFW_RELEASE : false;
   }
 
   /**
@@ -310,7 +310,7 @@ final class Input {
     joystickConnected = value;
   }
 
-  static private void processJoystickButtons() {
+  static package void processJoystickButtons() nothrow {
     int count;
     joystickButtons = glfwGetJoystickButtons(JoystickNumber.NO_1, &count);
   }

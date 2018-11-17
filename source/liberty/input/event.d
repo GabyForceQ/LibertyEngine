@@ -51,9 +51,10 @@ package(liberty) class EventManager {
   }
 
   extern (C) static void joystickCallback(int joy, int event) nothrow {
-    if (event == GLFW_CONNECTED)
+    if (event == GLFW_CONNECTED) {
       Input.setJoystickConnected(true);
-    else if (event == GLFW_DISCONNECTED)
+      Input.processJoystickButtons();
+    } else if (event == GLFW_DISCONNECTED)
       Input.setJoystickConnected(false);
   }
 
