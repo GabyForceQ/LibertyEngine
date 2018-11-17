@@ -24,14 +24,14 @@ final class Keyboard {
   /**
    * Returns true if keyboard button was just pressed in an event loop.
   **/
-  bool isButtonDown(KeyboardButton button) {
+  bool isButtonDown(KeyboardButton button) nothrow {
     return isButtonHold(button) && !buttonsState[button];
   }
 
   /**
    * Returns true if keyboard button was just released in an event loop.
   **/
-  bool isButtonUp(KeyboardButton button) {
+  bool isButtonUp(KeyboardButton button) nothrow {
     return !isButtonHold(button) && buttonsState[button];
   }
 
@@ -39,7 +39,7 @@ final class Keyboard {
    * Returns true if keyboard button is still pressed in an event loop.
    * Use case: player movement.
   **/
-  bool isButtonHold(KeyboardButton button) {
+  bool isButtonHold(KeyboardButton button) nothrow {
     return glfwGetKey(Platform.getWindow().getHandle(), button) == GLFW_PRESS;
   }
 
@@ -47,21 +47,21 @@ final class Keyboard {
    * Returns true if keyboard button is still pressed in an event loop after a while since pressed.
    * Strongly recommended for text input.
   **/
-  bool isButtonRepeat(KeyboardButton button) {
+  bool isButtonRepeat(KeyboardButton button) nothrow {
     return glfwGetKey(Platform.getWindow().getHandle(), button) == GLFW_REPEAT;
   }
 
   /**
    * Returns true if keyboard button has no input action in an event loop.
   **/
-  bool isButtonNone(KeyboardButton button) {
+  bool isButtonNone(KeyboardButton button) nothrow {
     return glfwGetKey(Platform.getWindow().getHandle(), button) == GLFW_RELEASE;
   }
 
   /**
    *
   **/
-  bool isUnfolding(KeyboardButton button, KeyboardAction action) {
+  bool isUnfolding(KeyboardButton button, KeyboardAction action) nothrow {
     final switch (action) with (KeyboardAction) {
       case NONE:
         return isButtonNone(button);
@@ -76,7 +76,7 @@ final class Keyboard {
     }
   }
 
-  package(liberty.input) void update() {
+  package(liberty.input) void update() nothrow {
     static foreach (i; 0..KEYBOARD_BUTTONS)
       buttonsState[i] = isButtonHold(cast(KeyboardButton)i);
   }
