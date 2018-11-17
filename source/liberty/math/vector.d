@@ -7,10 +7,11 @@
  * Coverage:
 **/
 module liberty.math.vector;
-import std.traits : isFloatingPoint;
-import liberty.math.traits : isVector;
-import liberty.math.quaternion : Quaternion;
 
+import std.traits : isFloatingPoint;
+
+import liberty.math.traits;
+import liberty.math.quaternion ;
 import liberty.math.functions;
 
 /// T = type of elements.

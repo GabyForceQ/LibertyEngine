@@ -11,7 +11,7 @@ module liberty.graphics.array;
 version (__OPENGL__)
   import bindbc.opengl;
 
-import liberty.graphics.engine : GfxEngine;
+import liberty.graphics.engine;
 
 /**
  * OpenGL vertex array object.

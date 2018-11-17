@@ -11,10 +11,10 @@ module liberty.graphics.shader;
 version (__OPENGL__)
   import bindbc.opengl;
 
-import liberty.core.engine : CoreEngine;
-import liberty.logger : Logger;
-import liberty.math.vector : Vector2F, Vector3F, Vector4F;
-import liberty.math.matrix : Matrix4F;
+import liberty.core.engine;
+import liberty.logger;
+import liberty.math.vector;
+import liberty.math.matrix;
 
 version (Windows)
   /**

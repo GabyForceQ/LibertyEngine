@@ -8,15 +8,11 @@
 **/
 module liberty.math.traits;
 
-import liberty.math.matrix : Matrix;
-import liberty.math.quaternion : Quaternion;
-import liberty.math.box : Box, Box2F, Box3D, Box3I;
-import liberty.math.vector : 
-  Vector, Vector2F, Vector3I, 
-  Vector3D, Vector4, Vector4U;
-import liberty.math.shapes : 
-  Segment, Triangle, Sphere, Ray, Plane, Frustum,
-  Segment2I, Triangle3F, Sphere2D, Ray3F, PlaneD; 
+import liberty.math.matrix;
+import liberty.math.quaternion;
+import liberty.math.box;
+import liberty.math.vector;
+import liberty.math.shapes; 
 
 /**
  * True if T is some kind of Vector.

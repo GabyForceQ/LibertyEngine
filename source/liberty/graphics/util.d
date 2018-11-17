@@ -11,10 +11,10 @@ module liberty.graphics.util;
 version (__OPENGL__)
   import bindbc.opengl;
 
-import liberty.graphics.array : GfxArray;
-import liberty.graphics.buffer.constants : GfxBufferTarget, GfxDataUsage;
-import liberty.graphics.buffer.impl : GfxBuffer;
-import liberty.graphics.constants : GfxDrawMode, GfxVectorType;
+import liberty.graphics.array;
+import liberty.graphics.buffer.constants;
+import liberty.graphics.buffer.impl;
+import liberty.graphics.constants;
 
 /**
  *

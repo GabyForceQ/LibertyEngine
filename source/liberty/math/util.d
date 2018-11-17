@@ -2,12 +2,14 @@ module liberty.math.util;
 
 import std.traits : isFloatingPoint;
 
-import liberty.math.matrix : Matrix4;
+import liberty.math.matrix;
 
 /**
  *
 **/
 final class MathUtils {
+  @disable this();
+  
   /**
    * Returns orthographic projection.
   **/

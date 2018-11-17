@@ -8,7 +8,7 @@
 **/
 module liberty.math.box;
 
-import liberty.math.vector : Vector;
+import liberty.math.vector;
 
 /**
  *

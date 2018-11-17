@@ -7,9 +7,11 @@
  * Coverage:
 **/
 module liberty.math.shapes;
+
 import std.traits : isFloatingPoint;
-import liberty.math.vector : Vector;
-import liberty.math.box : Box;
+
+import liberty.math.vector;
+import liberty.math.box;
 ///
 struct Segment(T, int N) if (N == 2 || N == 3) {
 	///

@@ -7,9 +7,10 @@
  * Coverage:
 **/
 module liberty.math.quaternion;
-import liberty.math.vector : Vector;
-import liberty.math.matrix : Matrix;
-import liberty.math.traits : isMatrixInstance;
+
+import liberty.math.vector;
+import liberty.math.matrix;
+import liberty.math.traits;
 ///
 struct Quaternion(T) {
 	///
@@ -181,8 +182,6 @@ struct Quaternion(T) {
 		q.w = 1;
 		return q;
 	}
-
-  import liberty.math.vector : Vector3F;
 
   static if (is(T == float)) {
     /**

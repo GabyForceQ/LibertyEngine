@@ -15,8 +15,8 @@ import std.stdio : writeln, File;
 import std.datetime.systime : SysTime, Clock;
 import std.array : split;
 
-import liberty.core.engine : CoreEngine;
-import liberty.logger.constants : LogType;
+import liberty.core.engine;
+import liberty.logger.constants;
 
 /**
  * Logger class is used for logging a message.

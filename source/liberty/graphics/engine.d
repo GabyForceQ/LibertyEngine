@@ -11,12 +11,12 @@ module liberty.graphics.engine;
 version (__OPENGL__)
   import bindbc.opengl;
 
-import liberty.math.vector : Vector3F;
-import liberty.core.engine : CoreEngine;
-import liberty.logger : Logger, InfoMessage;
-import liberty.core.platform : Platform;
-import liberty.graphics.color : Color;
-import liberty.graphics.constants : GfxVendor;
+import liberty.math.vector;
+import liberty.core.engine;
+import liberty.logger;
+import liberty.core.platform;
+import liberty.graphics.color;
+import liberty.graphics.constants;
 
 /**
  *

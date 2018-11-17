@@ -8,8 +8,6 @@
 **/
 module liberty.input.profiler.binding;
 
-import std.string : capitalize;
-
 import liberty.input.impl;
 import liberty.input.profiler.data;
 import liberty.input.joystick.impl;
@@ -57,6 +55,8 @@ final class InputActionBinding {
    *
   **/
   bool isUnfolding() {
+    import std.string : capitalize;
+    
     static foreach (type; ["mouse", "keyboard", "joystick"])
       foreach (e; mixin(type))
         if (mixin("Input.is" ~ type.capitalize() ~ "Action(e.button, e.action)"))

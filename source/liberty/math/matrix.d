@@ -7,10 +7,10 @@
  * Coverage:
 **/
 module liberty.math.matrix;
-import liberty.math.vector : Vector;
-import liberty.math.traits : isMatrixInstance;
+
 import std.traits : isFloatingPoint;
 
+import liberty.math.traits;
 import liberty.math.functions;
 import liberty.math.vector;
 

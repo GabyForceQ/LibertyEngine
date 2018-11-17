@@ -8,7 +8,7 @@
 **/
 module liberty.security.types;
 
-import liberty.security.constants : SecureLevel;
+import liberty.security.constants;
 
 /**
  *

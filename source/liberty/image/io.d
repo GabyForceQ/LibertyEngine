@@ -11,6 +11,7 @@
 **/
 module liberty.image.io;
 
+import liberty.logger.impl;
 import liberty.image.format;
 import liberty.image.impl;
 import liberty.io.manager;
@@ -78,7 +79,6 @@ final class ImageIO {
       assert (0, "Not PNG image!");
     }
 
-    import liberty.logger : Logger;
     Logger.todo("static PNGImage loadPNGFile(string resourcePath) {..}", typeof(this).stringof);
     Logger.error("Previous TODO", typeof(this).stringof);
 

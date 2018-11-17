@@ -10,7 +10,7 @@ module liberty.io.manager;
 
 import std.stdio : File;
 
-import liberty.logger.impl : Logger;
+import liberty.logger.impl;
 
 /**
  * Used for managing files and console input/output.

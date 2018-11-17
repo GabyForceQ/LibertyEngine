@@ -11,7 +11,7 @@ module liberty.math.functions;
 public import std.math;
 import std.traits : isIntegral, isSigned, isFloatingPoint;
 
-import liberty.math.vector : Vector2F, Vector3F;
+import liberty.math.vector;
 
 version (D_InlineAsm_X86) {
   version = AsmX86;
