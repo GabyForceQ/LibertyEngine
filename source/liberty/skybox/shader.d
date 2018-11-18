@@ -58,20 +58,6 @@ class SkyboxShader : Shader {
 
   /**
    *
-  **/
-  override SkyboxShader bind() {
-    return cast(SkyboxShader)super.bind();
-  }
-
-  /**
-   *
-  **/
-  override SkyboxShader unbind() {
-    return cast(SkyboxShader)super.unbind();
-  }
-
-  /**
-   *
    * Returns reference to this and can be used in a stream.
   **/
   SkyboxShader loadProjectionMatrix(Matrix4F matrix) {

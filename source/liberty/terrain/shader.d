@@ -163,20 +163,6 @@ class TerrainShader : Shader {
   /**
    *
   **/
-  override TerrainShader bind() {
-    return cast(TerrainShader)super.bind();
-  }
-
-  /**
-   *
-  **/
-  override TerrainShader unbind() {
-    return cast(TerrainShader)super.unbind();
-  }
-
-  /**
-   *
-  **/
   TerrainShader loadModelMatrix(Matrix4F matrix) {
     loadUniform("uModelMatrix", matrix);
     return this;

@@ -154,20 +154,6 @@ class PrimitiveShader : Shader {
   /**
    *
   **/
-  override PrimitiveShader bind() {
-    return cast(PrimitiveShader)super.bind();
-  }
-
-  /**
-   *
-  **/
-  override PrimitiveShader unbind() {
-    return cast(PrimitiveShader)super.unbind();
-  }
-
-  /**
-   *
-  **/
   PrimitiveShader loadModelMatrix(Matrix4F matrix) {
     loadUniform("uModelMatrix", matrix);
     return this;

@@ -60,20 +60,6 @@ class SurfaceShader : Shader {
 
   /**
    *
-  **/
-  override SurfaceShader bind() {
-    return cast(SurfaceShader)super.bind();
-  }
-
-  /**
-   *
-  **/
-  override SurfaceShader unbind() {
-    return cast(SurfaceShader)super.unbind();
-  }
-
-  /**
-   *
    * Returns reference to this and can be used in a stream.
   **/
   SurfaceShader loadModelMatrix(Matrix4F matrix) {

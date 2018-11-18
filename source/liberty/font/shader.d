@@ -60,20 +60,6 @@ class FontShader : Shader {
 
   /**
    *
-  **/
-  override FontShader bind() {
-    return cast(FontShader)super.bind();
-  }
-
-  /**
-   *
-  **/
-  override FontShader unbind() {
-    return cast(FontShader)super.unbind();
-  }
-
-  /**
-   *
    * Returns reference to this and can be used in a stream.
   **/
   FontShader loadTranslation(Vector2F matrix) {

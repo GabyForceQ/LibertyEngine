@@ -32,7 +32,7 @@ else
 /**
  *
 **/
-class Shader {
+abstract class Shader {
   private {
     uint programID;
     uint vertexShaderID;
@@ -51,21 +51,21 @@ class Shader {
   /**
    *
   **/
-  Shader bind() {
+  R bind(this R)() {
     version (__OPENGL__)
       glUseProgram(this.programID);    
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    *
   **/
-  Shader unbind() {
+  R unbind(this R)() {
     version (__OPENGL__)
       glUseProgram(0);
 
-    return this;
+    return cast(R)this;
   }
 
   /**
