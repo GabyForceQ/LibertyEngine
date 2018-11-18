@@ -128,21 +128,19 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   Surface addAction(T)(string id, void delegate(Widget, Event) action,
     Tuple!(T, Event)[] objEvList = null, ubyte priority = 0)
   do {
-    import std.uni : toLower;
     import std.traits : EnumMembers;
 
     actionMap[id] = new UIAction(id, action, priority);
     
-    if (objEvList !is null) {
+    if (objEvList !is null)
       static foreach (s; EnumMembers!WidgetType)
-        foreach(e; objEvList) {
-          if (mixin("__traits(compiles, cast(" ~ s ~ ")e[0])"))
-            SW: final switch (e[1]) with (Event) {
-              static foreach (member; mixin(s ~ ".getEventArrayString()"))
-                mixin("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~ "(action); break SW;");
-            }
-        }
-    }
+        static if (s == T.stringof)
+          foreach(e; objEvList)
+            mixin("SW_" ~ s ~ ": switch (e[1]) with (Event) {" ~
+              "static foreach (member; mixin(s ~ \".getEventArrayString()\"))" ~
+              "mixin(\"case \" ~ member ~ \": (cast(\" ~ s ~ \")e[0]).setOn\" ~ member ~ \"(action); " ~
+              "break SW_\" ~ s ~ \";\");" ~
+              "default: break;}");
     
     return this;
   }

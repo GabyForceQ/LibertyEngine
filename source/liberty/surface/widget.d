@@ -143,5 +143,10 @@ enum WidgetType : string {
   /**
    *
   **/
-  Button = "Button"
+  Button = "Button",
+  
+  /**
+   *
+  **/
+  CheckBox = "CheckBox"
 }

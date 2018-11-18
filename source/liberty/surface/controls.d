@@ -35,7 +35,24 @@ final class Button : Widget {
  *
 **/
 final class CheckBox : Widget {
+  mixin WidgetEventProps!([
+    Event.MouseLeftClick,
+    Event.MouseMiddleClick,
+    Event.MouseRightClick,
+    Event.MouseOver,
+    Event.MouseMove,
+    Event.MouseEnter,
+    Event.MouseLeave,
+    Event.Check,
+    Event.Checked,
+    Event.Uncheck,
+    Event.Unchecked,
+    Event.StateChange,
+    Event.Update
+  ]);
+
   mixin WidgetConstructor;
+  mixin WidgetUpdate;
 }
 
 /**

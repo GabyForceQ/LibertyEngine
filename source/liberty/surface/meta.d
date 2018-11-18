@@ -58,16 +58,44 @@ mixin template WidgetEventProps(alias event, string options = "default") {
 
   static if (options == "default") {
     import std.algorithm : canFind;
+    import std.traits : EnumMembers;
 
-    static if (getEventArrayString().canFind(Event.MouseEnter) || getEventArrayString().canFind(Event.MouseLeave))
-      private bool mouseEntered;
-
-    static foreach (member; event) {
-      mixin("private void delegate(Widget, Event) on" ~ member ~ " = null;");
+    private {
+      static foreach (name; EnumMembers!Event)
+        mixin("enum bool _" ~ name ~ " = getEventArrayString().canFind(Event." ~ name ~ ");");
       
-      static if (member != "Update")
-        mixin("private bool isOn" ~ member ~ ";");
+      enum bool _MouseEnterLeave = _MouseEnter && _MouseLeave;
+      enum bool _CheckUncheck = _Check && _Uncheck && _Checked && _Unchecked && _StateChange;
+
+      static if (_MouseEnterLeave)
+        bool mouseEntered;
+
+      static if (_CheckUncheck) {
+        bool checked;
+        
+        public bool isChecked() pure nothrow const {
+          return checked;
+        }
+      }
+
+      static if (_StateChange)
+        bool state;
+
+      static foreach (member; event) {
+        mixin("void delegate(Widget, Event) on" ~ member ~ " = null;");
+
+        static if (member != "Update")
+          mixin("bool isOn" ~ member ~ ";");
+      }
     }
+
+    static if (_MouseEnter || _MouseLeave)
+      static assert(_MouseEnterLeave,
+        "In default mode MouseEnter and MouseLeave events should be declared together.");
+
+    static if (_Check || _Uncheck || _Checked || _Unchecked)
+      static assert(_CheckUncheck,
+        "In default mode Check, Uncheck, Checked and Unchecked events should be declared together.");
 
     static foreach (member; event) {
       /**
@@ -133,50 +161,78 @@ mixin template WidgetUpdate() {
   override void update() {
     clearAllBooleans();
 
+    static if (_StateChange)
+      state = false;
+
     if (Input.getMouse().getCursorType() != CursorType.DISABLED) {
       if (isMouseColliding()) {
-        static if (getEventArrayString().canFind(Event.MouseOver))
+        static if (_MouseOver)
           if (hasOnMouseOver()) {
             onMouseOver(this, Event.MouseOver);
             isOnMouseOver = true;
           }
 
-        static if (getEventArrayString().canFind(Event.MouseMove))
+        static if (_MouseMove)
           if (hasOnMouseMove())
             if (Input.getMouse().isMoving()) {
               onMouseMove(this, Event.MouseMove);
               isOnMouseMove = true;
             }
 
-        static if (getEventArrayString().canFind(Event.MouseEnter))
+        static if (_MouseEnter)
           if (hasOnMouseEnter() && !mouseEntered) {
             onMouseEnter(this, Event.MouseEnter);
             mouseEntered = true;
             isOnMouseEnter = true;
           }
 
-        static if (getEventArrayString().canFind(Event.MouseLeftClick))
+        static if (_MouseLeftClick)
           if (hasOnMouseLeftClick())
             if (Input.getMouse().isButtonDown(MouseButton.LEFT)) {
               onMouseLeftClick(this, Event.MouseLeftClick);
               isOnMouseLeftClick = true;
             }
 
-        static if (getEventArrayString().canFind(Event.MouseMiddleClick))
+        static if (_MouseMiddleClick)
           if (hasOnMouseMiddleClick())
             if (Input.getMouse().isButtonDown(MouseButton.MIDDLE)) {
               onMouseMiddleClick(this, Event.MouseMiddleClick);
               isOnMouseMiddleClick = true;
             }
 
-        static if (getEventArrayString().canFind(Event.MouseRightClick))
+        static if (_MouseRightClick)
           if (hasOnMouseRightClick())
             if (Input.getMouse().isButtonDown(MouseButton.RIGHT)) {
               onMouseRightClick(this, Event.MouseRightClick);
               isOnMouseRightClick = true;
             }
+
+        static if (_CheckUncheck) {
+          if (hasOnCheck() && !checked) {
+            if (Input.getMouse().isButtonDown(MouseButton.LEFT)) {
+              onCheck(this, Event.Check);
+              checked = true;
+              isOnCheck = true;
+              static if (_StateChange)
+                state = true;
+            }
+          } else if (hasOnUncheck() && checked)
+            if (Input.getMouse().isButtonDown(MouseButton.LEFT)) {
+              onUncheck(this, Event.Uncheck);
+              checked = false;
+              isOnUncheck = true;
+              static if (_StateChange)
+                state = true;
+            }
+
+          static if (_StateChange)
+            if (hasOnStateChange() && state) {
+              onStateChange(this, Event.StateChange);
+              isOnStateChange = true;
+            }
+        }
       } else {
-        static if (getEventArrayString().canFind(Event.MouseLeave))
+        static if (_MouseLeave)
           if (hasOnMouseLeave() && mouseEntered) {
             onMouseLeave(this, Event.MouseLeave);
             mouseEntered = false;
@@ -185,7 +241,17 @@ mixin template WidgetUpdate() {
       }
     }
 
-    static if (getEventArrayString().canFind(Event.Update))
+    static if (_CheckUncheck) {
+      if (hasOnChecked() && checked) {
+        onChecked(this, Event.Checked);
+        isOnChecked = true;
+      } else if (hasOnUnchecked() && !checked) {
+        onUnchecked(this, Event.Unchecked);
+        isOnUnchecked = true;
+      }
+    }
+
+    static if (_Update)
       if (onUpdate !is null)
         onUpdate(this, Event.Update);
   }

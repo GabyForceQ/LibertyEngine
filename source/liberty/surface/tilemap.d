@@ -41,10 +41,10 @@ final class TileMap : Widget {
 
   private {
     Vector2I dimension = Vector2I.zero;
-    Widget[] tiles;
+    Button[] tiles;
 
     static foreach (member; getEventArrayString())
-      mixin("Tuple!(Widget, Event)[] eventMap" ~ member ~ ";");
+      mixin("Tuple!(Button, Event)[] eventMap" ~ member ~ ";");
   }
 
   /**
@@ -83,21 +83,21 @@ final class TileMap : Widget {
   /**
    *
   **/
-  Widget[] getTiles() pure nothrow {
+  Button[] getTiles() pure nothrow {
     return tiles;
   }
 
   /**
    *
   **/
-  Widget getTile(int x, int y) {
+  Button getTile(int x, int y) {
     return getTile(Vector2I(x, y));
   }
 
   /**
    *
   **/
-  Widget getTile(Vector2I index) {
+  Button getTile(Vector2I index) {
     return tiles[dimension.y * index.x + index.y];
   }
 
@@ -121,6 +121,6 @@ final class TileMap : Widget {
     /**
      *
     **/
-    mixin("Tuple!(Widget, Event)[] get" ~ member ~ "Event() pure nothrow"
+    mixin("Tuple!(Button, Event)[] get" ~ member ~ "Event() pure nothrow"
       ~ "{ return eventMap" ~ member ~ "; }");
 }

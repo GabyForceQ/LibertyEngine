@@ -50,5 +50,30 @@ enum Event : string {
   /**
    *
   **/
+  Check = "Check",
+
+  /**
+   *
+  **/
+  Uncheck = "Uncheck",
+
+  /**
+   *
+  **/
+  Checked = "Checked",
+
+  /**
+   *
+  **/
+  Unchecked = "Unchecked",
+
+  /**
+   *
+  **/
+  StateChange = "StateChange",
+
+  /**
+   *
+  **/
   Update = "Update"
 }
