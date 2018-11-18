@@ -41,7 +41,7 @@ package(liberty) class ModelIO {
     
     // Open the file
     auto file = File(path);
-    scope (exit) file.close();
+    scope(exit) file.close();
 
     // Read the file and build mesh data
     auto range = file.byLine();

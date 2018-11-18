@@ -83,13 +83,13 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	pure nothrow unittest {
 		// Create a matrix using all values.
 		const matrix1 = Matrix!(int, 2)(1, 2, 3, 4);
-		assert (matrix1.v == [1, 2, /**/ 3, 4]);
+		assert(matrix1.v == [1, 2, /**/ 3, 4]);
 		// Create a matrix from one value.
 		const matrix2 = Matrix!(float, 2)(5.2f);
-		assert (matrix2.v == [5.2f, 5.2f, /**/ 5.2f, 5.2f]);
+		assert(matrix2.v == [5.2f, 5.2f, /**/ 5.2f, 5.2f]);
 		// Create a matrix with no value (implicit 0).
 		const matrix3 = Matrix!(short, 2)();
-		assert (matrix3.v == [0, 0, /**/ 0, 0]);
+		assert(matrix3.v == [0, 0, /**/ 0, 0]);
 	}
 	/// Construct a matrix from columns.
 	static Matrix fromColumns(ColumnType[] columns) pure nothrow
@@ -117,7 +117,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	pure nothrow unittest {
 		auto row = Vector!(double, 2)(2.0, 4.5);
 		const matrix = Matrix!(double, 2).fromRows([row, row]);
-		assert (matrix.v == [2.0, 4.5, /**/ 2.0, 4.5]);
+		assert(matrix.v == [2.0, 4.5, /**/ 2.0, 4.5]);
 	}
 	/// Returns an identity matrix.
 	static Matrix identity() pure nothrow {
@@ -136,7 +136,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	///
 	pure nothrow unittest {
 		const matrix = Matrix!(uint, 3).identity();
-		assert (matrix.v == [1, 0, 0, /**/ 0, 1, 0, /**/ 0, 0, 1]);
+		assert(matrix.v == [1, 0, 0, /**/ 0, 1, 0, /**/ 0, 0, 1]);
 	}
 	/// Returns a constant matrix.
 	static Matrix constant(U)(U x) pure nothrow {
@@ -149,7 +149,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	///
 	pure nothrow unittest {
 		const matrix = Matrix!(int, 2, 3).constant(7);
-		assert (matrix.v == [7, 7, 7, /**/ 7, 7, 7]);
+		assert(matrix.v == [7, 7, 7, /**/ 7, 7, 7]);
 	}
 	///
 	ColumnType column(int j) pure nothrow const {
@@ -173,7 +173,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	pure nothrow unittest {
 		const m1 = Matrix2I(3);
 		const m2 = m1 * 4;
-		assert (m2.v == [12, 12, /**/ 12, 12]);
+		assert(m2.v == [12, 12, /**/ 12, 12]);
 	}
 	///
 	ColumnType opBinary(string op)(RowType x) pure nothrow const if (op == "*") {
@@ -207,7 +207,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		auto m1 = Matrix2I(2, 5, /**/ -1, 2);
 		auto m2 = Matrix2x3I(3, 3, -2, /**/ 3, 4, 3);
 		auto m3 = m1 * m2;
-		assert (m3.v == [21, 26, 11, /**/ 3, 5, 8]);
+		assert(m3.v == [21, 26, 11, /**/ 3, 5, 8]);
 	}
 	///
 	Matrix opBinary(string op, U)(U rhs) pure nothrow const if (op == "+" || op == "-") {
@@ -221,7 +221,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		} else static if (is (U : T)) {
 			mixin("ret.v[] = this.v[] " ~ op ~ " rhs;");
 		} else {
-			static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Matrix.stringof);
+			static assert(0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Matrix.stringof);
 		}
 		return ret;
 	}
@@ -230,16 +230,16 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		const m1 = Matrix2I(1, 3, /**/ -1, 4);
 		const m2 = Matrix2I(5, 2, /**/ 1, 0);
 		const m3 = m1 + m2;
-		assert (m3.v == [6, 5, /**/ 0, 4]);
+		assert(m3.v == [6, 5, /**/ 0, 4]);
 		const m4 = m1 - 7;
-		assert (m4.v == [-6, -4, /**/ -8, -3]);
+		assert(m4.v == [-6, -4, /**/ -8, -3]);
 	}
 	///
 	ref Matrix opOpAssign(string op, U)(U rhs) pure nothrow {
 		static if (is(U : Matrix) || is(U : T)) {
 			mixin("this = this " ~ op ~ " rhs;");
 		} else {
-			static assert (0, "Cannot assign a variable of type " ~ U.stringof ~
+			static assert(0, "Cannot assign a variable of type " ~ U.stringof ~
         " within a variable of type " ~ Matrix.stringof
       );
 		}
@@ -250,9 +250,9 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		auto m1 = Matrix2I(1, 3, /**/ -1, 4);
 		const m2 = Matrix2I(5, 2, /**/ 1, 0);
 		m1 += m2;
-		assert (m1.v == [6, 5, /**/ 0, 4]);
+		assert(m1.v == [6, 5, /**/ 0, 4]);
 		m1 -= 2;
-		assert (m1.v == [4, 3, /**/ -2, 2]);
+		assert(m1.v == [4, 3, /**/ -2, 2]);
 	}
 	///
 	Matrix opUnary(string op)() pure nothrow const if (op == "+" || op == "-" || op == "~" || op == "!") {
@@ -265,12 +265,12 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	///
 	pure nothrow unittest {
 		const m1 = Matrix2I(1, 3, /**/ -1, 0);
-		assert ((+m1).v == [1, 3, /**/ -1, 0]);
-		assert ((-m1).v == [-1, -3, /**/ 1, 0]);
-		assert ((~m1).v == [-2, -4, /**/ 0, -1]);
+		assert((+m1).v == [1, 3, /**/ -1, 0]);
+		assert((-m1).v == [-1, -3, /**/ 1, 0]);
+		assert((~m1).v == [-2, -4, /**/ 0, -1]);
 		// *** BUG ***
 		//auto m2 = Matrix!(bool, 2)(true, true, /**/ false, false);
-		//assert ((!m2).v == [false, false, /**/ true, true]);
+		//assert((!m2).v == [false, false, /**/ true, true]);
 	}
 	///
 	U opCast(U)() pure nothrow const if (isMatrixInstance!U && U.rowCount == rowCount && U.columnCount == columnCount) {
@@ -288,7 +288,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	pure nothrow unittest {
 		auto m1 = Matrix2F(3.2f, 4.5f, /**/ 3.8f, -7.2f);
 		Matrix2I m2 = cast(Matrix2I)m1;
-		assert (m2.v == [3, 4, /**/ 3, -7]);
+		assert(m2.v == [3, 4, /**/ 3, -7]);
 	}
 	///
 	bool opEquals(U)(U rhs) pure nothrow const {
@@ -305,7 +305,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 				}
 			}
 		} else {
-			static assert (0, "Cannot compare a variable of type " ~ 
+			static assert(0, "Cannot compare a variable of type " ~ 
         U.stringof ~ " with a variable of type " ~ Matrix.stringof
       );
 		}
@@ -316,11 +316,11 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		const m1 = Matrix2I(6, 3, /**/ -1, 0);
 		const m2 = Matrix2I(6, 3, /**/ -1, 0);
 		const m3 = Matrix2I(1, 4, /**/ -1, 7);
-		assert (m1 == m2);
-		assert (m1 != m3);
+		assert(m1 == m2);
+		assert(m1 != m3);
 		const m4 = Matrix2I(3, 3, /**/ 3, 3);
-		assert (m4 == 3);
-		assert (m4 != -3);
+		assert(m4 == 3);
+		assert(m4 != -3);
 	}
 	/// Returns a pointer to content.
 	inout(T)* ptr() pure nothrow inout {
@@ -337,10 +337,10 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			import std.math : approxEqual;
 			auto m1 = Matrix2D(2.0, 3.0, /**/ -1.0, 5.0);
 			auto m2 = m1.inverse();
-			assert (m2.v[0].approxEqual(0.384615));
-			assert (m2.v[1].approxEqual(-0.230769));
-			assert (m2.v[2].approxEqual(0.0769231));
-			assert (m2.v[3].approxEqual(0.153846));
+			assert(m2.v[0].approxEqual(0.384615));
+			assert(m2.v[1].approxEqual(-0.230769));
+			assert(m2.v[2].approxEqual(0.0769231));
+			assert(m2.v[3].approxEqual(0.153846));
 		}
 	}
 	static if (isFloatingPoint!T && R == 3 && C == 3) {
@@ -441,7 +441,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	///
 	pure nothrow unittest {
 		auto m1 = Matrix2I(4, 5, /**/ -1, 0);
-		assert (m1.transposed().v == [4, -1, /**/ 5, 0]);
+		assert(m1.transposed().v == [4, -1, /**/ 5, 0]);
 	}
 	static if (isSquare && R > 2) {
 		/// Makes a diagonal matrix from a vector.
@@ -458,7 +458,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		pure nothrow unittest {
 			const v1 = Vector!(int, 3)(4, 5, -1);
 			const m1 = Matrix!(int, 3).diag(v1);
-			assert (m1.v == [4, 0, 0, /**/ 0, 5, 0, /**/ 0, 0, -1]);
+			assert(m1.v == [4, 0, 0, /**/ 0, 5, 0, /**/ 0, 0, -1]);
 		}
 		///
 		pure nothrow unittest {

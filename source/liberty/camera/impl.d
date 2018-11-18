@@ -16,17 +16,17 @@ import liberty.core.platform;
 import liberty.time;
 import liberty.camera.movement;
 import liberty.camera.preset;
-import liberty.meta;
+import liberty.scene.meta;
 import liberty.scene.node;
 import liberty.scene.impl;
 
 /**
  * Represents the view of the observer.
  * Everything that is rendered to the screen is processed within the projection matrix and view matrix of a camera.
- * Inheriths $(D SceneNode) class and encapsulates $(D NodeBody) macro.
+ * Inheriths $(D SceneNode) class and encapsulates $(D SceneNodeBody) macro.
 **/
 final class Camera : SceneNode {
-  mixin (NodeBody);
+  mixin SceneNodeBody;
 
   package {
     static immutable float DEFAULT_YAW = -90.0f;

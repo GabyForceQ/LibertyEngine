@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/ui/widget.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/widget.d)
  * Documentation:
  * Coverage:
- */
-module liberty.surface.ui.widget;
+**/
+module liberty.surface.widget;
 
 import liberty.math.vector;
 import liberty.graphics.renderer;
@@ -18,7 +18,6 @@ import liberty.services;
 import liberty.surface.model;
 import liberty.input.impl;
 import liberty.surface.vertex;
-import liberty.surface.ui.button;
 
 /**
  *
@@ -39,7 +38,7 @@ abstract class Widget : IRenderable, IUpdatable {
   /**
    *
   **/
-  this(string id, Surface surface, bool hasRenderer = true) {
+  this(string id, Surface surface, bool hasRenderer) {
     if (hasRenderer)
       renderer = new Renderer!(SurfaceVertex, Surface)(this, (new SurfaceModel([Material.getDefault()])
         .build(uiSquareVertices, uiSquareIndices)));
@@ -136,51 +135,6 @@ private SurfaceVertex[] uiSquareVertices = [
   SurfaceVertex(Vector3F( 1.0f, -1.0f, 0.0f), Vector2F(1.0f, 0.0f)),
   SurfaceVertex(Vector3F( 1.0f,  1.0f, 0.0f), Vector2F(1.0f, 1.0f))
 ];
-
-/**
- *
-**/
-enum Event : string {
-  /**
-   *
-  **/
-  MouseLeftClick = "MouseLeftClick",
-
-  /**
-   *
-  **/
-  MouseMiddleClick = "MouseMiddleClick",
-
-  /**
-   *
-  **/
-  MouseRightClick = "MouseRightClick",
-
-  /**
-   *
-  **/
-  MouseOver = "MouseOver",
-
-  /**
-   *
-  **/
-  MouseMove = "MouseMove",
-
-  /**
-   *
-  **/
-  MouseEnter = "MouseEnter",
-
-  /**
-   *
-  **/
-  MouseLeave = "MouseLeave",
-
-  /**
-   *
-  **/
-  Update = "Update"
-}
 
 /**
  *

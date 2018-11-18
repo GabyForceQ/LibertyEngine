@@ -7,10 +7,9 @@
  * Coverage:
  * TODO:
  *    - Change action delegate and objEvList dinamically.
- */
+**/
 module liberty.surface.impl;
 
-import std.traits : EnumMembers;
 import std.typecons : Tuple;
 
 import liberty.math.matrix;
@@ -18,9 +17,10 @@ import liberty.math.util;
 import liberty.scene.node;
 import liberty.core.platform;
 import liberty.scene.impl;
-import liberty.surface.ui.widget;
+import liberty.surface.event;
+import liberty.surface.widget;
 import liberty.services;
-import liberty.surface.ui.button;
+import liberty.surface.controls;
 import liberty.action;
 
 /**
@@ -128,14 +128,17 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   Surface addAction(T)(string id, void delegate(Widget, Event) action,
     Tuple!(T, Event)[] objEvList = null, ubyte priority = 0)
   do {
+    import std.uni : toLower;
+    import std.traits : EnumMembers;
+
     actionMap[id] = new UIAction(id, action, priority);
     
     if (objEvList !is null) {
-      static foreach (s; ["Button"])
+      static foreach (s; EnumMembers!WidgetType)
         foreach(e; objEvList) {
           if (mixin ("__traits(compiles, cast(" ~ s ~ ")e[0])"))
             SW: final switch (e[1]) with (Event) {
-              static foreach (member; mixin ("EnumMembers!" ~ s ~ "Event"))
+              static foreach (member; mixin(s ~ ".getEventArrayString()"))
                 mixin ("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~ "(action); break SW;");
             }
         }

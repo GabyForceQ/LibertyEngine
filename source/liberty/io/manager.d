@@ -24,7 +24,7 @@ final class IOManager {
   static bool readFileToBuffer(string filePath, ref char[] buffer, string mode = "r") {
     // Try to open and read file
     auto file = File(filePath, mode);
-    scope (exit) file.close();
+    scope(exit) file.close();
 
     // Check file loaded successfully
     if (file.error()) {
@@ -51,10 +51,10 @@ final class IOManager {
     char[] buf;
 
     if (!IOManager.readFileToBuffer("test_file.txt", buf)) {
-      assert (0, "Operation failed!");
+      assert(0, "Operation failed!");
     }
 
-    assert (
+    assert(
       buf == "Hello,\r\nDear engine!" ||
       buf == "Hello,\nDear engine!", 
       "Buffer does not containt the same data as file"

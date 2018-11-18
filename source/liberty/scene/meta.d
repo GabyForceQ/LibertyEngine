@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/meta.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/meta.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.meta;
+module liberty.scene.meta;
 
 /**
  *
@@ -16,7 +16,7 @@ struct Component;
 /**
  *
 **/
-immutable NodeBody = q{
+mixin template SceneNodeBody() {
   import liberty.core.engine;
   import liberty.scene.node;
 
@@ -62,4 +62,4 @@ immutable NodeBody = q{
     static if (typeof(this).stringof == "PointLight")
       getScene().registerLight(this);
   }
-};
+}

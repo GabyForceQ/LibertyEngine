@@ -231,8 +231,8 @@ T inverseSqrt(T)(T x) pure nothrow if (isFloatingPoint!T) {
  *
 **/
 pure nothrow unittest {
-	assert (abs(inverseSqrt!float(1) - 1) < 1e-3 );
-	assert (abs(inverseSqrt!double(1) - 1) < 1e-3 );
+	assert(abs(inverseSqrt!float(1) - 1) < 1e-3 );
+	assert(abs(inverseSqrt!double(1) - 1) < 1e-3 );
 }
 
 /**

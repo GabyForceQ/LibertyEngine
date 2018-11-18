@@ -8,7 +8,7 @@
 **/
 module liberty.primitive.bsp;
 
-import liberty.meta;
+import liberty.scene.meta;
 import liberty.graphics.material.impl;
 import liberty.math.vector;
 import liberty.scene.node;
@@ -45,7 +45,7 @@ abstract class BSPVolume : Primitive {
  *
 **/
 final class BSPCube : BSPVolume {
-	mixin(NodeBody);
+	mixin SceneNodeBody;
 
   /**
    *
@@ -62,7 +62,7 @@ final class BSPCube : BSPVolume {
  *
 **/
 final class BSPPyramid : BSPVolume {
-	mixin(NodeBody);
+	mixin SceneNodeBody;
 
   /**
    *
@@ -79,7 +79,7 @@ final class BSPPyramid : BSPVolume {
  *
 **/
 final class BSPSquare : BSPVolume {
-	mixin(NodeBody);
+	mixin SceneNodeBody;
 
   /**
    *
@@ -96,7 +96,7 @@ final class BSPSquare : BSPVolume {
  *
 **/
 final class BSPTriangle : BSPVolume {
-	mixin(NodeBody);
+	mixin SceneNodeBody;
 
   /**
    *

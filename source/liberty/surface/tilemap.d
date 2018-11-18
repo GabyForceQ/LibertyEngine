@@ -10,33 +10,41 @@ module liberty.surface.tilemap;
 
 import std.container.array : Array;
 import std.conv : to;
-import std.traits : EnumMembers;
 import std.typecons : tuple, Tuple;
 
+import liberty.surface.meta;
+
 import liberty.math.vector;
+import liberty.surface.event;
 import liberty.surface.impl;
 import liberty.surface.transform;
-import liberty.surface.ui.widget;
+import liberty.surface.widget;
 
-import liberty.surface.ui.button;
+import liberty.surface.controls;
 
 /**
  *
 **/
 final class TileMap : Widget {
+  mixin WidgetEventProps!([
+    Event.MouseLeftClick,
+    Event.MouseMiddleClick,
+    Event.MouseRightClick,
+    Event.MouseOver,
+    Event.MouseMove,
+    Event.MouseEnter,
+    Event.MouseLeave,
+    Event.Update,
+  ], "custom");
+
+  mixin WidgetConstructor!("renderer: disabled");
+
   private {
     Vector2I dimension = Vector2I.zero;
     Widget[] tiles;
 
-    static foreach (member; EnumMembers!TileMapEvent)
+    static foreach (member; getEventArrayString())
       mixin("Tuple!(Widget, Event)[] eventMap" ~ member ~ ";");
-  }
-
-  /**
-   *
-  **/
-  this(string id, Surface surface) {
-    super(id, surface, false);
   }
 
   /**
@@ -100,7 +108,7 @@ final class TileMap : Widget {
     return dimension;
   }
 
-  static foreach (member; EnumMembers!TileMapEvent)
+  static foreach (member; getEventArrayString())
     /**
      *
     **/
@@ -109,55 +117,10 @@ final class TileMap : Widget {
       ~ "eventMap" ~ member ~ "~= tuple(tiles[i], Event." ~ member ~ ");"
       ~ "return this; }");
 
-  static foreach (member; EnumMembers!TileMapEvent)
+  static foreach (member; getEventArrayString())
     /**
      *
     **/
     mixin("Tuple!(Widget, Event)[] get" ~ member ~ "Event() pure nothrow"
       ~ "{ return eventMap" ~ member ~ "; }");
-}
-
-/**
- *
-**/
-enum TileMapEvent : string {
-  /**
-   *
-  **/
-  MouseLeftClick = "MouseLeftClick",
-
-  /**
-   *
-  **/
-  MouseMiddleClick = "MouseMiddleClick",
-
-  /**
-   *
-  **/
-  MouseRightClick = "MouseRightClick",
-
-  /**
-   *
-  **/
-  MouseOver = "MouseOver",
-
-  /**
-   *
-  **/
-  MouseMove = "MouseMove",
-
-  /**
-   *
-  **/
-  MouseEnter = "MouseEnter",
-
-  /**
-   *
-  **/
-  MouseLeave = "MouseLeave",
-
-  /**
-   *
-  **/
-  Update = "Update"
 }

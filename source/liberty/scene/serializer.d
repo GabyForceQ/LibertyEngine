@@ -42,7 +42,7 @@ class SceneSerializer : ISerializable {
   void serialize() {
     // Open the file
     auto file = File(path, "w");
-    scope (exit) file.close();
+    scope(exit) file.close();
 
     import std.stdio;
     writeln(path);
@@ -98,7 +98,7 @@ class SceneSerializer : ISerializable {
   void deserialize() {
     // Open the file
     auto file = File(path);
-    scope (exit) file.close();
+    scope(exit) file.close();
 
     // Read the file and build scene
     auto range = file.byLine();

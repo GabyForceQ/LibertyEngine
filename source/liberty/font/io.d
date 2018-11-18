@@ -24,7 +24,7 @@ final class FontIO {
   static void loadFNTFile(string path) {
     // Open the file
     auto file = File(path);
-    scope (exit) file.close();
+    scope(exit) file.close();
 
     // Read the file and build font data
     auto range = file.byLine();

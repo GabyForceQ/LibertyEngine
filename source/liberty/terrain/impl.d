@@ -12,7 +12,7 @@ module liberty.terrain.impl;
 
 import liberty.math.functions;
 import liberty.math.vector;
-import liberty.meta;
+import liberty.scene.meta;
 import liberty.terrain.vertex;
 import liberty.resource;
 import liberty.terrain.model;
@@ -27,7 +27,7 @@ import liberty.image;
  *
 **/
 final class Terrain : SceneNode, IRenderable {
-  mixin(NodeBody);
+  mixin SceneNodeBody;
 
   private {
     const float maxPixelColor = 256 ^^ 3;

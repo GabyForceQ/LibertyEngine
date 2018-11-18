@@ -11,7 +11,7 @@ module liberty.primitive.mesh;
 import liberty.graphics.renderer;
 import liberty.primitive.model;
 import liberty.scene.node;
-import liberty.meta;
+import liberty.scene.meta;
 import liberty.graphics.material.impl;
 import liberty.primitive.vertex;
 import liberty.primitive.impl;
@@ -20,7 +20,7 @@ import liberty.primitive.impl;
  *
 **/
 final class StaticMesh : Primitive {
-  mixin(NodeBody);
+  mixin SceneNodeBody;
 
   /**
    *

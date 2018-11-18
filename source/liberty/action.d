@@ -11,7 +11,8 @@
 module liberty.action;
 
 import liberty.logger.impl;
-import liberty.surface.ui.widget;
+import liberty.surface.event;
+import liberty.surface.widget;
 
 /**
  * An action is represented by an id, an event and a priority.

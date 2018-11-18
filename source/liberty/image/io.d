@@ -33,12 +33,12 @@ final class ImageIO {
 
     // Read bmp file and put its content into a buffer
     if (!IOManager.readFileToBuffer(resourcePath, buf, "rb")) {
-      assert (0, "Operation failed!");
+      assert(0, "Operation failed!");
     }
 
     // Check if it is really a bmp image
     if (!isBMPFormat(buf[0x00..0x02])) {
-      assert (0, "Not BMP image!");
+      assert(0, "Not BMP image!");
     }
 
     BMPHeader header;
@@ -71,12 +71,12 @@ final class ImageIO {
 
     // Read png file and put its content into a buffer
     if (!IOManager.readFileToBuffer(resourcePath, buf, "rb")) {
-      assert (0, "Operation failed!");
+      assert(0, "Operation failed!");
     }
 
     // Check if it is really a png image
     if (!isPNGFormat(buf[0x00..0x08])) {
-      assert (0, "Not PNG image!");
+      assert(0, "Not PNG image!");
     }
 
     Logger.todo("static PNGImage loadPNGFile(string resourcePath) {..}", typeof(this).stringof);

@@ -5,15 +5,15 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/transform.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.surface.transform;
 
 import liberty.math.vector;
 import liberty.math.matrix;
 import liberty.math.util;
-import liberty.surface.ui.widget;
+import liberty.surface.widget;
 import liberty.core.platform;
-import liberty.meta;
+import liberty.scene.meta;
 
 /**
  *

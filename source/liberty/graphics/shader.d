@@ -27,7 +27,7 @@ else version (linux)
   **/
   enum SHADER_CORE_VERSION = "#version 330 core\n";
 else
-  static assert (0, "Shader core not supported on this platform.");
+  static assert(0, "Shader core not supported on this platform.");
 
 /**
  *

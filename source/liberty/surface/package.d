@@ -9,13 +9,15 @@
 module liberty.surface;
 
 public {
-  import liberty.surface.ui;
-  
+  import liberty.surface.controls;
+  import liberty.surface.event;
   import liberty.surface.impl;
+  import liberty.surface.meta;
   import liberty.surface.model;
   import liberty.surface.renderer;
   import liberty.surface.shader;
   import liberty.surface.tilemap;
   import liberty.surface.transform;
   import liberty.surface.vertex;
+  import liberty.surface.widget;
 }

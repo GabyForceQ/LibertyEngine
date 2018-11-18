@@ -12,7 +12,7 @@ import liberty.logger.impl;
 import liberty.math.vector;
 import liberty.core.engine;
 import liberty.graphics.renderer;
-import liberty.meta;
+import liberty.scene.meta;
 import liberty.primitive.model;
 import liberty.scene.node;
 import liberty.math.functions;
@@ -25,7 +25,7 @@ import liberty.terrain.shader;
  *
 **/
 final class PointLight : SceneNode {
-  mixin(NodeBody);
+  mixin SceneNodeBody;
 
   private {
     static uint numberOfLights;

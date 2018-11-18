@@ -5,7 +5,7 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/util.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.graphics.util;
 
 version (__OPENGL__)

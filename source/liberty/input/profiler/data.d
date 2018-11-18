@@ -44,7 +44,7 @@ struct InputAction(DEVICE) {
     **/
     alias DeviceAction = JoystickAction;
   } else
-    static assert (0, "Device not supported.");
+    static assert(0, "Device not supported.");
 
   /**
    *
@@ -85,7 +85,7 @@ struct InputAxis(DEVICE) {
     **/
     alias DeviceAxis = JoystickAxis;
   else
-    static assert (0, "Device not supported.");
+    static assert(0, "Device not supported.");
 
   /**
    *

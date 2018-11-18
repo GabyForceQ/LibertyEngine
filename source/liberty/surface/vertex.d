@@ -5,7 +5,7 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/vertex.d)
  * Documentation:
  * Coverage:
- */
+**/
 module liberty.surface.vertex;
 
 import liberty.math.vector;

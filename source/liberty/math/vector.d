@@ -135,19 +135,19 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     ///
     pure nothrow unittest {
         const v1 = Vector2I(4, 2);
-        assert (v1.v == [4, 2]);
+        assert(v1.v == [4, 2]);
         const v2 = Vector2I(5);
-        assert (v2.v == [5, 5]);
+        assert(v2.v == [5, 5]);
         const v3 = Vector3I([1, 2, 3]);
-        assert (v3.v == [1, 2, 3]);
+        assert(v3.v == [1, 2, 3]);
         const v4 = Vector4I();
-        assert (v4.v == [0, 0, 0, 0]);
+        assert(v4.v == [0, 0, 0, 0]);
         const v5 = Vector3I(Vector2I(1, 3), 5);
-        assert (v5.v == [1, 3, 5]);
+        assert(v5.v == [1, 3, 5]);
         const v6 = Vector4I(Vector3I(-2, 1, 3), 5);
-        assert (v6.v == [-2, 1, 3, 5]);
+        assert(v6.v == [-2, 1, 3, 5]);
         const v7 = Vector4I(Vector2I(1, 3), Vector2I(5, 4));
-        assert (v7.v == [1, 3, 5, 4]);
+        assert(v7.v == [1, 3, 5, 4]);
     }
     // TODO: remove this constructors
 	static if (N == 3) {
@@ -165,10 +165,10 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         } else static if (is(U : T)) {
             v[] = rhs;
         } else static if (is(U : T[])) {
-            assert (rhs.length == N, "Static array's lenght must be equal to vector's length!");
+            assert(rhs.length == N, "Static array's lenght must be equal to vector's length!");
             v = rhs;
         } else {
-            static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Vector.stringof);
+            static assert(0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Vector.stringof);
         }
         return this;
     }
@@ -176,13 +176,13 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     pure nothrow unittest {
         auto v1 = Vector3I();
         v1 = Vector3I(7, 8, 9);
-        assert (v1.v == [7, 8, 9]);
+        assert(v1.v == [7, 8, 9]);
         auto v2 = Vector2F();
         v2 = 3.4f;
-        assert (v2.v == [3.4f, 3.4f]);
+        assert(v2.v == [3.4f, 3.4f]);
         auto v3 = Vector4I();
         v3 = [1, 3, 5, -6];
-        assert (v3.v == [1, 3, 5, -6]);
+        assert(v3.v == [1, 3, 5, -6]);
     }
     ///
     bool opEquals(U)(U rhs) pure nothrow const {
@@ -199,18 +199,18 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
                 }
             }
         } else {
-            static assert (0, "Cannot compare a variable of type " ~ U.stringof ~ " with a variable of type " ~ Vector.stringof);
+            static assert(0, "Cannot compare a variable of type " ~ U.stringof ~ " with a variable of type " ~ Vector.stringof);
         }
         return true;
     }
     ///
     pure nothrow unittest {
         const v1 = Vector2F(4.5f, 6.0f);
-        assert (v1 == Vector2F(4.5f, 6.0f));
-        assert (v1 != Vector2F(4.5f, 8.0f));
+        assert(v1 == Vector2F(4.5f, 6.0f));
+        assert(v1 != Vector2F(4.5f, 8.0f));
         const v2 = Vector3I(-1, -1, -1);
-        assert (v2 == -1);
-        assert (v2 != 0);
+        assert(v2 == -1);
+        assert(v2 != 0);
     }
 	///
 	Vector opUnary(string op)() pure const nothrow if (op == "+" || op == "-" || op == "~" || op == "!") {
@@ -223,12 +223,12 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     ///
     pure nothrow unittest {
         const v1 = Vector2I(2, -5);
-        assert ((+v1).v == [2, -5]);
-        assert ((-v1).v == [-2, 5]);
-        assert ((~v1).v == [-3, 4]);
+        assert((+v1).v == [2, -5]);
+        assert((-v1).v == [-2, 5]);
+        assert((~v1).v == [-3, 4]);
         // *** BUG ***
         //auto v2 = Vector!(bool, 2)(true, false);
-        //assert ((!v2).v == [false, true]);
+        //assert((!v2).v == [false, true]);
     }
 	///
 	Vector opBinary(string op, U)(U rhs) pure nothrow const {
@@ -242,7 +242,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 				mixin("ret.v[i] = cast(T)(v[i] " ~ op ~ " rhs);");
 			}
 		} else {
-            static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Vector.stringof);
+            static assert(0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Vector.stringof);
 		}
 		return ret;
 	}
@@ -251,9 +251,9 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
         const v1 = Vector2I(4, -5);
         const v2 = Vector2I(7, 2);
         auto v3 = v1 + v2;
-        assert (v3.v == [11, -3]);
+        assert(v3.v == [11, -3]);
         v3 = v2 - 2;
-        assert (v3.v == [5, 0]);
+        assert(v3.v == [5, 0]);
     }
 	///
     Vector opBinaryRight(string op, U)(U lhs) pure nothrow const {
@@ -267,7 +267,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
 		        mixin("ret.v[i] = cast(T)(lhs " ~ op ~ " v[i]);");
 	        }
         } else  {
-            static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Vector.stringof);
+            static assert(0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Vector.stringof);
         }
 	    return ret;
     }
@@ -275,14 +275,14 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     pure nothrow unittest {
         const v1 = Vector2I(4, -5);
         const v2 = 3 + v1;
-        assert (v2.v == [7, -2]);
+        assert(v2.v == [7, -2]);
     }
     ///
 	ref Vector opOpAssign(string op, U)(U rhs) pure nothrow {
         static if (is(U : Vector) || is(U : T)) {
             mixin("this = this " ~ op ~ " rhs;");
         } else {
-            static assert (0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Matrix.stringof);
+            static assert(0, "Cannot assign a variable of type " ~ U.stringof ~ " within a variable of type " ~ Matrix.stringof);
         }
 		return this;
 	}
@@ -290,10 +290,10 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     pure nothrow unittest {
         auto v1 = Vector2I(2, -8);
         v1 += 3;
-        assert (v1.v == [5, -5]);
+        assert(v1.v == [5, -5]);
         const v2 = Vector2I(1, 2);
         v1 -= v2;
-        assert (v1.v == [4, -7]);
+        assert(v1.v == [4, -7]);
     }
 	///
 	ref T opIndex(size_t i) pure nothrow {
@@ -319,7 +319,7 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
     pure nothrow unittest {
         const v1 = Vector2F(1.3f, -5.7f);
         auto v2 = cast(Vector2I)v1;
-        assert (v2.v == [1, -5]);
+        assert(v2.v == [1, -5]);
     }
 	///
 	int opDollar() pure nothrow const {
@@ -343,13 +343,13 @@ struct Vector(T, ubyte N) if (N >= 2 && N <= 4) {
             import std.string : format;
             return format("%s", v);
         } catch (Exception e) {
-            assert (0);
+            assert(0);
         }
     }
     ///
     pure nothrow unittest {
         auto v = Vector!(uint, 2)(2, 4);
-        assert (v.toString() == "[2, 4]");
+        assert(v.toString() == "[2, 4]");
     }
 	///
 	T squaredMagnitude() pure nothrow const {
@@ -519,8 +519,8 @@ Vector!(T, N) reflect(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pu
     return a - (2 * dot(b, a)) * b;
 }
 ///
-static assert (Vector2F.sizeof == 8);
+static assert(Vector2F.sizeof == 8);
 ///
-static assert (Vector3D.sizeof == 24);
+static assert(Vector3D.sizeof == 24);
 ///
-static assert (Vector4I.sizeof == 16);
+static assert(Vector4I.sizeof == 16);
