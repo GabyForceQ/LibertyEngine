@@ -12,6 +12,7 @@ module liberty.surface.impl;
 
 import std.typecons : Tuple;
 
+import liberty.logger;
 import liberty.math.matrix;
 import liberty.math.util;
 import liberty.scene.node;
@@ -128,19 +129,29 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   Surface addAction(T)(string id, void delegate(Widget, Event) action,
     Tuple!(T, Event)[] objEvList = null, ubyte priority = 0)
   do {
+    import std.array : split;
     import std.traits : EnumMembers;
 
-    actionMap[id] = new UIAction(id, action, priority);
+    bool possible = false;
     
     if (objEvList !is null)
       static foreach (s; EnumMembers!WidgetType)
-        static if (s == T.stringof)
-          foreach(e; objEvList)
-            mixin("SW_" ~ s ~ ": switch (e[1]) with (Event) {" ~
-              "static foreach (member; mixin(s ~ \".getEventArrayString()\"))" ~
-              "mixin(\"case \" ~ member ~ \": (cast(\" ~ s ~ \")e[0]).setOn\" ~ member ~ \"(action); " ~
-              "break SW_\" ~ s ~ \";\");" ~
-              "default: break;}");
+        static if (s == T.stringof.split("!")[0]) {
+          foreach (e; objEvList) {
+            switch (e[1]) with (Event) {
+              static foreach (member; mixin(T.stringof ~ ".getEventArrayString()"))
+                mixin("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~
+                  "(action); possible = true; goto END_SWITCH;");
+              default: break;
+            }
+            END_SWITCH:
+          }
+        }
+
+    if (possible)
+      actionMap[id] = new UIAction(id, action, priority);
+    else
+      Logger.error("Action with id: " ~ id ~ " can't be created.", typeof(this).stringof);
     
     return this;
   }

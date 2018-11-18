@@ -143,10 +143,25 @@ enum WidgetType : string {
   /**
    *
   **/
+  CustomControl = "CustomControl",
+
+  /**
+   *
+  **/
   Button = "Button",
+
+  /**
+   *
+  **/
+  CustomButton = "CustomButton",
   
   /**
    *
   **/
-  CheckBox = "CheckBox"
+  CheckBox = "CheckBox",
+
+  /**
+   *
+  **/
+  CustomCheckBox = "CustomCheckBox"
 }

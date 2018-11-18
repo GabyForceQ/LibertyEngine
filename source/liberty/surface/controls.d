@@ -15,6 +15,16 @@ import liberty.surface.widget;
 /**
  *
 **/
+final class CustomControl(alias E) : Widget {
+  mixin WidgetEventProps!(E);
+
+  mixin WidgetConstructor;
+  mixin WidgetUpdate;
+}
+
+/**
+ *
+**/
 final class Button : Widget {
   mixin WidgetEventProps!([
     Event.MouseLeftClick,
@@ -26,6 +36,18 @@ final class Button : Widget {
     Event.MouseLeave,
     Event.Update
   ]);
+
+  mixin WidgetConstructor;
+  mixin WidgetUpdate;
+}
+
+/**
+ *
+**/
+final class CustomButton(alias E) : Widget {
+  mixin WidgetEventProps!([
+    Event.MouseLeftClick
+  ] ~ E);
 
   mixin WidgetConstructor;
   mixin WidgetUpdate;
@@ -50,6 +72,21 @@ final class CheckBox : Widget {
     Event.StateChange,
     Event.Update
   ]);
+
+  mixin WidgetConstructor;
+  mixin WidgetUpdate;
+}
+
+/**
+ *
+**/
+final class CustomCheckBox(alias E) : Widget {
+  mixin WidgetEventProps!([
+    Event.Check,
+    Event.Checked,
+    Event.Uncheck,
+    Event.Unchecked,
+  ] ~ E);
 
   mixin WidgetConstructor;
   mixin WidgetUpdate;
