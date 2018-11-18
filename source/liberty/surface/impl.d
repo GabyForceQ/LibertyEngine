@@ -136,10 +136,10 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
     if (objEvList !is null) {
       static foreach (s; EnumMembers!WidgetType)
         foreach(e; objEvList) {
-          if (mixin ("__traits(compiles, cast(" ~ s ~ ")e[0])"))
+          if (mixin("__traits(compiles, cast(" ~ s ~ ")e[0])"))
             SW: final switch (e[1]) with (Event) {
               static foreach (member; mixin(s ~ ".getEventArrayString()"))
-                mixin ("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~ "(action); break SW;");
+                mixin("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~ "(action); break SW;");
             }
         }
     }

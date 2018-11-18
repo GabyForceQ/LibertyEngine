@@ -80,10 +80,10 @@ final class Transform {
   Transform setRelativeLocation(string op = "=")(Vector3F location) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {  
-    mixin ("tempModelMatrix.c[0][3] " ~ op ~ " location.x;");
-    mixin ("tempModelMatrix.c[1][3] " ~ op ~ " location.y;");
-    mixin ("tempModelMatrix.c[2][3] " ~ op ~ " location.z;");
-    mixin ("relativeLocation " ~ op ~ " location;");
+    mixin("tempModelMatrix.c[0][3] " ~ op ~ " location.x;");
+    mixin("tempModelMatrix.c[1][3] " ~ op ~ " location.y;");
+    mixin("tempModelMatrix.c[2][3] " ~ op ~ " location.z;");
+    mixin("relativeLocation " ~ op ~ " location;");
 
     updateModelMatrix();
     return this;
@@ -96,8 +96,8 @@ final class Transform {
 	Transform setRelativeLocationX(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-		mixin ("tempModelMatrix.c[0][3] " ~ op ~ " value;");
-    mixin ("relativeLocation.x " ~ op ~ " value;");
+		mixin("tempModelMatrix.c[0][3] " ~ op ~ " value;");
+    mixin("relativeLocation.x " ~ op ~ " value;");
 
     updateModelMatrix();
     return this;
@@ -110,8 +110,8 @@ final class Transform {
 	Transform setRelativeLocationY(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-		mixin ("tempModelMatrix.c[1][3] " ~ op ~ " value;");
-    mixin ("relativeLocation.y " ~ op ~ " value;");
+		mixin("tempModelMatrix.c[1][3] " ~ op ~ " value;");
+    mixin("relativeLocation.y " ~ op ~ " value;");
 
     updateModelMatrix();
     return this;
@@ -124,8 +124,8 @@ final class Transform {
 	Transform setRelativeLocationZ(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-		mixin ("tempModelMatrix.c[2][3] " ~ op ~ " value;");
-    mixin ("relativeLocation.z " ~ op ~ " value;");
+		mixin("tempModelMatrix.c[2][3] " ~ op ~ " value;");
+    mixin("relativeLocation.z " ~ op ~ " value;");
 
     updateModelMatrix();
     return this;
@@ -149,18 +149,18 @@ final class Transform {
 	Transform setAbsoluteLocation(string op = "=", bool force = false)(Vector3F location)
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin (forceBody);
+    mixin(forceBody);
 
     static if (op == "=") {
-      mixin ("tempModelMatrix.c[0][3] " ~ op ~ "relativeLocation.x + location.x;");
-      mixin ("tempModelMatrix.c[1][3] " ~ op ~ "relativeLocation.y + location.y;");
-      mixin ("tempModelMatrix.c[2][3] " ~ op ~ "relativeLocation.z + location.z;");
+      mixin("tempModelMatrix.c[0][3] " ~ op ~ "relativeLocation.x + location.x;");
+      mixin("tempModelMatrix.c[1][3] " ~ op ~ "relativeLocation.y + location.y;");
+      mixin("tempModelMatrix.c[2][3] " ~ op ~ "relativeLocation.z + location.z;");
     } else {
-      mixin ("tempModelMatrix.c[0][3] " ~ op ~ " location.x;");
-      mixin ("tempModelMatrix.c[1][3] " ~ op ~ " location.y;");
-      mixin ("tempModelMatrix.c[2][3] " ~ op ~ " location.z;");
+      mixin("tempModelMatrix.c[0][3] " ~ op ~ " location.x;");
+      mixin("tempModelMatrix.c[1][3] " ~ op ~ " location.y;");
+      mixin("tempModelMatrix.c[2][3] " ~ op ~ " location.z;");
     }
-    mixin ("absoluteLocation " ~ op ~ " location;");
+    mixin("absoluteLocation " ~ op ~ " location;");
 
     // Set location to the current object children too
     foreach (child; parent.getChildren())
@@ -178,13 +178,13 @@ final class Transform {
 	Transform setAbsoluteLocationX(string op = "=", bool force = true)(float value)
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin (forceBody);
+    mixin(forceBody);
 
     static if (op == "=")
-      mixin ("tempModelMatrix.c[0][3] " ~ op ~ "relativeLocation.x + value;");
+      mixin("tempModelMatrix.c[0][3] " ~ op ~ "relativeLocation.x + value;");
     else
-      mixin ("tempModelMatrix.c[0][3] " ~ op ~ " value;");
-    mixin ("absoluteLocation.x " ~ op ~ " value;");
+      mixin("tempModelMatrix.c[0][3] " ~ op ~ " value;");
+    mixin("absoluteLocation.x " ~ op ~ " value;");
 
     // Set location x to the current object children too
     foreach (child; parent.getChildren())
@@ -202,13 +202,13 @@ final class Transform {
 	Transform setAbsoluteLocationY(string op = "=", bool force = false)(float value)
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin (forceBody);
+    mixin(forceBody);
 
     static if (op == "=")
-      mixin ("tempModelMatrix.c[1][3] " ~ op ~ "relativeLocation.y + value;");
+      mixin("tempModelMatrix.c[1][3] " ~ op ~ "relativeLocation.y + value;");
     else
-      mixin ("tempModelMatrix.c[1][3] " ~ op ~ " value;");
-    mixin ("absoluteLocation.y " ~ op ~ " value;");
+      mixin("tempModelMatrix.c[1][3] " ~ op ~ " value;");
+    mixin("absoluteLocation.y " ~ op ~ " value;");
 
     // Set location y to the current object children too
     foreach (child; parent.getChildren())
@@ -226,13 +226,13 @@ final class Transform {
 	Transform setAbsoluteLocationZ(string op = "=", bool force = false)(float value)
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin (forceBody);
+    mixin(forceBody);
 
     static if (op == "=")
-      mixin ("tempModelMatrix.c[2][3] " ~ op ~ "relativeLocation.z + value;");
+      mixin("tempModelMatrix.c[2][3] " ~ op ~ "relativeLocation.z + value;");
     else
-      mixin ("tempModelMatrix.c[2][3] " ~ op ~ " value;");
-    mixin ("absoluteLocation.z " ~ op ~ " value;");
+      mixin("tempModelMatrix.c[2][3] " ~ op ~ " value;");
+    mixin("absoluteLocation.z " ~ op ~ " value;");
 
     // Set location z to the current object children too
     foreach (child; parent.getChildren())
@@ -269,17 +269,17 @@ final class Transform {
   /*Transform setAbsoluteRotation(string op = "=")(Matrix3F rotation) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin ("tempModelMatrix.c[0][0] " ~ op ~ " rotation.c[0][0];");
-    mixin ("tempModelMatrix.c[0][1] " ~ op ~ " rotation.c[0][1];");
-    mixin ("tempModelMatrix.c[0][2] " ~ op ~ " rotation.c[0][2];");
+    mixin("tempModelMatrix.c[0][0] " ~ op ~ " rotation.c[0][0];");
+    mixin("tempModelMatrix.c[0][1] " ~ op ~ " rotation.c[0][1];");
+    mixin("tempModelMatrix.c[0][2] " ~ op ~ " rotation.c[0][2];");
 
-    mixin ("tempModelMatrix.c[1][0] " ~ op ~ " rotation.c[1][0];");
-    mixin ("tempModelMatrix.c[1][1] " ~ op ~ " rotation.c[1][1];");
-    mixin ("tempModelMatrix.c[1][2] " ~ op ~ " rotation.c[1][2];");
+    mixin("tempModelMatrix.c[1][0] " ~ op ~ " rotation.c[1][0];");
+    mixin("tempModelMatrix.c[1][1] " ~ op ~ " rotation.c[1][1];");
+    mixin("tempModelMatrix.c[1][2] " ~ op ~ " rotation.c[1][2];");
 
-    mixin ("tempModelMatrix.c[2][0] " ~ op ~ " rotation.c[2][0];");
-    mixin ("tempModelMatrix.c[2][1] " ~ op ~ " rotation.c[2][1];");
-    mixin ("tempModelMatrix.c[2][2] " ~ op ~ " rotation.c[2][2];");
+    mixin("tempModelMatrix.c[2][0] " ~ op ~ " rotation.c[2][0];");
+    mixin("tempModelMatrix.c[2][1] " ~ op ~ " rotation.c[2][1];");
+    mixin("tempModelMatrix.c[2][2] " ~ op ~ " rotation.c[2][2];");
 
     // Set rotation to the current object children too
     foreach (child; parent.getChildren())
@@ -296,7 +296,7 @@ final class Transform {
 	Transform rotatePitch(string op = "=")(float angle) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin ("absoluteRotation.x " ~ op ~ " angle;");
+    mixin("absoluteRotation.x " ~ op ~ " angle;");
 		tempModelMatrix.rotateX(absoluteRotation.x.radians);
 
     // Set pitch rotation to the current object children too
@@ -314,7 +314,7 @@ final class Transform {
 	Transform rotateYaw(string op = "=")(float angle) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin ("absoluteRotation.y " ~ op ~ " angle;");
+    mixin("absoluteRotation.y " ~ op ~ " angle;");
 		tempModelMatrix.rotateY(absoluteRotation.y.radians);
 
     // Set yaw rotation to the current object children too
@@ -332,7 +332,7 @@ final class Transform {
 	Transform rotateRoll(string op = "=")(float angle) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin ("absoluteRotation.z " ~ op ~ " angle;");
+    mixin("absoluteRotation.z " ~ op ~ " angle;");
 		tempModelMatrix.rotateZ(absoluteRotation.z.radians);
 
     // Set roll rotation to the current object children too
@@ -512,7 +512,7 @@ final class Transform {
   Transform setPivot(string op = "=")(Vector3F pivot) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin ("this.pivot " ~ op ~ " pivot;");
+    mixin("this.pivot " ~ op ~ " pivot;");
     updateModelMatrix();
     return this;
   }
@@ -524,7 +524,7 @@ final class Transform {
 	Transform setPivotX(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin ("pivot.x " ~ op ~ " value;");
+    mixin("pivot.x " ~ op ~ " value;");
     updateModelMatrix();
     return this;
 	}
@@ -536,7 +536,7 @@ final class Transform {
 	Transform setPivotY(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin ("pivot.y " ~ op ~ " value;");
+    mixin("pivot.y " ~ op ~ " value;");
     updateModelMatrix();
     return this;
 	}
@@ -548,7 +548,7 @@ final class Transform {
 	Transform setPivotZ(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin ("pivot.z " ~ op ~ " value;");
+    mixin("pivot.z " ~ op ~ " value;");
     updateModelMatrix();
     return this;
 	}

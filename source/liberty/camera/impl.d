@@ -23,10 +23,15 @@ import liberty.scene.impl;
 /**
  * Represents the view of the observer.
  * Everything that is rendered to the screen is processed within the projection matrix and view matrix of a camera.
- * Inheriths $(D SceneNode) class and encapsulates $(D SceneNodeBody) macro.
+ * Inheriths $(D SceneNode) class and encapsulates $(D NodeConstructor) macro.
+ * It has a custom constructor that calls: $(D updateCameraVectors) and adds default $(D CameraPreset).
 **/
 final class Camera : SceneNode {
-  mixin SceneNodeBody;
+  mixin NodeConstructor!(q{
+    this.updateCameraVectors();
+    this.preset = CameraPreset.getDefault();
+    this.getTransform().setRelativeLocation(0.0f, 3.0f, 4.0f);
+  });
 
   package {
     static immutable float DEFAULT_YAW = -90.0f;
@@ -72,17 +77,6 @@ final class Camera : SceneNode {
 
     // setPreset, getPreset
     CameraPreset preset;
-  }
-
-  /**
-   * Camera custom constructor.
-   * Calls: $(D updateCameraVectors).
-   * It adds default $(D CameraPreset).
-  **/
-  void constructor() {
-    updateCameraVectors();
-    preset = CameraPreset.getDefault();
-    getTransform().setRelativeLocation(0.0f, 3.0f, 4.0f);
   }
 
   /**
@@ -203,7 +197,7 @@ final class Camera : SceneNode {
   Camera setYaw(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
-    mixin ("yaw " ~ op ~ " value;");
+    mixin("yaw " ~ op ~ " value;");
     updateCameraVectors();
     return this;
   }
@@ -239,7 +233,7 @@ final class Camera : SceneNode {
   Camera setPitch(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
-    mixin ("pitch " ~ op ~ " value;");
+    mixin("pitch " ~ op ~ " value;");
     checkPitchLimits();
     updateCameraVectors();
     return this;
@@ -273,7 +267,7 @@ final class Camera : SceneNode {
   Camera setMovementSpeed(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
-    mixin ("movementSpeed " ~ op ~ " value;");
+    mixin("movementSpeed " ~ op ~ " value;");
     return this;
   }
 
@@ -305,7 +299,7 @@ final class Camera : SceneNode {
   Camera setMouseSensitivity(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
-    mixin ("mouseSensitivity " ~ op ~ " value;");
+    mixin("mouseSensitivity " ~ op ~ " value;");
     return this;
   }
 
@@ -337,7 +331,7 @@ final class Camera : SceneNode {
   Camera setFieldOfView(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
-    mixin ("fieldOfView " ~ op ~ " value;");
+    mixin("fieldOfView " ~ op ~ " value;");
     return this;
   }
 
@@ -369,7 +363,7 @@ final class Camera : SceneNode {
   Camera setZNear(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
-    mixin ("zNear " ~ op ~ " value;");
+    mixin("zNear " ~ op ~ " value;");
     checkZNearLimits();
     return this;
   }
@@ -404,7 +398,7 @@ final class Camera : SceneNode {
   Camera setZFar(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
-    mixin ("zFar " ~ op ~ " value;");
+    mixin("zFar " ~ op ~ " value;");
     checkZFarLimits();
     return this;
   }

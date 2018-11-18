@@ -27,7 +27,7 @@ import liberty.image;
  *
 **/
 final class Terrain : SceneNode, IRenderable {
-  mixin SceneNodeBody;
+  mixin NodeConstructor;
 
   private {
     const float maxPixelColor = 256 ^^ 3;

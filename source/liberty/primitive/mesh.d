@@ -20,14 +20,10 @@ import liberty.primitive.impl;
  *
 **/
 final class StaticMesh : Primitive {
-  mixin SceneNodeBody;
-
-  /**
-   *
-  **/
-  void constructor() {
-    renderer = new Renderer!PrimitiveVertex(this, new PrimitiveModel([Material.getDefault()]));
-  }
+  mixin NodeConstructor!(q{
+    this.renderer = new Renderer!PrimitiveVertex(this,
+      new PrimitiveModel([Material.getDefault()]));
+  });
 
   /**
    *

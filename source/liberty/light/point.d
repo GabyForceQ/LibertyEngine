@@ -25,7 +25,15 @@ import liberty.terrain.shader;
  *
 **/
 final class PointLight : SceneNode {
-  mixin SceneNodeBody;
+  mixin NodeConstructor!(q{
+    this.getTransform().setAbsoluteLocation(0.0f, 200.0f, 0.0f);
+    this.index = this.numberOfLights;
+    this.numberOfLights++;
+  });
+
+  mixin NodeDestructor!(q{
+    this.numberOfLights--;
+  });
 
   private {
     static uint numberOfLights;
@@ -33,19 +41,6 @@ final class PointLight : SceneNode {
     uint index;
     Vector3F color = Vector3F.one;
     Vector3F attenuation = Vector3F(1.0f, 0.0f, 0.0f);
-  }
-
-  /**
-   *
-  **/
-	void constructor() {
-    getTransform().setAbsoluteLocation(0.0f, 200.0f, 0.0f);
-    index = numberOfLights;
-    numberOfLights++;
-	}
-
-  ~this() {
-    numberOfLights--;
   }
 
   /**

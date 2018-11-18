@@ -55,7 +55,7 @@ final class Transform2D {
     else static if (op == "+=")
       modelMatrix.setTranslation(Vector3F(this.position.x + position.x, -(this.position.y + position.y), 0.0f));
     
-    mixin ("this.position " ~ op ~ " position;");
+    mixin("this.position " ~ op ~ " position;");
     return this;
   }
 
@@ -84,7 +84,7 @@ final class Transform2D {
     else static if (op == "-=")
       modelMatrix.setScale(Vector3F((this.extent.x - extent.x) / 2.0f, (this.extent.y - extent.y) / 2.0f, 0.0f));
 
-    mixin ("this.extent " ~ op ~ " extent;");
+    mixin("this.extent " ~ op ~ " extent;");
     return this;
   }
   

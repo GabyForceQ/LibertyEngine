@@ -155,7 +155,7 @@ final class Texture {
   **/
   Texture setLODBias(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=" || op == "%=") {
-    mixin ("lodBias " ~ op ~ " value;");
+    mixin("lodBias " ~ op ~ " value;");
     const bindUnbind = !isBind; 
 
     if (bindUnbind)

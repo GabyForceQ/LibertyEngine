@@ -35,7 +35,7 @@ There are so many features to come.
 - [x] UI Signals are more general. (#47)
 - [x] Mouse enter/leave events were added. (#49)
 - [x] Input profiler was added. (#50)
-- Other bug fixes, user interface + documentation improvements and more unittests.
+- Other bug fixes, user interface + metadata + documentation improvements and more unittests.
 
 ##### Cool features:
 * Tree-based scene (every node is created and registered to the engine with "spawn" 
@@ -44,7 +44,8 @@ or "spawnOnce" templates, "new" is never used in this case).
 "update" functions, the code for its every frame call is never inserted 
 in the final object file.
 * All "start" methods are invoked after all scene objects are instantiated. 
-If you want to do something at construction time, you should use 'void constructor() {}'
+If you want to do something at construction time, you should use NodeConstructor.
+For destruction time, you should use NodeDestructor.
 * Smart, flexible and safe hierarchy for scenes, objects and components.
 
 ##### Demo examples

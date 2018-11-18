@@ -45,7 +45,7 @@ abstract class BSPVolume : Primitive {
  *
 **/
 final class BSPCube : BSPVolume {
-	mixin SceneNodeBody;
+	mixin NodeConstructor;
 
   /**
    *
@@ -62,7 +62,7 @@ final class BSPCube : BSPVolume {
  *
 **/
 final class BSPPyramid : BSPVolume {
-	mixin SceneNodeBody;
+	mixin NodeConstructor;
 
   /**
    *
@@ -79,7 +79,7 @@ final class BSPPyramid : BSPVolume {
  *
 **/
 final class BSPSquare : BSPVolume {
-	mixin SceneNodeBody;
+	mixin NodeConstructor;
 
   /**
    *
@@ -96,7 +96,7 @@ final class BSPSquare : BSPVolume {
  *
 **/
 final class BSPTriangle : BSPVolume {
-	mixin SceneNodeBody;
+	mixin NodeConstructor;
 
   /**
    *

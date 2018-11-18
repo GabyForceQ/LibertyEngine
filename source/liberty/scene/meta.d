@@ -16,10 +16,13 @@ struct Component;
 /**
  *
 **/
-mixin template SceneNodeBody() {
+mixin template NodeConstructor(string code = "") {
   import liberty.core.engine;
   import liberty.scene.node;
 
+  /**
+   *
+  **/
   this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
     if (parent is null)
       assert(0, "Parent object cannot be null");
@@ -35,8 +38,7 @@ mixin template SceneNodeBody() {
     static if (!(finalClass || abstractClass))
       static assert(0, "A node object class must either be final or abstract!");
 
-    static if (__traits(compiles, constructor))
-      constructor();
+    mixin(code);
 
     static if (__traits(isFinalClass, this)) {
       static foreach (el; ["start", "update", "render"]) {
@@ -50,6 +52,8 @@ mixin template SceneNodeBody() {
       }
     }
 
+    // *BUG*
+
     static if (typeof(this).stringof == "Terrain")
       getScene().registerTerrain(this);
 
@@ -61,5 +65,16 @@ mixin template SceneNodeBody() {
 
     static if (typeof(this).stringof == "PointLight")
       getScene().registerLight(this);
+
+    // *END_BUG*
+  }
+}
+
+/**
+ *
+**/
+mixin template NodeDestructor(string code) {
+  ~this() {
+    mixin(code);
   }
 }

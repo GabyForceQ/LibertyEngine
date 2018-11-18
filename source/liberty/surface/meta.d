@@ -43,8 +43,8 @@ mixin template ListenerBody() {
               // Check if event is defined
               static if (getUDAs!(__traits(getMember, typeof(this), member), mixin("Signal!" ~ ui))[i].event == j)
                 // Register the event to the engine
-                mixin ("(cast(" ~ ui ~ ")getWidget(getUDAs!(__traits(getMember, typeof(this), member),
-                  mixin(`Signal!` ~ ui))[i].id)).setOn" ~ j ~ "(&mixin (member));");
+                mixin("(cast(" ~ ui ~ ")getWidget(getUDAs!(__traits(getMember, typeof(this), member),
+                  mixin(`Signal!` ~ ui))[i].id)).setOn" ~ j ~ "(&mixin(member));");
   }
 }
 
@@ -63,37 +63,37 @@ mixin template WidgetEventProps(alias event, string options = "default") {
       private bool mouseEntered;
 
     static foreach (member; event) {
-      mixin ("private void delegate(Widget, Event) on" ~ member ~ " = null;");
+      mixin("private void delegate(Widget, Event) on" ~ member ~ " = null;");
       
       static if (member != "Update")
-        mixin ("private bool isOn" ~ member ~ ";");
+        mixin("private bool isOn" ~ member ~ ";");
     }
 
     static foreach (member; event) {
       /**
       *
       **/
-      mixin ("typeof(this) setOn" ~ member ~ "(void delegate(Widget, Event) on" ~ member ~ ") pure nothrow {" ~
+      mixin("typeof(this) setOn" ~ member ~ "(void delegate(Widget, Event) on" ~ member ~ ") pure nothrow {" ~
         "this.on" ~ member ~ " = on" ~ member ~ "; return this; }");
 
       static if (member != "Update")
         /**
         *
         **/
-        mixin ("bool hasOn" ~ member ~ "() pure nothrow const {" ~
+        mixin("bool hasOn" ~ member ~ "() pure nothrow const {" ~
           "return on" ~ member ~ " !is null; }");
     }
     
     private void clearAllBooleans() {
       static foreach (member; event)
         static if (member != "Update")
-          mixin ("isOn" ~ member ~ " = false;");
+          mixin("isOn" ~ member ~ " = false;");
     }
 
     private void clearAllEvents() {
       static foreach (member; event)
         static if (member != "Update")
-          mixin ("on" ~ member ~ " = null;");
+          mixin("on" ~ member ~ " = null;");
     }
   } else static if (options == "custom") {
     
