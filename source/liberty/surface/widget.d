@@ -47,7 +47,9 @@ abstract class Widget : IRenderable, IUpdatable {
     this.surface = surface;
 
     transform = new Transform2(this);
-    surface.getRootCanvas().addWidget(this);
+
+    if (surface.getRootCanvas() !is null)
+      surface.getRootCanvas().addWidget(this);
   }
 
   /**

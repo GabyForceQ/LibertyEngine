@@ -58,7 +58,6 @@ final class Canvas : Widget {
   }
 
   package Canvas addWidget(Widget widget) {
-    // Add a new widget to the canvas.
     widgets[widget.getId()] = widget;
 
     // Returns reference to this and can be used in a stream.
