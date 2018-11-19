@@ -19,14 +19,12 @@ import liberty.scene.world;
 import liberty.services;
 import liberty.graphics.shader;
 import liberty.surface.shader;
-import liberty.primitive.shader;
-import liberty.primitive.renderer;
-import liberty.primitive.impl;
 import liberty.terrain.shader;
 import liberty.terrain.renderer;
 import liberty.terrain.impl;
 import liberty.surface.renderer;
 import liberty.surface.impl;
+import liberty.primitive.system;
 import liberty.light.system;
 import liberty.scene.serializer;
 
@@ -52,10 +50,6 @@ final class Scene : IUpdatable, IRenderable {
     IUpdatable[string] updateList;
     IRenderable[string] renderList;
     
-    PrimitiveRenderer primitiveRenderer;
-    PrimitiveShader primitiveShader;
-    Primitive[string] primitiveMap;
-    
     SurfaceRenderer surfaceRenderer;
     SurfaceShader surfaceShader;
     Surface[string] surfaceMap;
@@ -64,6 +58,7 @@ final class Scene : IUpdatable, IRenderable {
     TerrainShader terrainShader;
     Terrain[string] terrainMap;
 
+    PrimitiveSystem primitiveSystem;
     LightingSystem lightingSystem; 
   }
 
@@ -75,10 +70,6 @@ final class Scene : IUpdatable, IRenderable {
 
     tree = new RootObject();
     worldSettings = new WorldSettings();
-
-    // Init primitive system
-    primitiveRenderer = new PrimitiveRenderer(this);
-    primitiveShader = new PrimitiveShader();
     
     // Init surface system
     surfaceRenderer = new SurfaceRenderer(this);
@@ -89,6 +80,7 @@ final class Scene : IUpdatable, IRenderable {
     terrainShader = new TerrainShader();
 
     // Create systems
+    primitiveSystem = new PrimitiveSystem(this);
     lightingSystem = new LightingSystem(this);
 
     // Init serializer
@@ -248,7 +240,7 @@ final class Scene : IUpdatable, IRenderable {
     terrainRenderer.render();
 
     // Render all scene primitives
-    primitiveRenderer.render();
+    primitiveSystem.getRenderer().render();
 
     // Render all scene surfaces
     surfaceRenderer.render();
@@ -271,22 +263,6 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   * Set the default generic shader.
-   * Returns reference to this and can be used in a stream.
-  **/
-  Scene setPrimitiveShader(PrimitiveShader shader) {
-    primitiveShader = shader;
-    return this;
-  }
-
-  /**
-   * Returns the default generic shader.
-  **/
-  PrimitiveShader getPrimitiveShader() {
-    return primitiveShader;
-  }
-
-  /**
    * Set the default terrain shader.
    * Returns reference to this and can be used in a stream.
   **/
@@ -300,15 +276,6 @@ final class Scene : IUpdatable, IRenderable {
   **/
   TerrainShader getTerrainShader() {
     return terrainShader;
-  }
-
-  /**
-   * Set the default ui shader.
-   * Returns reference to this and can be used in a stream.
-  **/
-  Scene setSurfaceShader(SurfaceShader shader) {
-    surfaceShader = shader;
-    return this;
   }
 
   /**
@@ -332,35 +299,6 @@ final class Scene : IUpdatable, IRenderable {
   **/
   WorldSettings getWorldSettings() pure nothrow {
     return worldSettings;
-  }
-
-  /**
-   *
-  **/
-  Scene registerPrimitive(Primitive node) {
-    primitiveMap[node.getId()] = node;
-    return this;
-  }
-
-  /**
-   *
-  **/
-  Primitive[string] getPrimitiveMap() pure nothrow {
-    return primitiveMap;
-  }
-
-  /**
-   *
-  **/
-  Primitive getPrimitive(string id) pure nothrow {
-    return primitiveMap[id];
-  }
-
-  /**
-   *
-  **/
-  PrimitiveRenderer getPrimitiveRenderer() pure nothrow {
-    return primitiveRenderer;
   }
 
   /**
@@ -419,6 +357,13 @@ final class Scene : IUpdatable, IRenderable {
   **/
   TerrainRenderer getTerrainRenderer() pure nothrow {
     return terrainRenderer;
+  }
+
+  /**
+   *
+  **/
+  PrimitiveSystem getPrimitiveSystem() pure nothrow {
+    return primitiveSystem;
   }
 
   /**

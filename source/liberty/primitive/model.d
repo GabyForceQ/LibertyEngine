@@ -59,7 +59,8 @@ final class PrimitiveModel : Model {
   private void build() {
     CoreEngine
       .getScene()
-      .getPrimitiveShader()
+      .getPrimitiveSystem()
+      .getShader()
       .bind()
       .loadTexture(0)
       .unbind();

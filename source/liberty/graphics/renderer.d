@@ -55,11 +55,34 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
   **/
   void draw() {
     static if (is(VERTEX == PrimitiveVertex))
-      parent.getScene().getPrimitiveShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+      parent
+        .getScene()
+        .getPrimitiveSystem()
+        .getShader()
+        .loadModelMatrix(
+          parent
+            .getTransform()
+            .getModelMatrix()
+        );
     else static if (is(VERTEX == TerrainVertex))
-      parent.getScene().getTerrainShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+      parent
+        .getScene()
+        .getTerrainShader()
+        .loadModelMatrix(
+          parent
+            .getTransform()
+            .getModelMatrix()
+        );
     else static if (is(VERTEX == SurfaceVertex))
-      parent.getSurface().getScene().getSurfaceShader().loadModelMatrix(parent.getTransform().getModelMatrix());
+      parent
+        .getSurface()
+        .getScene()
+        .getSurfaceShader()
+        .loadModelMatrix(
+          parent
+            .getTransform()
+            .getModelMatrix()
+        );
     else
       assert(0, "Unreachable");
 

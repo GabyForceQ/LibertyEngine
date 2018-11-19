@@ -8,6 +8,7 @@
 **/
 module liberty.primitive.renderer;
 
+import liberty.primitive.system;
 import liberty.services;
 import liberty.scene;
 
@@ -16,13 +17,15 @@ import liberty.scene;
 **/
 final class PrimitiveRenderer : IRenderable {
   private {
+    PrimitiveSystem system;
     Scene scene;
   }
 
   /**
    *
   **/
-  this(Scene scene) {
+  this(PrimitiveSystem system, Scene scene) {
+    this.system = system;
     this.scene = scene;
   }
 
@@ -30,18 +33,15 @@ final class PrimitiveRenderer : IRenderable {
    *
   **/
   void render() {
-    scene.getPrimitiveShader().bind();
+    system
+      .getShader()
+      .bind();
     
-    foreach (primitive; scene.getPrimitiveMap())
+    foreach (primitive; system.getPrimitiveMap())
       primitive.render();
 
-    scene.getPrimitiveShader().unbind();
-  }
-
-  /**
-   *
-  **/
-  Scene getScene() pure nothrow {
-    return scene;
+    system
+      .getShader()
+      .unbind();
   }
 }

@@ -55,16 +55,22 @@ mixin template NodeConstructor(string code = "") {
     // *BUG*
 
     static if (typeof(this).stringof == "Terrain")
-      getScene().registerTerrain(this);
+      getScene()
+        .registerTerrain(this);
 
     static if (typeof(super).stringof == "Surface")
-      getScene().registerSurface(this);
+      getScene()
+        .registerSurface(this);
 
     static if (typeof(super).stringof == "Primitive" || typeof(super).stringof == "BSPVolume")
-      getScene().registerPrimitive(this);
+      getScene()
+        .getPrimitiveSystem()
+        .registerPrimitive(this);
 
     static if (typeof(this).stringof == "PointLight")
-      getScene().getLightingSystem().registerLight(this);
+      getScene()
+        .getLightingSystem()
+        .registerLight(this);
 
     // *END_BUG*
   }

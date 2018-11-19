@@ -33,20 +33,38 @@ final class LightRenderer : IRenderable {
    *
   **/
   void render() {
-    scene.getTerrainShader().bind();
+    scene
+      .getTerrainShader()
+      .bind();
     
     // Apply lights to terrains
     foreach (light; system.getLightMap())
-      light.applyToTerrainMap(scene.getTerrainShader());
+      light.applyToTerrainMap(
+        scene
+          .getTerrainShader()
+      );
 
-    scene.getTerrainShader().unbind();
-    scene.getPrimitiveShader().bind();
+    scene
+      .getTerrainShader()
+      .unbind();
+    
+    scene
+      .getPrimitiveSystem()
+      .getShader()
+      .bind();
 
     // Apply lights to primitives
     foreach (light; system.getLightMap())
-      light.applyToPrimitiveMap(scene.getPrimitiveShader());
+      light.applyToPrimitiveMap(
+        scene
+          .getPrimitiveSystem()
+          .getShader()
+      );
 
-    scene.getPrimitiveShader().unbind();
+    scene
+      .getPrimitiveSystem()
+      .getShader()
+      .unbind();
   }
 
   /**

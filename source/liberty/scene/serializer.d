@@ -49,7 +49,7 @@ class SceneSerializer : ISerializable {
 
     file.writeln("id: " ~ scene.getId());
 
-    foreach (node; scene.getPrimitiveMap()) {
+    foreach (node; scene.getPrimitiveSystem().getPrimitiveMap()) {
       file.writeln(
         "Primitive: { " ~
           "id: " ~ node.getId() ~

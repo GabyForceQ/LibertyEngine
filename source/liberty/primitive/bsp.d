@@ -34,8 +34,13 @@ abstract class BSPVolume : Primitive {
   **/
   override void render() {
     getScene()
-      .getPrimitiveShader()
-      .loadUseFakeLighting(renderer.getModel().getUseFakeLighting());
+      .getPrimitiveSystem()
+      .getShader()
+      .loadUseFakeLighting(
+        renderer
+          .getModel()
+          .getUseFakeLighting()
+      );
 
     super.render();
   }
