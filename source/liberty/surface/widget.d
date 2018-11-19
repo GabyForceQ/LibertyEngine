@@ -47,7 +47,7 @@ abstract class Widget : IRenderable, IUpdatable {
     this.surface = surface;
 
     transform = new Transform2(this);
-    surface.addWidget(this);
+    surface.getRootCanvas().addWidget(this);
   }
 
   /**
@@ -60,7 +60,7 @@ abstract class Widget : IRenderable, IUpdatable {
   /**
    *
   **/
-  final override void render() {
+  override void render() {
     if (renderer !is null)
       renderer.draw();
   }
@@ -140,6 +140,11 @@ private SurfaceVertex[] uiSquareVertices = [
  *
 **/
 enum WidgetType : string {
+  /**
+   *
+  **/
+  Canvas = "Canvas",
+  
   /**
    *
   **/

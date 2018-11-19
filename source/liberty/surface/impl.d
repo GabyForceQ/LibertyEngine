@@ -38,7 +38,7 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
     int zFar = 1;
 
     Matrix4F projectionMatrix = Matrix4F.identity();
-    Widget[string] widgets;
+    Canvas rootCanvas;
 
     UIAction[string] actionMap;
   }
@@ -48,15 +48,8 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   **/
   this(string id, SceneNode parent) {
     super(id, parent);
+    rootCanvas = new Canvas("RootCanvas" ~ id, this);
     updateProjection();
-  }
-
-  package final Surface addWidget(Widget widget) {
-    // Add a new widget to the surface widgets.
-    widgets[widget.getId()] = widget;
-
-    // Returns reference to this and can be used in a stream.
-    return this;
   }
   
   /**
@@ -91,33 +84,24 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
   }
 
   /**
-   * Call render for all widgets.
-  **/
-  final override void render() {
-    foreach (w; widgets)
-      w.render();
-  }
-
-  /**
-   * Call update for all widgets.
+   *
   **/
   override void update() {
-    foreach (w; widgets)
-      w.update();
+    rootCanvas.update();
   }
 
   /**
-   * Returns the widgets map.
+   *
   **/
-  final Widget[string] getWidgets() pure nothrow {
-    return widgets;
+  override void render() {
+    rootCanvas.render();
   }
 
   /**
-   * Returns a widget by given id
+   *
   **/
-  final Widget getWidget(string id) pure nothrow {
-    return widgets[id];
+  final Canvas getRootCanvas() pure nothrow {
+    return rootCanvas;
   }
 
   /**
