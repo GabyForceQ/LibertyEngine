@@ -14,5 +14,8 @@ public {
 	import liberty.math.matrix;
 	import liberty.math.quaternion;
 	import liberty.math.shapes;
+  import liberty.math.traits;
+  import liberty.math.transform;
+  import liberty.math.util;
 	import liberty.math.vector;
 }

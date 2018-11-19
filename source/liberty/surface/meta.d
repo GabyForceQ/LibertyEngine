@@ -8,6 +8,8 @@
 **/
 module liberty.surface.meta;
 
+import liberty.surface.widget;
+
 /**
  *
 **/

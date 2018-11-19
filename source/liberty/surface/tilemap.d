@@ -17,7 +17,7 @@ import liberty.surface.meta;
 import liberty.math.vector;
 import liberty.surface.event;
 import liberty.surface.impl;
-import liberty.surface.transform;
+import liberty.math.transform;
 import liberty.surface.widget;
 
 import liberty.surface.controls;
@@ -59,7 +59,7 @@ final class TileMap : Widget {
   **/
   TileMap build(Vector2I startLocation, Vector2I dimension) {
     this.dimension = dimension;
-    getTransform.setPosition(startLocation);
+    getTransform.setLocation(startLocation);
 
     foreach (i; 0..dimension.x)
       foreach (j; 0..dimension.y) {
@@ -71,9 +71,9 @@ final class TileMap : Widget {
         tiles[$ - 1]
           .setIndex(i, j)
           .getTransform()
-          .setPosition(
-            i * 100 + getTransform.getPosition.x,
-            j * 100 + getTransform.getPosition.y
+          .setLocation(
+            i * 100 + getTransform.getLocation.x,
+            j * 100 + getTransform.getLocation.y
           );
       }
     

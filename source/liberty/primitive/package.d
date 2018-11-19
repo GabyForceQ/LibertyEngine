@@ -15,6 +15,5 @@ public {
   import liberty.primitive.model;
   import liberty.primitive.renderer;
   import liberty.primitive.shader;
-  import liberty.primitive.transform;
   import liberty.primitive.vertex;
 }

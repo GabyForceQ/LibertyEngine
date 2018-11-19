@@ -10,7 +10,7 @@ module liberty.surface.widget;
 
 import liberty.math.vector;
 import liberty.graphics.renderer;
-import liberty.surface.transform;
+import liberty.math.transform;
 import liberty.surface.impl;
 import liberty.graphics.material.impl;
 import liberty.primitive.model;
@@ -31,7 +31,7 @@ abstract class Widget : IRenderable, IUpdatable {
   private {
     string id;
     Surface surface;
-    Transform2D transform;
+    Transform2 transform;
     Vector2I index;
   }
 
@@ -46,7 +46,7 @@ abstract class Widget : IRenderable, IUpdatable {
     this.id = id;
     this.surface = surface;
 
-    transform = new Transform2D(this);
+    transform = new Transform2(this);
     surface.addWidget(this);
   }
 
@@ -75,7 +75,7 @@ abstract class Widget : IRenderable, IUpdatable {
   /**
    *
   **/
-  final Transform2D getTransform() pure nothrow {
+  final Transform2 getTransform() pure nothrow {
     return transform;
   }
 
@@ -106,10 +106,10 @@ abstract class Widget : IRenderable, IUpdatable {
   **/
   final bool isMouseColliding() {
     Vector2F mousePos = Input.getMouse.getPostion();
-    return mousePos.x >= transform.getPosition.x - transform.getExtent.x / 2 && 
-      mousePos.x <= transform.getPosition.x + transform.getExtent.x / 2 && 
-      mousePos.y >= transform.getPosition.y - transform.getExtent.y / 2 && 
-      mousePos.y <= transform.getPosition.y + transform.getExtent.y / 2;
+    return mousePos.x >= transform.getLocation.x - transform.getScale.x / 2 && 
+      mousePos.x <= transform.getLocation.x + transform.getScale.x / 2 && 
+      mousePos.y >= transform.getLocation.y - transform.getScale.y / 2 && 
+      mousePos.y <= transform.getLocation.y + transform.getScale.y / 2;
   }
 
   /**

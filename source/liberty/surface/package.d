@@ -17,7 +17,6 @@ public {
   import liberty.surface.renderer;
   import liberty.surface.shader;
   import liberty.surface.tilemap;
-  import liberty.surface.transform;
   import liberty.surface.vertex;
   import liberty.surface.widget;
 }

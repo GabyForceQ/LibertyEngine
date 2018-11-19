@@ -11,7 +11,7 @@
 **/
 module liberty.scene.node;
 
-import liberty.primitive.transform;
+import liberty.math.transform;
 import liberty.logger;
 import liberty.core.engine;
 import liberty.services;
@@ -34,7 +34,7 @@ abstract class SceneNode : IStartable, IUpdatable {
     SceneNode[string] singletonList;
     
     // Transform component used for translation, rotation and scale
-    Transform transform;
+    Transform3 transform;
   }
 
   /**
@@ -54,9 +54,9 @@ abstract class SceneNode : IStartable, IUpdatable {
 
     // Set transformation
     if (parent is null)
-      transform = new Transform(this);
+      transform = new Transform3(this);
     else
-      transform = new Transform(this, parent.getTransform());
+      transform = new Transform3(this, parent.getTransform());
 
     // Now save the id in the ids map
     scene.setObjectId(id);
@@ -267,7 +267,7 @@ abstract class SceneNode : IStartable, IUpdatable {
   /**
    * Returns transform.
   **/
-  Transform getTransform() pure nothrow {
+  Transform3 getTransform() pure nothrow {
     return transform;
   }
 
