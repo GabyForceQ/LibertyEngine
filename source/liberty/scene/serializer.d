@@ -83,7 +83,7 @@ class SceneSerializer : ISerializable {
       );
     }
 
-    foreach (node; scene.getLightMap()) {
+    foreach (node; scene.getLightingSystem().getLightMap()) {
       file.writeln(
         "PointLight: { " ~
           "id: " ~ node.getId() ~

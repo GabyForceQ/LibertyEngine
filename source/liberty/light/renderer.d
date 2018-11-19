@@ -8,6 +8,7 @@
 **/
 module liberty.light.renderer;
 
+import liberty.light.system;
 import liberty.services;
 import liberty.scene;
 
@@ -16,13 +17,15 @@ import liberty.scene;
 **/
 final class LightRenderer : IRenderable {
   private {
+    LightingSystem system;
     Scene scene;
   }
 
   /**
    *
   **/
-  this(Scene scene) {
+  this(LightingSystem system, Scene scene) {
+    this.system = system;
     this.scene = scene;
   }
 
@@ -33,14 +36,14 @@ final class LightRenderer : IRenderable {
     scene.getTerrainShader().bind();
     
     // Apply lights to terrains
-    foreach (light; scene.getLightMap())
+    foreach (light; system.getLightMap())
       light.applyToTerrainMap(scene.getTerrainShader());
 
     scene.getTerrainShader().unbind();
     scene.getPrimitiveShader().bind();
 
     // Apply lights to primitives
-    foreach (light; scene.getLightMap())
+    foreach (light; system.getLightMap())
       light.applyToPrimitiveMap(scene.getPrimitiveShader());
 
     scene.getPrimitiveShader().unbind();

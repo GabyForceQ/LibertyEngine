@@ -64,7 +64,7 @@ mixin template NodeConstructor(string code = "") {
       getScene().registerPrimitive(this);
 
     static if (typeof(this).stringof == "PointLight")
-      getScene().registerLight(this);
+      getScene().getLightingSystem().registerLight(this);
 
     // *END_BUG*
   }

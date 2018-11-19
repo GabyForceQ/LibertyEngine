@@ -27,8 +27,7 @@ import liberty.terrain.renderer;
 import liberty.terrain.impl;
 import liberty.surface.renderer;
 import liberty.surface.impl;
-import liberty.light.point;
-import liberty.light.renderer;
+import liberty.light.system;
 import liberty.scene.serializer;
 
 /**
@@ -65,8 +64,7 @@ final class Scene : IUpdatable, IRenderable {
     TerrainShader terrainShader;
     Terrain[string] terrainMap;
 
-    LightRenderer lightRenderer;
-    PointLight[string] lightMap;
+    LightingSystem lightingSystem; 
   }
 
   /**
@@ -90,8 +88,8 @@ final class Scene : IUpdatable, IRenderable {
     terrainRenderer = new TerrainRenderer(this);
     terrainShader = new TerrainShader();
 
-    // Init light system
-    lightRenderer = new LightRenderer(this);
+    // Create systems
+    lightingSystem = new LightingSystem(this);
 
     // Init serializer
     serializer
@@ -244,7 +242,7 @@ final class Scene : IUpdatable, IRenderable {
     worldSettings.updateShaders(this, activeCamera);
 
     // Render all scene lights
-    lightRenderer.render();
+    lightingSystem.getRenderer().render();
 
     // Render all scene terrains
     terrainRenderer.render();
@@ -426,30 +424,8 @@ final class Scene : IUpdatable, IRenderable {
   /**
    *
   **/
-  Scene registerLight(PointLight node) {
-    lightMap[node.getId()] = node;
-    return this;
-  }
-
-  /**
-   *
-  **/
-  PointLight[string] getLightMap() pure nothrow {
-    return lightMap;
-  }
-
-  /**
-   *
-  **/
-  PointLight getLight(string id) pure nothrow {
-    return lightMap[id];
-  }
-
-  /**
-   *
-  **/
-  LightRenderer getLightRenderer() pure nothrow {
-    return lightRenderer;
+  LightingSystem getLightingSystem() pure nothrow {
+    return lightingSystem;
   }
 
   /**
