@@ -157,9 +157,9 @@ final class Scene : IUpdateable, IRenderable {
    * See $(D Camera).
   **/
   Scene registerCamera(Camera camera) pure nothrow {
-		cameraMap[camera.getId()] = camera;
+    cameraMap[camera.getId()] = camera;
     return this;
-	}
+  }
 
   /**
    * Returns the camera in the map that has the given id.
@@ -213,20 +213,22 @@ final class Scene : IUpdateable, IRenderable {
 
   /**
    * Initialize scene.
-	 * Invoke start for all $(D IStartable) objects that have a start() method.
+   * Invoke start for all $(D IStartable) objects that have a start() method.
    * Returns reference to this so it can be used in a stream.
   **/
-	Scene initialize() {
-		registered = true;
-
-		if (activeCamera is null)
-			activeCamera = tree.spawn!Camera("DefaultCamera");
-
+  Scene initialize() {
+    registered = true;
+    
+    // If camera doesn't exist, the spawn a default camera
+    if (activeCamera is null)
+      activeCamera = tree.spawn!Camera("DefaultCamera");
+    
+    // Start all startable nodes
     foreach (node; startableMap)
-			node.start();
-
+      node.start();
+    
     return this;
-	}
+  }
 
   /**
    * Update all nodes that have an update() method.
