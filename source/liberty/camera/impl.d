@@ -232,7 +232,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera yaw to default value (D DEFAULT_YAW).
+   * Set camera yaw to default value $(D DEFAULT_YAW).
    * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultYaw() pure nothrow {
@@ -269,7 +269,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera pitch to default value (D DEFAULT_PITCH).
+   * Set camera pitch to default value $(D DEFAULT_PITCH).
    * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultPitch() pure nothrow {
@@ -301,7 +301,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera movement speed to default value (D DEFAULT_SPEED).
+   * Set camera movement speed to default value $(D DEFAULT_SPEED).
    * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultMovementSpeed() pure nothrow {
@@ -333,7 +333,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera mouse sensitivity to default value (D DEFAULT_SENSITIVITY).
+   * Set camera mouse sensitivity to default value $(D DEFAULT_SENSITIVITY).
    * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultMouseSensitivity() pure nothrow {
@@ -365,7 +365,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera field of view to default value (D DEFAULT_FOV).
+   * Set camera field of view to default value $(D DEFAULT_FOV).
    * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultFieldOfView() pure nothrow {
@@ -398,7 +398,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera zNear to default value (D DEFAULT_ZNEAR).
+   * Set camera zNear to default value $(D DEFAULT_ZNEAR).
    * ZNear takes value in range [0.001f, 10_000.0f].
    * Returns reference to this so it can be used in a stream.
   **/
@@ -433,7 +433,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera zFar to default value (D DEFAULT_ZFAR).
+   * Set camera zFar to default value $(D DEFAULT_ZFAR).
    * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultZFar() pure nothrow {
@@ -530,7 +530,7 @@ final class Camera : SceneNode {
 
   /**
    * Register camera to a specific scene (optional).
-   * By deafult it is set to (D CoreEngine) active scene.
+   * By deafult it is set to $(D CoreEngine) active scene.
    * Returns reference to this so it can be used in a stream.
   **/
   Camera registerToScene(Scene scene = CoreEngine.getScene()) {
