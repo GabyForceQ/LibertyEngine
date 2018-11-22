@@ -33,15 +33,44 @@ final class Camera : SceneNode {
     this.getTransform().setRelativeLocation(0.0f, 3.0f, 4.0f);
   });
 
-  package {
-    static immutable float DEFAULT_YAW = -90.0f;
-    static immutable float DEFAULT_PITCH = -30.0f;
-    static immutable float DEFAULT_SPEED = 10.0f;
-    static immutable float DEFAULT_SENSITIVITY = 0.1f;
-    static immutable float DEFAULT_FOV = 45.0f;
-    static immutable float DEFAULT_ZNEAR = 0.01f;
-    static immutable float DEFAULT_ZFAR = 1000.0f;
+  enum {
+    /**
+     * The default value of the camera yaw is -90.0f.
+    **/
+    DEFAULT_YAW = -90.0f,
+    
+    /**
+     * The default value of the camera pitch is -30.0f.
+    **/
+    DEFAULT_PITCH = -30.0f,
+    
+    /**
+     * The default value of the camera speed is 10.0f.
+    **/
+    DEFAULT_SPEED = 10.0f,
+    
+    /**
+     * The default value of the camera mouse sensitivity is 0.1f.
+    **/
+    DEFAULT_SENSITIVITY = 0.1f,
+    
+    /**
+     * The default value of the camera field of view is 45.0f.
+    **/
+    DEFAULT_FOV = 45.0f,
+    
+    /**
+     * The default value of the camera zNear is 0.01f.
+    **/
+    DEFAULT_ZNEAR = 0.01f,
+    
+    /**
+     * The default value of the camera zFar is 1000.0f.
+    **/
+    DEFAULT_ZFAR = 1000.0f
+  }
 
+  package {
     // getFrontVector
     Vector3F frontVector = Vector3F.forward;
     // getUpVector
