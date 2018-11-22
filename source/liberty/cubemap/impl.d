@@ -31,12 +31,12 @@ final class CubeMap : SceneNode, IRenderable {
   /**
    *
   **/
-	CubeMap build(Material material) {
+  CubeMap build(Material material) {
     renderer = new Renderer!CubeMapVertex(this, 
       (new CubeMapModel([material]).build(cubeMapVertices)));
 
     return this;
-	}
+  }
 
   /**
    *
