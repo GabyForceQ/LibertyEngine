@@ -34,8 +34,8 @@ public {
   import liberty.time;
   import liberty.utils;
 
-	import std.conv : to;
-	import std.random : uniform;
+  import std.conv : to;
+  import std.random : uniform;
   import std.algorithm : filter, map;
   import std.typecons : tuple, Tuple;
 }
