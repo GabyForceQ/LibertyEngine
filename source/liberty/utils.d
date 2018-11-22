@@ -12,13 +12,13 @@ module liberty.utils;
  * Returns the exact length of a buffer.
 **/
 size_t bufferSize(T)(T[] buffer) pure nothrow {
-	return buffer.length * T.sizeof;
+  return buffer.length * T.sizeof;
 }
 
 /**
  * Example of $(D bufferSize) usage.
 **/
 unittest {
-	immutable int[] arr = [4, 5, -6];
-	assert(arr.bufferSize == 12, "Array size of arr must be 4 * 3 = 12!");
+  immutable int[] arr = [4, 5, -6];
+  assert(arr.bufferSize == 12, "Array size of arr must be 4 * 3 = 12!");
 }
