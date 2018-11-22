@@ -50,68 +50,68 @@ abstract class BSPVolume : Primitive {
  *
 **/
 final class BSPCube : BSPVolume {
-	mixin NodeConstructor;
+  mixin NodeConstructor;
 
   /**
    *
   **/
-	BSPCube build(Material material = Material.getDefault()) {
+  BSPCube build(Material material = Material.getDefault()) {
     renderer = new Renderer!PrimitiveVertex(this, (new PrimitiveModel([material])
       .build(cubeVertices)));
 
     return this;
-	}
+  }
 }
 
 /**
  *
 **/
 final class BSPPyramid : BSPVolume {
-	mixin NodeConstructor;
+  mixin NodeConstructor;
 
   /**
    *
   **/
-	BSPPyramid build(Material material = Material.getDefault()) {
+  BSPPyramid build(Material material = Material.getDefault()) {
     renderer = new Renderer!PrimitiveVertex(this, (new PrimitiveModel([material])
       .build(pyramidVertices)));
     
     return this;
-	}
+  }
 }
 
 /**
  *
 **/
 final class BSPSquare : BSPVolume {
-	mixin NodeConstructor;
+  mixin NodeConstructor;
 
   /**
    *
   **/
-	BSPSquare build(Material material = Material.getDefault()) {
+  BSPSquare build(Material material = Material.getDefault()) {
     renderer = new Renderer!PrimitiveVertex(this, (new PrimitiveModel([material])
       .build(squareVertices, squareIndices)));
 
     return this;
-	}
+  }
 }
 
 /**
  *
 **/
 final class BSPTriangle : BSPVolume {
-	mixin NodeConstructor;
+  mixin NodeConstructor;
 
   /**
    *
   **/
-	BSPTriangle build(Material material = Material.getDefault()) {
+  BSPTriangle build(Material material = Material.getDefault()) {
     renderer = new Renderer!PrimitiveVertex(this, (new PrimitiveModel([material])
       .build(triangleVertices, triangleIndices)));
 
     return this;
-	}
+  }
 }
 
 private PrimitiveVertex[36] cubeVertices = [
