@@ -77,13 +77,13 @@ abstract class SceneNode : IStartable, IUpdateable {
 
   /**
    * Returns a reference of parent scene node.
-	**/
+  **/
   SceneNode getParent() pure nothrow {
-		return parent;
-	}
+    return parent;
+  }
 
   /**
-	 * Returns all elements in the child map.
+   * Returns all elements in the child map.
   **/
   SceneNode[string] getChildMap() pure nothrow {
     return childMap;
@@ -165,97 +165,97 @@ abstract class SceneNode : IStartable, IUpdateable {
 
   /**
    * Spawn a scene node using its reference.
-	 * You can specify where to spawn. By default is set to scene tree.
-	 * Returns new nodes reference.
-	**/
+   * You can specify where to spawn. By default is set to scene tree.
+   * Returns new nodes reference.
+  **/
   ref T spawn(T : SceneNode, bool STRAT = true)(ref T node, string id, void delegate(T) initMethod = null) {
-		node = new T(id, this);
-		insert(node);
+    node = new T(id, this);
+    insert(node);
 
-		static if (is(T == Camera))
-			this.scene.registerCamera(node);
-		
+    static if (is(T == Camera))
+      this.scene.registerCamera(node);
+
     static if (STRAT)
-			node.start();
+      node.start();
 
     if (initMethod !is null)
       initMethod(node);
-		
+	
     return node;
-	}
+  }
 
   /**
-	 * Spawn a scene node using its ID.
-	 * Second time you call this method for the same id, an assertion is produced.
-	 * Returns new node reference.
-	**/
+   * Spawn a scene node using its ID.
+   * Second time you call this method for the same id, an assertion is produced.
+   * Returns new node reference.
+  **/
   T spawn(T : SceneNode, bool STRAT = true)(string id, void delegate(T) initMethod = null) {
-		T node = new T(id, this);
-		insert(node);
-		
+    T node = new T(id, this);
+    insert(node);
+
     static if (is(T == Camera))
-			this.scene.registerCamera(node);
-		
+      this.scene.registerCamera(node);
+
     static if (STRAT)
-			node.start();
+      node.start();
 
     if (initMethod !is null)
       initMethod(node);
 
-		return node;
-	}
+    return node;
+  }
   
   /**
-	 * Spawn a scene node using its reference.
-	 * Second time you call this method for the same id, nothing happens.
-	 * Returns old/new node reference.
-	**/
+   * Spawn a scene node using its reference.
+   * Second time you call this method for the same id, nothing happens.
+   * Returns old/new node reference.
+  **/
   ref T spawnOnce(T : SceneNode, bool STRAT = true)(ref T node, string id, void delegate(T) initMethod = null) {
-		if (id in singletonMap)
-			return cast(T)singletonMap[id];
-		
-		node = new T(id, this);
-		insert(node);
-		
+    if (id in singletonMap)
+      return cast(T)singletonMap[id];
+
+    node = new T(id, this);
+    insert(node);
+
     static if (is(T == Camera))
-			scene.registerCamera(node);
+      scene.registerCamera(node);
     
-		singletonMap[id] = node;
-		
+    singletonMap[id] = node;
+
     static if (STRAT)
-			node.start();
+      node.start();
 
     if (initMethod !is null)
       initMethod(node);
-		
+
     return node;
-	}
+  }
 
   /**
-	 * Spawn a scene node using its ID.
-	 * Second time you call this method for the same id, nothing happens.
-	 * Returns old/new node reference.
-	**/
+   * Spawn a scene node using its ID.
+   * Second time you call this method for the same id, nothing happens.
+   * Returns old/new node reference.
+  **/
   T spawnOnce(T : SceneNode, bool STRAT = true)(string id, void delegate(T) initMethod = null) {    
-		if (id in singletonMap)
-			return cast(T)singletonMap[id];
+    if (id in singletonMap)
+      return cast(T)singletonMap[id];
 
-		T node = new T(id, this);
-		insert(node);
+    T node = new T(id, this);
+    insert(node);
 
-		static if (is(T == Camera))
-			scene.registerCamera(node);
+    static if (is(T == Camera))
+      scene.registerCamera(node);
 
-		singletonMap[id] = node;
+    singletonMap[id] = node;
 
-		static if (STRAT)
-			node.start();
+    static if (STRAT)
+      node.start();
 
     if (initMethod !is null)
       initMethod(node);
 
-		return node;
-	}
+    return node;
+  }
 
   /**
    * Called after all scene nodes instantiation.
