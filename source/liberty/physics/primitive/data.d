@@ -9,11 +9,11 @@
 module liberty.physics.primitive.data;
 
 struct CollisionData {
-	bool Collides;
-	float Distance;
+  bool Collides;
+  float Distance;
 
-	this(bool collides, float distance) {
-		Collides = collides;
-		Distance = distance;
-	}
+  this(bool collides, float distance) {
+    Collides = collides;
+    Distance = distance;
+  }
 }
