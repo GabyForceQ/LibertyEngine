@@ -21,9 +21,7 @@ import liberty.primitive.vertex;
 import liberty.graphics.material.impl;
 
 
-package(liberty) class ModelIO {
-  @disable this();
-
+package(liberty) final abstract class ModelIO {
   static PrimitiveModel loadOBJFile(string path) {
     PrimitiveVertex[] vertices;	
 

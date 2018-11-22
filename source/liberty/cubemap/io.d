@@ -22,9 +22,7 @@ import liberty.resource;
 /**
  *
 **/
-final class CubeMapIO {
-  @disable this();
-
+final abstract class CubeMapIO {
   /**
    *
   **/

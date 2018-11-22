@@ -24,14 +24,12 @@ import liberty.graphics.engine;
 /**
  * Core engine class containing engine base static functions.
 **/
-final class CoreEngine {
+final abstract class CoreEngine {
   private {
     static EngineState engineState = EngineState.None;
 		static Scene scene;
 		static bool vsync;
   }
-
-	@disable this();
 
   /**
    * Initialize core engine features.

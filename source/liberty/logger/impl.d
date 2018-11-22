@@ -24,9 +24,7 @@ import liberty.logger.constants;
  * You can change the log file name.
  * You can activate or deactivate logger any time.
 **/
-final class Logger {
-  @disable this();
-
+final abstract class Logger {
   private {
     static File logFile;
     

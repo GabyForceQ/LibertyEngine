@@ -22,9 +22,7 @@ import liberty.resource;
  * Singleton class used for loading image files.
  * It's a manager class so it implements $(D ManagerBody).
 **/
-final class ImageIO {
-  @disable this();
-
+final abstract class ImageIO {
   /**
    *
   **/

@@ -7,9 +7,7 @@ import liberty.math.matrix;
 /**
  *
 **/
-final class MathUtils {
-  @disable this();
-  
+final abstract class MathUtils {  
   /**
    * Returns orthographic projection.
   **/

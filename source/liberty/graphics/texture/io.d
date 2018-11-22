@@ -19,9 +19,7 @@ import liberty.resource;
 /**
  *
 **/
-final class TextureIO {
-  @disable this();
-
+final abstract class TextureIO {
   /**
    *
   **/

@@ -15,9 +15,7 @@ import liberty.logger.impl;
 /**
  * Used for managing files and console input/output.
 **/
-final class IOManager {
-  @disable this();
-  
+final abstract class IOManager {  
   /**
    *
   **/

@@ -15,9 +15,7 @@ import std.array : split;
 /**
  *
 **/
-final class FontIO {
-  @disable this();
-
+final abstract class FontIO {
   /**
    *
   **/

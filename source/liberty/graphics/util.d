@@ -19,9 +19,7 @@ import liberty.graphics.constants;
 /**
  *
 **/
-final class GfxUtil {
-  @disable this();
-
+final abstract class GfxUtil {
 	/**
    *
   **/

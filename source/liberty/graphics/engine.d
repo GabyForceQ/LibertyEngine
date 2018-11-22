@@ -46,13 +46,11 @@ struct GfxEngineInfo {
 /**
  *
 **/
-final class GfxEngine {
+final abstract class GfxEngine {
   private {
     static GfxEngineInfo info;
     static bool wireframe;
   }
-
-  @disable this();
 
   /**
    * Set wireframe mode.

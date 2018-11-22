@@ -20,12 +20,10 @@ import liberty.core.window;
  * Currently it supports only one window.
  * GraphicsEngine service should be initialized before attemping to initialize the platform.
 **/
-final class Platform {
+final abstract class Platform {
   private {
     static Window window;
   }
-
-  @disable this();
 
   /**
    * Initialize current platform.

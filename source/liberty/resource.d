@@ -34,14 +34,12 @@ import liberty.image.impl;
  * The resource manager class provides static functions that gives you the possibility
  * to create textures and models to manage them.
 **/
-final class ResourceManager {
+final abstract class ResourceManager {
   private {
     static TextureCache textureCache;
     static uint[] vaos;
     static uint[] vbos;
   }
-
-  @disable this();
 
   /**
    * Initilaize resource manager.

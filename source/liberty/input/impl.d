@@ -22,9 +22,7 @@ import liberty.input.profiler.impl;
 /**
  *
 **/
-final class Input {
-  @disable this();
-
+final abstract class Input {
   private {
     static Keyboard keyboard;
     static Mouse mouse;
