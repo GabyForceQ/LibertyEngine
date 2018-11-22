@@ -21,8 +21,8 @@ import liberty.graphics.engine;
 package(liberty) class EventManager {
   private {
     static bool firstMouse = true;
-	  static float lastX;
-	  static float lastY;
+    static float lastX;
+    static float lastY;
   }
 
   static void initialize() {
