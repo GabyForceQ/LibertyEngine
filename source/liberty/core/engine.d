@@ -27,8 +27,8 @@ import liberty.graphics.engine;
 final abstract class CoreEngine {
   private {
     static EngineState engineState = EngineState.None;
-		static Scene scene;
-		static bool vsync;
+    static Scene scene;
+    static bool vsync;
   }
 
   /**
@@ -38,19 +38,19 @@ final abstract class CoreEngine {
     Logger.initialize();
     
     // Set engine state to "starting"
-		changeState(EngineState.Starting);
+    changeState(EngineState.Starting);
 
-		// Initialize other classes    
-		ResourceManager.initialize();
-		Platform.initialize();
-		GfxEngine.initialize();
+    // Initialize other classes    
+    ResourceManager.initialize();
+    Platform.initialize();
+    GfxEngine.initialize();
     Material.initializeMaterials();
-		Input.initialize();
+    Input.initialize();
 
     disableVSync();
 
     // Set engine state to "started"
-		changeState(EngineState.Started);
+    changeState(EngineState.Started);
   }
 
   /**
@@ -60,9 +60,9 @@ final abstract class CoreEngine {
     // Set engine state to "stopping"
     changeState(EngineState.Stopping);
 
-		// Deinitialize other classes
-		Platform.deinitialize();
-		ResourceManager.releaseAllModels();
+    // Deinitialize other classes
+    Platform.deinitialize();
+    ResourceManager.releaseAllModels();
 
     // Set engine state to "stopped"
     changeState(EngineState.Stopped);
@@ -73,52 +73,54 @@ final abstract class CoreEngine {
   /**
    * Start the main loop of the application.
   **/
-	static void run() {
-		// Set engine state to "running"
-		changeState(EngineState.Running);
+  static void run() {
+    // Set engine state to "running"
+    changeState(EngineState.Running);
 
     // Main loop
-		while (engineState != EngineState.ShouldQuit) {
-			// Process time
-			Time.processTime();
+    while (engineState != EngineState.ShouldQuit) {
+      // Process time
+      Time.processTime();
 
-			// Update input and pull events
-			Input.update();
-			glfwPollEvents();
-			Platform.getWindow().resizeFrameBuffer();
+      // Update input and pull events
+      Input.update();
+      glfwPollEvents();
+      Platform.getWindow().resizeFrameBuffer();
 
-			switch (engineState) with (EngineState) {
-				case Running:
-					scene.update();
-					scene.getActiveCamera()
-						.getPreset()
-						.runImplicit(scene.getActiveCamera());
+      switch (engineState) with (EngineState) {
+        case Running:
+          scene.update();
+          scene
+            .getActiveCamera()
+            .getPreset()
+            .runImplicit(scene.getActiveCamera());
 
-          //Input.getMousePicker()
-					//	.update(scene.getActiveCamera(), scene.getTree().getChild!Terrain("DemoTerrain"));
+          //Input
+          //  .getMousePicker()
+          //  .update(scene.getActiveCamera(), scene.getTree().getChild!Terrain("DemoTerrain"));
 
-					break;
-				case Paused:
-					break; // TODO.
-				default:
-					Logger.warning("Unreachable.", typeof(this).stringof);
-					break;
-			}
+          break;
+        case Paused:
+          break; // TODO.
+        default:
+          Logger.warning("Unreachable.", typeof(this).stringof);
+          break;
+      }
 
-			// Render to the screen
-			GfxEngine.clearScreen();
-			CoreEngine.getScene().render();
-			glfwSwapBuffers(Platform.getWindow().getHandle());
+      // Render to the screen
+      GfxEngine.clearScreen();
+      CoreEngine.getScene().render();
+      glfwSwapBuffers(Platform.getWindow().getHandle());
 
-			if (Platform.getWindow().shouldClose())
-				changeState(EngineState.ShouldQuit);
+      if (Platform.getWindow().shouldClose())
+        changeState(EngineState.ShouldQuit);
 
       EventManager.updateLastMousePosition();
-		}
+    }
 
     // Main loop ended so engine shutdowns
-		deinitialize();
-	}
+    deinitialize();
+  }
 
   /**
    * Pause the entire application.
@@ -142,14 +144,14 @@ final abstract class CoreEngine {
     }
   }
 
-	/**
-	 * Shutdown the entire application.
-	**/
-	static void shutDown() {
-		engineState = EngineState.ShouldQuit;
-	}
+  /**
+   * Shutdown the entire application.
+  **/
+  static void shutDown() {
+    engineState = EngineState.ShouldQuit;
+  }
 
-	/**
+  /**
    * Force shutdown the entire application.
   **/
   static void forceShutDown(bool failure = false) {
@@ -158,26 +160,26 @@ final abstract class CoreEngine {
     exit(failure);
   }
 
-	/**
-	 * Load a new scene into the window viewport.
-	**/
-	static void loadScene(Scene scene) nothrow {
-		this.scene = scene;
-	}
+  /**
+   * Load a new scene into the window viewport.
+  **/
+  static void loadScene(Scene scene) nothrow {
+    this.scene = scene;
+  }
 
-	/**
-	 * Returns current scene.
-	**/
-	static Scene getScene() nothrow {
-		return scene;
-	}
+  /**
+   * Returns current scene.
+  **/
+  static Scene getScene() nothrow {
+    return scene;
+  }
 
-	/**
+  /**
    *
   **/
   static void enableVSync() {
     glfwSwapInterval(1);
-		vsync = true;
+    vsync = true;
   }
 
   /**
@@ -185,20 +187,20 @@ final abstract class CoreEngine {
   **/
   static void disableVSync() {
     glfwSwapInterval(0);
-		vsync = false;
+    vsync = false;
   }
 
-	/**
-	 *
-	**/
-	static bool isVSyncEnabled() nothrow {
-		return vsync;
-	}
+  /**
+   *
+  **/
+  static bool isVSyncEnabled() nothrow {
+    return vsync;
+  }
 
-	package static void changeState(EngineState engineState) {
-		this.engineState = engineState;
-		Logger.info("Engine state changed to " ~ engineState, typeof(this).stringof);
-	}
+  package static void changeState(EngineState engineState) {
+    this.engineState = engineState;
+    Logger.info("Engine state changed to " ~ engineState, typeof(this).stringof);
+  }
 }
 
 version (unittest)
@@ -223,43 +225,43 @@ else
  * Engine state enumeration.
 **/
 enum EngineState : string {
-	/**
-	 * Engine is totally inactive.
-	**/
-	None = "None",
+  /**
+   * Engine is totally inactive.
+  **/
+  None = "None",
 
-	/**
-	 * Engine is starting.
-	**/
-	Starting = "Starting",
+  /**
+   * Engine is starting.
+  **/
+  Starting = "Starting",
 
-	/**
-	 * Engine just started.
-	**/
-	Started = "Started",
+  /**
+   * Engine just started.
+  **/
+  Started = "Started",
 
-	/**
-	 * Engine is stopping.
-	**/
-	Stopping = "Stopping",
+  /**
+   * Engine is stopping.
+  **/
+  Stopping = "Stopping",
 
-	/**
-	 * Engine just stopped.
-	**/
-	Stopped = "Stopped",
+  /**
+   * Engine just stopped.
+  **/
+  Stopped = "Stopped",
 
-	/**
-	 * Engine is running.
-	**/
-	Running = "Running",
+  /**
+   * Engine is running.
+  **/
+  Running = "Running",
 
-	/**
-	 * Engine is paused.
-	**/
-	Paused = "Paused",
+  /**
+   * Engine is paused.
+  **/
+  Paused = "Paused",
 
-	/**
-	 * Engine is in process of quiting.
-	**/
-	ShouldQuit = "ShouldQuit"
+  /**
+   * Engine is in process of quiting.
+  **/
+  ShouldQuit = "ShouldQuit"
 }
