@@ -94,33 +94,33 @@ final class MousePicker {
   }
 
   private Vector3F getPointOnRay(Vector3F ray, float distance) {
-		return camera.getTransform().getAbsoluteLocation() + ray * distance;
-	}
-	
-	private Vector3F binarySearch(int count, float start, float finish, Vector3F ray) {
-		const float half = start + ((finish - start) / 2.0f);
+    return camera.getTransform().getAbsoluteLocation() + ray * distance;
+  }
 
-		if (count >= recursionCount)
-			return getPointOnRay(ray, half);
+  private Vector3F binarySearch(int count, float start, float finish, Vector3F ray) {
+    const float half = start + ((finish - start) / 2.0f);
 
-		if (intersectionInRange(start, half, ray))
-			return binarySearch(count + 1, start, half, ray);
-		else
-			return binarySearch(count + 1, half, finish, ray);
-	}
+    if (count >= recursionCount)
+      return getPointOnRay(ray, half);
 
-	private bool intersectionInRange(float start, float finish, Vector3F ray) {
-		Vector3F startPoint = getPointOnRay(ray, start);
-		Vector3F endPoint = getPointOnRay(ray, finish);
+    if (intersectionInRange(start, half, ray))
+      return binarySearch(count + 1, start, half, ray);
+    else
+      return binarySearch(count + 1, half, finish, ray);
+  }
 
-		return !isUnderGround(startPoint) && isUnderGround(endPoint);
-	}
+  private bool intersectionInRange(float start, float finish, Vector3F ray) {
+    Vector3F startPoint = getPointOnRay(ray, start);
+    Vector3F endPoint = getPointOnRay(ray, finish);
 
-	private bool isUnderGround(Vector3F testPoint) {
-		float height = 0;
+    return !isUnderGround(startPoint) && isUnderGround(endPoint);
+  }
+
+  private bool isUnderGround(Vector3F testPoint) {
+    float height = 0;
 
     height = terrain.getHeight(testPoint.x, testPoint.z);
 
-		return testPoint.y < height;
-	}
+    return testPoint.y < height;
+  }
 }
