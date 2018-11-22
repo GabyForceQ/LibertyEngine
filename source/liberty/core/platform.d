@@ -60,7 +60,7 @@ final abstract class Platform {
     EventManager.initialize();
 
     glfwSetCursorPosCallback(window.getHandle(), &EventManager.mouseCallback);
-		glfwSetScrollCallback(window.getHandle(), &EventManager.scrollCallback);
+    glfwSetScrollCallback(window.getHandle(), &EventManager.scrollCallback);
     glfwSetJoystickCallback(&EventManager.joystickCallback);
 
     Logger.info(InfoMessage.Created, typeof(this).stringof);
