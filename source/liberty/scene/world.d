@@ -55,27 +55,38 @@ final class World {
   }
 
   /**
-   * Set the exp height fog of the scene using a 3 floats for the color (RGB).
+   * Set the exp height fog of the scene using 3 floats for the color (RGB) in a template stream function.
+   * Assign a value to exp height fog using world.setExpHeightFogColor(r, g, b) or world.setExpHeightFogColor!"="(r, g, b).
+   * Increment exp height fog by value using world.setExpHeightFogColor!"+="(r, g, b).
+   * Decrement exp height fog by value using world.setExpHeightFogColor!"-="(r, g, b).
+   * Multiply exp height fog by value using world.setExpHeightFogColor!"*="(r, g, b).
+   * Divide exp height fog by value using world.setExpHeightFogColor!"/="(r, g, b).
    * Returns reference to this so it can be used in a stream.
   **/
-  World setexpHeightFogColor(float r, float g, float b) pure nothrow {
-    this.expHeightFogColor = Vector3F(r, g, b);
+  World setExpHeightFogColor(string op = "=")(float r, float g, float b) pure nothrow
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
+  do {
+    return setExpHeightFogColor!op(Vector3F(r, g, b));
+  }
+
+  /**
+   * Set the exp height fog of the scene using a vector of 3 values for the color (RGB) in a template stream function.
+   * Assign a value to exp height fog using world.setExpHeightFogColor(vector3) or world.setExpHeightFogColor!"="(vector3).
+   * Increment exp height fog by value using world.setExpHeightFogColor!"+="(vector3).
+   * Decrement exp height fog by value using world.setExpHeightFogColor!"-="(vector3).
+   * Multiply exp height fog by value using world.setExpHeightFogColor!"*="(vector3).
+   * Divide exp height fog by value using world.setExpHeightFogColor!"/="(vector3).
+   * Returns reference to this so it can be used in a stream.
+  **/
+  World setExpHeightFogColor(string op = "=")(Vector3F expHeightFogColor) pure nothrow {
+    mixin("this.expHeightFogColor " ~ op ~ " expHeightFogColor;");
     return this;
   }
 
   /**
-   * Set the exp height fog of the scene using a vector of 3 values for the color (RGB).
-   * Returns reference to this so it can be used in a stream.
+   * Returns the exponential height fog color.
   **/
-  World setexpHeightFogColor(Vector3F expHeightFogColor) pure nothrow {
-    this.expHeightFogColor = expHeightFogColor;
-    return this;
-  }
-
-  /**
-   *
-  **/
-  Vector3F getexpHeightFogColor() pure nothrow const {
+  Vector3F getExpHeightFogColor() pure nothrow const {
     return expHeightFogColor;
   }
 }

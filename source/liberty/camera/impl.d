@@ -352,7 +352,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera zNear a template stream function.
+   * Set camera zNear using a template stream function.
    * Assign a value to camera zNear using camera.setZNear(value) or camera.setZNear!"="(value).
    * Increment camera zNear by value using camera.setZNear!"+="(value).
    * Decrement camera zNear by value using camera.setZNear!"-="(value).
@@ -386,7 +386,7 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera zFar a template stream function.
+   * Set camera zFar using a template stream function.
    * Assign a value to camera zFar using camera.setZFar(value) or camera.setZFar!"="(value).
    * Increment camera zFar by value using camera.setZFar!"+="(value).
    * Decrement camera zFar by value using camera.setZFar!"-="(value).
