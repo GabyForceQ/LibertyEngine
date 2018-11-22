@@ -12,16 +12,16 @@ module liberty.physics.constants;
  * Type of force or torque that can be applied on a RigidBody
 **/
 enum ForceMode : ubyte {
-	FORCE,
-	IMPULSE,
-	VELOCITY,
-	ACCELERATION
+  FORCE,
+  IMPULSE,
+  VELOCITY,
+  ACCELERATION
 }
 
 /**
  * Type of force that can be applied on a RigidBody at an arbitrary point
 **/
 enum PointForceMode : ubyte {
-	FORCE,
-	IMPULSE
+  FORCE,
+  IMPULSE
 }
