@@ -5,9 +5,6 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/impl.d)
  * Documentation:
  * Coverage:
- *
- * TODO:
- *  - implement IProcessable
 **/
 module liberty.scene.impl;
 
@@ -17,7 +14,6 @@ import liberty.camera;
 import liberty.scene.node;
 import liberty.scene.world;
 import liberty.services;
-import liberty.graphics.shader;
 import liberty.primitive.system;
 import liberty.terrain.system;
 import liberty.surface.system;
@@ -26,32 +22,55 @@ import liberty.cubemap.system;
 import liberty.scene.serializer;
 
 /**
- *
+ * A scene is a 3D space where you can place different objects,
+ * like primitives, terrains, lights and surfaces.
+ * It implements $(D IStartable) and $(D IUpdatable) service.
 **/
 final class Scene : IUpdatable, IRenderable {
   private {
-    string id;
+    // isReady
     bool ready;
+    // isRegistered
     bool registered;
     
+    // getTree
     SceneNode tree;
+    // getStartPoint
     Vector3F startPoint;
-    WorldSettings worldSettings;
+    // getWorld, setWorld
+    World world;
+    // getSerializer
     SceneSerializer serializer;
     
+    // getActiveCamera, setActiveCamera
     Camera activeCamera;
-    Camera[string] camerasMap;
-    bool[string] objectsId;
+    // registerCamera, getCameraById, getCameraMap
+    Camera[string] cameraMap;
 
-    IStartable[string] startList;
-    IUpdatable[string] updateList;
-    IRenderable[string] renderList;
+    // getStartableMap
+    IStartable[string] startableMap;
+    // getUpdatableMap
+    IUpdatable[string] updatableMap;
     
+    // getPrimitiveSystem
     PrimitiveSystem primitiveSystem;
+    // getTerrainSystem
     TerrainSystem terrainSystem;
+    // getSurfaceSystem
     SurfaceSystem surfaceSystem;
+    // getLightingSystem
     LightingSystem lightingSystem;
+    // getCubeMapSystem
     CubeMapSystem cubeMapSystem;
+  }
+
+  package {
+    // It is necessary to modify it in SceneSerializer class
+    string id;
+
+    // It is necessary to modify it in Node class
+    // getNodeMap
+    SceneNode[string] nodeMap;
   }
 
   /**
@@ -60,8 +79,8 @@ final class Scene : IUpdatable, IRenderable {
   this(SceneSerializer serializer) {
     CoreEngine.loadScene(this);
 
-    tree = new RootObject();
-    worldSettings = new WorldSettings();
+    tree = new RootSceneNode();
+    world = new World();
 
     // Create systems
     primitiveSystem = new PrimitiveSystem(this);
@@ -72,7 +91,7 @@ final class Scene : IUpdatable, IRenderable {
 
     // Init serializer
     serializer
-      .registerScene(this)
+      .setScene(this)
       .deserialize();
     this.serializer = serializer;
   }
@@ -100,13 +119,15 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Returns a scene tree reference.
+   * See $(D SceneNode).
   **/
   SceneNode getTree() pure nothrow {
     return tree;
   }
 
   /**
-   * Returns the start point coordinates
+   * Returns the start point coordinates.
+   * See $(D Vector3F).
   **/
   Vector3F getStartPoint() pure nothrow const {
     return startPoint;
@@ -114,16 +135,18 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Returns the camera in use by the player.
+   * See $(D Camera).
   **/
-  Camera getActiveCamera() {
+  Camera getActiveCamera() pure nothrow {
     return activeCamera;
   }
 
   /**
    * Set camera as the current view camera.
    * Returns reference to this so it can be used in a stream.
+   * See $(D Camera).
   **/
-  Scene setActiveCamera(Camera camera) {
+  Scene setActiveCamera(Camera camera) pure nothrow {
     activeCamera = camera;
     return this;
   }
@@ -131,94 +154,96 @@ final class Scene : IUpdatable, IRenderable {
   /**
    * Register camera to the camera map.
    * Returns reference to this so it can be used in a stream.
+   * See $(D Camera).
   **/
-  Scene registerCamera(Camera camera) {
-		camerasMap[camera.getId()] = camera;
+  Scene registerCamera(Camera camera) pure nothrow {
+		cameraMap[camera.getId()] = camera;
     return this;
 	}
 
   /**
-   * Returns a list with startable objects.
+   * Returns the camera in the map that has the given id.
+   * See $(D Camera).
   **/
-  IStartable[string] getStartList() pure nothrow {
-    return startList;
+  Camera getCameraById(string id) pure nothrow {
+    return cameraMap[id];
   }
 
   /**
-   * Returns a list with updatable objects.
+   * Returns all elements in the camera map.
+   * See $(D Camera).
   **/
-  IUpdatable[string] getUpdateList() pure nothrow {
-    return updateList;
+  Camera[string] getCameraMap() pure nothrow {
+    return cameraMap;
   }
 
   /**
-   * Returns a list with renderable objects.
+   * Returns all elements in the startable map.
+   * See $(D IStartable).
   **/
-  IRenderable[string] getRenderList() pure nothrow {
-    return renderList;
+  IStartable[string] getStartableMap() pure nothrow {
+    return startableMap;
   }
 
   /**
-   * Add an object to the startable list.
+   * Returns all elements in the updatable map.
+   * See $(D IUpdatable).
+  **/
+  IUpdatable[string] getUpdatableMap() pure nothrow {
+    return updatableMap;
+  }
+
+  /**
+   * Add a node to the startable map.
    * Returns reference to this so it can be used in a stream.
   **/
-  Scene setStartList(string id, IStartable node) pure nothrow {
-    startList[id] = node;
+  Scene setStartableList(string id, IStartable node) pure nothrow {
+    startableMap[id] = node;
     return this;
   }
 
   /**
-   * Add an object to the updatable list.
+   * Add a node to the updatable map.
    * Returns reference to this so it can be used in a stream.
   **/
-  Scene setUpdateList(string id, IUpdatable node) pure nothrow {
-    updateList[id] = node;
+  Scene setUpdatableList(string id, IUpdatable node) pure nothrow {
+    updatableMap[id] = node;
     return this;
   }
 
   /**
-   * Add an object to the renderable list.
+   * Initialize scene.
+	 * Invoke start for all $(D IStartable) objects that have a start() method.
    * Returns reference to this so it can be used in a stream.
   **/
-  Scene setRenderList(string id, IRenderable node) pure nothrow {
-    renderList[id] = node;
-    return this;
-  }
-
-  /**
-   * Register scene to the CoreEngine.
-	 * Invoke start for all IStartable objects that have an start() method.
-   * Returns reference to this so it can be used in a stream.
-  **/
-	Scene register() {
+	Scene initialize() {
 		registered = true;
 
 		if (activeCamera is null)
 			activeCamera = tree.spawn!Camera("DefaultCamera");
 
-    foreach (node; startList)
+    foreach (node; startableMap)
 			node.start();
 
     return this;
 	}
 
   /**
-   * Update all objects that have an update() method.
-   * The object should implement IUpdatable.
+   * Update all nodes that have an update() method.
+   * These nodes must implement $(D IUpdatable).
    * It's called every frame.
   **/
   void update() {
-    foreach (node; this.updateList)
+    foreach (node; updatableMap)
       node.update();
   }
 
   /**
-   * Render all objects that have a render() method.
-   * The object should implement IRenderable.
-   * It's called every frame.
+   * Render all nodes that have a $(D Renderer) component.
+   * It's called every frame after $(D Scene.update).
   **/
   void render() {
-    worldSettings.updateShaders(this, activeCamera);
+    world.updateShaders(this, activeCamera);
 
     // Render all scene lights
     lightingSystem.getRenderer().render();
@@ -237,80 +262,76 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   * Returns a dictionary with all objects id.
+   * Returns all elements in the scene node map.
+   * See $(D SceneNode).
   **/
-  bool[string] getObjectsId() {
-    return objectsId;
-  }
-
-  /**
-   * Add an object id to the dictionary.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  Scene setObjectId(string key, bool state = true) {
-    objectsId[key] = state;
-    return this;
+  SceneNode[string] getNodeMap()  pure nothrow {
+    return nodeMap;
   }
 
   /**
    * Set the world settings for the scene.
    * Returns reference to this so it can be used in a stream.
+   * See $(D World).
   **/
-  Scene setWorldSettings(WorldSettings worldSettings) {
-    this.worldSettings = worldSettings;
+  Scene setWorld(World world) pure nothrow {
+    this.world = world;
     return this;
   }
 
   /**
    * Returns the world settings of the scene.
+   * See $(D World).
   **/
-  WorldSettings getWorldSettings() pure nothrow {
-    return worldSettings;
+  World getWorld() pure nothrow {
+    return world;
   }
 
   /**
-   *
+   * Returns a refetence of primitive system.
+   * See $(D PrimitiveSystem).
   **/
   PrimitiveSystem getPrimitiveSystem() pure nothrow {
     return primitiveSystem;
   }
 
   /**
-   *
+   * Returns a refetence of terrain system.
+   * See $(D TerrainSystem).
   **/
   TerrainSystem getTerrainSystem() pure nothrow {
     return terrainSystem;
   }
 
   /**
-   *
+   * Returns a refetence of surface system.
+   * See $(D SurfaceSystem).
   **/
   SurfaceSystem getSurfaceSystem() pure nothrow {
     return surfaceSystem;
   }
 
   /**
-   *
+   * Returns a refetence of lighting system.
+   * See $(D LightingSystem).
   **/
   LightingSystem getLightingSystem() pure nothrow {
     return lightingSystem;
   }
 
   /**
-   *
+   * Returns a refetence of cube map system.
+   * See $(D CubeMapSystem).
   **/
   CubeMapSystem getCubeMapSystem() pure nothrow {
     return cubeMapSystem;
   }
 
   /**
-   *
+   * Returns a refetence of scene serializer.
+   * See $(D SceneSerializer).
   **/
   SceneSerializer getSerializer() pure nothrow {
     return serializer;
-  }
-
-  package void setId(string id) pure nothrow {
-    this.id = id;
   }
 }

@@ -15,7 +15,7 @@ import liberty.services;
 /**
  * Class holding basic font rendering methods.
  * It contains references to the $(D FontSystem) and $(D Scene).
- * It implements $(D, IRenderable) service.
+ * It implements $(D IRenderable) service.
 **/
 final class FontRenderer /*: IRenderable*/ {
   private {

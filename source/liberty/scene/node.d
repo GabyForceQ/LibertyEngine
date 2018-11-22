@@ -5,9 +5,6 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/node.d)
  * Documentation:
  * Coverage:
- *
- * TODO:
- *  - implement IProcessable
 **/
 module liberty.scene.node;
 
@@ -23,89 +20,93 @@ import liberty.surface.vertex;
 import liberty.terrain.vertex;
 
 /**
- * Represents the base object in the scene tree.
+ * Represents a node in the scene tree.
+ * It implements $(D IStartable) and $(D IUpdatable) service.
 **/
 abstract class SceneNode : IStartable, IUpdatable {
   private {
+    // getId
     string id;
-    SceneNode parent;
-    SceneNode[string] children;
+    // getScene
     Scene scene;
-    SceneNode[string] singletonList;
+    
+    // getParent
+    SceneNode parent;
+    // getChildMap
+    SceneNode[string] childMap;
+    // It is used in spawnOnce methods
+    SceneNode[string] singletonMap;
     
     // Transform component used for translation, rotation and scale
     Transform3 transform;
   }
 
   /**
-   * Construct an object using an id and parent for it.
+   * Construct a scene node using an id and its parent.
   **/
   this(string id, SceneNode parent) {
     // Set model scene
     scene = CoreEngine.getScene();
     
     // Check if given id is unique
-    if (id in this.scene.getObjectsId())
+    if (id in scene.nodeMap)
       Logger.error(
-        "You already have an object with ID: \"" ~ id ~ "\" in the current scene!",
+        "You already have a scene node with ID: \"" ~ id ~ "\" in the current scene!",
         typeof(this).stringof
       );
 
     // Set transformation
-    if (parent is null)
-      transform = new Transform3(this);
-    else
-      transform = new Transform3(this, parent.getTransform());
+    transform = (parent is null)
+      ? new Transform3(this)
+      : new Transform3(this, parent.getTransform());
 
-    // Now save the id in the ids map
-    scene.setObjectId(id);
+    // Now save this in the scene node map
+    scene.nodeMap[id] = this;
 
-    // Set model id
+    // Set model id and parent
     this.id = id;
-
-    // Set model parent
     this.parent = parent;
   }
 
   /**
-   * Retuns the object id.
+   * Retuns the scene node id.
   **/
   string getId() pure nothrow const {
     return id;
   }
 
   /**
-   * Returns a parent scene node reference.
+   * Returns a reference of parent scene node.
 	**/
   SceneNode getParent() pure nothrow {
 		return parent;
 	}
 
   /**
-	 * Returns an array with children references.
+	 * Returns all elements in the child map.
   **/
-  SceneNode[string] getChildren() pure nothrow {
-    return children;
+  SceneNode[string] getChildMap() pure nothrow {
+    return childMap;
   }
 
   /**
-   * Returns a child reference using its ID.
+   * Returns the child in the map that has the given id.
   **/
   T getChild(T)(string id) pure nothrow {
-    return (id in children) ? cast(T)children[id] : null;
+    return (id in childMap) ? cast(T)childMap[id] : null;
   }
 
   /**
-   * Returns scene that object is attached to.
+   * Returns scene that scene node is attached to.
   **/
   Scene getScene() pure nothrow {
-    return this.scene;
+    return scene;
   }
 
   /**
-   * Returns true if this object is the root object.
+   * Returns true if this scene node is the root node.
   **/
-  bool isRootObject() pure nothrow {
+  bool isRootNode() pure nothrow {
     return parent.id == scene.getTree().id;
   }
 
@@ -113,21 +114,24 @@ abstract class SceneNode : IStartable, IUpdatable {
    * Remove a child node using its reference.
   **/
   void remove(T : SceneNode)(ref T child) {
-    if (child in _children) {
-      this.children.remove(child.id);
-      this.scene.getStartList().remove(child.id);
-      this.scene.getUpdateList().remove(child.id);
-      this.scene.getRenderList().remove(child.id);
-      this.scene.getObjectsId.remove(child.id);
-      static if (is(T == Camera)) {
-        _scene.clearCamera(child);
-      }
+    if (child in childMap) {
+      childMap.remove(child.id);
+      
+      scene.getStartableMap().remove(child.id);
+      scene.getUpdatableMap().remove(child.id);
+      scene.getNodeMap().remove(child.id);
+      
+      static if (is(T == Camera))
+        scene.clearCamera(child);
+
       child.destroy();
       child = null;
+      
       return;
     }
+    
     Logger.warning(
-      "You are trying to remove a null object",
+      "You are trying to remove a null scene node",
       typeof(this).stringof
     );
   }
@@ -136,29 +140,31 @@ abstract class SceneNode : IStartable, IUpdatable {
    * Remove a child node using its id.
   **/
   void remove(string id) {
-    foreach (child; this.children) {
+    foreach (child; childMap)
       if (child.id == id) {
-        this.children.remove(child.id);
-        this.scene.getStartList().remove(child.id);
-        this.scene.getUpdateList().remove(child.id);
-        this.scene.getRenderList().remove(child.id);
-        this.scene.getObjectsId.remove(child.id);
-        static if (is(T == Camera)) {
-          this.scene.clearCamera(child);
-        }
+        childMap.remove(child.id);
+        
+        scene.getStartableMap().remove(child.id);
+        scene.getUpdatableMap().remove(child.id);
+        scene.getNodeMap().remove(child.id);
+        
+        static if (is(T == Camera))
+          scene.clearCamera(child);
+        
         child.destroy();
         child = null;
+        
         return;
       }
-    }
+    
     Logger.warning(
-      "You are trying to remove a null object",
+      "You are trying to remove a null scene node",
       typeof(this).stringof
     );
   }
 
   /**
-   * Spawn an object using its reference.
+   * Spawn a scene node using its reference.
 	 * You can specify where to spawn. By default is set to scene tree.
 	 * Returns new nodes reference.
 	**/
@@ -179,7 +185,7 @@ abstract class SceneNode : IStartable, IUpdatable {
 	}
 
   /**
-	 * Spawn an object using its ID.
+	 * Spawn a scene node using its ID.
 	 * Second time you call this method for the same id, an assertion is produced.
 	 * Returns new node reference.
 	**/
@@ -200,21 +206,21 @@ abstract class SceneNode : IStartable, IUpdatable {
 	}
   
   /**
-	 * Spawn an object using its reference.
+	 * Spawn a scene node using its reference.
 	 * Second time you call this method for the same id, nothing happens.
 	 * Returns old/new node reference.
 	**/
   ref T spawnOnce(T : SceneNode, bool STRAT = true)(ref T node, string id, void delegate(T) initMethod = null) {
-		if (id in _singletonList)
-			return cast(T)_singletonList[id];
+		if (id in singletonMap)
+			return cast(T)singletonMap[id];
 		
 		node = new T(id, this);
 		insert(node);
 		
     static if (is(T == Camera))
-			this.scene.registerCamera(node);
+			scene.registerCamera(node);
     
-		this.singletonList[id] = node;
+		singletonMap[id] = node;
 		
     static if (STRAT)
 			node.start();
@@ -226,21 +232,21 @@ abstract class SceneNode : IStartable, IUpdatable {
 	}
 
   /**
-	 * Spawn an object using its ID.
+	 * Spawn a scene node using its ID.
 	 * Second time you call this method for the same id, nothing happens.
 	 * Returns old/new node reference.
 	**/
   T spawnOnce(T : SceneNode, bool STRAT = true)(string id, void delegate(T) initMethod = null) {    
-		if (id in singletonList)
-			return cast(T)this.singletonList[id];
+		if (id in singletonMap)
+			return cast(T)singletonMap[id];
 
 		T node = new T(id, this);
 		insert(node);
 
 		static if (is(T == Camera))
-			this.scene.registerCamera(node);
+			scene.registerCamera(node);
 
-		this.singletonList[id] = node;
+		singletonMap[id] = node;
 
 		static if (STRAT)
 			node.start();
@@ -252,13 +258,13 @@ abstract class SceneNode : IStartable, IUpdatable {
 	}
 
   /**
-   * Called after all objects instantiation.
+   * Called after all scene nodes instantiation.
    * It is optional.
   **/
   void start() {}
 
   /**
-   * Called every frame to update the current state of the object.
+   * Called every frame to update the current state of the scene node.
    * It is optional.
   **/
   void update() {}
@@ -270,21 +276,21 @@ abstract class SceneNode : IStartable, IUpdatable {
     return transform;
   }
 
-  private void insert(T : SceneNode)(ref T child) {
+  private void insert(T : SceneNode)(ref T child) pure nothrow {
     // Insert a child node using its reference.
-    this.children[child.getId()] = child;
+    childMap[child.getId()] = child;
   }
 }
 
 /**
- * The root object of a scene.
- * It is the big parent of all objects.
+ * The root scene node of a scene.
+ * It is the king of all scene nodes.
 **/
-final class RootObject : SceneNode {
+final class RootSceneNode : SceneNode {
   /**
-   * Create the root object with the id "Root" and no parent.
+   * Create the root scene node with the id "Root" and no parent.
   **/
   this() {
-    super("Root", null);
+    super("RootNode", null);
   }
 }

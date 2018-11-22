@@ -15,7 +15,7 @@ import liberty.scene;
 /**
  * Class holding basic primitive rendering methods.
  * It contains references to the $(D PrimitiveSystem) and $(D Scene).
- * It implements $(D, IRenderable) service.
+ * It implements $(D IRenderable) service.
 **/
 final class PrimitiveRenderer : IRenderable {
   private {

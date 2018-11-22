@@ -15,7 +15,7 @@ import liberty.terrain.system;
 /**
  * Class holding basic terrain rendering methods.
  * It contains references to the $(D TerrainSystem) and $(D Scene).
- * It implements $(D, IRenderable) service.
+ * It implements $(D IRenderable) service.
 **/
 final class TerrainRenderer : IRenderable {
   private {

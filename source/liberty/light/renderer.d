@@ -15,7 +15,7 @@ import liberty.scene;
 /**
  * Class holding basic lighting rendering methods.
  * It contains references to the $(D LightingSystem) and $(D Scene).
- * It implements $(D, IRenderable) service.
+ * It implements $(D IRenderable) service.
 **/
 final class LightingRenderer : IRenderable {
   private {

@@ -22,7 +22,6 @@ import liberty.core.platform;
 /**
  *
 **/
-@Component
 final class Transform(byte N) if (N == 2 || N == 3) {
   private {
     static if (N == 2) {
@@ -216,7 +215,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
     mixin("absoluteLocation " ~ op ~ " location;");
 
     // Set location to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteLocation!(op, true)(location);
 
     updateModelMatrix();
@@ -241,7 +240,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
     mixin("absoluteLocation.x " ~ op ~ " value;");
 
     // Set location x to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteLocationX!(op, true)(value);
 
     updateModelMatrix();
@@ -266,7 +265,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
     mixin("absoluteLocation.y " ~ op ~ " value;");
 
     // Set location y to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteLocationY!(op, true)(value);
 
     updateModelMatrix();
@@ -291,7 +290,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
     mixin("absoluteLocation.z " ~ op ~ " value;");
 
     // Set location z to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteLocationZ!(op, true)(value);
 
     updateModelMatrix();
@@ -316,7 +315,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   //if (op == "=" || op == "+=" || op == "-=")
   //do {
   //  // Set rotation to the current object children too
-  //  foreach (child; parent.getChildren())
+  //  foreach (child; parent.getChildMap())
   //    child.getTransform().setRotation!op(angle, rotation);
   //  
   //  return this;
@@ -338,7 +337,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
     mixin("tempModelMatrix.c[2][2] " ~ op ~ " rotation.c[2][2];");
 
     // Set rotation to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteRotation!op(rotation);
     
     updateModelMatrix();
@@ -357,7 +356,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 		tempModelMatrix.rotateX(absoluteRotation.x.radians);
 
     // Set pitch rotation to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().rotatePitch!op(angle);
 
     updateModelMatrix();
@@ -376,7 +375,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 		tempModelMatrix.rotateY(absoluteRotation.y.radians);
 
     // Set yaw rotation to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().rotateYaw!op(angle);
 
     updateModelMatrix();
@@ -395,7 +394,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 		tempModelMatrix.rotateZ(absoluteRotation.z.radians);
 
     // Set roll rotation to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().rotateRoll!op(angle);
 
     updateModelMatrix();
@@ -469,7 +468,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
     mixin("tempModelMatrix.c[2][2] " ~ op ~ " scale.z;");
 
     // Set scale to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteScale!op(scale);
 
     updateModelMatrix();
@@ -487,7 +486,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 		mixin("tempModelMatrix.c[0][0] " ~ op ~ " value;");
 
     // Set scale x to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteScaleX!op(value);
 
     updateModelMatrix();
@@ -505,7 +504,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 		mixin("tempModelMatrix.c[1][1] " ~ op ~ " value;");
 
     // Set scale y to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteScaleY!op(value);
 
     updateModelMatrix();
@@ -523,7 +522,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 		mixin("tempModelMatrix.c[2][2] " ~ op ~ " value;");
 
     // Set scale z to the current object children too
-    foreach (child; parent.getChildren())
+    foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteScaleZ!op(value);
 
     updateModelMatrix();
@@ -690,7 +689,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
 private immutable forceBody = q{
   static if (!force)
-    if (!parent.isRootObject()) {
+    if (!parent.isRootNode()) {
       Logger.warning(
         "You are trying to perform Transformation a non-root object (id: " 
         ~ parent.getId() 

@@ -15,7 +15,7 @@ import liberty.surface.system;
 /**
  * Class holding basic surface rendering methods.
  * It contains references to the $(D SurfaceSystem) and $(D Scene).
- * It implements $(D, IRenderable) service.
+ * It implements $(D IRenderable) service.
 **/
 final class SurfaceRenderer : IRenderable {
   private {

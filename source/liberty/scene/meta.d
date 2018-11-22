@@ -9,19 +9,17 @@
 module liberty.scene.meta;
 
 /**
- *
-**/
-struct Component;
-
-/**
- *
+ * The scene node default constructor.
+ * You can send a string code with the construction code.
+ * See $(D SceneNode).
 **/
 mixin template NodeConstructor(string code = "") {
   import liberty.core.engine;
   import liberty.scene.node;
 
   /**
-   *
+   * The default constructor of a scene node.
+   * See $(D SceneNode).
   **/
   this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
     if (parent is null)
@@ -41,14 +39,14 @@ mixin template NodeConstructor(string code = "") {
     mixin(code);
 
     static if (__traits(isFinalClass, this)) {
-      static foreach (el; ["start", "update", "render"]) {
+      static foreach (el; ["startable", "updatable"]) {
         static foreach (super_member; __traits(allMembers, typeof(super)))
           static if (super_member.stringof == "\"" ~ el ~ "\"")
-            mixin("getScene().set" ~ el.capitalize() ~ "List(id, this);");
+            mixin("getScene().set" ~ el.capitalize() ~ "Map(id, this);");
           
         static foreach (member; __traits(allMembers, typeof(this)))
           static if (member.stringof == "\"" ~ el ~ "\"")
-            mixin("getScene().set" ~ el.capitalize() ~ "List(id, this);");
+            mixin("getScene().set" ~ el.capitalize() ~ "Map(id, this);");
       }
     }
 
@@ -84,7 +82,9 @@ mixin template NodeConstructor(string code = "") {
 }
 
 /**
- *
+ * The scene node default constructor.
+ * You can send a string code with the destruction code.
+ * See $(D SceneNode).
 **/
 mixin template NodeDestructor(string code) {
   ~this() {

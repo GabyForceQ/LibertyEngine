@@ -25,7 +25,6 @@ import liberty.cubemap.vertex;
 /**
  *
 **/
-@Component
 class Renderer(VERTEX, NODETYPE = SceneNode) {
   private {
     static if (is(VERTEX == PrimitiveVertex))

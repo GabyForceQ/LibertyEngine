@@ -15,7 +15,7 @@ import liberty.cubemap.system;
 /**
  * Class holding basic cubeMap rendering methods.
  * It contains references to the $(D CubeMapSystem) and $(D Scene).
- * It implements $(D, IRenderable) service.
+ * It implements $(D IRenderable) service.
 **/
 final class CubeMapRenderer : IRenderable {
   private {
