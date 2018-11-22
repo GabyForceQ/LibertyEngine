@@ -15,20 +15,20 @@ module liberty.services;
  * Service used in startable scene nodes.
 **/
 interface IStartable {
-	/**
-	 * Called after all scene nodes instantiation.
-	**/
-	void start();
+  /**
+   * Called after all scene nodes instantiation.
+  **/
+  void start();
 }
 
 /**
  * Service used in updateable scene nodes.
 **/
 interface IUpdateable {
-	/**
-	 * Called every frame to update the current state of the scene node.
-	**/
-	void update();
+  /**
+   * Called every frame to update the current state of the scene node.
+  **/
+  void update();
 }
 
 /**
@@ -38,7 +38,7 @@ interface IRenderable {
   /**
    * Called every frame to render the scene node.
   **/
-	void render();
+  void render();
 }
 
 /**
