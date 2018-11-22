@@ -20,12 +20,7 @@ final class Canvas : Widget {
     Widget[string] widgets;
   }
 
-  mixin WidgetEventProps!([
-    Event.Update
-  ]);
-
   mixin WidgetConstructor!("renderer: disabled");
-  mixin WidgetUpdate;
 
   /**
    * Call render for all widgets.

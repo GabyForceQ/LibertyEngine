@@ -10,38 +10,40 @@ module liberty.surface.renderer;
 
 import liberty.services;
 import liberty.scene;
+import liberty.surface.system;
 
 /**
- *
+ * Class holding basic surface rendering methods.
+ * It contains references to the $(D SurfaceSystem) and $(D Scene).
+ * It implements $(D, IRenderable) service.
 **/
 final class SurfaceRenderer : IRenderable {
   private {
+    SurfaceSystem system;
     Scene scene;
   }
 
   /**
-   *
+   * Create and initialize surface renderer using a $(D SurfaceSystem) reference and a $(D Scene) reference.
   **/
-  this(Scene scene) {
+  this(SurfaceSystem system, Scene scene) {
+    this.system = system;
     this.scene = scene;
   }
 
   /**
-   *
+   * Render all surface elements to the screen.
   **/
   void render() {
-    scene.getSurfaceShader().bind();
+    system
+      .getShader()
+      .bind();
     
-    foreach (surface; scene.getSurfaceMap())
+    foreach (surface; system.getMap())
       surface.render();
 
-    scene.getSurfaceShader().unbind();
-  }
-
-  /**
-   *
-  **/
-  Scene getScene() pure nothrow {
-    return scene;
+    system
+      .getShader()
+      .unbind();
   }
 }

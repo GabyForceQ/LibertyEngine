@@ -82,7 +82,7 @@ final class Camera : SceneNode {
   /**
    * Set keyboard listener using a camera movement direction.
    * Works only if camera keyboard listener isn't locked.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera processKeyboard(CameraMovement direction) {
     if (!keyboardLocked) {
@@ -97,7 +97,7 @@ final class Camera : SceneNode {
    * Set mouse move listener using x and y offsets.
    * Works only if camera mouse move listener isn't locked.
    * If it works then it updates camera vectors at the end.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera processMouseMovement(float xOffset, float yOffset) {
     if (!mouseMoveLocked) {
@@ -117,7 +117,7 @@ final class Camera : SceneNode {
   /**
    * Set mouse scroll listener using y offset.
    * Works only if camera mouse scroll listener isn't locked.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera processMouseScroll(float yOffset) pure nothrow {
     if (!mouseScrollLocked) {
@@ -192,7 +192,7 @@ final class Camera : SceneNode {
    * Multiply camera yaw by value using camera.setYaw!"*="(value).
    * Divide camera yaw by value using camera.setYaw!"/="(value).
    * It updates camera vectors after setting yaw.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setYaw(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
@@ -204,7 +204,7 @@ final class Camera : SceneNode {
 
   /**
    * Set camera yaw to default value (D DEFAULT_YAW).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultYaw() pure nothrow {
     yaw = DEFAULT_YAW;
@@ -228,7 +228,7 @@ final class Camera : SceneNode {
    * It updates camera vectors after setting pitch.
    * Pitch takes value in range [-89.0f, 89.0f] if constrain pitch is set to true.
    * To enable/disable constrain pitch see $(D setConstrainPitchEnabled) function.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setPitch(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
@@ -241,7 +241,7 @@ final class Camera : SceneNode {
 
   /**
    * Set camera pitch to default value (D DEFAULT_PITCH).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultPitch() pure nothrow {
     yaw = DEFAULT_PITCH;
@@ -262,7 +262,7 @@ final class Camera : SceneNode {
    * Decrement camera movement speed by value using camera.setMovementSpeed!"-="(value).
    * Multiply camera movement speed by value using camera.setMovementSpeed!"*="(value).
    * Divide camera movement speed by value using camera.setMovementSpeed!"/="(value).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setMovementSpeed(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
@@ -273,7 +273,7 @@ final class Camera : SceneNode {
 
   /**
    * Set camera movement speed to default value (D DEFAULT_SPEED).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultMovementSpeed() pure nothrow {
     movementSpeed = DEFAULT_SPEED;
@@ -294,7 +294,7 @@ final class Camera : SceneNode {
    * Decrement camera mouse sensitivity by value using camera.setMouseSensitivity!"-="(value).
    * Multiply camera mouse sensitivity by value using camera.setMouseSensitivity!"*="(value).
    * Divide camera mouse sensitivity by value using camera.setMouseSensitivity!"/="(value).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setMouseSensitivity(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
@@ -305,7 +305,7 @@ final class Camera : SceneNode {
 
   /**
    * Set camera mouse sensitivity to default value (D DEFAULT_SENSITIVITY).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultMouseSensitivity() pure nothrow {
     mouseSensitivity = DEFAULT_SENSITIVITY;
@@ -326,7 +326,7 @@ final class Camera : SceneNode {
    * Decrement camera field of view by value using camera.setFieldOfView!"-="(value).
    * Multiply camera field of view by value using camera.setFieldOfView!"*="(value).
    * Divide camera field of view by value using camera.setFieldOfView!"/="(value).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setFieldOfView(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
@@ -337,7 +337,7 @@ final class Camera : SceneNode {
 
   /**
    * Set camera field of view to default value (D DEFAULT_FOV).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultFieldOfView() pure nothrow {
     fieldOfView = DEFAULT_FOV;
@@ -358,7 +358,7 @@ final class Camera : SceneNode {
    * Decrement camera zNear by value using camera.setZNear!"-="(value).
    * Multiply camera zNear by value using camera.setZNear!"*="(value).
    * Divide camera zNear by value using camera.setZNear!"/="(value).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setZNear(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
@@ -371,7 +371,7 @@ final class Camera : SceneNode {
   /**
    * Set camera zNear to default value (D DEFAULT_ZNEAR).
    * ZNear takes value in range [0.001f, 10_000.0f].
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultZNear() pure nothrow {
     zNear = DEFAULT_ZNEAR;
@@ -393,7 +393,7 @@ final class Camera : SceneNode {
    * Multiply camera zFar by value using camera.setZFar!"*="(value).
    * Divide camera zFar by value using camera.setZFar!"/="(value).
    * ZFar takes value in range [0.001f, 10_000.0f].
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setZFar(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
@@ -405,7 +405,7 @@ final class Camera : SceneNode {
 
   /**
    * Set camera zFar to default value (D DEFAULT_ZFAR).
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setDefaultZFar() pure nothrow {
     zFar = DEFAULT_ZFAR;
@@ -421,7 +421,7 @@ final class Camera : SceneNode {
   
   /**
    * Set if mouse move listener should be locked or not.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setMouseMoveLocked(bool locked = true) pure nothrow {
     mouseMoveLocked = locked;
@@ -437,7 +437,7 @@ final class Camera : SceneNode {
 
   /**
    * Set if mouse scroll listener should be locked or not.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setIsMouseScrollLocked(bool locked = true) pure nothrow {
     mouseScrollLocked = locked;
@@ -453,7 +453,7 @@ final class Camera : SceneNode {
 
   /**
    * Set if keyboard listener should be locked or not.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setKeyboardLocked(bool locked) pure nothrow {
     keyboardLocked = locked;
@@ -469,7 +469,7 @@ final class Camera : SceneNode {
 
   /**
    * Set if constrain pitch should be enabled or not.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setConstrainPitchEnabled(bool enabled = true) pure nothrow {
     constrainPitch = enabled;
@@ -485,7 +485,7 @@ final class Camera : SceneNode {
 
   /**
    * Set camera preset.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera setPreset(CameraPreset preset) pure nothrow {
     this.preset = preset;
@@ -502,7 +502,7 @@ final class Camera : SceneNode {
   /**
    * Register camera to a specific scene (optional).
    * By deafult it is set to (D CoreEngine) active scene.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Camera registerToScene(Scene scene = CoreEngine.getScene()) {
     scene.setActiveCamera(this);

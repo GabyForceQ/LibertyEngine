@@ -24,7 +24,7 @@ public {
   import liberty.primitive;
   import liberty.scene;
   import liberty.security;
-  import liberty.skybox;
+  import liberty.cubemap;
   import liberty.surface;
   import liberty.terrain;
   

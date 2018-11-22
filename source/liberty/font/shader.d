@@ -60,7 +60,7 @@ class FontShader : Shader {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   FontShader loadTranslation(Vector2F matrix) {
     loadUniform("uTranslation", matrix);
@@ -69,7 +69,7 @@ class FontShader : Shader {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   FontShader loadColor(Vector3F matrix) {
     loadUniform("uColor", matrix);
@@ -78,7 +78,7 @@ class FontShader : Shader {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   FontShader loadFontAtlas(int id) {
     loadUniform("uFontAtlas", id);

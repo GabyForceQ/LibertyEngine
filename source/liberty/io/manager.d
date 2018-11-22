@@ -50,9 +50,8 @@ final class IOManager {
   unittest {
     char[] buf;
 
-    if (!IOManager.readFileToBuffer("test_file.txt", buf)) {
+    if (!IOManager.readFileToBuffer("test_file.txt", buf))
       assert(0, "Operation failed!");
-    }
 
     assert(
       buf == "Hello,\r\nDear engine!" ||

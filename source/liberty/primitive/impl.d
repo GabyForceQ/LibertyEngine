@@ -15,7 +15,7 @@ import liberty.services;
 import liberty.graphics.renderer;
 
 /**
- * A primitive has action mapping implemented.
+ *
 **/
 abstract class Primitive : SceneNode, IRenderable {
   protected {

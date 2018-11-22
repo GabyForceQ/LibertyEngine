@@ -10,6 +10,7 @@ module liberty.graphics.texture;
 
 public {
   import liberty.graphics.texture.cache;
+  import liberty.graphics.texture.constants;
   import liberty.graphics.texture.impl;
   import liberty.graphics.texture.io;
 }

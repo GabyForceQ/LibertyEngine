@@ -114,7 +114,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
   Transform setRelativeLocation(string op = "=")(float x, float y, float z) pure {
@@ -122,7 +122,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   }
 
   /**
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
   Transform setRelativeLocation(string op = "=")(Vector3F location) pure
@@ -139,7 +139,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    * 
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setRelativeLocationX(string op = "=")(float value) pure
@@ -154,7 +154,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   
   /**
    * 
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setRelativeLocationY(string op = "=")(float value) pure
@@ -169,7 +169,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    * 
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setRelativeLocationZ(string op = "=")(float value) pure
@@ -196,7 +196,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   /**
    * Translate location using a vector with x, y and z coordinates.
    * Location is done in absolute space.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteLocation(string op = "=", bool force = false)(Vector3F location)
@@ -226,7 +226,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   /**
    * Translate x-coordinate location.
    * Location is done in absolute space.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteLocationX(string op = "=", bool force = true)(float value)
@@ -251,7 +251,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   /**
    * Translate y-coordinate location.
    * Location is done in absolute space.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteLocationY(string op = "=", bool force = false)(float value)
@@ -276,7 +276,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   /**
    * Translate z-coordinate location.
    * Location is done in absolute space.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteLocationZ(string op = "=", bool force = false)(float value)
@@ -300,7 +300,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   
   /**
    * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
 	//Transform setAbsoluteRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure
   //if (op == "=" || op == "+=" || op == "-=")
@@ -310,7 +310,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   
   /**
    * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
 	//Transform setAbsoluteRotation(string op = "=")(float angle, Vector3F rotation) pure
   //if (op == "=" || op == "+=" || op == "-=")
@@ -347,7 +347,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   
   /**
    * Rotate object specifying the rotation angle for pitch axis.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform rotatePitch(string op = "=")(float angle) pure
@@ -366,7 +366,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    * Rotate object specifying the rotation angle for yaw axis.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform rotateYaw(string op = "=")(float angle) pure
@@ -385,7 +385,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    * Rotate object specifying the rotation angle for roll axis.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform rotateRoll(string op = "=")(float angle) pure
@@ -436,7 +436,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    * Scale object using same value for x, y and z coordinates.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteScale(string op = "=")(float value) pure
@@ -447,7 +447,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   
   /**
    * Scale object using x, y and z scalars for coordinates.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteScale(string op = "=")(float x, float y, float z) pure
@@ -458,7 +458,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   
   /**
    * Scale object using a vector with x, y and z scalars for coordinates.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteScale(string op = "=")(Vector3F scale) pure
@@ -478,7 +478,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   
   /**
    * Scale object on x axis.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteScaleX(string op = "=")(float value) pure
@@ -496,7 +496,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   
   /**
    * Scale object on y axis.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteScaleY(string op = "=")(float value) pure
@@ -514,7 +514,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
   
   /**
    * Scale object on z axis.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setAbsoluteScaleZ(string op = "=")(float value) pure
@@ -614,7 +614,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
   Transform setPivot(string op = "=")(Vector3F pivot) pure
@@ -627,7 +627,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setPivotX(string op = "=")(float value) pure
@@ -640,7 +640,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setPivotY(string op = "=")(float value) pure
@@ -653,7 +653,7 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   static if (N == 3)
 	Transform setPivotZ(string op = "=")(float value) pure

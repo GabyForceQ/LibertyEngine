@@ -111,7 +111,7 @@ final class Window {
 
 	/**
 	 * Resize the current frame buffer of the window.
-	 * Returns reference to this and can be used in a stream.
+	 * Returns reference to this so it can be used in a stream.
 	**/
 	Window resizeFrameBuffer() {
 		glfwGetFramebufferSize(handle, &frameBufferWidth, &frameBufferHeight);
@@ -120,7 +120,7 @@ final class Window {
 
 	/**
 	 * Enter or leave fullscreen mode.
-	 * Returns reference to this and can be used in a stream.
+	 * Returns reference to this so it can be used in a stream.
 	**/
 	Window setFullscreen(bool fullscreen) {
 		if (fullscreen) {

@@ -44,12 +44,9 @@ class SceneSerializer : ISerializable {
     auto file = File(path, "w");
     scope(exit) file.close();
 
-    import std.stdio;
-    writeln(path);
-
     file.writeln("id: " ~ scene.getId());
 
-    foreach (node; scene.getPrimitiveSystem().getPrimitiveMap()) {
+    foreach (node; scene.getPrimitiveSystem().getMap()) {
       file.writeln(
         "Primitive: { " ~
           "id: " ~ node.getId() ~
@@ -59,7 +56,7 @@ class SceneSerializer : ISerializable {
       );
     }
 
-    foreach (node; scene.getTerrainMap()) {
+    foreach (node; scene.getTerrainSystem().getMap()) {
       file.writeln(
         "Terrain: { " ~
           "id: " ~ node.getId() ~
@@ -75,7 +72,7 @@ class SceneSerializer : ISerializable {
       );
     }
 
-    foreach (node; scene.getSurfaceMap()) {
+    foreach (node; scene.getSurfaceSystem().getMap()) {
       file.writeln(
         "Widget: { " ~
           "id: " ~ node.getId() ~
@@ -83,7 +80,7 @@ class SceneSerializer : ISerializable {
       );
     }
 
-    foreach (node; scene.getLightingSystem().getLightMap()) {
+    foreach (node; scene.getLightingSystem().getMap()) {
       file.writeln(
         "PointLight: { " ~
           "id: " ~ node.getId() ~

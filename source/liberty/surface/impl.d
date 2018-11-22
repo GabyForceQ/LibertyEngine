@@ -68,7 +68,8 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
     );
     
     getScene()
-      .getSurfaceShader()
+      .getSurfaceSystem()
+      .getShader()
       .bind()
       .loadProjectionMatrix(projectionMatrix)
       .unbind();
@@ -108,7 +109,7 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
    * Add a new action for the current surface using an id, an event,
    * an array of tuple containing the wanted widget and its event and a priority.
    * The priority param is optional, its default value is 0.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Surface addAction(T)(string id, void delegate(Widget, Event) action,
     Tuple!(T, Event)[] objEvList = null, ubyte priority = 0)
@@ -142,7 +143,7 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
 
   /**
    * Simulate an action by starting it right now.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   final Surface simulateAction(string id, Widget sender, Event e) {
     actionMap[id].callEvent(sender, e);
@@ -151,7 +152,7 @@ abstract class Surface : SceneNode, IRenderable, IUpdatable {
 
   /**
    * Remove an user interface action from the memory.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   final Surface removeAction(string id) pure nothrow {
     actionMap.remove(id);

@@ -24,6 +24,7 @@ import liberty.graphics.buffer.impl;
 import liberty.graphics.texture.cache;
 import liberty.graphics.texture.impl;
 import liberty.graphics.util;
+import liberty.cubemap.vertex;
 import liberty.surface.vertex;
 import liberty.font.io;
 import liberty.image.io;
@@ -59,6 +60,13 @@ final class ResourceManager {
   }
 
   /**
+   *
+  **/
+  static Texture loadCubeMapTexture(string[6] resourcesPath) {
+    return textureCache.getCubeMapTexture(resourcesPath);
+  }
+
+  /**
    * Load a raw model into memory using vertex data.
    * Returns newly created raw model.
   **/
@@ -75,6 +83,9 @@ final class ResourceManager {
       static if (is(VERTEX == SurfaceVertex)) {
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
+      } else static if (is(VERTEX == CubeMapVertex)) {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
       } else {
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);
@@ -114,6 +125,9 @@ final class ResourceManager {
       static if (is(VERTEX == SurfaceVertex)) {
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
+      } else static if (is(VERTEX == CubeMapVertex)) {
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
       } else {
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);

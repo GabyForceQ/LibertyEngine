@@ -13,7 +13,9 @@ import liberty.services;
 import liberty.scene;
 
 /**
- *
+ * Class holding basic primitive rendering methods.
+ * It contains references to the $(D PrimitiveSystem) and $(D Scene).
+ * It implements $(D, IRenderable) service.
 **/
 final class PrimitiveRenderer : IRenderable {
   private {
@@ -22,7 +24,7 @@ final class PrimitiveRenderer : IRenderable {
   }
 
   /**
-   *
+   * Create and initialize primitive renderer using a $(D PrimitiveSystem) reference and a $(D Scene) reference.
   **/
   this(PrimitiveSystem system, Scene scene) {
     this.system = system;
@@ -30,14 +32,14 @@ final class PrimitiveRenderer : IRenderable {
   }
 
   /**
-   *
+   * Render all primitive elements to the screen.
   **/
   void render() {
     system
       .getShader()
       .bind();
     
-    foreach (primitive; system.getPrimitiveMap())
+    foreach (primitive; system.getMap())
       primitive.render();
 
     system

@@ -2,32 +2,32 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/model.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/cubemap/model.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.surface.model;
+module liberty.cubemap.model;
 
 version (__OPENGL__)
   import bindbc.opengl;
 
-import liberty.model;
 import liberty.core.engine;
-import liberty.resource;
-import liberty.graphics.material.impl;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
+import liberty.graphics.material.impl;
 import liberty.graphics.util;
-import liberty.surface.vertex;
+import liberty.resource;
+import liberty.model.impl;
+import liberty.cubemap.vertex;
 
 /**
  *
 **/
-final class SurfaceModel : Model {
+final class CubeMapModel : Model {
   private {
     bool hasIndices;
   }
-  
+
   /**
    *
   **/
@@ -38,7 +38,7 @@ final class SurfaceModel : Model {
   /**
    *
   **/
-  SurfaceModel build(SurfaceVertex[] vertices) {
+  CubeMapModel build(CubeMapVertex[] vertices) {
     rawModel = ResourceManager.loadRawModel(vertices);
     build();
     return this;
@@ -47,7 +47,7 @@ final class SurfaceModel : Model {
   /**
    *
   **/
-  SurfaceModel build(SurfaceVertex[] vertices, uint[] indices) {
+  CubeMapModel build(CubeMapVertex[] vertices, uint[] indices) {
     hasIndices = true;
     rawModel = ResourceManager.loadRawModel(vertices, indices);
     build();
@@ -57,10 +57,10 @@ final class SurfaceModel : Model {
   private void build() {
     CoreEngine
       .getScene()
-      .getSurfaceSystem()
+      .getCubeMapSystem()
       .getShader()
       .bind()
-      .loadTexture(0)
+      .loadCubeMap(0)
       .unbind();
   }
 
@@ -70,15 +70,11 @@ final class SurfaceModel : Model {
   void draw() {
     if (shouldCull)
       GfxEngine.enableCulling();
-    
+
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
-      glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
+      glBindTexture(GL_TEXTURE_CUBE_MAP, materials[0].getTexture().getId());
     }
-    
-    GfxEngine.enableAlphaBlend();
-    //GfxEngine.disableDepthTest();
-    //GfxEngine.enableDepthTest();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
@@ -87,10 +83,17 @@ final class SurfaceModel : Model {
     }
 
     if (hasIndices)
-      GfxUtil.drawElements(GfxDrawMode.Triangles, GfxVectorType.UnsignedInt, rawModel.getVertexCount());
+      GfxUtil.drawElements(
+        GfxDrawMode.Triangles,
+        GfxVectorType.UnsignedInt,
+        rawModel.getVertexCount()
+      );
     else
-      GfxUtil.drawArrays(GfxDrawMode.Triangles, rawModel.getVertexCount());
-
+      GfxUtil.drawArrays(
+        GfxDrawMode.Triangles,
+        rawModel.getVertexCount()
+      );
+    
     version (__OPENGL__) {
       glDisableVertexAttribArray(0);
       glDisableVertexAttribArray(1);
@@ -99,19 +102,10 @@ final class SurfaceModel : Model {
 
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
-      glBindTexture(GL_TEXTURE_2D, 0);
+      glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }
-
-    GfxEngine.disableBlend();
 
     if (shouldCull)
       GfxEngine.disableCulling();
-  }
-
-  /**
-   *
-  **/
-  bool usesIndices() pure nothrow const {
-    return hasIndices;
   }
 }

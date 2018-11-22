@@ -26,7 +26,7 @@ There are so many features to come.
 - [ ] Font manager was added. (#39)
 - [x] Spawn and spawnOnce can capture lambda expression. (#37)
 - [ ] Day/night cycle feature. (#33)
-- [ ] Skybox was added. (#30)
+- [x] CubeMap was added. (#30)
 - [x] Basic scene serializer/deserializer was implemented. (#12)
 - [ ] Now, you can switch between perspective and orthographic cameras. (#9)
 - [ ] Math has new implementation. (#10)

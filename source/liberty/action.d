@@ -54,7 +54,7 @@ final class Action(T) {
 
   /**
    * Call the action registered event.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Action!T callEvent(T sender, Event e) {
     event(sender, e);
@@ -63,7 +63,7 @@ final class Action(T) {
 
   /**
    * Change the action priority.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Action!T changePriority(ubyte value) pure nothrow {
     priority = value;

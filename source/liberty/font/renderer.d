@@ -8,26 +8,31 @@
 **/
 module liberty.font.renderer;
 
+import liberty.scene;
 import liberty.font.shader;
 import liberty.services;
 
 /**
- *
+ * Class holding basic font rendering methods.
+ * It contains references to the $(D FontSystem) and $(D Scene).
+ * It implements $(D, IRenderable) service.
 **/
 final class FontRenderer /*: IRenderable*/ {
   private {
     FontShader shader;
+    Scene scene;
   }
 
   /**
-   *
+   * Create and initialize font renderer using a $(D FontSystem) reference and a $(D Scene) reference.
   **/
-  this() {
+  this(Scene scene) {
     shader = new FontShader();
+    this.scene = scene;
   }
 
   /**
-   *
+   * Render all font elements to the screen.
   **/
   /*
   void render(FontMap[string] fontMap) {
@@ -40,7 +45,7 @@ final class FontRenderer /*: IRenderable*/ {
   }*/
 
   /**
-   *
+   * Returns a font shader reference.
   **/
   FontShader getShader() pure nothrow {
     return shader;

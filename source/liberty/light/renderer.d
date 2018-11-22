@@ -13,16 +13,18 @@ import liberty.services;
 import liberty.scene;
 
 /**
- *
+ * Class holding basic lighting rendering methods.
+ * It contains references to the $(D LightingSystem) and $(D Scene).
+ * It implements $(D, IRenderable) service.
 **/
-final class LightRenderer : IRenderable {
+final class LightingRenderer : IRenderable {
   private {
     LightingSystem system;
     Scene scene;
   }
 
   /**
-   *
+   * Create and initialize lighting renderer using a $(D LightingSystem) reference and a $(D Scene) reference.
   **/
   this(LightingSystem system, Scene scene) {
     this.system = system;
@@ -30,47 +32,47 @@ final class LightRenderer : IRenderable {
   }
 
   /**
-   *
+   * Render all lighting elements to the screen.
   **/
   void render() {
+    // Bind terrain shader
     scene
-      .getTerrainShader()
+      .getTerrainSystem()
+      .getShader()
       .bind();
     
     // Apply lights to terrains
-    foreach (light; system.getLightMap())
+    foreach (light; system.getMap())
       light.applyToTerrainMap(
         scene
-          .getTerrainShader()
+          .getTerrainSystem()
+          .getShader()
       );
 
+    // Unbind terrain shader
     scene
-      .getTerrainShader()
+      .getTerrainSystem()
+      .getShader()
       .unbind();
     
+    // Bind primitive shader
     scene
       .getPrimitiveSystem()
       .getShader()
       .bind();
 
     // Apply lights to primitives
-    foreach (light; system.getLightMap())
+    foreach (light; system.getMap())
       light.applyToPrimitiveMap(
         scene
           .getPrimitiveSystem()
           .getShader()
       );
 
+    // Unbind primitive shader
     scene
       .getPrimitiveSystem()
       .getShader()
       .unbind();
-  }
-
-  /**
-   *
-  **/
-  Scene getScene() pure nothrow {
-    return scene;
   }
 }

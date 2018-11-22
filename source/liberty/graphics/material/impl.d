@@ -19,6 +19,7 @@ import liberty.resource;
 final class Material {
   private {
     Texture texture;
+    Texture cubeMapTextures;
 
     static Material defaultMaterial;
   }
@@ -33,6 +34,13 @@ final class Material {
   /**
    *
   **/
+  this(string[6] texturesPath) {
+    cubeMapTextures = ResourceManager.loadCubeMapTexture(texturesPath);
+  }
+
+  /**
+   *
+  **/
   void setTexture(Texture texture) pure nothrow {
     this.texture = texture;
   }
@@ -42,6 +50,13 @@ final class Material {
   **/
   Texture getTexture() pure nothrow {
     return texture;
+  }
+
+  /**
+   *
+  **/
+  Texture getCubeMapTextures() pure nothrow {
+    return cubeMapTextures;
   }
 
   /**

@@ -11,6 +11,7 @@ module liberty.graphics.texture.io;
 version (__OPENGL__)
   import bindbc.opengl;
 
+import liberty.graphics.texture.constants;
 import liberty.graphics.texture.impl;
 import liberty.image.format.bmp;
 import liberty.resource;
@@ -25,7 +26,6 @@ final class TextureIO {
    *
   **/
   static Texture loadBMP(string resourcePath) {
-    // Check if service is running
     Texture texture = new Texture();
 
     // Load texture form file
@@ -35,7 +35,7 @@ final class TextureIO {
     texture.generateTextures();
 
     version (__OPENGL__) {
-      texture.bind();
+      texture.bind(TextureType.TEX_2D);
 
       glTexImage2D(
         GL_TEXTURE_2D, 

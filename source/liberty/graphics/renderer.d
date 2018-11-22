@@ -19,6 +19,8 @@ import liberty.primitive.model;
 import liberty.primitive.vertex;
 import liberty.surface.vertex;
 import liberty.terrain.vertex;
+import liberty.cubemap.model;
+import liberty.cubemap.vertex;
 
 /**
  *
@@ -32,6 +34,8 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
       alias RendererModel = TerrainModel;
     else static if (is(VERTEX == SurfaceVertex))
       alias RendererModel = SurfaceModel;
+    else static if (is(VERTEX == CubeMapVertex))
+      alias RendererModel = CubeMapModel;
 
     static if (is(NODETYPE == SceneNode))
       alias RendererNode = SceneNode;
@@ -67,7 +71,8 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
     else static if (is(VERTEX == TerrainVertex))
       parent
         .getScene()
-        .getTerrainShader()
+        .getTerrainSystem()
+        .getShader()
         .loadModelMatrix(
           parent
             .getTransform()
@@ -77,12 +82,14 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
       parent
         .getSurface()
         .getScene()
-        .getSurfaceShader()
+        .getSurfaceSystem()
+        .getShader()
         .loadModelMatrix(
           parent
             .getTransform()
             .getModelMatrix()
         );
+    else static if (is(VERTEX == CubeMapVertex)) {}
     else
       assert(0, "Unreachable");
 
@@ -97,7 +104,7 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
   }
 
   /**
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Renderer!(VERTEX, NODETYPE) setModel(RendererModel model) pure nothrow {
     this.model = model;

@@ -23,7 +23,7 @@ import liberty.surface.vertex;
 import liberty.terrain.vertex;
 
 /**
- * Represents base object in the scene tree.
+ * Represents the base object in the scene tree.
 **/
 abstract class SceneNode : IStartable, IUpdatable {
   private {
@@ -38,19 +38,18 @@ abstract class SceneNode : IStartable, IUpdatable {
   }
 
   /**
-   * Construct an object using a unique id and parent for it.
+   * Construct an object using an id and parent for it.
   **/
   this(string id, SceneNode parent) {
     // Set model scene
     scene = CoreEngine.getScene();
     
     // Check if given id is unique
-    if (id in this.scene.getObjectsId()) {
+    if (id in this.scene.getObjectsId())
       Logger.error(
         "You already have an object with ID: \"" ~ id ~ "\" in the current scene!",
         typeof(this).stringof
       );
-		}
 
     // Set transformation
     if (parent is null)
@@ -69,24 +68,24 @@ abstract class SceneNode : IStartable, IUpdatable {
   }
 
   /**
-   * Retuns object unique id.
+   * Retuns the object id.
   **/
-  string getId() {
-    return this.id;
+  string getId() pure nothrow const {
+    return id;
   }
 
   /**
-   * Returns parent.
+   * Returns a parent scene node reference.
 	**/
   SceneNode getParent() pure nothrow {
-		return this.parent;
+		return parent;
 	}
 
   /**
 	 * Returns an array with children references.
   **/
   SceneNode[string] getChildren() pure nothrow {
-    return this.children;
+    return children;
   }
 
   /**

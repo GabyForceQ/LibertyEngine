@@ -13,5 +13,6 @@ public {
   import liberty.terrain.model;
   import liberty.terrain.renderer;
   import liberty.terrain.shader;
+  import liberty.terrain.system;
   import liberty.terrain.vertex;
 }

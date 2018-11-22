@@ -13,49 +13,52 @@ import liberty.light.renderer;
 import liberty.scene.impl;
 
 /**
- *
+ * System class holding basic ligthing functionality.
+ * It contains references to the $(D LightingRenderer) and $(D Scene).
+ * It also contains a map with all lights in the current scene.
 **/
 final class LightingSystem {
   private {
-    LightRenderer renderer;
-    PointLight[string] lightMap;
+    LightingRenderer renderer;
+    PointLight[string] map;
     Scene scene;
   }
 
   /**
-   * Create and initialize lighting system.
+   * Create and initialize ligthing system using a $(D Scene) reference.
   **/
   this(Scene scene) {
     this.scene = scene;
-    renderer = new LightRenderer(this, scene);
+    renderer = new LightingRenderer(this, scene);
   }
 
   /**
-   *
+   * Register a light node to the ligthing system.
+   * Returns reference to this so it can be used in a stream.
   **/
-  LightingSystem registerLight(PointLight node) {
-    lightMap[node.getId()] = node;
+  LightingSystem registerElement(PointLight node) {
+    map[node.getId()] = node;
     return this;
   }
 
   /**
-   *
+   * Returns all elements in the ligthing map.
   **/
-  PointLight[string] getLightMap() pure nothrow {
-    return lightMap;
+  PointLight[string] getMap() pure nothrow {
+    return map;
   }
 
   /**
-   *
+   * Returns the light element in the map that has the given id.
   **/
-  PointLight getLight(string id) pure nothrow {
-    return lightMap[id];
+  PointLight getElementById(string id) pure nothrow {
+    return map[id];
   }
 
   /**
-   *
+   * Returns a lighting renderer reference.
   **/
-  LightRenderer getRenderer() pure nothrow {
+  LightingRenderer getRenderer() pure nothrow {
     return renderer;
   }
 }

@@ -18,14 +18,14 @@ import liberty.camera;
 **/
 class CameraPreset {
   private {
-    void delegate(Camera camera) runImplicitDelegate;
+    void delegate(Camera) runImplicitDelegate;
     void delegate(Camera, CameraMovement, float) runKeyboardProcess;
   }
 
   /**
    *
   **/
-  this(void delegate(Camera camera) runImplicitDelegate,
+  this(void delegate(Camera) runImplicitDelegate,
     void delegate(Camera, CameraMovement, float) runKeyboardProcess)
   do {
     this.runImplicitDelegate = runImplicitDelegate;
@@ -34,9 +34,9 @@ class CameraPreset {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
-  CameraPreset setImplicit(void delegate(Camera camera) runImplicitDelegate) {
+  CameraPreset setImplicit(void delegate(Camera) runImplicitDelegate) {
     this.runImplicitDelegate = runImplicitDelegate;
     return this;
   }
@@ -47,7 +47,7 @@ class CameraPreset {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   CameraPreset setKeyboardProcess(void delegate(Camera, CameraMovement, float) runKeyboardProcess) {
     this.runKeyboardProcess = runKeyboardProcess;
@@ -62,7 +62,7 @@ class CameraPreset {
    * Returns an empty camera preset.
   **/
   static CameraPreset getEmpty() {
-    return new CameraPreset((Camera camera) {
+    return new CameraPreset((camera) {
     }, (camera, direction, velocity) {
     });
   }
@@ -71,7 +71,7 @@ class CameraPreset {
    * Returns implicit camera preset.
   **/
   static CameraPreset getDefault() {
-    return new CameraPreset((Camera camera) {
+    return new CameraPreset((camera) {
       if (Input.getKeyboard().isButtonHold(KeyboardButton.W))
 				camera.processKeyboard(CameraMovement.FORWARD);
 
@@ -86,27 +86,39 @@ class CameraPreset {
     }, (camera, direction, velocity) {
       final switch (direction) with (CameraMovement) {
         case FORWARD:
-          camera.getTransform().setAbsoluteLocation!"+="(camera.frontVector * velocity);
+          camera
+            .getTransform()
+            .setAbsoluteLocation!"+="(camera.frontVector * velocity);
           break;
         
         case BACKWARD:
-          camera.getTransform().setAbsoluteLocation!"-="(camera.frontVector * velocity);
+          camera
+            .getTransform()
+            .setAbsoluteLocation!"-="(camera.frontVector * velocity);
           break;
 
         case LEFT:
-          camera.getTransform().setAbsoluteLocation!"-="(camera.rightVector * velocity);
+          camera
+            .getTransform()
+            .setAbsoluteLocation!"-="(camera.rightVector * velocity);
           break;
 
         case RIGHT:
-          camera.getTransform().setAbsoluteLocation!"+="(camera.rightVector * velocity);
+          camera
+            .getTransform()
+            .setAbsoluteLocation!"+="(camera.rightVector * velocity);
           break;
 
         case UP:
-          camera.getTransform().setAbsoluteLocation!"+="(camera.upVector * velocity);
+          camera
+            .getTransform()
+            .setAbsoluteLocation!"+="(camera.upVector * velocity);
           break;
 
         case DOWN:
-          camera.getTransform().setAbsoluteLocation!"-="(camera.upVector * velocity);
+          camera
+            .getTransform()
+            .setAbsoluteLocation!"-="(camera.upVector * velocity);
       }
     });
   }

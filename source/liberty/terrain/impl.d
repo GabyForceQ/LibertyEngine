@@ -46,7 +46,7 @@ final class Terrain : SceneNode, IRenderable {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Terrain build(float size, float maxHeight, Material[] materials) {
     renderer = new Renderer!TerrainVertex(this, new TerrainModel(materials));
@@ -71,7 +71,7 @@ final class Terrain : SceneNode, IRenderable {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Terrain setTexCoordMultiplier(Vector2F multiplier) {
     texCoordMultiplier = multiplier;
@@ -80,7 +80,7 @@ final class Terrain : SceneNode, IRenderable {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Terrain setTexCoordMultiplier(float x, float y) {
     texCoordMultiplier = Vector2F(x, y);
@@ -89,7 +89,7 @@ final class Terrain : SceneNode, IRenderable {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Terrain increaseTexCoordMultiplier(Vector2F multiplier) {
     texCoordMultiplier += multiplier;
@@ -98,7 +98,7 @@ final class Terrain : SceneNode, IRenderable {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Terrain increaseTexCoordMultiplier(float x, float y) {
     texCoordMultiplier += Vector2F(x, y);
@@ -107,7 +107,7 @@ final class Terrain : SceneNode, IRenderable {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Terrain decreaseTexCoordMultiplier(Vector2F multiplier) {
     texCoordMultiplier -= multiplier;
@@ -116,7 +116,7 @@ final class Terrain : SceneNode, IRenderable {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Terrain decreaseTexCoordMultiplier(float x, float y) {
     texCoordMultiplier -= Vector2F(x, y);
@@ -241,7 +241,11 @@ final class Terrain : SceneNode, IRenderable {
    *
   **/
   override void render() {
-    getScene().getTerrainShader().loadTexCoordMultiplier(texCoordMultiplier);
+    getScene()
+      .getTerrainSystem()
+      .getShader()
+      .loadTexCoordMultiplier(texCoordMultiplier);
+      
     renderer.draw();
   }
 

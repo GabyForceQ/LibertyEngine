@@ -60,7 +60,7 @@ class SurfaceShader : Shader {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   SurfaceShader loadModelMatrix(Matrix4F matrix) {
     loadUniform("uModelMatrix", matrix);
@@ -69,7 +69,7 @@ class SurfaceShader : Shader {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   SurfaceShader loadProjectionMatrix(Matrix4F matrix) {
     loadUniform("uProjectionMatrix", matrix);
@@ -78,7 +78,7 @@ class SurfaceShader : Shader {
 
   /**
    *
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   SurfaceShader loadTexture(int id) {
     loadUniform("uTexture", id);

@@ -18,14 +18,11 @@ import liberty.scene.node;
 import liberty.scene.world;
 import liberty.services;
 import liberty.graphics.shader;
-import liberty.surface.shader;
-import liberty.terrain.shader;
-import liberty.terrain.renderer;
-import liberty.terrain.impl;
-import liberty.surface.renderer;
-import liberty.surface.impl;
 import liberty.primitive.system;
+import liberty.terrain.system;
+import liberty.surface.system;
 import liberty.light.system;
+import liberty.cubemap.system;
 import liberty.scene.serializer;
 
 /**
@@ -50,16 +47,11 @@ final class Scene : IUpdatable, IRenderable {
     IUpdatable[string] updateList;
     IRenderable[string] renderList;
     
-    SurfaceRenderer surfaceRenderer;
-    SurfaceShader surfaceShader;
-    Surface[string] surfaceMap;
-
-    TerrainRenderer terrainRenderer;
-    TerrainShader terrainShader;
-    Terrain[string] terrainMap;
-
     PrimitiveSystem primitiveSystem;
-    LightingSystem lightingSystem; 
+    TerrainSystem terrainSystem;
+    SurfaceSystem surfaceSystem;
+    LightingSystem lightingSystem;
+    CubeMapSystem cubeMapSystem;
   }
 
   /**
@@ -70,18 +62,13 @@ final class Scene : IUpdatable, IRenderable {
 
     tree = new RootObject();
     worldSettings = new WorldSettings();
-    
-    // Init surface system
-    surfaceRenderer = new SurfaceRenderer(this);
-    surfaceShader = new SurfaceShader();
-
-    // Init terrain system
-    terrainRenderer = new TerrainRenderer(this);
-    terrainShader = new TerrainShader();
 
     // Create systems
     primitiveSystem = new PrimitiveSystem(this);
+    terrainSystem = new TerrainSystem(this);
+    surfaceSystem = new SurfaceSystem(this);
     lightingSystem = new LightingSystem(this);
+    cubeMapSystem = new CubeMapSystem(this);
 
     // Init serializer
     serializer
@@ -134,7 +121,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Set camera as the current view camera.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Scene setActiveCamera(Camera camera) {
     activeCamera = camera;
@@ -143,7 +130,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Register camera to the camera map.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Scene registerCamera(Camera camera) {
 		camerasMap[camera.getId()] = camera;
@@ -173,7 +160,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Add an object to the startable list.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Scene setStartList(string id, IStartable node) pure nothrow {
     startList[id] = node;
@@ -182,7 +169,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Add an object to the updatable list.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Scene setUpdateList(string id, IUpdatable node) pure nothrow {
     updateList[id] = node;
@@ -191,7 +178,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Add an object to the renderable list.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Scene setRenderList(string id, IRenderable node) pure nothrow {
     renderList[id] = node;
@@ -201,7 +188,7 @@ final class Scene : IUpdatable, IRenderable {
   /**
    * Register scene to the CoreEngine.
 	 * Invoke start for all IStartable objects that have an start() method.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
 	Scene register() {
 		registered = true;
@@ -236,14 +223,17 @@ final class Scene : IUpdatable, IRenderable {
     // Render all scene lights
     lightingSystem.getRenderer().render();
 
+    // Render all cubeMapes
+    cubeMapSystem.getRenderer().render();
+
     // Render all scene terrains
-    terrainRenderer.render();
+    terrainSystem.getRenderer().render();
 
     // Render all scene primitives
     primitiveSystem.getRenderer().render();
 
     // Render all scene surfaces
-    surfaceRenderer.render();
+    surfaceSystem.getRenderer().render();
   }
 
   /**
@@ -255,7 +245,7 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Add an object id to the dictionary.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Scene setObjectId(string key, bool state = true) {
     objectsId[key] = state;
@@ -263,31 +253,8 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   * Set the default terrain shader.
-   * Returns reference to this and can be used in a stream.
-  **/
-  Scene setTerrainShader(TerrainShader shader) {
-    terrainShader = shader;
-    return this;
-  }
-
-  /**
-   * Returns the default terrain shader.
-  **/
-  TerrainShader getTerrainShader() {
-    return terrainShader;
-  }
-
-  /**
-   * Returns the default ui shader.
-  **/
-  SurfaceShader getSurfaceShader() {
-    return surfaceShader;
-  }
-
-  /**
    * Set the world settings for the scene.
-   * Returns reference to this and can be used in a stream.
+   * Returns reference to this so it can be used in a stream.
   **/
   Scene setWorldSettings(WorldSettings worldSettings) {
     this.worldSettings = worldSettings;
@@ -304,64 +271,6 @@ final class Scene : IUpdatable, IRenderable {
   /**
    *
   **/
-  Scene registerSurface(Surface node) {
-    surfaceMap[node.getId()] = node;
-    return this;
-  }
-
-  /**
-   *
-  **/
-  Surface[string] getSurfaceMap() pure nothrow {
-    return surfaceMap;
-  }
-
-  /**
-   *
-  **/
-  Surface getSurface(string id) pure nothrow {
-    return surfaceMap[id];
-  }
-
-  /**
-   *
-  **/
-  SurfaceRenderer getSurfaceRenderer() pure nothrow {
-    return surfaceRenderer;
-  }
-
-  /**
-   *
-  **/
-  Scene registerTerrain(Terrain node) {
-    terrainMap[node.getId()] = node;
-    return this;
-  }
-
-  /**
-   *
-  **/
-  Terrain[string] getTerrainMap() pure nothrow {
-    return terrainMap;
-  }
-
-  /**
-   *
-  **/
-  Terrain getTerrain(string id) pure nothrow {
-    return terrainMap[id];
-  }
-
-  /**
-   *
-  **/
-  TerrainRenderer getTerrainRenderer() pure nothrow {
-    return terrainRenderer;
-  }
-
-  /**
-   *
-  **/
   PrimitiveSystem getPrimitiveSystem() pure nothrow {
     return primitiveSystem;
   }
@@ -369,8 +278,29 @@ final class Scene : IUpdatable, IRenderable {
   /**
    *
   **/
+  TerrainSystem getTerrainSystem() pure nothrow {
+    return terrainSystem;
+  }
+
+  /**
+   *
+  **/
+  SurfaceSystem getSurfaceSystem() pure nothrow {
+    return surfaceSystem;
+  }
+
+  /**
+   *
+  **/
   LightingSystem getLightingSystem() pure nothrow {
     return lightingSystem;
+  }
+
+  /**
+   *
+  **/
+  CubeMapSystem getCubeMapSystem() pure nothrow {
+    return cubeMapSystem;
   }
 
   /**

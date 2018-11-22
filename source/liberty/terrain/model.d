@@ -43,7 +43,8 @@ final class TerrainModel : Model {
   private void build() {
     CoreEngine
       .getScene()
-      .getTerrainShader()
+      .getTerrainSystem()
+      .getShader()
       .bind()
       .loadBackgroundTexture(0)
       .loadRTexture(1)
