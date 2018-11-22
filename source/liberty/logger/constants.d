@@ -5,9 +5,6 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/logger/constants.d)
  * Documentation:
  * Coverage:
- *
- * TODO:
- *  - Add 'current platform' on log message.
 **/
 module liberty.logger.constants;
 
@@ -53,12 +50,12 @@ enum InfoMessage : string {
   /**
    *
   **/
-	ServiceStarted = "Service started successfully!",
+  ServiceStarted = "Service started successfully!",
   
   /**
    *
   **/
-	ServiceStopped = "Service stopped successfully!",
+  ServiceStopped = "Service stopped successfully!",
 	
   /**
    *
