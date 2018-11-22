@@ -73,16 +73,16 @@ class CameraPreset {
   static CameraPreset getDefault() {
     return new CameraPreset((camera) {
       if (Input.getKeyboard().isButtonHold(KeyboardButton.W))
-				camera.processKeyboard(CameraMovement.FORWARD);
+        camera.processKeyboard(CameraMovement.FORWARD);
 
-			if (Input.getKeyboard().isButtonHold(KeyboardButton.S))
-				camera.processKeyboard(CameraMovement.BACKWARD);
+      if (Input.getKeyboard().isButtonHold(KeyboardButton.S))
+        camera.processKeyboard(CameraMovement.BACKWARD);
 
-			if (Input.getKeyboard().isButtonHold(KeyboardButton.A))
-				camera.processKeyboard(CameraMovement.LEFT);
+      if (Input.getKeyboard().isButtonHold(KeyboardButton.A))
+        camera.processKeyboard(CameraMovement.LEFT);
 
-			if (Input.getKeyboard().isButtonHold(KeyboardButton.D))
-				camera.processKeyboard(CameraMovement.RIGHT);
+      if (Input.getKeyboard().isButtonHold(KeyboardButton.D))
+        camera.processKeyboard(CameraMovement.RIGHT);
     }, (camera, direction, velocity) {
       final switch (direction) with (CameraMovement) {
         case FORWARD:
