@@ -18,50 +18,50 @@ import liberty.logger;
  * It represents an OS window.
 **/
 final class Window {
-	private {
-		int width;
-		int height;
+  private {
+    int width;
+    int height;
     GLFWwindow* handle;
-		int frameBufferWidth;
-		int frameBufferHeight;
-		bool fullscreen;
-		int lastXStartPos;
-		int lastYStartPos;
-		int lastXSize;
-		int lastYSize;
-	}
+    int frameBufferWidth;
+    int frameBufferHeight;
+    bool fullscreen;
+    int lastXStartPos;
+    int lastYStartPos;
+    int lastXSize;
+    int lastYSize;
+  }
 
-	/**
-	 * Create a new system window specifying the width, the height and its title.
-	**/
-	this(int width, int height, string title) {
-		// Set window size
-		this.width = width;
-		this.height = height;
+  /**
+   * Create a new system window specifying the width, the height and its title.
+  **/
+  this(int width, int height, string title) {
+    // Set window size
+    this.width = width;
+    this.height = height;
 
-		Logger.info(InfoMessage.Creating, typeof(this).stringof);
-    
-		// Create window internally
+    Logger.info(InfoMessage.Creating, typeof(this).stringof);
+
+    // Create window internally
     handle = glfwCreateWindow(width, height, cast(const(char)*)title, null, null);
 
-		resizeFrameBuffer();
-		glfwSetFramebufferSizeCallback(handle, &EventManager.frameBufferResizeCallback);
+    resizeFrameBuffer();
+    glfwSetFramebufferSizeCallback(handle, &EventManager.frameBufferResizeCallback);
 
-		// Create the current context
+    // Create the current context
     glfwMakeContextCurrent(handle);
 
-		// Check if window is created
+    // Check if window is created
     if (this.handle is null)
       Logger.error("Failed to create window", typeof(this).stringof);
 
-		Logger.info(InfoMessage.Created, typeof(this).stringof);
-	}
+    Logger.info(InfoMessage.Created, typeof(this).stringof);
+  }
 
-	~this() {
-		Logger.info(InfoMessage.Destroying, typeof(this).stringof);
+  ~this() {
+    Logger.info(InfoMessage.Destroying, typeof(this).stringof);
 
-		// Destroy the window if not null
-		if (handle !is null) {
+    // Destroy the window if not null
+    if (handle !is null) {
       glfwTerminate();
       handle = null;
     } else {
@@ -71,22 +71,22 @@ final class Window {
       );
     }
 
-		Logger.info(InfoMessage.Destroyed, typeof(this).stringof);
-	}
+    Logger.info(InfoMessage.Destroyed, typeof(this).stringof);
+  }
 
-	/**
-	 * Returns window width.
-	**/
-	int getWidth() pure nothrow const {
-		return width;
-	}
+  /**
+   * Returns window width.
+  **/
+  int getWidth() pure nothrow const {
+    return width;
+  }
 
-	/**
-	 * Returns window height.
-	**/
-	int getHeight() pure nothrow const {
-		return height;
-	}
+  /**
+   * Returns window height.
+  **/
+  int getHeight() pure nothrow const {
+    return height;
+  }
 
   /**
    * Returns handle to this window.
@@ -95,71 +95,71 @@ final class Window {
     return handle;
   }
 
-	/**
-	 * Returns frame buffer width.
-	**/
-	int getFrameBufferWidth() pure nothrow const {
-		return frameBufferWidth;
-	}
+  /**
+   * Returns frame buffer width.
+  **/
+  int getFrameBufferWidth() pure nothrow const {
+    return frameBufferWidth;
+  }
 
-	/**
-	 * Returns frame buffer height.
-	**/
-	int getFrameBufferHeight() pure nothrow const {
-		return frameBufferHeight;
-	}
+  /**
+   * Returns frame buffer height.
+  **/
+  int getFrameBufferHeight() pure nothrow const {
+    return frameBufferHeight;
+  }
 
-	/**
-	 * Resize the current frame buffer of the window.
-	 * Returns reference to this so it can be used in a stream.
-	**/
-	Window resizeFrameBuffer() {
-		glfwGetFramebufferSize(handle, &frameBufferWidth, &frameBufferHeight);
-		return this;
-	}
+  /**
+   * Resize the current frame buffer of the window.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  Window resizeFrameBuffer() {
+    glfwGetFramebufferSize(handle, &frameBufferWidth, &frameBufferHeight);
+    return this;
+  }
 
-	/**
-	 * Enter or leave fullscreen mode.
-	 * Returns reference to this so it can be used in a stream.
-	**/
-	Window setFullscreen(bool fullscreen) {
-		if (fullscreen) {
-			// Backup window position and window size
-			glfwGetWindowPos(handle, &lastXStartPos, &lastYStartPos);
-			glfwGetWindowSize(handle, &lastXSize, &lastYSize);
+  /**
+   * Enter or leave fullscreen mode.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  Window setFullscreen(bool fullscreen) {
+    if (fullscreen) {
+      // Backup window position and window size
+      glfwGetWindowPos(handle, &lastXStartPos, &lastYStartPos);
+      glfwGetWindowSize(handle, &lastXSize, &lastYSize);
 
-			// Get resolution of monitor
-			const(GLFWvidmode)* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+      // Get resolution of monitor
+      const(GLFWvidmode)* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-			// Switch to fullscreen
-			glfwSetWindowMonitor(handle, glfwGetPrimaryMonitor(), 0, 0, mode.width, mode.height, 0);
-		} else
-			// Restore last window size and position
-			glfwSetWindowMonitor(handle, null, lastXStartPos, lastYStartPos, lastXSize, lastYSize, 0);
+      // Switch to fullscreen
+      glfwSetWindowMonitor(handle, glfwGetPrimaryMonitor(), 0, 0, mode.width, mode.height, 0);
+    } else
+      // Restore last window size and position
+      glfwSetWindowMonitor(handle, null, lastXStartPos, lastYStartPos, lastXSize, lastYSize, 0);
 
-		// Update vsync state
-		if (CoreEngine.isVSyncEnabled())
-			CoreEngine.enableVSync();
-		else
-			CoreEngine.disableVSync();
+    // Update vsync state
+    if (CoreEngine.isVSyncEnabled())
+      CoreEngine.enableVSync();
+    else
+      CoreEngine.disableVSync();
 
-		this.fullscreen = fullscreen;
-		return this;
-	}
+    this.fullscreen = fullscreen;
+    return this;
+  }
 
-	/**
-	 * Toggle window fullscreen/windowed mode.
-	**/
-	Window toggleFullscreen() {
-		return setFullscreen(!fullscreen);
-	}
+  /**
+   * Toggle window fullscreen/windowed mode.
+  **/
+  Window toggleFullscreen() {
+    return setFullscreen(!fullscreen);
+  }
 
-	/**
-	 * Returns true if window is in fullscreen mode.
-	**/
-	bool isFullscreen() pure nothrow const {
-		return fullscreen;
-	}
+  /**
+   * Returns true if window is in fullscreen mode.
+  **/
+  bool isFullscreen() pure nothrow const {
+    return fullscreen;
+  }
 
   /**
    *
