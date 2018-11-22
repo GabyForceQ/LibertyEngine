@@ -23,11 +23,11 @@ final class Time {
   }
 
   /**
-	 * Returns current time ticks in milliseconds.
-	**/
-	static float getTime() nothrow {
-		return glfwGetTime();
-	}
+   * Returns current time ticks in milliseconds.
+  **/
+  static float getTime() nothrow {
+    return glfwGetTime();
+  }
 
   /**
    * Returns delta time.
