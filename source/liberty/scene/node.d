@@ -21,9 +21,9 @@ import liberty.terrain.vertex;
 
 /**
  * Represents a node in the scene tree.
- * It implements $(D IStartable) and $(D IUpdatable) service.
+ * It implements $(D IStartable) and $(D IUpdateable) service.
 **/
-abstract class SceneNode : IStartable, IUpdatable {
+abstract class SceneNode : IStartable, IUpdateable {
   private {
     // getId
     string id;
@@ -118,7 +118,7 @@ abstract class SceneNode : IStartable, IUpdatable {
       childMap.remove(child.id);
       
       scene.getStartableMap().remove(child.id);
-      scene.getUpdatableMap().remove(child.id);
+      scene.getUpdateableMap().remove(child.id);
       scene.getNodeMap().remove(child.id);
       
       static if (is(T == Camera))
@@ -145,7 +145,7 @@ abstract class SceneNode : IStartable, IUpdatable {
         childMap.remove(child.id);
         
         scene.getStartableMap().remove(child.id);
-        scene.getUpdatableMap().remove(child.id);
+        scene.getUpdateableMap().remove(child.id);
         scene.getNodeMap().remove(child.id);
         
         static if (is(T == Camera))

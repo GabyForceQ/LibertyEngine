@@ -22,7 +22,7 @@ import liberty.surface.vertex;
 /**
  *
 **/
-abstract class Widget : IRenderable, IUpdatable {
+abstract class Widget : IRenderable, IUpdateable {
   /**
    * Renderer component used for rendering.
   **/

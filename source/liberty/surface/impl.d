@@ -26,9 +26,9 @@ import liberty.action;
 
 /**
  * A surface represents a 2-dimensional view containting user interface elements.
- * Inheriths $(D SceneNode) class and implements $(D IRenderable) and $(D IUpdatable) interfaces.
+ * Inheriths $(D SceneNode) class and implements $(D IRenderable) and $(D IUpdateable) interfaces.
 **/
-abstract class Surface : SceneNode, IRenderable, IUpdatable {
+abstract class Surface : SceneNode, IRenderable, IUpdateable {
   private {
     int xStart;
     int yStart;

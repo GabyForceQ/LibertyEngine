@@ -39,14 +39,14 @@ mixin template NodeConstructor(string code = "") {
     mixin(code);
 
     static if (__traits(isFinalClass, this)) {
-      static foreach (el; ["startable", "updatable"]) {
+      static foreach (el; ["start", "update"]) {
         static foreach (super_member; __traits(allMembers, typeof(super)))
           static if (super_member.stringof == "\"" ~ el ~ "\"")
-            mixin("getScene().set" ~ el.capitalize() ~ "Map(id, this);");
+            mixin("getScene().set" ~ el.capitalize() ~ "ableMap(id, this);");
           
         static foreach (member; __traits(allMembers, typeof(this)))
           static if (member.stringof == "\"" ~ el ~ "\"")
-            mixin("getScene().set" ~ el.capitalize() ~ "Map(id, this);");
+            mixin("getScene().set" ~ el.capitalize() ~ "ableMap(id, this);");
       }
     }
 

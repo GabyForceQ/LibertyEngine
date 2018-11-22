@@ -24,9 +24,9 @@ import liberty.scene.serializer;
 /**
  * A scene is a 3D space where you can place different objects,
  * like primitives, terrains, lights and surfaces.
- * It implements $(D IStartable) and $(D IUpdatable) service.
+ * It implements $(D IStartable) and $(D IUpdateable) service.
 **/
-final class Scene : IUpdatable, IRenderable {
+final class Scene : IUpdateable, IRenderable {
   private {
     // isReady
     bool ready;
@@ -49,8 +49,8 @@ final class Scene : IUpdatable, IRenderable {
 
     // getStartableMap
     IStartable[string] startableMap;
-    // getUpdatableMap
-    IUpdatable[string] updatableMap;
+    // getUpdateableMap
+    IUpdateable[string] updateableMap;
     
     // getPrimitiveSystem
     PrimitiveSystem primitiveSystem;
@@ -186,28 +186,28 @@ final class Scene : IUpdatable, IRenderable {
   }
 
   /**
-   * Returns all elements in the updatable map.
-   * See $(D IUpdatable).
+   * Returns all elements in the updateable map.
+   * See $(D IUpdateable).
   **/
-  IUpdatable[string] getUpdatableMap() pure nothrow {
-    return updatableMap;
+  IUpdateable[string] getUpdateableMap() pure nothrow {
+    return updateableMap;
   }
 
   /**
    * Add a node to the startable map.
    * Returns reference to this so it can be used in a stream.
   **/
-  Scene setStartableList(string id, IStartable node) pure nothrow {
+  Scene setStartableMap(string id, IStartable node) pure nothrow {
     startableMap[id] = node;
     return this;
   }
 
   /**
-   * Add a node to the updatable map.
+   * Add a node to the updateable map.
    * Returns reference to this so it can be used in a stream.
   **/
-  Scene setUpdatableList(string id, IUpdatable node) pure nothrow {
-    updatableMap[id] = node;
+  Scene setUpdateableMap(string id, IUpdateable node) pure nothrow {
+    updateableMap[id] = node;
     return this;
   }
 
@@ -230,11 +230,11 @@ final class Scene : IUpdatable, IRenderable {
 
   /**
    * Update all nodes that have an update() method.
-   * These nodes must implement $(D IUpdatable).
+   * These nodes must implement $(D IUpdateable).
    * It's called every frame.
   **/
   void update() {
-    foreach (node; updatableMap)
+    foreach (node; updateableMap)
       node.update();
   }
 

@@ -22,9 +22,9 @@ interface IStartable {
 }
 
 /**
- * Service used in updatable scene nodes.
+ * Service used in updateable scene nodes.
 **/
-interface IUpdatable {
+interface IUpdateable {
 	/**
 	 * Called every frame to update the current state of the scene node.
 	**/
