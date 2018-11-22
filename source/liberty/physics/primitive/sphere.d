@@ -31,8 +31,8 @@ class SphereCollider {
   }
 
   CollisionData collideSphere(SphereCollider rhs) {
-		const float radius_distance = radius + rhs.radius;
-		float center_distance = (cast(Vector3F)rhs.center - cast(Vector3F)center).magnitude;
-		return CollisionData(center_distance < radius_distance, center_distance - radius_distance);
-	}
+    const float radius_distance = radius + rhs.radius;
+    float center_distance = (cast(Vector3F)rhs.center - cast(Vector3F)center).magnitude;
+    return CollisionData(center_distance < radius_distance, center_distance - radius_distance);
+  }
 }
