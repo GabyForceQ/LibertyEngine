@@ -15,20 +15,20 @@ There are so many features to come.
 * OpenGL 4.5 (450 core) - Windows
 
 ##### Release notes (v0.0.16)
-- [x] BMP Decoder feature. Freeimage is not needed any more. (#46)
-- [x] Close OS window when press x top-right button. (#42)
-- [x] Properties zNear and zFar were added to camera. (#41)
-- [x] Transform improvements and fixes. (#38)
-- [x] Support for joystick was added. (#44)
-- [x] Incorrect texture uvs on bsp volumes was fixed. (#43)
-- [ ] Font manager was added. (#39)
-- [x] Spawn and spawnOnce can capture lambda expression. (#37)
-- [x] CubeMap was added. (#30)
-- [x] Basic scene serializer/deserializer was implemented. (#12)
-- [x] No more opengl errors for now. (#27)
-- [x] UI Signals are more general. (#47)
-- [x] Mouse enter/leave events were added. (#49)
-- [x] Input profiler was added. (#50)
+- [x] BMP Decoder feature. Freeimage is not needed any more.
+- [x] Close OS window when press x top-right button.
+- [x] Properties zNear and zFar were added to camera.
+- [x] Transform improvements and fixes.
+- [x] Support for joystick was added.
+- [x] Incorrect texture uvs on bsp volumes was fixed.
+- [ ] Font manager was added.
+- [x] Spawn and spawnOnce can capture lambda expression.
+- [x] CubeMap was added.
+- [x] Basic scene serializer/deserializer was implemented.
+- [x] No more opengl errors for now.
+- [x] UI Signals are more general.
+- [x] Mouse enter/leave events were added.
+- [x] Input profiler was added.
 - Other bug fixes, user interface + metadata + documentation improvements and more unittests.
 
 ##### Cool features:
