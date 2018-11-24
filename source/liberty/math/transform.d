@@ -25,12 +25,14 @@ import liberty.core.platform;
 final class Transform(byte N) if (N == 2 || N == 3) {
   private {
     static if (N == 2) {
+      // getParent
       Widget parent;
       Matrix4F modelMatrix = Matrix4F.identity();
 
       Vector2I location = Vector2I.zero;
       Vector2I scale = Vector2I(100, 100);
     } else {
+      // getParent
       SceneNode parent;
       Matrix4F modelMatrix = Matrix4F.identity();
       Matrix4F tempModelMatrix = Matrix4F.identity();
@@ -678,13 +680,28 @@ final class Transform(byte N) if (N == 2 || N == 3) {
 		return modelMatrix;
 	}
 
+  static if (N == 2)
+    /**
+     *
+    **/
+    Widget getParent() pure nothrow {
+      return parent;
+    }
+  else
+    /**
+     *
+    **/
+    SceneNode getParent() pure nothrow {
+      return parent;
+    }
+
   static if (N == 3)
-  private void updateModelMatrix() pure nothrow {
-    modelMatrix = tempModelMatrix;
-    modelMatrix.c[0][3] += pivot.x;
-    modelMatrix.c[1][3] -= pivot.y;
-    modelMatrix.c[2][3] += pivot.z;
-  }
+    private void updateModelMatrix() pure nothrow {
+      modelMatrix = tempModelMatrix;
+      modelMatrix.c[0][3] += pivot.x;
+      modelMatrix.c[1][3] -= pivot.y;
+      modelMatrix.c[2][3] += pivot.z;
+    }
 }
 
 private immutable forceBody = q{
