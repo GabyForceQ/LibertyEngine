@@ -181,12 +181,16 @@ mixin template WidgetUpdate() {
               isOnMouseMove = true;
             }
 
-        static if (_MouseEnter)
-          if (hasOnMouseEnter() && !mouseEntered) {
+        static if (_MouseEnterLeave) {
+          if (hasOnMouseLeave() && !hasOnMouseEnter()) {
+            if (!mouseEntered)
+              mouseEntered = true;
+          } else if (hasOnMouseEnter() && !mouseEntered) {
             onMouseEnter(this, Event.MouseEnter);
             mouseEntered = true;
             isOnMouseEnter = true;
           }
+        }
 
         static if (_MouseLeftClick)
           if (hasOnMouseLeftClick())
@@ -234,12 +238,15 @@ mixin template WidgetUpdate() {
             }
         }
       } else {
-        static if (_MouseLeave)
+        static if (_MouseLeave) {
           if (hasOnMouseLeave() && mouseEntered) {
             onMouseLeave(this, Event.MouseLeave);
-            mouseEntered = false;
             isOnMouseLeave = true;
           }
+
+          if (mouseEntered)
+            mouseEntered = false;
+        }
       }
     }
 
