@@ -8,8 +8,10 @@
 **/
 module liberty.input.profiler.binding;
 
+import liberty.input.constants;
 import liberty.input.impl;
 import liberty.input.profiler.data;
+import liberty.input.profiler.impl;
 import liberty.input.joystick.impl;
 import liberty.input.keyboard.impl;
 import liberty.input.mouse.impl;
@@ -20,6 +22,7 @@ import liberty.input.mouse.impl;
 final class InputActionBinding {
   private {
     string id;
+    InputProfiler parent;
   }
 
   /**
@@ -40,8 +43,9 @@ final class InputActionBinding {
   /**
    *
   **/
-  this(string id) {
+  this(string id, InputProfiler parent) {
     this.id = id;
+    this.parent = parent;
   }
 
   /**
@@ -55,12 +59,16 @@ final class InputActionBinding {
    *
   **/
   bool isUnfolding() {
-    import std.string : capitalize;
+    import std.uni : toLower;
+    import std.traits : EnumMembers;
     
-    static foreach (type; ["mouse", "keyboard", "joystick"])
-      foreach (e; mixin(type))
-        if (mixin("Input.get" ~ type.capitalize() ~ "().isUnfolding(e.button, e.action)"))
-          return true;
+    static foreach (type; EnumMembers!InputDeviceType)
+      static if (type != "None")
+        foreach (e; mixin(type.toLower()))
+          if (mixin("Input.get" ~ type ~ "().isUnfolding(e.button, e.action)")) {
+            parent.lastDeviceUsed = type;
+            return true;
+          }
 
     return false;
   }

@@ -14,6 +14,7 @@ public {
   import liberty.input.mouse;
   import liberty.input.profiler;
 
+  import liberty.input.constants;
   import liberty.input.event;
   import liberty.input.impl;
 }

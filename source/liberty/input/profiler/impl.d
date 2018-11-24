@@ -12,6 +12,7 @@
 module liberty.input.profiler.impl;
 
 import liberty.logger.impl;
+import liberty.input.constants;
 import liberty.input.profiler.binding;
 import liberty.input.profiler.data;
 import liberty.input.joystick.impl;
@@ -37,6 +38,10 @@ final class InputProfiler {
     InputAxis!Mouse iaxm_test;
   }
 
+  package {
+    InputDeviceType lastDeviceUsed = InputDeviceType.None;
+  }
+
   /**
    *
   **/
@@ -55,7 +60,7 @@ final class InputProfiler {
    *
   **/
   InputProfiler createActionBinding(string id) {
-    actionBindings[id] = new InputActionBinding(id);
+    actionBindings[id] = new InputActionBinding(id, this);
     return this;
   }
 
@@ -164,6 +169,13 @@ final class InputProfiler {
     }
 
     return actionBindings[id].isUnfolding();
+  }
+
+  /**
+   *
+  **/
+  InputDeviceType getLastDeviceUsed() pure nothrow {
+    return lastDeviceUsed;
   }
 
   /**
