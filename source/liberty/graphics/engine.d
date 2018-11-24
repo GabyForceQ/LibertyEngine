@@ -50,6 +50,7 @@ final abstract class GfxEngine {
   private {
     static GfxEngineInfo info;
     static bool wireframe;
+    static Vector4F backgroundColor = Vector4F(0.5f, 0.8f, 0.8f, 1.0f);
   }
 
   /**
@@ -99,11 +100,32 @@ final abstract class GfxEngine {
   /**
    *
   **/
+  static void setBackgroundColor(float r, float g, float b, float a) nothrow {
+    setBackgroundColor(Vector4F(r, g, b, a));
+  }
+
+  /**
+   *
+  **/
+  static void setBackgroundColor(Vector4F backgroundColor) nothrow {
+    this.backgroundColor = backgroundColor;
+  }
+
+  /**
+   *
+  **/
+  static Vector4F getBackgroundColor() nothrow {
+    return backgroundColor;
+  }
+
+  /**
+   *
+  **/
   static void clearScreen() {
     version (__OPENGL__) {
       glClearDepth(1.0);
 	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-      glClearColor(0.5f, 0.8f, 0.8f, 1.0f);
+      glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
     }
   }
 
