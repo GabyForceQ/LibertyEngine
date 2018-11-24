@@ -8,6 +8,8 @@
 **/
 module liberty.core.window;
 
+import std.string : toStringz;
+
 import bindbc.glfw;
 
 import liberty.core.engine;
@@ -29,20 +31,23 @@ final class Window {
     int lastYStartPos;
     int lastXSize;
     int lastYSize;
+    // getTitle, setTitle
+    string title;
   }
 
   /**
    * Create a new system window specifying the width, the height and its title.
   **/
   this(int width, int height, string title) {
-    // Set window size
+    // Set window size and title
     this.width = width;
     this.height = height;
+    this.title = title;
 
     Logger.info(InfoMessage.Creating, typeof(this).stringof);
 
     // Create window internally
-    handle = glfwCreateWindow(width, height, cast(const(char)*)title, null, null);
+    handle = glfwCreateWindow(width, height, title.toStringz, null, null);
 
     resizeFrameBuffer();
     glfwSetFramebufferSizeCallback(handle, &EventManager.frameBufferResizeCallback);
@@ -166,5 +171,22 @@ final class Window {
   **/
   bool shouldClose() {
     return cast(bool)glfwWindowShouldClose(handle);
+  }
+
+  /**
+   * Set window title.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  Window setTitle(string title) nothrow {
+    this.title = title;
+    glfwSetWindowTitle(handle, title.toStringz);
+    return this;
+  }
+
+  /**
+   * Returns window title.
+  **/
+  string getTitle() pure nothrow const {
+    return title;
   }
 }
