@@ -5,13 +5,11 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/package.d)
  * Documentation:
  * Coverage:
- *
- * TODO:
- *  - implement IProcessable
 **/
 module liberty.scene;
 
 public {
+  import liberty.scene.factory;
   import liberty.scene.impl;
   import liberty.scene.meta;
   import liberty.scene.node;

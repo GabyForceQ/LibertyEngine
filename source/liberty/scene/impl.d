@@ -20,13 +20,14 @@ import liberty.surface.system;
 import liberty.light.system;
 import liberty.cubemap.system;
 import liberty.scene.serializer;
+import liberty.scene.factory;
 
 /**
  * A scene is a 3D space where you can place different objects,
  * like primitives, terrains, lights and surfaces.
- * It implements $(D IStartable) and $(D IUpdateable) service.
+ * It implements $(D ISceneFactory), $(D IStartable) and $(D IUpdateable) services.
 **/
-final class Scene : IUpdateable, IRenderable {
+final class Scene : ISceneFactory, IUpdateable, IRenderable {
   private {
     // isReady
     bool ready;
