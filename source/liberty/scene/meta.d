@@ -14,21 +14,26 @@ module liberty.scene.meta;
  * See $(D SceneNode).
 **/
 mixin template NodeConstructor(string code = "") {
-  import liberty.core.engine;
-  import liberty.scene.node;
+  import liberty.core.engine : CoreEngine;
+  import liberty.scene.node : SceneNode;
 
   /**
    * The default constructor of a scene node.
    * See $(D SceneNode).
   **/
   this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
+    import std.traits : hasUDA, EnumMembers;
+    import std.string : capitalize;
+    import liberty.cubemap.impl : CubeMap;
+    import liberty.light.point : Lighting;
+    import liberty.primitive.impl : Primitive;
+    import liberty.surface.impl : Surface;
+    import liberty.terrain.impl : Terrain;
+
     if (parent is null)
       assert(0, "Parent object cannot be null");
 
     super(id, parent);
-    
-    import std.traits : hasUDA;
-    import std.string : capitalize;
     
     enum finalClass = __traits(isFinalClass, this);
     enum abstractClass = __traits(isAbstractClass, this);
@@ -50,34 +55,19 @@ mixin template NodeConstructor(string code = "") {
       }
     }
 
-    // *BUG*
+    // TODO: Not here
+    enum SystemType : string {
+      Primitive = "Primitive",
+      Terrain = "Terrain",
+      Surface = "Surface",
+      Lighting = "Lighting",
+      CubeMap = "CubeMap"
+      //Font = "Font"
+    }
 
-    static if (typeof(this).stringof == "Terrain")
-      getScene()
-        .getTerrainSystem()
-        .registerElement(this);
-
-    static if (typeof(super).stringof == "Surface")
-      getScene()
-        .getSurfaceSystem()
-        .registerElement(this);
-
-    static if (typeof(super).stringof == "Primitive" || typeof(super).stringof == "BSPVolume")
-      getScene()
-        .getPrimitiveSystem()
-        .registerElement(this);
-
-    static if (typeof(this).stringof == "PointLight")
-      getScene()
-        .getLightingSystem()
-        .registerElement(this);
-
-    static if (typeof(this).stringof == "CubeMap")
-      getScene()
-        .getCubeMapSystem()
-        .registerElement(this);
-
-    // *END_BUG*
+    static foreach (sys; EnumMembers!SystemType)
+      static if (mixin("is(typeof(this) : " ~ sys ~ ")"))
+        mixin("getScene().get" ~ sys ~ "System().registerElement(this);");
   }
 }
 

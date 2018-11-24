@@ -36,8 +36,26 @@ final class LightingSystem {
    * Register a light node to the ligthing system.
    * Returns reference to this so it can be used in a stream.
   **/
-  LightingSystem registerElement(PointLight node) {
+  LightingSystem registerElement(PointLight node) pure nothrow {
     map[node.getId()] = node;
+    return this;
+  }
+
+  /**
+   * Remove the given light node from the light map.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  LightingSystem removeElement(PointLight node) pure nothrow {
+    map.remove(node.getId());
+    return this;
+  }
+
+  /**
+   * Remove the light node that has the given id from the light map.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  LightingSystem removeElementById(string id) pure nothrow {
+    map.remove(id);
     return this;
   }
 

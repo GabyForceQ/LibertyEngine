@@ -21,6 +21,8 @@ import liberty.primitive.impl;
 import liberty.primitive.shader;
 import liberty.terrain.shader;
 
+alias Lighting = PointLight;
+
 /**
  *
 **/

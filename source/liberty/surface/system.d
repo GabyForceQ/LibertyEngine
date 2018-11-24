@@ -39,8 +39,26 @@ final class SurfaceSystem {
    * Register a surface node to the surface system.
    * Returns reference to this so it can be used in a stream.
   **/
-  SurfaceSystem registerElement(Surface node) {
+  SurfaceSystem registerElement(Surface node) pure nothrow {
     map[node.getId()] = node;
+    return this;
+  }
+
+  /**
+   * Remove the given surface node from the surface map.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  SurfaceSystem removeElement(Surface node) pure nothrow {
+    map.remove(node.getId());
+    return this;
+  }
+
+  /**
+   * Remove the surface node that has the given id from the surface map.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  SurfaceSystem removeElementById(string id) pure nothrow {
+    map.remove(id);
     return this;
   }
 

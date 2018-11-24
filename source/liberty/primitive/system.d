@@ -39,8 +39,26 @@ final class PrimitiveSystem {
    * Register a primitive node to the primitive system.
    * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveSystem registerElement(Primitive node) {
+  PrimitiveSystem registerElement(Primitive node) pure nothrow {
     map[node.getId()] = node;
+    return this;
+  }
+
+  /**
+   * Remove the given primitive node from the primitive map.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  PrimitiveSystem removeElement(Primitive node) pure nothrow {
+    map.remove(node.getId());
+    return this;
+  }
+
+  /**
+   * Remove the primitive node that has the given id from the primitive map.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  PrimitiveSystem removeElementById(string id) pure nothrow {
+    map.remove(id);
     return this;
   }
 

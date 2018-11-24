@@ -112,55 +112,55 @@ abstract class SceneNode : IStartable, IUpdateable {
 
   /**
    * Remove a child node using its reference.
+   * Returns reference to this so it can be used in a stream.
   **/
-  void remove(T : SceneNode)(ref T child) {
-    if (child in childMap) {
-      childMap.remove(child.id);
-      
-      scene.getStartableMap().remove(child.id);
-      scene.getUpdateableMap().remove(child.id);
-      scene.getNodeMap().remove(child.id);
-      
-      static if (is(T == Camera))
-        scene.clearCamera(child);
+  SceneNode remove(T : SceneNode)(T node) {
+    import std.traits : EnumMembers;
+    import liberty.cubemap.impl : CubeMap;
+    import liberty.light.point : Lighting;
+    import liberty.primitive.impl : Primitive;
+    import liberty.surface.impl : Surface;
+    import liberty.terrain.impl : Terrain;
 
-      child.destroy();
-      child = null;
+    // TODO: Not here
+    enum SystemType : string {
+      Primitive = "Primitive",
+      Terrain = "Terrain",
+      Surface = "Surface",
+      Lighting = "Lighting",
+      CubeMap = "CubeMap"
+      //Font = "Font"
+    }
+
+    const id = node.getId();
+
+    if (id in childMap) {
+      // Remove node from scene maps
+      static foreach (e; ["Startable", "Updateable", "Node"])
+        mixin("scene.get" ~ e ~ "Map().remove(id);");
+
+      // Remove node from system
+      static foreach (sys; EnumMembers!SystemType)
+        static if (mixin("is(T : " ~ sys ~ ")"))
+          mixin("scene.get" ~ sys ~ "System().removeElementById(id);");
       
-      return;
+      //static if (is(T == Camera))
+      //  scene.safeRemoveCamera(id);
+
+      // Remove node from child map
+      childMap[id].destroy();
+      childMap[id] = null;
+      childMap.remove(id);
+      
+      return this;
     }
     
     Logger.warning(
       "You are trying to remove a null scene node",
       typeof(this).stringof
     );
-  }
 
-  /**
-   * Remove a child node using its id.
-  **/
-  void remove(string id) {
-    foreach (child; childMap)
-      if (child.id == id) {
-        childMap.remove(child.id);
-        
-        scene.getStartableMap().remove(child.id);
-        scene.getUpdateableMap().remove(child.id);
-        scene.getNodeMap().remove(child.id);
-        
-        static if (is(T == Camera))
-          scene.clearCamera(child);
-        
-        child.destroy();
-        child = null;
-        
-        return;
-      }
-    
-    Logger.warning(
-      "You are trying to remove a null scene node",
-      typeof(this).stringof
-    );
+    return this;
   }
 
   /**
