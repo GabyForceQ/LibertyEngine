@@ -8,6 +8,7 @@
 **/
 module liberty.primitive.renderer;
 
+import liberty.primitive.impl;
 import liberty.primitive.system;
 import liberty.services;
 import liberty.scene;
@@ -40,10 +41,24 @@ final class PrimitiveRenderer : IRenderable {
       .bind();
     
     foreach (primitive; system.getMap())
-      primitive.render();
+      render(primitive);
 
     system
       .getShader()
       .unbind();
+  }
+
+  /**
+   * Render a primitive node by its reference.
+  **/
+  void render(Primitive primitive) {
+    system
+      .getShader()
+      .loadModelMatrix(
+        primitive
+          .getTransform()
+          .getModelMatrix());
+
+    primitive.render();
   }
 }

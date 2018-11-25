@@ -21,7 +21,7 @@ import liberty.primitive.impl;
 **/
 final class StaticMesh : Primitive {
   mixin NodeConstructor!(q{
-    this.renderer = new Renderer!PrimitiveVertex(this,
+    this.renderer = new Renderer!PrimitiveVertex(
       new PrimitiveModel([Material.getDefault()]));
   });
 

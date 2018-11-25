@@ -10,6 +10,7 @@ module liberty.terrain.renderer;
 
 import liberty.services;
 import liberty.scene;
+import liberty.terrain.impl;
 import liberty.terrain.system;
 
 /**
@@ -40,10 +41,24 @@ final class TerrainRenderer : IRenderable {
       .bind();
     
     foreach (terrain; system.getMap())
-      terrain.render();
+      render(terrain);
 
     system
       .getShader()
       .unbind();
+  }
+
+  /**
+   * Render a terrain node by its reference.
+  **/
+  void render(Terrain terrain) {
+    system
+      .getShader()
+      .loadModelMatrix(
+        terrain
+          .getTransform()
+          .getModelMatrix());
+
+    terrain.render();
   }
 }

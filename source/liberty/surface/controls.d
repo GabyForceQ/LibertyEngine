@@ -23,19 +23,6 @@ final class Canvas : Widget {
   mixin WidgetConstructor!("renderer: disabled");
 
   /**
-   * Call render for all widgets.
-  **/
-  override void render() {
-    foreach (w; widgets)
-      if (w.getZIndex() == 0)
-        w.render();
-    
-    foreach (w; widgets)
-      if (w.getZIndex() == 1)
-        w.render();
-  } // FILTER Z INDEX FOR NOW --> BUG
-
-  /**
    * Call update for all widgets.
   **/
   override void update() {

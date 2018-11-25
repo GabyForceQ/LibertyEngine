@@ -10,6 +10,7 @@ module liberty.surface.renderer;
 
 import liberty.services;
 import liberty.scene;
+import liberty.surface.impl;
 import liberty.surface.system;
 
 /**
@@ -40,10 +41,43 @@ final class SurfaceRenderer : IRenderable {
       .bind();
     
     foreach (surface; system.getMap())
-      surface.render();
+      render(surface);
 
     system
       .getShader()
       .unbind();
+  }
+
+  /**
+   * Render a surface node by its reference.
+  **/
+  void render(Surface surface) {
+    foreach (widget; surface.getRootCanvas().getWidgets()) {
+      if (widget.getZIndex() == 0) {
+        system
+          .getShader()
+          .loadZIndex(0)
+          .loadModelMatrix(
+            widget
+              .getTransform()
+              .getModelMatrix());
+      
+        widget.render();
+      }
+    }
+    // FILTER Z INDEX FOR NOW WITH ONLY 0 AND 1 --> BUG
+    foreach (widget; surface.getRootCanvas().getWidgets()) {
+      if (widget.getZIndex() == 1) {
+        system
+          .getShader()
+          .loadZIndex(0)
+          .loadModelMatrix(
+            widget
+              .getTransform()
+              .getModelMatrix());
+
+        widget.render();
+      }
+    }
   }
 }

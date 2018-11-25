@@ -32,8 +32,7 @@ final class CubeMap : SceneNode, IRenderable {
    *
   **/
   CubeMap build(Material material) {
-    renderer = new Renderer!CubeMapVertex(this, 
-      (new CubeMapModel([material]).build(cubeMapVertices)));
+    renderer = new Renderer!CubeMapVertex(new CubeMapModel([material]).build(cubeMapVertices));
 
     return this;
   }

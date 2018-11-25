@@ -49,7 +49,7 @@ final class Terrain : SceneNode, IRenderable {
    * Returns reference to this so it can be used in a stream.
   **/
   Terrain build(float size, float maxHeight, Material[] materials) {
-    renderer = new Renderer!TerrainVertex(this, new TerrainModel(materials));
+    renderer = new Renderer!TerrainVertex(new TerrainModel(materials));
 
     this.size = size;
     this.maxHeight = maxHeight;

@@ -56,8 +56,8 @@ final class BSPCube : BSPVolume {
    *
   **/
   BSPCube build(Material material = Material.getDefault()) {
-    renderer = new Renderer!PrimitiveVertex(this, (new PrimitiveModel([material])
-      .build(cubeVertices)));
+    renderer = new Renderer!PrimitiveVertex(new PrimitiveModel([material])
+      .build(cubeVertices));
 
     return this;
   }
@@ -73,8 +73,8 @@ final class BSPPyramid : BSPVolume {
    *
   **/
   BSPPyramid build(Material material = Material.getDefault()) {
-    renderer = new Renderer!PrimitiveVertex(this, (new PrimitiveModel([material])
-      .build(pyramidVertices)));
+    renderer = new Renderer!PrimitiveVertex(new PrimitiveModel([material])
+      .build(pyramidVertices));
     
     return this;
   }
@@ -90,8 +90,8 @@ final class BSPSquare : BSPVolume {
    *
   **/
   BSPSquare build(Material material = Material.getDefault()) {
-    renderer = new Renderer!PrimitiveVertex(this, (new PrimitiveModel([material])
-      .build(squareVertices, squareIndices)));
+    renderer = new Renderer!PrimitiveVertex(new PrimitiveModel([material])
+      .build(squareVertices, squareIndices));
 
     return this;
   }
@@ -107,8 +107,8 @@ final class BSPTriangle : BSPVolume {
    *
   **/
   BSPTriangle build(Material material = Material.getDefault()) {
-    renderer = new Renderer!PrimitiveVertex(this, (new PrimitiveModel([material])
-      .build(triangleVertices, triangleIndices)));
+    renderer = new Renderer!PrimitiveVertex(new PrimitiveModel([material])
+      .build(triangleVertices, triangleIndices));
 
     return this;
   }

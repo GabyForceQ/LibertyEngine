@@ -41,8 +41,8 @@ class Widget : IRenderable, IUpdateable {
   **/
   this(string id, Surface surface, bool hasRenderer) {
     if (hasRenderer)
-      renderer = new Renderer!(SurfaceVertex, Surface)(this, (new SurfaceModel([Material.getDefault()])
-        .build(uiSquareVertices, uiSquareIndices)));
+      renderer = new Renderer!(SurfaceVertex, Surface)(new SurfaceModel([Material.getDefault()])
+        .build(uiSquareVertices, uiSquareIndices));
 
     this.id = id;
     this.surface = surface;
