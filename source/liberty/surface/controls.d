@@ -27,8 +27,13 @@ final class Canvas : Widget {
   **/
   override void render() {
     foreach (w; widgets)
-      w.render();
-  }
+      if (w.getZIndex() == 0)
+        w.render();
+    
+    foreach (w; widgets)
+      if (w.getZIndex() == 1)
+        w.render();
+  } // FILTER Z INDEX FOR NOW --> BUG
 
   /**
    * Call update for all widgets.

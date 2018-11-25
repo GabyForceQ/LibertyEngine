@@ -83,6 +83,7 @@ class Renderer(VERTEX, NODETYPE = SceneNode) {
         .getScene()
         .getSurfaceSystem()
         .getShader()
+        .loadZIndex(parent.getZIndex())
         .loadModelMatrix(
           parent
             .getTransform()

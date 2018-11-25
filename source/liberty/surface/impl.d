@@ -34,8 +34,8 @@ abstract class Surface : SceneNode, IRenderable, IUpdateable {
     int yStart;
     int width;
     int height;
-    int zNear = -1;
-    int zFar = 1;
+    int zNear = int.max;
+    int zFar = int.min;
 
     Matrix4F projectionMatrix = Matrix4F.identity();
     Canvas rootCanvas;

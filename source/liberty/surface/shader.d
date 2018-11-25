@@ -24,11 +24,13 @@ class SurfaceShader : Shader {
 
       uniform mat4 uModelMatrix;
       uniform mat4 uProjectionMatrix;
+      uniform int uZIndex;
 
       void main() {
         tTexCoord = lTexCoord;
 
-        gl_Position = uProjectionMatrix * uModelMatrix * vec4(lPosition, 1.0);
+        gl_Position = uProjectionMatrix * uModelMatrix *
+          vec4(vec3(lPosition.x, lPosition.y, uZIndex), 1.0);
       }
     };
 
@@ -54,6 +56,7 @@ class SurfaceShader : Shader {
       .bind()
       .addUniform("uModelMatrix")
       .addUniform("uProjectionMatrix")
+      .addUniform("uZIndex")
       .addUniform("uTexture")
       .unbind();
   }
@@ -73,6 +76,15 @@ class SurfaceShader : Shader {
   **/
   SurfaceShader loadProjectionMatrix(Matrix4F matrix) {
     loadUniform("uProjectionMatrix", matrix);
+    return this;
+  }
+
+  /**
+   *
+   * Returns reference to this so it can be used in a stream.
+  **/
+  SurfaceShader loadZIndex(int value) {
+    loadUniform("uZIndex", value);
     return this;
   }
 

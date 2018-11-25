@@ -33,6 +33,7 @@ class Widget : IRenderable, IUpdateable {
     Surface surface;
     Transform2 transform;
     Vector2I index;
+    int zIndex = 0;
   }
 
   /**
@@ -46,7 +47,7 @@ class Widget : IRenderable, IUpdateable {
     this.id = id;
     this.surface = surface;
 
-    transform = new Transform2(this);
+    this.transform = new Transform2(this);
 
     if (surface.getRootCanvas() !is null)
       surface.getRootCanvas().addWidget(this);
@@ -119,6 +120,21 @@ class Widget : IRenderable, IUpdateable {
   **/
   final Renderer!(SurfaceVertex, Surface) getRenderer() {
     return renderer;
+  }
+
+  /**
+   *
+  **/
+  final Widget setZIndex(int value) pure nothrow {
+    zIndex = value;
+    return this;
+  }
+
+  /**
+   *
+  **/
+  final int getZIndex() pure nothrow const {
+    return zIndex;
   }
 
   override void update() {

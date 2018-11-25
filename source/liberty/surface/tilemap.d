@@ -64,8 +64,8 @@ final class TileMap : Widget {
   /**
    *
   **/
-  TileMap build(Vector2I startLocation, Vector2I dimension, Vector2I scale = Vector2I(64, 64),
-    Vector2I spaceBetween = Vector2I.zero)
+  TileMap build(Vector2I startLocation, Vector2I dimension,
+    Vector2I scale = Vector2I(64, 64), Vector2I spaceBetween = Vector2I.zero)
   do {
     this.dimension = dimension;
     getTransform.setLocation(startLocation);

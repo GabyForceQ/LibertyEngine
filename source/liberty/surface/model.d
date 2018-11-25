@@ -77,8 +77,6 @@ final class SurfaceModel : Model {
     }
     
     GfxEngine.enableAlphaBlend();
-    //GfxEngine.disableDepthTest();
-    //GfxEngine.enableDepthTest();
 
     version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
