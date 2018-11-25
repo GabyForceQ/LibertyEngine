@@ -246,8 +246,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * It's called every frame after $(D Scene.update).
   **/
   void render() {
-    world.updateShaders(this, activeCamera);
-
     // Render all scene lights
     lightingSystem.getRenderer().render();
 

@@ -38,7 +38,19 @@ final class PrimitiveRenderer : IRenderable {
   void render() {
     system
       .getShader()
-      .bind();
+      .bind()
+      .loadProjectionMatrix(
+        scene
+          .getActiveCamera()
+          .getProjectionMatrix())
+      .loadViewMatrix(
+        scene
+          .getActiveCamera()
+          .getViewMatrix())
+      .loadSkyColor(
+        scene
+          .getWorld()
+          .getExpHeightFogColor());
     
     foreach (primitive; system.getMap())
       render(primitive);
@@ -50,8 +62,9 @@ final class PrimitiveRenderer : IRenderable {
 
   /**
    * Render a primitive node by its reference.
+   * Returns reference to this so it can be used in a stream.
   **/
-  void render(Primitive primitive) {
+  PrimitiveRenderer render(Primitive primitive) {
     system
       .getShader()
       .loadModelMatrix(
@@ -60,5 +73,6 @@ final class PrimitiveRenderer : IRenderable {
           .getModelMatrix());
 
     primitive.render();
+    return this;
   }
 }

@@ -28,33 +28,6 @@ final class World {
   }
 
   /**
-   * Update generic shader: projection matrix, view matrix, sky color.
-   * Update terrain shader: projection matrix, view matrix, sky color.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  World updateShaders(Scene scene, Camera camera) {
-    scene
-      .getPrimitiveSystem()
-      .getShader()
-      .bind()
-      .loadProjectionMatrix(camera.getProjectionMatrix())
-      .loadViewMatrix(camera.getViewMatrix())
-      .loadSkyColor(expHeightFogColor)
-      .unbind();
-    
-    scene
-      .getTerrainSystem()
-      .getShader()
-      .bind()
-      .loadProjectionMatrix(camera.getProjectionMatrix())
-      .loadViewMatrix(camera.getViewMatrix())
-      .loadSkyColor(expHeightFogColor)
-      .unbind();
-    
-    return this;
-  }
-
-  /**
    * Set the exp height fog color of the scene using 3 floats for the color (RGB) in a template stream function.
    * Assign a value to exp height fog color using world.setExpHeightFogColor(r, g, b) or world.setExpHeightFogColor!"="(r, g, b).
    * Increment exp height fog color by value using world.setExpHeightFogColor!"+="(r, g, b).

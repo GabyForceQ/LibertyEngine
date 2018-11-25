@@ -8,9 +8,10 @@
 **/
 module liberty.cubemap.renderer;
 
+import liberty.cubemap.impl;
+import liberty.cubemap.system;
 import liberty.scene;
 import liberty.services;
-import liberty.cubemap.system;
 
 /**
  * Class holding basic cubeMap rendering methods.
@@ -37,13 +38,30 @@ final class CubeMapRenderer : IRenderable {
   void render() {
     system
       .getShader()
-      .bind();
+      .bind()
+      .loadProjectionMatrix(
+        scene
+          .getActiveCamera()
+          .getProjectionMatrix())
+      .loadViewMatrix(
+        scene
+          .getActiveCamera()
+          .getViewMatrix());
 
     foreach (cubeMap; system.getMap())
-      cubeMap.render();
+      render(cubeMap);
 
     system
       .getShader()
       .unbind();
+  }
+
+  /**
+   * Render a cube map node by its reference.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  CubeMapRenderer render(CubeMap cubemap) {
+    cubemap.render();
+    return this;
   }
 }

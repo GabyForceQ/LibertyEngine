@@ -38,7 +38,19 @@ final class TerrainRenderer : IRenderable {
   void render() {
     system
       .getShader()
-      .bind();
+      .bind()
+      .loadProjectionMatrix(
+        scene
+          .getActiveCamera()
+          .getProjectionMatrix())
+      .loadViewMatrix(
+        scene
+          .getActiveCamera()
+          .getViewMatrix())
+      .loadSkyColor(
+        scene
+          .getWorld()
+          .getExpHeightFogColor());
     
     foreach (terrain; system.getMap())
       render(terrain);
@@ -50,8 +62,9 @@ final class TerrainRenderer : IRenderable {
 
   /**
    * Render a terrain node by its reference.
+   * Returns reference to this so it can be used in a stream.
   **/
-  void render(Terrain terrain) {
+  TerrainRenderer render(Terrain terrain) {
     system
       .getShader()
       .loadModelMatrix(
@@ -60,5 +73,6 @@ final class TerrainRenderer : IRenderable {
           .getModelMatrix());
 
     terrain.render();
+    return this;
   }
 }

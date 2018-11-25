@@ -50,8 +50,9 @@ final class SurfaceRenderer : IRenderable {
 
   /**
    * Render a surface node by its reference.
+   * Returns reference to this so it can be used in a stream.
   **/
-  void render(Surface surface) {
+  SurfaceRenderer render(Surface surface) {
     foreach (widget; surface.getRootCanvas().getWidgets()) {
       if (widget.getZIndex() == 0) {
         system
@@ -79,5 +80,7 @@ final class SurfaceRenderer : IRenderable {
         widget.render();
       }
     }
+
+    return this;
   }
 }
