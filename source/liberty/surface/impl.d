@@ -154,7 +154,9 @@ abstract class Surface : SceneNode, IRenderable, IUpdateable {
    * Remove an user interface action from the memory.
    * Returns reference to this so it can be used in a stream.
   **/
-  final Surface removeAction(string id) pure nothrow {
+  final Surface removeAction(string id) {
+    actionMap[id].destroy();
+    actionMap[id] = null;
     actionMap.remove(id);
     return this;
   }

@@ -36,7 +36,7 @@ final class Action(T) {
   **/
   this(string id, void delegate(T, Event) event, ubyte priority) {
     if (id in idList)
-      Logger.error("Cannot create actions with the same id.", typeof(this).stringof);
+      Logger.error("Cannot create actions with the same id: " ~ id, typeof(this).stringof);
 
     idList[id] = true;
 

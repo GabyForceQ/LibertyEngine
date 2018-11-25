@@ -92,7 +92,9 @@ final abstract class Input {
   /**
    *
   **/
-  static void removeProfile(string id) nothrow {
+  static void removeProfile(string id) {
+    profilerMap[id].destroy();
+    profilerMap[id] = null;
     profilerMap.remove(id);
   }
 
