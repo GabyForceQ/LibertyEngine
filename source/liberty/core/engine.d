@@ -207,19 +207,20 @@ version (unittest)
   /**
    *
   **/
-  immutable EngineRun = q{};
+  mixin template EngineRun() {}
 else
   /**
    *
   **/
-  immutable EngineRun = q{
+  mixin template EngineRun(alias startFun, alias endFun) {
     int main() {
       CoreEngine.initialize();
-      libertyMain();
+      startFun();
       CoreEngine.run();
+      endFun();
       return 0;
     }
-  };
+  }
 
 /**
  * Engine state enumeration.
