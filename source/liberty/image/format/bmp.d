@@ -9,6 +9,7 @@
 module liberty.image.format.bmp;
 
 import liberty.image.impl;
+import liberty.math.vector;
 
 /**
  *
@@ -81,11 +82,29 @@ final class BMPImage : Image {
   /**
    *
   **/
-  float getRGBPixelColor(int x, int y) {
+  float getRGBPixelColor(int x, int y) pure nothrow {
     const ubyte b = pixelData[header.width * y * 4 + x * 4 + 0];
     const ubyte g = pixelData[header.width * y * 4 + x * 4 + 1];
     const ubyte r = pixelData[header.width * y * 4 + x * 4 + 2];
 
     return -((r << 16) | (g << 8) | (b << 0));
+  }
+
+  /**
+   *
+  **/
+  Vector4!(ubyte) getRGBAPixel(int x, int y) pure nothrow {
+    const ubyte b = pixelData[header.width * y * 4 + x * 4 + 0];
+    const ubyte g = pixelData[header.width * y * 4 + x * 4 + 1];
+    const ubyte r = pixelData[header.width * y * 4 + x * 4 + 2];
+    const ubyte a = pixelData[header.width * y * 4 + x * 4 + 3];
+    return Vector4!(ubyte)(r, g, b, a);
+  }
+
+  /**
+   *
+  **/
+  ubyte[] getData() pure nothrow {
+    return data;
   }
 }

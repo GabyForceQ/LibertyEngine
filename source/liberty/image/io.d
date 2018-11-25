@@ -30,14 +30,12 @@ final abstract class ImageIO {
     char[] buf;
 
     // Read bmp file and put its content into a buffer
-    if (!IOManager.readFileToBuffer(resourcePath, buf, "rb")) {
+    if (!IOManager.readFileToBuffer(resourcePath, buf, "rb"))
       assert(0, "Operation failed!");
-    }
 
     // Check if it is really a bmp image
-    if (!isBMPFormat(buf[0x00..0x02])) {
+    if (!isBMPFormat(buf[0x00..0x02]))
       assert(0, "Not BMP image!");
-    }
 
     BMPHeader header;
     ubyte[] pixelData;
@@ -58,6 +56,13 @@ final abstract class ImageIO {
     pixelData = cast(ubyte[])buf[header.dataPosition..buf.length];
 
     // Create the image in memory and return it
+    return createBMPImage(header, pixelData);
+  }
+
+  /**
+   *
+  **/
+  static BMPImage createBMPImage(BMPHeader header, ubyte[] pixelData) {
     return new BMPImage(header, pixelData);
   }
 

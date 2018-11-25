@@ -63,4 +63,45 @@ final abstract class TextureIO {
 
     return texture;
   }
+
+  /**
+   *
+  **/
+  static Texture loadBMP(BMPImage image) {
+    Texture texture = new Texture();
+
+    // Generate OpenGL texture
+    texture.generateTextures();
+
+    version (__OPENGL__) {
+      texture.bind(TextureType.TEX_2D);
+
+      glTexImage2D(
+        GL_TEXTURE_2D, 
+        0, 
+        GL_RGBA,
+        image.getWidth(),
+        image.getHeight(),
+        0,
+        GL_BGRA,
+        GL_UNSIGNED_BYTE,
+        cast(ubyte*)image.getPixelData()
+      );
+
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+      
+      texture
+        .setLODBias(-0.4f)
+        .generateMipmap()
+        .unbind();
+    }
+
+    // Set Texture width and height
+    texture.setExtent(image.getWidth(), image.getHeight());
+
+    return texture;
+  }
 }

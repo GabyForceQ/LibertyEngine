@@ -8,9 +8,11 @@
 **/
 module liberty.graphics.material.impl;
 
+import liberty.image.format.bmp;
 import liberty.core.engine;
 import liberty.graphics.shader;
 import liberty.graphics.texture.impl;
+import liberty.graphics.texture.io;
 import liberty.resource;
 
 /**
@@ -22,6 +24,13 @@ final class Material {
     Texture cubeMapTextures;
 
     static Material defaultMaterial;
+  }
+
+  /**
+   *
+  **/
+  this(BMPImage image) {
+    setTexture(TextureIO.loadBMP(image));
   }
 
   /**
