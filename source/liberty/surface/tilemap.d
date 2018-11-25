@@ -50,14 +50,23 @@ final class TileMap : Widget {
   /**
    *
   **/
-  TileMap build(int xStartLoc, int yStartLoc, int xDim, int yDim) {
-    return build(Vector2I(xStartLoc, yStartLoc), Vector2I(xDim, yDim));
+  TileMap build(int xStartLocation, int yStartLocation, int xDimension, int yDimension,
+    int xScale = 64, int yScale = 64, int xSpaceBetween = 0, int ySpaceBetween = 0)
+  do {
+    return build(
+      Vector2I(xStartLocation, yStartLocation),
+      Vector2I(xDimension, yDimension),
+      Vector2I(xScale, yScale),
+      Vector2I(xSpaceBetween, ySpaceBetween)
+    );
   }
 
   /**
    *
   **/
-  TileMap build(Vector2I startLocation, Vector2I dimension) {
+  TileMap build(Vector2I startLocation, Vector2I dimension, Vector2I scale = Vector2I(64, 64),
+    Vector2I spaceBetween = Vector2I.zero)
+  do {
     this.dimension = dimension;
     getTransform.setLocation(startLocation);
 
@@ -72,9 +81,9 @@ final class TileMap : Widget {
           .setIndex(i, j)
           .getTransform()
           .setLocation(
-            i * 100 + getTransform.getLocation.x,
-            j * 100 + getTransform.getLocation.y
-          );
+            i * (scale.x + spaceBetween.x) + getTransform.getLocation.x,
+            j * (scale.y + spaceBetween.y) + getTransform.getLocation.y)
+          .setScale(scale);
       }
     
     return this;

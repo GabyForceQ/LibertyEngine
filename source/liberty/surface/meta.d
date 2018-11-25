@@ -134,7 +134,7 @@ mixin template WidgetEventProps(alias event, string options = "default") {
 /**
  *
 **/
-mixin template WidgetConstructor(string options = "renderer: enabled") {
+mixin template WidgetConstructor(string options = "renderer: enabled", string code = "") {
   import liberty.surface.impl;
   
   /**
@@ -147,6 +147,8 @@ mixin template WidgetConstructor(string options = "renderer: enabled") {
       super(id, surface, false);
     else
       static assert(0, "Invalid options.");
+
+    mixin(code);
   }
 }
 
