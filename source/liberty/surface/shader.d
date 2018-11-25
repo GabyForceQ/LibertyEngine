@@ -30,7 +30,7 @@ class SurfaceShader : Shader {
         tTexCoord = lTexCoord;
 
         gl_Position = uProjectionMatrix * uModelMatrix *
-          vec4(vec3(lPosition.x, lPosition.y, uZIndex), 1.0);
+          vec4(vec3(lPosition.x, lPosition.y, lPosition.z + uZIndex), 1.0);
       }
     };
 

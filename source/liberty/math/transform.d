@@ -100,6 +100,8 @@ final class Transform(byte N) if (N == 2 || N == 3) {
       modelMatrix.setTranslation(Vector3F(location.x, -location.y, 0.0f));
     else static if (op == "+=")
       modelMatrix.setTranslation(Vector3F(this.location.x + location.x, -(this.location.y + location.y), 0.0f));
+    else static if (op == "-=")
+      modelMatrix.setTranslation(Vector3F(this.location.x - location.x, -(this.location.y - location.y), 0.0f));
     
     mixin("this.location " ~ op ~ " location;");
     return this;
