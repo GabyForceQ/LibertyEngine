@@ -50,6 +50,16 @@ final class TileMap : Widget {
   /**
    *
   **/
+  TileMap setZIndex(int index) pure nothrow {
+    foreach (tile; tiles)
+      tile.setZIndex(index);
+    
+    return this;
+  }
+
+  /**
+   *
+  **/
   TileMap build(int xStartLocation, int yStartLocation, int xDimension, int yDimension,
     int xScale = 64, int yScale = 64, int xSpaceBetween = 0, int ySpaceBetween = 0)
   do {
