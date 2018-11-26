@@ -8,6 +8,7 @@
 **/
 module liberty.terrain.system;
 
+import liberty.constants;
 import liberty.scene;
 import liberty.terrain.shader;
 import liberty.terrain.renderer;
@@ -88,5 +89,13 @@ final class TerrainSystem {
   **/
   TerrainShader getShader() pure nothrow {
     return shader;
+  }
+
+  /**
+   * Returns the type of the system which is always SystemType.Terrain.
+   * See $(D SystemType) enumeration.
+  **/
+  static SystemType getType() pure nothrow {
+    return SystemType.Terrain;
   }
 }

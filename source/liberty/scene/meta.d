@@ -24,6 +24,7 @@ mixin template NodeConstructor(string code = "") {
   this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
     import std.traits : hasUDA, EnumMembers;
     import std.string : capitalize;
+    import liberty.constants : SystemType;
     import liberty.cubemap.impl : CubeMap;
     import liberty.light.point : Lighting;
     import liberty.primitive.impl : Primitive;
@@ -53,16 +54,6 @@ mixin template NodeConstructor(string code = "") {
           static if (member.stringof == "\"" ~ el ~ "\"")
             mixin("getScene().set" ~ el.capitalize() ~ "ableMap(id, this);");
       }
-    }
-
-    // TODO: Not here
-    enum SystemType : string {
-      Primitive = "Primitive",
-      Terrain = "Terrain",
-      Surface = "Surface",
-      Lighting = "Lighting",
-      CubeMap = "CubeMap"
-      //Font = "Font"
     }
 
     static foreach (sys; EnumMembers!SystemType)

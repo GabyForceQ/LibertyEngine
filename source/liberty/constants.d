@@ -9,6 +9,41 @@
 module liberty.constants;
 
 /**
+ * All system types.
+**/
+enum SystemType : string {
+  /**
+   * See $(D PrimitiveSystem) class.
+  **/
+  Primitive = "Primitive",
+
+  /**
+   * See $(D TerrainSystem) class.
+  **/
+  Terrain = "Terrain",
+
+  /**
+   * See $(D SurfaceSystem) class.
+  **/
+  Surface = "Surface",
+
+  /**
+   * See $(D LightingSystem) class.
+  **/
+  Lighting = "Lighting",
+
+  /**
+   * See $(D CubeMapSystem) class.
+  **/
+  CubeMap = "CubeMap"
+
+  /**
+   * See $(D FontSystem) class.
+  **/
+  //Font = "Font"
+}
+
+/**
  * Visibility state for an element.
 **/
 enum Visibility : byte {

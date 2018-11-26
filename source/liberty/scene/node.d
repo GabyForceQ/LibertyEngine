@@ -126,16 +126,6 @@ abstract class SceneNode : IStartable, IUpdateable {
     import liberty.surface.impl : Surface;
     import liberty.terrain.impl : Terrain;
 
-    // TODO: Not here
-    enum SystemType : string {
-      Primitive = "Primitive",
-      Terrain = "Terrain",
-      Surface = "Surface",
-      Lighting = "Lighting",
-      CubeMap = "CubeMap"
-      //Font = "Font"
-    }
-
     const id = node.getId();
 
     if (id in childMap) {

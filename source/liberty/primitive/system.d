@@ -8,6 +8,7 @@
 **/
 module liberty.primitive.system;
 
+import liberty.constants;
 import liberty.scene;
 import liberty.primitive.shader;
 import liberty.primitive.renderer;
@@ -88,5 +89,13 @@ final class PrimitiveSystem {
   **/
   PrimitiveShader getShader() pure nothrow {
     return shader;
+  }
+
+  /**
+   * Returns the type of the system which is always SystemType.Primitive.
+   * See $(D SystemType) enumeration.
+  **/
+  static SystemType getType() pure nothrow {
+    return SystemType.Primitive;
   }
 }

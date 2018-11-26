@@ -8,6 +8,7 @@
 **/
 module liberty.cubemap.system;
 
+import liberty.constants;
 import liberty.scene;
 import liberty.cubemap.shader;
 import liberty.cubemap.renderer;
@@ -88,5 +89,13 @@ final class CubeMapSystem {
   **/
   CubeMapShader getShader() pure nothrow {
     return shader;
+  }
+
+  /**
+   * Returns the type of the system which is always SystemType.CubeMap.
+   * See $(D SystemType) enumeration.
+  **/
+  static SystemType getType() pure nothrow {
+    return SystemType.CubeMap;
   }
 }

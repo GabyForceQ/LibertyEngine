@@ -8,6 +8,7 @@
 **/
 module liberty.surface.system;
 
+import liberty.constants;
 import liberty.scene.impl;
 import liberty.surface.shader;
 import liberty.surface.renderer;
@@ -88,5 +89,13 @@ final class SurfaceSystem {
   **/
   SurfaceShader getShader() pure nothrow {
     return shader;
+  }
+
+  /**
+   * Returns the type of the system which is always SystemType.Surface.
+   * See $(D SystemType) enumeration.
+  **/
+  static SystemType getType() pure nothrow {
+    return SystemType.Surface;
   }
 }
