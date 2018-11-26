@@ -10,6 +10,7 @@ module liberty.material.impl;
 
 import liberty.image.format.bmp;
 import liberty.core.engine;
+import liberty.material.factory;
 import liberty.graphics.shader;
 import liberty.graphics.texture.impl;
 import liberty.graphics.texture.io;
@@ -18,12 +19,10 @@ import liberty.resource;
 /**
  *
 **/
-final class Material {
+final class Material : IDefaultMaterialsFactory {
   private {
     Texture texture;
     Texture cubeMapTextures;
-
-    static typeof(this) defaultMaterial;
   }
 
   /**
@@ -66,19 +65,5 @@ final class Material {
   **/
   Texture getCubeMapTextures() pure nothrow {
     return cubeMapTextures;
-  }
-
-  /**
-   *
-  **/
-  static void initializeMaterials() {
-    defaultMaterial = new Material("res/textures/default2.bmp");
-  }
-
-  /**
-   *
-  **/
-  static typeof(this) getDefault() nothrow {
-    return defaultMaterial;
   }
 }

@@ -9,5 +9,6 @@
 module liberty.material;
 
 public {
+  import liberty.material.factory;
   import liberty.material.impl;
 }
