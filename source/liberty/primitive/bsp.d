@@ -9,7 +9,7 @@
 module liberty.primitive.bsp;
 
 import liberty.scene.meta;
-import liberty.graphics.material.impl;
+import liberty.material.impl;
 import liberty.math.vector;
 import liberty.scene.node;
 import liberty.primitive.model;

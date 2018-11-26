@@ -18,7 +18,7 @@ import liberty.scene.impl;
 import liberty.services;
 import liberty.terrain.impl;
 import liberty.light.point;
-import liberty.graphics.material.impl;
+import liberty.material.impl;
 
 /**
  * Class used to serialize and deserialize a scene.

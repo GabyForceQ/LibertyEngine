@@ -12,7 +12,7 @@ import core.stdc.stdlib;
 
 import liberty.image.format.bmp;
 import liberty.image.io;
-import liberty.graphics.material.impl;
+import liberty.material.impl;
 import liberty.math.vector;
 import liberty.resource;
 

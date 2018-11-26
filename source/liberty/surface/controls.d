@@ -8,7 +8,7 @@
 **/
 module liberty.surface.controls;
 
-import liberty.graphics.material.impl;
+import liberty.material.impl;
 import liberty.math.vector;
 import liberty.surface.event;
 import liberty.surface.meta;

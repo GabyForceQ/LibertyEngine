@@ -16,7 +16,7 @@ import liberty.scene.meta;
 import liberty.terrain.vertex;
 import liberty.resource;
 import liberty.terrain.model;
-import liberty.graphics.material;
+import liberty.material.impl;
 import liberty.scene.node;
 import liberty.services;
 

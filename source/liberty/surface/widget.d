@@ -12,7 +12,7 @@ import liberty.constants;
 import liberty.math.vector;
 import liberty.math.transform;
 import liberty.surface.impl;
-import liberty.graphics.material.impl;
+import liberty.material.impl;
 import liberty.primitive.model;
 import liberty.services;
 import liberty.surface.model;

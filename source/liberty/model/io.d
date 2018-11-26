@@ -18,7 +18,7 @@ import liberty.logger;
 import liberty.math;
 import liberty.primitive.model;
 import liberty.primitive.vertex;
-import liberty.graphics.material.impl;
+import liberty.material.impl;
 
 
 package(liberty) final abstract class ModelIO {

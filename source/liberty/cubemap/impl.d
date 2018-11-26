@@ -9,7 +9,7 @@
 module liberty.cubemap.impl;
 
 import liberty.math.vector;
-import liberty.graphics.material.impl;
+import liberty.material.impl;
 import liberty.scene.meta;
 import liberty.scene.node;
 import liberty.cubemap.model;

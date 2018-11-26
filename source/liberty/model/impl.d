@@ -9,7 +9,7 @@
 module liberty.model.impl;
 
 import liberty.graphics.factory;
-import liberty.graphics.material.impl;
+import liberty.material.impl;
 import liberty.model.raw;
 import liberty.services;
 

@@ -19,6 +19,7 @@ public {
   import liberty.light;
   import liberty.logger;
   import liberty.math;
+  import liberty.material;
   import liberty.model;
   import liberty.physics;
   import liberty.primitive;

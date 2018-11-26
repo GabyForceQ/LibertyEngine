@@ -14,7 +14,7 @@ version (__OPENGL__)
 import liberty.model.impl;
 import liberty.core.engine;
 import liberty.resource;
-import liberty.graphics.material.impl;
+import liberty.material.impl;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.terrain.vertex;

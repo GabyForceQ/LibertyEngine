@@ -10,7 +10,6 @@ module liberty.graphics;
 
 public {
   import liberty.graphics.buffer;
-  import liberty.graphics.material;
   import liberty.graphics.shader;
   import liberty.graphics.texture;
 
