@@ -127,7 +127,7 @@ final class SceneSerializer : ISerializable {
    * Set a $(D Scene) to the scene serializer.
    * Returns reference to this so it can be used in a stream.
   **/
-  SceneSerializer setScene(Scene scene) pure nothrow {
+  typeof(this) setScene(Scene scene) pure nothrow {
     this.scene = scene;
     return this;
   }
@@ -144,7 +144,7 @@ final class SceneSerializer : ISerializable {
    * Set the relative path of the scene file using a string.
    * Returns reference to this so it can be used in a stream.
   **/
-  SceneSerializer setRelativePath(string path) pure nothrow {
+  typeof(this) setRelativePath(string path) pure nothrow {
     this.path = path;
     return this;
   }

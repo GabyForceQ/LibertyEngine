@@ -124,7 +124,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns a scene tree reference.
-   * See $(D SceneNode).
+   * See $(D SceneNode) class.
   **/
   SceneNode getTree() pure nothrow {
     return tree;
@@ -132,7 +132,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns the start point coordinates.
-   * See $(D Vector3F).
+   * See $(D Vector3F) struct.
   **/
   Vector3F getStartPoint() pure nothrow const {
     return startPoint;
@@ -140,7 +140,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns the camera in use by the player.
-   * See $(D Camera).
+   * See $(D Camera) class.
   **/
   Camera getActiveCamera() pure nothrow {
     return activeCamera;
@@ -148,10 +148,10 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Set camera as the current view camera.
+   * See $(D Camera) class.
    * Returns reference to this so it can be used in a stream.
-   * See $(D Camera).
   **/
-  Scene setActiveCamera(Camera camera) pure nothrow {
+  typeof(this) setActiveCamera(Camera camera) pure nothrow {
     activeCamera = camera;
     return this;
   }
@@ -161,14 +161,14 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * Returns reference to this so it can be used in a stream.
    * See $(D Camera).
   **/
-  Scene registerCamera(Camera camera) pure nothrow {
+  typeof(this) registerCamera(Camera camera) pure nothrow {
     cameraMap[camera.getId()] = camera;
     return this;
   }
 
   /**
    * Returns the camera in the map that has the given id.
-   * See $(D Camera).
+   * See $(D Camera) class.
   **/
   Camera getCameraById(string id) pure nothrow {
     return cameraMap[id];
@@ -176,7 +176,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns all elements in the camera map.
-   * See $(D Camera).
+   * See $(D Camera) class.
   **/
   Camera[string] getCameraMap() pure nothrow {
     return cameraMap;
@@ -184,7 +184,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns all elements in the startable map.
-   * See $(D IStartable).
+   * See $(D IStartable) interface.
   **/
   IStartable[string] getStartableMap() pure nothrow {
     return startableMap;
@@ -192,7 +192,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns all elements in the updateable map.
-   * See $(D IUpdateable).
+   * See $(D IUpdateable) interface.
   **/
   IUpdateable[string] getUpdateableMap() pure nothrow {
     return updateableMap;
@@ -202,7 +202,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * Add a node to the startable map.
    * Returns reference to this so it can be used in a stream.
   **/
-  Scene setStartableMap(string id, IStartable node) pure nothrow {
+  typeof(this) setStartableMap(string id, IStartable node) pure nothrow {
     startableMap[id] = node;
     return this;
   }
@@ -211,7 +211,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * Add a node to the updateable map.
    * Returns reference to this so it can be used in a stream.
   **/
-  Scene setUpdateableMap(string id, IUpdateable node) pure nothrow {
+  typeof(this) setUpdateableMap(string id, IUpdateable node) pure nothrow {
     updateableMap[id] = node;
     return this;
   }
@@ -221,7 +221,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * Invoke start for all $(D IStartable) objects that have a start() method.
    * Returns reference to this so it can be used in a stream.
   **/
-  Scene initialize() {
+  typeof(this) initialize() {
     registered = true;
     
     // If camera doesn't exist, the spawn a default camera
@@ -283,7 +283,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns all elements in the scene node map.
-   * See $(D SceneNode).
+   * See $(D SceneNode) class.
   **/
   SceneNode[string] getNodeMap()  pure nothrow {
     return nodeMap;
@@ -291,17 +291,17 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Set the world settings for the scene.
+   * See $(D World) class.
    * Returns reference to this so it can be used in a stream.
-   * See $(D World).
   **/
-  Scene setWorld(World world) pure nothrow {
+  typeof(this) setWorld(World world) pure nothrow {
     this.world = world;
     return this;
   }
 
   /**
    * Returns the world settings of the scene.
-   * See $(D World).
+   * See $(D World) class.
   **/
   World getWorld() pure nothrow {
     return world;
@@ -309,7 +309,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns a refetence of the primitive system.
-   * See $(D PrimitiveSystem).
+   * See $(D PrimitiveSystem) class.
   **/
   PrimitiveSystem getPrimitiveSystem() pure nothrow {
     return primitiveSystem;
@@ -317,7 +317,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns a refetence of the terrain system.
-   * See $(D TerrainSystem).
+   * See $(D TerrainSystem) class.
   **/
   TerrainSystem getTerrainSystem() pure nothrow {
     return terrainSystem;
@@ -325,7 +325,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns a refetence of the surface system.
-   * See $(D SurfaceSystem).
+   * See $(D SurfaceSystem) class.
   **/
   SurfaceSystem getSurfaceSystem() pure nothrow {
     return surfaceSystem;
@@ -333,7 +333,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns a refetence of the lighting system.
-   * See $(D LightingSystem).
+   * See $(D LightingSystem) class.
   **/
   LightingSystem getLightingSystem() pure nothrow {
     return lightingSystem;
@@ -341,7 +341,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns a refetence of the cube map system.
-   * See $(D CubeMapSystem).
+   * See $(D CubeMapSystem) class.
   **/
   CubeMapSystem getCubeMapSystem() pure nothrow {
     return cubeMapSystem;
@@ -349,7 +349,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns a refetence of the text system.
-   * See $(D CubeMapSystem).
+   * See $(D CubeMapSystem) class.
   **/
   TextSystem getTextSystem() pure nothrow {
     return textSystem;
@@ -357,7 +357,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
   /**
    * Returns a refetence of scene serializer.
-   * See $(D SceneSerializer).
+   * See $(D SceneSerializer) class.
   **/
   SceneSerializer getSerializer() pure nothrow {
     return serializer;

@@ -118,7 +118,7 @@ abstract class SceneNode : IStartable, IUpdateable {
    * Remove a child node using its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  SceneNode remove(T : SceneNode)(T node) {
+  typeof(this) remove(T : SceneNode)(T node) {
     import std.traits : EnumMembers;
     import liberty.cubemap.impl : CubeMap;
     import liberty.light.point : Lighting;
@@ -276,7 +276,7 @@ abstract class SceneNode : IStartable, IUpdateable {
    * See $(D Visibility) enumeration for possible values.
    * Returns reference to this so it can be used in a stream.
   **/
-  SceneNode setVisibility(Visibility visibility) pure nothrow {
+  typeof(this) setVisibility(Visibility visibility) pure nothrow {
     this.visibility = visibility;
     return this;
   }
