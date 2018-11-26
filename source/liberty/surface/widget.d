@@ -9,7 +9,6 @@
 module liberty.surface.widget;
 
 import liberty.math.vector;
-import liberty.graphics.renderer;
 import liberty.math.transform;
 import liberty.surface.impl;
 import liberty.graphics.material.impl;
@@ -22,11 +21,11 @@ import liberty.surface.vertex;
 /**
  *
 **/
-class Widget : IRenderable, IUpdateable {
+class Widget : IUpdateable {
   /**
    * Renderer component used for rendering.
   **/
-  Renderer!(SurfaceVertex, Surface) renderer;
+  SurfaceModel model;
 
   private {
     string id;
@@ -40,9 +39,10 @@ class Widget : IRenderable, IUpdateable {
    *
   **/
   this(string id, Surface surface, bool hasRenderer) {
-    if (hasRenderer)
-      renderer = new Renderer!(SurfaceVertex, Surface)(new SurfaceModel([Material.getDefault()])
-        .build(uiSquareVertices, uiSquareIndices));
+    if (hasRenderer) {
+      model = new SurfaceModel([Material.getDefault()]);
+      model.build(uiSquareVertices, uiSquareIndices);
+    }
 
     this.id = id;
     this.surface = surface;
@@ -58,14 +58,6 @@ class Widget : IRenderable, IUpdateable {
   **/
   final string getId() pure nothrow const {
     return id;
-  }
-
-  /**
-   *
-  **/
-  override void render() {
-    if (renderer !is null)
-      renderer.draw();
   }
 
   /**
@@ -116,13 +108,6 @@ class Widget : IRenderable, IUpdateable {
   }
 
   /**
-   * Returns reference to the current renderer component.
-  **/
-  final Renderer!(SurfaceVertex, Surface) getRenderer() {
-    return renderer;
-  }
-
-  /**
    *
   **/
   final Widget setZIndex(int value) pure nothrow {
@@ -137,9 +122,14 @@ class Widget : IRenderable, IUpdateable {
     return zIndex;
   }
 
-  override void update() {
-    
+  /**
+   * Returns the 3D model of the widget.
+  **/
+  final SurfaceModel getModel() pure nothrow {
+    return model;
   }
+
+  override void update() {}
 }
 
 private uint[6] uiSquareIndices = [

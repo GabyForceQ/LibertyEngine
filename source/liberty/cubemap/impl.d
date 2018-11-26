@@ -10,45 +10,36 @@ module liberty.cubemap.impl;
 
 import liberty.math.vector;
 import liberty.graphics.material.impl;
-import liberty.graphics.renderer;
 import liberty.scene.meta;
 import liberty.scene.node;
-import liberty.services;
 import liberty.cubemap.model;
 import liberty.cubemap.vertex;
 
 /**
  *
 **/
-final class CubeMap : SceneNode, IRenderable {
+final class CubeMap : SceneNode {
   mixin NodeConstructor;
 
   protected {
     // Renderer component used for rendering a cubeMap vertex
-    Renderer!CubeMapVertex renderer;
+    CubeMapModel model;
   }
 
   /**
    *
   **/
   CubeMap build(Material material) {
-    renderer = new Renderer!CubeMapVertex(new CubeMapModel([material]).build(cubeMapVertices));
+    model = new CubeMapModel([material]).build(cubeMapVertices);
 
     return this;
   }
 
   /**
-   *
+   * Returns the 3D model of the cube map.
   **/
-  override void render() {
-    renderer.draw();
-  }
-
-  /**
-   * Returns reference to the current renderer component.
-  **/
-  Renderer!CubeMapVertex getRenderer() {
-    return renderer;
+  CubeMapModel getModel() pure nothrow {
+    return model;
   }
 }
 

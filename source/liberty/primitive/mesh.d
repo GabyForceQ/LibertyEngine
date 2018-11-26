@@ -8,7 +8,6 @@
 **/
 module liberty.primitive.mesh;
 
-import liberty.graphics.renderer;
 import liberty.primitive.model;
 import liberty.scene.node;
 import liberty.scene.meta;
@@ -21,23 +20,6 @@ import liberty.primitive.impl;
 **/
 final class StaticMesh : Primitive {
   mixin NodeConstructor!(q{
-    this.renderer = new Renderer!PrimitiveVertex(
-      new PrimitiveModel([Material.getDefault()]));
+    setModel(new PrimitiveModel([Material.getDefault()]));
   });
-
-  /**
-   *
-  **/
-  override void render() {
-    getScene()
-      .getPrimitiveSystem()
-      .getShader()
-      .loadUseFakeLighting(
-        renderer
-          .getModel()
-          .getUseFakeLighting()
-      );
-
-    super.render();
-  }
 }

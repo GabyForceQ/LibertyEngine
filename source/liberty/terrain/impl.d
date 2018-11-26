@@ -16,7 +16,6 @@ import liberty.scene.meta;
 import liberty.terrain.vertex;
 import liberty.resource;
 import liberty.terrain.model;
-import liberty.graphics.renderer;
 import liberty.graphics.material;
 import liberty.scene.node;
 import liberty.services;
@@ -26,7 +25,7 @@ import liberty.image;
 /**
  *
 **/
-final class Terrain : SceneNode, IRenderable {
+final class Terrain : SceneNode {
   mixin NodeConstructor;
 
   private {
@@ -38,10 +37,11 @@ final class Terrain : SceneNode, IRenderable {
     float maxHeight = 0;
     float[256][256] heights; // ????
     
+    // getTexCoordMultiplier, setTexCoordMultiplier
     Vector2F texCoordMultiplier = Vector2F.one;
 
-    // Renderer component used for rendering a terrain vertex
-    Renderer!TerrainVertex renderer;
+    // getModel
+    TerrainModel model;
   }
 
   /**
@@ -49,10 +49,9 @@ final class Terrain : SceneNode, IRenderable {
    * Returns reference to this so it can be used in a stream.
   **/
   Terrain build(float size, float maxHeight, Material[] materials) {
-    renderer = new Renderer!TerrainVertex(new TerrainModel(materials));
-
     this.size = size;
     this.maxHeight = maxHeight;
+    model = new TerrainModel(materials);
     
     generateTerrain("res/textures/heightMap.bmp");
     
@@ -162,6 +161,13 @@ final class Terrain : SceneNode, IRenderable {
     return finalPos;
   }
 
+  /**
+   * Returns the 3D model of the terrain.
+  **/
+  TerrainModel getModel() pure nothrow {
+    return model;
+  }
+
   private void generateTerrain(string heightMapPath) {
     // Load height map form file
     auto image = cast(BMPImage)ResourceManager.loadImage(heightMapPath);
@@ -210,7 +216,7 @@ final class Terrain : SceneNode, IRenderable {
       }
     }
 
-    renderer.getModel().build(vertices, indices);
+    model.build(vertices, indices);
   }
 
   private float getHeight(int x, int y, BMPImage image) {
@@ -235,25 +241,6 @@ final class Terrain : SceneNode, IRenderable {
     normal.normalize();
 
     return normal;
-  }
-
-  /**
-   *
-  **/
-  override void render() {
-    getScene()
-      .getTerrainSystem()
-      .getShader()
-      .loadTexCoordMultiplier(texCoordMultiplier);
-      
-    renderer.draw();
-  }
-
-  /**
-   * Returns reference to the current renderer component.
-  **/
-  Renderer!TerrainVertex getRenderer() {
-    return renderer;
   }
 
   /**

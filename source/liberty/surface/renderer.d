@@ -63,7 +63,10 @@ final class SurfaceRenderer : IRenderable {
               .getTransform()
               .getModelMatrix());
       
-        widget.render();
+        if (widget.getModel() !is null)
+          widget
+            .getModel()
+            .render();
       }
     }
     // FILTER Z INDEX FOR NOW WITH ONLY 0 AND 1 --> BUG
@@ -77,7 +80,10 @@ final class SurfaceRenderer : IRenderable {
               .getTransform()
               .getModelMatrix());
 
-        widget.render();
+        if (widget.getModel() !is null)
+          widget
+            .getModel()
+            .render();
       }
     }
 

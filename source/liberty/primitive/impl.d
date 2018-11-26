@@ -10,17 +10,15 @@ module liberty.primitive.impl;
 
 import liberty.logger;
 import liberty.scene.node;
+import liberty.primitive.model;
 import liberty.primitive.vertex;
-import liberty.services;
-import liberty.graphics.renderer;
 
 /**
  *
 **/
-abstract class Primitive : SceneNode, IRenderable {
-  protected {
-    // Renderer component used for rendering a primitive vertex
-    Renderer!PrimitiveVertex renderer;
+abstract class Primitive : SceneNode {
+  private {
+    PrimitiveModel model;
   }
 
   /**
@@ -31,17 +29,19 @@ abstract class Primitive : SceneNode, IRenderable {
   }
 
   /**
-   *
+   * Set the 3D model of the primitive.
+   * Returns reference to this so it can be used in a stream.
   **/
-  override void render() {
-    renderer.draw();
+  final Primitive setModel(PrimitiveModel model) pure nothrow {
+    this.model = model;
+    return this;
   }
 
   /**
-   * Returns reference to the current renderer component.
+   * Returns the 3D model of the primitive.
   **/
-  final Renderer!PrimitiveVertex getRenderer() {
-    return renderer;
+  final PrimitiveModel getModel() pure nothrow {
+    return model;
   }
 }
 

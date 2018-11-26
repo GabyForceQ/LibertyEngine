@@ -11,7 +11,7 @@ module liberty.terrain.model;
 version (__OPENGL__)
   import bindbc.opengl;
 
-import liberty.model;
+import liberty.model.impl;
 import liberty.core.engine;
 import liberty.resource;
 import liberty.graphics.material.impl;
@@ -57,7 +57,7 @@ final class TerrainModel : Model {
   /**
    *
   **/
-  void draw() {
+  void render() {
     if (shouldCull)
       GfxEngine.enableCulling();
 

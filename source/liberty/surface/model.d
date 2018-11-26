@@ -67,7 +67,7 @@ final class SurfaceModel : Model {
   /**
    *
   **/
-  void draw() {
+  void render() {
     if (shouldCull)
       GfxEngine.enableCulling();
     

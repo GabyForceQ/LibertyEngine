@@ -9,43 +9,13 @@
 module liberty.model.impl;
 
 import liberty.graphics.material.impl;
+import liberty.model.raw;
+import liberty.services;
 
 /**
  *
 **/
-class RawModel {
-  private {
-    uint vaoID;
-    size_t vertexCount;
-  }
-
-  /**
-   *
-  **/
-  this(uint vaoID, size_t vertexCount) {
-    this.vaoID = vaoID;
-    this.vertexCount = vertexCount;
-  }
-
-  /**
-   *
-  **/
-  uint getVaoID() {
-    return vaoID;
-  }
-
-  /**
-   *
-  **/
-  size_t getVertexCount() {
-    return vertexCount;
-  }
-}
-
-/**
- *
-**/
-abstract class Model {
+abstract class Model : IRenderable {
   protected {
     RawModel rawModel;
     Material[] materials;

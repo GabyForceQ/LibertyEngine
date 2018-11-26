@@ -61,7 +61,11 @@ final class CubeMapRenderer : IRenderable {
    * Returns reference to this so it can be used in a stream.
   **/
   CubeMapRenderer render(CubeMap cubemap) {
-    cubemap.render();
+    if (cubemap.getModel() !is null)
+      cubemap
+        .getModel()
+        .render();
+    
     return this;
   }
 }

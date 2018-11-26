@@ -70,9 +70,17 @@ final class PrimitiveRenderer : IRenderable {
       .loadModelMatrix(
         primitive
           .getTransform()
-          .getModelMatrix());
+          .getModelMatrix())
+      .loadUseFakeLighting(
+        primitive
+          .getModel()
+          .getUseFakeLighting());
 
-    primitive.render();
+    if (primitive.getModel() !is null)
+      primitive
+        .getModel()
+        .render();
+    
     return this;
   }
 }

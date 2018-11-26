@@ -66,11 +66,11 @@ final class SceneSerializer : ISerializable {
           " , size: " ~ node.getSize().to!string ~
           " , maxHeight " ~ node.getMaxHeight().to!string ~
           " , materials: [ " ~
-            node.getRenderer().getModel().getMaterials[0].getTexture().getRelativePath() ~
-            " , " ~ node.getRenderer().getModel().getMaterials[1].getTexture().getRelativePath() ~
-            " , " ~ node.getRenderer().getModel().getMaterials[2].getTexture().getRelativePath() ~
-            " , " ~ node.getRenderer().getModel().getMaterials[3].getTexture().getRelativePath() ~
-            " , " ~ node.getRenderer().getModel().getMaterials[4].getTexture().getRelativePath() ~
+            node.getModel().getMaterials[0].getTexture().getRelativePath() ~
+            " , " ~ node.getModel().getMaterials[1].getTexture().getRelativePath() ~
+            " , " ~ node.getModel().getMaterials[2].getTexture().getRelativePath() ~
+            " , " ~ node.getModel().getMaterials[3].getTexture().getRelativePath() ~
+            " , " ~ node.getModel().getMaterials[4].getTexture().getRelativePath() ~
         " ] }"
       );
     }

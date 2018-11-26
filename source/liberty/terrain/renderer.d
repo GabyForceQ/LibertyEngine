@@ -70,9 +70,16 @@ final class TerrainRenderer : IRenderable {
       .loadModelMatrix(
         terrain
           .getTransform()
-          .getModelMatrix());
+          .getModelMatrix())
+      .loadTexCoordMultiplier(
+        terrain
+          .getTexCoordMultiplier());
 
-    terrain.render();
+    if (terrain.getModel() !is null)
+      terrain
+        .getModel()
+        .render();
+      
     return this;
   }
 }

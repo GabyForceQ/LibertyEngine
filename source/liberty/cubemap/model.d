@@ -67,7 +67,7 @@ final class CubeMapModel : Model {
   /**
    *
   **/
-  void draw() {
+  void render() {
     if (shouldCull)
       GfxEngine.enableCulling();
 

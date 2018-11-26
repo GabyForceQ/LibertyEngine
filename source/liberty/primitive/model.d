@@ -69,7 +69,7 @@ final class PrimitiveModel : Model {
   /**
    *
   **/
-  void draw() {
+  void render() {
     if (shouldCull)
       GfxEngine.enableCulling();
 

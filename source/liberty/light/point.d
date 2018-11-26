@@ -11,7 +11,6 @@ module liberty.light.point;
 import liberty.logger.impl;
 import liberty.math.vector;
 import liberty.core.engine;
-import liberty.graphics.renderer;
 import liberty.scene.meta;
 import liberty.primitive.model;
 import liberty.scene.node;

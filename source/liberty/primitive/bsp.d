@@ -12,7 +12,6 @@ import liberty.scene.meta;
 import liberty.graphics.material.impl;
 import liberty.math.vector;
 import liberty.scene.node;
-import liberty.graphics.renderer;
 import liberty.primitive.model;
 import liberty.primitive.vertex;
 import liberty.terrain.vertex;
@@ -28,22 +27,6 @@ abstract class BSPVolume : Primitive {
   this(string id, SceneNode parent) {
     super(id, parent);
   }
-
-  /**
-   *
-  **/
-  override void render() {
-    getScene()
-      .getPrimitiveSystem()
-      .getShader()
-      .loadUseFakeLighting(
-        renderer
-          .getModel()
-          .getUseFakeLighting()
-      );
-
-    super.render();
-  }
 }
 
 /**
@@ -56,9 +39,7 @@ final class BSPCube : BSPVolume {
    *
   **/
   BSPCube build(Material material = Material.getDefault()) {
-    renderer = new Renderer!PrimitiveVertex(new PrimitiveModel([material])
-      .build(cubeVertices));
-
+    setModel((new PrimitiveModel([material]).build(cubeVertices)));
     return this;
   }
 }
@@ -73,9 +54,7 @@ final class BSPPyramid : BSPVolume {
    *
   **/
   BSPPyramid build(Material material = Material.getDefault()) {
-    renderer = new Renderer!PrimitiveVertex(new PrimitiveModel([material])
-      .build(pyramidVertices));
-    
+    setModel((new PrimitiveModel([material]).build(pyramidVertices)));
     return this;
   }
 }
@@ -90,9 +69,7 @@ final class BSPSquare : BSPVolume {
    *
   **/
   BSPSquare build(Material material = Material.getDefault()) {
-    renderer = new Renderer!PrimitiveVertex(new PrimitiveModel([material])
-      .build(squareVertices, squareIndices));
-
+    setModel((new PrimitiveModel([material]).build(squareVertices, squareIndices)));
     return this;
   }
 }
@@ -107,9 +84,7 @@ final class BSPTriangle : BSPVolume {
    *
   **/
   BSPTriangle build(Material material = Material.getDefault()) {
-    renderer = new Renderer!PrimitiveVertex(new PrimitiveModel([material])
-      .build(triangleVertices, triangleIndices));
-
+    setModel((new PrimitiveModel([material]).build(triangleVertices, triangleIndices)));
     return this;
   }
 }
