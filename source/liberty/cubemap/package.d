@@ -11,7 +11,9 @@ module liberty.cubemap;
 public {
   import liberty.cubemap.impl;
   import liberty.cubemap.io;
+  import liberty.cubemap.model;
   import liberty.cubemap.renderer;
   import liberty.cubemap.shader;
   import liberty.cubemap.system;
+  import liberty.cubemap.vertex;
 }

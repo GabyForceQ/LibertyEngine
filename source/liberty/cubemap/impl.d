@@ -21,17 +21,16 @@ import liberty.cubemap.vertex;
 final class CubeMap : SceneNode {
   mixin NodeConstructor;
 
-  protected {
-    // Renderer component used for rendering a cubeMap vertex
+  private {
     CubeMapModel model;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  CubeMap build(Material material) {
+  typeof(this) build(Material material) {
     model = new CubeMapModel([material]).build(cubeMapVertices);
-
     return this;
   }
 

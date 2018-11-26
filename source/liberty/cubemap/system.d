@@ -40,7 +40,7 @@ final class CubeMapSystem {
    * Register a cubeMap node to the cubeMap system.
    * Returns reference to this so it can be used in a stream.
   **/
-  CubeMapSystem registerElement(CubeMap node) pure nothrow {
+  typeof(this) registerElement(CubeMap node) pure nothrow {
     map[node.getId()] = node;
     return this;
   }
@@ -49,7 +49,7 @@ final class CubeMapSystem {
    * Remove the given cubemap node from the cubemap map.
    * Returns reference to this so it can be used in a stream.
   **/
-  CubeMapSystem removeElement(CubeMap node) pure nothrow {
+  typeof(this) removeElement(CubeMap node) pure nothrow {
     map.remove(node.getId());
     return this;
   }
@@ -58,7 +58,7 @@ final class CubeMapSystem {
    * Remove the cubemap node that has the given id from the cubemap map.
    * Returns reference to this so it can be used in a stream.
   **/
-  CubeMapSystem removeElementById(string id) pure nothrow {
+  typeof(this) removeElementById(string id) pure nothrow {
     map.remove(id);
     return this;
   }

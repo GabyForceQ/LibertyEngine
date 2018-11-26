@@ -62,7 +62,7 @@ final class CubeMapRenderer : IRenderable {
    * Render a cube map node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  CubeMapRenderer render(CubeMap cubemap) {
+  typeof(this) render(CubeMap cubemap) {
     if (cubemap.getModel() !is null)
       cubemap
         .getModel()

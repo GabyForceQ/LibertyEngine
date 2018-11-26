@@ -61,7 +61,7 @@ final class CubeMapShader : Shader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  CubeMapShader loadProjectionMatrix(Matrix4F matrix) {
+  typeof(this) loadProjectionMatrix(Matrix4F matrix) {
     loadUniform("uProjectionMatrix", matrix);
     return this;
   }
@@ -70,7 +70,7 @@ final class CubeMapShader : Shader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  CubeMapShader loadViewMatrix(Matrix4F matrix) {
+  typeof(this) loadViewMatrix(Matrix4F matrix) {
     loadUniform("uViewMatrix", matrix);
     return this;
   }
@@ -79,7 +79,7 @@ final class CubeMapShader : Shader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  CubeMapShader loadCubeMap(int id) {
+  typeof(this) loadCubeMap(int id) {
     loadUniform("uCubeMap", id);
     return this;
   }

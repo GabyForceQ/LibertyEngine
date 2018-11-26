@@ -37,8 +37,9 @@ final class CubeMapModel : Model {
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  CubeMapModel build(CubeMapVertex[] vertices) {
+  typeof(this) build(CubeMapVertex[] vertices) {
     rawModel = ResourceManager.loadRawModel(vertices);
     build();
     return this;
@@ -46,8 +47,9 @@ final class CubeMapModel : Model {
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  CubeMapModel build(CubeMapVertex[] vertices, uint[] indices) {
+  typeof(this) build(CubeMapVertex[] vertices, uint[] indices) {
     hasIndices = true;
     rawModel = ResourceManager.loadRawModel(vertices, indices);
     build();
