@@ -17,7 +17,6 @@ import liberty.resource;
 import liberty.graphics.material.impl;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
-import liberty.graphics.util;
 import liberty.surface.vertex;
 
 /**
@@ -70,32 +69,27 @@ final class SurfaceModel : Model {
   void render() {
     if (shouldCull)
       GfxEngine.enableCulling();
+
+    GfxEngine.enableAlphaBlend();
     
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
-    }
-    
-    GfxEngine.enableAlphaBlend();
 
-    version (__OPENGL__) {
       glBindVertexArray(rawModel.getVaoID());
       glEnableVertexAttribArray(0);
       glEnableVertexAttribArray(1);
     }
 
-    if (hasIndices)
-      GfxUtil.drawElements(GfxDrawMode.Triangles, GfxVectorType.UnsignedInt, rawModel.getVertexCount());
-    else
-      GfxUtil.drawArrays(GfxDrawMode.Triangles, rawModel.getVertexCount());
+    hasIndices
+      ? drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.getVertexCount())
+      : drawArrays(GfxDrawMode.TRIANGLES, rawModel.getVertexCount());
 
     version (__OPENGL__) {
       glDisableVertexAttribArray(0);
       glDisableVertexAttribArray(1);
       glBindVertexArray(0);
-    }
 
-    version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, 0);
     }

@@ -10,13 +10,11 @@ module liberty.graphics;
 
 public {
   import liberty.graphics.buffer;
+  import liberty.graphics.material;
   import liberty.graphics.shader;
   import liberty.graphics.texture;
 
-  import liberty.graphics.array;
-  import liberty.graphics.color;
   import liberty.graphics.constants;
   import liberty.graphics.engine;
-  import liberty.graphics.material;
-  import liberty.graphics.util;
+  import liberty.graphics.factory;
 }

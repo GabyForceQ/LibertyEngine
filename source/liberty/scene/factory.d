@@ -12,7 +12,7 @@ import liberty.scene.impl;
 import liberty.scene.serializer;
 
 /**
- * This is the scene factory interface used by all scene objects.
+ * Scene factory interface is implemented and used by scene objects.
 **/
 interface ISceneFactory {
   /**
@@ -23,9 +23,9 @@ interface ISceneFactory {
   }
 
   /**
-   * Destroy an existing scene from memory.
+   * Release an existing scene from memory.
   **/
-  static void kill(Scene scene) {
+  static void release(Scene scene) {
     scene.destroy();
     scene = null;
   }

@@ -15,7 +15,6 @@ import liberty.core.engine;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.graphics.material.impl;
-import liberty.graphics.util;
 import liberty.resource;
 import liberty.model.impl;
 import liberty.cubemap.vertex;
@@ -76,33 +75,21 @@ final class CubeMapModel : Model {
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_CUBE_MAP, materials[0].getTexture().getId());
-    }
-
-    version (__OPENGL__) {
+    
       glBindVertexArray(rawModel.getVaoID());
       glEnableVertexAttribArray(0);
       glEnableVertexAttribArray(1);
     }
 
-    if (hasIndices)
-      GfxUtil.drawElements(
-        GfxDrawMode.Triangles,
-        GfxVectorType.UnsignedInt,
-        rawModel.getVertexCount()
-      );
-    else
-      GfxUtil.drawArrays(
-        GfxDrawMode.Triangles,
-        rawModel.getVertexCount()
-      );
+    hasIndices
+      ? drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.getVertexCount())
+      : drawArrays(GfxDrawMode.TRIANGLES, rawModel.getVertexCount());
     
     version (__OPENGL__) {
       glDisableVertexAttribArray(0);
       glDisableVertexAttribArray(1);
       glBindVertexArray(0);
-    }
-
-    version (__OPENGL__) {
+    
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }

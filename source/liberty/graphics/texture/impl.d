@@ -44,7 +44,7 @@ final class Texture {
    * Generate texture internally.
    * Returns reference to this so it can be used in a stream.
   **/
-  Texture generateTextures() {
+  typeof(this) generateTextures() {
     version (__OPENGL__)
       glGenTextures(1, &id);
 
@@ -55,7 +55,7 @@ final class Texture {
    * Delete texture internally.
    * Returns reference to this so it can be used in a stream.
   **/
-  Texture deleteTextures() {
+  typeof(this) deleteTextures() {
     version (__OPENGL__)
       glDeleteTextures(1, &id);
 
@@ -66,7 +66,7 @@ final class Texture {
    * Bind the texture.
    * Returns reference to this so it can be used in a stream.
   **/
-  Texture bind(TextureType type) {
+  typeof(this) bind(TextureType type) {
     version (__OPENGL__)
       final switch (type) with (TextureType) {
         case NONE:
@@ -90,7 +90,7 @@ final class Texture {
    * Unbind the texture.
    * Returns reference to this so it can be used in a stream.
   **/
-  Texture unbind() {
+  typeof(this) unbind() {
     final switch (type) with (TextureType) {
       case NONE:
         Logger.error("Cannot unbind NONE from texture.", typeof(this).stringof);
@@ -127,7 +127,7 @@ final class Texture {
    * Set both width and height of texture.
    * Returns reference to this so it can be used in a stream.
   **/
-  Texture setExtent(uint width, uint height) pure nothrow {
+  typeof(this) setExtent(uint width, uint height) pure nothrow {
     this.width = width;
     this.height = height;
     return this;
@@ -137,7 +137,7 @@ final class Texture {
    * Set the texture width.
    * Returns reference to this so it can be used in a stream.
   **/
-  Texture setWidth(uint width) pure nothrow {
+  typeof(this) setWidth(uint width) pure nothrow {
     this.width = width;
     return this;
   }
@@ -153,7 +153,7 @@ final class Texture {
    * Set the texture height.
    * Returns reference to this so it can be used in a stream.
   **/
-  Texture setHeight(uint height) pure nothrow {
+  typeof(this) setHeight(uint height) pure nothrow {
     this.height = height;
     return this;
   }
@@ -169,7 +169,7 @@ final class Texture {
    * Generate mipmap for texture 2D.
    * Returns reference to this so it can be used in a stream.
   **/
-  Texture generateMipmap() {
+  typeof(this) generateMipmap() {
     version (__OPENGL__)
       glGenerateMipmap(GL_TEXTURE_2D);
       
@@ -180,7 +180,7 @@ final class Texture {
    * Set texture level of detail bias.
    * Returns reference to this so it can be used in a stream.
   **/
-  Texture setLODBias(string op = "=")(float value)
+  typeof(this) setLODBias(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=" || op == "%=") {
     mixin("lodBias " ~ op ~ " value;");
     const bindUnbind = !isBind; 

@@ -9,28 +9,28 @@
 module liberty.graphics.constants;
 
 /**
- *
+ * Possible video card vendors.
 **/
 enum GfxVendor : byte {
   /**
-   *
+   * AMD vendor.
   **/
-  Amd = 0x00,
+  AMD = 0x00,
 
   /**
-   *
+   * Intel vendor.
   **/
-  Intel = 0x01,
+  INTEL = 0x01,
 
   /**
-   *
+   * Nvidia vendor.
   **/
-  Nvidia = 0x02,
+  NVIDIA = 0x02,
 
   /**
-   *
+   * Vendor is unknown.
   **/
-  Other = -0x01
+  UNKNOWN = -0x01
 }
 
 /**
@@ -40,22 +40,22 @@ enum GfxBlending : byte {
   /**
    *
   **/
-	Opaque = 0x00,
+	OPAQUE = 0x00,
   
 	/**
    *
   **/
-	AlphaBlend = 0x01,
+	ALPHA_BLEND = 0x01,
   
 	/**
    *
   **/
-	NonPremultiplied = 0x02,
+	NON_PREMULTIPLIED = 0x02,
  
   /**
    *
   **/
-	Additive = 0x03
+	ADDITIVE = 0x03
 }
 
 /**
@@ -65,32 +65,32 @@ enum GfxSampling : byte {
   /**
    *
   **/
-	AnisotropicClamp = 0x00,
+	ANISOTROPIC_CLAMP = 0x00,
   
 	/**
    *
   **/
-	AnisotropicWrap = 0x01,
+	ANISOTROPIC_WRAP = 0x01,
   
 	/**
    *
   **/
-	LinearClamp = 0x02,
+	LINEAR_CLAMP = 0x02,
   
 	/**
    *
   **/
-	LinearWrap = 0x03,
+	LINEAR_WRAP = 0x03,
   
 	/**
    *
   **/
-	PointClamp = 0x04,
+	POINT_CLAMP = 0x04,
   
 	/**
    *
   **/
-	PointWrap = 0x05
+	POINT_WRAP = 0x05
 }
 
 /**
@@ -100,27 +100,27 @@ enum GfxVSyncState : byte {
   /**
    *
   **/
-	Immediate = 0x00,
+	IMMEDIATE = 0x00,
   
 	/**
    *
   **/
-	Default = 0x01,
+	DEFAULT = 0x01,
   
 	/**
    *
   **/
-	LateTearing = -0x01
+	LATE_TEARING = -0x01
 }
 
 /**
- *
+ * Draw modes.
 **/
 enum GfxDrawMode : byte {
   /**
-   *
+   * Draw triangles.
   **/
-	Triangles = 0x00
+	TRIANGLES = 0x00
 }
 
 /**
@@ -128,7 +128,7 @@ enum GfxDrawMode : byte {
 **/
 enum GfxVectorType : byte {
   /**
-   *
+   * Unsigned integer.
   **/
-	UnsignedInt = 0x00
+	UINT = 0x00
 }

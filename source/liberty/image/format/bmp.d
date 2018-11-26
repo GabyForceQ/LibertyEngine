@@ -93,12 +93,12 @@ final class BMPImage : Image {
   /**
    *
   **/
-  Vector4!(ubyte) getRGBAPixel(int x, int y) pure nothrow {
+  Color4 getRGBAPixel(int x, int y) pure nothrow {
     const ubyte b = pixelData[header.width * y * 4 + x * 4 + 0];
     const ubyte g = pixelData[header.width * y * 4 + x * 4 + 1];
     const ubyte r = pixelData[header.width * y * 4 + x * 4 + 2];
     const ubyte a = pixelData[header.width * y * 4 + x * 4 + 3];
-    return Vector4!(ubyte)(r, g, b, a);
+    return Color4(r, g, b, a);
   }
 
   /**

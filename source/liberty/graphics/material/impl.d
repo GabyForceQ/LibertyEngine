@@ -23,7 +23,7 @@ final class Material {
     Texture texture;
     Texture cubeMapTextures;
 
-    static Material defaultMaterial;
+    static typeof(this) defaultMaterial;
   }
 
   /**
@@ -78,7 +78,7 @@ final class Material {
   /**
    *
   **/
-  static Material getDefault() {
+  static typeof(this) getDefault() nothrow {
     return defaultMaterial;
   }
 }

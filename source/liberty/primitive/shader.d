@@ -17,9 +17,9 @@ import liberty.graphics.shader;
 /**
  *
 **/
-final class PrimitiveShader : Shader {
+final class PrimitiveShader : GfxShader {
   private {
-    static immutable GENERIC_VERTEX = SHADER_CORE_VERSION ~ q{
+    static immutable GENERIC_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec3 lNormal;
       layout (location = 2) in vec2 lTexCoord;
@@ -65,7 +65,7 @@ final class PrimitiveShader : Shader {
       }
     };
 
-    static immutable GENERIC_FRAGMENT = SHADER_CORE_VERSION ~ q{
+    static immutable GENERIC_FRAGMENT = GFX_SHADER_CORE_VERSION ~ q{
       in vec3 tNormal;
       in vec2 tTexCoord;
       in vec3 tToLightVector[4];
@@ -122,33 +122,33 @@ final class PrimitiveShader : Shader {
    *
   **/
   this() {
-    compileShaders(GENERIC_VERTEX, GENERIC_FRAGMENT)
-      .linkShaders()
-      .bindAttribute("lPosition")
-      .bindAttribute("lNormal")
-      .bindAttribute("lTexCoord")
-      .bind()
-      .addUniform("uModelMatrix")
-      .addUniform("uViewMatrix")
-      .addUniform("uProjectionMatrix")
-      .addUniform("uLightPosition[0]")
-      .addUniform("uLightPosition[1]")
-      .addUniform("uLightPosition[2]")
-      .addUniform("uLightPosition[3]")
-      .addUniform("uLightColor[0]")
-      .addUniform("uLightColor[1]")
-      .addUniform("uLightColor[2]")
-      .addUniform("uLightColor[3]")
-      .addUniform("uLightAttenuation[0]")
-      .addUniform("uLightAttenuation[1]")
-      .addUniform("uLightAttenuation[2]")
-      .addUniform("uLightAttenuation[3]")
-      .addUniform("uTexture")
-      .addUniform("uShineDamper")
-      .addUniform("uReflectivity")
-      .addUniform("uUseFakeLighting")
-      .addUniform("uSkyColor")
-      .unbind();
+    compileShaders(GENERIC_VERTEX, GENERIC_FRAGMENT);
+    linkShaders();
+    bindAttribute("lPosition");
+    bindAttribute("lNormal");
+    bindAttribute("lTexCoord");
+    this.bind();
+    addUniform("uModelMatrix");
+    addUniform("uViewMatrix");
+    addUniform("uProjectionMatrix");
+    addUniform("uLightPosition[0]");
+    addUniform("uLightPosition[1]");
+    addUniform("uLightPosition[2]");
+    addUniform("uLightPosition[3]");
+    addUniform("uLightColor[0]");
+    addUniform("uLightColor[1]");
+    addUniform("uLightColor[2]");
+    addUniform("uLightColor[3]");
+    addUniform("uLightAttenuation[0]");
+    addUniform("uLightAttenuation[1]");
+    addUniform("uLightAttenuation[2]");
+    addUniform("uLightAttenuation[3]");
+    addUniform("uTexture");
+    addUniform("uShineDamper");
+    addUniform("uReflectivity");
+    addUniform("uUseFakeLighting");
+    addUniform("uSkyColor");
+    this.unbind();
   }
 
   /**

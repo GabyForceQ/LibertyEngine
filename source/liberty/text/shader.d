@@ -14,9 +14,9 @@ import liberty.graphics.shader;
 /**
  *
 **/
-final class TextShader : Shader {
+final class TextShader : GfxShader {
   private {
-    static immutable FONT_VERTEX = SHADER_CORE_VERSION ~ q{
+    static immutable FONT_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec2 lTexCoord;
 
@@ -32,7 +32,7 @@ final class TextShader : Shader {
       }
     };
 
-    static immutable FONT_FRAGMENT = SHADER_CORE_VERSION ~ q{
+    static immutable FONT_FRAGMENT = GFX_SHADER_CORE_VERSION ~ q{
       in vec2 tTexCoord;
 
       uniform vec3 uColor;
@@ -48,15 +48,15 @@ final class TextShader : Shader {
    *
   **/
   this() {
-    compileShaders(FONT_VERTEX, FONT_FRAGMENT)
-      .linkShaders()
-      .bindAttribute("lPosition")
-      .bindAttribute("lTexCoord")
-      .bind()
-      .addUniform("uTranslation")
-      .addUniform("uColor")
-      .addUniform("uFontAtlas")
-      .unbind();
+    compileShaders(FONT_VERTEX, FONT_FRAGMENT);
+    linkShaders();
+    bindAttribute("lPosition");
+    bindAttribute("lTexCoord");
+    this.bind();
+    addUniform("uTranslation");
+    addUniform("uColor");
+    addUniform("uFontAtlas");
+    this.unbind();
   }
 
   /**

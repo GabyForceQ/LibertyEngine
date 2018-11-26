@@ -18,12 +18,9 @@ import liberty.logger.impl;
 import liberty.primitive.model;
 import liberty.model;
 import liberty.model.io;
-import liberty.graphics.array;
-import liberty.graphics.buffer.constants;
-import liberty.graphics.buffer.impl;
+import liberty.graphics.buffer;
 import liberty.graphics.texture.cache;
 import liberty.graphics.texture.impl;
-import liberty.graphics.util;
 import liberty.cubemap.vertex;
 import liberty.surface.vertex;
 import liberty.text.io;
@@ -70,11 +67,11 @@ final abstract class ResourceManager {
   **/
   static RawModel loadRawModel(VERTEX)(VERTEX[] data) {
     // Create vertex array object for the model    
-    GfxArray vao = GfxUtil.createArray();
+    GfxArray vao = GfxArray.createArray();
     vaos ~= vao.getHandle();
 
     // Create vertex buffer object for the model
-    GfxBuffer vbo = GfxUtil.createBuffer(GfxBufferTarget.Array, GfxDataUsage.StaticDraw, data);    
+    GfxBuffer vbo = GfxBuffer.createBuffer(GfxBufferTarget.ARRAY, GfxDataUsage.STATIC_DRAW, data);    
     vbos ~= vbo.getHandle();
 
     version (__OPENGL__) {
@@ -107,16 +104,16 @@ final abstract class ResourceManager {
   **/
   static RawModel loadRawModel(VERTEX)(VERTEX[] data, uint[] indices) {
     // Create vertex array object for the model
-    GfxArray vao = GfxUtil.createArray();
+    GfxArray vao = GfxArray.createArray();
     vaos ~= vao.getHandle();
 
     // Create vertex buffer object for the model
-    GfxBuffer vbo = GfxUtil.createBuffer(GfxBufferTarget.Array, GfxDataUsage.StaticDraw, data);
+    GfxBuffer vbo = GfxBuffer.createBuffer(GfxBufferTarget.ARRAY, GfxDataUsage.STATIC_DRAW, data);
     vbos ~= vbo.getHandle();
 
     // Create element buffer object for the model
     // This shouldn't be unbinded
-    GfxBuffer ebo = GfxUtil.createBuffer(GfxBufferTarget.ElementArray, GfxDataUsage.StaticDraw, indices);
+    GfxBuffer ebo = GfxBuffer.createBuffer(GfxBufferTarget.ELEMENT_ARRAY, GfxDataUsage.STATIC_DRAW, indices);
     vbos ~= ebo.getHandle();
 
     version (__OPENGL__) {

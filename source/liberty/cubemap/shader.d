@@ -14,9 +14,9 @@ import liberty.graphics.shader;
 /**
  *
 **/
-final class CubeMapShader : Shader {
+final class CubeMapShader : GfxShader {
   private {
-    static immutable CUBEMAP_VERTEX = SHADER_CORE_VERSION ~ q{
+    static immutable CUBEMAP_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec3 lTexCoord;
 
@@ -32,7 +32,7 @@ final class CubeMapShader : Shader {
       }
     };
 
-    static immutable CUBEMAP_FRAGMENT = SHADER_CORE_VERSION ~ q{
+    static immutable CUBEMAP_FRAGMENT = GFX_SHADER_CORE_VERSION ~ q{
       in vec3 tTexCoord;
       
       uniform samplerCube uCubeMap;
@@ -47,14 +47,14 @@ final class CubeMapShader : Shader {
    *
   **/
   this() {
-    compileShaders(CUBEMAP_VERTEX, CUBEMAP_FRAGMENT)
-      .linkShaders()
-      .bindAttribute("lPosition")
-      .bind()
-      .addUniform("uProjectionMatrix")
-      .addUniform("uViewMatrix")
-      .addUniform("uCubeMap")
-      .unbind();
+    compileShaders(CUBEMAP_VERTEX, CUBEMAP_FRAGMENT);
+    linkShaders();
+    bindAttribute("lPosition");
+    this.bind();
+    addUniform("uProjectionMatrix");
+    addUniform("uViewMatrix");
+    addUniform("uCubeMap");
+    this.unbind();
   }
 
   /**

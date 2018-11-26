@@ -15,72 +15,72 @@ enum GfxBufferTarget : byte {
   /**
 	 * Vertex attributes.
   **/
-	Array = 0x00,
+	ARRAY = 0x00,
   
   /**
 	 * Atomic counter storage.
   **/
-	AtomicCounter = 0x01,
+	ATOMIC_COUNTER = 0x01,
   
   /**
 	 * Buffer copy source.
   **/
-	CopyRead = 0x02,
+	COPY_READ = 0x02,
   
   /**
 	 * Buffer copy destination.
   **/
-	CopyWrite = 0x03,
+	COPY_WRITE = 0x03,
   
   /**
 	 * Indirect compute dispatch commands.
   **/
-	DispatchIndirect = 0x04,
+	DISPATCH_INDIRECT = 0x04,
   
   /**
 	 * Indirect command arguments.
   **/
-	DrawIndirect = 0x05,
+	DRAW_INDIRECT = 0x05,
   
   /**
 	 * Vertex array indices.
   **/
-	ElementArray = 0x06,
+	ELEMENT_ARRAY = 0x06,
   
   /**
 	 * Pixel read target.
   **/
-	PixelPack = 0x07,
+	PIXEL_PACK = 0x07,
   
   /**
 	 * Texture data source.
   **/
-	PixelUnpack = 0x08,
+	PIXEL_UNPACK = 0x08,
   
   /**
 	 * Query result buffer.
   **/
-	Query = 0x09,
+	QUERY = 0x09,
   
   /**
 	 * Read-write storage for shaders.
   **/
-	ShaderStorage = 0x0A,
+	SHADER_STORAGE = 0x0A,
   
   /**
 	 * Texture data buffer.
   **/
-	Texture = 0x0B,
+	TEXTURE = 0x0B,
   
   /**
 	 * Transform feedback buffer.
   **/
-	TransformFeedback = 0x0C,
+	TRANSFORM_FEEDBACK = 0x0C,
   
   /**
 	 * Uniform block storage.
   **/
-	Uniform = 0x0D
+	UNIFORM = 0x0D
 }
 
 /**
@@ -90,45 +90,45 @@ enum GfxDataUsage : byte {
   /**
    *
   **/
-	StreamDraw = 0x00,
+	STREAM_DRAW = 0x00,
   
   /**
    *
   **/
-	StreamRead = 0x01,
+	STREAM_READ = 0x01,
   
   /**
    *
   **/
-	StreamCopy = 0x02,
+	STREAM_COPY = 0x02,
   
   /**
    *
   **/
-	StaticDraw = 0x03,
+	STATIC_DRAW = 0x03,
   
   /**
    *
   **/
-	StaticRead = 0x04,
+	STATIC_READ = 0x04,
   
   /**
    *
   **/
-	StaticCopy = 0x05,
+	STATIC_COPY = 0x05,
   
   /**
    *
   **/
-	DynamicDraw = 0x06,
+	DYNAMIC_DRAW = 0x06,
   
   /**
    *
   **/
-	DynamicRead = 0x07,
+	DYNAMIC_READ = 0x07,
   
   /**
    *
   **/
-	DynamicCopy = 0x08
+	DYNAMIC_COPY = 0x08
 }

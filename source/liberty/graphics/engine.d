@@ -15,7 +15,6 @@ import liberty.math.vector;
 import liberty.core.engine;
 import liberty.logger;
 import liberty.core.platform;
-import liberty.graphics.color;
 import liberty.graphics.constants;
 
 /**
@@ -133,7 +132,7 @@ final abstract class GfxEngine {
   /**
    *
   **/
-  static void clearColor(Color color) {
+  static void clearColor(Color4 color) {
     version (__OPENGL__) {
       glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
     }
@@ -316,13 +315,12 @@ final abstract class GfxEngine {
     import std.algorithm.searching : canFind;
     const(char)[] s = getVendorString();
     if (canFind(s, "AMD"))
-      return GfxVendor.Amd;
+      return GfxVendor.AMD;
     else if (canFind(s, "NVIDIA"))
-      return GfxVendor.Nvidia;
+      return GfxVendor.NVIDIA;
     else if (canFind(s, "Intel"))
-      return GfxVendor.Intel;
-    else
-      return GfxVendor.Other;
+      return GfxVendor.INTEL;
+    return GfxVendor.UNKNOWN;
   }
 
   static const(char)[] getRendererString() {

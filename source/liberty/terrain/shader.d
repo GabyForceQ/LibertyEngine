@@ -17,9 +17,9 @@ import liberty.graphics.shader;
 /**
  *
 **/
-final class TerrainShader : Shader {
+final class TerrainShader : GfxShader {
   private {
-    static immutable TERRAIN_VERTEX = SHADER_CORE_VERSION ~ q{
+    static immutable TERRAIN_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec3 lNormal;
       layout (location = 2) in vec2 lTexCoord;
@@ -59,7 +59,7 @@ final class TerrainShader : Shader {
       }
     };
 
-    static immutable TERRAIN_FRAGMENT = SHADER_CORE_VERSION ~ q{
+    static immutable TERRAIN_FRAGMENT = GFX_SHADER_CORE_VERSION ~ q{
       in vec3 tNormal;
       in vec2 tTexCoord;
       in vec3 tToLightVector[4];
@@ -127,37 +127,37 @@ final class TerrainShader : Shader {
    *
   **/
   this() {
-    compileShaders(TERRAIN_VERTEX, TERRAIN_FRAGMENT)
-      .linkShaders()
-      .bindAttribute("lPosition")
-      .bindAttribute("lNormal")
-      .bindAttribute("lTexCoord")
-      .bind()
-      .addUniform("uModelMatrix")
-      .addUniform("uViewMatrix")
-      .addUniform("uProjectionMatrix")
-      .addUniform("uLightPosition[0]")
-      .addUniform("uLightPosition[1]")
-      .addUniform("uLightPosition[2]")
-      .addUniform("uLightPosition[3]")
-      .addUniform("uLightColor[0]")
-      .addUniform("uLightColor[1]")
-      .addUniform("uLightColor[2]")
-      .addUniform("uLightColor[3]")
-      .addUniform("uLightAttenuation[0]")
-      .addUniform("uLightAttenuation[1]")
-      .addUniform("uLightAttenuation[2]")
-      .addUniform("uLightAttenuation[3]")
-      .addUniform("uBackgroundTexture")
-      .addUniform("uRTexture")
-      .addUniform("uGTexture")
-      .addUniform("uBTexture")
-      .addUniform("uBlendMap")
-      .addUniform("uShineDamper")
-      .addUniform("uReflectivity")
-      .addUniform("uTexCoordMultiplier")
-      .addUniform("uSkyColor")
-      .unbind();
+    compileShaders(TERRAIN_VERTEX, TERRAIN_FRAGMENT);
+    linkShaders();
+    bindAttribute("lPosition");
+    bindAttribute("lNormal");
+    bindAttribute("lTexCoord");
+    this.bind();
+    addUniform("uModelMatrix");
+    addUniform("uViewMatrix");
+    addUniform("uProjectionMatrix");
+    addUniform("uLightPosition[0]");
+    addUniform("uLightPosition[1]");
+    addUniform("uLightPosition[2]");
+    addUniform("uLightPosition[3]");
+    addUniform("uLightColor[0]");
+    addUniform("uLightColor[1]");
+    addUniform("uLightColor[2]");
+    addUniform("uLightColor[3]");
+    addUniform("uLightAttenuation[0]");
+    addUniform("uLightAttenuation[1]");
+    addUniform("uLightAttenuation[2]");
+    addUniform("uLightAttenuation[3]");
+    addUniform("uBackgroundTexture");
+    addUniform("uRTexture");
+    addUniform("uGTexture");
+    addUniform("uBTexture");
+    addUniform("uBlendMap");
+    addUniform("uShineDamper");
+    addUniform("uReflectivity");
+    addUniform("uTexCoordMultiplier");
+    addUniform("uSkyColor");
+    this.unbind();
   }
 
   /**

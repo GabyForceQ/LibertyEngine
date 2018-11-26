@@ -11,13 +11,14 @@ module liberty.graphics.buffer.impl;
 version (__OPENGL__)
   import bindbc.opengl;
 
-import liberty.utils;
+import liberty.graphics.buffer.factory;
 import liberty.graphics.engine;
+import liberty.utils;
 
 /**
- *
+ * Vertex buffer class.
 **/
-final class GfxBuffer {
+final class GfxBuffer : IGfxBufferFactory {
   private {
     uint buffer;
     size_t size;
@@ -27,7 +28,7 @@ final class GfxBuffer {
   }
 
   /**
-   *
+   * Create a vertex buffer object using target and usage.
   **/
   this(uint target, uint usage) {
     this.target = target;
@@ -40,7 +41,7 @@ final class GfxBuffer {
   }
 
   /**
-   *
+   * Create a vertex buffer object using target, usage and buffer.
   **/
   this(T)(uint target, uint usage, T[] buffer) {
     this(target, usage);
@@ -48,7 +49,7 @@ final class GfxBuffer {
   }
 
   /**
-   *
+   * Returns the buffer size;
   **/
   size_t getSize() pure nothrow const {
     return size;
@@ -56,15 +57,18 @@ final class GfxBuffer {
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  void setData(T)(T[] buffer) {
+  typeof(this) setData(T)(T[] buffer) {
     setData(buffer.bufferSize(), buffer.ptr);
+    return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  void setData(size_t size, void* data) {
+  typeof(this) setData(size_t size, void* data) {
     bind();
     this.size = size;
     
@@ -80,34 +84,40 @@ final class GfxBuffer {
     
     debug GfxEngine.runtimeCheckErr();
     firstLoad = false;
+
+    return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  void setSubData(size_t offset, size_t size, void* data) {
+  typeof(this) setSubData(size_t offset, size_t size, void* data) {
     bind();
     
     version (__OPENGL__)
       glBufferSubData(target, offset, size, data);
     
     debug GfxEngine.runtimeCheckErr();
+    return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  void getSubData(size_t offset, size_t size, void* data) {
+  typeof(this) getSubData(size_t offset, size_t size, void* data) {
     bind();
 
     version (__OPENGL__)
       glGetBufferSubData(target, offset, size, data);
     
     debug GfxEngine.runtimeCheckErr();
+    return this;
   }
 
   /**
-   *
+   * Return the buffer number of bytes.
   **/
   ubyte[] getBytes() {
     auto buff = new ubyte[size];
@@ -116,35 +126,31 @@ final class GfxBuffer {
   }
 
   /**
-   *
+   * Bind the buffer into video memory.
+   * Returns reference to this so it can be used in a stream.
   **/
-  void bind() {
+  typeof(this) bind() {
     version (__OPENGL__)
       glBindBuffer(target, buffer);
    
     debug GfxEngine.runtimeCheckErr();
+    return this;
   }
 
   /**
-   *
+   * Unbind the buffer from video memory.
+   * Returns reference to this so it can be used in a stream.
   **/
-  void unbind() {
+  typeof(this) unbind() {
     version (__OPENGL__)
       glBindBuffer(target, 0);
+    return this;
   }
 
   /**
-   *
+   * Returns wrapped video resource handle.
   **/
   uint getHandle() pure nothrow const {
     return buffer;
-  }
-
-  /**
-   *
-  **/
-  static void releaseBuffers(uint[] buff) {
-    version (__OPENGL__)
-      glDeleteBuffers(cast(int)buff.length, cast(uint*)buff);
   }
 }

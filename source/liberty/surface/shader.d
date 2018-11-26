@@ -14,9 +14,9 @@ import liberty.graphics.shader;
 /**
  *
 **/
-final class SurfaceShader : Shader {
+final class SurfaceShader : GfxShader {
   private {
-    static immutable UI_VERTEX = SHADER_CORE_VERSION ~ q{
+    static immutable UI_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
       layout (location = 1) in vec2 lTexCoord;
 
@@ -34,7 +34,7 @@ final class SurfaceShader : Shader {
       }
     };
 
-    static immutable UI_FRAGMENT = SHADER_CORE_VERSION ~ q{
+    static immutable UI_FRAGMENT = GFX_SHADER_CORE_VERSION ~ q{
       in vec2 tTexCoord;
       
       uniform sampler2D uTexture;
@@ -49,16 +49,16 @@ final class SurfaceShader : Shader {
    *
   **/
   this() {
-    compileShaders(UI_VERTEX, UI_FRAGMENT)
-      .linkShaders()
-      .bindAttribute("lPosition")
-      .bindAttribute("lTexCoord")
-      .bind()
-      .addUniform("uModelMatrix")
-      .addUniform("uProjectionMatrix")
-      .addUniform("uZIndex")
-      .addUniform("uTexture")
-      .unbind();
+    compileShaders(UI_VERTEX, UI_FRAGMENT);
+    linkShaders();
+    bindAttribute("lPosition");
+    bindAttribute("lTexCoord");
+    this.bind();
+    addUniform("uModelMatrix");
+    addUniform("uProjectionMatrix");
+    addUniform("uZIndex");
+    addUniform("uTexture");
+    this.unbind();
   }
 
   /**

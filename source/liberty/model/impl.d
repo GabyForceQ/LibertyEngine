@@ -8,6 +8,7 @@
 **/
 module liberty.model.impl;
 
+import liberty.graphics.factory;
 import liberty.graphics.material.impl;
 import liberty.model.raw;
 import liberty.services;
@@ -15,7 +16,7 @@ import liberty.services;
 /**
  *
 **/
-abstract class Model : IRenderable {
+abstract class Model : IGfxRendererFactory, IRenderable {
   protected {
     RawModel rawModel;
     Material[] materials;

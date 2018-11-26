@@ -475,6 +475,10 @@ alias Vector4U = Vector4!uint;
 alias Vector4F = Vector4!float;
 ///
 alias Vector4D = Vector4!double;
+///
+alias Color3 = Vector3!ubyte;
+///
+alias Color4 = Vector4!ubyte;
 /// Element-wise minimum.
 Vector!(T, N) minByElem(T, int N)(const Vector!(T, N) a, const Vector!(T, N) b) pure nothrow {
     import std.algorithm : min;

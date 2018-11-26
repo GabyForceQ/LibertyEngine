@@ -2,37 +2,25 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/shader.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/graphics/shader/impl.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.graphics.shader;
+module liberty.graphics.shader.impl;
 
 version (__OPENGL__)
   import bindbc.opengl;
 
 import liberty.core.engine;
-import liberty.logger;
+import liberty.graphics.shader.constants;
+import liberty.logger.impl;
 import liberty.math.vector;
 import liberty.math.matrix;
 
-version (Windows)
-  /**
-   *
-  **/
-  enum SHADER_CORE_VERSION = "#version 450 core\n";
-else version (linux)
-  /**
-   *
-  **/
-  enum SHADER_CORE_VERSION = "#version 330 core\n";
-else
-  static assert(0, "Shader core not supported on this platform.");
-
 /**
- *
+ * Base shader class.
 **/
-abstract class Shader {
+abstract class GfxShader {
   private {
     uint programID;
     uint vertexShaderID;
@@ -42,14 +30,15 @@ abstract class Shader {
   }
 
   /**
-   *
+   * Returns the shader id.
   **/
   uint getId() pure nothrow const {
     return programID;
   }
 
   /**
-   *
+   * Bind the shader into video memory.
+   * Returns reference to this so it can be used in a stream.
   **/
   R bind(this R)() {
     version (__OPENGL__)
@@ -59,7 +48,8 @@ abstract class Shader {
   }
 
   /**
-   *
+   * Unbind the shader from video memory.
+   * Returns reference to this so it can be used in a stream.
   **/
   R unbind(this R)() {
     version (__OPENGL__)
@@ -69,9 +59,10 @@ abstract class Shader {
   }
 
   /**
-   *
+   * Bind a shader attribute into video memory.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader bindAttribute(string name) {
+  protected final typeof(this) bindAttribute(string name) {
     import std.string : toStringz;
 
     version (__OPENGL__)
@@ -81,24 +72,26 @@ abstract class Shader {
   }
 
   /**
-   *
+   * Compile vertex and fragment shader using its code.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader compileShaders(string vertexShader, string fragmentShader) {
+  protected final typeof(this) compileShaders(string vertexShader, string fragmentShader) {
     // Create program
     version (__OPENGL__)
       this.programID = glCreateProgram();
 
     // Load shaders
-    this.vertexShaderID = loadShader(vertexShader, ShaderType.Vertex);
-    this.fragmentShaderID = loadShader(fragmentShader, ShaderType.Fragment);
+    this.vertexShaderID = loadShader(vertexShader, GfxShaderType.VERTEX);
+    this.fragmentShaderID = loadShader(fragmentShader, GfxShaderType.FRAGMENT);
 
     return this;
   }
 
   /**
-   *
+   * Link shaders into video memory.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader linkShaders() {
+  protected final typeof(this) linkShaders() {
     version (__OPENGL__) {
       // Attach shaders to program
       glAttachShader(this.programID, this.vertexShaderID);
@@ -141,9 +134,10 @@ abstract class Shader {
   }
 
   /**
-   *
+   * Add a new shader uniform to the uniforms map using its name.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader addUniform(string name) {
+  protected final typeof(this) addUniform(string name) {
     import std.string : toStringz;
     
     version (__OPENGL__) {
@@ -161,9 +155,10 @@ abstract class Shader {
   }
 
   /**
-   * Load bool uniform using location id and value.
+   * Load a bool uniform using location id and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(int locationID, bool value) nothrow {
+  protected final typeof(this) loadUniform(int locationID, bool value) nothrow {
     version (__OPENGL__)
       glUniform1i(locationID, cast(int)value);
 
@@ -171,9 +166,10 @@ abstract class Shader {
   }
 
   /**
-   * Load int uniform using location id and value.
+   * Load an int uniform using location id and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(int locationID, int value) nothrow {
+  protected final typeof(this) loadUniform(int locationID, int value) nothrow {
     version (__OPENGL__)
       glUniform1i(locationID, value);
 
@@ -181,9 +177,10 @@ abstract class Shader {
   }
 
   /**
-   * Load uint uniform using location id and value.
+   * Load an uint uniform using location id and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(int locationID, uint value) nothrow {
+  protected final typeof(this) loadUniform(int locationID, uint value) nothrow {
     version (__OPENGL__)
       glUniform1ui(locationID, value);
 
@@ -191,9 +188,10 @@ abstract class Shader {
   }
 
   /**
-   * Load float uniform using location id and value.
+   * Load a float uniform using location id and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(int locationID, float value) nothrow {
+  protected final typeof(this) loadUniform(int locationID, float value) nothrow {
     version (__OPENGL__)
       glUniform1f(locationID, value);
 
@@ -201,9 +199,10 @@ abstract class Shader {
   }
 
   /**
-   * Load Vector2F uniform using location id and value.
+   * Load a vec2 uniform using location id and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(int locationID, Vector2F vector) nothrow {
+  protected final typeof(this) loadUniform(int locationID, Vector2F vector) nothrow {
     version (__OPENGL__)
       glUniform2f(locationID, vector.x, vector.y);
 
@@ -211,9 +210,10 @@ abstract class Shader {
   }
 
   /**
-   * Load Vector3F uniform using location id and value.
+   * Load vec3 uniform using location id and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(int locationID, Vector3F vector) nothrow {
+  protected final typeof(this) loadUniform(int locationID, Vector3F vector) nothrow {
     version (__OPENGL__)
       glUniform3f(locationID, vector.x, vector.y, vector.z);
 
@@ -221,9 +221,10 @@ abstract class Shader {
   }
 
   /**
-   * Load Vector4F uniform using location id and value.
+   * Load vec4 uniform using location id and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(int locationID, Vector4F vector) nothrow {
+  protected final typeof(this) loadUniform(int locationID, Vector4F vector) nothrow {
     version (__OPENGL__)
       glUniform4f(locationID, vector.x, vector.y, vector.z, vector.w);
     
@@ -232,17 +233,19 @@ abstract class Shader {
 
   /**
    * Load Matrix4F uniform using location id and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  //Shader loadUniform(int locationID, Matrix4F matrix) nothrow {
-    //glUniform4fv(locationID, matrix.ptr); // TODO?
-    //glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
-    //return this;
-  //}
+  protected final typeof(this) loadUniform(int locationID, Matrix4F matrix) nothrow {
+    version (__OPENGL__)
+      glUniformMatrix4fv(locationID, 1, GL_TRUE, matrix.ptr);
+    return this;
+  }
 
   /**
    * Load bool uniform using uniform name and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(string name, bool value) nothrow {
+  protected final typeof(this) loadUniform(string name, bool value) nothrow {
     version (__OPENGL__)
       glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), cast(int)value);
     
@@ -251,8 +254,9 @@ abstract class Shader {
 
   /**
    * Load int uniform using uniform name and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(string name, int value) nothrow {
+  protected final typeof(this) loadUniform(string name, int value) nothrow {
     version (__OPENGL__)
       glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
     
@@ -261,8 +265,9 @@ abstract class Shader {
 
   /**
    * Load uint uniform using uniform name and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(string name, uint value) nothrow {
+  protected final typeof(this) loadUniform(string name, uint value) nothrow {
     version (__OPENGL__)
       glUniform1ui(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
     
@@ -271,8 +276,9 @@ abstract class Shader {
 
   /**
    * Load float uniform using uniform name and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(string name, float value) nothrow {
+  protected final typeof(this) loadUniform(string name, float value) nothrow {
     version (__OPENGL__)
       glUniform1f(this.uniforms[name], value);
     
@@ -281,8 +287,9 @@ abstract class Shader {
 
   /**
    * Load Vector2F uniform using uniform name and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(string name, Vector2F vector) nothrow {
+  protected final typeof(this) loadUniform(string name, Vector2F vector) nothrow {
     version (__OPENGL__)
       glUniform2f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y);
     
@@ -291,8 +298,9 @@ abstract class Shader {
 
   /**
    * Load Vector3F uniform using uniform name and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(string name, Vector3F vector) nothrow {
+  protected final typeof(this) loadUniform(string name, Vector3F vector) nothrow {
     version (__OPENGL__)
       glUniform3f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z);
     
@@ -301,8 +309,9 @@ abstract class Shader {
 
   /**
    * Load Vector4F uniform using uniform name and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(string name, Vector4F vector) nothrow {
+  protected final typeof(this) loadUniform(string name, Vector4F vector) nothrow {
     version (__OPENGL__)
       glUniform4f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z, vector.w);
     
@@ -311,15 +320,16 @@ abstract class Shader {
 
   /**
    * Load Matrix4F uniform using uniform name and value.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Shader loadUniform(string name, Matrix4F matrix) nothrow {
+  protected final typeof(this) loadUniform(string name, Matrix4F matrix) nothrow {
     version (__OPENGL__)
       glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
     
     return this;
   }
 
-  private uint loadShader(string shaderCode, ShaderType type) {
+  private uint loadShader(string shaderCode, GfxShaderType type) {
     import std.string : splitLines;
 
     // Get info about shader code
@@ -338,15 +348,20 @@ abstract class Shader {
     
     // Create shader
     int shaderId;
-    final switch(type) with(ShaderType) {
-      case Vertex:
+    final switch(type) with(GfxShaderType) {
+      case VERTEX:
         version (__OPENGL__)
           shaderId = glCreateShader(GL_VERTEX_SHADER);
         break;
 
-      case Fragment:
+      case FRAGMENT:
         version (__OPENGL__)
           shaderId = glCreateShader(GL_FRAGMENT_SHADER);
+        break;
+
+      case GEOMETRY:
+        Logger.todo("FEATURE NOT IMPLEMENTED YET", typeof(this).stringof);
+        Logger.error("Previous todo", typeof(this).stringof);
         break;
     }
 
@@ -385,19 +400,4 @@ abstract class Shader {
 
     return shaderId;
   }
-}
-
-/**
- *
-**/
-enum ShaderType : ubyte {
-  /**
-   *
-  **/
-  Vertex = 0x00,
-
-  /**
-   *
-  **/
-  Fragment = 0x01
 }
