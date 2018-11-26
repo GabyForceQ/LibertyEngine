@@ -29,12 +29,11 @@ final abstract class TextureIO {
     // Load texture form file
     auto image = cast(BMPImage)ResourceManager.loadImage(resourcePath);
 
-    // Generate OpenGL texture
+    // Generate and bind texture
     texture.generateTextures();
+    texture.bind(TextureType.TEX_2D);
 
     version (__OPENGL__) {
-      texture.bind(TextureType.TEX_2D);
-
       glTexImage2D(
         GL_TEXTURE_2D, 
         0, 
@@ -51,12 +50,12 @@ final abstract class TextureIO {
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-      
-      texture
-        .setLODBias(-0.4f)
-        .generateMipmap()
-        .unbind();
     }
+
+    texture
+      .setLODBias(-0.4f)
+      .generateMipmap()
+      .unbind();
 
     // Set Texture width and height
     texture.setExtent(image.getWidth(), image.getHeight());

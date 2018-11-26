@@ -18,17 +18,11 @@ struct CubeMapVertex {
    *
   **/
   Vector3F position;
-  
-  /**
-   *
-  **/
-  Vector3F texCoord;
 
   /**
    *
   **/
-  this(Vector3F position, Vector3F texCoord) {
+  this(Vector3F position) {
     this.position = position;
-    this.texCoord = texCoord;
   }
 }

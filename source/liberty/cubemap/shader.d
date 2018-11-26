@@ -18,7 +18,6 @@ final class CubeMapShader : GfxShader {
   private {
     static immutable CUBEMAP_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
-      layout (location = 1) in vec3 lTexCoord;
 
       out vec3 tTexCoord;
 
@@ -26,7 +25,7 @@ final class CubeMapShader : GfxShader {
       uniform mat4 uViewMatrix;
 
       void main() {
-        tTexCoord = lTexCoord;
+        tTexCoord = vec3(lPosition.x, -1.0 * lPosition.y, lPosition.z);
 
         gl_Position = uProjectionMatrix * uViewMatrix * vec4(lPosition, 1.0);
       }

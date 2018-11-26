@@ -69,6 +69,8 @@ final class CubeMapModel : Model {
    *
   **/
   void render() {
+    glDepthMask(GL_FALSE);
+    
     if (shouldCull)
       GfxEngine.enableCulling();
 
@@ -78,7 +80,6 @@ final class CubeMapModel : Model {
     
       glBindVertexArray(rawModel.getVaoID());
       glEnableVertexAttribArray(0);
-      glEnableVertexAttribArray(1);
     }
 
     hasIndices
@@ -87,7 +88,6 @@ final class CubeMapModel : Model {
     
     version (__OPENGL__) {
       glDisableVertexAttribArray(0);
-      glDisableVertexAttribArray(1);
       glBindVertexArray(0);
     
       glActiveTexture(GL_TEXTURE0);
@@ -96,5 +96,7 @@ final class CubeMapModel : Model {
 
     if (shouldCull)
       GfxEngine.disableCulling();
+
+    glDepthMask(GL_TRUE);
   }
 }

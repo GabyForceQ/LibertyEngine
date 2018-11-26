@@ -30,17 +30,15 @@ final abstract class CubeMapIO {
     Texture texture = new Texture();
     BMPImage[6] images;
 
-    version (__OPENGL__) {
-      // Generate OpenGL texture
-      texture.generateTextures();
-      texture.bind(TextureType.CUBE_MAP);
-    }
+    // Generate and bind texture
+    texture.generateTextures();
+    texture.bind(TextureType.CUBE_MAP);
 
     static foreach (i; 0..6) {
       // Load texture form file
       images[i] = cast(BMPImage)ResourceManager.loadImage(resourcesPath[i]);
 
-      version (__OPENGL__) {
+      version (__OPENGL__)
         glTexImage2D(
           GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
           0, 
@@ -52,20 +50,20 @@ final abstract class CubeMapIO {
           GL_UNSIGNED_BYTE,
           cast(ubyte*)images[i].getPixelData()
         );
-      }
     }
 
     version (__OPENGL__) {
-      //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-      //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-      
-      texture
-        .setLODBias(-0.4f)
-        .generateMipmap()
-        .unbind();
+      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     }
+
+    texture
+      .setLODBias(-0.4f)
+      .generateMipmap()
+      .unbind();
 
     // Set Texture width and height
     texture.setExtent(images[0].getWidth(), images[0].getHeight());
