@@ -47,4 +47,4 @@ https://github.com/GabyForceQ/LibertyDemos
 
 > *Please, do not use this framework in production as long as it is not officially released!*
 
-![](images/terrain.png?raw=true "Multiple textured terrain.")
+![](images/world.png?raw=true "Multiple textured terrain.")
