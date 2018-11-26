@@ -8,6 +8,7 @@
 **/
 module liberty.surface.renderer;
 
+import liberty.constants;
 import liberty.services;
 import liberty.scene;
 import liberty.surface.impl;
@@ -41,7 +42,8 @@ final class SurfaceRenderer : IRenderable {
       .bind();
     
     foreach (surface; system.getMap())
-      render(surface);
+      if (surface.getVisibility() == Visibility.Visible)
+        render(surface);
 
     system
       .getShader()
@@ -55,35 +57,39 @@ final class SurfaceRenderer : IRenderable {
   SurfaceRenderer render(Surface surface) {
     foreach (widget; surface.getRootCanvas().getWidgets()) {
       if (widget.getZIndex() == 0) {
-        system
-          .getShader()
-          .loadZIndex(0)
-          .loadModelMatrix(
+        if (widget.getVisibility() == Visibility.Visible) {
+          system
+            .getShader()
+            .loadZIndex(0)
+            .loadModelMatrix(
+              widget
+                .getTransform()
+                .getModelMatrix());
+        
+          if (widget.getModel() !is null)
             widget
-              .getTransform()
-              .getModelMatrix());
-      
-        if (widget.getModel() !is null)
-          widget
-            .getModel()
-            .render();
+              .getModel()
+              .render();
+        }
       }
     }
     // FILTER Z INDEX FOR NOW WITH ONLY 0 AND 1 --> BUG
     foreach (widget; surface.getRootCanvas().getWidgets()) {
       if (widget.getZIndex() == 1) {
-        system
-          .getShader()
-          .loadZIndex(0)
-          .loadModelMatrix(
-            widget
-              .getTransform()
-              .getModelMatrix());
+        if (widget.getVisibility() == Visibility.Visible) {
+          system
+            .getShader()
+            .loadZIndex(0)
+            .loadModelMatrix(
+              widget
+                .getTransform()
+                .getModelMatrix());
 
-        if (widget.getModel() !is null)
-          widget
-            .getModel()
-            .render();
+          if (widget.getModel() !is null)
+            widget
+              .getModel()
+              .render();
+        }
       }
     }
 

@@ -8,6 +8,7 @@
 **/
 module liberty.primitive.renderer;
 
+import liberty.constants;
 import liberty.primitive.impl;
 import liberty.primitive.system;
 import liberty.services;
@@ -53,7 +54,8 @@ final class PrimitiveRenderer : IRenderable {
           .getExpHeightFogColor());
     
     foreach (primitive; system.getMap())
-      render(primitive);
+      if (primitive.getVisibility() == Visibility.Visible)
+        render(primitive);
 
     system
       .getShader()

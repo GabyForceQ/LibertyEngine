@@ -8,6 +8,7 @@
 **/
 module liberty.terrain.renderer;
 
+import liberty.constants;
 import liberty.services;
 import liberty.scene;
 import liberty.terrain.impl;
@@ -53,7 +54,8 @@ final class TerrainRenderer : IRenderable {
           .getExpHeightFogColor());
     
     foreach (terrain; system.getMap())
-      render(terrain);
+      if (terrain.getVisibility() == Visibility.Visible)
+        render(terrain);
 
     system
       .getShader()

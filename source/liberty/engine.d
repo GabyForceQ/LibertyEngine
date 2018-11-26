@@ -29,6 +29,7 @@ public {
   import liberty.terrain;
   
   import liberty.action;
+  import liberty.constants;
   import liberty.resource;
   import liberty.services;
   import liberty.time;

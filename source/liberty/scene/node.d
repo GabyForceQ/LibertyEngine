@@ -8,6 +8,7 @@
 **/
 module liberty.scene.node;
 
+import liberty.constants;
 import liberty.math.transform;
 import liberty.logger;
 import liberty.core.engine;
@@ -39,6 +40,9 @@ abstract class SceneNode : IStartable, IUpdateable {
     
     // Transform component used for translation, rotation and scale
     Transform3 transform;
+
+    // setVisibility, getVisibility
+    Visibility visibility;
   }
 
   /**
@@ -274,6 +278,24 @@ abstract class SceneNode : IStartable, IUpdateable {
   **/
   Transform3 getTransform() pure nothrow {
     return transform;
+  }
+
+  /**
+   * Set the visibility of the scene node.
+   * See $(D Visibility) enumeration for possible values.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  SceneNode setVisibility(Visibility visibility) pure nothrow {
+    this.visibility = visibility;
+    return this;
+  }
+
+  /**
+   * Returns the visibility of the scene node.
+   * See $(D Visibility) enumeration for possible values.
+  **/
+  Visibility getVisibility() pure nothrow const {
+    return visibility;
   }
 
   private void insert(T : SceneNode)(ref T child) pure nothrow {

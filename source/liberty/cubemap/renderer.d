@@ -8,6 +8,7 @@
 **/
 module liberty.cubemap.renderer;
 
+import liberty.constants;
 import liberty.cubemap.impl;
 import liberty.cubemap.system;
 import liberty.scene;
@@ -49,7 +50,8 @@ final class CubeMapRenderer : IRenderable {
           .getViewMatrix());
 
     foreach (cubeMap; system.getMap())
-      render(cubeMap);
+      if (cubeMap.getVisibility() == Visibility.Visible)
+        render(cubeMap);
 
     system
       .getShader()

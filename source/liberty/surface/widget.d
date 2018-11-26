@@ -8,6 +8,7 @@
 **/
 module liberty.surface.widget;
 
+import liberty.constants;
 import liberty.math.vector;
 import liberty.math.transform;
 import liberty.surface.impl;
@@ -28,6 +29,9 @@ class Widget : IUpdateable {
     Vector2I index;
     int zIndex = 0;
     SurfaceModel model;
+
+    // setVisibility, getVisibility
+    Visibility visibility;
   }
 
   /**
@@ -126,6 +130,24 @@ class Widget : IUpdateable {
   **/
   final SurfaceModel getModel() pure nothrow {
     return model;
+  }
+
+  /**
+   * Set the visibility of the widget.
+   * See $(D Visibility) enumeration for possible values.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  final Widget setVisibility(Visibility visibility) pure nothrow {
+    this.visibility = visibility;
+    return this;
+  }
+
+  /**
+   * Returns the visibility of the widget.
+   * See $(D Visibility) enumeration for possible values.
+  **/
+  final Visibility getVisibility() pure nothrow const {
+    return visibility;
   }
 
   override void update() {}
