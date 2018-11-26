@@ -14,7 +14,7 @@ import liberty.math.vector;
 import liberty.math.matrix;
 import liberty.core.platform;
 import liberty.time;
-import liberty.camera.movement;
+import liberty.camera.constants;
 import liberty.camera.preset;
 import liberty.scene.meta;
 import liberty.scene.node;
@@ -33,43 +33,6 @@ final class Camera : SceneNode {
     this.getTransform().setRelativeLocation(0.0f, 3.0f, 4.0f);
   });
 
-  enum {
-    /**
-     * The default value of the camera yaw is -90.0f.
-    **/
-    DEFAULT_YAW = -90.0f,
-    
-    /**
-     * The default value of the camera pitch is -30.0f.
-    **/
-    DEFAULT_PITCH = -30.0f,
-    
-    /**
-     * The default value of the camera speed is 10.0f.
-    **/
-    DEFAULT_SPEED = 10.0f,
-    
-    /**
-     * The default value of the camera mouse sensitivity is 0.1f.
-    **/
-    DEFAULT_SENSITIVITY = 0.1f,
-    
-    /**
-     * The default value of the camera field of view is 45.0f.
-    **/
-    DEFAULT_FOV = 45.0f,
-    
-    /**
-     * The default value of the camera zNear is 0.01f.
-    **/
-    DEFAULT_ZNEAR = 0.01f,
-    
-    /**
-     * The default value of the camera zFar is 1000.0f.
-    **/
-    DEFAULT_ZFAR = 1000.0f
-  }
-
   package {
     // getFrontVector
     Vector3F frontVector = Vector3F.forward;
@@ -81,19 +44,19 @@ final class Camera : SceneNode {
     Vector3F worldUpVector = Vector3F.up;
 
     // setYaw, setDefaultYaw, getYaw
-    float yaw = DEFAULT_YAW;
+    float yaw = CAMERA_DEFAULT_YAW;
     // setPitch, setDefaultPitch, getPitch
-    float pitch = DEFAULT_PITCH;
+    float pitch = CAMERA_DEFAULT_PITCH;
     // setMovementSpeed, setDefaultMovementSpeed, getMovementSpeed
-    float movementSpeed = DEFAULT_SPEED;
+    float movementSpeed = CAMERA_DEFAULT_SPEED;
     // setMouseSensitivity, setDefaultMouseSensitivity, getMouseSensitivity
-    float mouseSensitivity = DEFAULT_SENSITIVITY;
+    float mouseSensitivity = CAMERA_DEFAULT_SENSITIVITY;
     // setFieldOfView, setDefaultFieldOfView, getFieldOfView
-    float fieldOfView = DEFAULT_FOV;
+    float fieldOfView = CAMERA_DEFAULT_FOV;
     // setZNear, setDefaultZNear, getZNear
-    float zNear = DEFAULT_ZNEAR;
+    float zNear = CAMERA_DEFAULT_ZNEAR;
     // setZFar, setDefaultZFar, getZFar
-    float zFar = DEFAULT_ZFAR;
+    float zFar = CAMERA_DEFAULT_ZFAR;
 
     // setMouseMoveLocked, isMouseMoveLocked
     bool mouseMoveLocked;
@@ -113,7 +76,7 @@ final class Camera : SceneNode {
    * Works only if camera keyboard listener isn't locked.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera processKeyboard(CameraMovement direction) {
+  typeof(this) processKeyboard(CameraMovement direction) {
     if (!keyboardLocked) {
       const float velocity = movementSpeed * Time.getDelta();
       preset.processKeyboard(this, direction, velocity);
@@ -128,7 +91,7 @@ final class Camera : SceneNode {
    * If it works then it updates camera vectors at the end.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera processMouseMovement(float xOffset, float yOffset) {
+  typeof(this) processMouseMovement(float xOffset, float yOffset) {
     if (!mouseMoveLocked) {
       xOffset *= mouseSensitivity;
       yOffset *= mouseSensitivity;
@@ -148,14 +111,14 @@ final class Camera : SceneNode {
    * Works only if camera mouse scroll listener isn't locked.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera processMouseScroll(float yOffset) pure nothrow {
+  typeof(this) processMouseScroll(float yOffset) pure nothrow {
     if (!mouseScrollLocked) {
-      if (fieldOfView >= 1.0f && fieldOfView <= DEFAULT_FOV)
+      if (fieldOfView >= 1.0f && fieldOfView <= CAMERA_DEFAULT_FOV)
         fieldOfView -= yOffset;
       if (fieldOfView <= 1.0f)
         fieldOfView = 1.0f;
-      if (fieldOfView >= DEFAULT_FOV)
-        fieldOfView = DEFAULT_FOV;
+      if (fieldOfView >= CAMERA_DEFAULT_FOV)
+        fieldOfView = CAMERA_DEFAULT_FOV;
     }
 
     return this;
@@ -223,7 +186,7 @@ final class Camera : SceneNode {
    * It updates camera vectors after setting yaw.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setYaw(string op = "=")(float value)
+  typeof(this) setYaw(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     mixin("yaw " ~ op ~ " value;");
@@ -232,11 +195,11 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera yaw to default value $(D DEFAULT_YAW).
+   * Set camera yaw to default value $(D CAMERA_DEFAULT_YAW).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setDefaultYaw() pure nothrow {
-    yaw = DEFAULT_YAW;
+  typeof(this) setDefaultYaw() pure nothrow {
+    yaw = CAMERA_DEFAULT_YAW;
     return this;
   }
 
@@ -259,7 +222,7 @@ final class Camera : SceneNode {
    * To enable/disable constrain pitch see $(D setConstrainPitchEnabled) function.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setPitch(string op = "=")(float value)
+  typeof(this) setPitch(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     mixin("pitch " ~ op ~ " value;");
@@ -269,11 +232,11 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera pitch to default value $(D DEFAULT_PITCH).
+   * Set camera pitch to default value $(D CAMERA_DEFAULT_PITCH).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setDefaultPitch() pure nothrow {
-    yaw = DEFAULT_PITCH;
+  typeof(this) setDefaultPitch() pure nothrow {
+    yaw = CAMERA_DEFAULT_PITCH;
     return this;
   }
 
@@ -293,7 +256,7 @@ final class Camera : SceneNode {
    * Divide camera movement speed by value using camera.setMovementSpeed!"/="(value).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setMovementSpeed(string op = "=")(float value) pure nothrow
+  typeof(this) setMovementSpeed(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     mixin("movementSpeed " ~ op ~ " value;");
@@ -301,11 +264,11 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera movement speed to default value $(D DEFAULT_SPEED).
+   * Set camera movement speed to default value $(D CAMERA_DEFAULT_SPEED).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setDefaultMovementSpeed() pure nothrow {
-    movementSpeed = DEFAULT_SPEED;
+  typeof(this) setDefaultMovementSpeed() pure nothrow {
+    movementSpeed = CAMERA_DEFAULT_SPEED;
     return this;
   }
 
@@ -325,7 +288,7 @@ final class Camera : SceneNode {
    * Divide camera mouse sensitivity by value using camera.setMouseSensitivity!"/="(value).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setMouseSensitivity(string op = "=")(float value) pure nothrow
+  typeof(this) setMouseSensitivity(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     mixin("mouseSensitivity " ~ op ~ " value;");
@@ -333,11 +296,11 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera mouse sensitivity to default value $(D DEFAULT_SENSITIVITY).
+   * Set camera mouse sensitivity to default value $(D CAMERA_DEFAULT_SENSITIVITY).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setDefaultMouseSensitivity() pure nothrow {
-    mouseSensitivity = DEFAULT_SENSITIVITY;
+  typeof(this) setDefaultMouseSensitivity() pure nothrow {
+    mouseSensitivity = CAMERA_DEFAULT_SENSITIVITY;
     return this;
   }
 
@@ -357,7 +320,7 @@ final class Camera : SceneNode {
    * Divide camera field of view by value using camera.setFieldOfView!"/="(value).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setFieldOfView(string op = "=")(float value) pure nothrow
+  typeof(this) setFieldOfView(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     mixin("fieldOfView " ~ op ~ " value;");
@@ -365,11 +328,11 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera field of view to default value $(D DEFAULT_FOV).
+   * Set camera field of view to default value $(D CAMERA_DEFAULT_FOV).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setDefaultFieldOfView() pure nothrow {
-    fieldOfView = DEFAULT_FOV;
+  typeof(this) setDefaultFieldOfView() pure nothrow {
+    fieldOfView = CAMERA_DEFAULT_FOV;
     return this;
   }
 
@@ -389,7 +352,7 @@ final class Camera : SceneNode {
    * Divide camera zNear by value using camera.setZNear!"/="(value).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setZNear(string op = "=")(float value) pure nothrow
+  typeof(this) setZNear(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     mixin("zNear " ~ op ~ " value;");
@@ -398,12 +361,12 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera zNear to default value $(D DEFAULT_ZNEAR).
+   * Set camera zNear to default value $(D CAMERA_DEFAULT_ZNEAR).
    * ZNear takes value in range [0.001f, 10_000.0f].
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setDefaultZNear() pure nothrow {
-    zNear = DEFAULT_ZNEAR;
+  typeof(this) setDefaultZNear() pure nothrow {
+    zNear = CAMERA_DEFAULT_ZNEAR;
     return this;
   }
 
@@ -424,7 +387,7 @@ final class Camera : SceneNode {
    * ZFar takes value in range [0.001f, 10_000.0f].
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setZFar(string op = "=")(float value) pure nothrow
+  typeof(this) setZFar(string op = "=")(float value) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     mixin("zFar " ~ op ~ " value;");
@@ -433,11 +396,11 @@ final class Camera : SceneNode {
   }
 
   /**
-   * Set camera zFar to default value $(D DEFAULT_ZFAR).
+   * Set camera zFar to default value $(D CAMERA_DEFAULT_ZFAR).
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setDefaultZFar() pure nothrow {
-    zFar = DEFAULT_ZFAR;
+  typeof(this) setDefaultZFar() pure nothrow {
+    zFar = CAMERA_DEFAULT_ZFAR;
     return this;
   }
 
@@ -452,7 +415,7 @@ final class Camera : SceneNode {
    * Set if mouse move listener should be locked or not.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setMouseMoveLocked(bool locked = true) pure nothrow {
+  typeof(this) setMouseMoveLocked(bool locked = true) pure nothrow {
     mouseMoveLocked = locked;
     return this;
   }
@@ -468,7 +431,7 @@ final class Camera : SceneNode {
    * Set if mouse scroll listener should be locked or not.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setIsMouseScrollLocked(bool locked = true) pure nothrow {
+  typeof(this) setIsMouseScrollLocked(bool locked = true) pure nothrow {
     mouseScrollLocked = locked;
     return this;
   }
@@ -484,7 +447,7 @@ final class Camera : SceneNode {
    * Set if keyboard listener should be locked or not.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setKeyboardLocked(bool locked) pure nothrow {
+  typeof(this) setKeyboardLocked(bool locked) pure nothrow {
     keyboardLocked = locked;
     return this;
   }
@@ -500,7 +463,7 @@ final class Camera : SceneNode {
    * Set if constrain pitch should be enabled or not.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setConstrainPitchEnabled(bool enabled = true) pure nothrow {
+  typeof(this) setConstrainPitchEnabled(bool enabled = true) pure nothrow {
     constrainPitch = enabled;
     return this;
   }
@@ -516,7 +479,7 @@ final class Camera : SceneNode {
    * Set camera preset.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera setPreset(CameraPreset preset) pure nothrow {
+  typeof(this) setPreset(CameraPreset preset) pure nothrow {
     this.preset = preset;
     return this;
   }
@@ -533,7 +496,7 @@ final class Camera : SceneNode {
    * By deafult it is set to $(D CoreEngine) active scene.
    * Returns reference to this so it can be used in a stream.
   **/
-  Camera registerToScene(Scene scene = CoreEngine.getScene()) {
+  typeof(this) registerToScene(Scene scene = CoreEngine.getScene()) {
     scene.setActiveCamera(this);
     return this;
   }

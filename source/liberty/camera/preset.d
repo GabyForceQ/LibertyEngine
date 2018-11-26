@@ -36,7 +36,7 @@ class CameraPreset {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  CameraPreset setImplicit(void delegate(Camera) runImplicitDelegate) {
+  typeof(this) setImplicit(void delegate(Camera) runImplicitDelegate) {
     this.runImplicitDelegate = runImplicitDelegate;
     return this;
   }
@@ -49,7 +49,7 @@ class CameraPreset {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  CameraPreset setKeyboardProcess(void delegate(Camera, CameraMovement, float) runKeyboardProcess) {
+  typeof(this) setKeyboardProcess(void delegate(Camera, CameraMovement, float) runKeyboardProcess) {
     this.runKeyboardProcess = runKeyboardProcess;
     return this;
   }
@@ -61,7 +61,7 @@ class CameraPreset {
   /**
    * Returns an empty camera preset.
   **/
-  static CameraPreset getEmpty() {
+  static typeof(this) getEmpty() {
     return new CameraPreset((camera) {
     }, (camera, direction, velocity) {
     });
@@ -70,7 +70,7 @@ class CameraPreset {
   /**
    * Returns implicit camera preset.
   **/
-  static CameraPreset getDefault() {
+  static typeof(this) getDefault() {
     return new CameraPreset((camera) {
       if (Input.getKeyboard().isButtonHold(KeyboardButton.W))
         camera.processKeyboard(CameraMovement.FORWARD);
