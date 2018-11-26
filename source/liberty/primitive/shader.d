@@ -17,7 +17,7 @@ import liberty.graphics.shader;
 /**
  *
 **/
-class PrimitiveShader : Shader {
+final class PrimitiveShader : Shader {
   private {
     static immutable GENERIC_VERTEX = SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;

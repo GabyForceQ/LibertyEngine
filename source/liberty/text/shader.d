@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/font/shader.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/text/shader.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.font.shader;
+module liberty.text.shader;
 
 import liberty.math.vector;
 import liberty.graphics.shader;
@@ -14,7 +14,7 @@ import liberty.graphics.shader;
 /**
  *
 **/
-class FontShader : Shader {
+final class TextShader : Shader {
   private {
     static immutable FONT_VERTEX = SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;
@@ -27,12 +27,13 @@ class FontShader : Shader {
       void main() {
         tTexCoord = lTexCoord;
 
-        gl_Position = vec4(lPosition + vec3(uTranslation) * vec3(2.0, -2.0, 1.0), 1.0);
+        gl_Position = vec4(lPosition + vec3(uTranslation.x, uTranslation.y, 1.0)
+          * vec3(2.0, -2.0, 1.0), 1.0);
       }
     };
 
     static immutable FONT_FRAGMENT = SHADER_CORE_VERSION ~ q{
-      out vec2 tTexCoord;
+      in vec2 tTexCoord;
 
       uniform vec3 uColor;
       uniform sampler2D uFontAtlas;
@@ -62,7 +63,7 @@ class FontShader : Shader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  FontShader loadTranslation(Vector2F matrix) {
+  TextShader loadTranslation(Vector2F matrix) {
     loadUniform("uTranslation", matrix);
     return this;
   }
@@ -71,7 +72,7 @@ class FontShader : Shader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  FontShader loadColor(Vector3F matrix) {
+  TextShader loadColor(Vector3F matrix) {
     loadUniform("uColor", matrix);
     return this;
   }
@@ -80,7 +81,7 @@ class FontShader : Shader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  FontShader loadFontAtlas(int id) {
+  TextShader loadFontAtlas(int id) {
     loadUniform("uFontAtlas", id);
     return this;
   }

@@ -125,6 +125,7 @@ abstract class SceneNode : IStartable, IUpdateable {
     import liberty.primitive.impl : Primitive;
     import liberty.surface.impl : Surface;
     import liberty.terrain.impl : Terrain;
+    import liberty.text.impl : Text;
 
     const id = node.getId();
 

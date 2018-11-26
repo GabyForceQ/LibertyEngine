@@ -11,7 +11,7 @@ module liberty.engine;
 public {
   import liberty.camera;
   import liberty.core;
-  import liberty.font;
+  import liberty.text;
   import liberty.graphics;
   import liberty.image;
   import liberty.input;
@@ -27,6 +27,7 @@ public {
   import liberty.cubemap;
   import liberty.surface;
   import liberty.terrain;
+  import liberty.text;
   
   import liberty.action;
   import liberty.constants;

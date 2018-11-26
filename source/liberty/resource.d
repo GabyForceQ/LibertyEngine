@@ -26,7 +26,7 @@ import liberty.graphics.texture.impl;
 import liberty.graphics.util;
 import liberty.cubemap.vertex;
 import liberty.surface.vertex;
-import liberty.font.io;
+import liberty.text.io;
 import liberty.image.io;
 import liberty.image.impl;
 
@@ -202,7 +202,7 @@ final abstract class ResourceManager {
     immutable extension = splitArray[$ - 1];
     switch (extension) {
       case "fnt":
-        return FontIO.loadFNTFile(path);
+        return TextIO.loadFNTFile(path);
       default:
         Logger.error(	
           "File format not supported for font data: " ~ extension,	

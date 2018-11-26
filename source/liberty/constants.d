@@ -35,12 +35,12 @@ enum SystemType : string {
   /**
    * See $(D CubeMapSystem) class.
   **/
-  CubeMap = "CubeMap"
+  CubeMap = "CubeMap",
 
   /**
-   * See $(D FontSystem) class.
+   * See $(D TextSystem) class.
   **/
-  //Font = "Font"
+  Text = "Text"
 }
 
 /**

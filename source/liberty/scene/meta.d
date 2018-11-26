@@ -30,6 +30,7 @@ mixin template NodeConstructor(string code = "") {
     import liberty.primitive.impl : Primitive;
     import liberty.surface.impl : Surface;
     import liberty.terrain.impl : Terrain;
+    import liberty.text.impl : Text;
 
     if (parent is null)
       assert(0, "Parent object cannot be null");

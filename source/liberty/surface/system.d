@@ -10,9 +10,9 @@ module liberty.surface.system;
 
 import liberty.constants;
 import liberty.scene.impl;
-import liberty.surface.shader;
-import liberty.surface.renderer;
 import liberty.surface.impl;
+import liberty.surface.renderer;
+import liberty.surface.shader;
 
 /**
  * System class holding basic surface functionality.

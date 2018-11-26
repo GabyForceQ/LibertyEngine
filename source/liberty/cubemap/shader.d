@@ -14,7 +14,7 @@ import liberty.graphics.shader;
 /**
  *
 **/
-class CubeMapShader : Shader {
+final class CubeMapShader : Shader {
   private {
     static immutable CUBEMAP_VERTEX = SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;

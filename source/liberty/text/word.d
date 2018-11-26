@@ -2,13 +2,13 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/font/word.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/text/word.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.font.word;
+module liberty.text.word;
 
-import liberty.font.character;
+import liberty.text.character;
 
 /**
  * Represents one word in the text.

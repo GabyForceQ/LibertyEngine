@@ -19,6 +19,7 @@ import liberty.terrain.system;
 import liberty.surface.system;
 import liberty.light.system;
 import liberty.cubemap.system;
+import liberty.text.system;
 import liberty.scene.serializer;
 import liberty.scene.factory;
 
@@ -63,6 +64,8 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     LightingSystem lightingSystem;
     // getCubeMapSystem
     CubeMapSystem cubeMapSystem;
+    // getTextSystem
+    TextSystem textSystem;
   }
 
   package {
@@ -89,6 +92,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     surfaceSystem = new SurfaceSystem(this);
     lightingSystem = new LightingSystem(this);
     cubeMapSystem = new CubeMapSystem(this);
+    textSystem = new TextSystem(this);
 
     // Init serializer
     serializer
@@ -247,19 +251,34 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   **/
   void render() {
     // Render all scene lights
-    lightingSystem.getRenderer().render();
+    lightingSystem
+      .getRenderer()
+      .render();
 
     // Render all cubeMapes
-    cubeMapSystem.getRenderer().render();
+    cubeMapSystem
+      .getRenderer()
+      .render();
 
     // Render all scene terrains
-    terrainSystem.getRenderer().render();
+    terrainSystem
+      .getRenderer()
+      .render();
 
     // Render all scene primitives
-    primitiveSystem.getRenderer().render();
+    primitiveSystem
+      .getRenderer()
+      .render();
 
     // Render all scene surfaces
-    surfaceSystem.getRenderer().render();
+    surfaceSystem
+      .getRenderer()
+      .render();
+
+    // Render all scene texts
+    textSystem
+      .getRenderer()
+      .render();
   }
 
   /**
@@ -289,7 +308,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns a refetence of primitive system.
+   * Returns a refetence of the primitive system.
    * See $(D PrimitiveSystem).
   **/
   PrimitiveSystem getPrimitiveSystem() pure nothrow {
@@ -297,7 +316,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns a refetence of terrain system.
+   * Returns a refetence of the terrain system.
    * See $(D TerrainSystem).
   **/
   TerrainSystem getTerrainSystem() pure nothrow {
@@ -305,7 +324,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns a refetence of surface system.
+   * Returns a refetence of the surface system.
    * See $(D SurfaceSystem).
   **/
   SurfaceSystem getSurfaceSystem() pure nothrow {
@@ -313,7 +332,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns a refetence of lighting system.
+   * Returns a refetence of the lighting system.
    * See $(D LightingSystem).
   **/
   LightingSystem getLightingSystem() pure nothrow {
@@ -321,11 +340,19 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns a refetence of cube map system.
+   * Returns a refetence of the cube map system.
    * See $(D CubeMapSystem).
   **/
   CubeMapSystem getCubeMapSystem() pure nothrow {
     return cubeMapSystem;
+  }
+
+  /**
+   * Returns a refetence of the text system.
+   * See $(D CubeMapSystem).
+  **/
+  TextSystem getTextSystem() pure nothrow {
+    return textSystem;
   }
 
   /**
