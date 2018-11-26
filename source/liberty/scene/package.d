@@ -14,5 +14,4 @@ public {
   import liberty.scene.meta;
   import liberty.scene.node;
   import liberty.scene.serializer;
-  import liberty.scene.world;
 }

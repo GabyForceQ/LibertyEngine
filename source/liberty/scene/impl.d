@@ -12,7 +12,7 @@ import liberty.core.engine;
 import liberty.math.vector;
 import liberty.camera;
 import liberty.scene.node;
-import liberty.scene.world;
+import liberty.world.impl;
 import liberty.services;
 import liberty.primitive.system;
 import liberty.terrain.system;

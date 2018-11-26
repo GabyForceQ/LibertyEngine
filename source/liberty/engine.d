@@ -28,6 +28,7 @@ public {
   import liberty.surface;
   import liberty.terrain;
   import liberty.text;
+  import liberty.world;
   
   import liberty.action;
   import liberty.constants;

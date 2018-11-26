@@ -2,29 +2,22 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/world.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/world/impl.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.scene.world;
+module liberty.world.impl;
 
 import liberty.camera;
 import liberty.math.vector;
-import liberty.scene.impl;
+import liberty.world.constants;
 
 /**
  * Class containing world settings used in a scene.
 **/
 final class World {
-  enum {
-    /**
-     * The default value of the exponential height fog is r: 0.5; g:0.8; b:0.8;
-    **/
-    DEFAULT_EXP_HEIGHT_FOG_COLOR = Vector3F(0.5f, 0.8f, 0.8f)
-  }
-
   private {
-    Vector3F expHeightFogColor = DEFAULT_EXP_HEIGHT_FOG_COLOR;
+    Vector3F expHeightFogColor = WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR;
   }
 
   /**
@@ -36,7 +29,7 @@ final class World {
    * Divide exp height fog color by value using world.setExpHeightFogColor!"/="(r, g, b).
    * Returns reference to this so it can be used in a stream.
   **/
-  World setExpHeightFogColor(string op = "=")(float r, float g, float b) pure nothrow
+  typeof(this) setExpHeightFogColor(string op = "=")(float r, float g, float b) pure nothrow
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     return setExpHeightFogColor!op(Vector3F(r, g, b));
@@ -51,7 +44,7 @@ final class World {
    * Divide exp height fog color by value using world.setExpHeightFogColor!"/="(vector3).
    * Returns reference to this so it can be used in a stream.
   **/
-  World setExpHeightFogColor(string op = "=")(Vector3F expHeightFogColor) pure nothrow {
+  typeof(this) setExpHeightFogColor(string op = "=")(Vector3F expHeightFogColor) pure nothrow {
     mixin("this.expHeightFogColor " ~ op ~ " expHeightFogColor;");
     return this;
   }
@@ -64,11 +57,11 @@ final class World {
   }
 
   /**
-   * Set exp height fog color to default value $(D DEFAULT_EXP_HEIGHT_FOG_COLOR).
+   * Set exp height fog color to default value $(D WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR).
    * Returns reference to this so it can be used in a stream.
   **/
-  World setDefaultExpHeightFogColor() pure nothrow {
-    expHeightFogColor = DEFAULT_EXP_HEIGHT_FOG_COLOR;
+  typeof(this) setDefaultExpHeightFogColor() pure nothrow {
+    expHeightFogColor = WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR;
     return this;
   }
 }
