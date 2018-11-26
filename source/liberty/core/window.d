@@ -118,7 +118,7 @@ final class Window {
    * Resize the current frame buffer of the window.
    * Returns reference to this so it can be used in a stream.
   **/
-  Window resizeFrameBuffer() {
+  typeof(this) resizeFrameBuffer() {
     glfwGetFramebufferSize(handle, &frameBufferWidth, &frameBufferHeight);
     return this;
   }
@@ -127,7 +127,7 @@ final class Window {
    * Enter or leave fullscreen mode.
    * Returns reference to this so it can be used in a stream.
   **/
-  Window setFullscreen(bool fullscreen) {
+  typeof(this) setFullscreen(bool fullscreen) {
     if (fullscreen) {
       // Backup window position and window size
       glfwGetWindowPos(handle, &lastXStartPos, &lastYStartPos);
@@ -155,7 +155,7 @@ final class Window {
   /**
    * Toggle window fullscreen/windowed mode.
   **/
-  Window toggleFullscreen() {
+  typeof(this) toggleFullscreen() {
     return setFullscreen(!fullscreen);
   }
 
@@ -177,7 +177,7 @@ final class Window {
    * Set window title.
    * Returns reference to this so it can be used in a stream.
   **/
-  Window setTitle(string title) nothrow {
+  typeof(this) setTitle(string title) nothrow {
     this.title = title;
     glfwSetWindowTitle(handle, title.toStringz);
     return this;
