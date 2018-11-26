@@ -8,8 +8,12 @@
 **/
 module liberty.surface.controls;
 
+import liberty.graphics.material.impl;
+import liberty.math.vector;
 import liberty.surface.event;
 import liberty.surface.meta;
+import liberty.surface.model;
+import liberty.surface.vertex;
 import liberty.surface.widget;
 
 /**
@@ -20,7 +24,7 @@ final class Canvas : Widget {
     Widget[string] widgets;
   }
 
-  mixin WidgetConstructor!("renderer: disabled");
+  mixin WidgetConstructor;
 
   /**
    * Call update for all widgets.
@@ -78,7 +82,11 @@ final class Button : Widget {
     Event.Update
   ]);
 
-  mixin WidgetConstructor;
+  mixin WidgetConstructor!(q{
+    setModel(
+      (new SurfaceModel([Material.getDefault()])
+        .build(uiSquareVertices, uiSquareIndices)));
+  });
   mixin WidgetUpdate;
 }
 
@@ -139,3 +147,15 @@ final class CustomCheckBox(alias E) : Widget {
 final class TextBlock : Widget {
   mixin WidgetConstructor;
 }
+
+/*private*/ uint[6] uiSquareIndices = [
+  0, 1, 2,
+  0, 2, 3
+];
+
+/*private*/ SurfaceVertex[] uiSquareVertices = [
+  SurfaceVertex(Vector3F(-1.0f,  1.0f, 0.0f), Vector2F(0.0f, 1.0f)),
+  SurfaceVertex(Vector3F(-1.0f, -1.0f, 0.0f), Vector2F(0.0f, 0.0f)),
+  SurfaceVertex(Vector3F( 1.0f, -1.0f, 0.0f), Vector2F(1.0f, 0.0f)),
+  SurfaceVertex(Vector3F( 1.0f,  1.0f, 0.0f), Vector2F(1.0f, 1.0f))
+];

@@ -37,7 +37,7 @@ final class TileMap : Widget {
     Event.Update,
   ], "custom");
 
-  mixin WidgetConstructor!("renderer: disabled");
+  mixin WidgetConstructor;
 
   private {
     Vector2I dimension = Vector2I.zero;

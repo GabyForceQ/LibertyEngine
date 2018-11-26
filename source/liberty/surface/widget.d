@@ -16,34 +16,24 @@ import liberty.primitive.model;
 import liberty.services;
 import liberty.surface.model;
 import liberty.input.impl;
-import liberty.surface.vertex;
 
 /**
  *
 **/
 class Widget : IUpdateable {
-  /**
-   * Renderer component used for rendering.
-  **/
-  SurfaceModel model;
-
   private {
     string id;
     Surface surface;
     Transform2 transform;
     Vector2I index;
     int zIndex = 0;
+    SurfaceModel model;
   }
 
   /**
    *
   **/
-  this(string id, Surface surface, bool hasRenderer) {
-    if (hasRenderer) {
-      model = new SurfaceModel([Material.getDefault()]);
-      model.build(uiSquareVertices, uiSquareIndices);
-    }
-
+  this(string id, Surface surface) {
     this.id = id;
     this.surface = surface;
 
@@ -123,6 +113,15 @@ class Widget : IUpdateable {
   }
 
   /**
+   * Set the 3D model of the widget.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  final Widget setModel(SurfaceModel model) pure nothrow {
+    this.model = model;
+    return this;
+  }
+
+  /**
    * Returns the 3D model of the widget.
   **/
   final SurfaceModel getModel() pure nothrow {
@@ -131,18 +130,6 @@ class Widget : IUpdateable {
 
   override void update() {}
 }
-
-private uint[6] uiSquareIndices = [
-  0, 1, 2,
-  0, 2, 3
-];
-
-private SurfaceVertex[] uiSquareVertices = [
-  SurfaceVertex(Vector3F(-1.0f,  1.0f, 0.0f), Vector2F(0.0f, 1.0f)),
-  SurfaceVertex(Vector3F(-1.0f, -1.0f, 0.0f), Vector2F(0.0f, 0.0f)),
-  SurfaceVertex(Vector3F( 1.0f, -1.0f, 0.0f), Vector2F(1.0f, 0.0f)),
-  SurfaceVertex(Vector3F( 1.0f,  1.0f, 0.0f), Vector2F(1.0f, 1.0f))
-];
 
 /**
  *
