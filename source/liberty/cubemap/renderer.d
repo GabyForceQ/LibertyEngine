@@ -50,7 +50,13 @@ final class CubeMapRenderer : IRenderable {
         scene
           .getActiveCamera()
           .getProjectionMatrix())
-      .loadViewMatrix(viewMatrix);
+      .loadViewMatrix(viewMatrix)
+      .loadFadeLowerLimit(0.0f)
+      .loadFadeUpperLimit(30.0f)
+      .loadFogColor(
+        scene
+          .getWorld()
+          .getExpHeightFogColor());
 
     foreach (cubeMap; system.getMap())
       if (cubeMap.getVisibility() == Visibility.Visible)

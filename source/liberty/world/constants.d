@@ -14,5 +14,5 @@ enum {
   /**
    * The default value of the exponential height fog is r: 0.5; g:0.8; b:0.8;
   **/
-  WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR = Vector3F(0.5f, 0.8f, 0.8f)
+  WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR = Vector3F(0.6f, 0.6f, 0.6f)
 }

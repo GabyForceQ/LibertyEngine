@@ -8,8 +8,9 @@
 **/
 module liberty.cubemap.shader;
 
-import liberty.math.matrix;
 import liberty.graphics.shader;
+import liberty.math.matrix;
+import liberty.math.vector;
 
 /**
  *
@@ -35,9 +36,18 @@ final class CubeMapShader : GfxShader {
       in vec3 tTexCoord;
       
       uniform samplerCube uCubeMap;
+      uniform vec3 uFogColor;
+
+      uniform float uFadeLowerLimit;
+      uniform float uFadeUpperLimit;
 
       void main() {
-        gl_FragColor = texture(uCubeMap, tTexCoord);
+        vec4 finalColor = texture(uCubeMap, tTexCoord);
+
+        float factor = (-1.0 * tTexCoord.y - uFadeLowerLimit) / (uFadeUpperLimit - uFadeLowerLimit);
+        factor = clamp(factor, 0.0, 1.0);
+
+        gl_FragColor = mix(vec4(uFogColor, 1.0), finalColor, factor);
       }
     };
   }
@@ -53,6 +63,9 @@ final class CubeMapShader : GfxShader {
     addUniform("uProjectionMatrix");
     addUniform("uViewMatrix");
     addUniform("uCubeMap");
+    addUniform("uFogColor");
+    addUniform("uFadeLowerLimit");
+    addUniform("uFadeUpperLimit");
     this.unbind();
   }
 
@@ -80,6 +93,33 @@ final class CubeMapShader : GfxShader {
   **/
   typeof(this) loadCubeMap(int id) {
     loadUniform("uCubeMap", id);
+    return this;
+  }
+
+  /**
+   *
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) loadFogColor(Vector3F vector) {
+    loadUniform("uFogColor", vector);
+    return this;
+  }
+
+  /**
+   *
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) loadFadeLowerLimit(float value) {
+    loadUniform("uFadeLowerLimit", value);
+    return this;
+  }
+
+  /**
+   *
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) loadFadeUpperLimit(float value) {
+    loadUniform("uFadeUpperLimit", value);
     return this;
   }
 }
