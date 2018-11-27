@@ -11,6 +11,7 @@ module liberty.cubemap.renderer;
 import liberty.constants;
 import liberty.cubemap.impl;
 import liberty.cubemap.system;
+import liberty.math.matrix;
 import liberty.scene;
 import liberty.services;
 
@@ -37,6 +38,11 @@ final class CubeMapRenderer : IRenderable {
    * Render the cubeMap to the screen.
   **/
   void render() {
+    Matrix4F viewMatrix = scene.getActiveCamera().getViewMatrix();
+    viewMatrix.c[0][3] = 0;
+    viewMatrix.c[1][3] = 0;
+    viewMatrix.c[2][3] = 0;
+
     system
       .getShader()
       .bind()
@@ -44,10 +50,7 @@ final class CubeMapRenderer : IRenderable {
         scene
           .getActiveCamera()
           .getProjectionMatrix())
-      .loadViewMatrix(
-        scene
-          .getActiveCamera()
-          .getViewMatrix());
+      .loadViewMatrix(viewMatrix);
 
     foreach (cubeMap; system.getMap())
       if (cubeMap.getVisibility() == Visibility.Visible)
