@@ -12,6 +12,7 @@ public {
   import liberty.graphics.buffer;
   import liberty.graphics.shader;
   import liberty.graphics.texture;
+  import liberty.graphics.vertex;
 
   import liberty.graphics.constants;
   import liberty.graphics.engine;

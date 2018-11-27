@@ -8,33 +8,17 @@
 **/
 module liberty.cubemap.vertex;
 
-version (__OPENGL__)
-  import bindbc.opengl;
-
+import liberty.graphics.vertex.meta;
 import liberty.math.vector;
 
 /**
  *
 **/
 struct CubeMapVertex {
-  /**
-   *
-  **/
-  Vector3F position;
+  mixin GfxVertexSpec;
 
   /**
    *
   **/
-  static void bindAttributePointer() {
-    version (__OPENGL__) {
-      glVertexAttribPointer(
-        0,
-        3,
-        GL_FLOAT,
-        GL_FALSE,
-        CubeMapVertex.sizeof,
-        cast(void*)CubeMapVertex.position.offsetof
-      );
-    }
-  }
+  Vector3F position;
 }

@@ -8,15 +8,15 @@
 **/
 module liberty.terrain.vertex;
 
-version (__OPENGL__)
-  import bindbc.opengl;
-
+import liberty.graphics.vertex.meta;
 import liberty.math.vector;
 
 /**
  *
 **/
 struct TerrainVertex {
+  mixin GfxVertexSpec;
+  
   /**
    *
   **/
@@ -31,36 +31,4 @@ struct TerrainVertex {
    *
   **/
   Vector2F texCoord;
-
-  /**
-   *
-  **/
-  static void bindAttributePointer() {
-    glVertexAttribPointer(
-      0,
-      3,
-      GL_FLOAT,
-      GL_FALSE,
-      TerrainVertex.sizeof,
-      cast(void*)TerrainVertex.position.offsetof
-    );
-    
-    glVertexAttribPointer(
-      1,
-      3,
-      GL_FLOAT,
-      GL_FALSE,
-      TerrainVertex.sizeof,
-      cast(void*)TerrainVertex.normal.offsetof
-    );
-    
-    glVertexAttribPointer(
-      2,
-      2,
-      GL_FLOAT,
-      GL_FALSE,
-      TerrainVertex.sizeof,
-      cast(void*)TerrainVertex.texCoord.offsetof
-    );
-  }
 }

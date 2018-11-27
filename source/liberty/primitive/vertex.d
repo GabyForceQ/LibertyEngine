@@ -8,15 +8,15 @@
 **/
 module liberty.primitive.vertex;
 
-version (__OPENGL__)
-  import bindbc.opengl;
-
+import liberty.graphics.vertex.meta;
 import liberty.math.vector;
 
 /**
  *
 **/
 struct PrimitiveVertex {
+  mixin GfxVertexSpec;
+  
   /**
    *
   **/
@@ -31,36 +31,4 @@ struct PrimitiveVertex {
    *
   **/
   Vector2F texCoord;
-
-  /**
-   *
-  **/
-  static void bindAttributePointer() {
-    glVertexAttribPointer(
-      0,
-      3,
-      GL_FLOAT,
-      GL_FALSE,
-      PrimitiveVertex.sizeof,
-      cast(void*)PrimitiveVertex.position.offsetof
-    );
-    
-    glVertexAttribPointer(
-      1,
-      3,
-      GL_FLOAT,
-      GL_FALSE,
-      PrimitiveVertex.sizeof,
-      cast(void*)PrimitiveVertex.normal.offsetof
-    );
-    
-    glVertexAttribPointer(
-      2,
-      2,
-      GL_FLOAT,
-      GL_FALSE,
-      PrimitiveVertex.sizeof,
-      cast(void*)PrimitiveVertex.texCoord.offsetof
-    );
-  }
 }
