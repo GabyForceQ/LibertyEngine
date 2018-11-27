@@ -25,13 +25,6 @@ struct CubeMapVertex {
   /**
    *
   **/
-  this(Vector3F position) {
-    this.position = position;
-  }
-
-  /**
-   *
-  **/
   static void bindAttributePointer() {
     version (__OPENGL__) {
       glVertexAttribPointer(

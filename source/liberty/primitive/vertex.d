@@ -35,15 +35,6 @@ struct PrimitiveVertex {
   /**
    *
   **/
-  this(Vector3F position, Vector3F normal, Vector2F texCoord) {
-    this.position = position;
-    this.normal = normal;
-    this.texCoord = texCoord;
-  }
-
-  /**
-   *
-  **/
   static void bindAttributePointer() {
     glVertexAttribPointer(
       0,
