@@ -1,7 +1,7 @@
 # LibertyEngine
 ##### Description:
-A powerful 2D/3D engine written in the D programming language.
-This is still work in progress. If you find a bug, please report via github.
+A powerful 2D/3D engine fully written in D programming language.
+This is still work in progress. If you find a bug, please report on github.
 There are so many features to come.
 
 ##### D compiler versions recommended:
@@ -12,24 +12,8 @@ There are so many features to come.
 * Windows 10 x64 (64-bits)
 
 ##### Graphics APIs supported (tested):
-* OpenGL 4.5 (450 core) - Windows
-
-##### Release notes (v0.0.16)
-- [x] BMP Decoder feature. Freeimage is not needed any more.
-- [x] Close OS window when press x top-right button.
-- [x] Properties zNear and zFar were added to camera.
-- [x] Transform improvements and fixes.
-- [x] Support for joystick was added.
-- [x] Incorrect texture uvs on bsp volumes was fixed.
-- [ ] Font manager was added.
-- [x] Spawn and spawnOnce can capture lambda expression.
-- [x] CubeMap was added.
-- [x] Basic scene serializer/deserializer was implemented.
-- [x] No more opengl errors for now.
-- [x] UI Signals are more general.
-- [x] Mouse enter/leave events were added.
-- [x] Input profiler was added.
-- Other bug fixes, user interface + metadata + documentation improvements and more unittests.
+* OpenGL 4.5 (450 core) - Windows (Nvidia/AMD)
+* OpenGL 3.0 (330 core) - Linux (Intel)
 
 ##### Cool features:
 * Tree-based scene (every node is created and registered to the engine with "spawn" 
@@ -41,6 +25,7 @@ in the final object file.
 If you want to do something at construction time, you should use NodeConstructor.
 For destruction time, you should use NodeDestructor.
 * Smart, flexible and safe hierarchy for scenes, objects and components.
+* Action mapping, input profiler, ligthing, cubemaps, physics, gui and more.
 
 ##### Demo examples
 https://github.com/GabyForceQ/LibertyDemos
