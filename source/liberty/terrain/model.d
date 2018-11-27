@@ -13,8 +13,8 @@ version (__OPENGL__)
 
 import liberty.model.impl;
 import liberty.core.engine;
-import liberty.resource;
 import liberty.material.impl;
+import liberty.model.io;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.terrain.vertex;
@@ -34,7 +34,7 @@ final class TerrainModel : Model {
    *
   **/
   TerrainModel build(TerrainVertex[] vertices, uint[] indices) {
-    rawModel = ResourceManager.loadRawModel(vertices, indices);
+    rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;
   }

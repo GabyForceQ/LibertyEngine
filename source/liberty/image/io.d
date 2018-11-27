@@ -16,7 +16,6 @@ import liberty.image.format;
 import liberty.image.impl;
 import liberty.io.manager;
 import liberty.graphics.texture.impl;
-import liberty.resource;
 
 /**
  * Singleton class used for loading image files.
@@ -26,7 +25,35 @@ final abstract class ImageIO {
   /**
    *
   **/
-  static BMPImage loadBMPFile(string resourcePath) {
+  static Image loadImage(string path) {
+    import std.array : split;
+
+    // Check extension
+    string[] splitArray = path.split(".");	
+    immutable extension = splitArray[$ - 1];
+    switch (extension) {
+      case "bmp", "BMP":
+        return loadBMPFile(path);
+      case "png", "PNG":
+        return loadPNGFile(path);
+      default:
+        Logger.error(	
+          "File format not supported for image data: " ~ extension,	
+          typeof(this).stringof	
+        );
+    }
+
+    assert(0, "Unreachable");
+  }
+
+  /**
+   *
+  **/
+  static BMPImage createImage(BMPHeader header, ubyte[] pixelData) {
+    return new BMPImage(header, pixelData);
+  }
+
+  private static BMPImage loadBMPFile(string resourcePath) {
     char[] buf;
 
     // Read bmp file and put its content into a buffer
@@ -56,20 +83,10 @@ final abstract class ImageIO {
     pixelData = cast(ubyte[])buf[header.dataPosition..buf.length];
 
     // Create the image in memory and return it
-    return createBMPImage(header, pixelData);
+    return createImage(header, pixelData);
   }
 
-  /**
-   *
-  **/
-  static BMPImage createBMPImage(BMPHeader header, ubyte[] pixelData) {
-    return new BMPImage(header, pixelData);
-  }
-
-  /**
-   *
-  **/
-  static PNGImage loadPNGFile(string resourcePath) {
+  private static PNGImage loadPNGFile(string resourcePath) {
     char[] buf;
 
     // Read png file and put its content into a buffer

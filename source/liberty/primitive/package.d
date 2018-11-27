@@ -9,8 +9,9 @@
 module liberty.primitive;
 
 public {
-  import liberty.primitive.impl;
   import liberty.primitive.bsp;
+  import liberty.primitive.impl;
+  import liberty.primitive.io;
   import liberty.primitive.mesh;
   import liberty.primitive.model;
   import liberty.primitive.renderer;

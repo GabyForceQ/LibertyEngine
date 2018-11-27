@@ -33,7 +33,6 @@ public {
   
   import liberty.action;
   import liberty.constants;
-  import liberty.resource;
   import liberty.services;
   import liberty.time;
   import liberty.utils;

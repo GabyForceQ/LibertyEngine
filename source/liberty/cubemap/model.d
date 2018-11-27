@@ -15,8 +15,8 @@ import liberty.core.engine;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.material.impl;
-import liberty.resource;
 import liberty.model.impl;
+import liberty.model.io;
 import liberty.cubemap.vertex;
 
 /**
@@ -39,7 +39,7 @@ final class CubeMapModel : Model {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(CubeMapVertex[] vertices) {
-    rawModel = ResourceManager.loadRawModel(vertices);
+    rawModel = ModelIO.loadRawModel(vertices);
     build();
     return this;
   }
@@ -50,7 +50,7 @@ final class CubeMapModel : Model {
   **/
   typeof(this) build(CubeMapVertex[] vertices, uint[] indices) {
     hasIndices = true;
-    rawModel = ResourceManager.loadRawModel(vertices, indices);
+    rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;
   }

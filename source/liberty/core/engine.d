@@ -15,11 +15,11 @@ import liberty.input.impl;
 import liberty.logger;
 import liberty.camera;
 import liberty.core.platform;
-import liberty.resource;
 import liberty.scene;
 import liberty.time;
 import liberty.input.event;
 import liberty.graphics.engine;
+import liberty.graphics.buffer.factory;
 
 /**
  * Core engine class containing engine base static functions.
@@ -41,10 +41,8 @@ final abstract class CoreEngine {
     changeState(EngineState.Starting);
 
     // Initialize other classes    
-    ResourceManager.initialize();
     Platform.initialize();
     GfxEngine.initialize();
-    Material.initializeMaterials();
     Input.initialize();
 
     disableVSync();
@@ -62,7 +60,7 @@ final abstract class CoreEngine {
 
     // Deinitialize other classes
     Platform.deinitialize();
-    ResourceManager.releaseAllModels();
+    IGfxBufferFactory.release();
 
     // Set engine state to "stopped"
     changeState(EngineState.Stopped);

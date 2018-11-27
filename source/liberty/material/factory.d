@@ -21,14 +21,10 @@ interface IDefaultMaterialsFactory {
   /**
    *
   **/
-  static void initializeMaterials() {
-    defaultMaterial = new Material("res/textures/default2.bmp");
-  }
+  static Material getDefault() {
+    if (defaultMaterial is null)
+      defaultMaterial = new Material("res/textures/default2.bmp");
 
-  /**
-   *
-  **/
-  static Material getDefault() nothrow {
     return defaultMaterial;
   }
 }

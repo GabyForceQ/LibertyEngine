@@ -17,7 +17,7 @@ import liberty.graphics.engine;
 /**
  * Vertex array object class.
 **/
-final class GfxArray : IGfxBufferFactory {
+final class GfxVertexArray : IGfxBufferFactory {
   private {
     uint handle;
   }

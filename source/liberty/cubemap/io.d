@@ -15,9 +15,9 @@ import std.string : strip;
 import std.array : split;
 
 import liberty.image.format.bmp;
+import liberty.image.io;
 import liberty.graphics.texture.constants;
 import liberty.graphics.texture.impl;
-import liberty.resource;
 
 /**
  *
@@ -36,7 +36,7 @@ final abstract class CubeMapIO {
 
     static foreach (i; 0..6) {
       // Load texture form file
-      images[i] = cast(BMPImage)ResourceManager.loadImage(resourcesPath[i]);
+      images[i] = cast(BMPImage)ImageIO.loadImage(resourcesPath[i]);
 
       version (__OPENGL__)
         glTexImage2D(

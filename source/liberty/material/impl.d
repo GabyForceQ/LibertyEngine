@@ -14,7 +14,6 @@ import liberty.material.factory;
 import liberty.graphics.shader;
 import liberty.graphics.texture.impl;
 import liberty.graphics.texture.io;
-import liberty.resource;
 
 /**
  *
@@ -35,14 +34,14 @@ final class Material : IDefaultMaterialsFactory {
    *
   **/
   this(string texturePath) {
-    setTexture(ResourceManager.loadTexture(texturePath));
+    setTexture(TextureIO.loadTexture(texturePath));
   }
 
   /**
    *
   **/
   this(string[6] texturesPath) {
-    texture = ResourceManager.loadCubeMapTexture(texturesPath);
+    texture = TextureIO.loadCubeMapTexture(texturesPath);
   }
 
   /**

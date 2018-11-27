@@ -12,6 +12,8 @@ import std.stdio : File;
 import std.string : strip;
 import std.array : split;
 
+import liberty.logger;
+
 /**
  *
 **/
@@ -19,7 +21,26 @@ final abstract class TextIO {
   /**
    *
   **/
-  static void loadFNTFile(string path) {
+  static void loadFont(string path) {
+    import std.array : split;
+
+    // Check extension
+    string[] splitArray = path.split(".");	
+    immutable extension = splitArray[$ - 1];
+    switch (extension) {
+      case "fnt":
+        return loadFNTFile(path);
+      default:
+        Logger.error(	
+          "File format not supported for font data: " ~ extension,	
+          typeof(this).stringof	
+        );
+    }
+
+    assert(0, "Unreachable");
+  }
+
+  private static void loadFNTFile(string path) {
     // Open the file
     auto file = File(path);
     scope(exit) file.close();

@@ -19,6 +19,11 @@ import liberty.graphics.buffer.impl;
  * Video buffers factory interface is implemented and used by video buffer objects.
 **/
 interface IGfxBufferFactory {
+  private {
+    static uint[] vaos;
+    static uint[] vbos;
+  }
+
   /**
    * Create a new video buffer instance using target, usage and buffer data.
    * See $(D GfxBufferTarget) and $(D GfxDataUsage) enumerations.
@@ -66,20 +71,20 @@ interface IGfxBufferFactory {
   }
 
   /**
+   * Create a new video vertex array object instance.
+  **/
+  static GfxVertexArray createArray() {
+    GfxVertexArray vao = null;
+    vao = new GfxVertexArray();
+    return vao;
+  }
+
+  /**
    * Release buffers from video memory.
   **/
   static void releaseBuffers(uint[] buff) {
     version (__OPENGL__)
       glDeleteBuffers(cast(int)buff.length, cast(uint*)buff);
-  }
-
-  /**
-   * Create a new video vertex array object instance.
-  **/
-  static GfxArray createArray() {
-    GfxArray vao = null;
-    vao = new GfxArray();
-    return vao;
   }
   
   /**
@@ -88,5 +93,27 @@ interface IGfxBufferFactory {
   static void releaseVertexArrays(uint[] buff) {
     version (__OPENGL__)
       glDeleteVertexArrays(cast(int)buff.length, cast(uint*)buff);
+  }
+
+  /**
+   * Append a buffer id to the buffer list.
+  **/
+  static appendToVBOs(uint vboId) {
+    vbos ~= vboId;
+  }
+
+  /**
+   * Append a vertex array id to the vertex array list.
+  **/
+  static appendToVAOs(uint vaoId) {
+    vaos ~= vaoId;
+  }
+
+  /**
+   * Release vertex array objecs and vertex buffer objects.
+  **/
+  static void release() {
+    releaseVertexArrays(vaos);
+    releaseBuffers(vbos);
   }
 }

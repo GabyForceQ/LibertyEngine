@@ -8,136 +8,66 @@
 **/
 module liberty.model.io;
 
-import std.array : split;
-import std.conv : to;
-import std.stdio : File;
-import std.string : strip;
-import core.stdc.stdio : sscanf;
+import liberty.model.raw;
+import liberty.graphics.buffer;
 
-import liberty.logger;
-import liberty.math;
-import liberty.primitive.model;
-import liberty.primitive.vertex;
-import liberty.material.impl;
+/**
+ *
+**/
+final abstract class ModelIO {
+  /**
+   * Load a raw model into memory using vertex data.
+   * Returns newly created raw model.
+  **/
+  static RawModel loadRawModel(VERTEX)(VERTEX[] data) {
+    // Create vertex array object for the model    
+    GfxVertexArray vao = GfxVertexArray.createArray();
+    vao.appendToVAOs(vao.getHandle());
 
+    // Create vertex buffer object for the model
+    GfxBuffer vbo = GfxBuffer.createBuffer(GfxBufferTarget.ARRAY, GfxDataUsage.STATIC_DRAW, data);    
+    vbo.appendToVBOs(vbo.getHandle());
 
-package(liberty) final abstract class ModelIO {
-  static PrimitiveModel loadOBJFile(string path) {
-    PrimitiveVertex[] vertices;	
-
-    Vector3F[] positions;
-    Vector3F[] normals;
-    Vector2F[] uvs;
-
-    Vector3F[] tmpPositions;
-    Vector3F[] tmpNormals;
-    Vector2F[] tmpUvs;
-
-    uint[] vertexIndices;
-    uint[] normalIndices;
-    uint[] uvIndices;
+    // Bind vertex attribute pointer
+    VERTEX.bindAttributePointer();
     
-    // Open the file
-    auto file = File(path);
-    scope(exit) file.close();
+    // Unbind vertex buffer object
+    vbo.unbind();
 
-    // Read the file and build mesh data
-    auto range = file.byLine();
-    foreach (line; range) {
-      line = line.strip();
-      char[][] tokens = line.split(" ");
+    // Unbind vertex array object
+    vao.unbind();
 
-      if (tokens.length == 0 || tokens[0] == "#") {	
-        continue;
-      } else if (tokens[0] == "v") {
-        tmpPositions ~= Vector3F(tokens[1].to!float, tokens[2].to!float, tokens[3].to!float);   
-      } else if (tokens[0] == "vn") {
-        tmpNormals ~= Vector3F(tokens[1].to!float, tokens[2].to!float, tokens[3].to!float);
-      } else if (tokens[0] == "vt") {
-        tmpUvs ~= Vector2F(tokens[1].to!float, tokens[2].to!float);
-      } else if (tokens[0] == "f") {
-        uint v1, v2, v3, v4;
-        uint t1, t2, t3, t4;
-        uint n1, n2, n3, n4;
+    return new RawModel(vao.getHandle(), data.length);
+  }
 
-        char[256] tmpLine;
-        tmpLine[0..line.length] = line[];
-        tmpLine[line.length] = 0;
+  /**
+   * Load a raw model into memory using vertex data and indices.
+   * Indices are stored into the internal vertex buffer object static array.
+   * Returns newly created raw model.
+  **/
+  static RawModel loadRawModel(VERTEX)(VERTEX[] data, uint[] indices) {
+    // Create vertex array object for the model
+    GfxVertexArray vao = GfxVertexArray.createArray();
+    vao.appendToVAOs(vao.getHandle());
 
-        if (sscanf(line.ptr, "f %u/%u/%u %u/%u/%u %u/%u/%u %u/%u/%u", &v1, &t1, &n1, &v2, &t2, &n2, &v3, &t3, &n3, &v4, &t4, &n4) == 12) {
-          vertexIndices ~= v1 - 1;
-          vertexIndices ~= v2 - 1;
-          vertexIndices ~= v3 - 1;
-          
-          uvIndices ~= t1 - 1;
-          uvIndices ~= t2 - 1;
-          uvIndices ~= t3 - 1;
-          
-          normalIndices ~= n1-1;
-          normalIndices ~= n2-1;
-          normalIndices ~= n3-1;
-        } else if (sscanf(line.ptr, "f %u/%u/%u %u/%u/%u %u/%u/%u", &v1, &t1, &n1, &v2, &t2, &n2, &v3, &t3, &n3) == 9) {
-          vertexIndices ~= v1 - 1;
-          vertexIndices ~= v2 - 1;
-          vertexIndices ~= v3 - 1;
-        
-          uvIndices ~= t1 - 1;
-          uvIndices ~= t2 - 1;
-          uvIndices ~= t3 - 1;
-        
-          normalIndices ~= n1 - 1;
-          normalIndices ~= n2 - 1;
-          normalIndices ~= n3 - 1;
-        } else if (sscanf(line.ptr, "f %u//%u %u//%u %u//%u %u//%u", &v1, &n1, &v2, &n2, &v3, &n3, &v4, &n4) == 8) {
-          vertexIndices ~= v1 - 1;
-          vertexIndices ~= v2 - 1;
-          vertexIndices ~= v3 - 1;
-          
-          normalIndices ~= n1-1;
-          normalIndices ~= n2-1;
-          normalIndices ~= n3-1;
-        } else if (sscanf(line.ptr, "f %u/%u %u/%u %u/%u", &v1, &t1, &v2, &t2, &v3, &t3) == 6) {
-          vertexIndices ~= v1 - 1;
-          vertexIndices ~= v2 - 1;
-          vertexIndices ~= v3 - 1;
-          
-          uvIndices ~= t1 - 1;
-          uvIndices ~= t2 - 1;
-          uvIndices ~= t3 - 1;
-        } else if (sscanf(line.ptr, "f %u//%u %u//%u %u//%u", &v1, &n1, &v2, &n2, &v3, &n3) == 6) {
-          vertexIndices ~= v1 - 1;
-          vertexIndices ~= v2 - 1;
-          vertexIndices ~= v3 - 1;
-          
-          normalIndices ~= n1 - 1;
-          normalIndices ~= n2 - 1;
-          normalIndices ~= n3 - 1;
-        } else if (sscanf(line.ptr, "f %u %u %u %u", &v1, &v2, &v3, &v4) == 4) {
-          vertexIndices ~= v1 - 1;
-          vertexIndices ~= v2 - 1;
-          vertexIndices ~= v3 - 1;
-        } else if (sscanf(line.ptr, "f %u %u %u", &v1, &v2, &v3) == 3) {
-          vertexIndices ~= v1 - 1;
-          vertexIndices ~= v2 - 1;
-          vertexIndices ~= v3 - 1;
-        } else {
-          Logger.error("Unreachable", "ResourceManager: loadOBJFile");
-        }
-      }
-    }
+    // Create vertex buffer object for the model
+    GfxBuffer vbo = GfxBuffer.createBuffer(GfxBufferTarget.ARRAY, GfxDataUsage.STATIC_DRAW, data);
+    vbo.appendToVBOs(vbo.getHandle());
 
-    foreach (i; 0..vertexIndices.length) {
-      positions ~= tmpPositions[vertexIndices[i]];
-      normals ~= tmpNormals[normalIndices[i]];
-      uvs ~= tmpUvs[uvIndices[i]];
+    // Create element buffer object for the model
+    // This shouldn't be unbinded
+    GfxBuffer ebo = GfxBuffer.createBuffer(GfxBufferTarget.ELEMENT_ARRAY, GfxDataUsage.STATIC_DRAW, indices);
+    ebo.appendToVBOs(ebo.getHandle());
 
-      vertices ~= PrimitiveVertex(positions[i], normals[i], uvs[i]);
-    }
+    // Bind vertex attribute pointer
+    VERTEX.bindAttributePointer();
+    
+    // Unbind vertex buffer object
+    vbo.unbind();
 
-    PrimitiveModel model = new PrimitiveModel([Material.getDefault()]);
-    model.build(vertices);
-    //model.build(vertices);
-
-    return model;
+    // Unbind vertex array object
+    vao.unbind();
+    
+    return new RawModel(vao.getHandle(), indices.length);
   }
 }

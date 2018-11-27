@@ -14,13 +14,12 @@ import liberty.math.functions;
 import liberty.math.vector;
 import liberty.scene.meta;
 import liberty.terrain.vertex;
-import liberty.resource;
 import liberty.terrain.model;
 import liberty.material.impl;
 import liberty.scene.node;
 import liberty.services;
-
-import liberty.image;
+import liberty.image.format.bmp;
+import liberty.image.io;
 
 /**
  *
@@ -170,7 +169,7 @@ final class Terrain : SceneNode {
 
   private void generateTerrain(string heightMapPath) {
     // Load height map form file
-    auto image = cast(BMPImage)ResourceManager.loadImage(heightMapPath);
+    auto image = cast(BMPImage)ImageIO.loadImage(heightMapPath);
 
     const int vertexCount = image.getHeight();
     const int count = vertexCount * vertexCount;

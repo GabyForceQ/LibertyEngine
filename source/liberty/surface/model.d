@@ -13,8 +13,8 @@ version (__OPENGL__)
 
 import liberty.model;
 import liberty.core.engine;
-import liberty.resource;
 import liberty.material.impl;
+import liberty.model.io;
 import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.surface.vertex;
@@ -38,7 +38,7 @@ final class SurfaceModel : Model {
    *
   **/
   SurfaceModel build(SurfaceVertex[] vertices) {
-    rawModel = ResourceManager.loadRawModel(vertices);
+    rawModel = ModelIO.loadRawModel(vertices);
     build();
     return this;
   }
@@ -48,7 +48,7 @@ final class SurfaceModel : Model {
   **/
   SurfaceModel build(SurfaceVertex[] vertices, uint[] indices) {
     hasIndices = true;
-    rawModel = ResourceManager.loadRawModel(vertices, indices);
+    rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;
   }

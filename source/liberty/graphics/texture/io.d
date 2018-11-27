@@ -11,23 +11,47 @@ module liberty.graphics.texture.io;
 version (__OPENGL__)
   import bindbc.opengl;
 
+import liberty.graphics.texture.cache;
 import liberty.graphics.texture.constants;
 import liberty.graphics.texture.impl;
 import liberty.image.format.bmp;
-import liberty.resource;
+import liberty.image.io;
 
 /**
  *
 **/
 final abstract class TextureIO {
+  private {
+    static TextureCache textureCache;
+  }
+
+  /**
+   * Load a texture into memory using a relative resource path.
+   * If texture is already loaded then just return it.
+   * Returns newly created texture.
+  **/
+  static Texture loadTexture(string resourcePath) {
+    if (textureCache is null)
+      textureCache = new TextureCache();
+
+    return textureCache.getTexture(resourcePath);
+  }
+
   /**
    *
   **/
-  static Texture loadBMP(string resourcePath) {
+  static Texture loadCubeMapTexture(string[6] resourcesPath) {
+    if (textureCache is null)
+      textureCache = new TextureCache();
+
+    return textureCache.getCubeMapTexture(resourcesPath);
+  }
+
+  package static Texture loadBMP(string resourcePath) {
     Texture texture = new Texture();
 
     // Load texture form file
-    auto image = cast(BMPImage)ResourceManager.loadImage(resourcePath);
+    auto image = cast(BMPImage)ImageIO.loadImage(resourcePath);
 
     // Generate and bind texture
     texture.generateTextures();
@@ -63,9 +87,7 @@ final abstract class TextureIO {
     return texture;
   }
 
-  /**
-   *
-  **/
+  // this shouldn't be public
   static Texture loadBMP(BMPImage image) {
     Texture texture = new Texture();
 

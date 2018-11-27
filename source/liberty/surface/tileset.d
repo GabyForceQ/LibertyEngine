@@ -14,7 +14,6 @@ import liberty.image.format.bmp;
 import liberty.image.io;
 import liberty.material.impl;
 import liberty.math.vector;
-import liberty.resource;
 
 /**
  *
@@ -32,7 +31,7 @@ final class TileSet {
     dimension.x = material.getTexture().getWidth() / tileSize.x;
     dimension.y = material.getTexture().getHeight() / tileSize.y;
 
-    auto image = cast(BMPImage)ResourceManager.loadImage(material.getTexture().getRelativePath());
+    auto image = cast(BMPImage)ImageIO.loadImage(material.getTexture().getRelativePath());
 
     BMPHeader header;
     header.width = tileSize.x;
@@ -43,7 +42,7 @@ final class TileSet {
       materials[i] = cast(Material*)malloc(dimension.x * (Material).sizeof);
       foreach (j; 0..dimension.x) {
         ubyte[] data = new ubyte[header.width * header.height * 4];
-        BMPImage im = ImageIO.createBMPImage(header, data);
+        BMPImage im = ImageIO.createImage(header, data);
 
         int k;
         foreach (m; (dimension.y - i - 1) * 128..header.width + (dimension.y - i - 1) * 128)
