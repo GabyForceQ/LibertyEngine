@@ -5,14 +5,8 @@
  * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/resource.d)
  * Documentation:
  * Coverage:
- *
- * TODO:
- *    - no opengl code here
 **/
 module liberty.resource;
-
-version (__OPENGL__)
-  import bindbc.opengl;
 
 import liberty.logger.impl;
 import liberty.primitive.model;
@@ -74,18 +68,8 @@ final abstract class ResourceManager {
     GfxBuffer vbo = GfxBuffer.createBuffer(GfxBufferTarget.ARRAY, GfxDataUsage.STATIC_DRAW, data);    
     vbos ~= vbo.getHandle();
 
-    version (__OPENGL__) {
-      static if (is(VERTEX == SurfaceVertex)) {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
-      } else static if (is(VERTEX == CubeMapVertex)) {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
-      } else {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
-      }
-    }
+    // Bind vertex attribute pointer
+    VERTEX.bindAttributePointer();
     
     // Unbind vertex buffer object
     vbo.unbind();
@@ -115,18 +99,8 @@ final abstract class ResourceManager {
     GfxBuffer ebo = GfxBuffer.createBuffer(GfxBufferTarget.ELEMENT_ARRAY, GfxDataUsage.STATIC_DRAW, indices);
     vbos ~= ebo.getHandle();
 
-    version (__OPENGL__) {
-      static if (is(VERTEX == SurfaceVertex)) {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
-      } else static if (is(VERTEX == CubeMapVertex)) {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
-      } else {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.position.offsetof);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.normal.offsetof);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, VERTEX.sizeof, cast(void*)VERTEX.texCoord.offsetof);
-      }
-    }
+    // Bind vertex attribute pointer
+    VERTEX.bindAttributePointer();
     
     // Unbind vertex buffer object
     vbo.unbind();

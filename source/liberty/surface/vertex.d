@@ -8,6 +8,9 @@
 **/
 module liberty.surface.vertex;
 
+version (__OPENGL__)
+  import bindbc.opengl;
+
 import liberty.math.vector;
 
 /**
@@ -30,5 +33,30 @@ struct SurfaceVertex {
   this(Vector3F position, Vector2F texCoord) {
     this.position = position;
     this.texCoord = texCoord;
+  }
+
+  /**
+   *
+  **/
+  static void bindAttributePointer() {
+    version (__OPENGL__) {
+      glVertexAttribPointer(
+        0,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        SurfaceVertex.sizeof,
+        cast(void*)SurfaceVertex.position.offsetof
+      );
+
+      glVertexAttribPointer(
+        1,
+        2,
+        GL_FLOAT,
+        GL_FALSE,
+        SurfaceVertex.sizeof,
+        cast(void*)SurfaceVertex.texCoord.offsetof
+      );
+    }
   }
 }
