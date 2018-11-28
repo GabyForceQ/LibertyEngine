@@ -68,7 +68,9 @@ final class SurfaceModel : Model {
   **/
   void render() {
     if (shouldCull)
-      GfxEngine.enableCulling();
+      GfxEngine
+        .getBackend()
+        .setCullingEnabled();
 
     GfxEngine.enableAlphaBlend();
     
@@ -97,7 +99,9 @@ final class SurfaceModel : Model {
     GfxEngine.disableBlend();
 
     if (shouldCull)
-      GfxEngine.disableCulling();
+      GfxEngine
+        .getBackend()
+        .setCullingEnabled(false);
   }
 
   /**

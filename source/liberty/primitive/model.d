@@ -70,7 +70,9 @@ final class PrimitiveModel : Model {
   **/
   void render() {
     if (shouldCull)
-      GfxEngine.enableCulling();
+      GfxEngine
+        .getBackend()
+        .setCullingEnabled();
 
     //if (hasTransparency)
     //  GfxEngine.();
@@ -103,7 +105,9 @@ final class PrimitiveModel : Model {
     //  GfxEngine.();
 
     if (shouldCull)
-      GfxEngine.disableCulling();
+      GfxEngine
+        .getBackend()
+        .setCullingEnabled(false);
   }
 
   /**

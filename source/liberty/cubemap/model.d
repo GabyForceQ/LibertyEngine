@@ -72,7 +72,9 @@ final class CubeMapModel : Model {
     glDepthMask(GL_FALSE);
     
     if (shouldCull)
-      GfxEngine.enableCulling();
+      GfxEngine
+        .getBackend()
+        .setCullingEnabled();
 
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
@@ -95,7 +97,9 @@ final class CubeMapModel : Model {
     }
 
     if (shouldCull)
-      GfxEngine.disableCulling();
+      GfxEngine
+        .getBackend()
+        .setCullingEnabled(false);
 
     glDepthMask(GL_TRUE);
   }

@@ -17,125 +17,45 @@ import liberty.logger;
 import liberty.core.platform;
 import liberty.graphics.constants;
 
-/**
- *
-**/
-struct GfxEngineInfo {
-  /**
-   *
-  **/
-  string[] apiExtensions;
-
-  /**
-   *
-  **/
-  int apiMajorVersion;
-
-  /**
-   *
-  **/
-  int apiMinorVersion;
-
-  /**
-   *
-  **/
-  int apiMaxColorAttachments;
-}
+import liberty.graphics.backend.impl;
 
 /**
- *
+ * Graphics engine base class.
 **/
 final abstract class GfxEngine {
   private {
-    static GfxEngineInfo info;
-    static bool wireframe;
-    static Vector4F backgroundColor = Vector4F(0.5f, 0.8f, 0.8f, 1.0f);
+    static GfxBackend backend;
   }
 
   /**
-   * Set wireframe mode.
-  **/
-  static void setWireframe(bool value = true) {
-    version (__OPENGL__)
-      glPolygonMode(GL_FRONT_AND_BACK, value ? GL_LINE : GL_FILL);
-
-    wireframe = value;
-  }
-
-  /**
-   * Switch between wireframe and non-wireframe mode.
-  **/
-  static void toggleWireframe() {
-    version (__OPENGL__)
-      glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_FILL : GL_LINE);
-
-    wireframe = !wireframe;
-  }
-
-  /**
-   *
+   * Initialize graphics engine by creating the backend.
   **/
   static void initialize() {
-    Logger.info("Start realoading OpenGL", typeof(this).stringof);
-
-    const res = loadOpenGL();
-    if (res == glSupport.gl45) {
-      Logger.info("OpenGL 4.5 loaded", typeof(this).stringof);
-      info.apiMajorVersion = 4;
-      info.apiMinorVersion = 5;
-    } else if (res == glSupport.gl30) {
-      Logger.info("OpenGL 3.0 loaded", typeof(this).stringof);
-      info.apiMajorVersion = 3;
-      info.apiMinorVersion = 0;
-    }
-    else
-      Logger.error("No OpenGL library", typeof(this).stringof);
-
-    enableDepthTest();
-
-    Logger.info("Finish realoading OpenGL", typeof(this).stringof);
+    backend = GfxBackend.createBackend();
   }
 
   /**
-   *
+   * Returns graphics backend.
   **/
-  static void setBackgroundColor(float r, float g, float b, float a) nothrow {
-    setBackgroundColor(Vector4F(r, g, b, a));
+  static GfxBackend getBackend() nothrow {
+    return backend;
   }
 
   /**
-   *
+   * Resize the frame buffer viewport.
+   * If backend is not created then it will generate a warning message.
   **/
-  static void setBackgroundColor(Vector4F backgroundColor) nothrow {
-    this.backgroundColor = backgroundColor;
-  }
-
-  /**
-   *
-  **/
-  static Vector4F getBackgroundColor() nothrow {
-    return backgroundColor;
-  }
-
-  /**
-   *
-  **/
-  static void clearScreen() {
-    version (__OPENGL__) {
-      glClearDepth(1.0);
-	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-      glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-      glDepthFunc(GL_LEQUAL);
-    }
-  }
-
-  /**
-   *
-  **/
-  static void clearColor(Color4 color) {
-    version (__OPENGL__) {
-      glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
-    }
+  static void resizeFrameBufferViewport(int width, int height) nothrow {
+    try {
+      if (backend !is null) {
+        version (__OPENGL__)
+          glViewport(0, 0, width, height);
+      } else
+        Logger.warning(
+          "You are trying to resize frame buffer viewport without a backend",
+          typeof(this).stringof
+        );
+    } catch (Exception e) {}
   }
 
   /**
@@ -159,67 +79,8 @@ final abstract class GfxEngine {
   /**
    *
   **/
-  static void enableCulling() {
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-  }
-
-  /**
-   *
-  **/
-  static void disableCulling() {
-    glDisable(GL_CULL_FACE);
-  }
-
-  /**
-   *
-  **/
-  static void resizeFrameBufferViewport(int width, int height) nothrow {
-    try {
-      version (__OPENGL__)
-        glViewport(0, 0, width, height);
-    } catch (Exception e) {}
-  }
-
-  /**
-   *
-  **/
-  static void enableDepthTest() {
-    version (__OPENGL__) {
-      glEnable(GL_DEPTH_TEST);
-    }
-  }
-
-  /**
-   *
-  **/
-  static void disableDepthTest() {
-    version (__OPENGL__) {
-      glDisable(GL_DEPTH_TEST);
-    }
-  }
-
-  /**
-   *
-  **/
-  static void enableTextures() {
-    version (__OPENGL__)
-      glEnable(GL_TEXTURE_2D);
-  }
-
-  /**
-   *
-  **/
-  static void disableTextures() {
-    version (__OPENGL__)
-      glDisable(GL_TEXTURE_2D);
-  }
-
-  /**
-   *
-  **/
   static bool supportsExtension(string extension) nothrow {
-    foreach (el; info.apiExtensions)
+    foreach (el; backend.getInfo().extensions)
       if (el == extension)
         return true;
     return false;
@@ -289,14 +150,6 @@ final abstract class GfxEngine {
       return sZ.fromStringz;
   }
 
-  static int getMajorVersion() nothrow {
-    return info.apiMajorVersion;
-  }
-
-  static int getMinorVersion() nothrow {
-    return info.apiMinorVersion;
-  }
-
   static const(char)[] getVersionString() {
     version (__OPENGL__)
       return getString(GL_VERSION);
@@ -338,7 +191,7 @@ final abstract class GfxEngine {
   }
 
   static string[] getExtensions() nothrow {
-    return info.apiExtensions;
+    return backend.getInfo().extensions;
   }
 
   static int getInt(uint pname) {
@@ -364,7 +217,7 @@ final abstract class GfxEngine {
   }
 
   static int getMaxColorAttachments() nothrow {
-    return info.apiMaxColorAttachments;
+    return backend.getInfo().maxColorAttachments;
   }
 
   static void getActiveTexture(int texture_id) {

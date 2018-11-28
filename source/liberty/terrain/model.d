@@ -58,7 +58,9 @@ final class TerrainModel : Model {
   **/
   void render() {
     if (shouldCull)
-      GfxEngine.enableCulling();
+      GfxEngine
+        .getBackend()
+        .setCullingEnabled();
 
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
@@ -99,6 +101,8 @@ final class TerrainModel : Model {
     }
 
     if (shouldCull)
-      GfxEngine.disableCulling();
+      GfxEngine
+        .getBackend()
+        .setCullingEnabled(false);
   }
 }

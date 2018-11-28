@@ -105,9 +105,16 @@ final abstract class CoreEngine {
           break;
       }
 
+      // Clear the screen
+      GfxEngine
+        .getBackend()
+        .clearScreen();
+      
       // Render to the screen
-      GfxEngine.clearScreen();
-      CoreEngine.getScene().render();
+      CoreEngine
+        .getScene()
+        .render();
+      
       glfwSwapBuffers(Platform.getWindow().getHandle());
 
       if (Platform.getWindow().shouldClose())
