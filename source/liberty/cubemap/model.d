@@ -12,7 +12,6 @@ version (__OPENGL__)
   import bindbc.opengl;
 
 import liberty.core.engine;
-import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.material.impl;
 import liberty.model.impl;
@@ -23,10 +22,6 @@ import liberty.cubemap.vertex;
  *
 **/
 final class CubeMapModel : Model {
-  private {
-    bool hasIndices;
-  }
-
   /**
    *
   **/
@@ -49,7 +44,7 @@ final class CubeMapModel : Model {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(CubeMapVertex[] vertices, uint[] indices) {
-    hasIndices = true;
+    usesIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;
@@ -68,14 +63,9 @@ final class CubeMapModel : Model {
   /**
    *
   **/
-  void render() {
+  override void render() {
     glDepthMask(GL_FALSE);
     
-    if (shouldCull)
-      GfxEngine
-        .getBackend()
-        .setCullingEnabled();
-
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_CUBE_MAP, materials[0].getTexture().getId());
@@ -84,9 +74,7 @@ final class CubeMapModel : Model {
       glEnableVertexAttribArray(0);
     }
 
-    hasIndices
-      ? drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.getVertexCount())
-      : drawArrays(GfxDrawMode.TRIANGLES, rawModel.getVertexCount());
+    super.render();
     
     version (__OPENGL__) {
       glDisableVertexAttribArray(0);
@@ -95,11 +83,6 @@ final class CubeMapModel : Model {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }
-
-    if (shouldCull)
-      GfxEngine
-        .getBackend()
-        .setCullingEnabled(false);
 
     glDepthMask(GL_TRUE);
   }

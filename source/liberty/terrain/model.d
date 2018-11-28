@@ -15,7 +15,6 @@ import liberty.model.impl;
 import liberty.core.engine;
 import liberty.material.impl;
 import liberty.model.io;
-import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.terrain.vertex;
 
@@ -34,6 +33,7 @@ final class TerrainModel : Model {
    *
   **/
   TerrainModel build(TerrainVertex[] vertices, uint[] indices) {
+    usesIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;
@@ -56,12 +56,7 @@ final class TerrainModel : Model {
   /**
    *
   **/
-  void render() {
-    if (shouldCull)
-      GfxEngine
-        .getBackend()
-        .setCullingEnabled();
-
+  override void render() {
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
@@ -80,7 +75,7 @@ final class TerrainModel : Model {
       glEnableVertexAttribArray(2);
     }
 
-    drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.getVertexCount());
+    super.render();
 
     version (__OPENGL__) {
       glDisableVertexAttribArray(0);
@@ -99,10 +94,5 @@ final class TerrainModel : Model {
       glActiveTexture(GL_TEXTURE4);
       glBindTexture(GL_TEXTURE_2D, 0);
     }
-
-    if (shouldCull)
-      GfxEngine
-        .getBackend()
-        .setCullingEnabled(false);
   }
 }

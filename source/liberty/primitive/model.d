@@ -9,13 +9,12 @@
 module liberty.primitive.model;
 
 version (__OPENGL__)
-  import bindbc.opengl;
+  import bindbc.opengl; // TODO. Remove opengl import
 
 import liberty.model;
 import liberty.core.engine;
 import liberty.material.impl;
 import liberty.model.io;
-import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.primitive.vertex;
 
@@ -24,7 +23,6 @@ import liberty.primitive.vertex;
 **/
 final class PrimitiveModel : Model {
   private {
-    bool hasIndices;
     bool hasTransparency;
     bool useFakeLighting;
   }
@@ -49,7 +47,7 @@ final class PrimitiveModel : Model {
    *
   **/
   PrimitiveModel build(PrimitiveVertex[] vertices, uint[] indices) {
-    hasIndices = true;
+    usesIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;
@@ -68,12 +66,7 @@ final class PrimitiveModel : Model {
   /**
    *
   **/
-  void render() {
-    if (shouldCull)
-      GfxEngine
-        .getBackend()
-        .setCullingEnabled();
-
+  override void render() {
     //if (hasTransparency)
     //  GfxEngine.();
 
@@ -87,9 +80,7 @@ final class PrimitiveModel : Model {
       glEnableVertexAttribArray(2);
     }
 
-    hasIndices
-      ? drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.getVertexCount())
-      : drawArrays(GfxDrawMode.TRIANGLES, rawModel.getVertexCount());
+    super.render();
 
     version (__OPENGL__) {
       glDisableVertexAttribArray(0);
@@ -100,21 +91,6 @@ final class PrimitiveModel : Model {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, 0);
     }
-
-    //if (!hasTransparency)
-    //  GfxEngine.();
-
-    if (shouldCull)
-      GfxEngine
-        .getBackend()
-        .setCullingEnabled(false);
-  }
-
-  /**
-   *
-  **/
-  bool usesIndices() pure nothrow const {
-    return hasIndices;
   }
 
   /**

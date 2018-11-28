@@ -73,7 +73,7 @@ final class GfxBackend : IGfxBackendFactory {
     version (__OPENGL__)
       glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
 
-    options.isWireframeEnabled = enabled;
+    options.wireframeEnabled = enabled;
     return this;
   }
 
@@ -83,9 +83,9 @@ final class GfxBackend : IGfxBackendFactory {
   **/
   typeof(this) toggleWireframe() {
     version (__OPENGL__)
-      glPolygonMode(GL_FRONT_AND_BACK, options.isWireframeEnabled ? GL_FILL : GL_LINE);
+      glPolygonMode(GL_FRONT_AND_BACK, options.wireframeEnabled ? GL_FILL : GL_LINE);
 
-    options.isWireframeEnabled = !options.isWireframeEnabled;
+    options.wireframeEnabled = !options.wireframeEnabled;
     return this;
   }
 
@@ -99,7 +99,7 @@ final class GfxBackend : IGfxBackendFactory {
         ? glEnable(GL_DEPTH_TEST)
         : glDisable(GL_DEPTH_TEST);
 
-    options.isDepthTestEnabled = enabled;
+    options.depthTestEnabled = enabled;
     return this;
   }
 
@@ -113,7 +113,7 @@ final class GfxBackend : IGfxBackendFactory {
         ? glEnable(GL_TEXTURE_2D)
         : glDisable(GL_TEXTURE_2D);
 
-    options.isTextureEnabled = enabled;
+    options.textureEnabled = enabled;
     return this;
   }
 
@@ -127,7 +127,7 @@ final class GfxBackend : IGfxBackendFactory {
         ? { glEnable(GL_CULL_FACE); glCullFace(GL_BACK); }
         : glDisable(GL_CULL_FACE);
 
-    options.isTextureEnabled = enabled;
+    options.textureEnabled = enabled;
     return this;
   }
 

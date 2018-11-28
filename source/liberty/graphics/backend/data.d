@@ -47,20 +47,20 @@ struct GfxBackendOptions {
   /**
    *
   **/
-  bool isWireframeEnabled;
+  bool wireframeEnabled;
 
   /**
    *
   **/
-  bool isDepthTestEnabled;
+  bool depthTestEnabled;
 
   /**
    *
   **/
-  bool isTextureEnabled;
+  bool textureEnabled;
 
   /**
    *
   **/
-  bool isCullingEnabled;
+  bool cullingEnabled;
 }

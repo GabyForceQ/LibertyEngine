@@ -8,6 +8,8 @@
 **/
 module liberty.model.impl;
 
+import liberty.graphics.constants;
+import liberty.graphics.engine;
 import liberty.graphics.factory;
 import liberty.material.impl;
 import liberty.model.raw;
@@ -17,10 +19,22 @@ import liberty.services;
  *
 **/
 abstract class Model : IGfxRendererFactory, IRenderable {
+  private {
+    // Used to Store wireframe global state
+    bool tempWireframeEnabled;
+  }
+
   protected {
+    // getRawModel
     RawModel rawModel;
+    // getMaterials, setMaterials, toggleMaterials
     Material[] materials;
-    bool shouldCull = true;
+    // isCullingEnabled, setCullingEnabled, swapCullingEnabled
+    bool cullingEnabled = true;
+    // isWireframeEnabled, setWireframeEnabled, swapWireframeEnabled,
+    bool wireframeEnabled;
+    // hasIndices
+    bool usesIndices;
   }
 
   /**
@@ -31,7 +45,7 @@ abstract class Model : IGfxRendererFactory, IRenderable {
   }
 
   /**
-   *
+   * Returns the raw model.
   **/
   RawModel getRawModel() pure nothrow {
     return rawModel;
@@ -41,7 +55,7 @@ abstract class Model : IGfxRendererFactory, IRenderable {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Model toggleMaterials(Material[] materialsLhs, Material[] materialsRhs) {
+  typeof(this) toggleMaterials(Material[] materialsLhs, Material[] materialsRhs) {
     materials = (materials == materialsLhs) ? materialsRhs : materialsLhs;
     return this;
   }
@@ -50,7 +64,7 @@ abstract class Model : IGfxRendererFactory, IRenderable {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Model toggleMaterials(Material[2][] arr) {
+  typeof(this) toggleMaterials(Material[2][] arr) {
     foreach (i, ref material; materials)
       material = (material == arr[i][0]) ? arr[i][1] : arr[i][0];
 
@@ -61,32 +75,100 @@ abstract class Model : IGfxRendererFactory, IRenderable {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Model setMaterials(Material[] materials) pure nothrow {
+  typeof(this) setMaterials(Material[] materials) pure nothrow {
     this.materials = materials;
     return this;
   }
 
   /**
-   *
+   * Returns an array with materials.
   **/
   Material[] getMaterials() pure nothrow {
     return materials;
   }
 
   /**
-   * Enable or disable culling on this model.
-   * It is enabled by default.
+   * Enable or disable culling on the model.
+   * It is disabled by default when create a new model.
    * Returns reference to this so it can be used in a stream.
   **/
-  Model setShouldCull(bool shouldCull) pure nothrow {
-    this.shouldCull = shouldCull;
+  typeof(this) setCullingEnabled(bool enabled = true) pure nothrow {
+    cullingEnabled = enabled;
     return this;
   }
 
   /**
-   * Returns model culling state.
+   * Swap culling values between true and false on the model.
   **/
-  bool getShouldCull() pure nothrow const {
-    return shouldCull;
+  typeof(this) swapCullingEnabled() pure nothrow {
+    cullingEnabled = !cullingEnabled;
+    return this;
+  }
+
+  /**
+   * Returns true if model's culling is enabled.
+  **/
+  bool isCullingEnabled() pure nothrow const {
+    return cullingEnabled;
+  }
+
+  /**
+   * Enable or disable wireframe on the model.
+   * It is disabled by default when create a new model.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setWireframeEnabled(bool enabled = true) pure nothrow {
+    wireframeEnabled = enabled;
+    return this;
+  }
+
+  /**
+   * Swap wireframe values between true and false on the model.
+  **/
+  typeof(this) swapWireframeEnabled() pure nothrow {
+    wireframeEnabled = !wireframeEnabled;
+    return this;
+  }
+
+  /**
+   * Returns true if model's wireframe is enabled.
+  **/
+  bool isWireframeEnabled() pure nothrow const {
+    return wireframeEnabled;
+  }
+
+  /**
+   * Returns true if the model is built up on both vertices and indices.
+  **/
+  bool hasIndices() pure nothrow const {
+    return usesIndices;
+  }
+
+  /**
+   * Render the model to the screen by calling specific draw method from $(D IGfxRendererFactory)
+  **/
+  void render() {
+    // Send culling type to graphics engine
+    GfxEngine
+      .getBackend()
+      .setCullingEnabled(cullingEnabled);
+
+    // Store wireframe global state
+    tempWireframeEnabled = GfxEngine.getBackend.getOptions.wireframeEnabled;
+
+    // Send wireframe type to graphics engine
+    GfxEngine
+      .getBackend()
+      .setWireframeEnabled(tempWireframeEnabled ? !wireframeEnabled : wireframeEnabled);
+
+    // Render
+    hasIndices
+      ? drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.getVertexCount())
+      : drawArrays(GfxDrawMode.TRIANGLES, rawModel.getVertexCount());
+
+    // Restore wireframe global state using the stored boolean.
+    GfxEngine
+      .getBackend()
+      .setWireframeEnabled(tempWireframeEnabled);
   }
 }

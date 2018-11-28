@@ -15,18 +15,13 @@ import liberty.model;
 import liberty.core.engine;
 import liberty.material.impl;
 import liberty.model.io;
-import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.surface.vertex;
 
 /**
  *
 **/
-final class SurfaceModel : Model {
-  private {
-    bool hasIndices;
-  }
-  
+final class SurfaceModel : Model {  
   /**
    *
   **/
@@ -47,7 +42,7 @@ final class SurfaceModel : Model {
    *
   **/
   SurfaceModel build(SurfaceVertex[] vertices, uint[] indices) {
-    hasIndices = true;
+    usesIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;
@@ -66,12 +61,7 @@ final class SurfaceModel : Model {
   /**
    *
   **/
-  void render() {
-    if (shouldCull)
-      GfxEngine
-        .getBackend()
-        .setCullingEnabled();
-
+  override void render() {
     GfxEngine.enableAlphaBlend();
     
     version (__OPENGL__) {
@@ -83,9 +73,7 @@ final class SurfaceModel : Model {
       glEnableVertexAttribArray(1);
     }
 
-    hasIndices
-      ? drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.getVertexCount())
-      : drawArrays(GfxDrawMode.TRIANGLES, rawModel.getVertexCount());
+    super.render();
 
     version (__OPENGL__) {
       glDisableVertexAttribArray(0);
@@ -97,17 +85,5 @@ final class SurfaceModel : Model {
     }
 
     GfxEngine.disableBlend();
-
-    if (shouldCull)
-      GfxEngine
-        .getBackend()
-        .setCullingEnabled(false);
-  }
-
-  /**
-   *
-  **/
-  bool usesIndices() pure nothrow const {
-    return hasIndices;
   }
 }
