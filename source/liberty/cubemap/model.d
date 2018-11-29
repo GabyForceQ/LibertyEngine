@@ -35,7 +35,6 @@ final class CubeMapModel : Model {
   **/
   typeof(this) build(CubeMapVertex[] vertices) {
     rawModel = ModelIO.loadRawModel(vertices);
-    build();
     return this;
   }
 
@@ -46,18 +45,7 @@ final class CubeMapModel : Model {
   typeof(this) build(CubeMapVertex[] vertices, uint[] indices) {
     useIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
-    build();
     return this;
-  }
-
-  private void build() {
-    CoreEngine
-      .getScene()
-      .getCubeMapSystem()
-      .getShader()
-      .bind()
-      .loadCubeMap(0)
-      .unbind();
   }
 
   /**

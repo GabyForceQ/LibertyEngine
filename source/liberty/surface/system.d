@@ -32,8 +32,8 @@ final class SurfaceSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    renderer = new SurfaceRenderer(this, scene);
     shader = new SurfaceShader();
+    renderer = new SurfaceRenderer(this, scene);
   }
 
   /**

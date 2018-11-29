@@ -32,8 +32,8 @@ final class PrimitiveSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    renderer = new PrimitiveRenderer(this, scene);
     shader = new PrimitiveShader();
+    renderer = new PrimitiveRenderer(this, scene);
   }
 
   /**

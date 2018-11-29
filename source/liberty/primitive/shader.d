@@ -148,6 +148,7 @@ final class PrimitiveShader : GfxShader {
     addUniform("uReflectivity");
     addUniform("uUseFakeLighting");
     addUniform("uSkyColor");
+    loadTexture(0);
     this.unbind();
   }
 

@@ -34,7 +34,6 @@ final class SurfaceModel : Model {
   **/
   SurfaceModel build(SurfaceVertex[] vertices) {
     rawModel = ModelIO.loadRawModel(vertices);
-    build();
     return this;
   }
 
@@ -44,18 +43,7 @@ final class SurfaceModel : Model {
   SurfaceModel build(SurfaceVertex[] vertices, uint[] indices) {
     useIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
-    build();
     return this;
-  }
-
-  private void build() {
-    CoreEngine
-      .getScene()
-      .getSurfaceSystem()
-      .getShader()
-      .bind()
-      .loadTexture(0)
-      .unbind();
   }
 
   /**

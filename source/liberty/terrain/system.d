@@ -32,8 +32,8 @@ final class TerrainSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    renderer = new TerrainRenderer(this, scene);
     shader = new TerrainShader();
+    renderer = new TerrainRenderer(this, scene);
   }
 
   /**

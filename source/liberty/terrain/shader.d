@@ -157,6 +157,11 @@ final class TerrainShader : GfxShader {
     addUniform("uReflectivity");
     addUniform("uTexCoordMultiplier");
     addUniform("uSkyColor");
+    loadBackgroundTexture(0);
+    loadRTexture(1);
+    loadGTexture(2);
+    loadBTexture(3);
+    loadBlendMap(4);
     this.unbind();
   }
 

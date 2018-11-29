@@ -56,6 +56,7 @@ final class TextShader : GfxShader {
     addUniform("uTranslation");
     addUniform("uColor");
     addUniform("uFontAtlas");
+    loadFontAtlas(0);
     this.unbind();
   }
 

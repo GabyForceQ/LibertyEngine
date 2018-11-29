@@ -58,6 +58,7 @@ final class SurfaceShader : GfxShader {
     addUniform("uProjectionMatrix");
     addUniform("uZIndex");
     addUniform("uTexture");
+    loadTexture(0);
     this.unbind();
   }
 

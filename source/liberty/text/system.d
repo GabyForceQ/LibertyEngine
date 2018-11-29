@@ -32,8 +32,8 @@ final class TextSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    renderer = new TextRenderer(this, scene);
     shader = new TextShader();
+    renderer = new TextRenderer(this, scene);
   }
 
   /**

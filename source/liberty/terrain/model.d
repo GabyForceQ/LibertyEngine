@@ -35,22 +35,7 @@ final class TerrainModel : Model {
   TerrainModel build(TerrainVertex[] vertices, uint[] indices) {
     useIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
-    build();
     return this;
-  }
-
-  private void build() {
-    CoreEngine
-      .getScene()
-      .getTerrainSystem()
-      .getShader()
-      .bind()
-      .loadBackgroundTexture(0)
-      .loadRTexture(1)
-      .loadGTexture(2)
-      .loadBTexture(3)
-      .loadBlendMap(4)
-      .unbind();
   }
 
   /**

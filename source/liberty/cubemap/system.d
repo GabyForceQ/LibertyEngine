@@ -32,8 +32,8 @@ final class CubeMapSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    renderer = new CubeMapRenderer(this, scene);
     shader = new CubeMapShader();
+    renderer = new CubeMapRenderer(this, scene);
   }
 
   /**

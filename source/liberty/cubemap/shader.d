@@ -66,6 +66,7 @@ final class CubeMapShader : GfxShader {
     addUniform("uFogColor");
     addUniform("uFadeLowerLimit");
     addUniform("uFadeUpperLimit");
+    loadCubeMap(0);
     this.unbind();
   }
 
