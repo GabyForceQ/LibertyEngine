@@ -22,11 +22,6 @@ import liberty.primitive.vertex;
  *
 **/
 final class PrimitiveModel : Model {
-  private {
-    bool hasTransparency;
-    bool useFakeLighting;
-  }
-
   /**
    *
   **/
@@ -47,7 +42,7 @@ final class PrimitiveModel : Model {
    *
   **/
   PrimitiveModel build(PrimitiveVertex[] vertices, uint[] indices) {
-    usesIndices = true;
+    useIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;
@@ -67,9 +62,6 @@ final class PrimitiveModel : Model {
    *
   **/
   override void render() {
-    //if (hasTransparency)
-    //  GfxEngine.();
-
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
@@ -91,33 +83,5 @@ final class PrimitiveModel : Model {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, 0);
     }
-  }
-
-  /**
-   *
-  **/
-  void setHasTransparency(bool transparency) {
-    hasTransparency = transparency;
-  }
-
-  /**
-   *
-  **/
-  bool getHasTransparency() {
-    return hasTransparency;
-  }
-
-  /**
-   *
-  **/
-  void setUseFakeLighting(bool isFake) {
-    useFakeLighting = isFake;
-  }
-
-  /**
-   *
-  **/
-  bool getUseFakeLighting() {
-    return useFakeLighting;
   }
 }

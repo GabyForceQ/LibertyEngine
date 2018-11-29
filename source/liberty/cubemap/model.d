@@ -44,7 +44,7 @@ final class CubeMapModel : Model {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(CubeMapVertex[] vertices, uint[] indices) {
-    usesIndices = true;
+    useIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;

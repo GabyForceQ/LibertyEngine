@@ -42,7 +42,7 @@ final class SurfaceModel : Model {
    *
   **/
   SurfaceModel build(SurfaceVertex[] vertices, uint[] indices) {
-    usesIndices = true;
+    useIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;

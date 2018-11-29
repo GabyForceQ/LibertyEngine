@@ -76,7 +76,7 @@ final class PrimitiveRenderer : IRenderable {
       .loadUseFakeLighting(
         primitive
           .getModel()
-          .getUseFakeLighting());
+          .isFakeLightingEnabled());
 
     if (primitive.getModel() !is null)
       primitive

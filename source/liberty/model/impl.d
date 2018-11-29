@@ -22,6 +22,14 @@ abstract class Model : IGfxRendererFactory, IRenderable {
   private {
     // Used to Store wireframe global state
     bool tempWireframeEnabled;
+    // isCullingEnabled, setCullingEnabled, swapCulling
+    bool cullingEnabled = true;
+    // isWireframeEnabled, setWireframeEnabled, swapWireframe
+    bool wireframeEnabled;
+    // isTransparencyEnabled, setTransparencyEnabled
+    bool transparencyEnabled;
+    // isFakeLightingEnabled, setFakeLightingEnabled
+    bool fakeLightingEnabled;
   }
 
   protected {
@@ -29,12 +37,8 @@ abstract class Model : IGfxRendererFactory, IRenderable {
     RawModel rawModel;
     // getMaterials, setMaterials, swapMaterials
     Material[] materials;
-    // isCullingEnabled, setCullingEnabled, swapCulling
-    bool cullingEnabled = true;
-    // isWireframeEnabled, setWireframeEnabled, swapWireframe
-    bool wireframeEnabled;
     // hasIndices
-    bool usesIndices;
+    bool useIndices;
   }
 
   /**
@@ -88,6 +92,13 @@ abstract class Model : IGfxRendererFactory, IRenderable {
   }
 
   /**
+   * Returns true if the model is built up on both vertices and indices.
+  **/
+  bool hasIndices() pure nothrow const {
+    return useIndices;
+  }
+
+  /**
    * Enable or disable culling on the model.
    * It is disabled by default when create a new model.
    * Returns reference to this so it can be used in a stream.
@@ -138,10 +149,37 @@ abstract class Model : IGfxRendererFactory, IRenderable {
   }
 
   /**
-   * Returns true if the model is built up on both vertices and indices.
+   * Enable or disable transparency on the model.
+   * It is disabled by default when create a new model.
+   * Returns reference to this so it can be used in a stream.
   **/
-  bool hasIndices() pure nothrow const {
-    return usesIndices;
+  typeof(this) setTransparencyEnabled(bool enabled = true) pure nothrow {
+    transparencyEnabled = enabled;
+    return this;
+  }
+
+  /**
+   * Returns true if model's transparency is enabled.
+  **/
+  bool isTransparencyEnabled() pure nothrow const {
+    return transparencyEnabled;
+  }
+
+  /**
+   * Enable or disable fake lighting on the model.
+   * It is disabled by default when create a new model.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setFakeLightingEnabled(bool enabled = true) pure nothrow {
+    fakeLightingEnabled = enabled;
+    return this;
+  }
+
+  /**
+   * Returns true if fake lighting is enabled on the model.
+  **/
+  bool isFakeLightingEnabled() pure nothrow const {
+    return fakeLightingEnabled;
   }
 
   /**

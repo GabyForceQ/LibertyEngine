@@ -33,7 +33,7 @@ final class TerrainModel : Model {
    *
   **/
   TerrainModel build(TerrainVertex[] vertices, uint[] indices) {
-    usesIndices = true;
+    useIndices = true;
     rawModel = ModelIO.loadRawModel(vertices, indices);
     build();
     return this;
