@@ -153,9 +153,9 @@ final class Window {
   }
 
   /**
-   * Toggle window fullscreen/windowed mode.
+   * Swap between window fullscreen and windowed mode.
   **/
-  typeof(this) toggleFullscreen() {
+  typeof(this) swapFullscreen() {
     return setFullscreen(!fullscreen);
   }
 
@@ -167,7 +167,7 @@ final class Window {
   }
 
   /**
-   *
+   * Returns true if window should close.
   **/
   bool shouldClose() {
     return cast(bool)glfwWindowShouldClose(handle);

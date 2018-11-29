@@ -27,11 +27,11 @@ abstract class Model : IGfxRendererFactory, IRenderable {
   protected {
     // getRawModel
     RawModel rawModel;
-    // getMaterials, setMaterials, toggleMaterials
+    // getMaterials, setMaterials, swapMaterials
     Material[] materials;
-    // isCullingEnabled, setCullingEnabled, swapCullingEnabled
+    // isCullingEnabled, setCullingEnabled, swapCulling
     bool cullingEnabled = true;
-    // isWireframeEnabled, setWireframeEnabled, swapWireframeEnabled,
+    // isWireframeEnabled, setWireframeEnabled, swapWireframe
     bool wireframeEnabled;
     // hasIndices
     bool usesIndices;
@@ -55,7 +55,7 @@ abstract class Model : IGfxRendererFactory, IRenderable {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) toggleMaterials(Material[] materialsLhs, Material[] materialsRhs) {
+  typeof(this) swapMaterials(Material[] materialsLhs, Material[] materialsRhs) {
     materials = (materials == materialsLhs) ? materialsRhs : materialsLhs;
     return this;
   }
@@ -64,7 +64,7 @@ abstract class Model : IGfxRendererFactory, IRenderable {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) toggleMaterials(Material[2][] arr) {
+  typeof(this) swapMaterials(Material[2][] arr) {
     foreach (i, ref material; materials)
       material = (material == arr[i][0]) ? arr[i][1] : arr[i][0];
 
@@ -100,7 +100,7 @@ abstract class Model : IGfxRendererFactory, IRenderable {
   /**
    * Swap culling values between true and false on the model.
   **/
-  typeof(this) swapCullingEnabled() pure nothrow {
+  typeof(this) swapCulling() pure nothrow {
     cullingEnabled = !cullingEnabled;
     return this;
   }
@@ -125,7 +125,7 @@ abstract class Model : IGfxRendererFactory, IRenderable {
   /**
    * Swap wireframe values between true and false on the model.
   **/
-  typeof(this) swapWireframeEnabled() pure nothrow {
+  typeof(this) swapWireframe() pure nothrow {
     wireframeEnabled = !wireframeEnabled;
     return this;
   }

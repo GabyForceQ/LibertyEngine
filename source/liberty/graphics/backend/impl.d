@@ -78,10 +78,10 @@ final class GfxBackend : IGfxBackendFactory {
   }
 
   /**
-   * Switch between wireframe and non-wireframe mode.
+   * Swap between wireframe and non-wireframe mode.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) toggleWireframe() {
+  typeof(this) swapWireframe() {
     version (__OPENGL__)
       glPolygonMode(GL_FRONT_AND_BACK, options.wireframeEnabled ? GL_FILL : GL_LINE);
 
@@ -124,10 +124,10 @@ final class GfxBackend : IGfxBackendFactory {
   typeof(this) setCullingEnabled(bool enabled = true) {
     version (__OPENGL__)
       enabled
-        ? { glEnable(GL_CULL_FACE); glCullFace(GL_BACK); }
+        ? (glEnable(GL_CULL_FACE), glCullFace(GL_BACK))
         : glDisable(GL_CULL_FACE);
 
-    options.textureEnabled = enabled;
+    options.cullingEnabled = enabled;
     return this;
   }
 
