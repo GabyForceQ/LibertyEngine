@@ -66,7 +66,7 @@ final class GfxBackend : IGfxBackendFactory {
   }
 
   /**
-   * Enable/disable wireframe.
+   * Enable or disable wireframe.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) setWireframeEnabled(bool enabled = true) {
@@ -90,7 +90,7 @@ final class GfxBackend : IGfxBackendFactory {
   }
 
   /**
-   * Enable/disable depth test.
+   * Enable or disable depth test.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) setDepthTestEnabled(bool enabled = true) {
@@ -104,7 +104,7 @@ final class GfxBackend : IGfxBackendFactory {
   }
 
   /**
-   * Enable/disable texture.
+   * Enable or disable texture.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) setTextureEnabled(bool enabled = true) {
@@ -118,7 +118,7 @@ final class GfxBackend : IGfxBackendFactory {
   }
 
   /**
-   * Enable/disable culling.
+   * Enable or disable culling.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) setCullingEnabled(bool enabled = true) {
