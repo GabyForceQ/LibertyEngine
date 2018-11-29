@@ -8,7 +8,7 @@
 **/
 module liberty.model.io;
 
-import liberty.model.raw;
+import liberty.model.data;
 import liberty.graphics.buffer;
 
 /**
@@ -37,7 +37,7 @@ final abstract class ModelIO {
     // Unbind vertex array object
     vao.unbind();
 
-    return new RawModel(vao.getHandle(), data.length);
+    return RawModel(vao.getHandle(), data.length, false);
   }
 
   /**
@@ -68,6 +68,6 @@ final abstract class ModelIO {
     // Unbind vertex array object
     vao.unbind();
     
-    return new RawModel(vao.getHandle(), indices.length);
+    return RawModel(vao.getHandle(), indices.length, true);
   }
 }

@@ -16,6 +16,7 @@ import liberty.scene.meta;
 import liberty.terrain.vertex;
 import liberty.terrain.model;
 import liberty.material.impl;
+import liberty.model.io;
 import liberty.scene.node;
 import liberty.services;
 import liberty.image.format.bmp;
@@ -35,6 +36,7 @@ final class Terrain : SceneNode {
     // getMaxHeight
     float maxHeight = 0;
     float[256][256] heights; // ????
+    Material[] materials;
     
     // getTexCoordMultiplier, setTexCoordMultiplier
     Vector2F texCoordMultiplier = Vector2F.one;
@@ -50,7 +52,7 @@ final class Terrain : SceneNode {
   Terrain build(float size, float maxHeight, Material[] materials) {
     this.size = size;
     this.maxHeight = maxHeight;
-    model = new TerrainModel(materials);
+    this.materials = materials;
     
     generateTerrain("res/textures/heightMap.bmp");
     
@@ -215,7 +217,7 @@ final class Terrain : SceneNode {
       }
     }
 
-    model.build(vertices, indices);
+    model = new TerrainModel(ModelIO.loadRawModel(vertices, indices), materials);
   }
 
   private float getHeight(int x, int y, BMPImage image) {

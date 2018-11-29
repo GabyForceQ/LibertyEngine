@@ -9,7 +9,7 @@
 module liberty.model;
 
 public {
+  import liberty.model.data;
   import liberty.model.impl;
   import liberty.model.io;
-  import liberty.model.raw;
 }

@@ -15,6 +15,7 @@ import liberty.model.impl;
 import liberty.core.engine;
 import liberty.material.impl;
 import liberty.model.io;
+import liberty.model.data;
 import liberty.graphics.engine;
 import liberty.terrain.vertex;
 
@@ -25,17 +26,8 @@ final class TerrainModel : Model {
   /**
    *
   **/
-  this(Material[] materials) {
-    super(materials);
-  }
-
-  /**
-   *
-  **/
-  TerrainModel build(TerrainVertex[] vertices, uint[] indices) {
-    useIndices = true;
-    rawModel = ModelIO.loadRawModel(vertices, indices);
-    return this;
+  this(RawModel rawModel, Material[] materials) {
+    super(rawModel, materials);
   }
 
   /**
@@ -54,7 +46,7 @@ final class TerrainModel : Model {
       glActiveTexture(GL_TEXTURE4);
       glBindTexture(GL_TEXTURE_2D, materials[1].getTexture().getId());
 
-      glBindVertexArray(rawModel.getVaoID());
+      glBindVertexArray(rawModel.vaoID);
       glEnableVertexAttribArray(0);
       glEnableVertexAttribArray(1);
       glEnableVertexAttribArray(2);

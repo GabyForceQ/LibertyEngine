@@ -161,10 +161,6 @@ final abstract class PrimitiveIO {
       vertices ~= PrimitiveVertex(positions[i], normals[i], uvs[i]);
     }
 
-    PrimitiveModel model = new PrimitiveModel([Material.getDefault()]);
-    model.build(vertices);
-    //model.build(vertices);
-
-    return model;
+    return new PrimitiveModel(ModelIO.loadRawModel(vertices), [Material.getDefault()]);
   }
 }

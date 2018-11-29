@@ -11,6 +11,7 @@ module liberty.primitive.bsp;
 import liberty.scene.meta;
 import liberty.material.impl;
 import liberty.math.vector;
+import liberty.model.io;
 import liberty.scene.node;
 import liberty.primitive.model;
 import liberty.primitive.vertex;
@@ -39,7 +40,7 @@ final class BSPCube : BSPVolume {
    *
   **/
   BSPCube build(Material material = Material.getDefault()) {
-    setModel((new PrimitiveModel([material]).build(cubeVertices)));
+    setModel(new PrimitiveModel(ModelIO.loadRawModel(cubeVertices), [material]));
     return this;
   }
 }
@@ -54,7 +55,7 @@ final class BSPPyramid : BSPVolume {
    *
   **/
   BSPPyramid build(Material material = Material.getDefault()) {
-    setModel((new PrimitiveModel([material]).build(pyramidVertices)));
+    setModel(new PrimitiveModel(ModelIO.loadRawModel(pyramidVertices), [material]));
     return this;
   }
 }
@@ -69,7 +70,7 @@ final class BSPSquare : BSPVolume {
    *
   **/
   BSPSquare build(Material material = Material.getDefault()) {
-    setModel((new PrimitiveModel([material]).build(squareVertices, squareIndices)));
+    setModel(new PrimitiveModel(ModelIO.loadRawModel(squareVertices, squareIndices), [material]));
     return this;
   }
 }
@@ -84,7 +85,7 @@ final class BSPTriangle : BSPVolume {
    *
   **/
   BSPTriangle build(Material material = Material.getDefault()) {
-    setModel((new PrimitiveModel([material]).build(triangleVertices, triangleIndices)));
+    setModel(new PrimitiveModel(ModelIO.loadRawModel(triangleVertices, triangleIndices), [material]));
     return this;
   }
 }

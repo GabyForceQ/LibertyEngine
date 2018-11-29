@@ -16,6 +16,7 @@ import liberty.graphics.engine;
 import liberty.material.impl;
 import liberty.model.impl;
 import liberty.model.io;
+import liberty.model.data;
 import liberty.cubemap.vertex;
 
 /**
@@ -25,27 +26,8 @@ final class CubeMapModel : Model {
   /**
    *
   **/
-  this(Material[] materials) {
-    super(materials);
-  }
-
-  /**
-   *
-   * Returns reference to this so it can be used in a stream.
-  **/
-  typeof(this) build(CubeMapVertex[] vertices) {
-    rawModel = ModelIO.loadRawModel(vertices);
-    return this;
-  }
-
-  /**
-   *
-   * Returns reference to this so it can be used in a stream.
-  **/
-  typeof(this) build(CubeMapVertex[] vertices, uint[] indices) {
-    useIndices = true;
-    rawModel = ModelIO.loadRawModel(vertices, indices);
-    return this;
+  this(RawModel rawModel, Material[] materials) {
+    super(rawModel, materials);
   }
 
   /**
@@ -58,7 +40,7 @@ final class CubeMapModel : Model {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_CUBE_MAP, materials[0].getTexture().getId());
     
-      glBindVertexArray(rawModel.getVaoID());
+      glBindVertexArray(rawModel.vaoID);
       glEnableVertexAttribArray(0);
     }
 

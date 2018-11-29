@@ -12,7 +12,7 @@ import liberty.graphics.constants;
 import liberty.graphics.engine;
 import liberty.graphics.factory;
 import liberty.material.impl;
-import liberty.model.raw;
+import liberty.model.data;
 import liberty.services;
 
 /**
@@ -37,21 +37,20 @@ abstract class Model : IGfxRendererFactory, IRenderable {
     RawModel rawModel;
     // getMaterials, setMaterials, swapMaterials
     Material[] materials;
-    // hasIndices
-    bool useIndices;
   }
 
   /**
    *
   **/
-  this(Material[] materials) {
+  this(RawModel rawModel, Material[] materials) {
+    this.rawModel = rawModel;
     this.materials = materials;
   }
 
   /**
    * Returns the raw model.
   **/
-  RawModel getRawModel() pure nothrow {
+  RawModel getRawModel() pure nothrow const {
     return rawModel;
   }
 
@@ -89,13 +88,6 @@ abstract class Model : IGfxRendererFactory, IRenderable {
   **/
   Material[] getMaterials() pure nothrow {
     return materials;
-  }
-
-  /**
-   * Returns true if the model is built up on both vertices and indices.
-  **/
-  bool hasIndices() pure nothrow const {
-    return useIndices;
   }
 
   /**
@@ -200,9 +192,9 @@ abstract class Model : IGfxRendererFactory, IRenderable {
       .setWireframeEnabled(tempWireframeEnabled ? !wireframeEnabled : wireframeEnabled);
 
     // Render
-    hasIndices
-      ? drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.getVertexCount())
-      : drawArrays(GfxDrawMode.TRIANGLES, rawModel.getVertexCount());
+    rawModel.useIndices
+      ? drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.vertexCount)
+      : drawArrays(GfxDrawMode.TRIANGLES, rawModel.vertexCount);
 
     // Restore wireframe global state using the stored boolean.
     GfxEngine

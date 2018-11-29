@@ -10,6 +10,7 @@ module liberty.cubemap.impl;
 
 import liberty.math.vector;
 import liberty.material.impl;
+import liberty.model.io;
 import liberty.scene.meta;
 import liberty.scene.node;
 import liberty.cubemap.model;
@@ -30,7 +31,7 @@ final class CubeMap : SceneNode {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(Material material) {
-    model = new CubeMapModel([material]).build(cubeMapVertices);
+    model = new CubeMapModel(ModelIO.loadRawModel(cubeMapVertices), [material]);
     return this;
   }
 

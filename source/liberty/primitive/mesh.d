@@ -12,6 +12,7 @@ import liberty.primitive.model;
 import liberty.scene.node;
 import liberty.scene.meta;
 import liberty.material.impl;
+import liberty.model.data;
 import liberty.primitive.vertex;
 import liberty.primitive.impl;
 
@@ -20,6 +21,7 @@ import liberty.primitive.impl;
 **/
 final class StaticMesh : Primitive {
   mixin NodeConstructor!(q{
-    setModel(new PrimitiveModel([Material.getDefault()]));
+    // TODO.
+    //setModel(new PrimitiveModel(ModelIO.loadRawModel(), [Material.getDefault()]));
   });
 }

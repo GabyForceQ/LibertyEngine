@@ -25,25 +25,8 @@ final class PrimitiveModel : Model {
   /**
    *
   **/
-  this(Material[] materials) {
-    super(materials);
-  }
-
-  /**
-   *
-  **/
-  PrimitiveModel build(PrimitiveVertex[] vertices) {
-    rawModel = ModelIO.loadRawModel(vertices);
-    return this;
-  }
-
-  /**
-   *
-  **/
-  PrimitiveModel build(PrimitiveVertex[] vertices, uint[] indices) {
-    useIndices = true;
-    rawModel = ModelIO.loadRawModel(vertices, indices);
-    return this;
+  this(RawModel rawModel, Material[] materials) {
+    super(rawModel, materials);
   }
 
   /**
@@ -54,7 +37,7 @@ final class PrimitiveModel : Model {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, materials[0].getTexture().getId());
 
-      glBindVertexArray(rawModel.getVaoID());
+      glBindVertexArray(rawModel.vaoID);
       glEnableVertexAttribArray(0);
       glEnableVertexAttribArray(1);
       glEnableVertexAttribArray(2);
