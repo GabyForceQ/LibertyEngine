@@ -27,7 +27,7 @@ class Model : IGfxRendererFactory, IRenderable {
     // isWireframeEnabled, setWireframeEnabled, swapWireframe
     bool wireframeEnabled;
     // isTransparencyEnabled, setTransparencyEnabled
-    bool transparencyEnabled;
+    bool transparencyEnabled = true;
     // isFakeLightingEnabled, setFakeLightingEnabled
     bool fakeLightingEnabled;
   }
@@ -142,7 +142,7 @@ class Model : IGfxRendererFactory, IRenderable {
 
   /**
    * Enable or disable transparency on the model.
-   * It is disabled by default when create a new model.
+   * It is enabled by default when create a new model.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) setTransparencyEnabled(bool enabled = true) pure nothrow {
@@ -180,15 +180,20 @@ class Model : IGfxRendererFactory, IRenderable {
   void render() {
     // Send culling type to graphics engine
     GfxEngine
-      .getBackend()
+      .getBackend
       .setCullingEnabled(cullingEnabled);
+
+    // Send alpha blend to graphics engine
+    transparencyEnabled
+      ? GfxEngine.enableAlphaBlend()
+      : GfxEngine.disableBlend();
 
     // Store wireframe global state
     tempWireframeEnabled = GfxEngine.getBackend.getOptions.wireframeEnabled;
 
     // Send wireframe type to graphics engine
     GfxEngine
-      .getBackend()
+      .getBackend
       .setWireframeEnabled(tempWireframeEnabled ? !wireframeEnabled : wireframeEnabled);
 
     // Render
@@ -196,9 +201,9 @@ class Model : IGfxRendererFactory, IRenderable {
       ? drawElements(GfxDrawMode.TRIANGLES, GfxVectorType.UINT, rawModel.vertexCount)
       : drawArrays(GfxDrawMode.TRIANGLES, rawModel.vertexCount);
 
-    // Restore wireframe global state using the stored boolean.
+    // Restore wireframe global state using the stored boolean
     GfxEngine
-      .getBackend()
+      .getBackend
       .setWireframeEnabled(tempWireframeEnabled);
   }
 }

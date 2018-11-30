@@ -10,10 +10,10 @@ module liberty.surface.controls;
 
 import liberty.material.impl;
 import liberty.math.vector;
+import liberty.model.impl;
 import liberty.model.io;
 import liberty.surface.event;
 import liberty.surface.meta;
-import liberty.surface.model;
 import liberty.surface.vertex;
 import liberty.surface.widget;
 
@@ -84,7 +84,7 @@ final class Button : Widget {
   ]);
 
   mixin WidgetConstructor!(q{
-    setModel(new SurfaceModel(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
   });
   mixin WidgetUpdate;
 }

@@ -15,7 +15,6 @@ import liberty.surface.impl;
 import liberty.material.impl;
 import liberty.model.impl;
 import liberty.services;
-import liberty.surface.model;
 import liberty.input.impl;
 
 /**
@@ -28,7 +27,7 @@ class Widget : IUpdateable {
     Transform2 transform;
     Vector2I index;
     int zIndex = 0;
-    SurfaceModel model;
+    Model model;
 
     // setVisibility, getVisibility
     Visibility visibility;
@@ -120,7 +119,7 @@ class Widget : IUpdateable {
    * Set the 3D model of the widget.
    * Returns reference to this so it can be used in a stream.
   **/
-  final Widget setModel(SurfaceModel model) pure nothrow {
+  final Widget setModel(Model model) pure nothrow {
     this.model = model;
     return this;
   }
@@ -128,7 +127,7 @@ class Widget : IUpdateable {
   /**
    * Returns the 3D model of the widget.
   **/
-  final SurfaceModel getModel() pure nothrow {
+  final Model getModel() pure nothrow {
     return model;
   }
 
