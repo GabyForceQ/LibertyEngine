@@ -32,7 +32,7 @@ final class TerrainSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    shader = new TerrainShader();
+    shader = new TerrainShader;
     renderer = new TerrainRenderer(this, scene);
   }
 
@@ -40,7 +40,7 @@ final class TerrainSystem {
    * Register a terrain node to the terrain system.
    * Returns reference to this so it can be used in a stream.
   **/
-  TerrainSystem registerElement(Terrain node) pure nothrow {
+  typeof(this) registerElement(Terrain node) pure nothrow {
     map[node.getId()] = node;
     return this;
   }
@@ -49,8 +49,8 @@ final class TerrainSystem {
    * Remove the given terrain node from the terrain map.
    * Returns reference to this so it can be used in a stream.
   **/
-  TerrainSystem removeElement(Terrain node) pure nothrow {
-    map.remove(node.getId());
+  typeof(this) removeElement(Terrain node) pure nothrow {
+    map.remove(node.getId);
     return this;
   }
 
@@ -58,7 +58,7 @@ final class TerrainSystem {
    * Remove the terrain node that has the given id from the terrain map.
    * Returns reference to this so it can be used in a stream.
   **/
-  TerrainSystem removeElementById(string id) pure nothrow {
+  typeof(this) removeElementById(string id) pure nothrow {
     map.remove(id);
     return this;
   }

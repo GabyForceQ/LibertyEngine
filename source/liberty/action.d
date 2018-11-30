@@ -56,7 +56,7 @@ final class Action(T) {
    * Call the action registered event.
    * Returns reference to this so it can be used in a stream.
   **/
-  Action!T callEvent(T sender, Event e) {
+  typeof(this) callEvent(T sender, Event e) {
     event(sender, e);
     return this;
   }
@@ -65,7 +65,7 @@ final class Action(T) {
    * Change the action priority.
    * Returns reference to this so it can be used in a stream.
   **/
-  Action!T changePriority(ubyte value) pure nothrow {
+  typeof(this) changePriority(ubyte value) pure nothrow {
     priority = value;
     return this;
   }

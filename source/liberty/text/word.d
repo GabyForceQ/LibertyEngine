@@ -34,8 +34,9 @@ final class Word {
    * It increases the width of the word.
    * $(D_PARAM character):
    *    - the character to be added.
+   * Returns reference to this so it can be used in a stream.
   **/
-  Word addCharacter(Character character) pure nothrow {
+  typeof(this) addCharacter(Character character) pure nothrow {
     characters ~= character;
     width += character.getAdvance().x * fontSize;
     return this;

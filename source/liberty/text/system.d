@@ -40,7 +40,7 @@ final class TextSystem {
    * Register a text node to the text system.
    * Returns reference to this so it can be used in a stream.
   **/
-  TextSystem registerElement(Text node) pure nothrow {
+  typeof(this) registerElement(Text node) pure nothrow {
     map[node.getId()] = node;
     return this;
   }
@@ -49,7 +49,7 @@ final class TextSystem {
    * Remove the given text node from the text map.
    * Returns reference to this so it can be used in a stream.
   **/
-  TextSystem removeElement(Text node) pure nothrow {
+  typeof(this) removeElement(Text node) pure nothrow {
     map.remove(node.getId());
     return this;
   }
@@ -58,7 +58,7 @@ final class TextSystem {
    * Remove the text node that has the given id from the text map.
    * Returns reference to this so it can be used in a stream.
   **/
-  TextSystem removeElementById(string id) pure nothrow {
+  typeof(this) removeElementById(string id) pure nothrow {
     map.remove(id);
     return this;
   }

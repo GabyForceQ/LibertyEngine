@@ -15,7 +15,7 @@ import std.conv : to;
 /**
  * Basic time manager class.
 **/
-final class Time {
+final abstract class Time {
   private {
     static float delta = 0.0f;
     static float lastFrame = 0.0f;

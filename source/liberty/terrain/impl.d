@@ -6,7 +6,8 @@
  * Documentation:
  * Coverage:
  * TODO:
- *  - use resource manager to load png within a texture
+ *  - use texture_io to load png within a texture
+ *  - setTexCoordMultiplier += -=
 **/
 module liberty.terrain.impl;
 
@@ -49,7 +50,7 @@ final class Terrain : SceneNode {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Terrain build(float size, float maxHeight, Material[] materials) {
+  typeof(this) build(float size, float maxHeight, Material[] materials) {
     this.size = size;
     this.maxHeight = maxHeight;
     this.materials = materials;
@@ -65,7 +66,7 @@ final class Terrain : SceneNode {
   /**
    *
   **/
-  Vector2F getTexCoordMultiplier() {
+  Vector2F getTexCoordMultiplier() pure nothrow const {
     return texCoordMultiplier;
   }
 
@@ -73,7 +74,7 @@ final class Terrain : SceneNode {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Terrain setTexCoordMultiplier(Vector2F multiplier) {
+  typeof(this) setTexCoordMultiplier(Vector2F multiplier) pure nothrow {
     texCoordMultiplier = multiplier;
     return this;
   }
@@ -82,7 +83,7 @@ final class Terrain : SceneNode {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Terrain setTexCoordMultiplier(float x, float y) {
+  typeof(this) setTexCoordMultiplier(float x, float y) pure nothrow {
     texCoordMultiplier = Vector2F(x, y);
     return this;
   }
@@ -91,7 +92,7 @@ final class Terrain : SceneNode {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Terrain increaseTexCoordMultiplier(Vector2F multiplier) {
+  typeof(this) increaseTexCoordMultiplier(Vector2F multiplier) pure nothrow {
     texCoordMultiplier += multiplier;
     return this;
   }
@@ -100,7 +101,7 @@ final class Terrain : SceneNode {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Terrain increaseTexCoordMultiplier(float x, float y) {
+  typeof(this) increaseTexCoordMultiplier(float x, float y) pure nothrow {
     texCoordMultiplier += Vector2F(x, y);
     return this;
   }
@@ -109,7 +110,7 @@ final class Terrain : SceneNode {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Terrain decreaseTexCoordMultiplier(Vector2F multiplier) {
+  typeof(this) decreaseTexCoordMultiplier(Vector2F multiplier) pure nothrow {
     texCoordMultiplier -= multiplier;
     return this;
   }
@@ -118,7 +119,7 @@ final class Terrain : SceneNode {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Terrain decreaseTexCoordMultiplier(float x, float y) {
+  typeof(this) decreaseTexCoordMultiplier(float x, float y) pure nothrow {
     texCoordMultiplier -= Vector2F(x, y);
     return this;
   }

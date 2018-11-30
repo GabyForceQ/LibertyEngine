@@ -8,12 +8,15 @@
 **/
 module liberty.text.vertex;
 
+import liberty.graphics.vertex.meta;
 import liberty.math.vector;
 
 /**
  *
 **/
 struct TextVertex {
+  mixin GfxVertexSpec;
+
   /**
    *
   **/
@@ -23,12 +26,4 @@ struct TextVertex {
    *
   **/
   Vector2F texCoord;
-
-  /**
-   *
-  **/
-  this(Vector3F position, Vector2F texCoord) {
-    this.position = position;
-    this.texCoord = texCoord;
-  }
 }

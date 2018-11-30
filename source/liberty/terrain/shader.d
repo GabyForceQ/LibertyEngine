@@ -167,120 +167,135 @@ final class TerrainShader : GfxShader {
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadModelMatrix(Matrix4F matrix) {
+  typeof(this) loadModelMatrix(Matrix4F matrix) {
     loadUniform("uModelMatrix", matrix);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadViewMatrix(Matrix4F matrix) {
+  typeof(this) loadViewMatrix(Matrix4F matrix) {
     loadUniform("uViewMatrix", matrix);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadProjectionMatrix(Matrix4F matrix) {
+  typeof(this) loadProjectionMatrix(Matrix4F matrix) {
     loadUniform("uProjectionMatrix", matrix);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadLightPosition(uint index, Vector3F position) {
+  typeof(this) loadLightPosition(uint index, Vector3F position) {
     loadUniform("uLightPosition[" ~ index.to!string ~ "]", position);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadLightColor(uint index, Vector3F color) {
+  typeof(this) loadLightColor(uint index, Vector3F color) {
     loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadLightAttenuation(uint index, Vector3F attenuation) {
+  typeof(this) loadLightAttenuation(uint index, Vector3F attenuation) {
     loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadBackgroundTexture(int id) {
+  typeof(this) loadBackgroundTexture(int id) {
     loadUniform("uBackgroundTexture", id);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadRTexture(int id) {
+  typeof(this) loadRTexture(int id) {
     loadUniform("uRTexture", id);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadGTexture(int id) {
+  typeof(this) loadGTexture(int id) {
     loadUniform("uGTexture", id);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadBTexture(int id) {
+  typeof(this) loadBTexture(int id) {
     loadUniform("uBTexture", id);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadBlendMap(int id) {
+  typeof(this) loadBlendMap(int id) {
     loadUniform("uBlendMap", id);
     return this;
   }
   
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadShineDamper(float value) {
+  typeof(this) loadShineDamper(float value) {
     loadUniform("uShineDamper", value);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadReflectivity(float value) {
+  typeof(this) loadReflectivity(float value) {
     loadUniform("uReflectivity", value);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadTexCoordMultiplier(Vector2F multiplier) {
+  typeof(this) loadTexCoordMultiplier(Vector2F multiplier) {
     loadUniform("uTexCoordMultiplier", multiplier);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  TerrainShader loadSkyColor(Vector3F color) {
+  typeof(this) loadSkyColor(Vector3F color) {
     loadUniform("uSkyColor", color);
     return this;
   }

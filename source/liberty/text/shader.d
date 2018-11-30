@@ -64,7 +64,7 @@ final class TextShader : GfxShader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  TextShader loadTranslation(Vector2F matrix) {
+  typeof(this) loadTranslation(Vector2F matrix) {
     loadUniform("uTranslation", matrix);
     return this;
   }
@@ -73,7 +73,7 @@ final class TextShader : GfxShader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  TextShader loadColor(Vector3F matrix) {
+  typeof(this) loadColor(Vector3F matrix) {
     loadUniform("uColor", matrix);
     return this;
   }
@@ -82,7 +82,7 @@ final class TextShader : GfxShader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  TextShader loadFontAtlas(int id) {
+  typeof(this) loadFontAtlas(int id) {
     loadUniform("uFontAtlas", id);
     return this;
   }
