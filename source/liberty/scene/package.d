@@ -11,7 +11,7 @@ module liberty.scene;
 public {
   import liberty.scene.factory;
   import liberty.scene.impl;
+  import liberty.scene.io;
   import liberty.scene.meta;
   import liberty.scene.node;
-  import liberty.scene.serializer;
 }

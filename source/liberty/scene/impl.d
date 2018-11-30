@@ -20,7 +20,6 @@ import liberty.surface.system;
 import liberty.light.system;
 import liberty.cubemap.system;
 import liberty.text.system;
-import liberty.scene.serializer;
 import liberty.scene.factory;
 
 /**
@@ -40,8 +39,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     Vector3F startPoint;
     // getWorld, setWorld
     World world;
-    // getSerializer
-    SceneSerializer serializer;
     // getActiveCamera, setActiveCamera
     Camera activeCamera;
     // registerCamera, getCameraById, getCameraMap
@@ -62,6 +59,8 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     CubeMapSystem cubeMapSystem;
     // getTextSystem
     TextSystem textSystem;
+    // getRelativePath, setRelativePath
+    string relativePath;
   }
 
   package {
@@ -75,9 +74,10 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   /**
    * Create a scene using a unique id.
   **/
-  this(SceneSerializer serializer) {
+  this(string id) {
     CoreEngine.loadScene(this);
 
+    this.id = id;
     tree = new RootSceneNode;
     world = new World;
     activeCamera = tree.spawn!Camera("DefaultCamera");
@@ -89,10 +89,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     lightingSystem = new LightingSystem(this);
     cubeMapSystem = new CubeMapSystem(this);
     textSystem = new TextSystem(this);
-
-    // Init serializer
-    serializer.setScene(this).deserialize;
-    this.serializer = serializer;
   }
 
   /**
@@ -323,10 +319,18 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns a refetence of scene serializer.
-   * See $(D SceneSerializer) class.
+   * Set the relative path of the scene file using a string.
+   * Returns reference to this so it can be used in a stream.
   **/
-  SceneSerializer getSerializer() pure nothrow {
-    return serializer;
+  typeof(this) setRelativePath(string relativePath) pure nothrow {
+    this.relativePath = relativePath;
+    return this;
+  }
+
+  /**
+   * Returns the relative path of the scene file.
+  **/
+  string getRelativePath() pure nothrow const {
+    return relativePath;
   }
 }

@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/serializer.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/io.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.scene.serializer;
+module liberty.scene.io;
 
 import std.array : split;
 import std.conv : to;
@@ -21,30 +21,16 @@ import liberty.light.point;
 import liberty.material.impl;
 
 /**
- * Class used to serialize and deserialize a scene.
+ * Used for input/output operations on $(D Scene) class.
  * It implements $(D ISerializable) service.
 **/
-final class SceneSerializer : ISerializable {
-  private {
-    // getScene, setScene
-    Scene scene;
-    // getRelativePath, setRelativePath
-    string path;
-  }
-
+abstract class SceneIO : ISerializable {
   /**
-   * Construct a serializer with a relative file path of the scene.
+   * Serialize a scene.
   **/
-  this(string relativePath) pure nothrow {
-    path = relativePath;
-  }
-
-  /**
-   * Serialize the scene.
-  **/
-  void serialize() {
+  static void serialize(Scene scene) {
     // Open the file
-    auto file = File(path, "w");
+    auto file = File(scene.getRelativePath, "w");
     scope(exit) file.close;
 
     file.writeln("id: " ~ scene.getId);
@@ -93,11 +79,11 @@ final class SceneSerializer : ISerializable {
   }
 
   /**
-   * Deserialize the scene.
+   * Deserialize a scene.
   **/
-  void deserialize() {
+  static void deserialize(Scene scene) {
     // Open the file
-    auto file = File(path);
+    auto file = File(scene.getRelativePath);
     scope(exit) file.close;
 
     // Read the file and build scene
@@ -121,38 +107,5 @@ final class SceneSerializer : ISerializable {
       else if (tokens[0] == "PointLight:")
         scene.getTree.spawn!PointLight(cast(string)tokens[3].dup);
     }
-  }
-
-  /**
-   * Set a $(D Scene) to the scene serializer.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  typeof(this) setScene(Scene scene) pure nothrow {
-    this.scene = scene;
-    return this;
-  }
-
-  /**
-   * Returns a reference of scene.
-   * See $(D Scene).
-  **/
-  Scene getScene() pure nothrow {
-    return scene;
-  }
-
-  /**
-   * Set the relative path of the scene file using a string.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  typeof(this) setRelativePath(string path) pure nothrow {
-    this.path = path;
-    return this;
-  }
-
-  /**
-   * Returns the relative path of the scene file.
-  **/
-  string getRelativePath() pure nothrow const {
-    return path;
   }
 }

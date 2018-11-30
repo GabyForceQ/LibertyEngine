@@ -9,7 +9,7 @@
 module liberty.scene.factory;
 
 import liberty.scene.impl;
-import liberty.scene.serializer;
+import liberty.scene.io;
 
 /**
  * Scene factory interface is implemented and used by scene objects.
@@ -19,8 +19,15 @@ interface ISceneFactory {
   /**
    * Create a new scene instance using relative path of the scene file.
   **/
-  static Scene create(string relativePath) {
-    return new Scene(new SceneSerializer(relativePath));
+  static Scene create(string relativePath = "") {
+    auto res = new Scene("DefaultScene");
+    
+    if (relativePath != "") {
+      res.setRelativePath(relativePath);
+      SceneIO.deserialize(res);
+    }
+    
+    return res;
   }
 
   /**
