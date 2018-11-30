@@ -10,7 +10,7 @@ module liberty.primitive.impl;
 
 import liberty.logger;
 import liberty.scene.node;
-import liberty.primitive.model;
+import liberty.model.impl;
 import liberty.primitive.vertex;
 
 /**
@@ -18,7 +18,7 @@ import liberty.primitive.vertex;
 **/
 abstract class Primitive : SceneNode {
   private {
-    PrimitiveModel model;
+    Model model;
   }
 
   /**
@@ -32,7 +32,7 @@ abstract class Primitive : SceneNode {
    * Set the 3D model of the primitive.
    * Returns reference to this so it can be used in a stream.
   **/
-  final Primitive setModel(PrimitiveModel model) pure nothrow {
+  final Primitive setModel(Model model) pure nothrow {
     this.model = model;
     return this;
   }
@@ -40,7 +40,7 @@ abstract class Primitive : SceneNode {
   /**
    * Returns the 3D model of the primitive.
   **/
-  final PrimitiveModel getModel() pure nothrow {
+  final Model getModel() pure nothrow {
     return model;
   }
 }

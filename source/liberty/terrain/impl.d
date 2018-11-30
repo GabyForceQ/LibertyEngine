@@ -14,8 +14,8 @@ import liberty.math.functions;
 import liberty.math.vector;
 import liberty.scene.meta;
 import liberty.terrain.vertex;
-import liberty.terrain.model;
 import liberty.material.impl;
+import liberty.model.impl;
 import liberty.model.io;
 import liberty.scene.node;
 import liberty.services;
@@ -42,7 +42,7 @@ final class Terrain : SceneNode {
     Vector2F texCoordMultiplier = Vector2F.one;
 
     // getModel
-    TerrainModel model;
+    Model model;
   }
 
   /**
@@ -165,7 +165,7 @@ final class Terrain : SceneNode {
   /**
    * Returns the 3D model of the terrain.
   **/
-  TerrainModel getModel() pure nothrow {
+  Model getModel() pure nothrow {
     return model;
   }
 
@@ -217,7 +217,7 @@ final class Terrain : SceneNode {
       }
     }
 
-    model = new TerrainModel(ModelIO.loadRawModel(vertices, indices), materials);
+    model = new Model(ModelIO.loadRawModel(vertices, indices), materials);
   }
 
   private float getHeight(int x, int y, BMPImage image) {

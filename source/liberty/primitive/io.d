@@ -18,7 +18,7 @@ import liberty.logger;
 import liberty.material;
 import liberty.math;
 import liberty.model.io;
-import liberty.primitive.model;
+import liberty.model.impl;
 import liberty.primitive.vertex;
 
 /**
@@ -30,7 +30,7 @@ final abstract class PrimitiveIO {
    * Indices are stored into the internal vertex buffer object static array.
    * Returns newly created model.
   **/
-  static PrimitiveModel loadModel(string path) {
+  static Model loadModel(string path) {
     import std.array : split;
 
     // Check extension
@@ -49,7 +49,7 @@ final abstract class PrimitiveIO {
     assert(0, "Unreachable");
   }
 
-  private static PrimitiveModel loadOBJFile(string path) {
+  private static Model loadOBJFile(string path) {
     PrimitiveVertex[] vertices;	
 
     Vector3F[] positions;
@@ -161,6 +161,6 @@ final abstract class PrimitiveIO {
       vertices ~= PrimitiveVertex(positions[i], normals[i], uvs[i]);
     }
 
-    return new PrimitiveModel(ModelIO.loadRawModel(vertices), [Material.getDefault()]);
+    return new Model(ModelIO.loadRawModel(vertices), [Material.getDefault()]);
   }
 }

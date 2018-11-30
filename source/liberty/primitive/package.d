@@ -13,7 +13,6 @@ public {
   import liberty.primitive.impl;
   import liberty.primitive.io;
   import liberty.primitive.mesh;
-  import liberty.primitive.model;
   import liberty.primitive.renderer;
   import liberty.primitive.shader;
   import liberty.primitive.system;

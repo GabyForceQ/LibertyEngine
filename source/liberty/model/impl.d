@@ -18,7 +18,7 @@ import liberty.services;
 /**
  *
 **/
-abstract class Model : IGfxRendererFactory, IRenderable {
+class Model : IGfxRendererFactory, IRenderable {
   private {
     // Used to Store wireframe global state
     bool tempWireframeEnabled;

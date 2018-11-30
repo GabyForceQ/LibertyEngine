@@ -13,7 +13,7 @@ import liberty.math.vector;
 import liberty.math.transform;
 import liberty.surface.impl;
 import liberty.material.impl;
-import liberty.primitive.model;
+import liberty.model.impl;
 import liberty.services;
 import liberty.surface.model;
 import liberty.input.impl;

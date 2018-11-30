@@ -12,7 +12,7 @@ import liberty.logger.impl;
 import liberty.math.vector;
 import liberty.core.engine;
 import liberty.scene.meta;
-import liberty.primitive.model;
+import liberty.model.impl;
 import liberty.scene.node;
 import liberty.math.functions;
 import liberty.primitive.vertex;

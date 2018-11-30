@@ -364,7 +364,33 @@ abstract class GfxShader {
   **/
   R render(this R)(Model model) {
     enableVertexAttributeArray(model.getRawModel.vaoID);
+
+    loop0: foreach (i; 0..model.getMaterials.length) {
+      switch (i) {
+        case 0: glActiveTexture(GL_TEXTURE0); break;
+        case 1: glActiveTexture(GL_TEXTURE1); break;
+        case 2: glActiveTexture(GL_TEXTURE2); break;
+        case 3: glActiveTexture(GL_TEXTURE3); break;
+        case 4: glActiveTexture(GL_TEXTURE4); break;
+        default: break loop0;
+      }
+      glBindTexture(GL_TEXTURE_2D, model.getMaterials[i].getTexture.getId);
+    }
+
     model.render();
+
+    loop1: foreach (i; 0..model.getMaterials.length) {
+      switch (i) {
+        case 0: glActiveTexture(GL_TEXTURE0); break;
+        case 1: glActiveTexture(GL_TEXTURE1); break;
+        case 2: glActiveTexture(GL_TEXTURE2); break;
+        case 3: glActiveTexture(GL_TEXTURE3); break;
+        case 4: glActiveTexture(GL_TEXTURE4); break;
+        default: break loop1;
+      }
+      glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
     disableVertexAttributeArray();
 
     return cast(R)this;
