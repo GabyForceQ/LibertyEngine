@@ -13,20 +13,20 @@ version (__OPENGL__)
 
 import liberty.core.engine;
 import liberty.graphics.shader.constants;
+import liberty.graphics.shader.renderer;
 import liberty.logger.impl;
 import liberty.math.vector;
 import liberty.math.matrix;
-import liberty.model;
 
 /**
  * Base shader class.
+ * It inherits $(D GfxShaderRenderer) service.
 **/
-abstract class GfxShader {
+abstract class GfxShader : GfxShaderRenderer {
   private {
     uint programID;
     uint vertexShaderID;
     uint fragmentShaderID;
-    int attributeCount;
     int[string] uniforms;
   }
 
@@ -55,32 +55,6 @@ abstract class GfxShader {
   R unbind(this R)() {
     version (__OPENGL__)
       glUseProgram(0);
-
-    return cast(R)this;
-  }
-
-  /**
-   * Enable vertex attribute array.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R enableVertexAttributeArray(this R)(int vaoID) {
-    glBindVertexArray(vaoID);
-
-    foreach (i; 0..attributeCount)
-      glEnableVertexAttribArray(i);
-
-    return cast(R)this;
-  }
-
-  /**
-   * Disable vertex attribute array.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R disableVertexAttributeArray(this R)() {
-    foreach (i; 0..attributeCount)
-      glDisableVertexAttribArray(i);
-    
-    glBindVertexArray(0);
 
     return cast(R)this;
   }
@@ -354,46 +328,6 @@ abstract class GfxShader {
       glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
     
     return this;
-  }
-  
-  /**
-   * Step1: Enable vertex attribute array for the model.
-   * Step2: Render a model to the screen by calling render method from model.
-   * Step3: Disable vertex attribute array.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R render(this R)(Model model) {
-    enableVertexAttributeArray(model.getRawModel.vaoID);
-
-    loop0: foreach (i; 0..model.getMaterials.length) {
-      switch (i) {
-        case 0: glActiveTexture(GL_TEXTURE0); break;
-        case 1: glActiveTexture(GL_TEXTURE1); break;
-        case 2: glActiveTexture(GL_TEXTURE2); break;
-        case 3: glActiveTexture(GL_TEXTURE3); break;
-        case 4: glActiveTexture(GL_TEXTURE4); break;
-        default: break loop0;
-      }
-      glBindTexture(GL_TEXTURE_2D, model.getMaterials[i].getTexture.getId);
-    }
-
-    model.render();
-
-    loop1: foreach (i; 0..model.getMaterials.length) {
-      switch (i) {
-        case 0: glActiveTexture(GL_TEXTURE0); break;
-        case 1: glActiveTexture(GL_TEXTURE1); break;
-        case 2: glActiveTexture(GL_TEXTURE2); break;
-        case 3: glActiveTexture(GL_TEXTURE3); break;
-        case 4: glActiveTexture(GL_TEXTURE4); break;
-        default: break loop1;
-      }
-      glBindTexture(GL_TEXTURE_2D, 0);
-    }
-
-    disableVertexAttributeArray();
-
-    return cast(R)this;
   }
 
   private uint loadShader(string shaderCode, GfxShaderType type) {

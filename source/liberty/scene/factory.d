@@ -13,6 +13,7 @@ import liberty.scene.serializer;
 
 /**
  * Scene factory interface is implemented and used by scene objects.
+ * See $(D Scene) class.
 **/
 interface ISceneFactory {
   /**

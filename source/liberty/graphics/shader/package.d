@@ -11,4 +11,5 @@ module liberty.graphics.shader;
 public {
   import liberty.graphics.shader.constants;
   import liberty.graphics.shader.impl;
+  import liberty.graphics.shader.renderer;
 }
