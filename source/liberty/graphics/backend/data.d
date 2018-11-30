@@ -63,4 +63,9 @@ struct GfxBackendOptions {
    *
   **/
   bool cullingEnabled;
+
+  /**
+   *
+  **/
+  bool alphaBlendEnabled;
 }

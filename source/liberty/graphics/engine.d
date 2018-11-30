@@ -61,40 +61,12 @@ final abstract class GfxEngine {
   /**
    *
   **/
-  static void enableAlphaBlend() {
-    version (__OPENGL__) {
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    }
-  }
-
-  /**
-   *
-  **/
-  static void disableBlend() {
-    version (__OPENGL__)
-      glDisable(GL_BLEND);
-  }
-
-  /**
-   *
-  **/
-  static bool supportsExtension(string extension) nothrow {
-    foreach (el; backend.getInfo().extensions)
-      if (el == extension)
-        return true;
-    return false;
-  }
-
-  /**
-   *
-  **/
   debug static void runtimeCheckErr() {
     version (__OPENGL__) {
       immutable GLint er = glGetError();
       if (er != GL_NO_ERROR) {
         string getErrorString = getErrorString(er);
-        flushErrors();
+        flushErrors;
         Logger.error(getErrorString, typeof(this).stringof);
       }
     }
@@ -108,7 +80,7 @@ final abstract class GfxEngine {
       immutable GLint er = glGetError();
       if (er != GL_NO_ERROR) {
         string getErrorString = getErrorString(er);
-        flushErrors();
+        flushErrors;
         Logger.warning(getErrorString, typeof(this).stringof);
         return false;
       }
@@ -128,10 +100,9 @@ final abstract class GfxEngine {
     
     debug runtimeCheckErr();
     
-    if (sZ is null)
-      return "(unknown)";
-    else
-      return sZ.fromStringz;
+    return (sZ is null)
+      ? "(unknown)"
+      : sZ.fromStringz;
   }
 
   static const(char)[] getString(uint name, uint index) {
@@ -144,10 +115,9 @@ final abstract class GfxEngine {
     
     debug runtimeCheckErr();
     
-    if (sZ is null)
-      return "(unknown)";
-    else
-      return sZ.fromStringz;
+    return (sZ is null)
+      ? "(unknown)"
+      : sZ.fromStringz;
   }
 
   static const(char)[] getVersionString() {
@@ -166,6 +136,7 @@ final abstract class GfxEngine {
 
   static GfxVendor getVendor() {
     import std.algorithm.searching : canFind;
+    
     const(char)[] s = getVendorString();
     if (canFind(s, "AMD"))
       return GfxVendor.AMD;
@@ -173,6 +144,7 @@ final abstract class GfxEngine {
       return GfxVendor.NVIDIA;
     else if (canFind(s, "Intel"))
       return GfxVendor.INTEL;
+
     return GfxVendor.UNKNOWN;
   }
 
@@ -188,10 +160,6 @@ final abstract class GfxEngine {
       return getString(GL_SHADING_LANGUAGE_VERSION);
     else
       return "";
-  }
-
-  static string[] getExtensions() nothrow {
-    return backend.getInfo().extensions;
   }
 
   static int getInt(uint pname) {
@@ -216,32 +184,15 @@ final abstract class GfxEngine {
       return 0;
   }
 
-  static int getMaxColorAttachments() nothrow {
-    return backend.getInfo().maxColorAttachments;
-  }
-
-  static void getActiveTexture(int texture_id) {
-    version (__OPENGL__)
-      glActiveTexture(GL_TEXTURE0 + texture_id);
-    
-    debug runtimeCheckErr();
-  }
-
   private static string getErrorString(int er) nothrow {
     version (__OPENGL__)
       switch (er) {
-        case GL_NO_ERROR:
-          return "GL_NO_ERROR";
-        case GL_INVALID_ENUM:
-          return "GL_INVALID_ENUM";
-        case GL_INVALID_VALUE:
-          return "GL_INVALID_VALUE";
-        case GL_INVALID_OPERATION:
-          return "GL_INVALID_OPERATION";
-        case GL_OUT_OF_MEMORY:
-          return "GL_OUT_OF_MEMORY";
-        default:
-          return "Unknown OpenGL error";
+        case GL_NO_ERROR: return "GL_NO_ERROR";
+        case GL_INVALID_ENUM: return "GL_INVALID_ENUM";
+        case GL_INVALID_VALUE: return "GL_INVALID_VALUE";
+        case GL_INVALID_OPERATION: return "GL_INVALID_OPERATION";
+        case GL_OUT_OF_MEMORY: return "GL_OUT_OF_MEMORY";
+        default: return "Unknown OpenGL error";
       }
     else
       return "";

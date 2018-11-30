@@ -151,6 +151,43 @@ final class GfxBackend : IGfxBackendFactory {
   }
 
   /**
+   * Enable the alpha blend.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) enableAlphaBlend() {
+    version (__OPENGL__) {
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    options.alphaBlendEnabled = true;
+    return this;
+  }
+
+  /**
+   * Disable the blend.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) disableBlend() {
+    version (__OPENGL__)
+      glDisable(GL_BLEND);
+
+    options.alphaBlendEnabled = false;
+    return this;
+  }
+
+  /**
+   * Returns true if the given extension is supported.
+  **/
+  bool supportsExtension(string extension) pure nothrow const {
+    foreach (el; info.extensions)
+      if (el == extension)
+        return true;
+        
+    return false;
+  }
+
+  /**
    * Returns backend info.
   **/
   GfxBackendInfo getInfo() pure nothrow {

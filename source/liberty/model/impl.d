@@ -185,8 +185,8 @@ class Model : IGfxRendererFactory, IRenderable {
 
     // Send alpha blend to graphics engine
     transparencyEnabled
-      ? GfxEngine.enableAlphaBlend()
-      : GfxEngine.disableBlend();
+      ? GfxEngine.getBackend.enableAlphaBlend
+      : GfxEngine.getBackend.disableBlend;
 
     // Store wireframe global state
     tempWireframeEnabled = GfxEngine.getBackend.getOptions.wireframeEnabled;

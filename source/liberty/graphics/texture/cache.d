@@ -41,7 +41,7 @@ class TextureCache {
           tex = TextureIO.loadBMP(path);
           break;
         default:
-          Logger.error(	
+          Logger.error(
             "File format not supported for texture data: " ~ extension,	
             typeof(this).stringof	
           );
@@ -57,33 +57,10 @@ class TextureCache {
   }
 
   /**
-    *
+   *
   **/
   Texture getCubeMapTexture(string[6] paths) {
-    // Check if texture is in the map
-    // If it's not then load a new one and return it
-    /*static foreach (i; 0..6)
-      if (paths[i] in _textureMap)
-        return _textureMap[paths[i]];*/
-    
-    import std.array : split;
-
-    Texture tex;
-
-    // Check extension
-    //string[] splitArray = path.split(".");	
-    //immutable extension = splitArray[$ - 1];
-    //switch (extension) {
-    //  case "bmp":
-        tex = CubeMapIO.loadCubeMap(paths);
-    //    break;
-    //  default:
-    //    Logger.error(	
-    //      "File format not supported for texture data: " ~ extension,	
-    //      typeof(this).stringof	
-    //    );
-    //}
-
+    Texture tex = CubeMapIO.loadCubeMap(paths);
     _textureMap[paths[0]] = tex;
     tex.setRealtivePath(paths[0]);
     return tex;
