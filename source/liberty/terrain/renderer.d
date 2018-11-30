@@ -37,50 +37,37 @@ final class TerrainRenderer : IRenderable {
    * Render all terrain elements to the screen.
   **/
   void render() {
-    system
-      .getShader()
-      .bind()
-      .loadProjectionMatrix(
-        scene
-          .getActiveCamera()
-          .getProjectionMatrix())
-      .loadViewMatrix(
-        scene
-          .getActiveCamera()
-          .getViewMatrix())
-      .loadSkyColor(
-        scene
-          .getWorld()
-          .getExpHeightFogColor());
-    
-    foreach (terrain; system.getMap())
-      if (terrain.getVisibility() == Visibility.Visible)
-        render(terrain);
+    auto camera = scene.getActiveCamera;
 
     system
-      .getShader()
-      .unbind();
+      .getShader
+      .bind
+      .loadProjectionMatrix(camera.getProjectionMatrix)
+      .loadViewMatrix(camera.getViewMatrix)
+      .loadSkyColor(scene.getWorld.getExpHeightFogColor);
+    
+    foreach (terrain; system.getMap)
+      if (terrain.getVisibility == Visibility.Visible)
+        render(terrain);
+
+    system.getShader.unbind;
   }
 
   /**
    * Render a terrain node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  TerrainRenderer render(Terrain terrain) {
-    system
-      .getShader()
-      .loadModelMatrix(
-        terrain
-          .getTransform()
-          .getModelMatrix())
-      .loadTexCoordMultiplier(
-        terrain
-          .getTexCoordMultiplier());
+  TerrainRenderer render(Terrain terrain)
+  in (terrain !is null, "You cannot render a null terrain.")
+  do {
+    auto model = terrain.getModel;
 
-    if (terrain.getModel() !is null)
-      terrain
-        .getModel()
-        .render();
+    if (model !is null)
+      system
+        .getShader
+        .loadModelMatrix(terrain.getTransform.getModelMatrix)
+        .loadTexCoordMultiplier(terrain.getTexCoordMultiplier)
+        .render(model);
       
     return this;
   }

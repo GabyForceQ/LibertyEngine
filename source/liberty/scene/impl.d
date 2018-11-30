@@ -32,9 +32,8 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   private {
     // isReady
     bool ready;
-    // isRegistered
-    bool registered;
-    
+    // isInitialized
+    bool initialized;
     // getTree
     SceneNode tree;
     // getStartPoint
@@ -43,17 +42,14 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     World world;
     // getSerializer
     SceneSerializer serializer;
-    
     // getActiveCamera, setActiveCamera
     Camera activeCamera;
     // registerCamera, getCameraById, getCameraMap
     Camera[string] cameraMap;
-
     // getStartableMap
     IStartable[string] startableMap;
     // getUpdateableMap
     IUpdateable[string] updateableMap;
-    
     // getPrimitiveSystem
     PrimitiveSystem primitiveSystem;
     // getTerrainSystem
@@ -71,7 +67,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   package {
     // It is necessary to modify it in SceneSerializer class
     string id;
-
     // It is necessary to modify it in Node class
     // getNodeMap
     SceneNode[string] nodeMap;
@@ -83,8 +78,9 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   this(SceneSerializer serializer) {
     CoreEngine.loadScene(this);
 
-    tree = new RootSceneNode();
-    world = new World();
+    tree = new RootSceneNode;
+    world = new World;
+    activeCamera = tree.spawn!Camera("DefaultCamera");
 
     // Create systems
     primitiveSystem = new PrimitiveSystem(this);
@@ -95,9 +91,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     textSystem = new TextSystem(this);
 
     // Init serializer
-    serializer
-      .setScene(this)
-      .deserialize();
+    serializer.setScene(this).deserialize;
     this.serializer = serializer;
   }
 
@@ -105,7 +99,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * Returns scene unique id.
   **/
   string getId() pure nothrow const {
-    return this.id;
+    return id;
   }
 
   /**
@@ -116,10 +110,10 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns true if scene is registered to the engine.
+   * Returns true if scene is initialized to the engine.
   **/
-  bool isRegistered() pure nothrow const {
-    return registered;
+  bool isInitialized() pure nothrow const {
+    return initialized;
   }
 
   /**
@@ -162,7 +156,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * See $(D Camera).
   **/
   typeof(this) registerCamera(Camera camera) pure nothrow {
-    cameraMap[camera.getId()] = camera;
+    cameraMap[camera.getId] = camera;
     return this;
   }
 
@@ -222,15 +216,11 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) initialize() {
-    registered = true;
-    
-    // If camera doesn't exist, the spawn a default camera
-    if (activeCamera is null)
-      activeCamera = tree.spawn!Camera("DefaultCamera");
+    initialized = true;
     
     // Start all startable nodes
     foreach (node; startableMap)
-      node.start();
+      node.start;
     
     return this;
   }
@@ -242,43 +232,20 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   **/
   void update() {
     foreach (node; updateableMap)
-      node.update();
+      node.update;
   }
 
   /**
-   * Render all nodes that have a $(D Renderer) component.
+   * Render all renderable systems.
    * It's called every frame after $(D Scene.update).
   **/
   void render() {
-    // Render all scene lights
-    lightingSystem
-      .getRenderer()
-      .render();
-
-    // Render all cubeMapes
-    cubeMapSystem
-      .getRenderer()
-      .render();
-
-    // Render all scene terrains
-    terrainSystem
-      .getRenderer()
-      .render();
-
-    // Render all scene primitives
-    primitiveSystem
-      .getRenderer()
-      .render();
-
-    // Render all scene surfaces
-    surfaceSystem
-      .getRenderer()
-      .render();
-
-    // Render all scene texts
-    textSystem
-      .getRenderer()
-      .render();
+    lightingSystem.getRenderer.render;
+    cubeMapSystem.getRenderer.render;
+    terrainSystem.getRenderer.render;
+    primitiveSystem.getRenderer.render;
+    surfaceSystem.getRenderer.render;
+    textSystem.getRenderer.render;
   }
 
   /**

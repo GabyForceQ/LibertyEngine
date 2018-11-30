@@ -45,48 +45,48 @@ final class SceneSerializer : ISerializable {
   void serialize() {
     // Open the file
     auto file = File(path, "w");
-    scope(exit) file.close();
+    scope(exit) file.close;
 
-    file.writeln("id: " ~ scene.getId());
+    file.writeln("id: " ~ scene.getId);
 
-    foreach (node; scene.getPrimitiveSystem().getMap()) {
+    foreach (node; scene.getPrimitiveSystem.getMap) {
       file.writeln(
         "Primitive: { " ~
-          "id: " ~ node.getId() ~
+          "id: " ~ node.getId ~
           "transform: [ " ~
-            "location: " ~ node.getTransform().getAbsoluteLocation().toString() ~ 
+            "location: " ~ node.getTransform.getAbsoluteLocation.toString ~ 
         " ] }"
       );
     }
 
-    foreach (node; scene.getTerrainSystem().getMap()) {
+    foreach (node; scene.getTerrainSystem.getMap) {
       file.writeln(
         "Terrain: { " ~
-          "id: " ~ node.getId() ~
-          " , size: " ~ node.getSize().to!string ~
-          " , maxHeight " ~ node.getMaxHeight().to!string ~
+          "id: " ~ node.getId ~
+          " , size: " ~ node.getSize.to!string ~
+          " , maxHeight " ~ node.getMaxHeight.to!string ~
           " , materials: [ " ~
-            node.getModel().getMaterials[0].getTexture().getRelativePath() ~
-            " , " ~ node.getModel().getMaterials[1].getTexture().getRelativePath() ~
-            " , " ~ node.getModel().getMaterials[2].getTexture().getRelativePath() ~
-            " , " ~ node.getModel().getMaterials[3].getTexture().getRelativePath() ~
-            " , " ~ node.getModel().getMaterials[4].getTexture().getRelativePath() ~
+            node.getModel.getMaterials[0].getTexture.getRelativePath ~
+            " , " ~ node.getModel.getMaterials[1].getTexture.getRelativePath ~
+            " , " ~ node.getModel.getMaterials[2].getTexture.getRelativePath ~
+            " , " ~ node.getModel.getMaterials[3].getTexture.getRelativePath ~
+            " , " ~ node.getModel.getMaterials[4].getTexture.getRelativePath ~
         " ] }"
       );
     }
 
-    foreach (node; scene.getSurfaceSystem().getMap()) {
+    foreach (node; scene.getSurfaceSystem.getMap) {
       file.writeln(
         "Widget: { " ~
-          "id: " ~ node.getId() ~
+          "id: " ~ node.getId ~
         " }"
       );
     }
 
-    foreach (node; scene.getLightingSystem().getMap()) {
+    foreach (node; scene.getLightingSystem.getMap) {
       file.writeln(
         "PointLight: { " ~
-          "id: " ~ node.getId() ~
+          "id: " ~ node.getId ~
         " }"
       );
     }
@@ -98,7 +98,7 @@ final class SceneSerializer : ISerializable {
   void deserialize() {
     // Open the file
     auto file = File(path);
-    scope(exit) file.close();
+    scope(exit) file.close;
 
     // Read the file and build scene
     auto range = file.byLine();
@@ -119,7 +119,7 @@ final class SceneSerializer : ISerializable {
             new Material(cast(string)tokens[21].dup)
           ]);
       else if (tokens[0] == "PointLight:")
-        scene.getTree().spawn!PointLight(cast(string)tokens[3].dup);
+        scene.getTree.spawn!PointLight(cast(string)tokens[3].dup);
     }
   }
 

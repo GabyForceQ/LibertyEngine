@@ -26,7 +26,7 @@ interface ISceneFactory {
    * Release an existing scene from memory.
   **/
   static void release(Scene scene) {
-    scene.destroy();
+    scene.destroy;
     scene = null;
   }
 }

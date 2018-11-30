@@ -37,58 +37,46 @@ final class SurfaceRenderer : IRenderable {
    * Render all surface elements to the screen.
   **/
   void render() {
-    system
-      .getShader()
-      .bind();
+    system.getShader.bind;
     
-    foreach (surface; system.getMap())
-      if (surface.getVisibility() == Visibility.Visible)
+    foreach (surface; system.getMap)
+      if (surface.getVisibility == Visibility.Visible)
         render(surface);
 
-    system
-      .getShader()
-      .unbind();
+    system.getShader.unbind;
   }
 
   /**
    * Render a surface node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  SurfaceRenderer render(Surface surface) {
-    foreach (widget; surface.getRootCanvas().getWidgets()) {
-      if (widget.getZIndex() == 0) {
-        if (widget.getVisibility() == Visibility.Visible) {
+  SurfaceRenderer render(Surface surface)
+  in (surface !is null, "You cannot render a null surface.")
+  do {
+    foreach (widget; surface.getRootCanvas.getWidgets) {
+      if (widget.getZIndex == 0) {
+        if (widget.getVisibility == Visibility.Visible) {
           system
-            .getShader()
+            .getShader
             .loadZIndex(0)
-            .loadModelMatrix(
-              widget
-                .getTransform()
-                .getModelMatrix());
+            .loadModelMatrix(widget.getTransform.getModelMatrix);
         
-          if (widget.getModel() !is null)
-            widget
-              .getModel()
-              .render();
+          if (widget.getModel !is null)
+            system.getShader.render(widget.getModel);
         }
       }
     }
     // FILTER Z INDEX FOR NOW WITH ONLY 0 AND 1 --> BUG
-    foreach (widget; surface.getRootCanvas().getWidgets()) {
-      if (widget.getZIndex() == 1) {
-        if (widget.getVisibility() == Visibility.Visible) {
+    foreach (widget; surface.getRootCanvas.getWidgets) {
+      if (widget.getZIndex == 1) {
+        if (widget.getVisibility == Visibility.Visible) {
           system
-            .getShader()
-            .loadZIndex(0)
-            .loadModelMatrix(
-              widget
-                .getTransform()
-                .getModelMatrix());
-
-          if (widget.getModel() !is null)
-            widget
-              .getModel()
-              .render();
+            .getShader
+            .loadZIndex(1)
+            .loadModelMatrix(widget.getTransform.getModelMatrix);
+          
+          if (widget.getModel !is null)
+            system.getShader.render(widget.getModel);
         }
       }
     }

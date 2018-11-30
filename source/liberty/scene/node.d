@@ -30,17 +30,14 @@ abstract class SceneNode : IStartable, IUpdateable {
     string id;
     // getScene
     Scene scene;
-    
     // getParent
     SceneNode parent;
     // getChildMap
     SceneNode[string] childMap;
     // It is used in spawnOnce methods
     SceneNode[string] singletonMap;
-    
-    // Transform component used for translation, rotation and scale
+    // getTransform
     Transform3 transform;
-
     // setVisibility, getVisibility
     Visibility visibility;
   }
@@ -50,7 +47,7 @@ abstract class SceneNode : IStartable, IUpdateable {
   **/
   this(string id, SceneNode parent) {
     // Set model scene
-    scene = CoreEngine.getScene();
+    scene = CoreEngine.getScene;
     
     // Check if given id is unique
     if (id in scene.nodeMap)
@@ -62,7 +59,7 @@ abstract class SceneNode : IStartable, IUpdateable {
     // Set transformation
     transform = (parent is null)
       ? new Transform3(this)
-      : new Transform3(this, parent.getTransform());
+      : new Transform3(this, parent.getTransform);
 
     // Now save this in the scene node map
     scene.nodeMap[id] = this;
@@ -132,18 +129,18 @@ abstract class SceneNode : IStartable, IUpdateable {
     if (id in childMap) {
       // Remove node from scene maps
       static foreach (e; ["Startable", "Updateable", "Node"])
-        mixin("scene.get" ~ e ~ "Map().remove(id);");
+        mixin("scene.get" ~ e ~ "Map.remove(id);");
 
       // Remove node from system
       static foreach (sys; EnumMembers!SystemType)
         static if (mixin("is(T : " ~ sys ~ ")"))
-          mixin("scene.get" ~ sys ~ "System().removeElementById(id);");
+          mixin("scene.get" ~ sys ~ "System.removeElementById(id);");
       
       //static if (is(T == Camera))
       //  scene.safeRemoveCamera(id);
 
       // Remove node from child map
-      childMap[id].destroy();
+      childMap[id].destroy;
       childMap[id] = null;
       childMap.remove(id);
       
@@ -171,7 +168,7 @@ abstract class SceneNode : IStartable, IUpdateable {
       this.scene.registerCamera(node);
 
     static if (STRAT)
-      node.start();
+      node.start;
 
     if (initMethod !is null)
       initMethod(node);
@@ -192,7 +189,7 @@ abstract class SceneNode : IStartable, IUpdateable {
       this.scene.registerCamera(node);
 
     static if (STRAT)
-      node.start();
+      node.start;
 
     if (initMethod !is null)
       initMethod(node);
@@ -218,7 +215,7 @@ abstract class SceneNode : IStartable, IUpdateable {
     singletonMap[id] = node;
 
     static if (STRAT)
-      node.start();
+      node.start;
 
     if (initMethod !is null)
       initMethod(node);
@@ -244,7 +241,7 @@ abstract class SceneNode : IStartable, IUpdateable {
     singletonMap[id] = node;
 
     static if (STRAT)
-      node.start();
+      node.start;
 
     if (initMethod !is null)
       initMethod(node);
@@ -265,7 +262,7 @@ abstract class SceneNode : IStartable, IUpdateable {
   void update() {}
 
   /**
-   * Returns transform.
+   * Returns transform component used for translation, rotation and scale
   **/
   Transform3 getTransform() pure nothrow {
     return transform;
@@ -291,7 +288,7 @@ abstract class SceneNode : IStartable, IUpdateable {
 
   private void insert(T : SceneNode)(ref T child) pure nothrow {
     // Insert a child node using its reference.
-    childMap[child.getId()] = child;
+    childMap[child.getId] = child;
   }
 }
 

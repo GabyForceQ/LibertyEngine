@@ -37,51 +37,37 @@ final class PrimitiveRenderer : IRenderable {
    * Render all primitive elements to the screen.
   **/
   void render() {
-    system
-      .getShader()
-      .bind()
-      .loadProjectionMatrix(
-        scene
-          .getActiveCamera()
-          .getProjectionMatrix())
-      .loadViewMatrix(
-        scene
-          .getActiveCamera()
-          .getViewMatrix())
-      .loadSkyColor(
-        scene
-          .getWorld()
-          .getExpHeightFogColor());
-    
-    foreach (primitive; system.getMap())
-      if (primitive.getVisibility() == Visibility.Visible)
-        render(primitive);
+    auto camera = scene.getActiveCamera;
 
     system
-      .getShader()
-      .unbind();
+      .getShader
+      .bind
+      .loadProjectionMatrix(camera.getProjectionMatrix)
+      .loadViewMatrix(camera.getViewMatrix)
+      .loadSkyColor(scene.getWorld.getExpHeightFogColor);
+    
+    foreach (primitive; system.getMap)
+      if (primitive.getVisibility == Visibility.Visible)
+        render(primitive);
+
+    system.getShader.unbind;
   }
 
   /**
    * Render a primitive node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveRenderer render(Primitive primitive) {
-    system
-      .getShader()
-      .loadModelMatrix(
-        primitive
-          .getTransform()
-          .getModelMatrix())
-      .loadUseFakeLighting(
-        primitive
-          .getModel()
-          .isFakeLightingEnabled());
+  PrimitiveRenderer render(Primitive primitive) 
+  in (primitive !is null, "You cannot render a null primitive.")
+  do {
+    auto model = primitive.getModel;
 
-    if (primitive.getModel() !is null)
-      primitive
-        .getModel()
-        .render();
+    if (model !is null)
+      system
+        .getShader
+        .loadModelMatrix(primitive.getTransform.getModelMatrix)
+        .loadUseFakeLighting(model.isFakeLightingEnabled)
+        .render(model);
     
     return this;
   }

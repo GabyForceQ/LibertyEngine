@@ -39,17 +39,11 @@ final class CubeMapModel : Model {
     version (__OPENGL__) {
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_CUBE_MAP, materials[0].getTexture().getId());
-    
-      glBindVertexArray(rawModel.vaoID);
-      glEnableVertexAttribArray(0);
     }
 
     super.render();
     
-    version (__OPENGL__) {
-      glDisableVertexAttribArray(0);
-      glBindVertexArray(0);
-    
+    version (__OPENGL__) {  
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }

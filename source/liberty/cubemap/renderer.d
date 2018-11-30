@@ -38,44 +38,41 @@ final class CubeMapRenderer : IRenderable {
    * Render the cubeMap to the screen.
   **/
   void render() {
-    Matrix4F viewMatrix = scene.getActiveCamera().getViewMatrix();
-    viewMatrix.c[0][3] = 0;
-    viewMatrix.c[1][3] = 0;
-    viewMatrix.c[2][3] = 0;
+    auto camera = scene.getActiveCamera;
+
+    // Make it unreachable
+    Matrix4F newViewMatrix = camera.getViewMatrix;
+    newViewMatrix.c[0][3] = 0;
+    newViewMatrix.c[1][3] = 0;
+    newViewMatrix.c[2][3] = 0;
 
     system
-      .getShader()
-      .bind()
-      .loadProjectionMatrix(
-        scene
-          .getActiveCamera()
-          .getProjectionMatrix())
-      .loadViewMatrix(viewMatrix)
+      .getShader
+      .bind
+      .loadProjectionMatrix(camera.getProjectionMatrix)
+      .loadViewMatrix(newViewMatrix)
       .loadFadeLowerLimit(0.0f)
       .loadFadeUpperLimit(30.0f)
-      .loadFogColor(
-        scene
-          .getWorld()
-          .getExpHeightFogColor());
+      .loadFogColor(scene.getWorld.getExpHeightFogColor);
 
     foreach (cubeMap; system.getMap())
-      if (cubeMap.getVisibility() == Visibility.Visible)
+      if (cubeMap.getVisibility == Visibility.Visible)
         render(cubeMap);
 
-    system
-      .getShader()
-      .unbind();
+    system.getShader.unbind;
   }
 
   /**
    * Render a cube map node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) render(CubeMap cubemap) {
-    if (cubemap.getModel() !is null)
-      cubemap
-        .getModel()
-        .render();
+  typeof(this) render(CubeMap cubemap)
+  in (cubemap !is null, "You cannot render a null cubemap.")
+  do {
+    auto model = cubemap.getModel;
+
+    if (model !is null)
+      system.getShader.render(model);
     
     return this;
   }

@@ -45,21 +45,11 @@ final class TerrainModel : Model {
       glBindTexture(GL_TEXTURE_2D, materials[4].getTexture().getId());
       glActiveTexture(GL_TEXTURE4);
       glBindTexture(GL_TEXTURE_2D, materials[1].getTexture().getId());
-
-      glBindVertexArray(rawModel.vaoID);
-      glEnableVertexAttribArray(0);
-      glEnableVertexAttribArray(1);
-      glEnableVertexAttribArray(2);
     }
 
     super.render();
 
     version (__OPENGL__) {
-      glDisableVertexAttribArray(0);
-      glDisableVertexAttribArray(1);
-      glDisableVertexAttribArray(2);
-      glBindVertexArray(0);
-
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_2D, 0);
       glActiveTexture(GL_TEXTURE1);

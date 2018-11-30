@@ -16,6 +16,7 @@ import liberty.graphics.shader.constants;
 import liberty.logger.impl;
 import liberty.math.vector;
 import liberty.math.matrix;
+import liberty.model;
 
 /**
  * Base shader class.
@@ -32,7 +33,7 @@ abstract class GfxShader {
   /**
    * Returns the shader id.
   **/
-  uint getId() pure nothrow const {
+  final uint getId() pure nothrow const {
     return programID;
   }
 
@@ -59,6 +60,32 @@ abstract class GfxShader {
   }
 
   /**
+   * Enable vertex attribute array.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  R enableVertexAttributeArray(this R)(int vaoID) {
+    glBindVertexArray(vaoID);
+
+    foreach (i; 0..attributeCount)
+      glEnableVertexAttribArray(i);
+
+    return cast(R)this;
+  }
+
+  /**
+   * Disable vertex attribute array.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  R disableVertexAttributeArray(this R)() {
+    foreach (i; 0..attributeCount)
+      glDisableVertexAttribArray(i);
+    
+    glBindVertexArray(0);
+
+    return cast(R)this;
+  }
+
+  /**
    * Bind a shader attribute into video memory.
    * Returns reference to this so it can be used in a stream.
   **/
@@ -66,7 +93,7 @@ abstract class GfxShader {
     import std.string : toStringz;
 
     version (__OPENGL__)
-      glBindAttribLocation(this.programID, this.attributeCount++, name.toStringz);
+      glBindAttribLocation(programID, attributeCount++, name.toStringz);
 
     return this;
   }
@@ -327,6 +354,20 @@ abstract class GfxShader {
       glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
     
     return this;
+  }
+  
+  /**
+   * Step1: Enable vertex attribute array for the model.
+   * Step2: Render a model to the screen by calling render method from model.
+   * Step3: Disable vertex attribute array.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  R render(this R)(Model model) {
+    enableVertexAttributeArray(model.getRawModel.vaoID);
+    model.render();
+    disableVertexAttributeArray();
+
+    return cast(R)this;
   }
 
   private uint loadShader(string shaderCode, GfxShaderType type) {
