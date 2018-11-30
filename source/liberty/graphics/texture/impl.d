@@ -103,9 +103,7 @@ final class Texture {
         break;
     }
 
-    type = TextureType.NONE;
     isBind = false;
-
     return this;
   }
 
@@ -208,7 +206,7 @@ final class Texture {
    * Returns the type of the texture.
    * For available options see $(D TextureType).
   **/
-  TextureType getType() pure nothrow {
+  TextureType getType() pure nothrow const {
     return type;
   }
 

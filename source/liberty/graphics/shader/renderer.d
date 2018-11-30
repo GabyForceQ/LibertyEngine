@@ -11,6 +11,8 @@ module liberty.graphics.shader.renderer;
 version (__OPENGL__)
   import bindbc.opengl;
 
+import liberty.logger.impl;
+import liberty.graphics.texture.constants;
 import liberty.model.impl;
 
 /**
@@ -73,7 +75,13 @@ abstract class GfxShaderRenderer {
         case 4: glActiveTexture(GL_TEXTURE4); break;
         default: break loop0;
       }
-      glBindTexture(GL_TEXTURE_2D, model.getMaterials[i].getTexture.getId);
+
+      const texture = model.getMaterials[i].getTexture;
+      final switch (texture.getType) with (TextureType) {
+        case NONE: Logger.error("Cannot bind none texture.", typeof(this).stringof); break;
+        case TEX_2D: glBindTexture(GL_TEXTURE_2D, texture.getId); break;
+        case CUBE_MAP: glBindTexture(GL_TEXTURE_CUBE_MAP, texture.getId); break;
+      }
     }
 
     model.render();
@@ -87,7 +95,13 @@ abstract class GfxShaderRenderer {
         case 4: glActiveTexture(GL_TEXTURE4); break;
         default: break loop1;
       }
-      glBindTexture(GL_TEXTURE_2D, 0);
+
+      const texture = model.getMaterials[i].getTexture;
+      final switch (texture.getType) with (TextureType) {
+        case NONE: Logger.error("Cannot unbind none texture.", typeof(this).stringof); break;
+        case TEX_2D: glBindTexture(GL_TEXTURE_2D, 0); break;
+        case CUBE_MAP: glBindTexture(GL_TEXTURE_CUBE_MAP, 0); break;
+      }
     }
 
     disableVertexAttributeArray();
