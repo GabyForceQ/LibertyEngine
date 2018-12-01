@@ -66,7 +66,7 @@ final class SurfaceShader : GfxShader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  SurfaceShader loadModelMatrix(Matrix4F matrix) {
+  typeof(this) loadModelMatrix(Matrix4F matrix) {
     loadUniform("uModelMatrix", matrix);
     return this;
   }
@@ -75,7 +75,7 @@ final class SurfaceShader : GfxShader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  SurfaceShader loadProjectionMatrix(Matrix4F matrix) {
+  typeof(this) loadProjectionMatrix(Matrix4F matrix) {
     loadUniform("uProjectionMatrix", matrix);
     return this;
   }
@@ -84,7 +84,7 @@ final class SurfaceShader : GfxShader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  SurfaceShader loadZIndex(int value) {
+  typeof(this) loadZIndex(int value) {
     loadUniform("uZIndex", value);
     return this;
   }
@@ -93,7 +93,7 @@ final class SurfaceShader : GfxShader {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  SurfaceShader loadTexture(int id) {
+  typeof(this) loadTexture(int id) {
     loadUniform("uTexture", id);
     return this;
   }

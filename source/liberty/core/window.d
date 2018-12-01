@@ -101,25 +101,11 @@ final class Window {
   }
 
   /**
-   * Returns frame buffer width.
-  **/
-  int getFrameBufferWidth() pure nothrow const {
-    return frameBufferWidth;
-  }
-
-  /**
-   * Returns frame buffer height.
-  **/
-  int getFrameBufferHeight() pure nothrow const {
-    return frameBufferHeight;
-  }
-
-  /**
    * Resize the current frame buffer of the window.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) resizeFrameBuffer() {
-    glfwGetFramebufferSize(handle, &frameBufferWidth, &frameBufferHeight);
+    glfwGetFramebufferSize(handle, &width, &height);
     return this;
   }
 

@@ -9,6 +9,7 @@
 module liberty.surface;
 
 public {
+  import liberty.surface.constants;
   import liberty.surface.controls;
   import liberty.surface.event;
   import liberty.surface.impl;

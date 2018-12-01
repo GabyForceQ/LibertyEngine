@@ -49,7 +49,7 @@ final class Canvas : Widget {
     return widgets[id];
   }
 
-  package Canvas addWidget(Widget widget) {
+  package typeof(this) addWidget(Widget widget) {
     // Add a new widget to the canvas
     widgets[widget.getId()] = widget;
 

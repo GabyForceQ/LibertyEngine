@@ -40,8 +40,10 @@ final class SurfaceRenderer : IRenderable {
     system.getShader.bind;
     
     foreach (surface; system.getMap)
-      if (surface.getVisibility == Visibility.Visible)
+      if (surface.getVisibility == Visibility.Visible) {
+        surface.updateProjection;
         render(surface);
+      }
 
     system.getShader.unbind;
   }
@@ -50,19 +52,18 @@ final class SurfaceRenderer : IRenderable {
    * Render a surface node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  SurfaceRenderer render(Surface surface)
+  typeof(this) render(Surface surface)
   in (surface !is null, "You cannot render a null surface.")
   do {
     foreach (widget; surface.getRootCanvas.getWidgets) {
       if (widget.getZIndex == 0) {
         if (widget.getVisibility == Visibility.Visible) {
-          system
-            .getShader
-            .loadZIndex(0)
-            .loadModelMatrix(widget.getTransform.getModelMatrix);
-        
           if (widget.getModel !is null)
-            system.getShader.render(widget.getModel);
+            system
+              .getShader
+              .loadZIndex(0)
+              .loadModelMatrix(widget.getTransform.getModelMatrix)
+              .render(widget.getModel);
         }
       }
     }
@@ -70,13 +71,12 @@ final class SurfaceRenderer : IRenderable {
     foreach (widget; surface.getRootCanvas.getWidgets) {
       if (widget.getZIndex == 1) {
         if (widget.getVisibility == Visibility.Visible) {
-          system
-            .getShader
-            .loadZIndex(1)
-            .loadModelMatrix(widget.getTransform.getModelMatrix);
-          
           if (widget.getModel !is null)
-            system.getShader.render(widget.getModel);
+            system
+              .getShader
+              .loadZIndex(1)
+              .loadModelMatrix(widget.getTransform.getModelMatrix)
+              .render(widget.getModel);
         }
       }
     }

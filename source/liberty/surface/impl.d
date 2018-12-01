@@ -19,6 +19,7 @@ import liberty.scene.node;
 import liberty.core.platform;
 import liberty.scene.impl;
 import liberty.surface.event;
+import liberty.surface.constants;
 import liberty.surface.widget;
 import liberty.services;
 import liberty.surface.controls;
@@ -36,10 +37,11 @@ abstract class Surface : SceneNode, IUpdateable {
     int height;
     int zNear = int.max;
     int zFar = int.min;
+    // setFixedProjectionEnabled, isFixedProjectionEnabled
+    bool fixedProjectionEnabled;
 
     Matrix4F projectionMatrix = Matrix4F.identity();
     Canvas rootCanvas;
-
     UIAction[string] actionMap;
   }
 
@@ -49,30 +51,35 @@ abstract class Surface : SceneNode, IUpdateable {
   this(string id, SceneNode parent) {
     super(id, parent);
     rootCanvas = new Canvas("RootCanvas" ~ id, this);
-    updateProjection();
+    updateProjection;
   }
   
   /**
    * Update the surface projection matrix.
   **/
-  final Surface updateProjection(bool autoScale = true) {
-    if (autoScale) {
-      width = Platform.getWindow().getWidth();
-      height = Platform.getWindow().getHeight();
+  final typeof(this) updateProjection() {
+    if (!fixedProjectionEnabled) {
+      const tempWidth = Platform.getWindow.getWidth;
+      const tempHeight = Platform.getWindow.getHeight;
+      
+      if (width != tempWidth || height != tempHeight) {
+        width = tempWidth;
+        height = tempHeight;
+      
+        projectionMatrix = MathUtils.getOrthographicMatrixFrom(
+          cast(float)xStart, cast(float)width,
+          cast(float)height, cast(float)yStart,
+          cast(float)zNear, cast(float)zFar
+        );
+        
+        getScene()
+          .getSurfaceSystem
+          .getShader
+          .bind
+          .loadProjectionMatrix(projectionMatrix)
+          .unbind;
+      }
     }
-    
-    projectionMatrix = MathUtils.getOrthographicMatrixFrom(
-      cast(float)xStart, cast(float)width,
-      cast(float)height, cast(float)yStart,
-      cast(float)zNear, cast(float)zFar
-    );
-    
-    getScene()
-      .getSurfaceSystem()
-      .getShader()
-      .bind()
-      .loadProjectionMatrix(projectionMatrix)
-      .unbind();
 
     return this;
   }
@@ -117,7 +124,7 @@ abstract class Surface : SceneNode, IUpdateable {
         static if (s == T.stringof.split("!")[0]) {
           foreach (e; objEvList) {
             switch (e[1]) with (Event) {
-              static foreach (member; mixin(T.stringof ~ ".getEventArrayString()"))
+              static foreach (member; mixin(T.stringof ~ ".getEventArrayString"))
                 mixin("case " ~ member ~ ": (cast(" ~ s ~ ")e[0]).setOn" ~ member ~
                   "(action); possible = true; goto END_SWITCH;");
               default: break;
@@ -126,10 +133,9 @@ abstract class Surface : SceneNode, IUpdateable {
           }
         }
 
-    if (possible)
-      actionMap[id] = new UIAction(id, action, priority);
-    else
-      Logger.error("Action with id: " ~ id ~ " can't be created.", typeof(this).stringof);
+    possible
+      ? actionMap[id] = new UIAction(id, action, priority)
+      : Logger.error("Action with id: " ~ id ~ " can't be created.", typeof(this).stringof);
     
     return this;
   }
@@ -166,5 +172,21 @@ abstract class Surface : SceneNode, IUpdateable {
   **/
   final UIAction getAction(string name) pure nothrow {
     return actionMap[name];
+  }
+
+  /**
+   * Keep window aspect ratio the same.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  final typeof(this) setFixedProjectionEnabled(bool enabled = true) pure nothrow {
+    fixedProjectionEnabled = enabled;
+    return this;
+  }
+
+  /**
+   * Returns true if fixed projection is enabled.
+  **/
+  final bool isFixedProjectionEnabled() pure nothrow const {
+    return fixedProjectionEnabled;
   }
 }

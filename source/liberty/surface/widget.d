@@ -69,15 +69,17 @@ class Widget : IUpdateable {
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  Widget setIndex(int x, int y) pure nothrow {
+  typeof(this) setIndex(int x, int y) pure nothrow {
     return setIndex(Vector2I(x, y));
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  Widget setIndex(Vector2I value) pure nothrow {
+  typeof(this) setIndex(Vector2I value) pure nothrow {
     index = value;
     return this;
   }
@@ -102,8 +104,9 @@ class Widget : IUpdateable {
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  final Widget setZIndex(int value) pure nothrow {
+  final typeof(this) setZIndex(int value) pure nothrow {
     zIndex = value;
     return this;
   }
@@ -119,7 +122,7 @@ class Widget : IUpdateable {
    * Set the 3D model of the widget.
    * Returns reference to this so it can be used in a stream.
   **/
-  final Widget setModel(Model model) pure nothrow {
+  final typeof(this) setModel(Model model) pure nothrow {
     this.model = model;
     return this;
   }
@@ -136,7 +139,7 @@ class Widget : IUpdateable {
    * See $(D Visibility) enumeration for possible values.
    * Returns reference to this so it can be used in a stream.
   **/
-  final Widget setVisibility(Visibility visibility) pure nothrow {
+  final typeof(this) setVisibility(Visibility visibility) pure nothrow {
     this.visibility = visibility;
     return this;
   }
@@ -150,39 +153,4 @@ class Widget : IUpdateable {
   }
 
   override void update() {}
-}
-
-/**
- *
-**/
-enum WidgetType : string {
-  /**
-   *
-  **/
-  Canvas = "Canvas",
-  
-  /**
-   *
-  **/
-  CustomControl = "CustomControl",
-
-  /**
-   *
-  **/
-  Button = "Button",
-
-  /**
-   *
-  **/
-  CustomButton = "CustomButton",
-  
-  /**
-   *
-  **/
-  CheckBox = "CheckBox",
-
-  /**
-   *
-  **/
-  CustomCheckBox = "CustomCheckBox"
 }

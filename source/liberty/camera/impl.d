@@ -129,8 +129,8 @@ final class Camera : SceneNode {
   **/
   Matrix4F getViewMatrix() {
     return Matrix4F.lookAt(
-      getTransform().getLocation(),
-      getTransform().getLocation() + frontVector,
+      getTransform.getLocation,
+      getTransform.getLocation + frontVector,
       upVector
     );
   }
@@ -141,8 +141,8 @@ final class Camera : SceneNode {
   Matrix4F getProjectionMatrix() nothrow {
     return Matrix4F.perspective(
       fieldOfView.radians,
-      cast(float)Platform.getWindow().getFrameBufferWidth(),
-      cast(float)Platform.getWindow().getFrameBufferHeight(),
+      cast(float)Platform.getWindow.getWidth,
+      cast(float)Platform.getWindow.getHeight,
       zNear,
       zFar
     );
