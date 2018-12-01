@@ -57,6 +57,11 @@ struct GfxBackendOptions {
   /**
    *
   **/
+  bool stencilTestEnabled;
+
+  /**
+   *
+  **/
   bool textureEnabled;
 
   /**

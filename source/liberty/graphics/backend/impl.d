@@ -36,9 +36,9 @@ final class GfxBackend : IGfxBackendFactory {
     this.info = info;
     this.options = options;
 
-    // Enable depth test by default
+    // Enable depth and stencil test by default
     setDepthTestEnabled(true);
-
+    setStencilTestEnabled(true);
     // TODO. Apply options to this, call graphics api functions
     setBackColor(45, 45, 45, 255);
     enableAnisotropicFiltering(0.0f);
@@ -101,6 +101,45 @@ final class GfxBackend : IGfxBackendFactory {
         : glDisable(GL_DEPTH_TEST);
 
     options.depthTestEnabled = enabled;
+    return this;
+  }
+
+  /**
+   * Set false depth mask to disable writing to depth buffer, render stuff that
+   * shouldn't influence the depth buffer then set true to enable it again.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setDepthMask(bool value = true) {
+    version (__OPENGL__)
+      glDepthMask(value);
+    
+    return this;
+  }
+
+  /**
+   * Enable or disable stencil test.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setStencilTestEnabled(bool enabled = true) {
+    version (__OPENGL__)
+      enabled
+        ? glEnable(GL_STENCIL_TEST)
+        : glDisable(GL_STENCIL_TEST);
+
+    options.stencilTestEnabled = enabled;
+    return this;
+  }
+
+  /**
+   * Set true stencil mask and each bit is written to the stencil buffer as is.
+   * Set false stencil mask and each bit ends up as 0 in the stencil buffer, disabling writes.
+   * TODO: Enable custom stencil mask.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setStencilMask(bool value = true) {
+    version (__OPENGL__)
+      glStencilMask(value ? 0xFF : 0x00);
+    
     return this;
   }
 
@@ -179,7 +218,7 @@ final class GfxBackend : IGfxBackendFactory {
 
   /**
    * Enable and set anisotropic filtering if possible.
-   * Use 0.0f to disable it but it is disabled by default.
+   * Use 0.0f to disable it.
    * Only values 4.0f, 8.0f and 16.0f are supported for enabling it.
    * Returns reference to this so it can be used in a stream.
   **/
