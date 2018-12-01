@@ -64,7 +64,10 @@ final class Canvas : Widget {
 final class CustomControl(alias E) : Widget {
   mixin WidgetEventProps!(E);
 
-  mixin WidgetConstructor;
+  mixin WidgetConstructor!(q{
+    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+  });
+
   mixin WidgetUpdate;
 }
 
@@ -86,6 +89,7 @@ final class Button : Widget {
   mixin WidgetConstructor!(q{
     setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
   });
+
   mixin WidgetUpdate;
 }
 
@@ -97,7 +101,10 @@ final class CustomButton(alias E) : Widget {
     Event.MouseLeftClick
   ] ~ E);
 
-  mixin WidgetConstructor;
+  mixin WidgetConstructor!(q{
+    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+  });
+
   mixin WidgetUpdate;
 }
 
@@ -121,7 +128,10 @@ final class CheckBox : Widget {
     Event.Update
   ]);
 
-  mixin WidgetConstructor;
+  mixin WidgetConstructor!(q{
+    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+  });
+
   mixin WidgetUpdate;
 }
 
@@ -136,7 +146,10 @@ final class CustomCheckBox(alias E) : Widget {
     Event.Unchecked,
   ] ~ E);
 
-  mixin WidgetConstructor;
+  mixin WidgetConstructor!(q{
+    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+  });
+  
   mixin WidgetUpdate;
 }
 
