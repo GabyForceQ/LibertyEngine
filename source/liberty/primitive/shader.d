@@ -154,88 +154,99 @@ final class PrimitiveShader : GfxShader {
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadModelMatrix(Matrix4F matrix) {
+  typeof(this) loadModelMatrix(Matrix4F matrix) {
     loadUniform("uModelMatrix", matrix);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadViewMatrix(Matrix4F matrix) {
+  typeof(this) loadViewMatrix(Matrix4F matrix) {
     loadUniform("uViewMatrix", matrix);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadProjectionMatrix(Matrix4F matrix) {
+  typeof(this) loadProjectionMatrix(Matrix4F matrix) {
     loadUniform("uProjectionMatrix", matrix);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadLightPosition(uint index, Vector3F position) {
+  typeof(this) loadLightPosition(uint index, Vector3F position) {
     loadUniform("uLightPosition[" ~ index.to!string ~ "]", position);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadLightColor(uint index, Vector3F color) {
+  typeof(this) loadLightColor(uint index, Vector3F color) {
     loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadLightAttenuation(uint index, Vector3F attenuation) {
+  typeof(this) loadLightAttenuation(uint index, Vector3F attenuation) {
     loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadTexture(int id) {
+  typeof(this) loadTexture(int id) {
     loadUniform("uTexture", id);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadShineDamper(float value) {
+  typeof(this) loadShineDamper(float value) {
     loadUniform("uShineDamper", value);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadReflectivity(float value) {
+  typeof(this) loadReflectivity(float value) {
     loadUniform("uReflectivity", value);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadUseFakeLighting(bool value) {
+  typeof(this) loadUseFakeLighting(bool value) {
     loadUniform("uUseFakeLighting", cast(float)value);
     return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveShader loadSkyColor(Vector3F color) {
+  typeof(this) loadSkyColor(Vector3F color) {
     loadUniform("uSkyColor", color);
     return this;
   }

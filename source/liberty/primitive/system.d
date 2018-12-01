@@ -32,7 +32,7 @@ final class PrimitiveSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    shader = new PrimitiveShader();
+    shader = new PrimitiveShader;
     renderer = new PrimitiveRenderer(this, scene);
   }
 
@@ -40,8 +40,8 @@ final class PrimitiveSystem {
    * Register a primitive node to the primitive system.
    * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveSystem registerElement(Primitive node) pure nothrow {
-    map[node.getId()] = node;
+  typeof(this) registerElement(Primitive node) pure nothrow {
+    map[node.getId] = node;
     return this;
   }
 
@@ -49,8 +49,8 @@ final class PrimitiveSystem {
    * Remove the given primitive node from the primitive map.
    * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveSystem removeElement(Primitive node) pure nothrow {
-    map.remove(node.getId());
+  typeof(this) removeElement(Primitive node) pure nothrow {
+    map.remove(node.getId);
     return this;
   }
 
@@ -58,7 +58,7 @@ final class PrimitiveSystem {
    * Remove the primitive node that has the given id from the primitive map.
    * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveSystem removeElementById(string id) pure nothrow {
+  typeof(this) removeElementById(string id) pure nothrow {
     map.remove(id);
     return this;
   }

@@ -57,7 +57,7 @@ final class PrimitiveRenderer : IRenderable {
    * Render a primitive node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  PrimitiveRenderer render(Primitive primitive) 
+  typeof(this) render(Primitive primitive) 
   in (primitive !is null, "You cannot render a null primitive.")
   do {
     auto model = primitive.getModel;

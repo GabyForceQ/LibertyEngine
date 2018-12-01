@@ -32,7 +32,7 @@ abstract class Primitive : SceneNode {
    * Set the 3D model of the primitive.
    * Returns reference to this so it can be used in a stream.
   **/
-  final Primitive setModel(Model model) pure nothrow {
+  final typeof(this) setModel(Model model) pure nothrow {
     this.model = model;
     return this;
   }
