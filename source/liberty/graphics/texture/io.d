@@ -11,6 +11,7 @@ module liberty.graphics.texture.io;
 version (__OPENGL__)
   import bindbc.opengl;
 
+import liberty.graphics.engine;
 import liberty.graphics.texture.cache;
 import liberty.graphics.texture.constants;
 import liberty.graphics.texture.impl;
@@ -74,10 +75,16 @@ final abstract class TextureIO {
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+      // Set anisotropic filtering
+      const anisotropicAmount = GfxEngine.getBackend.getOptions.anisotropicFiltering;
+      if (anisotropicAmount)
+        glTexParameterf(GL_TEXTURE_2D, 0x84FE, anisotropicAmount);
+
     }
 
     texture
-      .setLODBias(-0.4f)
+      .setLODBias(0.2f)
       .generateMipmap()
       .unbind();
 

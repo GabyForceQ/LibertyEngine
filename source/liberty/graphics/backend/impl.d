@@ -41,6 +41,7 @@ final class GfxBackend : IGfxBackendFactory {
 
     // TODO. Apply options to this, call graphics api functions
     setBackColor(45, 45, 45, 255);
+    enableAnisotropicFiltering(0.0f);
 
     Logger.info("Graphics backend has been created successfully", typeof(this).stringof);
   }
@@ -173,6 +174,20 @@ final class GfxBackend : IGfxBackendFactory {
       glDisable(GL_BLEND);
 
     options.alphaBlendEnabled = false;
+    return this;
+  }
+
+  /**
+   * Enable and set anisotropic filtering if possible.
+   * Use 0.0f to disable it but it is disabled by default.
+   * Only values 4.0f, 8.0f and 16.0f are supported for enabling it.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) enableAnisotropicFiltering(float value) pure nothrow
+  in (value == 0.0f || value == 4.0f || value == 8.0f || value == 16.0f,
+    "Only values 0.0f, 4.0f, 8.0f and 16.0f are supported.")
+  do {
+    options.anisotropicFiltering = value;
     return this;
   }
 

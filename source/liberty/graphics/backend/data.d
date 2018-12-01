@@ -68,4 +68,12 @@ struct GfxBackendOptions {
    *
   **/
   bool alphaBlendEnabled;
+
+  /**
+   * 0.0f - disabled or not supported by the machine.
+   * 4.0f - x4.
+   * 8.0f - x8.
+   * 16.0f - x16.
+  **/
+  float anisotropicFiltering;
 }
