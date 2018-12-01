@@ -56,18 +56,19 @@ final class CubeMapShader : GfxShader {
    *
   **/
   this() {
-    compileShaders(CUBEMAP_VERTEX, CUBEMAP_FRAGMENT);
-    linkShaders();
-    bindAttribute("lPosition");
-    this.bind();
-    addUniform("uProjectionMatrix");
-    addUniform("uViewMatrix");
-    addUniform("uCubeMap");
-    addUniform("uFogColor");
-    addUniform("uFadeLowerLimit");
-    addUniform("uFadeUpperLimit");
-    loadCubeMap(0);
-    this.unbind();
+    this
+      .compileShaders(CUBEMAP_VERTEX, CUBEMAP_FRAGMENT)
+      .linkShaders()
+      .bindAttribute("lPosition")
+      .bind()
+      .addUniform("uProjectionMatrix")
+      .addUniform("uViewMatrix")
+      .addUniform("uCubeMap")
+      .addUniform("uFogColor")
+      .addUniform("uFadeLowerLimit")
+      .addUniform("uFadeUpperLimit")
+      .loadCubeMap(0)
+      .unbind();
   }
 
   /**
@@ -75,7 +76,7 @@ final class CubeMapShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadProjectionMatrix(Matrix4F matrix) {
-    loadUniform("uProjectionMatrix", matrix);
+    super.loadUniform("uProjectionMatrix", matrix);
     return this;
   }
 
@@ -84,7 +85,7 @@ final class CubeMapShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadViewMatrix(Matrix4F matrix) {
-    loadUniform("uViewMatrix", matrix);
+    super.loadUniform("uViewMatrix", matrix);
     return this;
   }
 
@@ -93,7 +94,7 @@ final class CubeMapShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadCubeMap(int id) {
-    loadUniform("uCubeMap", id);
+    super.loadUniform("uCubeMap", id);
     return this;
   }
 
@@ -102,7 +103,7 @@ final class CubeMapShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadFogColor(Vector3F vector) {
-    loadUniform("uFogColor", vector);
+    super.loadUniform("uFogColor", vector);
     return this;
   }
 
@@ -111,7 +112,7 @@ final class CubeMapShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadFadeLowerLimit(float value) {
-    loadUniform("uFadeLowerLimit", value);
+    super.loadUniform("uFadeLowerLimit", value);
     return this;
   }
 
@@ -120,7 +121,7 @@ final class CubeMapShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadFadeUpperLimit(float value) {
-    loadUniform("uFadeUpperLimit", value);
+    super.loadUniform("uFadeUpperLimit", value);
     return this;
   }
 }

@@ -127,42 +127,43 @@ final class TerrainShader : GfxShader {
    *
   **/
   this() {
-    compileShaders(TERRAIN_VERTEX, TERRAIN_FRAGMENT);
-    linkShaders();
-    bindAttribute("lPosition");
-    bindAttribute("lNormal");
-    bindAttribute("lTexCoord");
-    this.bind();
-    addUniform("uModelMatrix");
-    addUniform("uViewMatrix");
-    addUniform("uProjectionMatrix");
-    addUniform("uLightPosition[0]");
-    addUniform("uLightPosition[1]");
-    addUniform("uLightPosition[2]");
-    addUniform("uLightPosition[3]");
-    addUniform("uLightColor[0]");
-    addUniform("uLightColor[1]");
-    addUniform("uLightColor[2]");
-    addUniform("uLightColor[3]");
-    addUniform("uLightAttenuation[0]");
-    addUniform("uLightAttenuation[1]");
-    addUniform("uLightAttenuation[2]");
-    addUniform("uLightAttenuation[3]");
-    addUniform("uBackgroundTexture");
-    addUniform("uRTexture");
-    addUniform("uGTexture");
-    addUniform("uBTexture");
-    addUniform("uBlendMap");
-    addUniform("uShineDamper");
-    addUniform("uReflectivity");
-    addUniform("uTexCoordMultiplier");
-    addUniform("uSkyColor");
-    loadBackgroundTexture(0);
-    loadRTexture(1);
-    loadGTexture(2);
-    loadBTexture(3);
-    loadBlendMap(4);
-    this.unbind();
+    this
+      .compileShaders(TERRAIN_VERTEX, TERRAIN_FRAGMENT)
+      .linkShaders()
+      .bindAttribute("lPosition")
+      .bindAttribute("lNormal")
+      .bindAttribute("lTexCoord")
+      .bind()
+      .addUniform("uModelMatrix")
+      .addUniform("uViewMatrix")
+      .addUniform("uProjectionMatrix")
+      .addUniform("uLightPosition[0]")
+      .addUniform("uLightPosition[1]")
+      .addUniform("uLightPosition[2]")
+      .addUniform("uLightPosition[3]")
+      .addUniform("uLightColor[0]")
+      .addUniform("uLightColor[1]")
+      .addUniform("uLightColor[2]")
+      .addUniform("uLightColor[3]")
+      .addUniform("uLightAttenuation[0]")
+      .addUniform("uLightAttenuation[1]")
+      .addUniform("uLightAttenuation[2]")
+      .addUniform("uLightAttenuation[3]")
+      .addUniform("uBackgroundTexture")
+      .addUniform("uRTexture")
+      .addUniform("uGTexture")
+      .addUniform("uBTexture")
+      .addUniform("uBlendMap")
+      .addUniform("uShineDamper")
+      .addUniform("uReflectivity")
+      .addUniform("uTexCoordMultiplier")
+      .addUniform("uSkyColor")
+      .loadBackgroundTexture(0)
+      .loadRTexture(1)
+      .loadGTexture(2)
+      .loadBTexture(3)
+      .loadBlendMap(4)
+      .unbind();
   }
 
   /**
@@ -170,7 +171,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadModelMatrix(Matrix4F matrix) {
-    loadUniform("uModelMatrix", matrix);
+    super.loadUniform("uModelMatrix", matrix);
     return this;
   }
 
@@ -179,7 +180,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadViewMatrix(Matrix4F matrix) {
-    loadUniform("uViewMatrix", matrix);
+    super.loadUniform("uViewMatrix", matrix);
     return this;
   }
 
@@ -188,7 +189,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadProjectionMatrix(Matrix4F matrix) {
-    loadUniform("uProjectionMatrix", matrix);
+    super.loadUniform("uProjectionMatrix", matrix);
     return this;
   }
 
@@ -197,7 +198,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadLightPosition(uint index, Vector3F position) {
-    loadUniform("uLightPosition[" ~ index.to!string ~ "]", position);
+    super.loadUniform("uLightPosition[" ~ index.to!string ~ "]", position);
     return this;
   }
 
@@ -206,7 +207,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadLightColor(uint index, Vector3F color) {
-    loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
+    super.loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
     return this;
   }
 
@@ -215,7 +216,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadLightAttenuation(uint index, Vector3F attenuation) {
-    loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation);
+    super.loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation);
     return this;
   }
 
@@ -224,7 +225,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadBackgroundTexture(int id) {
-    loadUniform("uBackgroundTexture", id);
+    super.loadUniform("uBackgroundTexture", id);
     return this;
   }
 
@@ -233,7 +234,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadRTexture(int id) {
-    loadUniform("uRTexture", id);
+    super.loadUniform("uRTexture", id);
     return this;
   }
 
@@ -242,7 +243,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadGTexture(int id) {
-    loadUniform("uGTexture", id);
+    super.loadUniform("uGTexture", id);
     return this;
   }
 
@@ -251,7 +252,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadBTexture(int id) {
-    loadUniform("uBTexture", id);
+    super.loadUniform("uBTexture", id);
     return this;
   }
 
@@ -260,7 +261,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadBlendMap(int id) {
-    loadUniform("uBlendMap", id);
+    super.loadUniform("uBlendMap", id);
     return this;
   }
   
@@ -269,7 +270,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadShineDamper(float value) {
-    loadUniform("uShineDamper", value);
+    super.loadUniform("uShineDamper", value);
     return this;
   }
 
@@ -278,7 +279,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadReflectivity(float value) {
-    loadUniform("uReflectivity", value);
+    super.loadUniform("uReflectivity", value);
     return this;
   }
 
@@ -287,7 +288,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadTexCoordMultiplier(Vector2F multiplier) {
-    loadUniform("uTexCoordMultiplier", multiplier);
+    super.loadUniform("uTexCoordMultiplier", multiplier);
     return this;
   }
 
@@ -296,7 +297,7 @@ final class TerrainShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadSkyColor(Vector3F color) {
-    loadUniform("uSkyColor", color);
+    super.loadUniform("uSkyColor", color);
     return this;
   }
 }

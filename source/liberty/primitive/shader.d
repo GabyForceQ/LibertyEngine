@@ -122,34 +122,35 @@ final class PrimitiveShader : GfxShader {
    *
   **/
   this() {
-    compileShaders(GENERIC_VERTEX, GENERIC_FRAGMENT);
-    linkShaders();
-    bindAttribute("lPosition");
-    bindAttribute("lNormal");
-    bindAttribute("lTexCoord");
-    this.bind();
-    addUniform("uModelMatrix");
-    addUniform("uViewMatrix");
-    addUniform("uProjectionMatrix");
-    addUniform("uLightPosition[0]");
-    addUniform("uLightPosition[1]");
-    addUniform("uLightPosition[2]");
-    addUniform("uLightPosition[3]");
-    addUniform("uLightColor[0]");
-    addUniform("uLightColor[1]");
-    addUniform("uLightColor[2]");
-    addUniform("uLightColor[3]");
-    addUniform("uLightAttenuation[0]");
-    addUniform("uLightAttenuation[1]");
-    addUniform("uLightAttenuation[2]");
-    addUniform("uLightAttenuation[3]");
-    addUniform("uTexture");
-    addUniform("uShineDamper");
-    addUniform("uReflectivity");
-    addUniform("uUseFakeLighting");
-    addUniform("uSkyColor");
-    loadTexture(0);
-    this.unbind();
+    this
+      .compileShaders(GENERIC_VERTEX, GENERIC_FRAGMENT)
+      .linkShaders()
+      .bindAttribute("lPosition")
+      .bindAttribute("lNormal")
+      .bindAttribute("lTexCoord")
+      .bind()
+      .addUniform("uModelMatrix")
+      .addUniform("uViewMatrix")
+      .addUniform("uProjectionMatrix")
+      .addUniform("uLightPosition[0]")
+      .addUniform("uLightPosition[1]")
+      .addUniform("uLightPosition[2]")
+      .addUniform("uLightPosition[3]")
+      .addUniform("uLightColor[0]")
+      .addUniform("uLightColor[1]")
+      .addUniform("uLightColor[2]")
+      .addUniform("uLightColor[3]")
+      .addUniform("uLightAttenuation[0]")
+      .addUniform("uLightAttenuation[1]")
+      .addUniform("uLightAttenuation[2]")
+      .addUniform("uLightAttenuation[3]")
+      .addUniform("uTexture")
+      .addUniform("uShineDamper")
+      .addUniform("uReflectivity")
+      .addUniform("uUseFakeLighting")
+      .addUniform("uSkyColor")
+      .loadTexture(0)
+      .unbind();
   }
 
   /**
@@ -157,7 +158,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadModelMatrix(Matrix4F matrix) {
-    loadUniform("uModelMatrix", matrix);
+    super.loadUniform("uModelMatrix", matrix);
     return this;
   }
 
@@ -166,7 +167,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadViewMatrix(Matrix4F matrix) {
-    loadUniform("uViewMatrix", matrix);
+    super.loadUniform("uViewMatrix", matrix);
     return this;
   }
 
@@ -175,7 +176,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadProjectionMatrix(Matrix4F matrix) {
-    loadUniform("uProjectionMatrix", matrix);
+    super.loadUniform("uProjectionMatrix", matrix);
     return this;
   }
 
@@ -184,7 +185,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadLightPosition(uint index, Vector3F position) {
-    loadUniform("uLightPosition[" ~ index.to!string ~ "]", position);
+    super.loadUniform("uLightPosition[" ~ index.to!string ~ "]", position);
     return this;
   }
 
@@ -193,7 +194,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadLightColor(uint index, Vector3F color) {
-    loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
+    super.loadUniform("uLightColor[" ~ index.to!string ~ "]", color);
     return this;
   }
 
@@ -202,7 +203,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadLightAttenuation(uint index, Vector3F attenuation) {
-    loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation);
+    super.loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation);
     return this;
   }
 
@@ -211,7 +212,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadTexture(int id) {
-    loadUniform("uTexture", id);
+    super.loadUniform("uTexture", id);
     return this;
   }
 
@@ -220,7 +221,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadShineDamper(float value) {
-    loadUniform("uShineDamper", value);
+    super.loadUniform("uShineDamper", value);
     return this;
   }
 
@@ -229,7 +230,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadReflectivity(float value) {
-    loadUniform("uReflectivity", value);
+    super.loadUniform("uReflectivity", value);
     return this;
   }
 
@@ -238,7 +239,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadUseFakeLighting(bool value) {
-    loadUniform("uUseFakeLighting", cast(float)value);
+    super.loadUniform("uUseFakeLighting", cast(float)value);
     return this;
   }
 
@@ -247,7 +248,7 @@ final class PrimitiveShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadSkyColor(Vector3F color) {
-    loadUniform("uSkyColor", color);
+    super.loadUniform("uSkyColor", color);
     return this;
   }
 }

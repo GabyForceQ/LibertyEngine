@@ -63,20 +63,20 @@ abstract class GfxShader : GfxShaderRenderer {
    * Bind a shader attribute into video memory.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) bindAttribute(string name) {
+  protected R bindAttribute(this R)(string name) {
     import std.string : toStringz;
 
     version (__OPENGL__)
       glBindAttribLocation(programID, attributeCount++, name.toStringz);
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Compile vertex and fragment shader using its code.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) compileShaders(string vertexShader, string fragmentShader) {
+  protected R compileShaders(this R)(string vertexShader, string fragmentShader) {
     // Create program
     version (__OPENGL__)
       this.programID = glCreateProgram();
@@ -85,14 +85,14 @@ abstract class GfxShader : GfxShaderRenderer {
     this.vertexShaderID = loadShader(vertexShader, GfxShaderType.VERTEX);
     this.fragmentShaderID = loadShader(fragmentShader, GfxShaderType.FRAGMENT);
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Link shaders into video memory.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) linkShaders() {
+  protected R linkShaders(this R)() {
     version (__OPENGL__) {
       // Attach shaders to program
       glAttachShader(this.programID, this.vertexShaderID);
@@ -131,14 +131,14 @@ abstract class GfxShader : GfxShaderRenderer {
       glDeleteShader(this.fragmentShaderID);
     }
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Add a new shader uniform to the uniforms map using its name.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) addUniform(string name) {
+  protected R addUniform(this R)(string name) {
     import std.string : toStringz;
     
     version (__OPENGL__) {
@@ -152,182 +152,183 @@ abstract class GfxShader : GfxShaderRenderer {
 
     this.uniforms[name] = location;
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load a bool uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(int locationID, bool value) nothrow {
+  protected R loadUniform(this R)(int locationID, bool value) nothrow {
     version (__OPENGL__)
       glUniform1i(locationID, cast(int)value);
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load an int uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(int locationID, int value) nothrow {
+  protected R loadUniform(this R)(int locationID, int value) nothrow {
     version (__OPENGL__)
       glUniform1i(locationID, value);
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load an uint uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(int locationID, uint value) nothrow {
+  protected R loadUniform(this R)(int locationID, uint value) nothrow {
     version (__OPENGL__)
       glUniform1ui(locationID, value);
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load a float uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(int locationID, float value) nothrow {
+  protected R loadUniform(this R)(int locationID, float value) nothrow {
     version (__OPENGL__)
       glUniform1f(locationID, value);
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load a vec2 uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(int locationID, Vector2F vector) nothrow {
+  protected R loadUniform(this R)(int locationID, Vector2F vector) nothrow {
     version (__OPENGL__)
       glUniform2f(locationID, vector.x, vector.y);
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load vec3 uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(int locationID, Vector3F vector) nothrow {
+  protected R loadUniform(this R)(int locationID, Vector3F vector) nothrow {
     version (__OPENGL__)
       glUniform3f(locationID, vector.x, vector.y, vector.z);
 
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load vec4 uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(int locationID, Vector4F vector) nothrow {
+  protected R loadUniform(this R)(int locationID, Vector4F vector) nothrow {
     version (__OPENGL__)
       glUniform4f(locationID, vector.x, vector.y, vector.z, vector.w);
     
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load Matrix4F uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(int locationID, Matrix4F matrix) nothrow {
+  protected R loadUniform(this R)(int locationID, Matrix4F matrix) nothrow {
     version (__OPENGL__)
       glUniformMatrix4fv(locationID, 1, GL_TRUE, matrix.ptr);
-    return this;
+    
+    return cast(R)this;
   }
 
   /**
    * Load bool uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(string name, bool value) nothrow {
+  protected R loadUniform(this R)(string name, bool value) nothrow {
     version (__OPENGL__)
       glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), cast(int)value);
     
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load int uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(string name, int value) nothrow {
+  protected R loadUniform(this R)(string name, int value) nothrow {
     version (__OPENGL__)
       glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
     
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load uint uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(string name, uint value) nothrow {
+  protected R loadUniform(this R)(string name, uint value) nothrow {
     version (__OPENGL__)
       glUniform1ui(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
     
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load float uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(string name, float value) nothrow {
+  protected R loadUniform(this R)(string name, float value) nothrow {
     version (__OPENGL__)
       glUniform1f(this.uniforms[name], value);
     
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load Vector2F uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(string name, Vector2F vector) nothrow {
+  protected R loadUniform(this R)(string name, Vector2F vector) nothrow {
     version (__OPENGL__)
       glUniform2f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y);
     
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load Vector3F uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(string name, Vector3F vector) nothrow {
+  protected R loadUniform(this R)(string name, Vector3F vector) nothrow {
     version (__OPENGL__)
       glUniform3f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z);
     
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load Vector4F uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(string name, Vector4F vector) nothrow {
+  protected R loadUniform(this R)(string name, Vector4F vector) nothrow {
     version (__OPENGL__)
       glUniform4f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z, vector.w);
     
-    return this;
+    return cast(R)this;
   }
 
   /**
    * Load Matrix4F uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected final typeof(this) loadUniform(string name, Matrix4F matrix) nothrow {
+  protected R loadUniform(this R)(string name, Matrix4F matrix) nothrow {
     version (__OPENGL__)
       glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
     
-    return this;
+    return cast(R)this;
   }
 
   private uint loadShader(string shaderCode, GfxShaderType type) {

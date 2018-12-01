@@ -49,17 +49,18 @@ final class SurfaceShader : GfxShader {
    *
   **/
   this() {
-    compileShaders(UI_VERTEX, UI_FRAGMENT);
-    linkShaders();
-    bindAttribute("lPosition");
-    bindAttribute("lTexCoord");
-    this.bind();
-    addUniform("uModelMatrix");
-    addUniform("uProjectionMatrix");
-    addUniform("uZIndex");
-    addUniform("uTexture");
-    loadTexture(0);
-    this.unbind();
+    this
+      .compileShaders(UI_VERTEX, UI_FRAGMENT)
+      .linkShaders()
+      .bindAttribute("lPosition")
+      .bindAttribute("lTexCoord")
+      .bind()
+      .addUniform("uModelMatrix")
+      .addUniform("uProjectionMatrix")
+      .addUniform("uZIndex")
+      .addUniform("uTexture")
+      .loadTexture(0)
+      .unbind();
   }
 
   /**
@@ -67,7 +68,7 @@ final class SurfaceShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadModelMatrix(Matrix4F matrix) {
-    loadUniform("uModelMatrix", matrix);
+    super.loadUniform("uModelMatrix", matrix);
     return this;
   }
 
@@ -76,7 +77,7 @@ final class SurfaceShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadProjectionMatrix(Matrix4F matrix) {
-    loadUniform("uProjectionMatrix", matrix);
+    super.loadUniform("uProjectionMatrix", matrix);
     return this;
   }
 
@@ -85,7 +86,7 @@ final class SurfaceShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadZIndex(int value) {
-    loadUniform("uZIndex", value);
+    super.loadUniform("uZIndex", value);
     return this;
   }
 
@@ -94,7 +95,7 @@ final class SurfaceShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadTexture(int id) {
-    loadUniform("uTexture", id);
+    super.loadUniform("uTexture", id);
     return this;
   }
 }

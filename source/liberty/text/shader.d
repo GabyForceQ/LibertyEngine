@@ -48,16 +48,17 @@ final class TextShader : GfxShader {
    *
   **/
   this() {
-    compileShaders(FONT_VERTEX, FONT_FRAGMENT);
-    linkShaders();
-    bindAttribute("lPosition");
-    bindAttribute("lTexCoord");
-    this.bind();
-    addUniform("uTranslation");
-    addUniform("uColor");
-    addUniform("uFontAtlas");
-    loadFontAtlas(0);
-    this.unbind();
+    this
+      .compileShaders(FONT_VERTEX, FONT_FRAGMENT)
+      .linkShaders()
+      .bindAttribute("lPosition")
+      .bindAttribute("lTexCoord")
+      .bind()
+      .addUniform("uTranslation")
+      .addUniform("uColor")
+      .addUniform("uFontAtlas")
+      .loadFontAtlas(0)
+      .unbind();
   }
 
   /**
@@ -65,7 +66,7 @@ final class TextShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadTranslation(Vector2F matrix) {
-    loadUniform("uTranslation", matrix);
+    super.loadUniform("uTranslation", matrix);
     return this;
   }
 
@@ -74,7 +75,7 @@ final class TextShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadColor(Vector3F matrix) {
-    loadUniform("uColor", matrix);
+    super.loadUniform("uColor", matrix);
     return this;
   }
 
@@ -83,7 +84,7 @@ final class TextShader : GfxShader {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) loadFontAtlas(int id) {
-    loadUniform("uFontAtlas", id);
+    super.loadUniform("uFontAtlas", id);
     return this;
   }
 }
