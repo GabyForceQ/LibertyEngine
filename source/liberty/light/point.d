@@ -46,8 +46,9 @@ final class PointLight : SceneNode {
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PointLight setColor(Vector3F color) {
+  typeof(this) setColor(Vector3F color) pure nothrow {
     this.color = color;
     return this;
   }
@@ -55,14 +56,15 @@ final class PointLight : SceneNode {
   /**
    *
   **/
-  Vector3F getColor() pure nothrow {
+  Vector3F getColor() pure nothrow const {
     return color;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  PointLight setAttenuation(Vector3F attenuation) {
+  typeof(this) setAttenuation(Vector3F attenuation) pure nothrow {
     this.attenuation = attenuation;
     return this;
   }
@@ -70,14 +72,15 @@ final class PointLight : SceneNode {
   /**
    *
   **/
-  Vector3F getAttenuation() pure nothrow {
+  Vector3F getAttenuation() pure nothrow const {
     return attenuation;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  void applyToPrimitiveMap(PrimitiveShader shader) {
+  typeof(this) applyToPrimitiveMap(PrimitiveShader shader) {
     if (index < 4) {
       shader
         .loadLightPosition(index, getTransform().getLocation())
@@ -87,12 +90,15 @@ final class PointLight : SceneNode {
         .loadReflectivity(0.0f);
     } else
       Logger.warning("GfxEngine can't render more than 4 lights.", typeof(this).stringof);
+
+    return this;
   }
 
   /**
    *
+   * Returns reference to this so it can be used in a stream.
   **/
-  void applyToTerrainMap(TerrainShader shader) {
+  typeof(this) applyToTerrainMap(TerrainShader shader) {
     if (index < 4) {
       shader
         .loadLightPosition(index, getTransform().getLocation())
@@ -102,5 +108,7 @@ final class PointLight : SceneNode {
         .loadReflectivity(0.0f);
     } else
       Logger.warning("GfxEngine can't render more than 4 lights.", typeof(this).stringof);
+
+    return this;
   }
 }
