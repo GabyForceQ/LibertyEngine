@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/cubemap/impl.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/cubemap/skybox.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.cubemap.impl;
+module liberty.cubemap.skybox;
 
 import liberty.math.vector;
 import liberty.material.impl;
@@ -19,7 +19,7 @@ import liberty.cubemap.vertex;
 /**
  *
 **/
-final class CubeMap : SceneNode {
+final class SkyBox : SceneNode {
   mixin NodeConstructor;
 
   private {

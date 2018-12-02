@@ -53,5 +53,10 @@ enum GfxShaderGraphDefaultType : string {
   /**
    * Terrain shader type.
   **/
-  TERRAIN = "Terrain"
+  TERRAIN = "Terrain",
+
+  /**
+   * SkyBox shader type.
+  **/
+  SKYBOX = "SkyBox"
 }

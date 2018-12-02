@@ -10,20 +10,18 @@ module liberty.cubemap.system;
 
 import liberty.constants;
 import liberty.scene;
-import liberty.cubemap.shader;
 import liberty.cubemap.renderer;
-import liberty.cubemap.impl;
+import liberty.cubemap.skybox;
 
 /**
- * System class holding basic cubeMap functionality.
- * It contains references to the $(D CubeMapRenderer), $(D CubeMapShader) and $(D Scene).
+ * System class holding basic skybox functionality.
+ * It contains references to the $(D CubeMapRenderer) and $(D Scene).
  * It also contains a map with all cubeMapes in the current scene.
 **/
-final class CubeMapSystem {
+final class SkyBoxSystem {
   private {
     CubeMapRenderer renderer;
-    CubeMapShader shader;
-    CubeMap[string] map;
+    SkyBox[string] map;
     Scene scene;
   }
 
@@ -32,7 +30,6 @@ final class CubeMapSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    shader = new CubeMapShader();
     renderer = new CubeMapRenderer(this, scene);
   }
 
@@ -40,8 +37,8 @@ final class CubeMapSystem {
    * Register a cubeMap node to the cubeMap system.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) registerElement(CubeMap node) pure nothrow {
-    map[node.getId()] = node;
+  typeof(this) registerElement(SkyBox node) pure nothrow {
+    map[node.getId] = node;
     return this;
   }
 
@@ -49,8 +46,8 @@ final class CubeMapSystem {
    * Remove the given cubemap node from the cubemap map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) removeElement(CubeMap node) pure nothrow {
-    map.remove(node.getId());
+  typeof(this) removeElement(SkyBox node) pure nothrow {
+    map.remove(node.getId);
     return this;
   }
 
@@ -66,14 +63,14 @@ final class CubeMapSystem {
   /**
    * Returns all elements in the cubeMap map.
   **/
-  CubeMap[string] getMap() pure nothrow {
+  SkyBox[string] getMap() pure nothrow {
     return map;
   }
 
   /**
    * Returns the cubeMap element in the map that has the given id.
   **/
-  CubeMap getElementById(string id) pure nothrow {
+  SkyBox getElementById(string id) pure nothrow {
     return map[id];
   }
 
@@ -85,17 +82,10 @@ final class CubeMapSystem {
   }
 
   /**
-   * Returns a cubeMap shader reference.
-  **/
-  CubeMapShader getShader() pure nothrow {
-    return shader;
-  }
-
-  /**
    * Returns the type of the system which is always SystemType.CubeMap.
    * See $(D SystemType) enumeration.
   **/
   static SystemType getType() pure nothrow {
-    return SystemType.CubeMap;
+    return SystemType.SkyBox;
   }
 }

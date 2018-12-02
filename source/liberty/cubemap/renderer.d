@@ -9,8 +9,10 @@
 module liberty.cubemap.renderer;
 
 import liberty.constants;
-import liberty.cubemap.impl;
+import liberty.cubemap.skybox;
 import liberty.cubemap.system;
+import liberty.graphics.shader.constants;
+import liberty.graphics.shader.graph;
 import liberty.math.matrix;
 import liberty.scene;
 import liberty.services;
@@ -22,14 +24,14 @@ import liberty.services;
 **/
 final class CubeMapRenderer : IRenderable {
   private {
-    CubeMapSystem system;
+    SkyBoxSystem system;
     Scene scene;
   }
 
   /**
    * Create and initialize cubeMap renderer using a $(D CubeMapSystem) reference and a $(D Scene) reference.
   **/
-  this(CubeMapSystem system, Scene scene) {
+  this(SkyBoxSystem system, Scene scene) {
     this.system = system;
     this.scene = scene;
   }
@@ -46,33 +48,40 @@ final class CubeMapRenderer : IRenderable {
     newViewMatrix.c[1][3] = 0;
     newViewMatrix.c[2][3] = 0;
 
-    system
-      .getShader
+    GfxShaderGraph
+      .getDefaultShader(GfxShaderGraphDefaultType.SKYBOX)
+      .getProgram
       .bind
-      .loadProjectionMatrix(camera.getProjectionMatrix)
-      .loadViewMatrix(newViewMatrix)
-      .loadFadeLowerLimit(0.0f)
-      .loadFadeUpperLimit(30.0f)
-      .loadFogColor(scene.getWorld.getExpHeightFogColor);
+      .loadUniform("uProjectionMatrix", camera.getProjectionMatrix)
+      .loadUniform("uViewMatrix", newViewMatrix)
+      .loadUniform("uFadeLowerLimit", 0.0f)
+      .loadUniform("uFadeUpperLimit", 30.0f)
+      .loadUniform("uFogColor", scene.getWorld.getExpHeightFogColor);
 
     foreach (cubeMap; system.getMap())
       if (cubeMap.getVisibility == Visibility.Visible)
         render(cubeMap);
 
-    system.getShader.unbind;
+    GfxShaderGraph
+      .getDefaultShader(GfxShaderGraphDefaultType.SKYBOX)
+      .getProgram
+      .unbind;
   }
 
   /**
    * Render a cube map node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) render(CubeMap cubemap)
+  typeof(this) render(SkyBox cubemap)
   in (cubemap !is null, "You cannot render a null cubemap.")
   do {
     auto model = cubemap.getModel;
 
     if (model !is null)
-      system.getShader.render(model);
+      GfxShaderGraph
+        .getDefaultShader(GfxShaderGraphDefaultType.SKYBOX)
+        .getProgram
+        .render(model);
     
     return this;
   }

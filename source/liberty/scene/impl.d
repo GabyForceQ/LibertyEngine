@@ -55,8 +55,8 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     SurfaceSystem surfaceSystem;
     // getLightingSystem
     LightingSystem lightingSystem;
-    // getCubeMapSystem
-    CubeMapSystem cubeMapSystem;
+    // getSkyBoxSystem
+    SkyBoxSystem skyboxSystem;
     // getTextSystem
     TextSystem textSystem;
     // getRelativePath, setRelativePath
@@ -87,7 +87,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     terrainSystem = new TerrainSystem(this);
     surfaceSystem = new SurfaceSystem(this);
     lightingSystem = new LightingSystem(this);
-    cubeMapSystem = new CubeMapSystem(this);
+    skyboxSystem = new SkyBoxSystem(this);
     textSystem = new TextSystem(this);
   }
 
@@ -237,7 +237,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   **/
   void render() {
     lightingSystem.getRenderer.render;
-    cubeMapSystem.getRenderer.render;
+    skyboxSystem.getRenderer.render;
     terrainSystem.getRenderer.render;
     primitiveSystem.getRenderer.render;
     surfaceSystem.getRenderer.render;
@@ -306,8 +306,8 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * Returns a refetence of the cube map system.
    * See $(D CubeMapSystem) class.
   **/
-  CubeMapSystem getCubeMapSystem() pure nothrow {
-    return cubeMapSystem;
+  SkyBoxSystem getSkyBoxSystem() pure nothrow {
+    return skyboxSystem;
   }
 
   /**

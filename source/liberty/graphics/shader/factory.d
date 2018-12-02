@@ -22,27 +22,37 @@ interface IGfxShaderFactory {
   /**
    *
   **/
-  static GfxShaderGraph getDefaultShader(GfxShaderGraphDefaultType type)
-  in (type == GfxShaderGraphDefaultType.PRIMITIVE ||
-      type == GfxShaderGraphDefaultType.TERRAIN)
-  do {
-    if (type !in defaultShaders) {
-      if (type == GfxShaderGraphDefaultType.PRIMITIVE) {
-        // Create primitive shader
-        defaultShaders[type] = new GfxShaderGraph();
-        defaultShaders[type]
-          .addVertexCode(mixin("q{" ~ import("shaders/primitive_vertex.glsl") ~ "}"))
-          .addFragmentCode(mixin("q{" ~ import("shaders/primitive_fragment.glsl") ~ "}"))
-          .build;
-      } else if (type == GfxShaderGraphDefaultType.TERRAIN) {
-        // Create terrain shader
-        defaultShaders[type] = new GfxShaderGraph();
-        defaultShaders[type]
-          .addVertexCode(mixin("q{" ~ import("shaders/terrain_vertex.glsl") ~ "}"))
-          .addFragmentCode(mixin("q{" ~ import("shaders/terrain_fragment.glsl") ~ "}"))
-          .build;
+  static GfxShaderGraph getDefaultShader(GfxShaderGraphDefaultType type) {
+    if (type !in defaultShaders)
+      final switch (type) with (GfxShaderGraphDefaultType) {
+        case PRIMITIVE:
+          // Create primitive shader
+          defaultShaders[type] = new GfxShaderGraph();
+          defaultShaders[type]
+            .addVertexCode(mixin("q{" ~ import("shaders/primitive_vertex.glsl") ~ "}"))
+            .addFragmentCode(mixin("q{" ~ import("shaders/primitive_fragment.glsl") ~ "}"))
+            .build;
+
+          break;
+        case TERRAIN:
+          // Create terrain shader
+          defaultShaders[type] = new GfxShaderGraph();
+          defaultShaders[type]
+            .addVertexCode(mixin("q{" ~ import("shaders/terrain_vertex.glsl") ~ "}"))
+            .addFragmentCode(mixin("q{" ~ import("shaders/terrain_fragment.glsl") ~ "}"))
+            .build;
+
+          break;
+        case SKYBOX:
+          // Create terrain shader
+          defaultShaders[type] = new GfxShaderGraph();
+          defaultShaders[type]
+            .addVertexCode(mixin("q{" ~ import("shaders/skybox_vertex.glsl") ~ "}"))
+            .addFragmentCode(mixin("q{" ~ import("shaders/skybox_fragment.glsl") ~ "}"))
+            .build;
+
+          break;
       }
-    }
     
     return defaultShaders[type];
   }

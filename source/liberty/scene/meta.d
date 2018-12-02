@@ -25,7 +25,7 @@ mixin template NodeConstructor(string code = "") {
     import std.traits : hasUDA, EnumMembers;
     import std.string : capitalize;
     import liberty.constants : SystemType;
-    import liberty.cubemap.impl : CubeMap;
+    import liberty.cubemap.skybox : SkyBox;
     import liberty.light.point : Lighting;
     import liberty.primitive.impl : Primitive;
     import liberty.surface.impl : Surface;

@@ -33,9 +33,9 @@ enum SystemType : string {
   Lighting = "Lighting",
 
   /**
-   * See $(D CubeMapSystem) class.
+   * See $(D SkyBoxSystem) class.
   **/
-  CubeMap = "CubeMap",
+  SkyBox = "SkyBox",
 
   /**
    * See $(D TextSystem) class.
