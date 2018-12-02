@@ -40,7 +40,7 @@ final class TextSystem {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) registerElement(Text node) pure nothrow {
-    map[node.getId()] = node;
+    //map[node.getId] = node;
     return this;
   }
 
@@ -49,7 +49,7 @@ final class TextSystem {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) removeElement(Text node) pure nothrow {
-    map.remove(node.getId());
+    //map.remove(node.getId);
     return this;
   }
 

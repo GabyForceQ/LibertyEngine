@@ -42,7 +42,7 @@ final class TextRenderer : IRenderable {
       .bind();
     
     foreach (text; system.getMap())
-      if (text.getVisibility() == Visibility.Visible)
+      //if (text.getVisibility() == Visibility.Visible)
         render(text);
 
     system

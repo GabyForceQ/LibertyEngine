@@ -8,6 +8,8 @@
 **/
 module liberty.surface.meta;
 
+version (none) :
+
 import liberty.surface.widget;
 
 /**

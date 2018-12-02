@@ -8,6 +8,8 @@
 **/
 module liberty.surface.tileset;
 
+version (none) :
+
 import core.stdc.stdlib;
 
 import liberty.image.format.bmp;

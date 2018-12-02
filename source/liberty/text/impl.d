@@ -14,7 +14,7 @@ import liberty.surface.widget;
 /**
  *
 **/
-final class Text : Widget {
+final class Text /*: Widget*/ {
   private {
     // getTextureAtlas
     int textureAtlas;
@@ -23,7 +23,7 @@ final class Text : Widget {
   /**
    *
   **/
-  this(string id, Surface surface, int textureAtlas, string filePath) {
-    super(id, surface);
-  }
+  //this(string id, Surface surface, int textureAtlas, string filePath) {
+  //  uper(id, surface);
+  //}
 }

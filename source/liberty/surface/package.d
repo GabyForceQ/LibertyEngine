@@ -15,7 +15,6 @@ public {
   import liberty.surface.impl;
   import liberty.surface.meta;
   import liberty.surface.renderer;
-  import liberty.surface.shader;
   import liberty.surface.tilemap;
   import liberty.surface.tileset;
   import liberty.surface.vertex;

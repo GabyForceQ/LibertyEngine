@@ -62,13 +62,13 @@ abstract class SceneIO : ISerializable {
       );
     }
 
-    foreach (node; scene.getSurfaceSystem.getMap) {
+    /*foreach (node; scene.getSurfaceSystem.getMap) {
       file.writeln(
         "Widget: { " ~
           "id: " ~ node.getId ~
         " }"
       );
-    }
+    }*/
 
     foreach (Light node; cast(Light[string])scene.getRendererById("Light").getMap) {
       file.writeln(

@@ -51,6 +51,15 @@ interface IGfxShaderFactory {
             .build;
 
           break;
+        case "Gui":
+          // Create terrain shader
+          shaders[id] = new GfxShaderGraph(id);
+          shaders[id]
+            .addVertexCode(mixin("q{" ~ import("shaders/gui_vertex.glsl") ~ "}"))
+            .addFragmentCode(mixin("q{" ~ import("shaders/gui_fragment.glsl") ~ "}"))
+            .build;
+
+          break;
         default:
           // TODO. Custom shaders.
           break;

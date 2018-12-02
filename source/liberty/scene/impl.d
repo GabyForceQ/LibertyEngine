@@ -10,6 +10,7 @@ module liberty.scene.impl;
 
 import liberty.camera;
 import liberty.core.engine;
+import liberty.framework.gui.renderer;
 import liberty.framework.light.renderer;
 import liberty.framework.primitive.renderer;
 import liberty.framework.skybox.renderer;
@@ -19,7 +20,6 @@ import liberty.scene.factory;
 import liberty.scene.node;
 import liberty.scene.renderer;
 import liberty.scene.services;
-import liberty.surface.system;
 import liberty.text.system;
 import liberty.world.impl;
 
@@ -49,8 +49,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     // getUpdateableMap
     IUpdateable[string] updateableMap;
 
-    // getSurfaceSystem
-    SurfaceSystem surfaceSystem;
     // getTextSystem
     TextSystem textSystem;
     // getRelativePath, setRelativePath
@@ -84,8 +82,8 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     renderableMap["Primitive"] = new PrimitiveRenderer("Primitive", this);
     renderableMap["Terrain"] = new TerrainRenderer("Terrain", this);
     renderableMap["SkyBox"] = new SkyBoxRenderer("SkyBox", this);
+    renderableMap["Gui"] = new GuiRenderer("Gui", this);
 
-    surfaceSystem = new SurfaceSystem(this);
     textSystem = new TextSystem(this);
   }
 
@@ -237,7 +235,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     foreach (node; renderableMap)
       node.render;
     
-    surfaceSystem.getRenderer.render;
     textSystem.getRenderer.render;
   }
 
@@ -287,15 +284,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   **/
   Renderer getRendererById(string id) pure nothrow {
     return cast(Renderer)renderableMap[id];
-  }
-
-
-  /**
-   * Returns a refetence of the surface system.
-   * See $(D SurfaceSystem) class.
-  **/
-  SurfaceSystem getSurfaceSystem() pure nothrow {
-    return surfaceSystem;
   }
 
   /**

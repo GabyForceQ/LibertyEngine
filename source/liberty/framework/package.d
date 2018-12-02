@@ -9,6 +9,7 @@
 module liberty.framework;
 
 public {
+  import liberty.framework.gui;
   import liberty.framework.light;
   import liberty.framework.primitive;
   import liberty.framework.skybox;

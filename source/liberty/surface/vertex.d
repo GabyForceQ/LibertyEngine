@@ -8,6 +8,8 @@
 **/
 module liberty.surface.vertex;
 
+version (none) :
+
 import liberty.graphics.vertex.meta;
 import liberty.math.vector;
 

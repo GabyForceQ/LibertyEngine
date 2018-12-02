@@ -37,7 +37,7 @@ abstract class SceneNode : IStartable, IUpdateable {
     // It is used in spawnOnce methods
     SceneNode[string] singletonMap;
     // getTransform
-    Transform3 transform;
+    Transform transform;
     // setVisibility, getVisibility
     Visibility visibility;
   }
@@ -58,8 +58,8 @@ abstract class SceneNode : IStartable, IUpdateable {
 
     // Set transformation
     transform = (parent is null)
-      ? new Transform3(this)
-      : new Transform3(this, parent.getTransform);
+      ? new Transform(this)
+      : new Transform(this, parent.getTransform);
 
     // Now save this in the scene node map
     scene.nodeMap[id] = this;
@@ -264,7 +264,7 @@ abstract class SceneNode : IStartable, IUpdateable {
   /**
    * Returns transform component used for translation, rotation and scale
   **/
-  Transform3 getTransform() pure nothrow {
+  Transform getTransform() pure nothrow {
     return transform;
   }
 

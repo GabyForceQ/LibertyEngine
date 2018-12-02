@@ -8,11 +8,12 @@
 **/
 module liberty.surface.renderer;
 
+version (none) :
+
 import liberty.scene.services;
 import liberty.scene.constants;
 import liberty.scene.impl;
 import liberty.surface.impl;
-import liberty.surface.system;
 
 /**
  * Class holding basic surface rendering methods.
@@ -21,15 +22,13 @@ import liberty.surface.system;
 **/
 final class SurfaceRenderer : IRenderable {
   private {
-    SurfaceSystem system;
     Scene scene;
   }
 
   /**
    * Create and initialize surface renderer using a $(D SurfaceSystem) reference and a $(D Scene) reference.
   **/
-  this(SurfaceSystem system, Scene scene) {
-    this.system = system;
+  this(Scene scene) {
     this.scene = scene;
   }
 

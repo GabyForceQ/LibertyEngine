@@ -23,15 +23,16 @@ mixin template NodeConstructor(string code = "") {
   **/
   this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
     import std.string : capitalize;
+    import liberty.framework.gui.impl : Gui;
+    import liberty.framework.gui.renderer : GuiRenderer;
     import liberty.framework.light.impl : Light;
-    import liberty.framework.primitive.impl : Primitive;
-    import liberty.framework.skybox.impl : SkyBox;
-    import liberty.framework.terrain.impl : Terrain;
     import liberty.framework.light.renderer : LightRenderer;
+    import liberty.framework.primitive.impl : Primitive;
     import liberty.framework.primitive.renderer : PrimitiveRenderer;
+    import liberty.framework.skybox.impl : SkyBox;
     import liberty.framework.skybox.renderer : SkyBoxRenderer;
+    import liberty.framework.terrain.impl : Terrain;
     import liberty.framework.terrain.renderer : TerrainRenderer;
-    import liberty.surface.impl : Surface;
     import liberty.text.impl : Text;
 
     if (parent is null)
@@ -59,7 +60,7 @@ mixin template NodeConstructor(string code = "") {
       }
     }
 
-    static foreach (sys; ["Primitive", "Terrain", "SkyBox", "Light"]) // TODO. only first if
+    static foreach (sys; ["Primitive", "Terrain", "SkyBox", "Light", "Gui"])
       static if (mixin("is(typeof(this) : " ~ sys ~ ")"))
         mixin("(cast(" ~ sys ~ "Renderer)getScene.getRendererById(\"" ~ sys ~ "\")).registerElement(this);");
   }

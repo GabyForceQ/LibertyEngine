@@ -10,6 +10,8 @@
 **/
 module liberty.surface.impl;
 
+version (none) :
+
 import std.typecons : Tuple;
 
 import liberty.logger;
@@ -27,7 +29,7 @@ import liberty.scene.action;
 
 /**
  * A surface represents a 2-dimensional view containting user interface elements.
- * Inheriths $(D SceneNode) class and implements $(D IRenderable) and $(D IUpdateable) interfaces.
+ * Inheriths $(D SceneNode) class and implements $(D IUpdateable) service.
 **/
 abstract class Surface : SceneNode, IUpdateable {
   private {
