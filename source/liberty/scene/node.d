@@ -8,17 +8,17 @@
 **/
 module liberty.scene.node;
 
-import liberty.constants;
-import liberty.math.transform;
-import liberty.logger;
-import liberty.core.engine;
-import liberty.scene.services;
-import liberty.scene.impl;
-import liberty.framework.primitive.bsp;
 import liberty.camera;
+import liberty.core.engine;
+import liberty.framework.primitive.bsp;
 import liberty.framework.primitive.vertex;
-import liberty.surface.vertex;
 import liberty.framework.terrain.vertex;
+import liberty.logger;
+import liberty.math.transform;
+import liberty.scene.constants;
+import liberty.scene.impl;
+import liberty.scene.services;
+import liberty.surface.vertex;
 
 /**
  * Represents a node in the scene tree.
@@ -117,11 +117,11 @@ abstract class SceneNode : IStartable, IUpdateable {
   **/
   typeof(this) remove(T : SceneNode)(T node) {
     import std.traits : EnumMembers;
-    import liberty.framework.skybox.impl : SkyBox;
-    import liberty.light.point : Lighting;
+    import liberty.framework.light.impl : Light;
     import liberty.framework.primitive.impl : Primitive;
-    import liberty.surface.impl : Surface;
+    import liberty.framework.skybox.impl : SkyBox;
     import liberty.framework.terrain.impl : Terrain;
+    import liberty.surface.impl : Surface;
     import liberty.text.impl : Text;
 
     const id = node.getId();

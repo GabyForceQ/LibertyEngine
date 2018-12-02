@@ -16,7 +16,7 @@ public {
   import liberty.image;
   import liberty.input;
   import liberty.io;
-  import liberty.light;
+  import liberty.framework.light;
   import liberty.logger;
   import liberty.math;
   import liberty.material;

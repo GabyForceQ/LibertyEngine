@@ -8,9 +8,9 @@
 **/
 module liberty.surface.renderer;
 
-import liberty.constants;
 import liberty.scene.services;
-import liberty.scene;
+import liberty.scene.constants;
+import liberty.scene.impl;
 import liberty.surface.impl;
 import liberty.surface.system;
 

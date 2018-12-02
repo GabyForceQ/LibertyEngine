@@ -8,10 +8,10 @@
 **/
 module liberty.framework.skybox.renderer;
 
-import liberty.constants;
 import liberty.graphics.shader.graph;
 import liberty.framework.skybox.impl;
 import liberty.math.matrix;
+import liberty.scene.constants;
 import liberty.scene.meta;
 import liberty.scene.renderer;
 

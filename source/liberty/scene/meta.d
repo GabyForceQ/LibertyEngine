@@ -22,18 +22,17 @@ mixin template NodeConstructor(string code = "") {
    * See $(D SceneNode).
   **/
   this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
-    import std.traits : hasUDA, EnumMembers;
     import std.string : capitalize;
-    import liberty.constants : RendererType;
-    import liberty.framework.skybox.impl : SkyBox;
-    import liberty.light.point : Lighting;
+    import liberty.framework.light.impl : Light;
     import liberty.framework.primitive.impl : Primitive;
-    import liberty.surface.impl : Surface;
+    import liberty.framework.skybox.impl : SkyBox;
     import liberty.framework.terrain.impl : Terrain;
-    import liberty.text.impl : Text;
+    import liberty.framework.light.renderer : LightRenderer;
     import liberty.framework.primitive.renderer : PrimitiveRenderer;
     import liberty.framework.skybox.renderer : SkyBoxRenderer;
     import liberty.framework.terrain.renderer : TerrainRenderer;
+    import liberty.surface.impl : Surface;
+    import liberty.text.impl : Text;
 
     if (parent is null)
       assert(0, "Parent object cannot be null");
@@ -60,12 +59,9 @@ mixin template NodeConstructor(string code = "") {
       }
     }
 
-    static foreach (sys; EnumMembers!RendererType) // TODO. only first if
-      static if (mixin("is(typeof(this) : " ~ sys ~ ")") && sys != "Primitive" && sys != "Terrain" && sys != "SkyBox")
-        mixin("getScene.get" ~ sys ~ "System.registerElement(this);");
-      else static if (mixin("is(typeof(this) : " ~ sys ~ ")") && (sys == "Primitive" || sys == "Terrain" || sys == "SkyBox")) {
-        mixin("(cast(" ~ sys ~ "Renderer)getScene.renderableMap[\"" ~ sys ~ "\"]).registerElement(this);");
-      }
+    static foreach (sys; ["Primitive", "Terrain", "SkyBox", "Light"]) // TODO. only first if
+      static if (mixin("is(typeof(this) : " ~ sys ~ ")"))
+        mixin("(cast(" ~ sys ~ "Renderer)getScene.getRendererById(\"" ~ sys ~ "\")).registerElement(this);");
   }
 }
 

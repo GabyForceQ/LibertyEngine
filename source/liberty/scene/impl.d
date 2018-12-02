@@ -8,21 +8,21 @@
 **/
 module liberty.scene.impl;
 
-import liberty.core.engine;
-import liberty.math.vector;
 import liberty.camera;
-import liberty.scene.node;
-import liberty.world.impl;
-import liberty.scene.services;
 import liberty.constants;
-import liberty.scene.renderer;
-import liberty.surface.system;
-import liberty.light.system;
-import liberty.text.system;
-import liberty.scene.factory;
+import liberty.core.engine;
+import liberty.framework.light.renderer;
 import liberty.framework.primitive.renderer;
 import liberty.framework.skybox.renderer;
 import liberty.framework.terrain.renderer;
+import liberty.math.vector;
+import liberty.scene.factory;
+import liberty.scene.node;
+import liberty.scene.renderer;
+import liberty.scene.services;
+import liberty.surface.system;
+import liberty.text.system;
+import liberty.world.impl;
 
 /**
  * A scene is a 3D space where you can place different objects,
@@ -52,8 +52,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
 
     // getSurfaceSystem
     SurfaceSystem surfaceSystem;
-    // getLightingSystem
-    LightingSystem lightingSystem;
     // getTextSystem
     TextSystem textSystem;
     // getRelativePath, setRelativePath
@@ -83,12 +81,12 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     activeCamera = tree.spawn!Camera("DefaultCamera");
 
     // Create renderers
+    renderableMap["Light"] = new LightRenderer("Light", this);
     renderableMap["Primitive"] = new PrimitiveRenderer("Primitive", this);
     renderableMap["Terrain"] = new TerrainRenderer("Terrain", this);
     renderableMap["SkyBox"] = new SkyBoxRenderer("SkyBox", this);
 
     surfaceSystem = new SurfaceSystem(this);
-    lightingSystem = new LightingSystem(this);
     textSystem = new TextSystem(this);
   }
 
@@ -236,9 +234,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * Render all renderable systems.
    * It's called every frame after $(D Scene.update).
   **/
-  void render() {
-    lightingSystem.getRenderer.render;
-    
+  void render() {    
     foreach (node; renderableMap)
       node.render;
     
@@ -273,6 +269,20 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
+   * Returns renderable map as it is.
+  **/
+  IRenderable[string] getRenderableMap() pure nothrow {
+    return renderableMap;
+  }
+
+  /**
+   * Returns renderable map as $(D, Renderer).
+  **/
+  Renderer[string] getRenderableMap() pure nothrow {
+    return cast(Renderer[string])renderableMap;
+  }
+
+  /**
    * Returns renderer by its id.
    * See $(D System) class.
   **/
@@ -287,14 +297,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   **/
   SurfaceSystem getSurfaceSystem() pure nothrow {
     return surfaceSystem;
-  }
-
-  /**
-   * Returns a refetence of the lighting system.
-   * See $(D LightingSystem) class.
-  **/
-  LightingSystem getLightingSystem() pure nothrow {
-    return lightingSystem;
   }
 
   /**

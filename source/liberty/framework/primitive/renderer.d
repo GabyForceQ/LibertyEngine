@@ -8,9 +8,9 @@
 **/
 module liberty.framework.primitive.renderer;
 
-import liberty.constants;
 import liberty.graphics.shader.graph;
 import liberty.framework.primitive.impl;
+import liberty.scene.constants;
 import liberty.scene.meta;
 import liberty.scene.renderer;
 

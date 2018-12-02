@@ -14,12 +14,12 @@ import std.stdio : File;
 import std.string : strip;
 import core.stdc.stdio : sscanf;
 
+import liberty.framework.light.impl;
+import liberty.framework.primitive.impl;
+import liberty.framework.terrain.impl;
+import liberty.material.impl;
 import liberty.scene.impl;
 import liberty.scene.services;
-import liberty.framework.terrain.impl;
-import liberty.light.point;
-import liberty.material.impl;
-import liberty.framework.primitive.impl;
 
 /**
  * Used for input/output operations on $(D Scene) class.
@@ -70,9 +70,9 @@ abstract class SceneIO : ISerializable {
       );
     }
 
-    foreach (node; scene.getLightingSystem.getMap) {
+    foreach (Light node; cast(Light[string])scene.getRendererById("Light").getMap) {
       file.writeln(
-        "PointLight: { " ~
+        "Light: { " ~
           "id: " ~ node.getId ~
         " }"
       );
@@ -105,8 +105,8 @@ abstract class SceneIO : ISerializable {
             new Material(cast(string)tokens[19].dup),
             new Material(cast(string)tokens[21].dup)
           ]);
-      else if (tokens[0] == "PointLight:")
-        scene.getTree.spawn!PointLight(cast(string)tokens[3].dup);
+      else if (tokens[0] == "Light:")
+        scene.getTree.spawn!Light(cast(string)tokens[3].dup);
     }
   }
 }

@@ -15,19 +15,19 @@ import liberty.graphics.shader.graph;
 **/
 interface IGfxShaderFactory {
   private {
-    static GfxShaderGraph[string] defaultShaders;
+    static GfxShaderGraph[string] shaders;
   }
 
   /**
    *
   **/
   static GfxShaderGraph getShader(string id) {
-    if (id !in defaultShaders)
+    if (id !in shaders)
       switch (id) {
         case "Primitive":
           // Create primitive shader
-          defaultShaders[id] = new GfxShaderGraph(id);
-          defaultShaders[id]
+          shaders[id] = new GfxShaderGraph(id);
+          shaders[id]
             .addVertexCode(mixin("q{" ~ import("shaders/primitive_vertex.glsl") ~ "}"))
             .addFragmentCode(mixin("q{" ~ import("shaders/primitive_fragment.glsl") ~ "}"))
             .build;
@@ -35,8 +35,8 @@ interface IGfxShaderFactory {
           break;
         case "SkyBox":
           // Create terrain shader
-          defaultShaders[id] = new GfxShaderGraph(id);
-          defaultShaders[id]
+          shaders[id] = new GfxShaderGraph(id);
+          shaders[id]
             .addVertexCode(mixin("q{" ~ import("shaders/skybox_vertex.glsl") ~ "}"))
             .addFragmentCode(mixin("q{" ~ import("shaders/skybox_fragment.glsl") ~ "}"))
             .build;
@@ -44,8 +44,8 @@ interface IGfxShaderFactory {
           break;
         case "Terrain":
           // Create terrain shader
-          defaultShaders[id] = new GfxShaderGraph(id);
-          defaultShaders[id]
+          shaders[id] = new GfxShaderGraph(id);
+          shaders[id]
             .addVertexCode(mixin("q{" ~ import("shaders/terrain_vertex.glsl") ~ "}"))
             .addFragmentCode(mixin("q{" ~ import("shaders/terrain_fragment.glsl") ~ "}"))
             .build;
@@ -56,6 +56,6 @@ interface IGfxShaderFactory {
           break;
       }
     
-    return defaultShaders[id];
+    return shaders[id];
   }
 }

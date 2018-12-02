@@ -46,7 +46,7 @@ abstract class Renderer : IRenderable {
   /**
    * Returns renderer's shader graph.
   **/
-  GfxShaderGraph getShaderGraph() pure nothrow {
+  GfxShaderGraph getShader() pure nothrow {
     return shader;
   }
 
