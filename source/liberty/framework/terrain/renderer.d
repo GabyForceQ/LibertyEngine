@@ -9,19 +9,19 @@
 module liberty.framework.terrain.renderer;
 
 import liberty.constants;
-import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
 import liberty.framework.terrain.impl;
 import liberty.scene.meta;
 import liberty.scene.renderer;
 
 /**
- * Class holding basic terrain rendering methods.
- * It contains references to the $(D TerrainSystem) and $(D Scene).
- * It implements $(D IRenderable) service.
+ * Class holding basic terrain rendering functionality.
+ * It inherits from $(D, Renderer) class and implements $(D, IRenderable) service.
 **/
 final class TerrainRenderer : Renderer {
-  mixin RendererConstructor;
+  mixin RendererConstructor!(q{
+    shader = GfxShaderGraph.getShader("Terrain");
+  });
 
   /**
    * Render all terrain elements to the screen.
@@ -29,8 +29,7 @@ final class TerrainRenderer : Renderer {
   void render() {
     auto camera = scene.getActiveCamera;
 
-    GfxShaderGraph
-      .getDefaultShader(GfxShaderGraphDefaultType.TERRAIN)
+    shader
       .getProgram
       .bind
       .loadUniform("uProjectionMatrix", camera.getProjectionMatrix)
@@ -41,24 +40,20 @@ final class TerrainRenderer : Renderer {
       if (terrain.getVisibility == Visibility.Visible)
         render(cast(Terrain)terrain);
 
-    GfxShaderGraph
-      .getDefaultShader(GfxShaderGraphDefaultType.TERRAIN)
-      .getProgram
-      .unbind;
+    shader.getProgram.unbind;
   }
 
   /**
    * Render a terrain node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  TerrainRenderer render(Terrain terrain)
+  typeof(this) render(Terrain terrain)
   in (terrain !is null, "You cannot render a null terrain.")
   do {
     auto model = terrain.getModel;
 
     if (model !is null)
-      GfxShaderGraph
-        .getDefaultShader(GfxShaderGraphDefaultType.TERRAIN)
+      shader
         .getProgram
         .loadUniform("uModelMatrix", terrain.getTransform.getModelMatrix)
         .loadUniform("uTexCoordMultiplier", terrain.getTexCoordMultiplier)

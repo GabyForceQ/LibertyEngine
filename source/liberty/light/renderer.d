@@ -37,20 +37,19 @@ final class LightingRenderer : IRenderable {
    * Render all lighting elements to the screen.
   **/
   void render() {
-    with (GfxShaderGraphDefaultType)
-      foreach (type; [TERRAIN, PRIMITIVE]) {
-        GfxShaderGraph
-          .getDefaultShader(type)
-          .getProgram
-          .bind;
-        
-        foreach (light; system.getMap)
-          light.applyTo(type);
+    foreach (id; ["Primitive", "Terrain"]) {
+      GfxShaderGraph
+        .getShader(id)
+        .getProgram
+        .bind;
+      
+      foreach (light; system.getMap)
+        light.applyTo(id);
 
-        GfxShaderGraph
-          .getDefaultShader(type)
-          .getProgram
-          .unbind;
-      }
+      GfxShaderGraph
+        .getShader(id)
+        .getProgram
+        .unbind;
+    }
   }
 }

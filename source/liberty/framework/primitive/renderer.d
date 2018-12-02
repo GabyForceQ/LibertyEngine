@@ -9,17 +9,19 @@
 module liberty.framework.primitive.renderer;
 
 import liberty.constants;
-import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
 import liberty.framework.primitive.impl;
 import liberty.scene.meta;
 import liberty.scene.renderer;
 
 /**
- * System class holding basic primitive rendering functionality.
+ * Class holding basic primitive rendering functionality.
+ * It inherits from $(D, Renderer) class and implements $(D, IRenderable) service.
 **/
 final class PrimitiveRenderer : Renderer {
-  mixin RendererConstructor;
+  mixin RendererConstructor!(q{
+    shader = GfxShaderGraph.getShader("Primitive");
+  });
 
   /**
    * Render all primitive elements to the screen.
@@ -27,8 +29,7 @@ final class PrimitiveRenderer : Renderer {
   void render() {
     auto camera = scene.getActiveCamera;
 
-    GfxShaderGraph
-      .getDefaultShader(GfxShaderGraphDefaultType.PRIMITIVE)
+    shader
       .getProgram
       .bind
       .loadUniform("uProjectionMatrix", camera.getProjectionMatrix)
@@ -39,10 +40,7 @@ final class PrimitiveRenderer : Renderer {
       if (primitive.getVisibility == Visibility.Visible)
         render(cast(Primitive)primitive);
 
-    GfxShaderGraph
-      .getDefaultShader(GfxShaderGraphDefaultType.PRIMITIVE)
-      .getProgram
-      .unbind;
+    shader.getProgram.unbind;
   }
 
   /**
@@ -55,8 +53,7 @@ final class PrimitiveRenderer : Renderer {
     auto model = primitive.getModel;
 
     if (model !is null)
-      GfxShaderGraph
-        .getDefaultShader(GfxShaderGraphDefaultType.PRIMITIVE)
+      shader
         .getProgram
         .loadUniform("uModelMatrix", primitive.getTransform.getModelMatrix)
         .loadUniform("uUseFakeLighting", model.isFakeLightingEnabled)

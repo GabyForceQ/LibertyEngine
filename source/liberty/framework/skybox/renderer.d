@@ -9,7 +9,6 @@
 module liberty.framework.skybox.renderer;
 
 import liberty.constants;
-import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
 import liberty.framework.skybox.impl;
 import liberty.math.matrix;
@@ -17,10 +16,13 @@ import liberty.scene.meta;
 import liberty.scene.renderer;
 
 /**
- *
+ * Class holding basic sky box rendering functionality.
+ * It inherits from $(D, Renderer) class and implements $(D, IRenderable) service.
 **/
 final class SkyBoxRenderer : Renderer {
-  mixin RendererConstructor;
+  mixin RendererConstructor!(q{
+    shader = GfxShaderGraph.getShader("SkyBox");
+  });
 
   /**
    * Render the sky box to the screen.
@@ -34,8 +36,7 @@ final class SkyBoxRenderer : Renderer {
     newViewMatrix.c[1][3] = 0;
     newViewMatrix.c[2][3] = 0;
 
-    GfxShaderGraph
-      .getDefaultShader(GfxShaderGraphDefaultType.SKYBOX)
+    shader
       .getProgram
       .bind
       .loadUniform("uProjectionMatrix", camera.getProjectionMatrix)
@@ -48,10 +49,7 @@ final class SkyBoxRenderer : Renderer {
       if (skyBox.getVisibility == Visibility.Visible)
         render(cast(SkyBox)skyBox);
 
-    GfxShaderGraph
-      .getDefaultShader(GfxShaderGraphDefaultType.SKYBOX)
-      .getProgram
-      .unbind;
+    shader.getProgram.unbind;
   }
 
   /**
@@ -64,8 +62,7 @@ final class SkyBoxRenderer : Renderer {
     auto model = skyBox.getModel;
 
     if (model !is null)
-      GfxShaderGraph
-        .getDefaultShader(GfxShaderGraphDefaultType.SKYBOX)
+      shader
         .getProgram
         .render(model);
     

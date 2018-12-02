@@ -14,21 +14,27 @@ import liberty.graphics.shader.impl;
 
 final class GfxShaderGraph : IGfxShaderFactory {
   private {
+    string id;
     string vertexCode;
     string fragmentCode;
 
-    GfxShaderProgram shader;
+    GfxShaderProgram program;
     string[] attributes;
     string[] uniforms;
     string[] samplers;
   }
 
-  GfxShaderProgram getProgram() pure nothrow {
-    return shader;
+  this(string id) {
+    this.id = id;
+    program = new GfxShaderProgram;
   }
 
-  this() {
-    shader = new GfxShaderProgram;
+  string getId() pure nothrow const {
+    return id;
+  }
+
+  GfxShaderProgram getProgram() pure nothrow {
+    return program;
   }
 
   typeof(this) addVertexCode(string code) pure nothrow {
@@ -52,22 +58,22 @@ final class GfxShaderGraph : IGfxShaderFactory {
   typeof(this) build() {
     fillBuffers();
 
-    shader
+    program
       .compileShaders(vertexCode, fragmentCode)
       .linkShaders;
 
     foreach (a; attributes)
-      shader.bindAttribute(a);
+      program.bindAttribute(a);
 
-    shader.bind;
+    program.bind;
 
     foreach (u; uniforms)
-      shader.addUniform(u);
+      program.addUniform(u);
 
     foreach (int i, s; samplers)
-      shader.loadUniform(s, i);
+      program.loadUniform(s, i);
 
-    shader.unbind;
+    program.unbind;
 
     return this;
   }

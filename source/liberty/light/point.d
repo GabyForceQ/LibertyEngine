@@ -80,16 +80,14 @@ final class PointLight : SceneNode {
    * Apply light to a primitive or terrain.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) applyTo(GfxShaderGraphDefaultType type)
-  in (type == GfxShaderGraphDefaultType.PRIMITIVE ||
-      type == GfxShaderGraphDefaultType.TERRAIN,
-      "You can apply light only on primitives and terrains.")
+  typeof(this) applyTo(string id)
+  in (id == "Primitive" || id == "Terrain", "You can apply light only on primitives and terrains.")
   do {
     import std.conv : to;
 
     if (index < 4) {
       GfxShaderGraph
-        .getDefaultShader(type)
+        .getShader(id)
         .getProgram
         .loadUniform("uLightPosition[" ~ index.to!string ~ "]", getTransform.getLocation)
         .loadUniform("uLightColor[" ~ index.to!string ~ "]", color)

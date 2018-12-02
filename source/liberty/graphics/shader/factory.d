@@ -8,7 +8,6 @@
 **/
 module liberty.graphics.shader.factory;
 
-import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
 
 /**
@@ -16,44 +15,47 @@ import liberty.graphics.shader.graph;
 **/
 interface IGfxShaderFactory {
   private {
-    static GfxShaderGraph[GfxShaderGraphDefaultType] defaultShaders;
+    static GfxShaderGraph[string] defaultShaders;
   }
 
   /**
    *
   **/
-  static GfxShaderGraph getDefaultShader(GfxShaderGraphDefaultType type) {
-    if (type !in defaultShaders)
-      final switch (type) with (GfxShaderGraphDefaultType) {
-        case PRIMITIVE:
+  static GfxShaderGraph getShader(string id) {
+    if (id !in defaultShaders)
+      switch (id) {
+        case "Primitive":
           // Create primitive shader
-          defaultShaders[type] = new GfxShaderGraph();
-          defaultShaders[type]
+          defaultShaders[id] = new GfxShaderGraph(id);
+          defaultShaders[id]
             .addVertexCode(mixin("q{" ~ import("shaders/primitive_vertex.glsl") ~ "}"))
             .addFragmentCode(mixin("q{" ~ import("shaders/primitive_fragment.glsl") ~ "}"))
             .build;
 
           break;
-        case TERRAIN:
+        case "SkyBox":
           // Create terrain shader
-          defaultShaders[type] = new GfxShaderGraph();
-          defaultShaders[type]
-            .addVertexCode(mixin("q{" ~ import("shaders/terrain_vertex.glsl") ~ "}"))
-            .addFragmentCode(mixin("q{" ~ import("shaders/terrain_fragment.glsl") ~ "}"))
-            .build;
-
-          break;
-        case SKYBOX:
-          // Create terrain shader
-          defaultShaders[type] = new GfxShaderGraph();
-          defaultShaders[type]
+          defaultShaders[id] = new GfxShaderGraph(id);
+          defaultShaders[id]
             .addVertexCode(mixin("q{" ~ import("shaders/skybox_vertex.glsl") ~ "}"))
             .addFragmentCode(mixin("q{" ~ import("shaders/skybox_fragment.glsl") ~ "}"))
             .build;
 
           break;
+        case "Terrain":
+          // Create terrain shader
+          defaultShaders[id] = new GfxShaderGraph(id);
+          defaultShaders[id]
+            .addVertexCode(mixin("q{" ~ import("shaders/terrain_vertex.glsl") ~ "}"))
+            .addFragmentCode(mixin("q{" ~ import("shaders/terrain_fragment.glsl") ~ "}"))
+            .build;
+
+          break;
+        default:
+          // TODO. Custom shaders.
+          break;
       }
     
-    return defaultShaders[type];
+    return defaultShaders[id];
   }
 }

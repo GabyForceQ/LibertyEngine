@@ -40,23 +40,3 @@ enum GfxShaderType : byte {
   **/
   GEOMETRY = 0x02
 }
-
-/**
- * Default shader graph type.
-**/
-enum GfxShaderGraphDefaultType : string {
-  /**
-   * Primitive shader type.
-  **/
-  PRIMITIVE = "Primitive",
-
-  /**
-   * Terrain shader type.
-  **/
-  TERRAIN = "Terrain",
-
-  /**
-   * SkyBox shader type.
-  **/
-  SKYBOX = "SkyBox"
-}

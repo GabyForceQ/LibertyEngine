@@ -9,6 +9,7 @@
 module liberty.scene.renderer;
 
 import liberty.constants;
+import liberty.graphics.shader;
 import liberty.scene.impl;
 import liberty.scene.node;
 import liberty.scene.services;
@@ -21,6 +22,7 @@ import liberty.scene.services;
 **/
 abstract class Renderer : IRenderable {
   protected {
+    GfxShaderGraph shader;
     SceneNode[string] map;
     Scene scene;
     string id;
@@ -35,10 +37,17 @@ abstract class Renderer : IRenderable {
   }
 
   /**
-   * Returns renderer id.
+   * Returns renderer's id.
   **/
   string getId() pure nothrow const {
     return id;
+  }
+
+  /**
+   * Returns renderer's shader graph.
+  **/
+  GfxShaderGraph getShaderGraph() pure nothrow {
+    return shader;
   }
 
   /**
