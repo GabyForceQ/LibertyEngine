@@ -10,7 +10,7 @@ module liberty.text.renderer;
 
 import liberty.constants;
 import liberty.scene;
-import liberty.services;
+import liberty.scene.services;
 import liberty.text.impl;
 import liberty.text.shader;
 import liberty.text.system;

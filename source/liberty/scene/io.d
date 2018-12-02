@@ -15,11 +15,11 @@ import std.string : strip;
 import core.stdc.stdio : sscanf;
 
 import liberty.scene.impl;
-import liberty.services;
-import liberty.terrain.impl;
+import liberty.scene.services;
+import liberty.framework.terrain.impl;
 import liberty.light.point;
 import liberty.material.impl;
-import liberty.primitive.impl;
+import liberty.framework.primitive.impl;
 
 /**
  * Used for input/output operations on $(D Scene) class.

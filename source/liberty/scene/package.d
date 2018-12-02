@@ -9,10 +9,12 @@
 module liberty.scene;
 
 public {
+  import liberty.scene.action;
   import liberty.scene.factory;
   import liberty.scene.impl;
   import liberty.scene.io;
   import liberty.scene.meta;
   import liberty.scene.node;
   import liberty.scene.renderer;
+  import liberty.scene.services;
 }

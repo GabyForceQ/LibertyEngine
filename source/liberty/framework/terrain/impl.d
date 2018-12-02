@@ -2,24 +2,24 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/terrain/impl.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/framework/terrain/impl.d)
  * Documentation:
  * Coverage:
  * TODO:
  *  - use texture_io to load png within a texture
  *  - setTexCoordMultiplier += -=
 **/
-module liberty.terrain.impl;
+module liberty.framework.terrain.impl;
 
 import liberty.math.functions;
 import liberty.math.vector;
 import liberty.scene.meta;
-import liberty.terrain.vertex;
+import liberty.framework.terrain.vertex;
 import liberty.material.impl;
 import liberty.model.impl;
 import liberty.model.io;
 import liberty.scene.node;
-import liberty.services;
+import liberty.scene.services;
 import liberty.image.format.bmp;
 import liberty.image.io;
 

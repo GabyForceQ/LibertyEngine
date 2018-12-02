@@ -21,9 +21,9 @@ import liberty.scene.impl;
 import liberty.surface.event;
 import liberty.surface.constants;
 import liberty.surface.widget;
-import liberty.services;
+import liberty.scene.services;
 import liberty.surface.controls;
-import liberty.action;
+import liberty.scene.action;
 
 /**
  * A surface represents a 2-dimensional view containting user interface elements.

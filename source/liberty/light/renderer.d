@@ -11,7 +11,7 @@ module liberty.light.renderer;
 import liberty.light.system;
 import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
-import liberty.services;
+import liberty.scene.services;
 import liberty.scene;
 
 /**

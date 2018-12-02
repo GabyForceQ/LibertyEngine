@@ -12,7 +12,6 @@ import liberty.image.io;
 import liberty.graphics.texture.impl;
 import liberty.graphics.texture.io;
 import liberty.logger.impl;
-import liberty.cubemap.io;
 
 /**
  *
@@ -60,7 +59,7 @@ class TextureCache {
    *
   **/
   Texture getCubeMapTexture(string[6] paths) {
-    Texture tex = CubeMapIO.loadCubeMap(paths);
+    Texture tex = TextureIO.loadCubeMap(paths);
     _textureMap[paths[0]] = tex;
     tex.setRealtivePath(paths[0]);
     return tex;

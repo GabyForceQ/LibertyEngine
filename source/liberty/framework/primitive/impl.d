@@ -2,16 +2,16 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/primitive/impl.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/framework/primitive/impl.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.primitive.impl;
+module liberty.framework.primitive.impl;
 
 import liberty.logger;
 import liberty.scene.node;
 import liberty.model.impl;
-import liberty.primitive.vertex;
+import liberty.framework.primitive.vertex;
 
 /**
  *

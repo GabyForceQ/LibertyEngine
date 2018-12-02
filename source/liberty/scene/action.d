@@ -2,13 +2,13 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/action.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/action.d)
  * Documentation:
  * Coverage:
  * TODO:
  *    - Change action priority and implement priority mechanism.
 **/
-module liberty.action;
+module liberty.scene.action;
 
 import liberty.logger.impl;
 import liberty.surface.event;

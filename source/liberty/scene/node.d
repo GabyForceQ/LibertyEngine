@@ -12,13 +12,13 @@ import liberty.constants;
 import liberty.math.transform;
 import liberty.logger;
 import liberty.core.engine;
-import liberty.services;
+import liberty.scene.services;
 import liberty.scene.impl;
-import liberty.primitive.bsp;
+import liberty.framework.primitive.bsp;
 import liberty.camera;
-import liberty.primitive.vertex;
+import liberty.framework.primitive.vertex;
 import liberty.surface.vertex;
-import liberty.terrain.vertex;
+import liberty.framework.terrain.vertex;
 
 /**
  * Represents a node in the scene tree.
@@ -117,11 +117,11 @@ abstract class SceneNode : IStartable, IUpdateable {
   **/
   typeof(this) remove(T : SceneNode)(T node) {
     import std.traits : EnumMembers;
-    import liberty.cubemap.impl : CubeMap;
+    import liberty.framework.skybox.impl : SkyBox;
     import liberty.light.point : Lighting;
-    import liberty.primitive.impl : Primitive;
+    import liberty.framework.primitive.impl : Primitive;
     import liberty.surface.impl : Surface;
-    import liberty.terrain.impl : Terrain;
+    import liberty.framework.terrain.impl : Terrain;
     import liberty.text.impl : Text;
 
     const id = node.getId();

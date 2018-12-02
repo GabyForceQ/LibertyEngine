@@ -14,8 +14,8 @@ import liberty.math.vector;
 import liberty.math.matrix;
 import liberty.scene.meta;
 import liberty.scene.node;
-import liberty.primitive.vertex;
-import liberty.terrain.vertex;
+import liberty.framework.primitive.vertex;
+import liberty.framework.terrain.vertex;
 import liberty.surface.widget;
 import liberty.core.platform;
 

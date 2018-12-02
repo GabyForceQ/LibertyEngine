@@ -15,8 +15,8 @@ import liberty.scene.meta;
 import liberty.model.impl;
 import liberty.scene.node;
 import liberty.math.functions;
-import liberty.primitive.vertex;
-import liberty.primitive.impl;
+import liberty.framework.primitive.vertex;
+import liberty.framework.primitive.impl;
 import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
 

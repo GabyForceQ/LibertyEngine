@@ -12,7 +12,7 @@ import liberty.input.impl;
 import liberty.math.vector;
 import liberty.math.matrix;
 import liberty.camera.impl;
-import liberty.terrain;
+import liberty.framework.terrain;
 import liberty.core.platform;
 import liberty.core.window;
 

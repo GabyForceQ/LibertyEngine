@@ -13,16 +13,16 @@ import liberty.math.vector;
 import liberty.camera;
 import liberty.scene.node;
 import liberty.world.impl;
-import liberty.services;
+import liberty.scene.services;
 import liberty.constants;
 import liberty.scene.renderer;
 import liberty.surface.system;
 import liberty.light.system;
-import liberty.cubemap.system;
 import liberty.text.system;
 import liberty.scene.factory;
-import liberty.primitive.renderer;
-import liberty.terrain.renderer;
+import liberty.framework.primitive.renderer;
+import liberty.framework.skybox.renderer;
+import liberty.framework.terrain.renderer;
 
 /**
  * A scene is a 3D space where you can place different objects,
@@ -54,8 +54,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     SurfaceSystem surfaceSystem;
     // getLightingSystem
     LightingSystem lightingSystem;
-    // getSkyBoxSystem
-    SkyBoxSystem skyboxSystem;
     // getTextSystem
     TextSystem textSystem;
     // getRelativePath, setRelativePath
@@ -87,10 +85,10 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     // Create renderers
     renderableMap["Primitive"] = new PrimitiveRenderer("Primitive", this);
     renderableMap["Terrain"] = new TerrainRenderer("Terrain", this);
+    renderableMap["SkyBox"] = new SkyBoxRenderer("SkyBox", this);
 
     surfaceSystem = new SurfaceSystem(this);
     lightingSystem = new LightingSystem(this);
-    skyboxSystem = new SkyBoxSystem(this);
     textSystem = new TextSystem(this);
   }
 
@@ -240,7 +238,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   **/
   void render() {
     lightingSystem.getRenderer.render;
-    skyboxSystem.getRenderer.render;
     
     foreach (node; renderableMap)
       node.render;
@@ -301,16 +298,8 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns a refetence of the cube map system.
-   * See $(D CubeMapSystem) class.
-  **/
-  SkyBoxSystem getSkyBoxSystem() pure nothrow {
-    return skyboxSystem;
-  }
-
-  /**
    * Returns a refetence of the text system.
-   * See $(D CubeMapSystem) class.
+   * See $(D TextSystem) class.
   **/
   TextSystem getTextSystem() pure nothrow {
     return textSystem;

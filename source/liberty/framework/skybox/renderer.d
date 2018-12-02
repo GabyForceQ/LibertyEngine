@@ -2,42 +2,28 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/cubemap/renderer.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/framework/skybox/renderer.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.cubemap.renderer;
+module liberty.framework.skybox.renderer;
 
 import liberty.constants;
-import liberty.cubemap.skybox;
-import liberty.cubemap.system;
 import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
+import liberty.framework.skybox.impl;
 import liberty.math.matrix;
-import liberty.scene;
-import liberty.services;
+import liberty.scene.meta;
+import liberty.scene.renderer;
 
 /**
- * Class holding basic cubeMap rendering methods.
- * It contains references to the $(D CubeMapSystem) and $(D Scene).
- * It implements $(D IRenderable) service.
+ *
 **/
-final class CubeMapRenderer : IRenderable {
-  private {
-    SkyBoxSystem system;
-    Scene scene;
-  }
+final class SkyBoxRenderer : Renderer {
+  mixin RendererConstructor;
 
   /**
-   * Create and initialize cubeMap renderer using a $(D CubeMapSystem) reference and a $(D Scene) reference.
-  **/
-  this(SkyBoxSystem system, Scene scene) {
-    this.system = system;
-    this.scene = scene;
-  }
-
-  /**
-   * Render the cubeMap to the screen.
+   * Render the sky box to the screen.
   **/
   void render() {
     auto camera = scene.getActiveCamera;
@@ -58,9 +44,9 @@ final class CubeMapRenderer : IRenderable {
       .loadUniform("uFadeUpperLimit", 30.0f)
       .loadUniform("uFogColor", scene.getWorld.getExpHeightFogColor);
 
-    foreach (cubeMap; system.getMap())
-      if (cubeMap.getVisibility == Visibility.Visible)
-        render(cubeMap);
+    foreach (skyBox; map)
+      if (skyBox.getVisibility == Visibility.Visible)
+        render(cast(SkyBox)skyBox);
 
     GfxShaderGraph
       .getDefaultShader(GfxShaderGraphDefaultType.SKYBOX)
@@ -72,10 +58,10 @@ final class CubeMapRenderer : IRenderable {
    * Render a cube map node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) render(SkyBox cubemap)
-  in (cubemap !is null, "You cannot render a null cubemap.")
+  typeof(this) render(SkyBox skyBox)
+  in (skyBox !is null, "You cannot render a null sky box.")
   do {
-    auto model = cubemap.getModel;
+    auto model = skyBox.getModel;
 
     if (model !is null)
       GfxShaderGraph

@@ -11,7 +11,7 @@ module liberty.scene.renderer;
 import liberty.constants;
 import liberty.scene.impl;
 import liberty.scene.node;
-import liberty.services;
+import liberty.scene.services;
 
 /**
  * Renderer class holding basic rendering functionality.

@@ -2,16 +2,16 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/primitive/renderer.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/framework/primitive/renderer.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.primitive.renderer;
+module liberty.framework.primitive.renderer;
 
 import liberty.constants;
 import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
-import liberty.primitive.impl;
+import liberty.framework.primitive.impl;
 import liberty.scene.meta;
 import liberty.scene.renderer;
 
