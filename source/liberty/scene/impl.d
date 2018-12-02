@@ -16,13 +16,13 @@ import liberty.world.impl;
 import liberty.services;
 import liberty.constants;
 import liberty.scene.renderer;
-import liberty.terrain.system;
 import liberty.surface.system;
 import liberty.light.system;
 import liberty.cubemap.system;
 import liberty.text.system;
 import liberty.scene.factory;
 import liberty.primitive.renderer;
+import liberty.terrain.renderer;
 
 /**
  * A scene is a 3D space where you can place different objects,
@@ -50,10 +50,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     // getUpdateableMap
     IUpdateable[string] updateableMap;
 
-    
-
-    // getTerrainSystem
-    TerrainSystem terrainSystem;
     // getSurfaceSystem
     SurfaceSystem surfaceSystem;
     // getLightingSystem
@@ -89,9 +85,9 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     activeCamera = tree.spawn!Camera("DefaultCamera");
 
     // Create renderers
-    renderableMap[RendererType.Primitive] = new PrimitiveRenderer(this);
+    renderableMap["Primitive"] = new PrimitiveRenderer("Primitive", this);
+    renderableMap["Terrain"] = new TerrainRenderer("Terrain", this);
 
-    terrainSystem = new TerrainSystem(this);
     surfaceSystem = new SurfaceSystem(this);
     lightingSystem = new LightingSystem(this);
     skyboxSystem = new SkyBoxSystem(this);
@@ -245,7 +241,6 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   void render() {
     lightingSystem.getRenderer.render;
     skyboxSystem.getRenderer.render;
-    terrainSystem.getRenderer.render;
     
     foreach (node; renderableMap)
       node.render;
@@ -281,20 +276,13 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns a system by its type.
+   * Returns renderer by its id.
    * See $(D System) class.
   **/
-  //System!T getSystemByType(T)(SystemType type) pure nothrow {
-  //  return systems[type];
-  //}
-
-  /**
-   * Returns a refetence of the terrain system.
-   * See $(D TerrainSystem) class.
-  **/
-  TerrainSystem getTerrainSystem() pure nothrow {
-    return terrainSystem;
+  Renderer getRendererById(string id) pure nothrow {
+    return cast(Renderer)renderableMap[id];
   }
+
 
   /**
    * Returns a refetence of the surface system.

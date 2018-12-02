@@ -23,13 +23,22 @@ abstract class Renderer : IRenderable {
   protected {
     SceneNode[string] map;
     Scene scene;
+    string id;
   }
 
   /**
    * Create and initialize renderer using a $(D Scene) reference.
   **/
-  protected this(Scene scene) {
+  protected this(string id, Scene scene) {
+    this.id = id;
     this.scene = scene;
+  }
+
+  /**
+   * Returns renderer id.
+  **/
+  string getId() pure nothrow const {
+    return id;
   }
 
   /**

@@ -11,29 +11,17 @@ module liberty.terrain.renderer;
 import liberty.constants;
 import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
-import liberty.services;
-import liberty.scene;
 import liberty.terrain.impl;
-import liberty.terrain.system;
+import liberty.scene.meta;
+import liberty.scene.renderer;
 
 /**
  * Class holding basic terrain rendering methods.
  * It contains references to the $(D TerrainSystem) and $(D Scene).
  * It implements $(D IRenderable) service.
 **/
-final class TerrainRenderer : IRenderable {
-  private {
-    TerrainSystem system;
-    Scene scene;
-  }
-
-  /**
-   * Create and initialize terrain renderer using a $(D TerrainSystem) reference and a $(D Scene) reference.
-  **/
-  this(TerrainSystem system, Scene scene) {
-    this.system = system;
-    this.scene = scene;
-  }
+final class TerrainRenderer : Renderer {
+  mixin RendererConstructor;
 
   /**
    * Render all terrain elements to the screen.
@@ -49,9 +37,9 @@ final class TerrainRenderer : IRenderable {
       .loadUniform("uViewMatrix", camera.getViewMatrix)
       .loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
     
-    foreach (terrain; system.getMap)
+    foreach (terrain; map)
       if (terrain.getVisibility == Visibility.Visible)
-        render(terrain);
+        render(cast(Terrain)terrain);
 
     GfxShaderGraph
       .getDefaultShader(GfxShaderGraphDefaultType.TERRAIN)

@@ -36,17 +36,17 @@ abstract class SceneIO : ISerializable {
 
     file.writeln("id: " ~ scene.getId);
 
-    //foreach (node; scene.getSystemByType!Primitive("Primitive").getMap) {
-    //  file.writeln(
-    //    "Primitive: { " ~
-    //      "id: " ~ node.getId ~
-    //      "transform: [ " ~
-    //        "location: " ~ node.getTransform.getAbsoluteLocation.toString ~ 
-    //    " ] }"
-    //  );
-    //}
+    foreach (Primitive node; cast(Primitive[string])scene.getRendererById("Primitive").getMap) {
+      file.writeln(
+        "Primitive: { " ~
+          "id: " ~ node.getId ~
+          "transform: [ " ~
+            "location: " ~ node.getTransform.getAbsoluteLocation.toString ~ 
+        " ] }"
+      );
+    }
 
-    foreach (node; scene.getTerrainSystem.getMap) {
+    foreach (Terrain node; cast(Terrain[string])scene.getRendererById("Terrain").getMap) {
       file.writeln(
         "Terrain: { " ~
           "id: " ~ node.getId ~

@@ -31,6 +31,8 @@ mixin template NodeConstructor(string code = "") {
     import liberty.surface.impl : Surface;
     import liberty.terrain.impl : Terrain;
     import liberty.text.impl : Text;
+    import liberty.primitive.renderer : PrimitiveRenderer;
+    import liberty.terrain.renderer : TerrainRenderer;
 
     if (parent is null)
       assert(0, "Parent object cannot be null");
@@ -58,10 +60,9 @@ mixin template NodeConstructor(string code = "") {
     }
 
     static foreach (sys; EnumMembers!RendererType) // TODO. only first if
-      static if (mixin("is(typeof(this) : " ~ sys ~ ")") && sys != "Primitive")
+      static if (mixin("is(typeof(this) : " ~ sys ~ ")") && sys != "Primitive" && sys != "Terrain")
         mixin("getScene.get" ~ sys ~ "System.registerElement(this);");
-      else static if (mixin("is(typeof(this) : " ~ sys ~ ")") && sys == "Primitive") {
-        import liberty.primitive.renderer : PrimitiveRenderer;
+      else static if (mixin("is(typeof(this) : " ~ sys ~ ")") && (sys == "Primitive" || sys == "Terrain")) {
         mixin("(cast(" ~ sys ~ "Renderer)getScene.renderableMap[\"" ~ sys ~ "\"]).registerElement(this);");
       }
   }
@@ -74,6 +75,18 @@ mixin template NodeConstructor(string code = "") {
 **/
 mixin template NodeDestructor(string code) {
   ~this() {
+    mixin(code);
+  }
+}
+
+/**
+ *
+**/
+mixin template RendererConstructor(string code = "") {
+  import liberty.scene.impl : Scene;
+  
+  this(string id, Scene scene) {
+    super(id, scene);
     mixin(code);
   }
 }

@@ -11,6 +11,5 @@ module liberty.terrain;
 public {
   import liberty.terrain.impl;
   import liberty.terrain.renderer;
-  import liberty.terrain.system;
   import liberty.terrain.vertex;
 }

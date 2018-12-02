@@ -11,21 +11,15 @@ module liberty.primitive.renderer;
 import liberty.constants;
 import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
-import liberty.scene;
 import liberty.primitive.impl;
-
+import liberty.scene.meta;
 import liberty.scene.renderer;
 
 /**
  * System class holding basic primitive rendering functionality.
 **/
 final class PrimitiveRenderer : Renderer {
-  /**
-   *
-  **/
-  this(Scene scene) {
-    super(scene);
-  }
+  mixin RendererConstructor;
 
   /**
    * Render all primitive elements to the screen.
