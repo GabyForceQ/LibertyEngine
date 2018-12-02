@@ -8,7 +8,6 @@
 **/
 module liberty.text.renderer;
 
-import liberty.constants;
 import liberty.scene;
 import liberty.scene.services;
 import liberty.text.impl;

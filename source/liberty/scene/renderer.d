@@ -8,7 +8,6 @@
 **/
 module liberty.scene.renderer;
 
-import liberty.constants;
 import liberty.graphics.shader;
 import liberty.scene.impl;
 import liberty.scene.node;

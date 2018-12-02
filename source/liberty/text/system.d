@@ -8,7 +8,6 @@
 **/
 module liberty.text.system;
 
-import liberty.constants;
 import liberty.text.impl;
 import liberty.text.renderer;
 import liberty.text.shader;

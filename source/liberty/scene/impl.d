@@ -9,7 +9,6 @@
 module liberty.scene.impl;
 
 import liberty.camera;
-import liberty.constants;
 import liberty.core.engine;
 import liberty.framework.light.renderer;
 import liberty.framework.primitive.renderer;
