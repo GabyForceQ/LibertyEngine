@@ -17,8 +17,8 @@ import liberty.scene.node;
 import liberty.math.functions;
 import liberty.primitive.vertex;
 import liberty.primitive.impl;
-import liberty.primitive.shader;
 import liberty.terrain.shader;
+import liberty.graphics.shader.graph;
 
 alias Lighting = PointLight;
 
@@ -80,14 +80,18 @@ final class PointLight : SceneNode {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) applyToPrimitiveMap(PrimitiveShader shader) {
+  typeof(this) applyToPrimitiveMap() {
+    import std.conv : to;
+
     if (index < 4) {
-      shader
-        .loadLightPosition(index, getTransform().getLocation())
-        .loadLightColor(index, color)
-        .loadLightAttenuation(index, attenuation)
-        .loadShineDamper(1.0f)
-        .loadReflectivity(0.0f);
+      GfxShaderGraph
+        .getDefaultShader("primitive")
+        .getProgram
+        .loadUniform("uLightPosition[" ~ index.to!string ~ "]", getTransform().getLocation())
+        .loadUniform("uLightColor[" ~ index.to!string ~ "]", color)
+        .loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation)
+        .loadUniform("uShineDamper", 1.0f)
+        .loadUniform("uReflectivity", 0.0f);
     } else
       Logger.warning("GfxEngine can't render more than 4 lights.", typeof(this).stringof);
 

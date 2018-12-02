@@ -14,7 +14,7 @@ import liberty.graphics.shader;
 /**
  *
 **/
-final class TextShader : GfxShader {
+final class TextShader : GfxShaderProgram {
   private {
     static immutable FONT_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;

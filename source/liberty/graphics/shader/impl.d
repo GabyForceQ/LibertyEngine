@@ -13,6 +13,7 @@ version (__OPENGL__)
 
 import liberty.core.engine;
 import liberty.graphics.shader.constants;
+import liberty.graphics.shader.factory;
 import liberty.graphics.shader.renderer;
 import liberty.logger.impl;
 import liberty.math.vector;
@@ -22,7 +23,7 @@ import liberty.math.matrix;
  * Base shader class.
  * It inherits $(D GfxShaderRenderer) service.
 **/
-abstract class GfxShader : GfxShaderRenderer {
+class GfxShaderProgram : GfxShaderRenderer {
   private {
     uint programID;
     uint vertexShaderID;
@@ -63,7 +64,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Bind a shader attribute into video memory.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R bindAttribute(this R)(string name) {
+  R bindAttribute(this R)(string name) {
     import std.string : toStringz;
 
     version (__OPENGL__)
@@ -76,7 +77,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Compile vertex and fragment shader using its code.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R compileShaders(this R)(string vertexShader, string fragmentShader) {
+  R compileShaders(this R)(string vertexShader, string fragmentShader) {
     // Create program
     version (__OPENGL__)
       this.programID = glCreateProgram();
@@ -92,7 +93,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Link shaders into video memory.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R linkShaders(this R)() {
+  R linkShaders(this R)() {
     version (__OPENGL__) {
       // Attach shaders to program
       glAttachShader(this.programID, this.vertexShaderID);
@@ -138,7 +139,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Add a new shader uniform to the uniforms map using its name.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R addUniform(this R)(string name) {
+  R addUniform(this R)(string name) {
     import std.string : toStringz;
     
     version (__OPENGL__) {
@@ -159,7 +160,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load a bool uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(int locationID, bool value) nothrow {
+  R loadUniform(this R)(int locationID, bool value) nothrow {
     version (__OPENGL__)
       glUniform1i(locationID, cast(int)value);
 
@@ -170,7 +171,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load an int uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(int locationID, int value) nothrow {
+  R loadUniform(this R)(int locationID, int value) nothrow {
     version (__OPENGL__)
       glUniform1i(locationID, value);
 
@@ -181,7 +182,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load an uint uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(int locationID, uint value) nothrow {
+  R loadUniform(this R)(int locationID, uint value) nothrow {
     version (__OPENGL__)
       glUniform1ui(locationID, value);
 
@@ -192,7 +193,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load a float uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(int locationID, float value) nothrow {
+  R loadUniform(this R)(int locationID, float value) nothrow {
     version (__OPENGL__)
       glUniform1f(locationID, value);
 
@@ -203,7 +204,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load a vec2 uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(int locationID, Vector2F vector) nothrow {
+  R loadUniform(this R)(int locationID, Vector2F vector) nothrow {
     version (__OPENGL__)
       glUniform2f(locationID, vector.x, vector.y);
 
@@ -214,7 +215,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load vec3 uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(int locationID, Vector3F vector) nothrow {
+  R loadUniform(this R)(int locationID, Vector3F vector) nothrow {
     version (__OPENGL__)
       glUniform3f(locationID, vector.x, vector.y, vector.z);
 
@@ -225,7 +226,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load vec4 uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(int locationID, Vector4F vector) nothrow {
+  R loadUniform(this R)(int locationID, Vector4F vector) nothrow {
     version (__OPENGL__)
       glUniform4f(locationID, vector.x, vector.y, vector.z, vector.w);
     
@@ -236,7 +237,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load Matrix4F uniform using location id and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(int locationID, Matrix4F matrix) nothrow {
+  R loadUniform(this R)(int locationID, Matrix4F matrix) nothrow {
     version (__OPENGL__)
       glUniformMatrix4fv(locationID, 1, GL_TRUE, matrix.ptr);
     
@@ -247,7 +248,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load bool uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(string name, bool value) nothrow {
+  R loadUniform(this R)(string name, bool value) nothrow {
     version (__OPENGL__)
       glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), cast(int)value);
     
@@ -258,7 +259,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load int uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(string name, int value) nothrow {
+  R loadUniform(this R)(string name, int value) nothrow {
     version (__OPENGL__)
       glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
     
@@ -269,9 +270,9 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load uint uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(string name, uint value) nothrow {
+  R loadUniform(this R)(string name, uint value) nothrow {
     version (__OPENGL__)
-      glUniform1ui(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
+      glUniform1ui(glGetUniformLocation(programID, cast(const(char)*)name), value);
     
     return cast(R)this;
   }
@@ -280,9 +281,9 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load float uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(string name, float value) nothrow {
+  R loadUniform(this R)(string name, float value) nothrow {
     version (__OPENGL__)
-      glUniform1f(this.uniforms[name], value);
+      glUniform1f(uniforms[name], value);
     
     return cast(R)this;
   }
@@ -291,7 +292,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load Vector2F uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(string name, Vector2F vector) nothrow {
+  R loadUniform(this R)(string name, Vector2F vector) nothrow {
     version (__OPENGL__)
       glUniform2f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y);
     
@@ -302,7 +303,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load Vector3F uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(string name, Vector3F vector) nothrow {
+  R loadUniform(this R)(string name, Vector3F vector) nothrow {
     version (__OPENGL__)
       glUniform3f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z);
     
@@ -313,7 +314,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load Vector4F uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(string name, Vector4F vector) nothrow {
+  R loadUniform(this R)(string name, Vector4F vector) nothrow {
     version (__OPENGL__)
       glUniform4f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z, vector.w);
     
@@ -324,7 +325,7 @@ abstract class GfxShader : GfxShaderRenderer {
    * Load Matrix4F uniform using uniform name and value.
    * Returns reference to this so it can be used in a stream.
   **/
-  protected R loadUniform(this R)(string name, Matrix4F matrix) nothrow {
+  R loadUniform(this R)(string name, Matrix4F matrix) nothrow {
     version (__OPENGL__)
       glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
     

@@ -14,7 +14,7 @@ import liberty.graphics.shader;
 /**
  *
 **/
-final class SurfaceShader : GfxShader {
+final class SurfaceShader : GfxShaderProgram {
   private {
     static immutable UI_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;

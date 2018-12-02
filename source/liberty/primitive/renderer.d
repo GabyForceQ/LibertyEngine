@@ -9,6 +9,7 @@
 module liberty.primitive.renderer;
 
 import liberty.constants;
+import liberty.graphics.shader.graph;
 import liberty.primitive.impl;
 import liberty.primitive.system;
 import liberty.services;
@@ -39,18 +40,22 @@ final class PrimitiveRenderer : IRenderable {
   void render() {
     auto camera = scene.getActiveCamera;
 
-    system
-      .getShader
+    GfxShaderGraph
+      .getDefaultShader("primitive")
+      .getProgram
       .bind
-      .loadProjectionMatrix(camera.getProjectionMatrix)
-      .loadViewMatrix(camera.getViewMatrix)
-      .loadSkyColor(scene.getWorld.getExpHeightFogColor);
+      .loadUniform("uProjectionMatrix", camera.getProjectionMatrix)
+      .loadUniform("uViewMatrix", camera.getViewMatrix)
+      .loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
     
     foreach (primitive; system.getMap)
       if (primitive.getVisibility == Visibility.Visible)
         render(primitive);
 
-    system.getShader.unbind;
+    GfxShaderGraph
+      .getDefaultShader("primitive")
+      .getProgram
+      .unbind;
   }
 
   /**
@@ -63,10 +68,11 @@ final class PrimitiveRenderer : IRenderable {
     auto model = primitive.getModel;
 
     if (model !is null)
-      system
-        .getShader
-        .loadModelMatrix(primitive.getTransform.getModelMatrix)
-        .loadUseFakeLighting(model.isFakeLightingEnabled)
+      GfxShaderGraph
+        .getDefaultShader("primitive")
+        .getProgram
+        .loadUniform("uModelMatrix", primitive.getTransform.getModelMatrix)
+        .loadUniform("uUseFakeLighting", model.isFakeLightingEnabled)
         .render(model);
     
     return this;

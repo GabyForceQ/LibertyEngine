@@ -15,7 +15,7 @@ import liberty.math.vector;
 /**
  *
 **/
-final class CubeMapShader : GfxShader {
+final class CubeMapShader : GfxShaderProgram {
   private {
     static immutable CUBEMAP_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;

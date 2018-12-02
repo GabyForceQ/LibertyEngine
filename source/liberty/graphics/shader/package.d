@@ -10,6 +10,8 @@ module liberty.graphics.shader;
 
 public {
   import liberty.graphics.shader.constants;
+  import liberty.graphics.shader.factory;
+  import liberty.graphics.shader.graph;
   import liberty.graphics.shader.impl;
   import liberty.graphics.shader.renderer;
 }

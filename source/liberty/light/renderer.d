@@ -9,6 +9,7 @@
 module liberty.light.renderer;
 
 import liberty.light.system;
+import liberty.graphics.shader.graph;
 import liberty.services;
 import liberty.scene;
 
@@ -56,23 +57,19 @@ final class LightingRenderer : IRenderable {
       .unbind;
     
     // Bind primitive shader
-    scene
-      .getPrimitiveSystem
-      .getShader
+    GfxShaderGraph
+      .getDefaultShader("primitive")
+      .getProgram
       .bind;
 
     // Apply lights to primitives
     foreach (light; system.getMap)
-      light.applyToPrimitiveMap(
-        scene
-          .getPrimitiveSystem
-          .getShader
-      );
+      light.applyToPrimitiveMap;
 
     // Unbind primitive shader
-    scene
-      .getPrimitiveSystem
-      .getShader
+    GfxShaderGraph
+      .getDefaultShader("primitive")
+      .getProgram
       .unbind;
   }
 }

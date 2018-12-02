@@ -10,7 +10,6 @@ module liberty.primitive.system;
 
 import liberty.constants;
 import liberty.scene;
-import liberty.primitive.shader;
 import liberty.primitive.renderer;
 import liberty.primitive.impl;
 
@@ -22,7 +21,6 @@ import liberty.primitive.impl;
 final class PrimitiveSystem {
   private {
     PrimitiveRenderer renderer;
-    PrimitiveShader shader;
     Primitive[string] map;
     Scene scene;
   }
@@ -32,7 +30,6 @@ final class PrimitiveSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    shader = new PrimitiveShader;
     renderer = new PrimitiveRenderer(this, scene);
   }
 
@@ -82,13 +79,6 @@ final class PrimitiveSystem {
   **/
   PrimitiveRenderer getRenderer() pure nothrow {
     return renderer;
-  }
-
-  /**
-   * Returns a primitive shader reference.
-  **/
-  PrimitiveShader getShader() pure nothrow {
-    return shader;
   }
 
   /**

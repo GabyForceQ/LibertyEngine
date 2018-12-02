@@ -17,7 +17,7 @@ import liberty.graphics.shader;
 /**
  *
 **/
-final class TerrainShader : GfxShader {
+final class TerrainShader : GfxShaderProgram {
   private {
     static immutable TERRAIN_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;

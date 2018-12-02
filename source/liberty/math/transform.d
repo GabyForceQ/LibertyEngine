@@ -331,15 +331,12 @@ final class Transform(byte N) if (N == 2 || N == 3) {
     mixin("tempModelMatrix.c[0][0] " ~ op ~ " rotation.c[0][0];");
     mixin("tempModelMatrix.c[0][1] " ~ op ~ " rotation.c[0][1];");
     mixin("tempModelMatrix.c[0][2] " ~ op ~ " rotation.c[0][2];");
-
     mixin("tempModelMatrix.c[1][0] " ~ op ~ " rotation.c[1][0];");
     mixin("tempModelMatrix.c[1][1] " ~ op ~ " rotation.c[1][1];");
     mixin("tempModelMatrix.c[1][2] " ~ op ~ " rotation.c[1][2];");
-
     mixin("tempModelMatrix.c[2][0] " ~ op ~ " rotation.c[2][0];");
     mixin("tempModelMatrix.c[2][1] " ~ op ~ " rotation.c[2][1];");
     mixin("tempModelMatrix.c[2][2] " ~ op ~ " rotation.c[2][2];");
-
     // Set rotation to the current object children too
     foreach (child; parent.getChildMap())
       child.getTransform().setAbsoluteRotation!op(rotation);
