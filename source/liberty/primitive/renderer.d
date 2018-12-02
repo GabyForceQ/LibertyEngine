@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/primitive/system.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/primitive/renderer.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.primitive.system;
+module liberty.primitive.renderer;
 
 import liberty.constants;
 import liberty.graphics.shader.constants;
@@ -19,7 +19,7 @@ import liberty.scene.renderer;
 /**
  * System class holding basic primitive rendering functionality.
 **/
-final class PrimitiveSystem : Renderer {
+final class PrimitiveRenderer : Renderer {
   /**
    *
   **/

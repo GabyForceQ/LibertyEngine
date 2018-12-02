@@ -22,7 +22,7 @@ import liberty.light.system;
 import liberty.cubemap.system;
 import liberty.text.system;
 import liberty.scene.factory;
-import liberty.primitive.system;
+import liberty.primitive.renderer;
 
 /**
  * A scene is a 3D space where you can place different objects,
@@ -89,7 +89,7 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     activeCamera = tree.spawn!Camera("DefaultCamera");
 
     // Create renderers
-    renderableMap[RendererType.Primitive] = new PrimitiveSystem(this);
+    renderableMap[RendererType.Primitive] = new PrimitiveRenderer(this);
 
     terrainSystem = new TerrainSystem(this);
     surfaceSystem = new SurfaceSystem(this);

@@ -61,8 +61,8 @@ mixin template NodeConstructor(string code = "") {
       static if (mixin("is(typeof(this) : " ~ sys ~ ")") && sys != "Primitive")
         mixin("getScene.get" ~ sys ~ "System.registerElement(this);");
       else static if (mixin("is(typeof(this) : " ~ sys ~ ")") && sys == "Primitive") {
-        import liberty.primitive.system;
-        mixin("(cast(" ~ sys ~ "System)getScene.renderableMap[\"" ~ sys ~ "\"]).registerElement(this);");
+        import liberty.primitive.renderer : PrimitiveRenderer;
+        mixin("(cast(" ~ sys ~ "Renderer)getScene.renderableMap[\"" ~ sys ~ "\"]).registerElement(this);");
       }
   }
 }
