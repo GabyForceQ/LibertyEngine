@@ -24,7 +24,7 @@ mixin template NodeConstructor(string code = "") {
   this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
     import std.traits : hasUDA, EnumMembers;
     import std.string : capitalize;
-    import liberty.constants : SystemType;
+    import liberty.constants : RendererType;
     import liberty.cubemap.skybox : SkyBox;
     import liberty.light.point : Lighting;
     import liberty.primitive.impl : Primitive;
@@ -57,9 +57,13 @@ mixin template NodeConstructor(string code = "") {
       }
     }
 
-    static foreach (sys; EnumMembers!SystemType)
-      static if (mixin("is(typeof(this) : " ~ sys ~ ")"))
+    static foreach (sys; EnumMembers!RendererType) // TODO. only first if
+      static if (mixin("is(typeof(this) : " ~ sys ~ ")") && sys != "Primitive")
         mixin("getScene.get" ~ sys ~ "System.registerElement(this);");
+      else static if (mixin("is(typeof(this) : " ~ sys ~ ")") && sys == "Primitive") {
+        import liberty.primitive.system;
+        mixin("(cast(" ~ sys ~ "System)getScene.renderableMap[\"" ~ sys ~ "\"]).registerElement(this);");
+      }
   }
 }
 

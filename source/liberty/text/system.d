@@ -90,12 +90,4 @@ final class TextSystem {
   TextShader getShader() pure nothrow {
     return shader;
   }
-
-  /**
-   * Returns the type of the system which is always SystemType.Text.
-   * See $(D SystemType) enumeration.
-  **/
-  static SystemType getType() pure nothrow {
-    return SystemType.Text;
-  }
 }

@@ -19,6 +19,7 @@ import liberty.services;
 import liberty.terrain.impl;
 import liberty.light.point;
 import liberty.material.impl;
+import liberty.primitive.impl;
 
 /**
  * Used for input/output operations on $(D Scene) class.
@@ -35,15 +36,15 @@ abstract class SceneIO : ISerializable {
 
     file.writeln("id: " ~ scene.getId);
 
-    foreach (node; scene.getPrimitiveSystem.getMap) {
-      file.writeln(
-        "Primitive: { " ~
-          "id: " ~ node.getId ~
-          "transform: [ " ~
-            "location: " ~ node.getTransform.getAbsoluteLocation.toString ~ 
-        " ] }"
-      );
-    }
+    //foreach (node; scene.getSystemByType!Primitive("Primitive").getMap) {
+    //  file.writeln(
+    //    "Primitive: { " ~
+    //      "id: " ~ node.getId ~
+    //      "transform: [ " ~
+    //        "location: " ~ node.getTransform.getAbsoluteLocation.toString ~ 
+    //    " ] }"
+    //  );
+    //}
 
     foreach (node; scene.getTerrainSystem.getMap) {
       file.writeln(

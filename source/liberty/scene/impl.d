@@ -14,13 +14,15 @@ import liberty.camera;
 import liberty.scene.node;
 import liberty.world.impl;
 import liberty.services;
-import liberty.primitive.system;
+import liberty.constants;
+import liberty.scene.renderer;
 import liberty.terrain.system;
 import liberty.surface.system;
 import liberty.light.system;
 import liberty.cubemap.system;
 import liberty.text.system;
 import liberty.scene.factory;
+import liberty.primitive.system;
 
 /**
  * A scene is a 3D space where you can place different objects,
@@ -47,8 +49,9 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     IStartable[string] startableMap;
     // getUpdateableMap
     IUpdateable[string] updateableMap;
-    // getPrimitiveSystem
-    PrimitiveSystem primitiveSystem;
+
+    
+
     // getTerrainSystem
     TerrainSystem terrainSystem;
     // getSurfaceSystem
@@ -62,6 +65,9 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     // getRelativePath, setRelativePath
     string relativePath;
   }
+
+  // getSystemByType
+  IRenderable[string] renderableMap;
 
   package {
     // It is necessary to modify it in SceneSerializer class
@@ -82,8 +88,9 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     world = new World;
     activeCamera = tree.spawn!Camera("DefaultCamera");
 
-    // Create systems
-    primitiveSystem = new PrimitiveSystem(this);
+    // Create renderers
+    renderableMap[RendererType.Primitive] = new PrimitiveSystem(this);
+
     terrainSystem = new TerrainSystem(this);
     surfaceSystem = new SurfaceSystem(this);
     lightingSystem = new LightingSystem(this);
@@ -239,7 +246,10 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     lightingSystem.getRenderer.render;
     skyboxSystem.getRenderer.render;
     terrainSystem.getRenderer.render;
-    primitiveSystem.getRenderer.render;
+    
+    foreach (node; renderableMap)
+      node.render;
+    
     surfaceSystem.getRenderer.render;
     textSystem.getRenderer.render;
   }
@@ -271,12 +281,12 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   }
 
   /**
-   * Returns a refetence of the primitive system.
-   * See $(D PrimitiveSystem) class.
+   * Returns a system by its type.
+   * See $(D System) class.
   **/
-  PrimitiveSystem getPrimitiveSystem() pure nothrow {
-    return primitiveSystem;
-  }
+  //System!T getSystemByType(T)(SystemType type) pure nothrow {
+  //  return systems[type];
+  //}
 
   /**
    * Returns a refetence of the terrain system.

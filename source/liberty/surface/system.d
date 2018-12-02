@@ -90,12 +90,4 @@ final class SurfaceSystem {
   SurfaceShader getShader() pure nothrow {
     return shader;
   }
-
-  /**
-   * Returns the type of the system which is always SystemType.Surface.
-   * See $(D SystemType) enumeration.
-  **/
-  static SystemType getType() pure nothrow {
-    return SystemType.Surface;
-  }
 }

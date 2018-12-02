@@ -9,83 +9,65 @@
 module liberty.primitive.system;
 
 import liberty.constants;
+import liberty.graphics.shader.constants;
+import liberty.graphics.shader.graph;
 import liberty.scene;
-import liberty.primitive.renderer;
 import liberty.primitive.impl;
 
-/**
- * System class holding basic primitive functionality.
- * It contains references to the $(D PrimitiveRenderer), $(D PrimitiveShader) and $(D Scene).
- * It also contains a map with all primitives in the current scene.
-**/
-final class PrimitiveSystem {
-  private {
-    PrimitiveRenderer renderer;
-    Primitive[string] map;
-    Scene scene;
-  }
+import liberty.scene.renderer;
 
+/**
+ * System class holding basic primitive rendering functionality.
+**/
+final class PrimitiveSystem : Renderer {
   /**
-   * Create and initialize primitive system using a $(D Scene) reference.
+   *
   **/
   this(Scene scene) {
-    this.scene = scene;
-    renderer = new PrimitiveRenderer(this, scene);
+    super(scene);
   }
 
   /**
-   * Register a primitive node to the primitive system.
+   * Render all primitive elements to the screen.
+  **/
+  void render() {
+    auto camera = scene.getActiveCamera;
+
+    GfxShaderGraph
+      .getDefaultShader(GfxShaderGraphDefaultType.PRIMITIVE)
+      .getProgram
+      .bind
+      .loadUniform("uProjectionMatrix", camera.getProjectionMatrix)
+      .loadUniform("uViewMatrix", camera.getViewMatrix)
+      .loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
+    
+    foreach (primitive; map)
+      if (primitive.getVisibility == Visibility.Visible)
+        render(cast(Primitive)primitive);
+
+    GfxShaderGraph
+      .getDefaultShader(GfxShaderGraphDefaultType.PRIMITIVE)
+      .getProgram
+      .unbind;
+  }
+
+  /**
+   * Render a primitive node by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) registerElement(Primitive node) pure nothrow {
-    map[node.getId] = node;
+  typeof(this) render(Primitive primitive) 
+  in (primitive !is null, "You cannot render a null primitive.")
+  do {
+    auto model = primitive.getModel;
+
+    if (model !is null)
+      GfxShaderGraph
+        .getDefaultShader(GfxShaderGraphDefaultType.PRIMITIVE)
+        .getProgram
+        .loadUniform("uModelMatrix", primitive.getTransform.getModelMatrix)
+        .loadUniform("uUseFakeLighting", model.isFakeLightingEnabled)
+        .render(model);
+    
     return this;
-  }
-
-  /**
-   * Remove the given primitive node from the primitive map.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  typeof(this) removeElement(Primitive node) pure nothrow {
-    map.remove(node.getId);
-    return this;
-  }
-
-  /**
-   * Remove the primitive node that has the given id from the primitive map.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  typeof(this) removeElementById(string id) pure nothrow {
-    map.remove(id);
-    return this;
-  }
-
-  /**
-   * Returns all elements in the primitive map.
-  **/
-  Primitive[string] getMap() pure nothrow {
-    return map;
-  }
-
-  /**
-   * Returns the primitive element in the map that has the given id.
-  **/
-  Primitive getElementById(string id) pure nothrow {
-    return map[id];
-  }
-
-  /**
-   * Returns a primitive renderer reference.
-  **/
-  PrimitiveRenderer getRenderer() pure nothrow {
-    return renderer;
-  }
-
-  /**
-   * Returns the type of the system which is always SystemType.Primitive.
-   * See $(D SystemType) enumeration.
-  **/
-  static SystemType getType() pure nothrow {
-    return SystemType.Primitive;
   }
 }

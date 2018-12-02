@@ -11,7 +11,7 @@ module liberty.constants;
 /**
  * All system types.
 **/
-enum SystemType : string {
+enum RendererType : string {
   /**
    * See $(D PrimitiveSystem) class.
   **/

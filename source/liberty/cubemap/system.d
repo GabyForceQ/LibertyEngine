@@ -80,12 +80,4 @@ final class SkyBoxSystem {
   CubeMapRenderer getRenderer() pure nothrow {
     return renderer;
   }
-
-  /**
-   * Returns the type of the system which is always SystemType.CubeMap.
-   * See $(D SystemType) enumeration.
-  **/
-  static SystemType getType() pure nothrow {
-    return SystemType.SkyBox;
-  }
 }

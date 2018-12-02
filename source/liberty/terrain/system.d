@@ -80,12 +80,4 @@ final class TerrainSystem {
   TerrainRenderer getRenderer() pure nothrow {
     return renderer;
   }
-
-  /**
-   * Returns the type of the system which is always SystemType.Terrain.
-   * See $(D SystemType) enumeration.
-  **/
-  static SystemType getType() pure nothrow {
-    return SystemType.Terrain;
-  }
 }
