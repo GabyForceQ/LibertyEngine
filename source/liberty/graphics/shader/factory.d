@@ -8,6 +8,7 @@
 **/
 module liberty.graphics.shader.factory;
 
+import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
 
 /**
@@ -15,26 +16,34 @@ import liberty.graphics.shader.graph;
 **/
 interface IGfxShaderFactory {
   private {
-    static GfxShaderGraph[string] defaultShaders;
+    static GfxShaderGraph[GfxShaderGraphDefaultType] defaultShaders;
   }
 
   /**
    *
   **/
-  static GfxShaderGraph getDefaultShader(string id)
-  in (id == "primitive")
+  static GfxShaderGraph getDefaultShader(GfxShaderGraphDefaultType type)
+  in (type == GfxShaderGraphDefaultType.PRIMITIVE ||
+      type == GfxShaderGraphDefaultType.TERRAIN)
   do {
-    if (id !in defaultShaders) {
-      if (id == "primitive") {
-        // Create shader
-        defaultShaders[id] = new GfxShaderGraph();
-        defaultShaders[id]
+    if (type !in defaultShaders) {
+      if (type == GfxShaderGraphDefaultType.PRIMITIVE) {
+        // Create primitive shader
+        defaultShaders[type] = new GfxShaderGraph();
+        defaultShaders[type]
           .addVertexCode(mixin("q{" ~ import("shaders/primitive_vertex.glsl") ~ "}"))
           .addFragmentCode(mixin("q{" ~ import("shaders/primitive_fragment.glsl") ~ "}"))
+          .build;
+      } else if (type == GfxShaderGraphDefaultType.TERRAIN) {
+        // Create terrain shader
+        defaultShaders[type] = new GfxShaderGraph();
+        defaultShaders[type]
+          .addVertexCode(mixin("q{" ~ import("shaders/terrain_vertex.glsl") ~ "}"))
+          .addFragmentCode(mixin("q{" ~ import("shaders/terrain_fragment.glsl") ~ "}"))
           .build;
       }
     }
     
-    return defaultShaders[id];
+    return defaultShaders[type];
   }
 }

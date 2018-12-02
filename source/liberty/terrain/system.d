@@ -10,7 +10,6 @@ module liberty.terrain.system;
 
 import liberty.constants;
 import liberty.scene;
-import liberty.terrain.shader;
 import liberty.terrain.renderer;
 import liberty.terrain.impl;
 
@@ -22,7 +21,6 @@ import liberty.terrain.impl;
 final class TerrainSystem {
   private {
     TerrainRenderer renderer;
-    TerrainShader shader;
     Terrain[string] map;
     Scene scene;
   }
@@ -32,7 +30,6 @@ final class TerrainSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    shader = new TerrainShader;
     renderer = new TerrainRenderer(this, scene);
   }
 
@@ -82,13 +79,6 @@ final class TerrainSystem {
   **/
   TerrainRenderer getRenderer() pure nothrow {
     return renderer;
-  }
-
-  /**
-   * Returns a terrain shader reference.
-  **/
-  TerrainShader getShader() pure nothrow {
-    return shader;
   }
 
   /**

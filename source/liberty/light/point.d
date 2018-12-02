@@ -17,7 +17,7 @@ import liberty.scene.node;
 import liberty.math.functions;
 import liberty.primitive.vertex;
 import liberty.primitive.impl;
-import liberty.terrain.shader;
+import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
 
 alias Lighting = PointLight;
@@ -77,39 +77,25 @@ final class PointLight : SceneNode {
   }
 
   /**
-   *
+   * Apply light to a primitive or terrain.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) applyToPrimitiveMap() {
+  typeof(this) applyTo(GfxShaderGraphDefaultType type)
+  in (type == GfxShaderGraphDefaultType.PRIMITIVE ||
+      type == GfxShaderGraphDefaultType.TERRAIN,
+      "You can apply light only on primitives and terrains.")
+  do {
     import std.conv : to;
 
     if (index < 4) {
       GfxShaderGraph
-        .getDefaultShader("primitive")
+        .getDefaultShader(type)
         .getProgram
-        .loadUniform("uLightPosition[" ~ index.to!string ~ "]", getTransform().getLocation())
+        .loadUniform("uLightPosition[" ~ index.to!string ~ "]", getTransform.getLocation)
         .loadUniform("uLightColor[" ~ index.to!string ~ "]", color)
         .loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation)
         .loadUniform("uShineDamper", 1.0f)
         .loadUniform("uReflectivity", 0.0f);
-    } else
-      Logger.warning("GfxEngine can't render more than 4 lights.", typeof(this).stringof);
-
-    return this;
-  }
-
-  /**
-   *
-   * Returns reference to this so it can be used in a stream.
-  **/
-  typeof(this) applyToTerrainMap(TerrainShader shader) {
-    if (index < 4) {
-      shader
-        .loadLightPosition(index, getTransform().getLocation())
-        .loadLightColor(index, color)
-        .loadLightAttenuation(index, attenuation)
-        .loadShineDamper(1.0f)
-        .loadReflectivity(0.0f);
     } else
       Logger.warning("GfxEngine can't render more than 4 lights.", typeof(this).stringof);
 

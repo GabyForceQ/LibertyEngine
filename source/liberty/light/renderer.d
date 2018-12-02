@@ -9,6 +9,7 @@
 module liberty.light.renderer;
 
 import liberty.light.system;
+import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
 import liberty.services;
 import liberty.scene;
@@ -36,40 +37,20 @@ final class LightingRenderer : IRenderable {
    * Render all lighting elements to the screen.
   **/
   void render() {
-    // Bind terrain shader
-    scene
-      .getTerrainSystem
-      .getShader
-      .bind;
-    
-    // Apply lights to terrains
-    foreach (light; system.getMap)
-      light.applyToTerrainMap(
-        scene
-          .getTerrainSystem
-          .getShader
-      );
+    with (GfxShaderGraphDefaultType)
+      foreach (type; [TERRAIN, PRIMITIVE]) {
+        GfxShaderGraph
+          .getDefaultShader(type)
+          .getProgram
+          .bind;
+        
+        foreach (light; system.getMap)
+          light.applyTo(type);
 
-    // Unbind terrain shader
-    scene
-      .getTerrainSystem
-      .getShader
-      .unbind;
-    
-    // Bind primitive shader
-    GfxShaderGraph
-      .getDefaultShader("primitive")
-      .getProgram
-      .bind;
-
-    // Apply lights to primitives
-    foreach (light; system.getMap)
-      light.applyToPrimitiveMap;
-
-    // Unbind primitive shader
-    GfxShaderGraph
-      .getDefaultShader("primitive")
-      .getProgram
-      .unbind;
+        GfxShaderGraph
+          .getDefaultShader(type)
+          .getProgram
+          .unbind;
+      }
   }
 }

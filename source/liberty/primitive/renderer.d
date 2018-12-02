@@ -9,6 +9,7 @@
 module liberty.primitive.renderer;
 
 import liberty.constants;
+import liberty.graphics.shader.constants;
 import liberty.graphics.shader.graph;
 import liberty.primitive.impl;
 import liberty.primitive.system;
@@ -41,7 +42,7 @@ final class PrimitiveRenderer : IRenderable {
     auto camera = scene.getActiveCamera;
 
     GfxShaderGraph
-      .getDefaultShader("primitive")
+      .getDefaultShader(GfxShaderGraphDefaultType.PRIMITIVE)
       .getProgram
       .bind
       .loadUniform("uProjectionMatrix", camera.getProjectionMatrix)
@@ -53,7 +54,7 @@ final class PrimitiveRenderer : IRenderable {
         render(primitive);
 
     GfxShaderGraph
-      .getDefaultShader("primitive")
+      .getDefaultShader(GfxShaderGraphDefaultType.PRIMITIVE)
       .getProgram
       .unbind;
   }
@@ -69,7 +70,7 @@ final class PrimitiveRenderer : IRenderable {
 
     if (model !is null)
       GfxShaderGraph
-        .getDefaultShader("primitive")
+        .getDefaultShader(GfxShaderGraphDefaultType.PRIMITIVE)
         .getProgram
         .loadUniform("uModelMatrix", primitive.getTransform.getModelMatrix)
         .loadUniform("uUseFakeLighting", model.isFakeLightingEnabled)

@@ -9,6 +9,8 @@
 module liberty.terrain.renderer;
 
 import liberty.constants;
+import liberty.graphics.shader.constants;
+import liberty.graphics.shader.graph;
 import liberty.services;
 import liberty.scene;
 import liberty.terrain.impl;
@@ -39,18 +41,22 @@ final class TerrainRenderer : IRenderable {
   void render() {
     auto camera = scene.getActiveCamera;
 
-    system
-      .getShader
+    GfxShaderGraph
+      .getDefaultShader(GfxShaderGraphDefaultType.TERRAIN)
+      .getProgram
       .bind
-      .loadProjectionMatrix(camera.getProjectionMatrix)
-      .loadViewMatrix(camera.getViewMatrix)
-      .loadSkyColor(scene.getWorld.getExpHeightFogColor);
+      .loadUniform("uProjectionMatrix", camera.getProjectionMatrix)
+      .loadUniform("uViewMatrix", camera.getViewMatrix)
+      .loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
     
     foreach (terrain; system.getMap)
       if (terrain.getVisibility == Visibility.Visible)
         render(terrain);
 
-    system.getShader.unbind;
+    GfxShaderGraph
+      .getDefaultShader(GfxShaderGraphDefaultType.TERRAIN)
+      .getProgram
+      .unbind;
   }
 
   /**
@@ -63,10 +69,11 @@ final class TerrainRenderer : IRenderable {
     auto model = terrain.getModel;
 
     if (model !is null)
-      system
-        .getShader
-        .loadModelMatrix(terrain.getTransform.getModelMatrix)
-        .loadTexCoordMultiplier(terrain.getTexCoordMultiplier)
+      GfxShaderGraph
+        .getDefaultShader(GfxShaderGraphDefaultType.TERRAIN)
+        .getProgram
+        .loadUniform("uModelMatrix", terrain.getTransform.getModelMatrix)
+        .loadUniform("uTexCoordMultiplier", terrain.getTexCoordMultiplier)
         .render(model);
       
     return this;

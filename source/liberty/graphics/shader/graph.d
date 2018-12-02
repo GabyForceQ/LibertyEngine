@@ -64,7 +64,7 @@ final class GfxShaderGraph : IGfxShaderFactory {
     foreach (u; uniforms)
       shader.addUniform(u);
 
-    foreach (i, s; samplers)
+    foreach (int i, s; samplers)
       shader.loadUniform(s, i);
 
     shader.unbind;

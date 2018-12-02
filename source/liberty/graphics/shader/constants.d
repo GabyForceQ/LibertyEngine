@@ -24,7 +24,7 @@ else
 /**
  * Shader program type.
 **/
-enum GfxShaderType : ubyte {
+enum GfxShaderType : byte {
   /**
    * Vertex shader.
   **/
@@ -39,4 +39,19 @@ enum GfxShaderType : ubyte {
    * Geometry shader.
   **/
   GEOMETRY = 0x02
+}
+
+/**
+ * Default shader graph type.
+**/
+enum GfxShaderGraphDefaultType : string {
+  /**
+   * Primitive shader type.
+  **/
+  PRIMITIVE = "Primitive",
+
+  /**
+   * Terrain shader type.
+  **/
+  TERRAIN = "Terrain"
 }
