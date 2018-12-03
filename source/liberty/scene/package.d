@@ -16,6 +16,5 @@ public {
   import liberty.scene.impl;
   import liberty.scene.io;
   import liberty.scene.meta;
-  import liberty.scene.renderer;
   import liberty.scene.services;
 }

@@ -8,6 +8,7 @@
 **/
 module liberty.framework.gui.impl;
 
+import liberty.graphics.shader.impl;
 import liberty.scene.entity;
 
 /**
@@ -15,10 +16,26 @@ import liberty.scene.entity;
  * Inheriths $(D Entity) class and implements $(D IUpdateable) service.
 **/
 abstract class Gui : Entity {
+  private {
+    Shader shader;
+  }
+  
   /**
    * Create a new gui using an id and a parent.
   **/
   this(string id, Entity parent) {
     super(id, parent);
+
+    shader = Shader
+      .getOrCreate("Gui", (shader) {
+        shader
+          .addGlobalRender((program) {
+          })
+          .addPerEntityRender((program) {
+          });
+      });
+
+    shader.registerEntity(this);
+    scene.addShader(shader);
   }
 }

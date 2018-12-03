@@ -36,7 +36,7 @@ abstract class SceneIO : ISerializable {
 
     file.writeln("id: " ~ scene.getId);
 
-    foreach (Primitive entity; cast(Primitive[string])scene.getOldRendererById("Primitive").getMap) {
+    foreach (Primitive entity; cast(Primitive[string])scene.getShaderById("Primitive").getMap) {
       file.writeln(
         "Primitive: { " ~
           "id: " ~ entity.getId ~
@@ -46,7 +46,7 @@ abstract class SceneIO : ISerializable {
       );
     }
 
-    foreach (Terrain entity; cast(Terrain[string])scene.getOldRendererById("Terrain").getMap) {
+    foreach (Terrain entity; cast(Terrain[string])scene.getShaderById("Terrain").getMap) {
       file.writeln(
         "Terrain: { " ~
           "id: " ~ entity.getId ~
@@ -70,7 +70,7 @@ abstract class SceneIO : ISerializable {
       );
     }*/
 
-    foreach (Light entity; cast(Light[string])scene.getOldRendererById("Light").getMap) {
+    foreach (Light entity; cast(Light[string])scene.getShaderById("Light").getMap) {
       file.writeln(
         "Light: { " ~
           "id: " ~ entity.getId ~

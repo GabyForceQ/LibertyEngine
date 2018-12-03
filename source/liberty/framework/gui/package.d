@@ -10,5 +10,4 @@ module liberty.framework.gui;
 
 public {
   import liberty.framework.gui.impl;
-  import liberty.framework.gui.renderer;
 }

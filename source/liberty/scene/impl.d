@@ -10,14 +10,12 @@ module liberty.scene.impl;
 
 import liberty.camera;
 import liberty.core.engine;
-import liberty.framework.gui.renderer;
 import liberty.framework.light.impl;
 import liberty.graphics.shader.impl;
 import liberty.math.vector;
 import liberty.scene.constants;
 import liberty.scene.entity;
 import liberty.scene.factory;
-import liberty.scene.renderer;
 import liberty.scene.services;
 import liberty.text.system;
 import liberty.world.impl;
@@ -33,6 +31,8 @@ final class Scene : ISceneFactory, IUpdateable {
     bool ready;
     // isInitialized
     bool initialized;
+    // getRelativePath, setRelativePath
+    string relativePath;
     // getTree
     Entity tree;
     // getStartPoint
@@ -47,18 +47,8 @@ final class Scene : ISceneFactory, IUpdateable {
     IStartable[string] startableMap;
     // getUpdateableMap
     IUpdateable[string] updateableMap;
-
-    // getTextSystem
-    TextSystem textSystem;
-    // getRelativePath, setRelativePath
-    string relativePath;
-
-    // getSystemByType
-    IRenderable[string] oldRenderableMap;
-  
     // getShader, addShader
     Shader[string] shaderMap;
-
     // addLight
     Light[string] lightMap;
   }
@@ -72,42 +62,6 @@ final class Scene : ISceneFactory, IUpdateable {
   }
 
   /**
-   * Add a new shader renderer to the scene.
-   * Returns reference to this so it can be used in a stream.
-   * See $(D Shader) class.
-  **/
-  typeof(this) addShader(Shader shader) pure nothrow {
-    shaderMap[shader.getId] = shader;
-    return this;
-  }
-
-  /**
-   * Returns the shader with the given id.
-   * See $(D Shader) class.
-  **/
-  Shader getShader(string id) pure nothrow {
-    return shaderMap[id];
-  }
-
-  /**
-   * Add a new light to the light map.
-   * Returns reference to this so it can be used in a stream.
-   * See $(D Light) class.
-  **/
-  typeof(this) addLight(Light light) {
-    lightMap[light.getId] = light;
-    return this;
-  }
-
-  /**
-   * Returns the light with the given id.
-   * See $(D Shader) class.
-  **/
-  Light getLight(string id) pure nothrow {
-    return lightMap[id];
-  }
-
-  /**
    * Create a scene using a unique id.
   **/
   this(string id) {
@@ -117,11 +71,6 @@ final class Scene : ISceneFactory, IUpdateable {
     tree = new RootEntity;
     world = new World;
     activeCamera = tree.spawn!Camera("DefaultCamera");
-
-    // Create renderers
-    oldRenderableMap["Gui"] = new GuiRenderer("Gui", this);
-
-    textSystem = new TextSystem(this);
   }
 
   /**
@@ -143,6 +92,22 @@ final class Scene : ISceneFactory, IUpdateable {
   **/
   bool isInitialized() pure nothrow const {
     return initialized;
+  }
+
+  /**
+   * Set the relative path of the scene file using a string.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setRelativePath(string relativePath) pure nothrow {
+    this.relativePath = relativePath;
+    return this;
+  }
+
+  /**
+   * Returns the relative path of the scene file.
+  **/
+  string getRelativePath() pure nothrow const {
+    return relativePath;
   }
 
   /**
@@ -269,17 +234,12 @@ final class Scene : ISceneFactory, IUpdateable {
    * It's called every frame after $(D Scene.update).
   **/
   void render() {
-    foreach (entity; oldRenderableMap)
-      entity.render(this);
-
     // Apply all lights to the scene
     applyLights;
 
     // Render all shaders to the scene
     foreach (shader; shaderMap)
       shader.render(this);
-    
-    textSystem.getRenderer.render(this);
   }
 
   /**
@@ -309,49 +269,39 @@ final class Scene : ISceneFactory, IUpdateable {
   }
 
   /**
-   * Returns renderable map as it is.
-  **/
-  IRenderable[string] getOldRenderableMap() pure nothrow {
-    return oldRenderableMap;
-  }
-
-  /**
-   * Returns renderable map as $(D, Renderer).
-  **/
-  Renderer[string] getOldRenderableMap() pure nothrow {
-    return cast(Renderer[string])oldRenderableMap;
-  }
-
-  /**
-   * Returns renderer by its id.
-   * See $(D System) class.
-  **/
-  Renderer getOldRendererById(string id) pure nothrow {
-    return cast(Renderer)oldRenderableMap[id];
-  }
-
-  /**
-   * Returns a refetence of the text system.
-   * See $(D TextSystem) class.
-  **/
-  TextSystem getTextSystem() pure nothrow {
-    return textSystem;
-  }
-
-  /**
-   * Set the relative path of the scene file using a string.
+   * Add a new shader renderer to the scene.
    * Returns reference to this so it can be used in a stream.
+   * See $(D Shader) class.
   **/
-  typeof(this) setRelativePath(string relativePath) pure nothrow {
-    this.relativePath = relativePath;
+  typeof(this) addShader(Shader shader) pure nothrow {
+    shaderMap[shader.getId] = shader;
     return this;
   }
 
   /**
-   * Returns the relative path of the scene file.
+   * Returns the shader with the given id.
+   * See $(D Shader) class.
   **/
-  string getRelativePath() pure nothrow const {
-    return relativePath;
+  Shader getShaderById(string id) pure nothrow {
+    return shaderMap[id];
+  }
+
+  /**
+   * Add a new light to the light map.
+   * Returns reference to this so it can be used in a stream.
+   * See $(D Light) class.
+  **/
+  typeof(this) addLight(Light light) {
+    lightMap[light.getId] = light;
+    return this;
+  }
+
+  /**
+   * Returns the light with the given id.
+   * See $(D Shader) class.
+  **/
+  Light getLightById(string id) pure nothrow {
+    return lightMap[id];
   }
 
   private void applyLights() {

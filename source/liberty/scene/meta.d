@@ -23,10 +23,6 @@ mixin template EntityConstructor(string code = "") {
   **/
   this(string id, Entity parent = CoreEngine.getScene().getTree()) {
     import std.string : capitalize;
-    import liberty.framework.gui.impl : Gui;
-    import liberty.framework.gui.renderer : GuiRenderer;
-    import liberty.framework.light.impl : Light;
-    import liberty.text.impl : Text;
 
     if (parent is null)
       assert(0, "Parent object cannot be null");
@@ -52,10 +48,6 @@ mixin template EntityConstructor(string code = "") {
             mixin("getScene.set" ~ el.capitalize ~ "ableMap(id, this);");
       }
     }
-
-    static foreach (sys; ["Gui"])
-      static if (mixin("is(typeof(this) : " ~ sys ~ ")"))
-        mixin("(cast(" ~ sys ~ "Renderer)getScene.getOldRendererById(\"" ~ sys ~ "\")).registerElement(this);");
   }
 }
 
