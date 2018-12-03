@@ -12,8 +12,6 @@ import liberty.camera;
 import liberty.core.engine;
 import liberty.framework.gui.renderer;
 import liberty.framework.light.renderer;
-import liberty.framework.skybox.renderer;
-import liberty.framework.terrain.renderer;
 import liberty.graphics.shader.impl;
 import liberty.math.vector;
 import liberty.scene.factory;
@@ -100,7 +98,6 @@ final class Scene : ISceneFactory, IUpdateable {
 
     // Create renderers
     oldRenderableMap["Light"] = new LightRenderer("Light", this);
-    oldRenderableMap["SkyBox"] = new SkyBoxRenderer("SkyBox", this);
     oldRenderableMap["Gui"] = new GuiRenderer("Gui", this);
 
     textSystem = new TextSystem(this);

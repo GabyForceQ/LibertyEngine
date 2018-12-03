@@ -10,6 +10,5 @@ module liberty.framework.skybox;
 
 public {
   import liberty.framework.skybox.impl;
-  import liberty.framework.skybox.renderer;
   import liberty.framework.skybox.vertex;
 }

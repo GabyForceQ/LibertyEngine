@@ -27,8 +27,6 @@ mixin template EntityConstructor(string code = "") {
     import liberty.framework.gui.renderer : GuiRenderer;
     import liberty.framework.light.impl : Light;
     import liberty.framework.light.renderer : LightRenderer;
-    import liberty.framework.skybox.impl : SkyBox;
-    import liberty.framework.skybox.renderer : SkyBoxRenderer;
     import liberty.text.impl : Text;
 
     if (parent is null)
@@ -56,7 +54,7 @@ mixin template EntityConstructor(string code = "") {
       }
     }
 
-    static foreach (sys; ["SkyBox", "Light", "Gui"])
+    static foreach (sys; ["Light", "Gui"])
       static if (mixin("is(typeof(this) : " ~ sys ~ ")"))
         mixin("(cast(" ~ sys ~ "Renderer)getScene.getOldRendererById(\"" ~ sys ~ "\")).registerElement(this);");
   }

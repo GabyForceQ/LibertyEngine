@@ -8,19 +8,43 @@
 **/
 module liberty.framework.skybox.impl;
 
-import liberty.math.vector;
+import liberty.framework.skybox.vertex;
+import liberty.graphics.shader.impl;
 import liberty.material.impl;
+import liberty.math.matrix;
+import liberty.math.vector;
 import liberty.model.impl;
 import liberty.model.io;
-import liberty.scene.meta;
 import liberty.scene.entity;
-import liberty.framework.skybox.vertex;
+import liberty.scene.meta;
 
 /**
  *
 **/
 final class SkyBox : Entity {
-  mixin EntityConstructor;
+  mixin EntityConstructor!(q{
+    shader = Shader
+      .getOrCreate("SkyBox")
+      .registerEntity(this)
+      .addGlobalRender((program) {
+        // Make it unreachable
+        Matrix4F newViewMatrix = scene.getActiveCamera.getViewMatrix;
+        newViewMatrix.c[0][3] = 0;
+        newViewMatrix.c[1][3] = 0;
+        newViewMatrix.c[2][3] = 0;
+
+        program
+          .loadUniform("uFadeLowerLimit", 0.0f)
+          .loadUniform("uFadeUpperLimit", 30.0f)
+          .loadUniform("uFogColor", scene.getWorld.getExpHeightFogColor);
+      });
+    
+    scene.addShader(shader);
+  });
+
+  private {
+    Shader shader;
+  }
 
   /**
    *
