@@ -51,7 +51,7 @@ final class TextRenderer : IRenderable {
   }
 
   /**
-   * Render a text node by its reference.
+   * Render a text entity by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) render(Text text) {

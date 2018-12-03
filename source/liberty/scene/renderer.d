@@ -10,7 +10,7 @@ module liberty.scene.renderer;
 
 import liberty.graphics.shader;
 import liberty.scene.impl;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.scene.services;
 
 /**
@@ -22,7 +22,7 @@ import liberty.scene.services;
 abstract class Renderer : IRenderable {
   protected {
     Shader shader;
-    SceneNode[string] map;
+    Entity[string] map;
     Scene scene;
     string id;
   }
@@ -50,25 +50,25 @@ abstract class Renderer : IRenderable {
   }
 
   /**
-   * Register a node to the renderer.
+   * Register a entity to the renderer.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) registerElement(SceneNode node) pure nothrow {
-    map[node.getId] = node;
+  typeof(this) registerElement(Entity entity) pure nothrow {
+    map[entity.getId] = entity;
     return this;
   }
 
   /**
-   * Remove the given node from the map.
+   * Remove the given entity from the map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) removeElement(SceneNode node) pure nothrow {
-    map.remove(node.getId);
+  typeof(this) removeElement(Entity entity) pure nothrow {
+    map.remove(entity.getId);
     return this;
   }
 
   /**
-   * Remove the node that has the given id from the map.
+   * Remove the entity that has the given id from the map.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) removeElementById(string id) pure nothrow {
@@ -79,14 +79,14 @@ abstract class Renderer : IRenderable {
   /**
    * Returns all elements in the map.
   **/
-  SceneNode[string] getMap() pure nothrow {
+  Entity[string] getMap() pure nothrow {
     return map;
   }
 
   /**
    * Returns the element in the map that has the given id.
   **/
-  SceneNode getElementById(string id) pure nothrow {
+  Entity getElementById(string id) pure nothrow {
     return map[id];
   }
 }

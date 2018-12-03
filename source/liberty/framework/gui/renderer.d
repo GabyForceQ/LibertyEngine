@@ -38,7 +38,7 @@ final class GuiRenderer : Renderer {
   }
 
   /**
-   * Render a gui node by its reference.
+   * Render a gui entity by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) render(Gui gui) 

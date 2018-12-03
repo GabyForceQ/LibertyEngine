@@ -9,19 +9,19 @@
 module liberty.scene.meta;
 
 /**
- * The scene node default constructor.
+ * The scene entity default constructor.
  * You can send a string code with the construction code.
- * See $(D SceneNode).
+ * See $(D Entity).
 **/
-mixin template NodeConstructor(string code = "") {
+mixin template EntityConstructor(string code = "") {
   import liberty.core.engine : CoreEngine;
-  import liberty.scene.node : SceneNode;
+  import liberty.scene.entity : Entity;
 
   /**
-   * The default constructor of a scene node.
-   * See $(D SceneNode).
+   * The default constructor of a scene entity.
+   * See $(D Entity).
   **/
-  this(string id, SceneNode parent = CoreEngine.getScene().getTree()) {
+  this(string id, Entity parent = CoreEngine.getScene().getTree()) {
     import std.string : capitalize;
     import liberty.framework.gui.impl : Gui;
     import liberty.framework.gui.renderer : GuiRenderer;
@@ -43,7 +43,7 @@ mixin template NodeConstructor(string code = "") {
     enum abstractClass = __traits(isAbstractClass, this);
     
     static if (!(finalClass || abstractClass))
-      static assert(0, "A node object class must either be final or abstract!");
+      static assert(0, "A entity object class must either be final or abstract!");
 
     mixin(code);
 
@@ -66,11 +66,11 @@ mixin template NodeConstructor(string code = "") {
 }
 
 /**
- * The scene node default constructor.
+ * The scene entity default constructor.
  * You can send a string code with the destruction code.
- * See $(D SceneNode).
+ * See $(D Entity).
 **/
-mixin template NodeDestructor(string code) {
+mixin template EntityDestructor(string code) {
   ~this() {
     mixin(code);
   }

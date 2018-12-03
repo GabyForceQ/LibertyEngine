@@ -2,11 +2,11 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/node.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/scene/entity.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.scene.node;
+module liberty.scene.entity;
 
 import liberty.camera;
 import liberty.core.engine;
@@ -22,10 +22,10 @@ import liberty.scene.services;
 import liberty.surface.vertex;
 
 /**
- * Represents a node in the scene tree.
+ * Represents a entity in the scene tree.
  * It implements $(D IStartable) and $(D IUpdateable) service.
 **/
-abstract class SceneNode : IStartable, IUpdateable {
+abstract class Entity : IStartable, IUpdateable {
   private {
     // getId
     string id;
@@ -35,11 +35,11 @@ abstract class SceneNode : IStartable, IUpdateable {
     // getScene
     Scene scene;
     // getParent
-    SceneNode parent;
+    Entity parent;
     // getChildMap
-    SceneNode[string] childMap;
+    Entity[string] childMap;
     // It is used in spawnOnce methods
-    SceneNode[string] singletonMap;
+    Entity[string] singletonMap;
     // setVisibility, getVisibility
     Visibility visibility;
     // getTransform
@@ -49,7 +49,7 @@ abstract class SceneNode : IStartable, IUpdateable {
   }
 
   /**
-   * Set node's model.
+   * Set entity's model.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) setModel(Model model) pure nothrow {
@@ -58,23 +58,23 @@ abstract class SceneNode : IStartable, IUpdateable {
   }
 
   /**
-   * Returns the model of the node.
+   * Returns the model of the entity.
   **/
   Model getModel() pure nothrow {
     return model;
   }
 
   /**
-   * Construct a scene node using an id and its parent.
+   * Construct a scene entity using an id and its parent.
   **/
-  this(string id, SceneNode parent) {
+  this(string id, Entity parent) {
     // Set model scene
     scene = CoreEngine.getScene;
     
     // Check if given id is unique
-    if (id in scene.nodeMap)
+    if (id in scene.entityMap)
       Logger.error(
-        "You already have a scene node with ID: \"" ~ id ~ "\" in the current scene!",
+        "You already have a scene entity with ID: \"" ~ id ~ "\" in the current scene!",
         typeof(this).stringof
       );
 
@@ -83,8 +83,8 @@ abstract class SceneNode : IStartable, IUpdateable {
       ? new Transform(this)
       : new Transform(this, parent.getTransform);
 
-    // Now save this in the scene node map
-    scene.nodeMap[id] = this;
+    // Now save this in the scene entity map
+    scene.entityMap[id] = this;
 
     // Set model id and parent
     this.id = id;
@@ -92,23 +92,23 @@ abstract class SceneNode : IStartable, IUpdateable {
   }
 
   /**
-   * Retuns the scene node id.
+   * Retuns the scene entity id.
   **/
   string getId() pure nothrow const {
     return id;
   }
 
   /**
-   * Returns a reference of parent scene node.
+   * Returns a reference of parent scene entity.
   **/
-  SceneNode getParent() pure nothrow {
+  Entity getParent() pure nothrow {
     return parent;
   }
 
   /**
    * Returns all elements in the child map.
   **/
-  SceneNode[string] getChildMap() pure nothrow {
+  Entity[string] getChildMap() pure nothrow {
     return childMap;
   }
 
@@ -120,24 +120,24 @@ abstract class SceneNode : IStartable, IUpdateable {
   }
 
   /**
-   * Returns scene that scene node is attached to.
+   * Returns scene that scene entity is attached to.
   **/
   Scene getScene() pure nothrow {
     return scene;
   }
 
   /**
-   * Returns true if this scene node is the root node.
+   * Returns true if this scene entity is the root entity.
   **/
-  bool isRootNode() pure nothrow {
+  bool isRootEntity() pure nothrow {
     return parent.id == scene.getTree().id;
   }
 
   /**
-   * Remove a child node using its reference.
+   * Remove a child entity using its reference.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) remove(T : SceneNode)(T node) {
+  typeof(this) remove(T : Entity)(T entity) {
     import std.traits : EnumMembers;
     import liberty.framework.light.impl : Light;
     import liberty.framework.primitive.impl : Primitive;
@@ -146,14 +146,14 @@ abstract class SceneNode : IStartable, IUpdateable {
     import liberty.surface.impl : Surface;
     import liberty.text.impl : Text;
 
-    const id = node.getId();
+    const id = entity.getId();
 
     if (id in childMap) {
-      // Remove node from scene maps
-      static foreach (e; ["Startable", "Updateable", "Node"])
+      // Remove entity from scene maps
+      static foreach (e; ["Startable", "Updateable", "Entity"])
         mixin("scene.get" ~ e ~ "Map.remove(id);");
 
-      // Remove node from system
+      // Remove entity from system
       static foreach (sys; EnumMembers!SystemType)
         static if (mixin("is(T : " ~ sys ~ ")"))
           mixin("scene.get" ~ sys ~ "System.removeElementById(id);");
@@ -161,7 +161,7 @@ abstract class SceneNode : IStartable, IUpdateable {
       //static if (is(T == Camera))
       //  scene.safeRemoveCamera(id);
 
-      // Remove node from child map
+      // Remove entity from child map
       childMap[id].destroy;
       childMap[id] = null;
       childMap.remove(id);
@@ -170,7 +170,7 @@ abstract class SceneNode : IStartable, IUpdateable {
     }
     
     Logger.warning(
-      "You are trying to remove a null scene node",
+      "You are trying to remove a null scene entity",
       typeof(this).stringof
     );
 
@@ -178,107 +178,107 @@ abstract class SceneNode : IStartable, IUpdateable {
   }
 
   /**
-   * Spawn a scene node using its reference.
+   * Spawn a scene entity using its reference.
    * You can specify where to spawn. By default is set to scene tree.
-   * Returns new nodes reference.
+   * Returns new entitys reference.
   **/
-  ref T spawn(T : SceneNode, bool STRAT = true)(ref T node, string id, void delegate(T) initMethod = null) {
-    node = new T(id, this);
-    insert(node);
+  ref T spawn(T : Entity, bool STRAT = true)(ref T entity, string id, void delegate(T) initMethod = null) {
+    entity = new T(id, this);
+    insert(entity);
 
     static if (is(T == Camera))
-      this.scene.registerCamera(node);
+      this.scene.registerCamera(entity);
 
     static if (STRAT)
-      node.start;
+      entity.start;
 
     if (initMethod !is null)
-      initMethod(node);
+      initMethod(entity);
 	
-    return node;
+    return entity;
   }
 
   /**
-   * Spawn a scene node using its ID.
+   * Spawn a scene entity using its ID.
    * Second time you call this method for the same id, an assertion is produced.
-   * Returns new node reference.
+   * Returns new entity reference.
   **/
-  T spawn(T : SceneNode, bool STRAT = true)(string id, void delegate(T) initMethod = null) {
-    T node = new T(id, this);
-    insert(node);
+  T spawn(T : Entity, bool STRAT = true)(string id, void delegate(T) initMethod = null) {
+    T entity = new T(id, this);
+    insert(entity);
 
     static if (is(T == Camera))
-      this.scene.registerCamera(node);
+      this.scene.registerCamera(entity);
 
     static if (STRAT)
-      node.start;
+      entity.start;
 
     if (initMethod !is null)
-      initMethod(node);
+      initMethod(entity);
 
-    return node;
+    return entity;
   }
   
   /**
-   * Spawn a scene node using its reference.
+   * Spawn a scene entity using its reference.
    * Second time you call this method for the same id, nothing happens.
-   * Returns old/new node reference.
+   * Returns old/new entity reference.
   **/
-  ref T spawnOnce(T : SceneNode, bool STRAT = true)(ref T node, string id, void delegate(T) initMethod = null) {
+  ref T spawnOnce(T : Entity, bool STRAT = true)(ref T entity, string id, void delegate(T) initMethod = null) {
     if (id in singletonMap)
       return cast(T)singletonMap[id];
 
-    node = new T(id, this);
-    insert(node);
+    entity = new T(id, this);
+    insert(entity);
 
     static if (is(T == Camera))
-      scene.registerCamera(node);
+      scene.registerCamera(entity);
     
-    singletonMap[id] = node;
+    singletonMap[id] = entity;
 
     static if (STRAT)
-      node.start;
+      entity.start;
 
     if (initMethod !is null)
-      initMethod(node);
+      initMethod(entity);
 
-    return node;
+    return entity;
   }
 
   /**
-   * Spawn a scene node using its ID.
+   * Spawn a scene entity using its ID.
    * Second time you call this method for the same id, nothing happens.
-   * Returns old/new node reference.
+   * Returns old/new entity reference.
   **/
-  T spawnOnce(T : SceneNode, bool STRAT = true)(string id, void delegate(T) initMethod = null) {    
+  T spawnOnce(T : Entity, bool STRAT = true)(string id, void delegate(T) initMethod = null) {    
     if (id in singletonMap)
       return cast(T)singletonMap[id];
 
-    T node = new T(id, this);
-    insert(node);
+    T entity = new T(id, this);
+    insert(entity);
 
     static if (is(T == Camera))
-      scene.registerCamera(node);
+      scene.registerCamera(entity);
 
-    singletonMap[id] = node;
+    singletonMap[id] = entity;
 
     static if (STRAT)
-      node.start;
+      entity.start;
 
     if (initMethod !is null)
-      initMethod(node);
+      initMethod(entity);
 
-    return node;
+    return entity;
   }
 
   /**
-   * Called after all scene nodes instantiation.
+   * Called after all scene entitys instantiation.
    * It is optional.
   **/
   void start() {}
 
   /**
-   * Called every frame to update the current state of the scene node.
+   * Called every frame to update the current state of the scene entity.
    * It is optional.
   **/
   void update() {}
@@ -291,7 +291,7 @@ abstract class SceneNode : IStartable, IUpdateable {
   }
 
   /**
-   * Set the visibility of the scene node.
+   * Set the visibility of the scene entity.
    * See $(D Visibility) enumeration for possible values.
    * Returns reference to this so it can be used in a stream.
   **/
@@ -301,28 +301,28 @@ abstract class SceneNode : IStartable, IUpdateable {
   }
 
   /**
-   * Returns the visibility of the scene node.
+   * Returns the visibility of the scene entity.
    * See $(D Visibility) enumeration for possible values.
   **/
   Visibility getVisibility() pure nothrow const {
     return visibility;
   }
 
-  private void insert(T : SceneNode)(ref T child) pure nothrow {
-    // Insert a child node using its reference.
+  private void insert(T : Entity)(ref T child) pure nothrow {
+    // Insert a child entity using its reference.
     childMap[child.getId] = child;
   }
 }
 
 /**
- * The root scene node of a scene.
- * It is the king of all scene nodes.
+ * The root scene entity of a scene.
+ * It is the king of all scene entitys.
 **/
-final class RootSceneNode : SceneNode {
+final class RootEntity : Entity {
   /**
-   * Create the root scene node with the id "Root" and no parent.
+   * Create the root scene entity with the id "Root" and no parent.
   **/
   this() {
-    super("RootNode", null);
+    super("RootEntity", null);
   }
 }

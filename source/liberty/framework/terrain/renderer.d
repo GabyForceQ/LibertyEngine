@@ -45,7 +45,7 @@ final class TerrainRenderer : Renderer {
   }
 
   /**
-   * Render a terrain node by its reference.
+   * Render a terrain entity by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) render(Terrain terrain)

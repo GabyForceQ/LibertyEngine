@@ -15,19 +15,19 @@ import liberty.graphics.shader.impl;
 import liberty.math.functions;
 import liberty.math.vector;
 import liberty.scene.meta;
-import liberty.scene.node;
+import liberty.scene.entity;
 
 /**
  *
 **/
-final class Light : SceneNode {
-  mixin NodeConstructor!(q{
+final class Light : Entity {
+  mixin EntityConstructor!(q{
     this.getTransform.setAbsoluteLocation(0.0f, 200.0f, 0.0f);
     this.index = this.numberOfLights;
     this.numberOfLights++;
   });
 
-  mixin NodeDestructor!(q{
+  mixin EntityDestructor!(q{
     this.numberOfLights--;
   });
 

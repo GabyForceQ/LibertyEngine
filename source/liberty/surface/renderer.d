@@ -48,7 +48,7 @@ final class SurfaceRenderer : IRenderable {
   }
 
   /**
-   * Render a surface node by its reference.
+   * Render a surface entity by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) render(Surface surface)

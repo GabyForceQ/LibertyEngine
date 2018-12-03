@@ -13,7 +13,7 @@ import liberty.math.functions;
 import liberty.math.vector;
 import liberty.math.matrix;
 import liberty.scene.meta;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.framework.primitive.vertex;
 import liberty.framework.terrain.vertex;
 import liberty.surface.widget;
@@ -25,7 +25,7 @@ import liberty.core.platform;
 final class Transform {
   private {
     // getParent
-    SceneNode parent;
+    Entity parent;
     Matrix4F modelMatrix = Matrix4F.identity();
     Matrix4F tempModelMatrix = Matrix4F.identity();
     
@@ -43,14 +43,14 @@ final class Transform {
   /**
    *
   **/
-  this(SceneNode parent) pure nothrow {
+  this(Entity parent) pure nothrow {
     this.parent = parent;
   }
 
   /**
    *
   **/
-  this(SceneNode parent, Transform transform) {
+  this(Entity parent, Transform transform) {
     this(parent);
     absoluteLocation = transform.absoluteLocation;
 
@@ -562,7 +562,7 @@ final class Transform {
   /**
    *
   **/
-  SceneNode getParent() pure nothrow {
+  Entity getParent() pure nothrow {
     return parent;
   }
 
@@ -576,7 +576,7 @@ final class Transform {
 
 private immutable forceBody = q{
   static if (!force)
-    if (!parent.isRootNode()) {
+    if (!parent.isRootEntity()) {
       Logger.warning(
         "You are trying to perform Transformation a non-root object (id: " 
         ~ parent.getId() 

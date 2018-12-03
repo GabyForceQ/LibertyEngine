@@ -13,14 +13,14 @@ import liberty.material.impl;
 import liberty.model.impl;
 import liberty.model.io;
 import liberty.scene.meta;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.framework.skybox.vertex;
 
 /**
  *
 **/
-final class SkyBox : SceneNode {
-  mixin NodeConstructor;
+final class SkyBox : Entity {
+  mixin EntityConstructor;
 
   /**
    *

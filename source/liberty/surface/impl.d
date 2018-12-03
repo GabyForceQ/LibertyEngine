@@ -17,7 +17,7 @@ import std.typecons : Tuple;
 import liberty.logger;
 import liberty.math.matrix;
 import liberty.math.util;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.core.platform;
 import liberty.scene.impl;
 import liberty.surface.event;
@@ -29,9 +29,9 @@ import liberty.scene.action;
 
 /**
  * A surface represents a 2-dimensional view containting user interface elements.
- * Inheriths $(D SceneNode) class and implements $(D IUpdateable) service.
+ * Inheriths $(D Entity) class and implements $(D IUpdateable) service.
 **/
-abstract class Surface : SceneNode, IUpdateable {
+abstract class Surface : Entity, IUpdateable {
   private {
     int xStart;
     int yStart;
@@ -50,7 +50,7 @@ abstract class Surface : SceneNode, IUpdateable {
   /**
    * Create a new surface using an id and a parent.
   **/
-  this(string id, SceneNode parent) {
+  this(string id, Entity parent) {
     super(id, parent);
     rootCanvas = new Canvas("RootCanvas" ~ id, this);
     updateProjection;

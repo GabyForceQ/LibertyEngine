@@ -17,7 +17,7 @@ import liberty.framework.terrain.renderer;
 import liberty.graphics.shader.impl;
 import liberty.math.vector;
 import liberty.scene.factory;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.scene.renderer;
 import liberty.scene.services;
 import liberty.text.system;
@@ -35,7 +35,7 @@ final class Scene : ISceneFactory, IUpdateable {
     // isInitialized
     bool initialized;
     // getTree
-    SceneNode tree;
+    Entity tree;
     // getStartPoint
     Vector3F startPoint;
     // getWorld, setWorld
@@ -64,9 +64,9 @@ final class Scene : ISceneFactory, IUpdateable {
   package {
     // It is necessary to modify it in SceneSerializer class
     string id;
-    // It is necessary to modify it in Node class
-    // getNodeMap
-    SceneNode[string] nodeMap;
+    // It is necessary to modify it in Entity class
+    // getEntityMap
+    Entity[string] entityMap;
   }
 
   /**
@@ -94,7 +94,7 @@ final class Scene : ISceneFactory, IUpdateable {
     CoreEngine.loadScene(this);
 
     this.id = id;
-    tree = new RootSceneNode;
+    tree = new RootEntity;
     world = new World;
     activeCamera = tree.spawn!Camera("DefaultCamera");
 
@@ -130,9 +130,9 @@ final class Scene : ISceneFactory, IUpdateable {
 
   /**
    * Returns a scene tree reference.
-   * See $(D SceneNode) class.
+   * See $(D Entity) class.
   **/
-  SceneNode getTree() pure nothrow {
+  Entity getTree() pure nothrow {
     return tree;
   }
 
@@ -205,20 +205,20 @@ final class Scene : ISceneFactory, IUpdateable {
   }
 
   /**
-   * Add a node to the startable map.
+   * Add a entity to the startable map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setStartableMap(string id, IStartable node) pure nothrow {
-    startableMap[id] = node;
+  typeof(this) setStartableMap(string id, IStartable entity) pure nothrow {
+    startableMap[id] = entity;
     return this;
   }
 
   /**
-   * Add a node to the updateable map.
+   * Add a entity to the updateable map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setUpdateableMap(string id, IUpdateable node) pure nothrow {
-    updateableMap[id] = node;
+  typeof(this) setUpdateableMap(string id, IUpdateable entity) pure nothrow {
+    updateableMap[id] = entity;
     return this;
   }
 
@@ -230,21 +230,21 @@ final class Scene : ISceneFactory, IUpdateable {
   typeof(this) initialize() {
     initialized = true;
     
-    // Start all startable nodes
-    foreach (node; startableMap)
-      node.start;
+    // Start all startable entitys
+    foreach (entity; startableMap)
+      entity.start;
     
     return this;
   }
 
   /**
-   * Update all nodes that have an update() method.
-   * These nodes must implement $(D IUpdateable).
+   * Update all entitys that have an update() method.
+   * These entitys must implement $(D IUpdateable).
    * It's called every frame.
   **/
   void update() {
-    foreach (node; updateableMap)
-      node.update;
+    foreach (entity; updateableMap)
+      entity.update;
   }
 
   /**
@@ -252,8 +252,8 @@ final class Scene : ISceneFactory, IUpdateable {
    * It's called every frame after $(D Scene.update).
   **/
   void render() {
-    foreach (node; oldRenderableMap)
-      node.render(this);
+    foreach (entity; oldRenderableMap)
+      entity.render(this);
 
     foreach (shader; shaderMap)
       shader.render(this);
@@ -262,11 +262,11 @@ final class Scene : ISceneFactory, IUpdateable {
   }
 
   /**
-   * Returns all elements in the scene node map.
-   * See $(D SceneNode) class.
+   * Returns all elements in the scene entity map.
+   * See $(D Entity) class.
   **/
-  SceneNode[string] getNodeMap()  pure nothrow {
-    return nodeMap;
+  Entity[string] getEntityMap()  pure nothrow {
+    return entityMap;
   }
 
   /**

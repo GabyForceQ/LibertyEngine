@@ -36,25 +36,25 @@ final class TextSystem {
   }
 
   /**
-   * Register a text node to the text system.
+   * Register a text entity to the text system.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) registerElement(Text node) pure nothrow {
-    //map[node.getId] = node;
+  typeof(this) registerElement(Text entity) pure nothrow {
+    //map[entity.getId] = entity;
     return this;
   }
 
   /**
-   * Remove the given text node from the text map.
+   * Remove the given text entity from the text map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) removeElement(Text node) pure nothrow {
-    //map.remove(node.getId);
+  typeof(this) removeElement(Text entity) pure nothrow {
+    //map.remove(entity.getId);
     return this;
   }
 
   /**
-   * Remove the text node that has the given id from the text map.
+   * Remove the text entity that has the given id from the text map.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) removeElementById(string id) pure nothrow {

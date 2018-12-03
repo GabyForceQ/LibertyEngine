@@ -18,7 +18,7 @@ import liberty.framework.terrain.vertex;
 import liberty.material.impl;
 import liberty.model.impl;
 import liberty.model.io;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.scene.services;
 import liberty.image.format.bmp;
 import liberty.image.io;
@@ -26,8 +26,8 @@ import liberty.image.io;
 /**
  *
 **/
-final class Terrain : SceneNode {
-  mixin NodeConstructor;
+final class Terrain : Entity {
+  mixin EntityConstructor;
 
   private {
     const float maxPixelColor = 256 ^^ 3;

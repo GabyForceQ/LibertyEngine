@@ -14,31 +14,31 @@ module liberty.scene.services;
 import liberty.scene.impl;
 
 /**
- * Service used in startable scene nodes.
+ * Service used in startable scene entitys.
 **/
 interface IStartable {
   /**
-   * Called after all scene nodes instantiation.
+   * Called after all scene entitys instantiation.
   **/
   void start();
 }
 
 /**
- * Service used in updateable scene nodes.
+ * Service used in updateable scene entitys.
 **/
 interface IUpdateable {
   /**
-   * Called every frame to update the current state of the scene node.
+   * Called every frame to update the current state of the scene entity.
   **/
   void update();
 }
 
 /**
- * Service used in renderable scene nodes.
+ * Service used in renderable scene entitys.
 **/
 interface IRenderable {
   /**
-   * Called every frame to render the scene node.
+   * Called every frame to render the scene entity.
   **/
   void render(Scene scene);
 }

@@ -54,7 +54,7 @@ final class SkyBoxRenderer : Renderer {
   }
 
   /**
-   * Render a cube map node by its reference.
+   * Render a cube map entity by its reference.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) render(SkyBox skyBox)

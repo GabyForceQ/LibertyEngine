@@ -8,17 +8,17 @@
 **/
 module liberty.framework.gui.impl;
 
-import liberty.scene.node;
+import liberty.scene.entity;
 
 /**
  * A gui represents a 2-dimensional view containting graphical user interface elements.
- * Inheriths $(D SceneNode) class and implements $(D IUpdateable) service.
+ * Inheriths $(D Entity) class and implements $(D IUpdateable) service.
 **/
-abstract class Gui : SceneNode {
+abstract class Gui : Entity {
   /**
    * Create a new gui using an id and a parent.
   **/
-  this(string id, SceneNode parent) {
+  this(string id, Entity parent) {
     super(id, parent);
   }
 }

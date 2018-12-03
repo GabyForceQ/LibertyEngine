@@ -13,7 +13,7 @@ import liberty.graphics.shader.factory;
 import liberty.graphics.shader.program;
 import liberty.scene.constants;
 import liberty.scene.impl;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.scene.services;
 
 /**
@@ -29,7 +29,7 @@ final class Shader : IShaderFactory, IRenderable {
     string[] uniforms;
     string[] samplers;
 
-    SceneNode[string] map;
+    Entity[string] map;
     ShaderProgram program;
     void delegate(ShaderProgram program) onGlobalRender;
     void delegate(ShaderProgram program) onPerEntityRender;
@@ -119,48 +119,48 @@ final class Shader : IShaderFactory, IRenderable {
   }
 
   /**
-   * Register a node to the renderer.
+   * Register a entity to the renderer.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) registerElement(SceneNode node) pure nothrow {
-    map[node.getId] = node;
+  typeof(this) registerEntity(Entity entity) pure nothrow {
+    map[entity.getId] = entity;
     return this;
   }
 
   /**
-   * Remove the given node from the map.
+   * Remove the given entity from the map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) removeElement(SceneNode node) pure nothrow {
-    map.remove(node.getId);
+  typeof(this) removeEntity(Entity entity) pure nothrow {
+    map.remove(entity.getId);
     return this;
   }
 
   /**
-   * Remove the node that has the given id from the map.
+   * Remove the entity that has the given id from the map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) removeElementById(string id) pure nothrow {
+  typeof(this) removeEntityById(string id) pure nothrow {
     map.remove(id);
     return this;
   }
 
   /**
-   * Returns all elements in the map.
+   * Returns all entities in the map.
   **/
-  SceneNode[string] getMap() pure nothrow {
+  Entity[string] getMap() pure nothrow {
     return map;
   }
 
   /**
-   * Returns the element in the map that has the given id.
+   * Returns the entity in the map that has the given id.
   **/
-  SceneNode getElementById(string id) pure nothrow {
+  Entity getEntityById(string id) pure nothrow {
     return map[id];
   }
 
   /**
-   * Add global render delegate so it can be called every render tick once for all map elements.
+   * Add global render delegate so it can be called every render tick once for all map entities.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) addGlobalRender(void delegate(ShaderProgram) dg) {
@@ -169,7 +169,7 @@ final class Shader : IShaderFactory, IRenderable {
   }
 
   /**
-   * Add per entity render delegate so it can be called every render tick for every map element.
+   * Add per entity render delegate so it can be called every render tick for every map entity.
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) addPerEntityRender(void delegate(ShaderProgram) dg) {
@@ -178,7 +178,7 @@ final class Shader : IShaderFactory, IRenderable {
   }
 
   /**
-   * Render all map elements to the screen.
+   * Render all map entities to the screen.
   **/
   void render(Scene scene) {
     auto camera = scene.getActiveCamera;
@@ -193,20 +193,20 @@ final class Shader : IShaderFactory, IRenderable {
     if (onGlobalRender !is null)
       onGlobalRender(program);
     
-    foreach (node; map)
-      if (node.getVisibility == Visibility.Visible)
-        render(node);
+    foreach (entity; map)
+      if (entity.getVisibility == Visibility.Visible)
+        render(entity);
 
     program.unbind;
   }
 
-  private void render(SceneNode node) 
-  in (node !is null, "You cannot render a null scene node.")
+  private void render(Entity entity) 
+  in (entity !is null, "You cannot render a null scene entity.")
   do {
-    auto model = node.getModel;
+    auto model = entity.getModel;
 
     if (model !is null) {
-      program.loadUniform("uModelMatrix", node.getTransform.getModelMatrix);
+      program.loadUniform("uModelMatrix", entity.getTransform.getModelMatrix);
 
       if (onPerEntityRender !is null)
         onPerEntityRender(program);

@@ -12,7 +12,7 @@ import liberty.scene.meta;
 import liberty.material.impl;
 import liberty.math.vector;
 import liberty.model.io;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.model.impl;
 import liberty.framework.primitive.vertex;
 import liberty.framework.terrain.vertex;
@@ -25,7 +25,7 @@ abstract class BSPVolume : Primitive {
   /**
    *
   **/
-  this(string id, SceneNode parent) {
+  this(string id, Entity parent) {
     super(id, parent);
   }
 }
@@ -34,7 +34,7 @@ abstract class BSPVolume : Primitive {
  *
 **/
 final class BSPCube : BSPVolume {
-  mixin NodeConstructor;
+  mixin EntityConstructor;
 
   /**
    *
@@ -50,7 +50,7 @@ final class BSPCube : BSPVolume {
  *
 **/
 final class BSPPyramid : BSPVolume {
-  mixin NodeConstructor;
+  mixin EntityConstructor;
 
   /**
    *
@@ -66,7 +66,7 @@ final class BSPPyramid : BSPVolume {
  *
 **/
 final class BSPSquare : BSPVolume {
-  mixin NodeConstructor;
+  mixin EntityConstructor;
 
   /**
    *
@@ -82,7 +82,7 @@ final class BSPSquare : BSPVolume {
  *
 **/
 final class BSPTriangle : BSPVolume {
-  mixin NodeConstructor;
+  mixin EntityConstructor;
 
   /**
    *

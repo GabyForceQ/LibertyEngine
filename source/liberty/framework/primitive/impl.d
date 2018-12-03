@@ -10,13 +10,13 @@ module liberty.framework.primitive.impl;
 
 import liberty.logger.impl;
 import liberty.model.impl;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.graphics.shader.impl;
 
 /**
  *
 **/
-abstract class Primitive : SceneNode {
+abstract class Primitive : Entity {
   private {
     Shader shader;
   }
@@ -24,12 +24,12 @@ abstract class Primitive : SceneNode {
   /**
    *
   **/
-  this(string id, SceneNode parent) {
+  this(string id, Entity parent) {
     super(id, parent);
 
     shader = Shader.getOrCreate("Primitive");
     shader
-      .registerElement(this)
+      .registerEntity(this)
       .addGlobalRender((program) {
         program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
       })
@@ -49,7 +49,7 @@ abstract class UniquePrimitive : Primitive {
   /**
    *
   **/
-  this(string id, SceneNode parent) {
+  this(string id, Entity parent) {
     if (this.hasInstance) {
       Logger.error(
         "Cannot have multiple instances", 

@@ -36,44 +36,44 @@ abstract class SceneIO : ISerializable {
 
     file.writeln("id: " ~ scene.getId);
 
-    foreach (Primitive node; cast(Primitive[string])scene.getOldRendererById("Primitive").getMap) {
+    foreach (Primitive entity; cast(Primitive[string])scene.getOldRendererById("Primitive").getMap) {
       file.writeln(
         "Primitive: { " ~
-          "id: " ~ node.getId ~
+          "id: " ~ entity.getId ~
           "transform: [ " ~
-            "location: " ~ node.getTransform.getAbsoluteLocation.toString ~ 
+            "location: " ~ entity.getTransform.getAbsoluteLocation.toString ~ 
         " ] }"
       );
     }
 
-    foreach (Terrain node; cast(Terrain[string])scene.getOldRendererById("Terrain").getMap) {
+    foreach (Terrain entity; cast(Terrain[string])scene.getOldRendererById("Terrain").getMap) {
       file.writeln(
         "Terrain: { " ~
-          "id: " ~ node.getId ~
-          " , size: " ~ node.getSize.to!string ~
-          " , maxHeight " ~ node.getMaxHeight.to!string ~
+          "id: " ~ entity.getId ~
+          " , size: " ~ entity.getSize.to!string ~
+          " , maxHeight " ~ entity.getMaxHeight.to!string ~
           " , materials: [ " ~
-            node.getModel.getMaterials[0].getTexture.getRelativePath ~
-            " , " ~ node.getModel.getMaterials[1].getTexture.getRelativePath ~
-            " , " ~ node.getModel.getMaterials[2].getTexture.getRelativePath ~
-            " , " ~ node.getModel.getMaterials[3].getTexture.getRelativePath ~
-            " , " ~ node.getModel.getMaterials[4].getTexture.getRelativePath ~
+            entity.getModel.getMaterials[0].getTexture.getRelativePath ~
+            " , " ~ entity.getModel.getMaterials[1].getTexture.getRelativePath ~
+            " , " ~ entity.getModel.getMaterials[2].getTexture.getRelativePath ~
+            " , " ~ entity.getModel.getMaterials[3].getTexture.getRelativePath ~
+            " , " ~ entity.getModel.getMaterials[4].getTexture.getRelativePath ~
         " ] }"
       );
     }
 
-    /*foreach (node; scene.getSurfaceSystem.getMap) {
+    /*foreach (entity; scene.getSurfaceSystem.getMap) {
       file.writeln(
         "Widget: { " ~
-          "id: " ~ node.getId ~
+          "id: " ~ entity.getId ~
         " }"
       );
     }*/
 
-    foreach (Light node; cast(Light[string])scene.getOldRendererById("Light").getMap) {
+    foreach (Light entity; cast(Light[string])scene.getOldRendererById("Light").getMap) {
       file.writeln(
         "Light: { " ~
-          "id: " ~ node.getId ~
+          "id: " ~ entity.getId ~
         " }"
       );
     }

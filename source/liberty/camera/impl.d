@@ -17,17 +17,17 @@ import liberty.time;
 import liberty.camera.constants;
 import liberty.camera.preset;
 import liberty.scene.meta;
-import liberty.scene.node;
+import liberty.scene.entity;
 import liberty.scene.impl;
 
 /**
  * Represents the view of the observer.
  * Everything that is rendered to the screen is processed within the projection matrix and view matrix of a camera.
- * Inheriths $(D SceneNode) class and encapsulates $(D NodeConstructor) macro.
+ * Inheriths $(D Entity) class and encapsulates $(D EntityConstructor) macro.
  * It has a custom constructor that calls: $(D updateCameraVectors) and adds default $(D CameraPreset).
 **/
-final class Camera : SceneNode {
-  mixin NodeConstructor!(q{
+final class Camera : Entity {
+  mixin EntityConstructor!(q{
     this.updateCameraVectors();
     this.preset = CameraPreset.getDefault();
     this.getTransform().setRelativeLocation(0.0f, 3.0f, 4.0f);
