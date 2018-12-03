@@ -10,5 +10,4 @@ module liberty.framework.light;
 
 public {
   import liberty.framework.light.impl;
-  import liberty.framework.light.renderer;
 }

@@ -11,11 +11,12 @@ module liberty.scene.impl;
 import liberty.camera;
 import liberty.core.engine;
 import liberty.framework.gui.renderer;
-import liberty.framework.light.renderer;
+import liberty.framework.light.impl;
 import liberty.graphics.shader.impl;
 import liberty.math.vector;
-import liberty.scene.factory;
+import liberty.scene.constants;
 import liberty.scene.entity;
+import liberty.scene.factory;
 import liberty.scene.renderer;
 import liberty.scene.services;
 import liberty.text.system;
@@ -57,6 +58,9 @@ final class Scene : ISceneFactory, IUpdateable {
   
     // getShader, addShader
     Shader[string] shaderMap;
+
+    // addLight
+    Light[string] lightMap;
   }
 
   package {
@@ -86,6 +90,24 @@ final class Scene : ISceneFactory, IUpdateable {
   }
 
   /**
+   * Add a new light to the light map.
+   * Returns reference to this so it can be used in a stream.
+   * See $(D Light) class.
+  **/
+  typeof(this) addLight(Light light) {
+    lightMap[light.getId] = light;
+    return this;
+  }
+
+  /**
+   * Returns the light with the given id.
+   * See $(D Shader) class.
+  **/
+  Light getLight(string id) pure nothrow {
+    return lightMap[id];
+  }
+
+  /**
    * Create a scene using a unique id.
   **/
   this(string id) {
@@ -97,7 +119,6 @@ final class Scene : ISceneFactory, IUpdateable {
     activeCamera = tree.spawn!Camera("DefaultCamera");
 
     // Create renderers
-    oldRenderableMap["Light"] = new LightRenderer("Light", this);
     oldRenderableMap["Gui"] = new GuiRenderer("Gui", this);
 
     textSystem = new TextSystem(this);
@@ -251,6 +272,10 @@ final class Scene : ISceneFactory, IUpdateable {
     foreach (entity; oldRenderableMap)
       entity.render(this);
 
+    // Apply all lights to the scene
+    applyLights;
+
+    // Render all shaders to the scene
     foreach (shader; shaderMap)
       shader.render(this);
     
@@ -327,5 +352,24 @@ final class Scene : ISceneFactory, IUpdateable {
   **/
   string getRelativePath() pure nothrow const {
     return relativePath;
+  }
+
+  private void applyLights() {
+    foreach (id; ["Primitive", "Terrain"]) 
+      if (Shader.exists(id)) {
+        Shader
+          .getOrCreate(id)
+          .getProgram
+          .bind;
+
+        foreach (light; lightMap)
+          if (light.getVisibility == Visibility.Visible)
+            light.applyTo(id);
+        
+        Shader
+          .getOrCreate(id)
+          .getProgram
+          .unbind;
+      }
   }
 }

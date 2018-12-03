@@ -21,6 +21,13 @@ interface IShaderFactory {
   /**
    *
   **/
+  static bool exists(string id) nothrow {
+    return (id in shaders) !is null;
+  }
+
+  /**
+   *
+  **/
   static Shader getOrCreate(string id, void delegate(Shader) createDg = null) {
     if (id !in shaders) {
       switch (id) {

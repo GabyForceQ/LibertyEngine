@@ -8,14 +8,15 @@
 **/
 module liberty.framework.light.impl;
 
-import liberty.framework.primitive.vertex;
 import liberty.framework.primitive.impl;
+import liberty.framework.primitive.vertex;
 import liberty.graphics.shader.constants;
 import liberty.graphics.shader.impl;
+import liberty.logger.impl;
 import liberty.math.functions;
 import liberty.math.vector;
-import liberty.scene.meta;
 import liberty.scene.entity;
+import liberty.scene.meta;
 
 /**
  *
@@ -25,6 +26,8 @@ final class Light : Entity {
     this.getTransform.setAbsoluteLocation(0.0f, 200.0f, 0.0f);
     this.index = this.numberOfLights;
     this.numberOfLights++;
+
+    scene.addLight(this);
   });
 
   mixin EntityDestructor!(q{
@@ -71,7 +74,35 @@ final class Light : Entity {
     return attenuation;
   }
 
+  /**
+   *
+  **/
   uint getIndex() pure nothrow const {
     return index;
+  }
+
+  /**
+   * Apply light to a primitive or terrain.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) applyTo(string shaderId)
+  in (shaderId == "Primitive" || shaderId == "Terrain",
+    "You can apply light only on primitives and terrains.")
+  do {
+    import std.conv : to;
+
+    if (index < 4) {
+      Shader
+        .getOrCreate(shaderId)
+        .getProgram
+        .loadUniform("uLightPosition[" ~ index.to!string ~ "]", getTransform.getLocation)
+        .loadUniform("uLightColor[" ~ index.to!string ~ "]", color)
+        .loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation)
+        .loadUniform("uShineDamper", 1.0f)
+        .loadUniform("uReflectivity", 0.0f);
+    } else
+      Logger.warning(shaderId ~ " shader can't render more than 4 lights.", typeof(this).stringof);
+
+    return this;
   }
 }
