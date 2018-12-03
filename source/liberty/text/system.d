@@ -21,7 +21,7 @@ import liberty.scene.impl;
 final class TextSystem {
   private {
     TextRenderer renderer;
-    TextShader shader;
+    //TextShader shader;
     Text[string] map;
     Scene scene;
   }
@@ -31,7 +31,7 @@ final class TextSystem {
   **/
   this(Scene scene) {
     this.scene = scene;
-    shader = new TextShader();
+    //shader = new TextShader();
     renderer = new TextRenderer(this, scene);
   }
 
@@ -86,7 +86,7 @@ final class TextSystem {
   /**
    * Returns a text shader reference.
   **/
-  TextShader getShader() pure nothrow {
-    return shader;
-  }
+  //TextShader getShader() pure nothrow {
+  //  return shader;
+  //}
 }

@@ -15,6 +15,7 @@ import liberty.framework.primitive.vertex;
 import liberty.framework.terrain.vertex;
 import liberty.logger;
 import liberty.math.transform;
+import liberty.model.impl;
 import liberty.scene.constants;
 import liberty.scene.impl;
 import liberty.scene.services;
@@ -28,6 +29,9 @@ abstract class SceneNode : IStartable, IUpdateable {
   private {
     // getId
     string id;
+  }
+  
+  protected {
     // getScene
     Scene scene;
     // getParent
@@ -36,10 +40,28 @@ abstract class SceneNode : IStartable, IUpdateable {
     SceneNode[string] childMap;
     // It is used in spawnOnce methods
     SceneNode[string] singletonMap;
-    // getTransform
-    Transform transform;
     // setVisibility, getVisibility
     Visibility visibility;
+    // getTransform
+    Transform transform;
+    // setModel, getModel
+    Model model;
+  }
+
+  /**
+   * Set node's model.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setModel(Model model) pure nothrow {
+    this.model = model;
+    return this;
+  }
+
+  /**
+   * Returns the model of the node.
+  **/
+  Model getModel() pure nothrow {
+    return model;
   }
 
   /**

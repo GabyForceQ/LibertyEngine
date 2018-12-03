@@ -8,9 +8,10 @@
 **/
 module liberty.framework.gui.renderer;
 
-import liberty.graphics.shader.graph;
+import liberty.graphics.shader.impl;
 import liberty.framework.gui.impl;
 import liberty.scene.constants;
+import liberty.scene.impl;
 import liberty.scene.meta;
 import liberty.scene.renderer;
 
@@ -20,13 +21,13 @@ import liberty.scene.renderer;
 **/
 final class GuiRenderer : Renderer {
   mixin RendererConstructor!(q{
-    shader = GfxShaderGraph.getShader("Gui");
+    shader = Shader.getOrCreate("Gui");
   });
 
   /**
    * Render all gui elements to the screen.
   **/
-  void render() {
+  void render(Scene scene) {
     shader.getProgram.bind;
     
     foreach (gui; map)

@@ -11,6 +11,8 @@
 **/
 module liberty.scene.services;
 
+import liberty.scene.impl;
+
 /**
  * Service used in startable scene nodes.
 **/
@@ -38,7 +40,17 @@ interface IRenderable {
   /**
    * Called every frame to render the scene node.
   **/
-  void render();
+  void render(Scene scene);
+}
+
+/**
+ *
+**/
+interface IDrawable {
+  /**
+   *
+  **/
+  void draw();
 }
 
 /**

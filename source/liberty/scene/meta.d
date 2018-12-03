@@ -28,7 +28,6 @@ mixin template NodeConstructor(string code = "") {
     import liberty.framework.light.impl : Light;
     import liberty.framework.light.renderer : LightRenderer;
     import liberty.framework.primitive.impl : Primitive;
-    import liberty.framework.primitive.renderer : PrimitiveRenderer;
     import liberty.framework.skybox.impl : SkyBox;
     import liberty.framework.skybox.renderer : SkyBoxRenderer;
     import liberty.framework.terrain.impl : Terrain;
@@ -60,9 +59,9 @@ mixin template NodeConstructor(string code = "") {
       }
     }
 
-    static foreach (sys; ["Primitive", "Terrain", "SkyBox", "Light", "Gui"])
+    static foreach (sys; ["Terrain", "SkyBox", "Light", "Gui"])
       static if (mixin("is(typeof(this) : " ~ sys ~ ")"))
-        mixin("(cast(" ~ sys ~ "Renderer)getScene.getRendererById(\"" ~ sys ~ "\")).registerElement(this);");
+        mixin("(cast(" ~ sys ~ "Renderer)getScene.getOldRendererById(\"" ~ sys ~ "\")).registerElement(this);");
   }
 }
 

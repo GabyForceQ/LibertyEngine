@@ -8,10 +8,11 @@
 **/
 module liberty.framework.skybox.renderer;
 
-import liberty.graphics.shader.graph;
+import liberty.graphics.shader.impl;
 import liberty.framework.skybox.impl;
 import liberty.math.matrix;
 import liberty.scene.constants;
+import liberty.scene.impl;
 import liberty.scene.meta;
 import liberty.scene.renderer;
 
@@ -21,13 +22,13 @@ import liberty.scene.renderer;
 **/
 final class SkyBoxRenderer : Renderer {
   mixin RendererConstructor!(q{
-    shader = GfxShaderGraph.getShader("SkyBox");
+    shader = Shader.getOrCreate("SkyBox");
   });
 
   /**
    * Render the sky box to the screen.
   **/
-  void render() {
+  void render(Scene scene) {
     auto camera = scene.getActiveCamera;
 
     // Make it unreachable

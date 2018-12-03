@@ -8,399 +8,258 @@
 **/
 module liberty.graphics.shader.impl;
 
-version (__OPENGL__)
-  import bindbc.opengl;
-
-import liberty.core.engine;
 import liberty.graphics.shader.constants;
 import liberty.graphics.shader.factory;
-import liberty.graphics.shader.renderer;
-import liberty.logger.impl;
-import liberty.math.vector;
-import liberty.math.matrix;
+import liberty.graphics.shader.program;
+import liberty.scene.constants;
+import liberty.scene.impl;
+import liberty.scene.node;
+import liberty.scene.services;
 
 /**
- * Base shader class.
- * It inherits $(D GfxShaderRenderer) service.
+ *
 **/
-class GfxShaderProgram : GfxShaderRenderer {
+final class Shader : IShaderFactory, IRenderable {
   private {
-    uint programID;
-    uint vertexShaderID;
-    uint fragmentShaderID;
-    int[string] uniforms;
+    string id;
+    string vertexCode;
+    string fragmentCode;
+
+    string[] attributes;
+    string[] uniforms;
+    string[] samplers;
+
+    SceneNode[string] map;
+    ShaderProgram program;
+    void delegate(ShaderProgram program) onGlobalRender;
+    void delegate(ShaderProgram program) onPerEntityRender;
+    
+    bool hasViewMatrix;
   }
 
   /**
-   * Returns the shader id.
+   * Create a new shader program with empty map and id.
   **/
-  final uint getId() pure nothrow const {
-    return programID;
+  this(string id) {
+    this.id = id;
+    program = new ShaderProgram;
   }
 
   /**
-   * Bind the shader into video memory.
+   * Returns shader id.
+  **/
+  string getId() pure nothrow const {
+    return id;
+  }
+
+  /**
+   * Add vertex code.
    * Returns reference to this so it can be used in a stream.
   **/
-  R bind(this R)() {
-    version (__OPENGL__)
-      glUseProgram(this.programID);    
-
-    return cast(R)this;
+  typeof(this) addVertexCode(string code) pure nothrow {
+    vertexCode = GFX_SHADER_CORE_VERSION ~ code;
+    return this;
   }
 
   /**
-   * Unbind the shader from video memory.
+   * Add fragment code.
    * Returns reference to this so it can be used in a stream.
   **/
-  R unbind(this R)() {
-    version (__OPENGL__)
-      glUseProgram(0);
-
-    return cast(R)this;
+  typeof(this) addFragmentCode(string code) pure nothrow {
+    fragmentCode = GFX_SHADER_CORE_VERSION ~ code;
+    return this;
   }
 
   /**
-   * Bind a shader attribute into video memory.
-   * Returns reference to this so it can be used in a stream.
+   * Returns true if vertex code exists.
   **/
-  R bindAttribute(this R)(string name) {
-    import std.string : toStringz;
-
-    version (__OPENGL__)
-      glBindAttribLocation(programID, attributeCount++, name.toStringz);
-
-    return cast(R)this;
+  bool hasVertexProgram() pure nothrow const {
+    return vertexCode != "";
   }
 
   /**
-   * Compile vertex and fragment shader using its code.
-   * Returns reference to this so it can be used in a stream.
+   * Returns true if fragement code exists.
   **/
-  R compileShaders(this R)(string vertexShader, string fragmentShader) {
-    // Create program
-    version (__OPENGL__)
-      this.programID = glCreateProgram();
-
-    // Load shaders
-    this.vertexShaderID = loadShader(vertexShader, GfxShaderType.VERTEX);
-    this.fragmentShaderID = loadShader(fragmentShader, GfxShaderType.FRAGMENT);
-
-    return cast(R)this;
+  bool hasFragmentProgram() pure nothrow const {
+    return fragmentCode != "";
   }
 
   /**
-   * Link shaders into video memory.
+   * Build shader data, compile and link.
    * Returns reference to this so it can be used in a stream.
   **/
-  R linkShaders(this R)() {
-    version (__OPENGL__) {
-      // Attach shaders to program
-      glAttachShader(this.programID, this.vertexShaderID);
-      glAttachShader(this.programID, this.fragmentShaderID,);
+  typeof(this) build() {
+    fillBuffers();
 
-      // Link program
-      glLinkProgram(this.programID);
+    program
+      .compileShaders(vertexCode, fragmentCode)
+      .linkShaders;
 
-      // Check program link
-      GLint isLinked;
-      glGetProgramiv(this.programID, GL_LINK_STATUS, cast(int*)&isLinked);
-      if (isLinked == GL_FALSE) {
-        // Get error information
-        GLint maxLength;
-        glGetProgramiv(this.programID, GL_INFO_LOG_LENGTH, &maxLength);
-        char[] errorLog = new char[maxLength];
-        glGetShaderInfoLog(this.programID, maxLength, &maxLength, errorLog.ptr);
+    foreach (a; attributes)
+      program.bindAttribute(a);
 
-        // Delete program
-        glDeleteProgram(this.programID);
+    program.bind;
 
-        // Delete shaders too
-        glDeleteShader(this.vertexShaderID);
-        glDeleteShader(this.fragmentShaderID,);
+    foreach (u; uniforms)
+      program.addUniform(u);
 
-        // Log the error
-        Logger.error("Failed to link shaders", typeof(this).stringof);
-      }
+    foreach (int i, s; samplers)
+      program.loadUniform(s, i);
 
-      // Detach shaders after a successful link
-      glDetachShader(this.programID, this.vertexShaderID);
-      glDetachShader(this.programID, this.fragmentShaderID,);
+    program.unbind;
 
-      // Delete shaders. We don't need them anymore because they are linked
-      glDeleteShader(this.vertexShaderID);
-      glDeleteShader(this.fragmentShaderID);
+    return this;
+  }
+
+  /**
+   * Returns the shader program from the map.
+  **/
+  ShaderProgram getProgram() pure nothrow {
+    return program;
+  }
+
+  /**
+   * Register a node to the renderer.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) registerElement(SceneNode node) pure nothrow {
+    map[node.getId] = node;
+    return this;
+  }
+
+  /**
+   * Remove the given node from the map.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) removeElement(SceneNode node) pure nothrow {
+    map.remove(node.getId);
+    return this;
+  }
+
+  /**
+   * Remove the node that has the given id from the map.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) removeElementById(string id) pure nothrow {
+    map.remove(id);
+    return this;
+  }
+
+  /**
+   * Returns all elements in the map.
+  **/
+  SceneNode[string] getMap() pure nothrow {
+    return map;
+  }
+
+  /**
+   * Returns the element in the map that has the given id.
+  **/
+  SceneNode getElementById(string id) pure nothrow {
+    return map[id];
+  }
+
+  /**
+   * Add global render delegate so it can be called every render tick once for all map elements.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) addGlobalRender(void delegate(ShaderProgram) dg) {
+    onGlobalRender = dg;
+    return this;
+  }
+
+  /**
+   * Add per entity render delegate so it can be called every render tick for every map element.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) addPerEntityRender(void delegate(ShaderProgram) dg) {
+    onPerEntityRender = dg;
+    return this;
+  }
+
+  /**
+   * Render all map elements to the screen.
+  **/
+  void render(Scene scene) {
+    auto camera = scene.getActiveCamera;
+
+    program
+      .bind
+      .loadUniform("uProjectionMatrix", camera.getProjectionMatrix);
+
+    if (hasViewMatrix)
+      program.loadUniform("uViewMatrix", camera.getViewMatrix);
+
+    if (onGlobalRender !is null)
+      onGlobalRender(program);
+    
+    foreach (node; map)
+      if (node.getVisibility == Visibility.Visible)
+        render(node);
+
+    program.unbind;
+  }
+
+  private void render(SceneNode node) 
+  in (node !is null, "You cannot render a null scene node.")
+  do {
+    auto model = node.getModel;
+
+    if (model !is null) {
+      program.loadUniform("uModelMatrix", node.getTransform.getModelMatrix);
+
+      if (onPerEntityRender !is null)
+        onPerEntityRender(program);
+      
+      program.render(model);
+    }
+  }
+
+  private void fillBuffers() {
+    import std.array : split;
+    import std.conv : to;
+
+    // TODO. Possible \r
+    // Parse vertex shader
+    char[][] vertLines = (cast(char[])vertexCode).split("\n");
+    foreach (line; vertLines) {
+      char[][] vertTok = line.split(" ");
+      foreach (i, tok; vertTok)
+        if (tok == "in")
+          attributes ~= vertTok[i + 2][0 .. $ - 1].to!string;
+        else if (tok == "uniform") {
+          if (vertTok[i + 2][$ - 2] == ']') {
+            const arrLen = vertTok[i + 2][$ - 3].to!string.to!int;
+            foreach (j; 0..arrLen)
+              uniforms ~= vertTok[i + 2][0 .. $ - 4].to!string ~ "[" ~ j.to!string ~ "]";
+          } else {
+            uniforms ~= vertTok[i + 2][0 .. $ - 1].to!string;
+            if (uniforms[$ - 1] == "uViewMatrix")
+              hasViewMatrix = true;
+          }
+        }
     }
 
-    return cast(R)this;
-  }
-
-  /**
-   * Add a new shader uniform to the uniforms map using its name.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R addUniform(this R)(string name) {
-    import std.string : toStringz;
-    
-    version (__OPENGL__) {
-      immutable location = glGetUniformLocation(this.programID, name.toStringz);
-      if (location == GL_INVALID_VALUE) {
-        Logger.error("Could not find uniform: " ~ name, typeof(this).stringof);
-      }
+    // Parse fragment shader
+    // TODO. Possible \r
+    char[][] fragLines = (cast(char[])fragmentCode).split("\n");
+    foreach (line; fragLines) {
+      char[][] fragTok = line.split(" ");
+      foreach (i, tok; fragTok)
+        if (tok == "uniform") {
+          if (fragTok[i + 2][$ - 2] == ']') {
+            const arrLen = fragTok[i + 2][$ - 3].to!string.to!int;
+            foreach (j; 0..arrLen) {
+              uniforms ~= fragTok[i + 2][0 .. $ - 4].to!string ~ "[" ~ j.to!string ~ "]";
+              if (fragTok[i + 1] == "sampler2D" || fragTok[i + 1] == "samplerCube")
+                samplers ~= fragTok[i + 2][0 .. $ - 1].to!string;
+            }
+          } else {
+            uniforms ~= fragTok[i + 2][0 .. $ - 1].to!string;
+            if (fragTok[i + 1] == "sampler2D" || fragTok[i + 1] == "samplerCube")
+              samplers ~= fragTok[i + 2][0 .. $ - 1].to!string;
+          }
+        }
     }
-    else
-      immutable location = 0;
-
-    this.uniforms[name] = location;
-
-    return cast(R)this;
-  }
-
-  /**
-   * Load a bool uniform using location id and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(int locationID, bool value) nothrow {
-    version (__OPENGL__)
-      glUniform1i(locationID, cast(int)value);
-
-    return cast(R)this;
-  }
-
-  /**
-   * Load an int uniform using location id and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(int locationID, int value) nothrow {
-    version (__OPENGL__)
-      glUniform1i(locationID, value);
-
-    return cast(R)this;
-  }
-
-  /**
-   * Load an uint uniform using location id and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(int locationID, uint value) nothrow {
-    version (__OPENGL__)
-      glUniform1ui(locationID, value);
-
-    return cast(R)this;
-  }
-
-  /**
-   * Load a float uniform using location id and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(int locationID, float value) nothrow {
-    version (__OPENGL__)
-      glUniform1f(locationID, value);
-
-    return cast(R)this;
-  }
-
-  /**
-   * Load a vec2 uniform using location id and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(int locationID, Vector2F vector) nothrow {
-    version (__OPENGL__)
-      glUniform2f(locationID, vector.x, vector.y);
-
-    return cast(R)this;
-  }
-
-  /**
-   * Load vec3 uniform using location id and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(int locationID, Vector3F vector) nothrow {
-    version (__OPENGL__)
-      glUniform3f(locationID, vector.x, vector.y, vector.z);
-
-    return cast(R)this;
-  }
-
-  /**
-   * Load vec4 uniform using location id and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(int locationID, Vector4F vector) nothrow {
-    version (__OPENGL__)
-      glUniform4f(locationID, vector.x, vector.y, vector.z, vector.w);
-    
-    return cast(R)this;
-  }
-
-  /**
-   * Load Matrix4F uniform using location id and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(int locationID, Matrix4F matrix) nothrow {
-    version (__OPENGL__)
-      glUniformMatrix4fv(locationID, 1, GL_TRUE, matrix.ptr);
-    
-    return cast(R)this;
-  }
-
-  /**
-   * Load bool uniform using uniform name and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(string name, bool value) nothrow {
-    version (__OPENGL__)
-      glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), cast(int)value);
-    
-    return cast(R)this;
-  }
-
-  /**
-   * Load int uniform using uniform name and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(string name, int value) nothrow {
-    version (__OPENGL__)
-      glUniform1i(glGetUniformLocation(this.programID, cast(const(char)*)name), value);
-    
-    return cast(R)this;
-  }
-
-  /**
-   * Load uint uniform using uniform name and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(string name, uint value) nothrow {
-    version (__OPENGL__)
-      glUniform1ui(glGetUniformLocation(programID, cast(const(char)*)name), value);
-    
-    return cast(R)this;
-  }
-
-  /**
-   * Load float uniform using uniform name and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(string name, float value) nothrow {
-    version (__OPENGL__)
-      glUniform1f(uniforms[name], value);
-    
-    return cast(R)this;
-  }
-
-  /**
-   * Load Vector2F uniform using uniform name and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(string name, Vector2F vector) nothrow {
-    version (__OPENGL__)
-      glUniform2f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y);
-    
-    return cast(R)this;
-  }
-
-  /**
-   * Load Vector3F uniform using uniform name and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(string name, Vector3F vector) nothrow {
-    version (__OPENGL__)
-      glUniform3f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z);
-    
-    return cast(R)this;
-  }
-
-  /**
-   * Load Vector4F uniform using uniform name and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(string name, Vector4F vector) nothrow {
-    version (__OPENGL__)
-      glUniform4f(glGetUniformLocation(this.programID, cast(const(char)*)name), vector.x, vector.y, vector.z, vector.w);
-    
-    return cast(R)this;
-  }
-
-  /**
-   * Load Matrix4F uniform using uniform name and value.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  R loadUniform(this R)(string name, Matrix4F matrix) nothrow {
-    version (__OPENGL__)
-      glUniformMatrix4fv(glGetUniformLocation(this.programID, cast(const(char)*)name), 1, GL_TRUE, matrix.ptr);
-    
-    return cast(R)this;
-  }
-
-  private uint loadShader(string shaderCode, GfxShaderType type) {
-    import std.string : splitLines;
-
-    // Get info about shader code
-    string[] lines = splitLines(shaderCode);
-    size_t lineCount = lines.length;
-    auto lengths = new int[lineCount];
-    auto addresses = new immutable(char)*[lineCount];
-    auto localLines = new string[lineCount];
-
-    // Build data
-    for (size_t i; i < lineCount; i++) {
-      localLines[i] = lines[i] ~ "\n";
-      lengths[i] = cast(int)(localLines[i].length);
-      addresses[i] = localLines[i].ptr;
-    }
-    
-    // Create shader
-    int shaderId;
-    final switch(type) with(GfxShaderType) {
-      case VERTEX:
-        version (__OPENGL__)
-          shaderId = glCreateShader(GL_VERTEX_SHADER);
-        break;
-
-      case FRAGMENT:
-        version (__OPENGL__)
-          shaderId = glCreateShader(GL_FRAGMENT_SHADER);
-        break;
-
-      case GEOMETRY:
-        Logger.todo("FEATURE NOT IMPLEMENTED YET", typeof(this).stringof);
-        Logger.error("Previous todo", typeof(this).stringof);
-        break;
-    }
-
-    // Attach shader
-    version (__OPENGL__)
-      glShaderSource(
-        shaderId, 
-        cast(int)lineCount, 
-        cast(const(char*)*)addresses.ptr, 
-        cast(const(int)*)(lengths.ptr)
-      );
-
-    // Compile shader
-    version (__OPENGL__)
-      glCompileShader(shaderId);
-    
-    // Check shader compilation
-    version (__OPENGL__) {
-      GLint success;
-      glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
-      if (success == GL_FALSE) {
-        // Get error information
-        GLint maxLength;
-        glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &maxLength);
-        char[] errorLog = new char[maxLength];
-        glGetShaderInfoLog(shaderId, maxLength, &maxLength, errorLog.ptr);
-
-        // Delete shader
-        glDeleteShader(shaderId);
-
-        // Log the error
-        Logger.error("Shader failed to compile: " ~ shaderCode, typeof(this).stringof);
-        assert(0);
-      }
-    }
-
-    return shaderId;
   }
 }

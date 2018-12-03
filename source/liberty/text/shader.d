@@ -8,13 +8,15 @@
 **/
 module liberty.text.shader;
 
+version (none) :
+
 import liberty.math.vector;
 import liberty.graphics.shader;
 
 /**
  *
 **/
-final class TextShader : GfxShaderProgram {
+final class TextShader : ShaderProgram {
   private {
     static immutable FONT_VERTEX = GFX_SHADER_CORE_VERSION ~ q{
       layout (location = 0) in vec3 lPosition;

@@ -41,9 +41,6 @@ final class Terrain : SceneNode {
     
     // getTexCoordMultiplier, setTexCoordMultiplier
     Vector2F texCoordMultiplier = Vector2F.one;
-
-    // getModel
-    Model model;
   }
 
   /**
@@ -163,13 +160,6 @@ final class Terrain : SceneNode {
     return finalPos;
   }
 
-  /**
-   * Returns the 3D model of the terrain.
-  **/
-  Model getModel() pure nothrow {
-    return model;
-  }
-
   private void generateTerrain(string heightMapPath) {
     // Load height map form file
     auto image = cast(BMPImage)ImageIO.loadImage(heightMapPath);
@@ -218,7 +208,7 @@ final class Terrain : SceneNode {
       }
     }
 
-    model = new Model(ModelIO.loadRawModel(vertices, indices), materials);
+    setModel(new Model(ModelIO.loadRawModel(vertices, indices), materials));
   }
 
   private float getHeight(int x, int y, BMPImage image) {

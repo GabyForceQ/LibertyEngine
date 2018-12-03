@@ -10,8 +10,9 @@ module liberty.framework.light.renderer;
 
 import liberty.logger.impl;
 import liberty.framework.light.impl;
-import liberty.graphics.shader.graph;
+import liberty.graphics.shader.impl;
 import liberty.scene.constants;
+import liberty.scene.impl;
 import liberty.scene.meta;
 import liberty.scene.renderer;
 
@@ -25,10 +26,10 @@ final class LightRenderer : Renderer {
   /**
    * Render all lights to the screen.
   **/
-  void render() {
+  void render(Scene scene) {
     foreach (id; ["Primitive", "Terrain"]) {
-      GfxShaderGraph
-        .getShader(id)
+      Shader
+        .getOrCreate(id)
         .getProgram
         .bind;
 
@@ -36,8 +37,8 @@ final class LightRenderer : Renderer {
         if (light.getVisibility == Visibility.Visible)
           applyTo(cast(Light)light, id);
       
-      GfxShaderGraph
-        .getShader(id)
+      Shader
+        .getOrCreate(id)
         .getProgram
         .unbind;
     }
@@ -56,8 +57,8 @@ final class LightRenderer : Renderer {
     uint index = light.getIndex;
 
     if (index < 4) {
-      GfxShaderGraph
-        .getShader(shaderId)
+      Shader
+        .getOrCreate(shaderId)
         .getProgram
         .loadUniform("uLightPosition[" ~ index.to!string ~ "]", light.getTransform.getLocation)
         .loadUniform("uLightColor[" ~ index.to!string ~ "]", light.getColor)

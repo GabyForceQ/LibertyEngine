@@ -11,7 +11,7 @@ module liberty.framework.light.impl;
 import liberty.framework.primitive.vertex;
 import liberty.framework.primitive.impl;
 import liberty.graphics.shader.constants;
-import liberty.graphics.shader.graph;
+import liberty.graphics.shader.impl;
 import liberty.math.functions;
 import liberty.math.vector;
 import liberty.scene.meta;

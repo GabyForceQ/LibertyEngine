@@ -8,9 +8,10 @@
 **/
 module liberty.framework.terrain.renderer;
 
-import liberty.graphics.shader.graph;
+import liberty.graphics.shader.impl;
 import liberty.framework.terrain.impl;
 import liberty.scene.constants;
+import liberty.scene.impl;
 import liberty.scene.meta;
 import liberty.scene.renderer;
 
@@ -20,13 +21,13 @@ import liberty.scene.renderer;
 **/
 final class TerrainRenderer : Renderer {
   mixin RendererConstructor!(q{
-    shader = GfxShaderGraph.getShader("Terrain");
+    shader = Shader.getOrCreate("Terrain");
   });
 
   /**
    * Render all terrain elements to the screen.
   **/
-  void render() {
+  void render(Scene scene) {
     auto camera = scene.getActiveCamera;
 
     shader

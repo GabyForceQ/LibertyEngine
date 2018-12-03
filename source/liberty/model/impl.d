@@ -18,7 +18,7 @@ import liberty.scene.services;
 /**
  *
 **/
-class Model : IGfxRendererFactory, IRenderable {
+class Model : IGfxRendererFactory, IDrawable {
   private {
     // Used to Store wireframe global state
     bool tempWireframeEnabled;
@@ -177,7 +177,7 @@ class Model : IGfxRendererFactory, IRenderable {
   /**
    * Render the model to the screen by calling specific draw method from $(D IGfxRendererFactory)
   **/
-  void render() {
+  void draw() {
     // Send culling type to graphics engine
     GfxEngine
       .getBackend

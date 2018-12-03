@@ -11,6 +11,5 @@ module liberty.framework.primitive;
 public {
   import liberty.framework.primitive.bsp;
   import liberty.framework.primitive.impl;
-  import liberty.framework.primitive.renderer;
   import liberty.framework.primitive.vertex;
 }

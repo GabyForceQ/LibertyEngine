@@ -22,24 +22,13 @@ import liberty.framework.skybox.vertex;
 final class SkyBox : SceneNode {
   mixin NodeConstructor;
 
-  private {
-    Model model;
-  }
-
   /**
    *
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(Material material) {
-    model = new Model(ModelIO.loadRawModel(skyBoxVertices), [material]);
+    setModel(new Model(ModelIO.loadRawModel(skyBoxVertices), [material]));
     return this;
-  }
-
-  /**
-   * Returns the 3D model of the cube map.
-  **/
-  Model getModel() pure nothrow {
-    return model;
   }
 }
 

@@ -12,9 +12,9 @@ import liberty.camera;
 import liberty.core.engine;
 import liberty.framework.gui.renderer;
 import liberty.framework.light.renderer;
-import liberty.framework.primitive.renderer;
 import liberty.framework.skybox.renderer;
 import liberty.framework.terrain.renderer;
+import liberty.graphics.shader.impl;
 import liberty.math.vector;
 import liberty.scene.factory;
 import liberty.scene.node;
@@ -28,7 +28,7 @@ import liberty.world.impl;
  * like primitives, terrains, lights and surfaces.
  * It implements $(D ISceneFactory), $(D IStartable) and $(D IUpdateable) services.
 **/
-final class Scene : ISceneFactory, IUpdateable, IRenderable {
+final class Scene : ISceneFactory, IUpdateable {
   private {
     // isReady
     bool ready;
@@ -53,10 +53,13 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     TextSystem textSystem;
     // getRelativePath, setRelativePath
     string relativePath;
-  }
 
-  // getSystemByType
-  IRenderable[string] renderableMap;
+    // getSystemByType
+    IRenderable[string] oldRenderableMap;
+  
+    // getShader, addShader
+    Shader[string] shaderMap;
+  }
 
   package {
     // It is necessary to modify it in SceneSerializer class
@@ -64,6 +67,24 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     // It is necessary to modify it in Node class
     // getNodeMap
     SceneNode[string] nodeMap;
+  }
+
+  /**
+   * Add a new shader renderer to the scene.
+   * Returns reference to this so it can be used in a stream.
+   * See $(D Shader) class.
+  **/
+  typeof(this) addShader(Shader shader) pure nothrow {
+    shaderMap[shader.getId] = shader;
+    return this;
+  }
+
+  /**
+   * Returns the shader with the given id.
+   * See $(D Shader) class.
+  **/
+  Shader getShader(string id) pure nothrow {
+    return shaderMap[id];
   }
 
   /**
@@ -78,11 +99,10 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
     activeCamera = tree.spawn!Camera("DefaultCamera");
 
     // Create renderers
-    renderableMap["Light"] = new LightRenderer("Light", this);
-    renderableMap["Primitive"] = new PrimitiveRenderer("Primitive", this);
-    renderableMap["Terrain"] = new TerrainRenderer("Terrain", this);
-    renderableMap["SkyBox"] = new SkyBoxRenderer("SkyBox", this);
-    renderableMap["Gui"] = new GuiRenderer("Gui", this);
+    oldRenderableMap["Light"] = new LightRenderer("Light", this);
+    oldRenderableMap["Terrain"] = new TerrainRenderer("Terrain", this);
+    oldRenderableMap["SkyBox"] = new SkyBoxRenderer("SkyBox", this);
+    oldRenderableMap["Gui"] = new GuiRenderer("Gui", this);
 
     textSystem = new TextSystem(this);
   }
@@ -231,11 +251,14 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
    * Render all renderable systems.
    * It's called every frame after $(D Scene.update).
   **/
-  void render() {    
-    foreach (node; renderableMap)
-      node.render;
+  void render() {
+    foreach (node; oldRenderableMap)
+      node.render(this);
+
+    foreach (shader; shaderMap)
+      shader.render(this);
     
-    textSystem.getRenderer.render;
+    textSystem.getRenderer.render(this);
   }
 
   /**
@@ -267,23 +290,23 @@ final class Scene : ISceneFactory, IUpdateable, IRenderable {
   /**
    * Returns renderable map as it is.
   **/
-  IRenderable[string] getRenderableMap() pure nothrow {
-    return renderableMap;
+  IRenderable[string] getOldRenderableMap() pure nothrow {
+    return oldRenderableMap;
   }
 
   /**
    * Returns renderable map as $(D, Renderer).
   **/
-  Renderer[string] getRenderableMap() pure nothrow {
-    return cast(Renderer[string])renderableMap;
+  Renderer[string] getOldRenderableMap() pure nothrow {
+    return cast(Renderer[string])oldRenderableMap;
   }
 
   /**
    * Returns renderer by its id.
    * See $(D System) class.
   **/
-  Renderer getRendererById(string id) pure nothrow {
-    return cast(Renderer)renderableMap[id];
+  Renderer getOldRendererById(string id) pure nothrow {
+    return cast(Renderer)oldRenderableMap[id];
   }
 
   /**

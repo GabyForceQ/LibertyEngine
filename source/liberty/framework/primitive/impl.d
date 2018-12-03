@@ -8,17 +8,17 @@
 **/
 module liberty.framework.primitive.impl;
 
-import liberty.logger;
-import liberty.scene.node;
+import liberty.logger.impl;
 import liberty.model.impl;
-import liberty.framework.primitive.vertex;
+import liberty.scene.node;
+import liberty.graphics.shader.impl;
 
 /**
  *
 **/
 abstract class Primitive : SceneNode {
   private {
-    Model model;
+    Shader shader;
   }
 
   /**
@@ -26,22 +26,18 @@ abstract class Primitive : SceneNode {
   **/
   this(string id, SceneNode parent) {
     super(id, parent);
-  }
 
-  /**
-   * Set the 3D model of the primitive.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  final typeof(this) setModel(Model model) pure nothrow {
-    this.model = model;
-    return this;
-  }
-
-  /**
-   * Returns the 3D model of the primitive.
-  **/
-  final Model getModel() pure nothrow {
-    return model;
+    shader = Shader.getOrCreate("Primitive");
+    shader
+      .registerElement(this)
+      .addGlobalRender((program) {
+        program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
+      })
+      .addPerEntityRender((program) {
+        program.loadUniform("uUseFakeLighting", model.isFakeLightingEnabled);
+      });
+    
+    scene.addShader(shader);
   }
 }
 

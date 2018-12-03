@@ -21,7 +21,7 @@ import liberty.scene.services;
 **/
 abstract class Renderer : IRenderable {
   protected {
-    GfxShaderGraph shader;
+    Shader shader;
     SceneNode[string] map;
     Scene scene;
     string id;
@@ -45,7 +45,7 @@ abstract class Renderer : IRenderable {
   /**
    * Returns renderer's shader graph.
   **/
-  GfxShaderGraph getShader() pure nothrow {
+  Shader getShader() pure nothrow {
     return shader;
   }
 

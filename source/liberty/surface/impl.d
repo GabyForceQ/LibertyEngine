@@ -74,7 +74,7 @@ abstract class Surface : SceneNode, IUpdateable {
           cast(float)zNear, cast(float)zFar
         );
         
-        getScene()
+        getScene
           .getSurfaceSystem
           .getShader
           .bind

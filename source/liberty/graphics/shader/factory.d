@@ -8,25 +8,25 @@
 **/
 module liberty.graphics.shader.factory;
 
-import liberty.graphics.shader.graph;
+import liberty.graphics.shader.impl;
 
 /**
  *
 **/
-interface IGfxShaderFactory {
+interface IShaderFactory {
   private {
-    static GfxShaderGraph[string] shaders;
+    static Shader[string] shaders;
   }
 
   /**
    *
   **/
-  static GfxShaderGraph getShader(string id) {
+  static Shader getOrCreate(string id) {
     if (id !in shaders)
       switch (id) {
         case "Primitive":
           // Create primitive shader
-          shaders[id] = new GfxShaderGraph(id);
+          shaders[id] = new Shader(id);
           shaders[id]
             .addVertexCode(mixin("q{" ~ import("shaders/primitive_vertex.glsl") ~ "}"))
             .addFragmentCode(mixin("q{" ~ import("shaders/primitive_fragment.glsl") ~ "}"))
@@ -35,7 +35,7 @@ interface IGfxShaderFactory {
           break;
         case "SkyBox":
           // Create terrain shader
-          shaders[id] = new GfxShaderGraph(id);
+          shaders[id] = new Shader(id);
           shaders[id]
             .addVertexCode(mixin("q{" ~ import("shaders/skybox_vertex.glsl") ~ "}"))
             .addFragmentCode(mixin("q{" ~ import("shaders/skybox_fragment.glsl") ~ "}"))
@@ -44,7 +44,7 @@ interface IGfxShaderFactory {
           break;
         case "Terrain":
           // Create terrain shader
-          shaders[id] = new GfxShaderGraph(id);
+          shaders[id] = new Shader(id);
           shaders[id]
             .addVertexCode(mixin("q{" ~ import("shaders/terrain_vertex.glsl") ~ "}"))
             .addFragmentCode(mixin("q{" ~ import("shaders/terrain_fragment.glsl") ~ "}"))
@@ -53,7 +53,7 @@ interface IGfxShaderFactory {
           break;
         case "Gui":
           // Create terrain shader
-          shaders[id] = new GfxShaderGraph(id);
+          shaders[id] = new Shader(id);
           shaders[id]
             .addVertexCode(mixin("q{" ~ import("shaders/gui_vertex.glsl") ~ "}"))
             .addFragmentCode(mixin("q{" ~ import("shaders/gui_fragment.glsl") ~ "}"))

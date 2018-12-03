@@ -8,7 +8,7 @@
 **/
 module liberty.text.renderer;
 
-import liberty.scene;
+import liberty.scene.impl;
 import liberty.scene.services;
 import liberty.text.impl;
 import liberty.text.shader;
@@ -36,18 +36,18 @@ final class TextRenderer : IRenderable {
   /**
    * Render all text elements to the screen.
   **/
-  void render() {
-    system
-      .getShader()
-      .bind();
+  void render(Scene scene) {
+    //system
+    //  .getShader()
+    //  .bind();
     
     foreach (text; system.getMap())
       //if (text.getVisibility() == Visibility.Visible)
         render(text);
 
-    system
-      .getShader()
-      .unbind();
+    //system
+    //  .getShader()
+    //  .unbind();
   }
 
   /**

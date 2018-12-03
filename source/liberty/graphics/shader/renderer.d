@@ -19,7 +19,7 @@ import liberty.model.impl;
  * Shader renderer abstract class is inherited by shader objects.
  * See $(D GfxShader) class.
 **/
-abstract class GfxShaderRenderer {
+abstract class ShaderRenderer {
   protected {
     int attributeCount;
   }
@@ -84,7 +84,7 @@ abstract class GfxShaderRenderer {
       }
     }
 
-    model.render();
+    model.draw;
 
     loop1: foreach (i; 0..model.getMaterials.length) {
       switch (i) {
