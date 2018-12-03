@@ -24,21 +24,23 @@ import liberty.scene.meta;
 final class SkyBox : Entity {
   mixin EntityConstructor!(q{
     shader = Shader
-      .getOrCreate("SkyBox")
-      .registerEntity(this)
-      .addGlobalRender((program) {
-        // Make it unreachable
-        Matrix4F newViewMatrix = scene.getActiveCamera.getViewMatrix;
-        newViewMatrix.c[0][3] = 0;
-        newViewMatrix.c[1][3] = 0;
-        newViewMatrix.c[2][3] = 0;
+      .getOrCreate("SkyBox", (shader) {
+        shader
+          .addGlobalRender((program) {
+            // Make it unreachable
+            Matrix4F newViewMatrix = scene.getActiveCamera.getViewMatrix;
+            newViewMatrix.c[0][3] = 0;
+            newViewMatrix.c[1][3] = 0;
+            newViewMatrix.c[2][3] = 0;
 
-        program
-          .loadUniform("uFadeLowerLimit", 0.0f)
-          .loadUniform("uFadeUpperLimit", 30.0f)
-          .loadUniform("uFogColor", scene.getWorld.getExpHeightFogColor);
+            program
+              .loadUniform("uFadeLowerLimit", 0.0f)
+              .loadUniform("uFadeUpperLimit", 30.0f)
+              .loadUniform("uFogColor", scene.getWorld.getExpHeightFogColor);
+          });
       });
     
+    shader.registerEntity(this);
     scene.addShader(shader);
   });
 

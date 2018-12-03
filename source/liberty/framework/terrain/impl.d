@@ -30,15 +30,17 @@ import liberty.scene.services;
 final class Terrain : Entity {
   mixin EntityConstructor!(q{
     shader = Shader
-      .getOrCreate("Terrain")
-      .registerEntity(this)
-      .addGlobalRender((program) {
-        program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
-      })
-      .addPerEntityRender((program) {
-        program.loadUniform("uTexCoordMultiplier", getTexCoordMultiplier);
+      .getOrCreate("Terrain", (shader) {
+        shader
+          .addGlobalRender((program) {
+            program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
+          })
+          .addPerEntityRender((program) {
+            program.loadUniform("uTexCoordMultiplier", getTexCoordMultiplier);
+          });
       });
     
+    shader.registerEntity(this);
     scene.addShader(shader);
   });
 

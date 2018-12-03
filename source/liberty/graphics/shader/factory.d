@@ -21,8 +21,8 @@ interface IShaderFactory {
   /**
    *
   **/
-  static Shader getOrCreate(string id) {
-    if (id !in shaders)
+  static Shader getOrCreate(string id, void delegate(Shader) createDg = null) {
+    if (id !in shaders) {
       switch (id) {
         case "Primitive":
           // Create primitive shader
@@ -64,6 +64,10 @@ interface IShaderFactory {
           // TODO. Custom shaders.
           break;
       }
+
+      if (createDg !is null)
+        createDg(shaders[id]);
+    }
     
     return shaders[id];
   }

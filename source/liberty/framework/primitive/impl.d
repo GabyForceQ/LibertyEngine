@@ -28,15 +28,17 @@ abstract class Primitive : Entity {
     super(id, parent);
 
     shader = Shader
-      .getOrCreate("Primitive")
-      .registerEntity(this)
-      .addGlobalRender((program) {
-        program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
-      })
-      .addPerEntityRender((program) {
-        program.loadUniform("uUseFakeLighting", model.isFakeLightingEnabled);
+      .getOrCreate("Primitive", (shader) {
+        shader
+          .addGlobalRender((program) {
+            program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
+          })
+          .addPerEntityRender((program) {
+            program.loadUniform("uUseFakeLighting", model.isFakeLightingEnabled);
+          });
       });
-    
+
+    shader.registerEntity(this);
     scene.addShader(shader);
   }
 }
