@@ -27,11 +27,8 @@ mixin template EntityConstructor(string code = "") {
     import liberty.framework.gui.renderer : GuiRenderer;
     import liberty.framework.light.impl : Light;
     import liberty.framework.light.renderer : LightRenderer;
-    import liberty.framework.primitive.impl : Primitive;
     import liberty.framework.skybox.impl : SkyBox;
     import liberty.framework.skybox.renderer : SkyBoxRenderer;
-    import liberty.framework.terrain.impl : Terrain;
-    import liberty.framework.terrain.renderer : TerrainRenderer;
     import liberty.text.impl : Text;
 
     if (parent is null)
@@ -51,15 +48,15 @@ mixin template EntityConstructor(string code = "") {
       static foreach (el; ["start", "update"]) {
         static foreach (super_member; __traits(allMembers, typeof(super)))
           static if (super_member.stringof == "\"" ~ el ~ "\"")
-            mixin("getScene.set" ~ el.capitalize() ~ "ableMap(id, this);");
+            mixin("getScene.set" ~ el.capitalize ~ "ableMap(id, this);");
           
         static foreach (member; __traits(allMembers, typeof(this)))
           static if (member.stringof == "\"" ~ el ~ "\"")
-            mixin("getScene.set" ~ el.capitalize() ~ "ableMap(id, this);");
+            mixin("getScene.set" ~ el.capitalize ~ "ableMap(id, this);");
       }
     }
 
-    static foreach (sys; ["Terrain", "SkyBox", "Light", "Gui"])
+    static foreach (sys; ["SkyBox", "Light", "Gui"])
       static if (mixin("is(typeof(this) : " ~ sys ~ ")"))
         mixin("(cast(" ~ sys ~ "Renderer)getScene.getOldRendererById(\"" ~ sys ~ "\")).registerElement(this);");
   }

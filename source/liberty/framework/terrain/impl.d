@@ -11,23 +11,36 @@
 **/
 module liberty.framework.terrain.impl;
 
+import liberty.framework.terrain.vertex;
+import liberty.graphics.shader;
+import liberty.image.format.bmp;
+import liberty.image.io;
+import liberty.material.impl;
 import liberty.math.functions;
 import liberty.math.vector;
-import liberty.scene.meta;
-import liberty.framework.terrain.vertex;
-import liberty.material.impl;
 import liberty.model.impl;
 import liberty.model.io;
 import liberty.scene.entity;
+import liberty.scene.meta;
 import liberty.scene.services;
-import liberty.image.format.bmp;
-import liberty.image.io;
 
 /**
  *
 **/
 final class Terrain : Entity {
-  mixin EntityConstructor;
+  mixin EntityConstructor!(q{
+    shader = Shader
+      .getOrCreate("Terrain")
+      .registerEntity(this)
+      .addGlobalRender((program) {
+        program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
+      })
+      .addPerEntityRender((program) {
+        program.loadUniform("uTexCoordMultiplier", getTexCoordMultiplier);
+      });
+    
+    scene.addShader(shader);
+  });
 
   private {
     const float maxPixelColor = 256 ^^ 3;
@@ -41,6 +54,8 @@ final class Terrain : Entity {
     
     // getTexCoordMultiplier, setTexCoordMultiplier
     Vector2F texCoordMultiplier = Vector2F.one;
+
+    Shader shader;
   }
 
   /**

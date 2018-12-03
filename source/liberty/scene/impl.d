@@ -100,7 +100,6 @@ final class Scene : ISceneFactory, IUpdateable {
 
     // Create renderers
     oldRenderableMap["Light"] = new LightRenderer("Light", this);
-    oldRenderableMap["Terrain"] = new TerrainRenderer("Terrain", this);
     oldRenderableMap["SkyBox"] = new SkyBoxRenderer("SkyBox", this);
     oldRenderableMap["Gui"] = new GuiRenderer("Gui", this);
 

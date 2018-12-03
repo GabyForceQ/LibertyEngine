@@ -27,8 +27,8 @@ abstract class Primitive : Entity {
   this(string id, Entity parent) {
     super(id, parent);
 
-    shader = Shader.getOrCreate("Primitive");
-    shader
+    shader = Shader
+      .getOrCreate("Primitive")
       .registerEntity(this)
       .addGlobalRender((program) {
         program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
