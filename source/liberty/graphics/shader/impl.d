@@ -34,7 +34,7 @@ final class Shader : IShaderFactory, IRenderable {
     void delegate(ShaderProgram program) onGlobalRender;
     void delegate(ShaderProgram program) onPerEntityRender;
     
-    bool hasViewMatrix;
+    bool viewMatrixEnabled;
   }
 
   /**
@@ -163,7 +163,7 @@ final class Shader : IShaderFactory, IRenderable {
    * Add global render delegate so it can be called every render tick once for all map entities.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addGlobalRender(void delegate(ShaderProgram) dg) {
+  typeof(this) addGlobalRender(void delegate(ShaderProgram) dg) pure nothrow {
     onGlobalRender = dg;
     return this;
   }
@@ -172,9 +172,25 @@ final class Shader : IShaderFactory, IRenderable {
    * Add per entity render delegate so it can be called every render tick for every map entity.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addPerEntityRender(void delegate(ShaderProgram) dg) {
+  typeof(this) addPerEntityRender(void delegate(ShaderProgram) dg) pure nothrow {
     onPerEntityRender = dg;
     return this;
+  }
+
+  /**
+   * Set if view matrix is enabled on this shader.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setViewMatrixEnabled(bool enabled = true) pure nothrow {
+    viewMatrixEnabled = enabled;
+    return this;
+  }
+
+  /**
+   * Returns true if view matrix is enabled on this shader.
+  **/
+  bool isViewMatrixEnabled() pure nothrow const {
+    return viewMatrixEnabled;
   }
 
   /**
@@ -187,7 +203,7 @@ final class Shader : IShaderFactory, IRenderable {
       .bind
       .loadUniform("uProjectionMatrix", camera.getProjectionMatrix);
 
-    if (hasViewMatrix)
+    if (viewMatrixEnabled)
       program.loadUniform("uViewMatrix", camera.getViewMatrix);
 
     if (onGlobalRender !is null)
@@ -235,7 +251,7 @@ final class Shader : IShaderFactory, IRenderable {
           } else {
             uniforms ~= vertTok[i + 2][0 .. $ - 1].to!string;
             if (uniforms[$ - 1] == "uViewMatrix")
-              hasViewMatrix = true;
+              viewMatrixEnabled = true;
           }
         }
     }

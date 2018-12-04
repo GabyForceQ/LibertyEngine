@@ -12,7 +12,6 @@ version (none) :
 
 import liberty.input.impl;
 import liberty.material.impl;
-import liberty.math.transform;
 import liberty.math.vector;
 import liberty.model.impl;
 import liberty.scene.constants;
@@ -26,7 +25,6 @@ class Widget : IUpdateable {
   private {
     string id;
     Surface surface;
-    Transform2 transform;
     Vector2I index;
     int zIndex = 0;
     Model model;
@@ -42,7 +40,6 @@ class Widget : IUpdateable {
     this.id = id;
     this.surface = surface;
 
-    transform = new Transform2(this);
 
     if (surface.getRootCanvas() !is null)
       surface.getRootCanvas().addWidget(this);
@@ -60,13 +57,6 @@ class Widget : IUpdateable {
   **/
   final Surface getSurface() pure nothrow {
     return surface;
-  }
-
-  /**
-   *
-  **/
-  final Transform2 getTransform() pure nothrow {
-    return transform;
   }
 
   /**

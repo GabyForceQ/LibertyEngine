@@ -39,10 +39,8 @@ final class SurfaceRenderer : IRenderable {
     system.getShader.bind;
     
     foreach (surface; system.getMap)
-      if (surface.getVisibility == Visibility.Visible) {
-        surface.updateProjection;
+      if (surface.getVisibility == Visibility.Visible)
         render(surface);
-      }
 
     system.getShader.unbind;
   }
@@ -54,6 +52,7 @@ final class SurfaceRenderer : IRenderable {
   typeof(this) render(Surface surface)
   in (surface !is null, "You cannot render a null surface.")
   do {
+    surface.updateProjection;
     foreach (widget; surface.getRootCanvas.getWidgets) {
       if (widget.getZIndex == 0) {
         if (widget.getVisibility == Visibility.Visible) {

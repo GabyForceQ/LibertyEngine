@@ -33,16 +33,7 @@ import liberty.scene.action;
 **/
 abstract class Surface : Entity, IUpdateable {
   private {
-    int xStart;
-    int yStart;
-    int width;
-    int height;
-    int zNear = int.max;
-    int zFar = int.min;
-    // setFixedProjectionEnabled, isFixedProjectionEnabled
-    bool fixedProjectionEnabled;
-
-    Matrix4F projectionMatrix = Matrix4F.identity();
+    
     Canvas rootCanvas;
     UIAction[string] actionMap;
   }
@@ -84,13 +75,6 @@ abstract class Surface : Entity, IUpdateable {
     }
 
     return this;
-  }
-
-  /**
-   * Returns the surface projection matrix.
-  **/
-  final Matrix4F getProjectionMatrix() pure nothrow const {
-    return projectionMatrix;
   }
 
   /**

@@ -8,7 +8,9 @@
 **/
 module liberty.framework.gui.impl;
 
+import liberty.framework.gui.data;
 import liberty.graphics.shader.impl;
+import liberty.math.matrix;
 import liberty.scene.entity;
 
 /**
@@ -18,6 +20,12 @@ import liberty.scene.entity;
 abstract class Gui : Entity {
   private {
     Shader shader;
+    // getProjection, setProjection
+    GuiProjection projection;
+    // isFixedProjectionEnabled, setFixedProjectionEnabled
+    bool fixedProjectionEnabled;
+    // getProjectionMatrix
+    Matrix4F projectionMatrix = Matrix4F.identity;
   }
   
   /**
@@ -29,6 +37,7 @@ abstract class Gui : Entity {
     shader = Shader
       .getOrCreate("Gui", (shader) {
         shader
+          .setViewMatrixEnabled(false)
           .addGlobalRender((program) {
           })
           .addPerEntityRender((program) {
@@ -37,5 +46,12 @@ abstract class Gui : Entity {
 
     shader.registerEntity(this);
     scene.addShader(shader);
+  }
+
+  /**
+   * Returns the projection matrix.
+  **/
+  Matrix4F getProjectionMatrix() pure nothrow const {
+    return projectionMatrix;
   }
 }
