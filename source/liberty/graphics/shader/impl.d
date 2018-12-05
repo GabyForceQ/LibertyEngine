@@ -31,7 +31,7 @@ final class Shader : IShaderFactory, IRenderable {
 
     Entity[string] map;
     ShaderProgram program;
-    void delegate(ShaderProgram program) onCustomRender;
+    void delegate(ShaderProgram program, typeof(this) self) onCustomRender;
     void delegate(ShaderProgram program) onGlobalRender;
     void delegate(ShaderProgram program) onPerEntityRender;
     
@@ -165,7 +165,7 @@ final class Shader : IShaderFactory, IRenderable {
    * If this is not null, then globalRender and perEntityRender are useless.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addCustomRender(void delegate(ShaderProgram) dg) pure nothrow {
+  typeof(this) addCustomRenderMethod(void delegate(ShaderProgram, typeof(this) self) dg) pure nothrow {
     onCustomRender = dg;
     return this;
   }
@@ -174,7 +174,7 @@ final class Shader : IShaderFactory, IRenderable {
    * Add global render delegate so it can be called every render tick once for all map entities.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addGlobalRender(void delegate(ShaderProgram) dg) pure nothrow {
+  typeof(this) addGlobalRenderMethod(void delegate(ShaderProgram) dg) pure nothrow {
     onGlobalRender = dg;
     return this;
   }
@@ -183,7 +183,7 @@ final class Shader : IShaderFactory, IRenderable {
    * Add per entity render delegate so it can be called every render tick for every map entity.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addPerEntityRender(void delegate(ShaderProgram) dg) pure nothrow {
+  typeof(this) addPerEntityRenderMethod(void delegate(ShaderProgram) dg) pure nothrow {
     onPerEntityRender = dg;
     return this;
   }
@@ -209,7 +209,7 @@ final class Shader : IShaderFactory, IRenderable {
   **/
   void render(Scene scene) {
     if (onCustomRender !is null)
-      onCustomRender(program);
+      onCustomRender(program, this);
     else {
       auto camera = scene.getActiveCamera;
 

@@ -30,10 +30,10 @@ abstract class Primitive : Entity {
     shader = Shader
       .getOrCreate("Primitive", (shader) {
         shader
-          .addGlobalRender((program) {
+          .addGlobalRenderMethod((program) {
             program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
           })
-          .addPerEntityRender((program) {
+          .addPerEntityRenderMethod((program) {
             program.loadUniform("uUseFakeLighting", model.isFakeLightingEnabled);
           });
       });

@@ -58,10 +58,10 @@ final class Terrain : Entity {
     shader = Shader
       .getOrCreate("Terrain", (shader) {
         shader
-          .addGlobalRender((program) {
+          .addGlobalRenderMethod((program) {
             program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
           })
-          .addPerEntityRender((program) {
+          .addPerEntityRenderMethod((program) {
             program.loadUniform("uTexCoordMultiplier", getTexCoordMultiplier);
           });
       });

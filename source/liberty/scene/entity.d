@@ -19,7 +19,7 @@ import liberty.model.impl;
 import liberty.scene.constants;
 import liberty.scene.impl;
 import liberty.scene.services;
-import liberty.surface.vertex;
+import liberty.framework.gui.vertex;
 
 /**
  * Represents a entity in the scene tree.
@@ -143,7 +143,7 @@ abstract class Entity : IStartable, IUpdateable {
     import liberty.framework.primitive.impl : Primitive;
     import liberty.framework.skybox.impl : SkyBox;
     import liberty.framework.terrain.impl : Terrain;
-    import liberty.surface.impl : Surface;
+    import liberty.framework.gui.impl : Gui;
     import liberty.text.impl : Text;
 
     const id = entity.getId();

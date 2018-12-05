@@ -2,22 +2,20 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/controls.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/framework/gui/controls.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.surface.controls;
-
-version (none) :
+module liberty.framework.gui.controls;
 
 import liberty.material.impl;
 import liberty.math.vector;
 import liberty.model.impl;
 import liberty.model.io;
-import liberty.surface.event;
-import liberty.surface.meta;
-import liberty.surface.vertex;
-import liberty.surface.widget;
+import liberty.framework.gui.event;
+import liberty.framework.gui.meta;
+import liberty.framework.gui.vertex;
+import liberty.framework.gui.widget;
 
 /**
  *
@@ -167,9 +165,9 @@ final class TextBlock : Widget {
   0, 2, 3
 ];
 
-/*private*/ SurfaceVertex[] uiSquareVertices = [
-  SurfaceVertex(Vector3F(-1.0f,  1.0f, 0.0f), Vector2F(0.0f, 1.0f)),
-  SurfaceVertex(Vector3F(-1.0f, -1.0f, 0.0f), Vector2F(0.0f, 0.0f)),
-  SurfaceVertex(Vector3F( 1.0f, -1.0f, 0.0f), Vector2F(1.0f, 0.0f)),
-  SurfaceVertex(Vector3F( 1.0f,  1.0f, 0.0f), Vector2F(1.0f, 1.0f))
+/*private*/ GuiVertex[] uiSquareVertices = [
+  GuiVertex(Vector3F(-1.0f,  1.0f, 0.0f), Vector2F(0.0f, 1.0f)),
+  GuiVertex(Vector3F(-1.0f, -1.0f, 0.0f), Vector2F(0.0f, 0.0f)),
+  GuiVertex(Vector3F( 1.0f, -1.0f, 0.0f), Vector2F(1.0f, 0.0f)),
+  GuiVertex(Vector3F( 1.0f,  1.0f, 0.0f), Vector2F(1.0f, 1.0f))
 ];

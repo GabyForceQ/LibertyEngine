@@ -2,21 +2,20 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/widget.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/framework/gui/widget.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.surface.widget;
-
-version (none) :
+module liberty.framework.gui.widget;
 
 import liberty.input.impl;
 import liberty.material.impl;
+import liberty.math.transform;
 import liberty.math.vector;
 import liberty.model.impl;
 import liberty.scene.constants;
 import liberty.scene.services;
-import liberty.surface.impl;
+import liberty.framework.gui.impl;
 
 /**
  *
@@ -24,10 +23,11 @@ import liberty.surface.impl;
 class Widget : IUpdateable {
   private {
     string id;
-    Surface surface;
+    Gui gui;
     Vector2I index;
     int zIndex = 0;
     Model model;
+    Transform transform;
 
     // setVisibility, getVisibility
     Visibility visibility;
@@ -36,13 +36,13 @@ class Widget : IUpdateable {
   /**
    *
   **/
-  this(string id, Surface surface) {
+  this(string id, Gui gui) {
     this.id = id;
-    this.surface = surface;
+    this.gui = gui;
 
 
-    if (surface.getRootCanvas() !is null)
-      surface.getRootCanvas().addWidget(this);
+    if (gui.getRootCanvas !is null)
+      gui.getRootCanvas.addWidget(this);
   }
 
   /**
@@ -55,8 +55,8 @@ class Widget : IUpdateable {
   /**
    *
   **/
-  final Surface getSurface() pure nothrow {
-    return surface;
+  final Gui getGui() pure nothrow {
+    return gui;
   }
 
   /**
@@ -87,7 +87,7 @@ class Widget : IUpdateable {
    *
   **/
   final bool isMouseColliding() {
-    Vector2F mousePos = Input.getMouse.getPostion();
+    Vector2F mousePos = Input.getMouse.getPostion;
     return mousePos.x >= transform.getLocation.x - transform.getScale.x / 2 && 
       mousePos.x <= transform.getLocation.x + transform.getScale.x / 2 && 
       mousePos.y >= transform.getLocation.y - transform.getScale.y / 2 && 
@@ -142,6 +142,13 @@ class Widget : IUpdateable {
   **/
   final Visibility getVisibility() pure nothrow const {
     return visibility;
+  }
+
+  /**
+   *
+  **/
+  final Transform getTransform() pure nothrow {
+    return transform;
   }
 
   override void update() {}

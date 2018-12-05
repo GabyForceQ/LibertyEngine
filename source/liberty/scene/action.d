@@ -11,8 +11,8 @@
 module liberty.scene.action;
 
 import liberty.logger.impl;
-import liberty.surface.event;
-import liberty.surface.widget;
+import liberty.framework.gui.event;
+import liberty.framework.gui.widget;
 
 /**
  * An action is represented by an id, an event and a priority.
@@ -84,8 +84,3 @@ final class Action(T) {
     return priority;
   }
 }
-
-/**
- * Action for user interface elements.
-**/
-//alias UIAction = Action!Widget;

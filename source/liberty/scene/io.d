@@ -62,7 +62,7 @@ abstract class SceneIO : ISerializable {
       );
     }
 
-    /*foreach (entity; scene.getSurfaceSystem.getMap) {
+    /*foreach (entity; scene.getGuiSystem.getMap) {
       file.writeln(
         "Widget: { " ~
           "id: " ~ entity.getId ~

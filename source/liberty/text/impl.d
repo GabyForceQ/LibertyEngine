@@ -8,8 +8,8 @@
 **/
 module liberty.text.impl;
 
-import liberty.surface.impl;
-import liberty.surface.widget;
+import liberty.framework.gui.impl;
+import liberty.framework.gui.widget;
 
 /**
  *
@@ -23,7 +23,7 @@ final class Text /*: Widget*/ {
   /**
    *
   **/
-  //this(string id, Surface surface, int textureAtlas, string filePath) {
-  //  uper(id, surface);
+  //this(string id, Gui gui, int textureAtlas, string filePath) {
+  //  uper(id, gui);
   //}
 }

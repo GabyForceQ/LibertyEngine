@@ -39,7 +39,7 @@ final class SkyBox : Entity {
       .getOrCreate("SkyBox", (shader) {
         shader
           .setViewMatrixEnabled(false)
-          .addGlobalRender((program) {
+          .addGlobalRenderMethod((program) {
             // Make it unreachable
             Matrix4F newViewMatrix = scene.getActiveCamera.getViewMatrix;
             newViewMatrix.c[0][3] = 0;

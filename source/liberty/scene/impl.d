@@ -22,7 +22,7 @@ import liberty.world.impl;
 
 /**
  * A scene is a 3D space where you can place different objects,
- * like primitives, terrains, lights and surfaces.
+ * like primitives, terrains, lights and guis.
  * It implements $(D ISceneFactory), $(D IStartable) and $(D IUpdateable) services.
 **/
 final class Scene : ISceneFactory, IUpdateable {

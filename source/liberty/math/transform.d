@@ -16,7 +16,7 @@ import liberty.scene.meta;
 import liberty.scene.entity;
 import liberty.framework.primitive.vertex;
 import liberty.framework.terrain.vertex;
-import liberty.surface.widget;
+import liberty.framework.gui.widget;
 import liberty.core.platform;
 
 /**

@@ -2,27 +2,25 @@
  * Copyright:       Copyright (C) 2018 Gabriel Gheorghe, All Rights Reserved
  * Authors:         $(Gabriel Gheorghe)
  * License:         $(LINK2 https://www.gnu.org/licenses/gpl-3.0.txt, GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007)
- * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/surface/tilemap.d)
+ * Source:          $(LINK2 https://github.com/GabyForceQ/LibertyEngine/blob/master/source/liberty/framework/gui/tilemap.d)
  * Documentation:
  * Coverage:
 **/
-module liberty.surface.tilemap;
-
-version (none) :
+module liberty.framework.gui.tilemap;
 
 import std.container.array : Array;
 import std.conv : to;
 import std.typecons : tuple, Tuple;
 
-import liberty.surface.meta;
+import liberty.framework.gui.meta;
 
 import liberty.math.vector;
-import liberty.surface.event;
-import liberty.surface.impl;
+import liberty.framework.gui.event;
+import liberty.framework.gui.impl;
 import liberty.math.transform;
-import liberty.surface.widget;
+import liberty.framework.gui.widget;
 
-import liberty.surface.controls;
+import liberty.framework.gui.controls;
 
 /**
  *
@@ -80,22 +78,20 @@ final class TileMap : Widget {
     Vector2I scale = Vector2I(64, 64), Vector2I spaceBetween = Vector2I.zero)
   do {
     this.dimension = dimension;
-    getTransform.setLocation(startLocation);
+    getTransform.setAbsoluteLocation(Vector3F(startLocation.x, startLocation.y, 0.0f));
 
     foreach (i; 0..dimension.x)
       foreach (j; 0..dimension.y) {
-        tiles ~= new Button(
-          getId() ~ "_Tile_" ~ i.to!string ~ "_" ~ j.to!string,
-          getSurface()
-        );
+        tiles ~= new Button(getId ~ "_Tile_" ~ i.to!string ~ "_" ~ j.to!string, getGui);
         
         tiles[$ - 1]
           .setIndex(i, j)
-          .getTransform()
-          .setLocation(
+          .getTransform
+          .setAbsoluteLocation(
             i * (scale.x + spaceBetween.x) + getTransform.getLocation.x,
-            j * (scale.y + spaceBetween.y) + getTransform.getLocation.y)
-          .setScale(scale);
+            j * (scale.y + spaceBetween.y) + getTransform.getLocation.y,
+            0.0f)
+          .setAbsoluteScale(Vector3F(scale.x, scale.y, 1.0f));
       }
     
     return this;
