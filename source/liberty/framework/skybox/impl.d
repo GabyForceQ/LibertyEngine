@@ -38,6 +38,7 @@ final class SkyBox : Entity {
     shader = Shader
       .getOrCreate("SkyBox", (shader) {
         shader
+          .setViewMatrixEnabled(false)
           .addGlobalRender((program) {
             // Make it unreachable
             Matrix4F newViewMatrix = scene.getActiveCamera.getViewMatrix;
@@ -48,7 +49,8 @@ final class SkyBox : Entity {
             program
               .loadUniform("uFadeLowerLimit", 0.0f)
               .loadUniform("uFadeUpperLimit", 30.0f)
-              .loadUniform("uFogColor", scene.getWorld.getExpHeightFogColor);
+              .loadUniform("uFogColor", scene.getWorld.getExpHeightFogColor)
+              .loadUniform("uViewMatrix", newViewMatrix);
           });
       });
     
