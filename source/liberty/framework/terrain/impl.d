@@ -28,7 +28,15 @@ import liberty.scene.services;
  *
 **/
 final class Terrain : Entity {
-  mixin EntityConstructor!(q{
+  mixin NodeBody;
+
+  /**
+   *
+  **/
+  this(string id, Entity parent) {
+    super(id, parent);
+    register;
+
     shader = Shader
       .getOrCreate("Terrain", (shader) {
         shader
@@ -42,7 +50,8 @@ final class Terrain : Entity {
     
     shader.registerEntity(this);
     scene.addShader(shader);
-  });
+
+  }
 
   private {
     const float maxPixelColor = 256 ^^ 3;

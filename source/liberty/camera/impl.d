@@ -23,15 +23,11 @@ import liberty.scene.impl;
 /**
  * Represents the view of the observer.
  * Everything that is rendered to the screen is processed within the projection matrix and view matrix of a camera.
- * Inheriths $(D Entity) class and encapsulates $(D EntityConstructor) macro.
+ * Inheriths $(D Entity) class and encapsulates $(D NodeBody) macro.
  * It has a custom constructor that calls: $(D updateCameraVectors) and adds default $(D CameraPreset).
 **/
 final class Camera : Entity {
-  mixin EntityConstructor!(q{
-    this.updateCameraVectors();
-    this.preset = CameraPreset.getDefault();
-    this.getTransform().setRelativeLocation(0.0f, 3.0f, 4.0f);
-  });
+  mixin NodeBody;
 
   package {
     // getFrontVector
@@ -69,6 +65,18 @@ final class Camera : Entity {
 
     // setPreset, getPreset
     CameraPreset preset;
+  }
+
+  /**
+   * Default camera constructor.
+  **/
+  this(string id, Entity parent) {
+    super(id, parent);
+    register;
+
+    updateCameraVectors;
+    preset = CameraPreset.getDefault;
+    getTransform.setRelativeLocation(0.0f, 3.0f, 4.0f);
   }
 
   /**

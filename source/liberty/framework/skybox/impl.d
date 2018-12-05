@@ -22,7 +22,19 @@ import liberty.scene.meta;
  *
 **/
 final class SkyBox : Entity {
-  mixin EntityConstructor!(q{
+  mixin NodeBody;
+
+  private {
+    Shader shader;
+  }
+
+  /**
+   *
+  **/
+  this(string id, Entity parent) {
+    super(id, parent);
+    register;
+
     shader = Shader
       .getOrCreate("SkyBox", (shader) {
         shader
@@ -42,10 +54,6 @@ final class SkyBox : Entity {
     
     shader.registerEntity(this);
     scene.addShader(shader);
-  });
-
-  private {
-    Shader shader;
   }
 
   /**

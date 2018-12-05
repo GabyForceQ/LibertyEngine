@@ -13,21 +13,9 @@ module liberty.scene.meta;
  * You can send a string code with the construction code.
  * See $(D Entity).
 **/
-mixin template EntityConstructor(string code = "") {
-  import liberty.core.engine : CoreEngine;
-  import liberty.scene.entity : Entity;
-
-  /**
-   * The default constructor of a scene entity.
-   * See $(D Entity).
-  **/
-  this(string id, Entity parent = CoreEngine.getScene().getTree()) {
+mixin template NodeBody() {
+  private void register() {
     import std.string : capitalize;
-
-    if (parent is null)
-      assert(0, "Parent object cannot be null");
-
-    super(id, parent);
     
     enum finalClass = __traits(isFinalClass, this);
     enum abstractClass = __traits(isAbstractClass, this);
@@ -35,41 +23,16 @@ mixin template EntityConstructor(string code = "") {
     static if (!(finalClass || abstractClass))
       static assert(0, "A entity object class must either be final or abstract!");
 
-    mixin(code);
-
     static if (__traits(isFinalClass, this)) {
       static foreach (el; ["start", "update"]) {
         static foreach (super_member; __traits(allMembers, typeof(super)))
           static if (super_member.stringof == "\"" ~ el ~ "\"")
-            mixin("getScene.set" ~ el.capitalize ~ "ableMap(id, this);");
+            mixin("getScene.set" ~ el.capitalize ~ "ableMap(getId, this);");
           
         static foreach (member; __traits(allMembers, typeof(this)))
           static if (member.stringof == "\"" ~ el ~ "\"")
-            mixin("getScene.set" ~ el.capitalize ~ "ableMap(id, this);");
+            mixin("getScene.set" ~ el.capitalize ~ "ableMap(getId, this);");
       }
     }
-  }
-}
-
-/**
- * The scene entity default constructor.
- * You can send a string code with the destruction code.
- * See $(D Entity).
-**/
-mixin template EntityDestructor(string code) {
-  ~this() {
-    mixin(code);
-  }
-}
-
-/**
- *
-**/
-mixin template RendererConstructor(string code = "") {
-  import liberty.scene.impl : Scene;
-  
-  this(string id, Scene scene) {
-    super(id, scene);
-    mixin(code);
   }
 }

@@ -22,17 +22,7 @@ import liberty.scene.meta;
  *
 **/
 final class Light : Entity {
-  mixin EntityConstructor!(q{
-    this.getTransform.setAbsoluteLocation(0.0f, 200.0f, 0.0f);
-    this.index = this.numberOfLights;
-    this.numberOfLights++;
-
-    scene.addLight(this);
-  });
-
-  mixin EntityDestructor!(q{
-    this.numberOfLights--;
-  });
+  mixin NodeBody;
 
   private {
     static uint numberOfLights;
@@ -40,6 +30,24 @@ final class Light : Entity {
     uint index;
     Vector3F color = Vector3F.one;
     Vector3F attenuation = Vector3F(1.0f, 0.0f, 0.0f);
+  }
+
+  /**
+   *
+  **/
+  this(string id, Entity parent) {
+    super(id, parent);
+    register;
+
+    getTransform.setAbsoluteLocation(0.0f, 200.0f, 0.0f);
+    index = this.numberOfLights;
+    numberOfLights++;
+
+    scene.addLight(this);
+  }
+
+  ~this() {
+    this.numberOfLights--;
   }
 
   /**

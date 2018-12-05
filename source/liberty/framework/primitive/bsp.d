@@ -8,15 +8,15 @@
 **/
 module liberty.framework.primitive.bsp;
 
-import liberty.scene.meta;
-import liberty.material.impl;
-import liberty.math.vector;
-import liberty.model.io;
-import liberty.scene.entity;
-import liberty.model.impl;
 import liberty.framework.primitive.vertex;
 import liberty.framework.terrain.vertex;
 import liberty.framework.primitive.impl;
+import liberty.material.impl;
+import liberty.math.vector;
+import liberty.model.impl;
+import liberty.model.io;
+import liberty.scene.entity;
+import liberty.scene.meta;
 
 /**
  *
@@ -34,7 +34,15 @@ abstract class BSPVolume : Primitive {
  *
 **/
 final class BSPCube : BSPVolume {
-  mixin EntityConstructor;
+  mixin NodeBody;
+
+  /**
+   *
+  **/
+  this(string id, Entity parent) {
+    super(id, parent);
+    register;
+  }
 
   /**
    *
@@ -50,7 +58,15 @@ final class BSPCube : BSPVolume {
  *
 **/
 final class BSPPyramid : BSPVolume {
-  mixin EntityConstructor;
+  mixin NodeBody;
+
+  /**
+   *
+  **/
+  this(string id, Entity parent) {
+    super(id, parent);
+    register;
+  }
 
   /**
    *
@@ -66,7 +82,15 @@ final class BSPPyramid : BSPVolume {
  *
 **/
 final class BSPSquare : BSPVolume {
-  mixin EntityConstructor;
+  mixin NodeBody;
+
+  /**
+   *
+  **/
+  this(string id, Entity parent) {
+    super(id, parent);
+    register;
+  }
 
   /**
    *
@@ -82,7 +106,15 @@ final class BSPSquare : BSPVolume {
  *
 **/
 final class BSPTriangle : BSPVolume {
-  mixin EntityConstructor;
+  mixin NodeBody;
+
+  /**
+   *
+  **/
+  this(string id, Entity parent) {
+    super(id, parent);
+    register;
+  }
 
   /**
    *
