@@ -31,6 +31,7 @@ final class Shader : IShaderFactory, IRenderable {
 
     Entity[string] map;
     ShaderProgram program;
+    void delegate(ShaderProgram program) onCustomRender;
     void delegate(ShaderProgram program) onGlobalRender;
     void delegate(ShaderProgram program) onPerEntityRender;
     
@@ -160,6 +161,16 @@ final class Shader : IShaderFactory, IRenderable {
   }
 
   /**
+   * Add custom render delegate so it can be called every render tick.
+   * If this is not null, then globalRender and perEntityRender are useless.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) addCustomRender(void delegate(ShaderProgram) dg) pure nothrow {
+    onCustomRender = dg;
+    return this;
+  }
+
+  /**
    * Add global render delegate so it can be called every render tick once for all map entities.
    * Returns reference to this so it can be used in a stream.
   **/
@@ -197,23 +208,27 @@ final class Shader : IShaderFactory, IRenderable {
    * Render all map entities to the screen.
   **/
   void render(Scene scene) {
-    auto camera = scene.getActiveCamera;
+    if (onCustomRender !is null)
+      onCustomRender;
+    else {
+      auto camera = scene.getActiveCamera;
 
-    program
-      .bind
-      .loadUniform("uProjectionMatrix", camera.getProjectionMatrix);
+      program
+        .bind
+        .loadUniform("uProjectionMatrix", camera.getProjectionMatrix);
 
-    if (viewMatrixEnabled)
-      program.loadUniform("uViewMatrix", camera.getViewMatrix);
+      if (viewMatrixEnabled)
+        program.loadUniform("uViewMatrix", camera.getViewMatrix);
 
-    if (onGlobalRender !is null)
-      onGlobalRender(program);
-    
-    foreach (entity; map)
-      if (entity.getVisibility == Visibility.Visible)
-        render(entity);
+      if (onGlobalRender !is null)
+        onGlobalRender(program);
+      
+      foreach (entity; map)
+        if (entity.getVisibility == Visibility.Visible)
+          render(entity);
 
-    program.unbind;
+      program.unbind;
+    }
   }
 
   private void render(Entity entity) 
