@@ -209,7 +209,7 @@ final class Shader : IShaderFactory, IRenderable {
   **/
   void render(Scene scene) {
     if (onCustomRender !is null)
-      onCustomRender;
+      onCustomRender(program);
     else {
       auto camera = scene.getActiveCamera;
 
