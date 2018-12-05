@@ -10,8 +10,6 @@ module liberty.surface.tileset;
 
 version (none) :
 
-import core.stdc.stdlib;
-
 import liberty.image.format.bmp;
 import liberty.image.io;
 import liberty.material.impl;
@@ -30,6 +28,8 @@ final class TileSet {
    *
   **/
   this(Material material, Vector2I tileSize) {
+    import core.stdc.stdlib : malloc;
+
     dimension.x = material.getTexture().getWidth() / tileSize.x;
     dimension.y = material.getTexture().getHeight() / tileSize.y;
 
@@ -58,6 +58,15 @@ final class TileSet {
         materials[i][j] = new Material(im);
       }
     }
+  }
+
+  ~this() {
+    import core.stdc.stdlib : free;
+
+    foreach (i; 0..dimension.y)
+      free(materials[i]);
+
+    free(materials);
   }
 
   /**
