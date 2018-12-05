@@ -30,6 +30,24 @@ import liberty.scene.services;
 final class Terrain : Entity {
   mixin NodeBody;
 
+  private {
+    const float maxPixelColor = 256 ^^ 3;
+
+    // getSize
+    float size;
+    // getMaxHeight
+    float maxHeight = 0;
+    float** heights;
+    int vertexCount;
+
+    Material[] materials;
+    
+    // getTexCoordMultiplier, setTexCoordMultiplier
+    Vector2F texCoordMultiplier = Vector2F.one;
+
+    Shader shader;
+  }
+
   /**
    *
   **/
@@ -50,23 +68,15 @@ final class Terrain : Entity {
     
     shader.registerEntity(this);
     scene.addShader(shader);
-
   }
 
-  private {
-    const float maxPixelColor = 256 ^^ 3;
-
-    // getSize
-    float size;
-    // getMaxHeight
-    float maxHeight = 0;
-    float[256][256] heights; // ????
-    Material[] materials;
+  ~this() {
+    import core.stdc.stdlib : free;
     
-    // getTexCoordMultiplier, setTexCoordMultiplier
-    Vector2F texCoordMultiplier = Vector2F.one;
+    foreach (i; 0..vertexCount)
+      free(heights[i]);
 
-    Shader shader;
+    free(heights);
   }
 
   /**
@@ -80,7 +90,7 @@ final class Terrain : Entity {
     
     generateTerrain("res/textures/heightMap.bmp");
     
-    getTransform().setAbsoluteLocation(-size / 2.0f, 0.0f, -size / 2.0f);
+    getTransform.setAbsoluteLocation(-size / 2.0f, 0.0f, -size / 2.0f);
     texCoordMultiplier = size;
 
     return this;
@@ -154,7 +164,7 @@ final class Terrain : Entity {
     const float terrainX = worldX - getTransform().getAbsoluteLocation().x;
     const float terrainZ = worldZ - getTransform().getAbsoluteLocation().z;
 
-    const int heightLen = (heights.length) - 1;
+    const int heightLen = vertexCount - 1;
     const float gridSqareSize = size / cast(float)heightLen;
     
     int gridX = cast(int)floor(terrainX / gridSqareSize);
@@ -187,13 +197,17 @@ final class Terrain : Entity {
   }
 
   private void generateTerrain(string heightMapPath) {
+    import core.stdc.stdlib : malloc;
+
     // Load height map form file
     auto image = cast(BMPImage)ImageIO.loadImage(heightMapPath);
 
-    const int vertexCount = image.getHeight();
+    vertexCount = image.getHeight();
     const int count = vertexCount * vertexCount;
 
-    //heights = new float[vertexCount][vertexCount]; // ???? vertexCount
+    heights = cast(float**)malloc(vertexCount * (float*).sizeof);
+    foreach (i; 0..vertexCount)
+      heights[i] = cast(float*)malloc(vertexCount * float.sizeof);
 
     TerrainVertex[] vertices = new TerrainVertex[count * 3];
     uint[] indices = new uint[6 * (vertexCount - 1) * (vertexCount - 1)];
