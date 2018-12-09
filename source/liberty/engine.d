@@ -9,6 +9,7 @@
 module liberty.engine;
 
 public {
+  import liberty.audio;
   import liberty.camera;
   import liberty.core;
   import liberty.framework;

@@ -58,11 +58,11 @@ final abstract class ImageIO {
 
     // Read bmp file and put its content into a buffer
     if (!IOManager.readFileToBuffer(resourcePath, buf, "rb"))
-      assert(0, "Operation failed!");
+      Logger.error("Cannot read " ~ resourcePath ~ " file.", typeof(this).stringof);
 
     // Check if it is really a bmp image
     if (!isBMPFormat(buf[0x00..0x02]))
-      assert(0, "Not BMP image!");
+      Logger.error("Not *.bmp file.", typeof(this).stringof);
 
     BMPHeader header;
     ubyte[] pixelData;

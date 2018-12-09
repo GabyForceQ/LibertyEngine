@@ -10,6 +10,8 @@ module liberty.core.engine;
 
 import bindbc.glfw;
 
+import liberty.audio.backend;
+import liberty.audio.buffer.factory;
 import liberty.material.impl;
 import liberty.input.impl;
 import liberty.logger;
@@ -35,17 +37,16 @@ final abstract class CoreEngine {
    * Initialize core engine features.
   **/
   static void initialize() {
-    Logger.initialize();
+    Logger.initialize;
     
     // Set engine state to "starting"
     changeState(EngineState.Starting);
 
     // Initialize other classes    
-    Platform.initialize();
-    GfxEngine.initialize();
-    Input.initialize();
-
-    disableVSync();
+    Platform.initialize;
+    AudioBackend.initialize;
+    GfxEngine.initialize;
+    Input.initialize;
 
     // Set engine state to "started"
     changeState(EngineState.Started);
@@ -59,13 +60,14 @@ final abstract class CoreEngine {
     changeState(EngineState.Stopping);
 
     // Deinitialize other classes
-    Platform.deinitialize();
-    IGfxBufferFactory.release();
+    Platform.deinitialize;
+    IGfxBufferFactory.release;
+    IAudioBufferFactory.release;
 
     // Set engine state to "stopped"
     changeState(EngineState.Stopped);
 
-    Logger.deinitialize();
+    Logger.deinitialize;
   }
 
   /**
