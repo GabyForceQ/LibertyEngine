@@ -12,6 +12,7 @@ import liberty.logger.impl;
 import liberty.math.functions;
 import liberty.math.vector;
 import liberty.math.matrix;
+import liberty.scene.component;
 import liberty.scene.meta;
 import liberty.scene.entity;
 import liberty.framework.primitive.vertex;
@@ -22,7 +23,7 @@ import liberty.core.platform;
 /**
  *
 **/
-final class Transform {
+final class Transform : IComponent {
   private {
     // getParent
     Entity parent;
@@ -159,7 +160,7 @@ final class Transform {
 
     // Set location to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().setAbsoluteLocation!(op, true)(location);
+      child.getComponent!Transform.setAbsoluteLocation!(op, true)(location);
 
     updateModelMatrix();
 		return this;
@@ -183,7 +184,7 @@ final class Transform {
 
     // Set location x to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().setAbsoluteLocationX!(op, true)(value);
+      child.getComponent!Transform.setAbsoluteLocationX!(op, true)(value);
 
     updateModelMatrix();
     return this;
@@ -207,7 +208,7 @@ final class Transform {
 
     // Set location y to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().setAbsoluteLocationY!(op, true)(value);
+      child.getComponent!Transform.setAbsoluteLocationY!(op, true)(value);
 
     updateModelMatrix();
     return this;
@@ -231,7 +232,7 @@ final class Transform {
 
     // Set location z to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().setAbsoluteLocationZ!(op, true)(value);
+      child.getComponent!Transform.setAbsoluteLocationZ!(op, true)(value);
 
     updateModelMatrix();
     return this;
@@ -256,7 +257,7 @@ final class Transform {
   //do {
   //  // Set rotation to the current object children too
   //  foreach (child; parent.getChildMap())
-  //    child.getTransform().setRotation!op(angle, rotation);
+  //    child.getComponent!Transform.setRotation!op(angle, rotation);
   //  
   //  return this;
 	//}
@@ -275,7 +276,7 @@ final class Transform {
     mixin("tempModelMatrix.c[2][2] " ~ op ~ " rotation.c[2][2];");
     // Set rotation to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().setAbsoluteRotation!op(rotation);
+      child.getComponent!Transform.setAbsoluteRotation!op(rotation);
     
     updateModelMatrix();
     return this;
@@ -293,7 +294,7 @@ final class Transform {
 
     // Set pitch rotation to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().rotatePitch!op(angle);
+      child.getComponent!Transform.rotatePitch!op(angle);
 
     updateModelMatrix();
     return this;
@@ -311,7 +312,7 @@ final class Transform {
 
     // Set yaw rotation to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().rotateYaw!op(angle);
+      child.getComponent!Transform.rotateYaw!op(angle);
 
     updateModelMatrix();
     return this;
@@ -329,7 +330,7 @@ final class Transform {
 
     // Set roll rotation to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().rotateRoll!op(angle);
+      child.getComponent!Transform.rotateRoll!op(angle);
 
     updateModelMatrix();
     return this;
@@ -368,7 +369,7 @@ final class Transform {
 
     // Set scale to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().setAbsoluteScale!op(scale);
+      child.getComponent!Transform.setAbsoluteScale!op(scale);
 
     updateModelMatrix();
     return this;
@@ -385,7 +386,7 @@ final class Transform {
 
     // Set scale x to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().setAbsoluteScaleX!op(value);
+      child.getComponent!Transform.setAbsoluteScaleX!op(value);
 
     updateModelMatrix();
     return this;
@@ -402,7 +403,7 @@ final class Transform {
 
     // Set scale y to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().setAbsoluteScaleY!op(value);
+      child.getComponent!Transform.setAbsoluteScaleY!op(value);
 
     updateModelMatrix();
     return this;
@@ -419,7 +420,7 @@ final class Transform {
 
     // Set scale z to the current object children too
     foreach (child; parent.getChildMap())
-      child.getTransform().setAbsoluteScaleZ!op(value);
+      child.getComponent!Transform.setAbsoluteScaleZ!op(value);
 
     updateModelMatrix();
     return this;
@@ -558,7 +559,7 @@ final class Transform {
 	ref const(Matrix4F) getModelMatrix() pure nothrow const {
 		return modelMatrix;
 	}
-
+ 
   /**
    *
   **/

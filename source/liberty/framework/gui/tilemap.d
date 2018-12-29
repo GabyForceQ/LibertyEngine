@@ -78,7 +78,8 @@ final class TileMap : Widget {
     Vector2I scale = Vector2I(64, 64), Vector2I spaceBetween = Vector2I.zero)
   do {
     this.dimension = dimension;
-    getTransform.setAbsoluteLocation(Vector3F(startLocation.x, startLocation.y, 0.0f));
+    getTransform
+      .setAbsoluteLocation(Vector3F(startLocation.x, startLocation.y, 0.0f));
 
     foreach (i; 0..dimension.x)
       foreach (j; 0..dimension.y) {

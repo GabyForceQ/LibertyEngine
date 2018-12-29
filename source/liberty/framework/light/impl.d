@@ -14,6 +14,7 @@ import liberty.graphics.shader.constants;
 import liberty.graphics.shader.impl;
 import liberty.logger.impl;
 import liberty.math.functions;
+import liberty.math.transform;
 import liberty.math.vector;
 import liberty.scene.entity;
 import liberty.scene.meta;
@@ -39,7 +40,9 @@ final class Light : Entity {
     super(id, parent);
     register;
 
-    getTransform.setAbsoluteLocation(0.0f, 200.0f, 0.0f);
+    getComponent!Transform
+      .setAbsoluteLocation(0.0f, 200.0f, 0.0f);
+    
     index = this.numberOfLights;
     numberOfLights++;
 
@@ -103,7 +106,7 @@ final class Light : Entity {
       Shader
         .getOrCreate(shaderId)
         .getProgram
-        .loadUniform("uLightPosition[" ~ index.to!string ~ "]", getTransform.getLocation)
+        .loadUniform("uLightPosition[" ~ index.to!string ~ "]", getComponent!Transform.getLocation)
         .loadUniform("uLightColor[" ~ index.to!string ~ "]", color)
         .loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation)
         .loadUniform("uShineDamper", 1.0f)

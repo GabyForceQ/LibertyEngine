@@ -8,6 +8,7 @@
 **/
 module liberty.graphics.shader.impl;
 
+import liberty.math.transform;
 import liberty.graphics.shader.constants;
 import liberty.graphics.shader.factory;
 import liberty.graphics.shader.program;
@@ -237,7 +238,7 @@ final class Shader : IShaderFactory, IRenderable {
     auto model = entity.getModel;
 
     if (model !is null) {
-      program.loadUniform("uModelMatrix", entity.getTransform.getModelMatrix);
+      program.loadUniform("uModelMatrix", entity.getComponent!Transform.getModelMatrix);
 
       if (onPerEntityRender !is null)
         onPerEntityRender(program);

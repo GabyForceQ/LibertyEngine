@@ -10,16 +10,17 @@ module liberty.scene.entity;
 
 import liberty.camera;
 import liberty.core.engine;
+import liberty.framework.gui.vertex;
 import liberty.framework.primitive.bsp;
 import liberty.framework.primitive.vertex;
 import liberty.framework.terrain.vertex;
 import liberty.logger;
 import liberty.math.transform;
 import liberty.model.impl;
+import liberty.scene.component;
 import liberty.scene.constants;
 import liberty.scene.impl;
 import liberty.scene.services;
-import liberty.framework.gui.vertex;
 
 /**
  * Represents a entity in the scene tree.
@@ -46,6 +47,8 @@ abstract class Entity : IStartable, IUpdateable {
     Transform transform;
     // setModel, getModel
     Model model;
+    // addComponent, removeComponent
+    IComponent[string] componentMap;
   }
 
   /**
@@ -65,6 +68,45 @@ abstract class Entity : IStartable, IUpdateable {
   }
 
   /**
+   *
+  **/
+  typeof(this) addComponent(T : IComponent)(T component) {
+    import std.traits : EnumMembers;
+    
+    static foreach (e; EnumMembers!ComponentType)
+      static if (mixin("is(T == " ~ e ~ ")"))
+        componentMap[e] = component;
+
+    return this;
+  }
+
+  /**
+   *
+  **/
+  typeof(this) removeComponent(ComponentType type) {
+    final switch (type) with (ComponentType) {
+      case Transform:
+        Logger.warning("Cannot remove transform component ever.", typeof(this).stringof);
+    }
+
+    // For future components:
+    //componentMap.remove(id);
+    
+    return this;
+  }
+
+  /**
+   *
+  **/
+  T getComponent(T : IComponent)() {
+    import std.traits : EnumMembers;
+
+    static foreach (e; EnumMembers!ComponentType)
+      static if (mixin("is(T == " ~ e ~ ")"))
+        mixin("return cast(" ~ e ~ ")componentMap[e];");
+  }
+
+  /**
    * Construct a scene entity using an id and its parent.
   **/
   this(string id, Entity parent) {
@@ -81,7 +123,8 @@ abstract class Entity : IStartable, IUpdateable {
     // Set transformation
     transform = (parent is null)
       ? new Transform(this)
-      : new Transform(this, parent.getTransform);
+      : new Transform(this, parent.getComponent!Transform);
+    addComponent(transform);
 
     // Now save this in the scene entity map
     scene.entityMap[id] = this;
@@ -282,13 +325,6 @@ abstract class Entity : IStartable, IUpdateable {
    * It is optional.
   **/
   void update() {}
-
-  /**
-   * Returns transform component used for translation, rotation and scale
-  **/
-  Transform getTransform() pure nothrow {
-    return transform;
-  }
 
   /**
    * Set the visibility of the scene entity.

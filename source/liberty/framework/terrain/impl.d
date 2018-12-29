@@ -17,6 +17,7 @@ import liberty.image.format.bmp;
 import liberty.image.io;
 import liberty.material.impl;
 import liberty.math.functions;
+import liberty.math.transform;
 import liberty.math.vector;
 import liberty.model.impl;
 import liberty.model.io;
@@ -90,7 +91,9 @@ final class Terrain : Entity {
     
     generateTerrain("res/textures/heightMap.bmp");
     
-    getTransform.setAbsoluteLocation(-size / 2.0f, 0.0f, -size / 2.0f);
+    getComponent!Transform
+      .setAbsoluteLocation(-size / 2.0f, 0.0f, -size / 2.0f);
+    
     texCoordMultiplier = size;
 
     return this;
@@ -161,8 +164,8 @@ final class Terrain : Entity {
    *
   **/
   float getHeight(float worldX, float worldZ) {
-    const float terrainX = worldX - getTransform().getAbsoluteLocation().x;
-    const float terrainZ = worldZ - getTransform().getAbsoluteLocation().z;
+    const float terrainX = worldX - getComponent!Transform.getAbsoluteLocation.x;
+    const float terrainZ = worldZ - getComponent!Transform.getAbsoluteLocation.z;
 
     const int heightLen = vertexCount - 1;
     const float gridSqareSize = size / cast(float)heightLen;

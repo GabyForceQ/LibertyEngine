@@ -18,6 +18,7 @@ import liberty.framework.light.impl;
 import liberty.framework.primitive.impl;
 import liberty.framework.terrain.impl;
 import liberty.material.impl;
+import liberty.math.transform;
 import liberty.scene.impl;
 import liberty.scene.services;
 
@@ -41,7 +42,7 @@ abstract class SceneIO : ISerializable {
         "Primitive: { " ~
           "id: " ~ entity.getId ~
           "transform: [ " ~
-            "location: " ~ entity.getTransform.getAbsoluteLocation.toString ~ 
+            "location: " ~ entity.getComponent!Transform.getAbsoluteLocation.toString ~ 
         " ] }"
       );
     }

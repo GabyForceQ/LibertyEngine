@@ -10,6 +10,7 @@ module liberty.camera.impl;
 
 import liberty.core.engine;
 import liberty.math.functions;
+import liberty.math.transform;
 import liberty.math.vector;
 import liberty.math.matrix;
 import liberty.core.platform;
@@ -76,7 +77,9 @@ final class Camera : Entity {
 
     updateCameraVectors;
     preset = CameraPreset.getDefault;
-    getTransform.setRelativeLocation(0.0f, 3.0f, 4.0f);
+    
+    getComponent!Transform
+      .setRelativeLocation(0.0f, 3.0f, 4.0f);
   }
 
   /**
@@ -137,8 +140,8 @@ final class Camera : Entity {
   **/
   Matrix4F getViewMatrix() {
     return Matrix4F.lookAt(
-      getTransform.getLocation,
-      getTransform.getLocation + frontVector,
+      getComponent!Transform.getLocation,
+      getComponent!Transform.getLocation + frontVector,
       upVector
     );
   }

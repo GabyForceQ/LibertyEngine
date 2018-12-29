@@ -12,6 +12,7 @@ import liberty.core.engine;
 import liberty.input.impl;
 import liberty.input.keyboard.constants;
 import liberty.camera;
+import liberty.math.transform;
 
 /**
  * A camera custom setting.
@@ -72,52 +73,52 @@ class CameraPreset {
   **/
   static typeof(this) getDefault() {
     return new CameraPreset((camera) {
-      if (Input.getKeyboard().isButtonHold(KeyboardButton.W))
+      if (Input.getKeyboard.isButtonHold(KeyboardButton.W))
         camera.processKeyboard(CameraMovement.FORWARD);
 
-      if (Input.getKeyboard().isButtonHold(KeyboardButton.S))
+      if (Input.getKeyboard.isButtonHold(KeyboardButton.S))
         camera.processKeyboard(CameraMovement.BACKWARD);
 
-      if (Input.getKeyboard().isButtonHold(KeyboardButton.A))
+      if (Input.getKeyboard.isButtonHold(KeyboardButton.A))
         camera.processKeyboard(CameraMovement.LEFT);
 
-      if (Input.getKeyboard().isButtonHold(KeyboardButton.D))
+      if (Input.getKeyboard.isButtonHold(KeyboardButton.D))
         camera.processKeyboard(CameraMovement.RIGHT);
     }, (camera, direction, velocity) {
       final switch (direction) with (CameraMovement) {
         case FORWARD:
           camera
-            .getTransform()
+            .getComponent!Transform
             .setAbsoluteLocation!"+="(camera.frontVector * velocity);
           break;
         
         case BACKWARD:
           camera
-            .getTransform()
+            .getComponent!Transform
             .setAbsoluteLocation!"-="(camera.frontVector * velocity);
           break;
 
         case LEFT:
           camera
-            .getTransform()
+            .getComponent!Transform
             .setAbsoluteLocation!"-="(camera.rightVector * velocity);
           break;
 
         case RIGHT:
           camera
-            .getTransform()
+            .getComponent!Transform
             .setAbsoluteLocation!"+="(camera.rightVector * velocity);
           break;
 
         case UP:
           camera
-            .getTransform()
+            .getComponent!Transform
             .setAbsoluteLocation!"+="(camera.upVector * velocity);
           break;
 
         case DOWN:
           camera
-            .getTransform()
+            .getComponent!Transform
             .setAbsoluteLocation!"-="(camera.upVector * velocity);
       }
     });

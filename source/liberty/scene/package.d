@@ -10,6 +10,7 @@ module liberty.scene;
 
 public {
   import liberty.scene.action;
+  import liberty.scene.component;
   import liberty.scene.constants;
   import liberty.scene.entity;
   import liberty.scene.factory;

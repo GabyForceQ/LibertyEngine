@@ -9,6 +9,7 @@
 module liberty.input.mouse.picker;
 
 import liberty.input.impl;
+import liberty.math.transform;
 import liberty.math.vector;
 import liberty.math.matrix;
 import liberty.camera.impl;
@@ -81,7 +82,7 @@ final class MousePicker {
     Matrix4F invView = camera.getViewMatrix();
     Vector4F rayWorld = Matrix4F.transformation(invView, eyeCoords);
     Vector3F mouseRay = Vector3F(rayWorld.x, rayWorld.y, rayWorld.z);
-    mouseRay.normalize();
+    mouseRay.normalize;
 
     return mouseRay;
   }
@@ -94,7 +95,7 @@ final class MousePicker {
   }
 
   private Vector3F getPointOnRay(Vector3F ray, float distance) {
-    return camera.getTransform().getAbsoluteLocation() + ray * distance;
+    return camera.getComponent!Transform.getAbsoluteLocation() + ray * distance;
   }
 
   private Vector3F binarySearch(int count, float start, float finish, Vector3F ray) {
