@@ -8,8 +8,23 @@
 **/
 module liberty.physics.rigidbody;
 
+import liberty.math.vector;
+
+/**
+ *
+**/
 class RigidBody {
   private {
-    
+    Vector3F gravityDirection;
+    float jumpPower = 20.0f;
+
+    bool onGround;
+  }
+
+  /**
+   *
+  **/
+  this() {
+
   }
 }

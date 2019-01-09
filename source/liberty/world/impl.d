@@ -18,6 +18,7 @@ import liberty.world.constants;
 final class World {
   private {
     Vector3F expHeightFogColor = WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR;
+    int killZ = WORLD_DEFUALT_KILL_Z;
   }
 
   /**
@@ -62,6 +63,46 @@ final class World {
   **/
   typeof(this) setDefaultExpHeightFogColor() pure nothrow {
     expHeightFogColor = WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR;
+    return this;
+  }
+
+  /**
+   * Set the kill-z of the scene using a value in a template stream function.
+   * Assign a value to kill-z using world.setKillZ(value) or world.setKillZ!"="(value).
+   * Increment kill-z by value using world.setKillZ!"+="(value).
+   * Decrement kill-z by value using world.setKillZ!"-="(value).
+   * Multiply kill-z by value using world.setKillZ!"*="(value).
+   * Divide kill-z by value using world.setKillZ!"/="(value).
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setKillZ(string op = "=")(float value) pure nothrow
+  if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
+  do {
+    mixin("killZ " ~ op ~ " value;");
+  }
+
+  /**
+   * Returns the kill-z value.
+  **/
+  float getKillZ() pure nothrow const {
+    return killZ;
+  }
+
+  /**
+   * Set kill-z to default value $(D WORLD_DEFUALT_KILL_Z).
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setDefaultKillZ() pure nothrow {
+    killZ = WORLD_DEFUALT_KILL_Z;
+    return this;
+  }
+
+  /**
+   * Disable kill-z using value $(D WORLD_NO_KILL_Z).
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) setNoKillZ() pure nothrow {
+    killZ = WORLD_NO_KILL_Z;
     return this;
   }
 }

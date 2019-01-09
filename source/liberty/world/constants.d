@@ -12,7 +12,17 @@ import liberty.math.vector;
 
 enum {
   /**
-   * The default value of the exponential height fog is r: 0.5; g:0.8; b:0.8;
+   * The default value of the exponential height fog.
   **/
-  WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR = Vector3F(0.6f, 0.6f, 0.6f)
+  WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR = Vector3F(0.6f, 0.6f, 0.6f),
+
+  /**
+   * The default value of the kill-z area.
+  **/
+  WORLD_DEFUALT_KILL_Z = -10,
+
+  /**
+   * No kill-z area.
+  **/
+  WORLD_NO_KILL_Z = int.max
 }
