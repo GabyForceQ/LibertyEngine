@@ -19,22 +19,24 @@ final abstract class IOManager {
   /**
    *
   **/
-  static bool readFileToBuffer(string filePath, ref char[] buffer, string mode = "r") {
+  static bool readFileToBuffer(string filePath, ref char[] buffer, string mode = "r")
+  in (mode == "r" || mode == "rb")
+  do {
     // Try to open and read file
     auto file = File(filePath, mode);
-    scope(exit) file.close();
+    scope(exit) file.close;
 
-    // Check file loaded successfully
-    if (file.error()) {
+    // Check file load
+    if (file.error) {
       Logger.error("File couldn't be opened", typeof(this).stringof);
       return false;
     }
     
     // Get the file size
-    ulong fileSize = file.size();
+    ulong fileSize = file.size;
 
     // Reduce the file size by any header bytes that might be present
-    fileSize -= file.tell();
+    fileSize -= file.tell;
 
     // Fill buffer
     buffer = file.rawRead(new char[cast(size_t)fileSize]);
@@ -49,7 +51,7 @@ final abstract class IOManager {
     char[] buf;
 
     if (!IOManager.readFileToBuffer("test_file.txt", buf))
-      assert(0, "Operation failed!");
+      assert(0, "Operation failed at reading!");
 
     assert(
       buf == "Hello,\r\nDear engine!" ||
@@ -61,6 +63,41 @@ final abstract class IOManager {
   /**
    *
   **/
-  //static bool writeBufferToFile(char[] buffer, string filePath) {
-  //}
+  static bool writeBufferToFile(string filePath, ref char[] buffer, string mode = "w")
+  in (mode == "w" || mode == "wb")
+  do {
+    // Try to open a file in write mode
+    auto file = File(filePath, mode);
+    scope(exit) file.close;
+
+    // Check file load
+    if (file.error) {
+      Logger.error("File couldn't be created/opened", typeof(this).stringof);
+      return false;
+    }
+
+    // Write to file
+    file.write(buffer);
+
+    return true;
+  }
+
+  /**
+   *
+  **/
+  unittest {
+    char[] buf = ['H', 'E', 'L', 'L', 'O', '7', '!'];
+    char[] buf2;
+
+    if (!IOManager.writeBufferToFile("test_write_file.txt", buf))
+      assert(0, "Operation failed at writing!");
+
+    if (!IOManager.readFileToBuffer("test_write_file.txt", buf2))
+      assert(0, "Operation failed at reading!");
+
+    assert(
+      buf == buf2,
+      "Buffer2 does not containt the same data as Buffer1"
+    );
+  }
 }

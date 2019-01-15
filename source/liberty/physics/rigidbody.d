@@ -8,23 +8,64 @@
 **/
 module liberty.physics.rigidbody;
 
+import liberty.framework.terrain.impl;
+import liberty.math.transform;
 import liberty.math.vector;
+import liberty.scene.entity;
+import liberty.time;
 
 /**
  *
 **/
 class RigidBody {
-  private {
-    Vector3F gravityDirection;
+  public {
+    Vector3F gravityDirection = Vector3F.down;
+    float gravity = -80.0f;
     float jumpPower = 20.0f;
-
+    float upSpeed = 0;
+    float moveSpeed = 5.0f;
     bool onGround;
+
+    Entity entity;
+    Terrain terrain;
   }
 
   /**
    *
   **/
-  this() {
+  this(Entity entity, Terrain terrain) pure nothrow {
+    this.entity = entity;
+    this.terrain = terrain;
+  }
 
+  /**
+   *
+  **/
+  typeof(this) processPx() {
+    const float deltaTime = Time.getDelta;
+    upSpeed += gravity * deltaTime;
+
+    entity.getComponent!Transform.setAbsoluteLocationY!"+="(upSpeed * deltaTime);
+    const Vector3F worldPos = entity.getComponent!Transform.getAbsoluteLocation();
+
+    const float terrainHeight = terrain.getHeight(worldPos.x, worldPos.z);
+
+    onGround = false;
+    
+    if (worldPos.y < terrainHeight) {
+      onGround = true;
+      upSpeed = 0;
+      entity.getComponent!Transform.setAbsoluteLocationY(terrainHeight);
+    }
+
+    return this;
+  }
+
+  /**
+   *
+  **/
+  typeof(this) jump() {
+    upSpeed = jumpPower;
+    return this;
   }
 }
