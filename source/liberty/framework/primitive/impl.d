@@ -24,8 +24,8 @@ abstract class Primitive : Entity {
   /**
    *
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
 
     shader = Shader
       .getOrCreate("Primitive", (shader) {
@@ -51,14 +51,14 @@ abstract class UniquePrimitive : Primitive {
   /**
    *
   **/
-  this(string id, Entity parent) {
+  this(string id) {
     if (this.hasInstance) {
       Logger.error(
         "Cannot have multiple instances", 
         typeof(this).stringof
       );
     }
-    super(id, parent);
+    super(id);
     this.hasInstance = true;
   }
 }

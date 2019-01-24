@@ -42,7 +42,7 @@ abstract class SceneIO : ISerializable {
         "Primitive: { " ~
           "id: " ~ entity.getId ~
           "transform: [ " ~
-            "location: " ~ entity.getComponent!Transform.getAbsoluteLocation.toString ~ 
+            "location: " ~ entity.getComponent!Transform.getLocation.toString ~ 
         " ] }"
       );
     }
@@ -98,7 +98,7 @@ abstract class SceneIO : ISerializable {
       else if (tokens[0] == "id:")
         scene.id = cast(string)tokens[1].dup;
       else if (tokens[0] == "Terrain:")
-        scene.getTree().spawn!Terrain(cast(string)tokens[3].dup)
+        scene.spawn!Terrain(cast(string)tokens[3].dup)
           .build(tokens[6].dup.to!float, tokens[9].dup.to!float, [
             new Material(cast(string)tokens[13].dup),
             new Material(cast(string)tokens[15].dup),
@@ -107,7 +107,7 @@ abstract class SceneIO : ISerializable {
             new Material(cast(string)tokens[21].dup)
           ]);
       else if (tokens[0] == "Light:")
-        scene.getTree.spawn!Light(cast(string)tokens[3].dup);
+        scene.spawn!Light(cast(string)tokens[3].dup);
     }
   }
 }

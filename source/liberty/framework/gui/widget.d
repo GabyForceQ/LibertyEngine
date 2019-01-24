@@ -17,39 +17,27 @@ import liberty.scene.constants;
 import liberty.scene.services;
 import liberty.framework.gui.impl;
 
+import liberty.scene.entity;
+
 /**
  *
 **/
-class Widget : IUpdateable {
+class Widget : Entity {
   private {
-    string id;
     Gui gui;
     Vector2I index;
     int zIndex = 0;
-    Model model;
-    Transform transform;
-
-    // setVisibility, getVisibility
-    Visibility visibility;
   }
 
   /**
    *
   **/
   this(string id, Gui gui) {
-    this.id = id;
+    super(id);
     this.gui = gui;
-
 
     if (gui.getRootCanvas !is null)
       gui.getRootCanvas.addWidget(this);
-  }
-
-  /**
-   *
-  **/
-  final string getId() pure nothrow const {
-    return id;
   }
 
   /**
@@ -108,47 +96,6 @@ class Widget : IUpdateable {
   **/
   final int getZIndex() pure nothrow const {
     return zIndex;
-  }
-
-  /**
-   * Set the 3D model of the widget.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  final typeof(this) setModel(Model model) pure nothrow {
-    this.model = model;
-    return this;
-  }
-
-  /**
-   * Returns the 3D model of the widget.
-  **/
-  final Model getModel() pure nothrow {
-    return model;
-  }
-
-  /**
-   * Set the visibility of the widget.
-   * See $(D Visibility) enumeration for possible values.
-   * Returns reference to this so it can be used in a stream.
-  **/
-  final typeof(this) setVisibility(Visibility visibility) pure nothrow {
-    this.visibility = visibility;
-    return this;
-  }
-
-  /**
-   * Returns the visibility of the widget.
-   * See $(D Visibility) enumeration for possible values.
-  **/
-  final Visibility getVisibility() pure nothrow const {
-    return visibility;
-  }
-
-  /**
-   *
-  **/
-  final Transform getTransform() pure nothrow {
-    return transform;
   }
 
   override void update() {}

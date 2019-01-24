@@ -25,8 +25,8 @@ abstract class BSPVolume : Primitive {
   /**
    *
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
   }
 }
 
@@ -39,8 +39,8 @@ final class BSPCube : BSPVolume {
   /**
    *
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
     register;
   }
 
@@ -63,8 +63,8 @@ final class BSPPyramid : BSPVolume {
   /**
    *
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
     register;
   }
 
@@ -87,8 +87,8 @@ final class BSPSquare : BSPVolume {
   /**
    *
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
     register;
   }
 
@@ -111,8 +111,8 @@ final class BSPTriangle : BSPVolume {
   /**
    *
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
     register;
   }
 

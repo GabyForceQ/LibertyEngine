@@ -32,6 +32,8 @@ import liberty.framework.gui.controls;
 import liberty.scene.action;
 import liberty.graphics.shader.program;
 
+import liberty.math.transform;
+
 
 /**
  * A gui represents a 2-dimensional view containting graphical user interface elements.
@@ -54,8 +56,8 @@ abstract class Gui : Entity {
   /**
    * Create a new gui using an id and a parent.
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
 
     shader = Shader
       .getOrCreate("Gui", (shader) {
@@ -73,7 +75,7 @@ abstract class Gui : Entity {
                       if (widget.getModel !is null)
                         program
                           .loadUniform("uZIndex", 0)
-                          .loadUniform("uModelMatrix", widget.getTransform.getModelMatrix)
+                          .loadUniform("uModelMatrix", widget.getComponent!Transform.getModelMatrix)
                           .render(widget.getModel);
                     }
                   }
@@ -85,7 +87,7 @@ abstract class Gui : Entity {
                       if (widget.getModel !is null)
                         program
                           .loadUniform("uZIndex", 1)
-                          .loadUniform("uModelMatrix", widget.getTransform.getModelMatrix)
+                          .loadUniform("uModelMatrix", widget.getComponent!Transform.getModelMatrix)
                           .render(widget.getModel);
                     }
                   }
@@ -98,7 +100,7 @@ abstract class Gui : Entity {
 
     shader.registerEntity(this);
     scene.addShader(shader);
-
+    
     rootCanvas = new Canvas("RootCanvas" ~ id, this);
     updateProjection(shader.getProgram);
   }

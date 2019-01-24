@@ -71,15 +71,15 @@ final class Camera : Entity {
   /**
    * Default camera constructor.
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
     register;
 
     updateCameraVectors;
     preset = CameraPreset.getDefault;
     
     getComponent!Transform
-      .setRelativeLocation(0.0f, 3.0f, 4.0f);
+      .setLocation(0.0f, 3.0f, 4.0f);
   }
 
   /**

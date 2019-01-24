@@ -89,37 +89,37 @@ class CameraPreset {
         case FORWARD:
           camera
             .getComponent!Transform
-            .setAbsoluteLocation!"+="(camera.frontVector * velocity);
+            .setLocation!"+="(camera.frontVector * velocity);
           break;
         
         case BACKWARD:
           camera
             .getComponent!Transform
-            .setAbsoluteLocation!"-="(camera.frontVector * velocity);
+            .setLocation!"-="(camera.frontVector * velocity);
           break;
 
         case LEFT:
           camera
             .getComponent!Transform
-            .setAbsoluteLocation!"-="(camera.rightVector * velocity);
+            .setLocation!"-="(camera.rightVector * velocity);
           break;
 
         case RIGHT:
           camera
             .getComponent!Transform
-            .setAbsoluteLocation!"+="(camera.rightVector * velocity);
+            .setLocation!"+="(camera.rightVector * velocity);
           break;
 
         case UP:
           camera
             .getComponent!Transform
-            .setAbsoluteLocation!"+="(camera.upVector * velocity);
+            .setLocation!"+="(camera.upVector * velocity);
           break;
 
         case DOWN:
           camera
             .getComponent!Transform
-            .setAbsoluteLocation!"-="(camera.upVector * velocity);
+            .setLocation!"-="(camera.upVector * velocity);
       }
     });
   }

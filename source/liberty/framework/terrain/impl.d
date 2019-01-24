@@ -52,8 +52,8 @@ final class Terrain : Entity {
   /**
    *
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
     register;
 
     shader = Shader
@@ -92,7 +92,7 @@ final class Terrain : Entity {
     generateTerrain("res/textures/heightMap.bmp");
     
     getComponent!Transform
-      .setAbsoluteLocation(-size / 2.0f, 0.0f, -size / 2.0f);
+      .setLocation(-size / 2.0f, 0.0f, -size / 2.0f);
     
     texCoordMultiplier = size;
 
@@ -164,8 +164,8 @@ final class Terrain : Entity {
    *
   **/
   float getHeight(float worldX, float worldZ) {
-    const float terrainX = worldX - getComponent!Transform.getAbsoluteLocation.x;
-    const float terrainZ = worldZ - getComponent!Transform.getAbsoluteLocation.z;
+    const float terrainX = worldX - getComponent!Transform.getLocation.x;
+    const float terrainZ = worldZ - getComponent!Transform.getLocation.z;
 
     const int heightLen = vertexCount - 1;
     const float gridSqareSize = size / cast(float)heightLen;

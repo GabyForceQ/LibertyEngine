@@ -33,8 +33,8 @@ final class Scene : ISceneFactory, IUpdateable {
     bool initialized;
     // getRelativePath, setRelativePath
     string relativePath;
-    // getTree
-    Entity tree;
+    // getEntityMap
+    Entity[string] entityMap;
     // getStartPoint
     Vector3F startPoint;
     // getWorld, setWorld
@@ -56,9 +56,6 @@ final class Scene : ISceneFactory, IUpdateable {
   package {
     // It is necessary to modify it in SceneSerializer class
     string id;
-    // It is necessary to modify it in Entity class
-    // getEntityMap
-    Entity[string] entityMap;
   }
 
   /**
@@ -68,9 +65,8 @@ final class Scene : ISceneFactory, IUpdateable {
     CoreEngine.loadScene(this);
 
     this.id = id;
-    tree = new RootEntity;
     world = new World;
-    activeCamera = tree.spawn!Camera("DefaultCamera");
+    activeCamera = spawn!Camera("DefaultCamera");
   }
 
   /**
@@ -108,14 +104,6 @@ final class Scene : ISceneFactory, IUpdateable {
   **/
   string getRelativePath() pure nothrow const {
     return relativePath;
-  }
-
-  /**
-   * Returns a scene tree reference.
-   * See $(D Entity) class.
-  **/
-  Entity getTree() pure nothrow {
-    return tree;
   }
 
   /**
@@ -246,8 +234,15 @@ final class Scene : ISceneFactory, IUpdateable {
    * Returns all elements in the scene entity map.
    * See $(D Entity) class.
   **/
-  Entity[string] getEntityMap()  pure nothrow {
+  Entity[string] getEntityMap() pure nothrow {
     return entityMap;
+  }
+
+  /**
+   *
+  **/
+  T getEntity(T)(string id) pure nothrow {
+    return cast(T)entityMap[id];
   }
 
   /**
@@ -302,6 +297,144 @@ final class Scene : ISceneFactory, IUpdateable {
   **/
   Light getLightById(string id) pure nothrow {
     return lightMap[id];
+  }
+
+  /**
+   * Spawn a scene entity using its reference.
+   * You can specify where to spawn. By default is set to scene tree.
+   * Returns new entitys reference.
+  **/
+  ref T spawn(T : Entity, bool STRAT = true)(ref T entity, string id, void delegate(T) initMethod = null) {
+    entity = new T(id, this);
+    insert(entity);
+
+    static if (is(T == Camera))
+      this.scene.registerCamera(entity);
+
+    static if (STRAT)
+      entity.start;
+
+    if (initMethod !is null)
+      initMethod(entity);
+	
+    return entity;
+  }
+
+  /**
+   * Spawn a scene entity using its ID.
+   * Second time you call this method for the same id, an assertion is produced.
+   * Returns new entity reference.
+  **/
+  T spawn(T : Entity, bool STRAT = true)(string id, void delegate(T) initMethod = null) {
+    T entity = new T(id);
+    entityMap[id] = entity;
+
+    static if (is(T == Camera))
+      registerCamera(entity);
+
+    static if (STRAT)
+      entity.start;
+
+    if (initMethod !is null)
+      initMethod(entity);
+
+    return entity;
+  }
+  
+  /**
+   * Spawn a scene entity using its reference.
+   * Second time you call this method for the same id, nothing happens.
+   * Returns old/new entity reference.
+  **/
+  ref T spawnOnce(T : Entity, bool STRAT = true)(ref T entity, string id, void delegate(T) initMethod = null) {
+    if (id in singletonMap)
+      return cast(T)singletonMap[id];
+
+    entity = new T(id);
+    entityMap[id] = entity;
+
+    static if (is(T == Camera))
+      registerCamera(entity);
+    
+    singletonMap[id] = entity;
+
+    static if (STRAT)
+      entity.start;
+
+    if (initMethod !is null)
+      initMethod(entity);
+
+    return entity;
+  }
+
+  /**
+   * Spawn a scene entity using its ID.
+   * Second time you call this method for the same id, nothing happens.
+   * Returns old/new entity reference.
+  **/
+  T spawnOnce(T : Entity, bool STRAT = true)(string id, void delegate(T) initMethod = null) {    
+    if (id in singletonMap)
+      return cast(T)singletonMap[id];
+
+    T entity = new T(id, this);
+    insert(entity);
+
+    static if (is(T == Camera))
+      scene.registerCamera(entity);
+
+    singletonMap[id] = entity;
+
+    static if (STRAT)
+      entity.start;
+
+    if (initMethod !is null)
+      initMethod(entity);
+
+    return entity;
+  }
+
+  /**
+   * Remove a child entity using its reference.
+   * Returns reference to this so it can be used in a stream.
+  **/
+  typeof(this) remove(T : Entity)(T entity) {
+    import std.traits : EnumMembers;
+    import liberty.framework.light.impl : Light;
+    import liberty.framework.primitive.impl : Primitive;
+    import liberty.framework.skybox.impl : SkyBox;
+    import liberty.framework.terrain.impl : Terrain;
+    import liberty.framework.gui.impl : Gui;
+    import liberty.text.impl : Text;
+
+    const id = entity.getId();
+
+    if (id in childMap) {
+      // Remove entity from scene maps
+      static foreach (e; ["Startable", "Updateable", "Entity"])
+        mixin("scene.get" ~ e ~ "Map.remove(id);");
+
+      // Remove entity from system
+      static foreach (sys; EnumMembers!SystemType)
+        static if (mixin("is(T : " ~ sys ~ ")"))
+          mixin("scene.get" ~ sys ~ "System.removeElementById(id);");
+      
+      //static if (is(T == Camera))
+      //  scene.safeRemoveCamera(id);
+
+      // Remove entity from child map
+      childMap[id].destroy;
+      childMap[id] = null;
+      childMap.remove(id);
+      
+      return this;
+    }
+    
+    Logger.warning(
+      "You are trying to remove a null scene entity",
+      typeof(this).stringof
+    );
+
+    return this;
   }
 
   private void applyLights() {

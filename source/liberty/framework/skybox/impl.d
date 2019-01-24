@@ -31,8 +31,8 @@ final class SkyBox : Entity {
   /**
    *
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
     register;
 
     shader = Shader

@@ -88,14 +88,14 @@ final class MousePicker {
   }
 
   private Vector4F toEyeCoords(Vector4F clipCoords) {
-    Matrix4F invProjection = camera.getProjectionMatrix().inverse();
+    Matrix4F invProjection = camera.getProjectionMatrix.inverse;
     Vector4F eyeCoords = Matrix4F.transformation(invProjection, clipCoords);
 
     return Vector4F(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
   }
 
   private Vector3F getPointOnRay(Vector3F ray, float distance) {
-    return camera.getComponent!Transform.getAbsoluteLocation() + ray * distance;
+    return camera.getComponent!Transform.getLocation + ray * distance;
   }
 
   private Vector3F binarySearch(int count, float start, float finish, Vector3F ray) {

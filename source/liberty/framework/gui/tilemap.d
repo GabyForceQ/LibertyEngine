@@ -78,8 +78,8 @@ final class TileMap : Widget {
     Vector2I scale = Vector2I(64, 64), Vector2I spaceBetween = Vector2I.zero)
   do {
     this.dimension = dimension;
-    getTransform
-      .setAbsoluteLocation(Vector3F(startLocation.x, startLocation.y, 0.0f));
+    getComponent!Transform
+      .setLocation(Vector3F(startLocation.x, startLocation.y, 0.0f));
 
     foreach (i; 0..dimension.x)
       foreach (j; 0..dimension.y) {
@@ -87,12 +87,12 @@ final class TileMap : Widget {
         
         tiles[$ - 1]
           .setIndex(i, j)
-          .getTransform
-          .setAbsoluteLocation(
-            i * (scale.x + spaceBetween.x) + getTransform.getLocation.x,
-            j * (scale.y + spaceBetween.y) + getTransform.getLocation.y,
+          .getComponent!Transform
+          .setLocation(
+            i * (scale.x + spaceBetween.x) + getComponent!Transform.getLocation.x,
+            -j * (scale.y + spaceBetween.y) - getComponent!Transform.getLocation.y,
             0.0f)
-          .setAbsoluteScale(Vector3F(scale.x, scale.y, 1.0f));
+          .setScale(Vector3F(scale.x / 2.0f, scale.y / 2.0f, 1.0f));
       }
     
     return this;

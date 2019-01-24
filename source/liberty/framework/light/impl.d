@@ -36,12 +36,12 @@ final class Light : Entity {
   /**
    *
   **/
-  this(string id, Entity parent) {
-    super(id, parent);
+  this(string id) {
+    super(id);
     register;
 
     getComponent!Transform
-      .setAbsoluteLocation(0.0f, 200.0f, 0.0f);
+      .setLocation(0.0f, 200.0f, 0.0f);
     
     index = this.numberOfLights;
     numberOfLights++;

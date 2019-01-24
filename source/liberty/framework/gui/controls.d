@@ -31,8 +31,8 @@ final class Canvas : Widget {
    * Call update for all widgets.
   **/
   override void update() {
-    foreach (w; widgets)
-      w.update();
+    foreach (widget; widgets)
+      widget.update;
   }
 
   /**
@@ -51,7 +51,7 @@ final class Canvas : Widget {
 
   package typeof(this) addWidget(Widget widget) {
     // Add a new widget to the canvas
-    widgets[widget.getId()] = widget;
+    widgets[widget.getId] = widget;
 
     // Returns reference to this and can be used in a stream
     return this;

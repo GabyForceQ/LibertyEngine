@@ -14,6 +14,11 @@ module liberty.scene.meta;
  * See $(D Entity).
 **/
 mixin template NodeBody() {
+  this(string id) {
+    super(id);
+    register;
+  }
+
   private void register() {
     import std.string : capitalize;
     

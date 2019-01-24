@@ -30,13 +30,9 @@ final class Transform : IComponent {
     Matrix4F modelMatrix = Matrix4F.identity();
     Matrix4F tempModelMatrix = Matrix4F.identity();
     
-    Vector3F relativeLocation = Vector3F.zero;
-    Vector3F relativeRotation = Vector3F.zero;
-    Vector3F relativeScale = Vector3F.one;
-    
-    Vector3F absoluteLocation = Vector3F.zero;
-    Vector3F absoluteRotation = Vector3F.zero;
-    Vector3F absoluteScale = Vector3F.one;
+    Vector3F location = Vector3F.zero;
+    Vector3F rotation = Vector3F.zero;
+    Vector3F scale = Vector3F.one;
 
     Vector3F pivot = Vector3F.zero;
   }
@@ -53,188 +49,99 @@ final class Transform : IComponent {
   **/
   this(Entity parent, Transform transform) {
     this(parent);
-    absoluteLocation = transform.absoluteLocation;
+    location = transform.location;
 
-    tempModelMatrix.c[0][3] += absoluteLocation.x;
-    tempModelMatrix.c[1][3] += absoluteLocation.y;
-    tempModelMatrix.c[2][3] += absoluteLocation.z;
+    tempModelMatrix.c[0][3] += location.x;
+    tempModelMatrix.c[1][3] += location.y;
+    tempModelMatrix.c[2][3] += location.z;
 
     updateModelMatrix();
   }
-
-  /**
-   *
-   * Returns reference to this so it can be used in a stream.
-  **/
-  Transform setRelativeLocation(string op = "=")(float x, float y, float z) pure {
-    return setRelativeLocation!op(Vector3F(x, y, z));
-  }
-
-  /**
-   * Returns reference to this so it can be used in a stream.
-  **/
-  Transform setRelativeLocation(string op = "=")(Vector3F location) pure
-  if (op == "=" || op == "+=" || op == "-=")
-  do {  
-    mixin("tempModelMatrix.c[0][3] " ~ op ~ " location.x;");
-    mixin("tempModelMatrix.c[1][3] " ~ op ~ " location.y;");
-    mixin("tempModelMatrix.c[2][3] " ~ op ~ " location.z;");
-    mixin("relativeLocation " ~ op ~ " location;");
-
-    updateModelMatrix();
-    return this;
-  }
-
-  /**
-   * 
-   * Returns reference to this so it can be used in a stream.
-  **/
-	Transform setRelativeLocationX(string op = "=")(float value) pure
-  if (op == "=" || op == "+=" || op == "-=")
-  do {
-		mixin("tempModelMatrix.c[0][3] " ~ op ~ " value;");
-    mixin("relativeLocation.x " ~ op ~ " value;");
-
-    updateModelMatrix();
-    return this;
-	}
-  
-  /**
-   * 
-   * Returns reference to this so it can be used in a stream.
-  **/
-	Transform setRelativeLocationY(string op = "=")(float value) pure
-  if (op == "=" || op == "+=" || op == "-=")
-  do {
-		mixin("tempModelMatrix.c[1][3] " ~ op ~ " value;");
-    mixin("relativeLocation.y " ~ op ~ " value;");
-
-    updateModelMatrix();
-    return this;
-	}
-
-  /**
-   * 
-   * Returns reference to this so it can be used in a stream.
-  **/
-	Transform setRelativeLocationZ(string op = "=")(float value) pure
-  if (op == "=" || op == "+=" || op == "-=")
-  do {
-		mixin("tempModelMatrix.c[2][3] " ~ op ~ " value;");
-    mixin("relativeLocation.z " ~ op ~ " value;");
-
-    updateModelMatrix();
-    return this;
-	}
 
   /**
    * Translate location using x, y and z scalars as coordinates.
-   * Location is done in absolute space.
+   * Location is done in  space.
   **/
-	Transform setAbsoluteLocation(string op = "=", bool force = false)(float x, float y, float z)
+	Transform setLocation(string op = "=")(float x, float y, float z)
   if (op == "=" || op == "+=" || op == "-=")
   do {
-		return setAbsoluteLocation!(op, force)(Vector3F(x, y, z));
+		return setLocation!(op)(Vector3F(x, y, z));
 	}
 
   /**
    * Translate location using a vector with x, y and z coordinates.
-   * Location is done in absolute space.
+   * Location is done in  space.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteLocation(string op = "=", bool force = false)(Vector3F location)
+	Transform setLocation(string op = "=")(Vector3F location)
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin(forceBody);
-
     static if (op == "=") {
-      mixin("tempModelMatrix.c[0][3] " ~ op ~ "relativeLocation.x + location.x;");
-      mixin("tempModelMatrix.c[1][3] " ~ op ~ "relativeLocation.y + location.y;");
-      mixin("tempModelMatrix.c[2][3] " ~ op ~ "relativeLocation.z + location.z;");
+      mixin("tempModelMatrix.c[0][3] " ~ op ~ " this.location.x + location.x;");
+      mixin("tempModelMatrix.c[1][3] " ~ op ~ " this.location.y + location.y;");
+      mixin("tempModelMatrix.c[2][3] " ~ op ~ " this.location.z + location.z;");
     } else {
       mixin("tempModelMatrix.c[0][3] " ~ op ~ " location.x;");
       mixin("tempModelMatrix.c[1][3] " ~ op ~ " location.y;");
       mixin("tempModelMatrix.c[2][3] " ~ op ~ " location.z;");
     }
-    mixin("absoluteLocation " ~ op ~ " location;");
+    mixin("this.location " ~ op ~ " location;");
 
-    // Set location to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.setAbsoluteLocation!(op, true)(location);
-
-    updateModelMatrix();
+    updateModelMatrix;
 		return this;
 	}
 
   /**
    * Translate x-coordinate location.
-   * Location is done in absolute space.
+   * Location is done in  space.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteLocationX(string op = "=", bool force = true)(float value)
+	Transform setLocationX(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin(forceBody);
-
     static if (op == "=")
-      mixin("tempModelMatrix.c[0][3] " ~ op ~ "relativeLocation.x + value;");
+      mixin("tempModelMatrix.c[0][3] " ~ op ~ " location.x + value;");
     else
       mixin("tempModelMatrix.c[0][3] " ~ op ~ " value;");
-    mixin("absoluteLocation.x " ~ op ~ " value;");
+    mixin("location.x " ~ op ~ " value;");
 
-    // Set location x to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.setAbsoluteLocationX!(op, true)(value);
-
-    updateModelMatrix();
+    updateModelMatrix;
     return this;
 	}
   
   /**
    * Translate y-coordinate location.
-   * Location is done in absolute space.
+   * Location is done in  space.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteLocationY(string op = "=", bool force = false)(float value)
+	Transform setLocationY(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin(forceBody);
-
     static if (op == "=")
-      mixin("tempModelMatrix.c[1][3] " ~ op ~ "relativeLocation.y + value;");
+      mixin("tempModelMatrix.c[1][3] " ~ op ~ " location.y + value;");
     else
       mixin("tempModelMatrix.c[1][3] " ~ op ~ " value;");
-    mixin("absoluteLocation.y " ~ op ~ " value;");
+    mixin("location.y " ~ op ~ " value;");
 
-    // Set location y to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.setAbsoluteLocationY!(op, true)(value);
-
-    updateModelMatrix();
+    updateModelMatrix;
     return this;
 	}
   
   /**
    * Translate z-coordinate location.
-   * Location is done in absolute space.
+   * Location is done in  space.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteLocationZ(string op = "=", bool force = false)(float value)
+	Transform setLocationZ(string op = "=")(float value)
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin(forceBody);
-
     static if (op == "=")
-      mixin("tempModelMatrix.c[2][3] " ~ op ~ "relativeLocation.z + value;");
+      mixin("tempModelMatrix.c[2][3] " ~ op ~ " location.z + value;");
     else
       mixin("tempModelMatrix.c[2][3] " ~ op ~ " value;");
-    mixin("absoluteLocation.z " ~ op ~ " value;");
+    mixin("location.z " ~ op ~ " value;");
 
-    // Set location z to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.setAbsoluteLocationZ!(op, true)(value);
-
-    updateModelMatrix();
+    updateModelMatrix;
     return this;
 	}
   
@@ -242,7 +149,7 @@ final class Transform : IComponent {
    * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
    * Returns reference to this so it can be used in a stream.
   **/
-	//Transform setAbsoluteRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure
+	//Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure
   //if (op == "=" || op == "+=" || op == "-=")
   //do {
 	//	return setRotation!op(angle, Vector3F(rotX, rotY, rotZ));
@@ -252,17 +159,13 @@ final class Transform : IComponent {
    * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
    * Returns reference to this so it can be used in a stream.
   **/
-	//Transform setAbsoluteRotation(string op = "=")(float angle, Vector3F rotation) pure
+	//Transform setRotation(string op = "=")(float angle, Vector3F rotation) pure
   //if (op == "=" || op == "+=" || op == "-=")
-  //do {
-  //  // Set rotation to the current object children too
-  //  foreach (child; parent.getChildMap())
-  //    child.getComponent!Transform.setRotation!op(angle, rotation);
-  //  
+  //do {  
   //  return this;
 	//}
 
-  /*Transform setAbsoluteRotation(string op = "=")(Matrix3F rotation) pure
+  /*Transform setRotation(string op = "=")(Matrix3F rotation) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
     mixin("tempModelMatrix.c[0][0] " ~ op ~ " rotation.c[0][0];");
@@ -274,10 +177,6 @@ final class Transform : IComponent {
     mixin("tempModelMatrix.c[2][0] " ~ op ~ " rotation.c[2][0];");
     mixin("tempModelMatrix.c[2][1] " ~ op ~ " rotation.c[2][1];");
     mixin("tempModelMatrix.c[2][2] " ~ op ~ " rotation.c[2][2];");
-    // Set rotation to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.setAbsoluteRotation!op(rotation);
-    
     updateModelMatrix();
     return this;
 	}*/
@@ -289,12 +188,8 @@ final class Transform : IComponent {
 	Transform rotatePitch(string op = "=")(float angle) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin("absoluteRotation.x " ~ op ~ " angle;");
-		tempModelMatrix.rotateX(absoluteRotation.x.radians);
-
-    // Set pitch rotation to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.rotatePitch!op(angle);
+    mixin("rotation.x " ~ op ~ " angle;");
+		tempModelMatrix.rotateX(rotation.x.radians);
 
     updateModelMatrix();
     return this;
@@ -307,12 +202,8 @@ final class Transform : IComponent {
 	Transform rotateYaw(string op = "=")(float angle) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin("absoluteRotation.y " ~ op ~ " angle;");
-		tempModelMatrix.rotateY(absoluteRotation.y.radians);
-
-    // Set yaw rotation to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.rotateYaw!op(angle);
+    mixin("rotation.y " ~ op ~ " angle;");
+		tempModelMatrix.rotateY(rotation.y.radians);
 
     updateModelMatrix();
     return this;
@@ -325,12 +216,8 @@ final class Transform : IComponent {
 	Transform rotateRoll(string op = "=")(float angle) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    mixin("absoluteRotation.z " ~ op ~ " angle;");
-		tempModelMatrix.rotateZ(absoluteRotation.z.radians);
-
-    // Set roll rotation to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.rotateRoll!op(angle);
+    mixin("rotation.z " ~ op ~ " angle;");
+		tempModelMatrix.rotateZ(rotation.z.radians);
 
     updateModelMatrix();
     return this;
@@ -340,36 +227,32 @@ final class Transform : IComponent {
    * Scale object using same value for x, y and z coordinates.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteScale(string op = "=")(float value) pure
+	Transform setScale(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    return setAbsoluteScale!op(Vector3F(value, value, value));
+    return setScale!op(Vector3F(value, value, value));
 	}
   
   /**
    * Scale object using x, y and z scalars for coordinates.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteScale(string op = "=")(float x, float y, float z) pure
+	Transform setScale(string op = "=")(float x, float y, float z) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
-    return setAbsoluteScale!op(Vector3F(x, y, z));
+    return setScale!op(Vector3F(x, y, z));
 	}
   
   /**
    * Scale object using a vector with x, y and z scalars for coordinates.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteScale(string op = "=")(Vector3F scale) pure
+	Transform setScale(string op = "=")(Vector3F scale) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
 		mixin("tempModelMatrix.c[0][0] " ~ op ~ " scale.x;");
     mixin("tempModelMatrix.c[1][1] " ~ op ~ " scale.y;");
     mixin("tempModelMatrix.c[2][2] " ~ op ~ " scale.z;");
-
-    // Set scale to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.setAbsoluteScale!op(scale);
 
     updateModelMatrix();
     return this;
@@ -379,14 +262,10 @@ final class Transform : IComponent {
    * Scale object on x axis.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteScaleX(string op = "=")(float value) pure
+	Transform setScaleX(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
 		mixin("tempModelMatrix.c[0][0] " ~ op ~ " value;");
-
-    // Set scale x to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.setAbsoluteScaleX!op(value);
 
     updateModelMatrix();
     return this;
@@ -396,14 +275,10 @@ final class Transform : IComponent {
    * Scale object on y axis.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteScaleY(string op = "=")(float value) pure
+	Transform setScaleY(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
 		mixin("tempModelMatrix.c[1][1] " ~ op ~ " value;");
-
-    // Set scale y to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.setAbsoluteScaleY!op(value);
 
     updateModelMatrix();
     return this;
@@ -413,14 +288,10 @@ final class Transform : IComponent {
    * Scale object on z axis.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setAbsoluteScaleZ(string op = "=")(float value) pure
+	Transform setScaleZ(string op = "=")(float value) pure
   if (op == "=" || op == "+=" || op == "-=")
   do {
 		mixin("tempModelMatrix.c[2][2] " ~ op ~ " value;");
-
-    // Set scale z to the current object children too
-    foreach (child; parent.getChildMap())
-      child.getComponent!Transform.setAbsoluteScaleZ!op(value);
 
     updateModelMatrix();
     return this;
@@ -429,64 +300,22 @@ final class Transform : IComponent {
   /**
    * Returns object location in relative space.
   **/
-	ref const(Vector3F) getRelativeLocation() pure nothrow const {
-		return relativeLocation;
-	}
-
-  /**
-   * Returns object location in absolute space.
-  **/
-	ref const(Vector3F) getAbsoluteLocation() pure nothrow const {
-		return absoluteLocation;
+	ref const(Vector3F) getLocation() pure nothrow const {
+		return location;
 	}
   
   /**
    * Returns object rotation in relative space.
   **/
-	ref const(Vector3F) getRelativeRotation() pure nothrow const {
-		return relativeRotation;
-	}
-
-  /**
-   * Returns object rotation in absolute space.
-  **/
-	ref const(Vector3F) getAbsoluteRotation() pure nothrow const {
-		return absoluteRotation;
+	ref const(Vector3F) getRotation() pure nothrow const {
+		return rotation;
 	}
   
   /**
    * Returns object scale in relative space.
   **/
-	ref const(Vector3F) getRelativeScale() pure nothrow const {
-		return relativeScale;
-	}
-
-  /**
-   * Returns object scale in absolute space.
-  **/
-	ref const(Vector3F) getAbsoluteScale() pure nothrow const {
-		return absoluteScale;
-	}
-
-  /**
-   * Returns object location in true space.
-  **/
-	Vector3F getLocation() pure nothrow const {
-		return absoluteLocation + relativeLocation;
-	}
-
-  /**
-   * Returns object rotation in true space.
-  **/
-	Vector3F getRotation() pure nothrow const {
-		return absoluteRotation + relativeRotation;
-	}
-  
-  /**
-   * Returns object scale in true space.
-  **/
-	Vector3F getScale() pure nothrow const {
-		return absoluteScale + relativeScale;
+	ref const(Vector3F) getScale() pure nothrow const {
+		return scale;
 	}
 
   /**
@@ -574,16 +403,3 @@ final class Transform : IComponent {
     modelMatrix.c[2][3] += pivot.z;
   }
 }
-
-private immutable forceBody = q{
-  static if (!force)
-    if (!parent.isRootEntity()) {
-      Logger.warning(
-        "You are trying to perform Transformation a non-root object (id: " 
-        ~ parent.getId() 
-        ~ ") in absolute space.",
-        typeof(this).stringof
-      );
-      return this;
-    }
-};
