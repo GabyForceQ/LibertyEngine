@@ -42,7 +42,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	this(BoundType min, BoundType max) pure nothrow {
+	this(BoundType min, BoundType max)   {
 		this.min = min;
 		this.max = max;
 	}
@@ -51,7 +51,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
     /**
      *
     **/
-		this(T min, T max) pure nothrow {
+		this(T min, T max)   {
 			this.min.x = min;
 			this.max.x = max;
 		}
@@ -61,7 +61,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
     /**
      *
     **/
-		this(T min_x, T min_y, T max_x, T max_y) pure nothrow {
+		this(T min_x, T min_y, T max_x, T max_y)   {
 			min = BoundType(min_x, min_y);
 			max = BoundType(max_x, max_y);
 		}
@@ -71,7 +71,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
     /**
      *
     **/
-		this(T min_x, T min_y, T min_z, T max_x, T max_y, T max_z) pure nothrow {
+		this(T min_x, T min_y, T min_z, T max_x, T max_y, T max_z)   {
 			min = BoundType(min_x, min_y, min_z);
 			max = BoundType(max_x, max_y, max_z);
 		}
@@ -80,21 +80,21 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    * Returns box dimensions.
   **/
-	BoundType getSize() pure nothrow const {
+	BoundType getSize()   const {
 		return max - min;
 	}
 
   /**
    * Returns box center.
   **/
-	BoundType getCenter() pure nothrow const {
+	BoundType getCenter()   const {
 		return (min + max) / 2;
 	}
 
   /**
    * Returns box width .
   **/
-	T getWidth() pure nothrow const {
+	T getWidth()   const {
 		return max.x - min.x;
 	}
 
@@ -102,7 +102,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
     /**
      * Returns box height.
     **/
-		T getHeight() pure nothrow const {
+		T getHeight()   const {
 			return max.y - min.y;
 		}
 	}
@@ -112,7 +112,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
     /**
      * Returns depth of the box.
     **/
-		T getDepth() pure nothrow const {
+		T getDepth()   const {
 			return max.z - min.z;
 		}
 	}
@@ -120,7 +120,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    * Returns signed volume of the box.
   **/
-	T getVolume() pure nothrow const {
+	T getVolume()   const {
 		T ret = 1;
 		BoundType size = getSize();
 		static foreach (i; 0..N) {
@@ -132,7 +132,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    * Returns true if empty.
   **/
-	bool isEmpty() pure nothrow const {
+	bool isEmpty()   const {
 		//const BoundType size = getSize();
 		static foreach (i; 0..N) {
 			if (min[i] == max[i]) {
@@ -145,7 +145,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    * Returns true if it contains point
   **/
-	bool contains(BoundType point) pure nothrow const
+	bool contains(BoundType point)   const
 	in {
 		assert(isSorted());
 	} do {
@@ -160,7 +160,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	bool contains(Box other) pure nothrow const
+	bool contains(Box other)   const
 	in {
 		assert(isSorted());
 		assert(other.isSorted());
@@ -176,7 +176,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	real getSquaredDistance(BoundType point) pure nothrow const
+	real getSquaredDistance(BoundType point)   const
 	in {
 		assert(isSorted());
 	} do {
@@ -195,7 +195,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	real getDistance(BoundType point) pure nothrow const {
+	real getDistance(BoundType point)   const {
 		import liberty.math.functions : sqrt;
 		return sqrt(getSquaredDistance(point));
 	}
@@ -203,7 +203,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	real getSquaredDistance(Box o) pure nothrow const
+	real getSquaredDistance(Box o)   const
 	in {
 		assert(isSorted());
 		assert(o.isSorted());
@@ -223,7 +223,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	real getDistance(Box o) pure nothrow const {
+	real getDistance(Box o)   const {
 		import liberty.math.functions : sqrt;
 		return sqrt(getSquaredDistance(o));
 	}
@@ -231,7 +231,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	Box getIntersection(Box o) pure nothrow const
+	Box getIntersection(Box o)   const
 	in {
 		assert(isSorted());
 		assert(o.isSorted());
@@ -257,7 +257,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	bool intersects(Box other) pure nothrow const {
+	bool intersects(Box other)   const {
 		Box inter = this.getIntersection(other);
 		return inter.isSorted() && !inter.isEmpty();
 	}
@@ -265,7 +265,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	Box grow(BoundType space) pure nothrow const {
+	Box grow(BoundType space)   const {
 		Box ret = this;
 		ret.min -= space;
 		ret.max += space;
@@ -275,35 +275,35 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	Box shrink(BoundType space) pure nothrow const {
+	Box shrink(BoundType space)   const {
 		return grow(-space);
 	}
 
   /**
    *
   **/
-	Box grow(T space) pure nothrow const {
+	Box grow(T space)   const {
 		return grow(BoundType(space));
 	}
 
   /**
    *
   **/
-	Box translate(BoundType offset) pure nothrow const {
+	Box translate(BoundType offset)   const {
 		return Box(min + offset, max + offset);
 	}
 
   /**
    *
   **/
-	Box shrink(T space) pure nothrow const {
+	Box shrink(T space)   const {
 		return shrink(BoundType(space));
 	}
 
   /**
    *
   **/
-	Box expand(BoundType point) pure nothrow const {
+	Box expand(BoundType point)   const {
 		import liberty.math.vector : minByElem, maxByElem;
 		return Box(minByElem(min, point), maxByElem(max, point));
 	}
@@ -311,7 +311,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	Box expand(Box other) pure nothrow const
+	Box expand(Box other)   const
 	in {
 		assert(isSorted());
 		assert(other.isSorted());
@@ -337,7 +337,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	bool isSorted() pure nothrow const {
+	bool isSorted()   const {
 		static foreach (i; 0..N) {
 			if (min[i] > max[i]) {
 				return false;
@@ -349,7 +349,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	ref Box opAssign(U)(U x) nothrow if (isBox!U) {
+	ref Box opAssign(U)(U x)  if (isBox!U) {
 		static if(is(U.type : T)) {
 			static if(U.dim == dim) {
 				min = x.min;
@@ -366,14 +366,14 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    *
   **/
-	bool opEquals(U)(U other) pure nothrow const if (is(U : Box)) {
+	bool opEquals(U)(U other)   const if (is(U : Box)) {
 		return (min == other.min) && (max == other.max);
 	}
 
   /**
    *
   **/
-  //size_t toHash() pure nothrow const {
+  //size_t toHash()   const {
   //  size_t hash = min.hashOf();
   //  hash = max.hashOf(hash);
   //  return hash;
@@ -382,7 +382,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
   /**
    * Cast to other box types.
   **/
-	U opCast(U)() pure nothrow const if (isBox!U) {
+	U opCast(U)()   const if (isBox!U) {
 		U b = void;
 		static foreach (i; 0..N) {
 			b.min[i] = cast(U.type)(min[i]);
@@ -395,7 +395,7 @@ struct Box(T, int N) if (N >= 1 && N <= 3) {
     /**
      *
     **/
-		static Box rectangle(T x, T y, T width, T height) pure nothrow {
+		static Box rectangle(T x, T y, T width, T height)   {
 			return Box(x, y, x + width, y + height);
 		}
 	}

@@ -34,14 +34,14 @@ final class MousePicker {
   /**
    *
   **/
-  Vector3F getCurrentRay() pure nothrow {
+  Vector3F getCurrentRay()   {
     return currentRay;
   }
 
   /**
    *
   **/
-  Vector3F getCurrentTerrainPoint() pure nothrow {
+  Vector3F getCurrentTerrainPoint()   {
     return currentTerrainPoint;
   }
 
@@ -79,7 +79,7 @@ final class MousePicker {
   }
 
   private Vector3F toWorldCoords(Vector4F eyeCoords) {
-    Matrix4F invView = camera.getViewMatrix();
+    Matrix4F invView = camera.viewMatrix;
     Vector4F rayWorld = Matrix4F.transformation(invView, eyeCoords);
     Vector3F mouseRay = Vector3F(rayWorld.x, rayWorld.y, rayWorld.z);
     mouseRay.normalize;
@@ -88,14 +88,14 @@ final class MousePicker {
   }
 
   private Vector4F toEyeCoords(Vector4F clipCoords) {
-    Matrix4F invProjection = camera.getProjectionMatrix.inverse;
+    Matrix4F invProjection = camera.projectionMatrix.inverse;
     Vector4F eyeCoords = Matrix4F.transformation(invProjection, clipCoords);
 
     return Vector4F(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
   }
 
   private Vector3F getPointOnRay(Vector3F ray, float distance) {
-    return camera.getComponent!Transform.getLocation + ray * distance;
+    return camera.component!Transform.getLocation + ray * distance;
   }
 
   private Vector3F binarySearch(int count, float start, float finish, Vector3F ray) {

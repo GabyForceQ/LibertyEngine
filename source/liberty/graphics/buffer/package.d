@@ -11,5 +11,6 @@ module liberty.graphics.buffer;
 public {
   import liberty.graphics.buffer.array;
   import liberty.graphics.buffer.constants;
+  import liberty.graphics.buffer.factory;
   import liberty.graphics.buffer.impl;
 }

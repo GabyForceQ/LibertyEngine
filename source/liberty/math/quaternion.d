@@ -22,18 +22,18 @@ struct Quaternion(T) {
 		}
 	}
 	/// Constructs a Quaternion from a value.
-	this(U)(U x) pure nothrow if (isAssignable!U) {
+	this(U)(U x)   if (isAssignable!U) {
 		opAssign!U(x);
 	}
 	/// Constructs a Quaternion from coordinates.
-	this(T qw, T qx, T qy, T qz) pure nothrow {
+	this(T qw, T qx, T qy, T qz)   {
 		x = qx;
 		y = qy;
 		z = qz;
 		w = qw;
 	}
 	/// Constructs a Quaternion from axis + angle.
-	static Quaternion fromAxis(Vector!(T, 3) axis, T angle) pure nothrow {
+	static Quaternion fromAxis(Vector!(T, 3) axis, T angle)   {
 		import liberty.math.functions : sin, cos;
 		Quaternion q = void;
 		axis.normalize();
@@ -46,7 +46,7 @@ struct Quaternion(T) {
 		return q;
 	}
 	/// Constructs a Quaternion from Euler angles.
-	static Quaternion fromEulerAngles(T roll, T pitch, T yaw) pure nothrow {
+	static Quaternion fromEulerAngles(T roll, T pitch, T yaw)   {
 		import liberty.math.functions : sin, cos;
 		Quaternion q = void;
 		const T sinPitch = sin(pitch / 2);
@@ -64,7 +64,7 @@ struct Quaternion(T) {
 		return q;
 	}
 	/// Converts a quaternion to Euler angles.
-	Vector!(T, 3) toEulerAngles() pure nothrow const {
+	Vector!(T, 3) toEulerAngles()   const {
 		import liberty.math.functions : atan2, sqrt, PI;
 		Matrix!(T, 3) m = cast(Matrix!(T, 3))(this);
 		T pitch, yaw, roll;
@@ -81,17 +81,17 @@ struct Quaternion(T) {
 		return Vector!(T, 3)(roll, pitch, yaw);
 	}
 	/// Assign from another Quaternion.
-	ref Quaternion opAssign(U)(U u) pure nothrow if (isQuaternionInstance!U && is(U._T : T)) {
+	ref Quaternion opAssign(U)(U u)   if (isQuaternionInstance!U && is(U._T : T)) {
 		v = u.v;
 		return this;
 	}
 	/// Assign from a vector of 4 elements.
-	ref Quaternion opAssign(U)(U u) pure nothrow if (is(U : Vector!(T, 4u))) {
+	ref Quaternion opAssign(U)(U u)   if (is(U : Vector!(T, 4u))) {
 		v = u;
 		return this;
 	}
 	/// Converts to a string.
-	string toString() const nothrow {
+	string toString() const  {
 		import std.string : format;
 		try {
 			return format("%s", v);
@@ -100,30 +100,30 @@ struct Quaternion(T) {
 		}
 	}
 	/// Normalizes a quaternion.
-	void normalize() pure nothrow {
+	void normalize()   {
 		v.normalize();
 	}
 	/// Returns normalized quaternion.
-	Quaternion normalized() pure nothrow const {
+	Quaternion normalized()   const {
 		Quaternion ret = void;
 		ret.v = v.normalized();
 		return ret;
 	}
 	/// Inverses a quaternion in-place.
-	void inverse() pure nothrow {
+	void inverse()   {
 		x = -x;
 		y = -y;
 		z = -z;
 	}
 	/// Returns inverse of quaternion.
-	Quaternion inversed() pure nothrow const {
+	Quaternion inversed()   const {
 		Quaternion ret = void;
 		ret.v = v;
 		ret.inverse();
 		return ret;
 	}
 	///
-	ref Quaternion opOpAssign(string op, U)(U q) pure nothrow if (is(U : Quaternion) && (op == "*")) {
+	ref Quaternion opOpAssign(string op, U)(U q)   if (is(U : Quaternion) && (op == "*")) {
 		const T nx = w * q.x + x * q.w + y * q.z - z * q.y;
 		const T ny = w * q.y + y * q.w + z * q.x - x * q.z;
 		const T nz = w * q.z + z * q.w + x * q.y - y * q.x;
@@ -135,26 +135,26 @@ struct Quaternion(T) {
 		return this;
 	}
 	///
-	ref Quaternion opOpAssign(string op, U)(U operand) pure nothrow if (isConvertible!U) {
+	ref Quaternion opOpAssign(string op, U)(U operand)   if (isConvertible!U) {
 		Quaternion conv = operand;
 		return opOpAssign!op(conv);
 	}
 	///
-	Quaternion opBinary(string op, U)(U operand) pure nothrow const if (is(U: Quaternion) || (isConvertible!U)) {
+	Quaternion opBinary(string op, U)(U operand)   const if (is(U: Quaternion) || (isConvertible!U)) {
 		Quaternion temp = this;
 		return temp.opOpAssign!op(operand);
 	}
 	/// Compare two Quaternions.
-	bool opEquals(U)(U other) pure const if (is(U : Quaternion)) {
+	bool opEquals(U)(U other)  const if (is(U : Quaternion)) {
 		return v == other.v;
 	}
 	/// Compare Quaternion and other types.
-	bool opEquals(U)(U other) pure nothrow const if (isConvertible!U) {
+	bool opEquals(U)(U other)   const if (isConvertible!U) {
 		Quaternion conv = other;
 		return opEquals(conv);
 	}
 	/// Convert to a 3x3 rotation matrix.
-	U opCast(U)() pure nothrow const
+	U opCast(U)()   const
   if (isMatrixInstance!U && is(U.type : type) && (U.rowCount == 3) && (U.columnCount == 3))
   do {
 		const T norm = x*x + y*y + z*z + w*w;
@@ -169,14 +169,14 @@ struct Quaternion(T) {
     );
 	}
 	/// Converts a to a 4x4 rotation matrix.
-	U opCast(U)() pure nothrow const
+	U opCast(U)()   const
   if (isMatrixInstance!U && is(U.type : type) && (U.rowCount == 4) && (U.columnCount == 4))
   do {
 		auto m3 = cast(Matrix!(U.type, 3))(this);
 		return cast(U)(m3);
 	}
 	///
-	static Quaternion identity() pure nothrow {
+	static Quaternion identity()   {
 		Quaternion q = void;
 		q.x = q.y = q.z = 0;
 		q.w = 1;
@@ -205,13 +205,13 @@ alias QuaternionF = Quaternion!float;
 ///
 alias QuaternionD = Quaternion!double;
 /// Returns linear interpolation for quaternions.
-Quaternion!T lerp(T)(Quaternion!T a, Quaternion!T b, float t) pure nothrow {
+Quaternion!T lerp(T)(Quaternion!T a, Quaternion!T b, float t)   {
 	Quaternion!T ret;
 	ret.v = funcs.lerp(a.v, b.v, t);
 	return ret;
 }
 /// Returns nlerp of quaternions.
-Quaternion!T nlerp(T)(Quaternion!T a, Quaternion!T b, float t) pure nothrow
+Quaternion!T nlerp(T)(Quaternion!T a, Quaternion!T b, float t)  
 in {
 	assert(t >= 0 && t <= 1);
 } do {
@@ -221,7 +221,7 @@ in {
 	return ret;
 }
 /// Returns slerp of quaternions.
-Quaternion!T slerp(T)(Quaternion!T a, Quaternion!T b, T t) pure nothrow
+Quaternion!T slerp(T)(Quaternion!T a, Quaternion!T b, T t)  
 in {
 	assert(t >= 0 && t <= 1);
 } do {

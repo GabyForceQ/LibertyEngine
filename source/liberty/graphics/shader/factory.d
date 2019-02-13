@@ -21,7 +21,7 @@ interface IShaderFactory {
   /**
    *
   **/
-  static bool exists(string id) nothrow {
+  static bool exists(string id)  {
     return (id in shaders) !is null;
   }
 

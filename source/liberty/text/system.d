@@ -39,7 +39,7 @@ final class TextSystem {
    * Register a text entity to the text system.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) registerElement(Text entity) pure nothrow {
+  typeof(this) registerElement(Text entity)   {
     //map[entity.getId] = entity;
     return this;
   }
@@ -48,7 +48,7 @@ final class TextSystem {
    * Remove the given text entity from the text map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) removeElement(Text entity) pure nothrow {
+  typeof(this) removeElement(Text entity)   {
     //map.remove(entity.getId);
     return this;
   }
@@ -57,7 +57,7 @@ final class TextSystem {
    * Remove the text entity that has the given id from the text map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) removeElementById(string id) pure nothrow {
+  typeof(this) removeElementById(string id)   {
     map.remove(id);
     return this;
   }
@@ -65,28 +65,28 @@ final class TextSystem {
   /**
    * Returns all elements in the text map.
   **/
-  Text[string] getMap() pure nothrow {
+  Text[string] getMap()   {
     return map;
   }
 
   /**
    * Returns the text element in the map that has the given id.
   **/
-  Text getElementById(string id) pure nothrow {
+  Text getElementById(string id)   {
     return map[id];
   }
 
   /**
    * Returns a text renderer reference.
   **/
-  TextRenderer getRenderer() pure nothrow {
+  TextRenderer getRenderer()   {
     return renderer;
   }
 
   /**
    * Returns a text shader reference.
   **/
-  //TextShader getShader() pure nothrow {
+  //TextShader getShader()   {
   //  return shader;
   //}
 }

@@ -8,149 +8,94 @@
 **/
 module liberty.graphics.buffer.impl;
 
-version (__OPENGL__)
-  import bindbc.opengl;
-
+import bindbc.opengl;
 import liberty.graphics.buffer.factory;
 import liberty.graphics.engine;
 import liberty.utils;
 
-/**
- * Vertex buffer class.
-**/
+/// Vertex buffer class.
 final class GfxBuffer : IGfxBufferFactory {
-  private {
-    uint buffer;
-    size_t size;
-    uint target;
-    uint usage;
-    bool firstLoad = true;
-  }
+  ///
+  uint handle;
+  ///
+  size_t size;
+  ///
+  uint target;
+  ///
+  uint usage;
+  ///
+  bool firstLoad = true;
 
-  /**
-   * Create a vertex buffer object using target and usage.
-  **/
+  /// Create a vertex buffer object using target and usage.
   this(uint target, uint usage) {
     this.target = target;
     this.usage = usage;
-    
-    version (__OPENGL__)
-      glGenBuffers(1, &buffer);
-    
-    debug GfxEngine.runtimeCheckErr();
+    glGenBuffers(1, &handle);
+    debug GfxEngine.runtimeCheckErr;
   }
 
-  /**
-   * Create a vertex buffer object using target, usage and buffer.
-  **/
+  /// Create a vertex buffer object using target, usage and buffer.
   this(T)(uint target, uint usage, T[] buffer) {
     this(target, usage);
     setData(buffer);
   }
 
-  /**
-   * Returns the buffer size;
-  **/
-  size_t getSize() pure nothrow const {
-    return size;
-  }
-
-  /**
-   *
-   * Returns reference to this so it can be used in a stream.
-  **/
+  /// Returns reference to this so it can be used in a stream.
   typeof(this) setData(T)(T[] buffer) {
-    setData(buffer.bufferSize(), buffer.ptr);
+    setData(buffer.bufferSize, buffer.ptr);
     return this;
   }
 
-  /**
-   *
-   * Returns reference to this so it can be used in a stream.
-  **/
+  /// Returns reference to this so it can be used in a stream.
   typeof(this) setData(size_t size, void* data) {
-    bind();
+    bind;
     this.size = size;
-    
-    if (firstLoad) {
-      version (__OPENGL__)
-        glBufferData(target, size, data, usage);
-    } else {
-      version (__OPENGL__) {
-        glBufferData(target, size, null, usage);
-        glBufferSubData(target, 0, size, data);
-      }
+    if (firstLoad)
+      glBufferData(target, size, data, usage);
+    else {
+      glBufferData(target, size, null, usage);
+      glBufferSubData(target, 0, size, data);
     }
-    
-    debug GfxEngine.runtimeCheckErr();
+    debug GfxEngine.runtimeCheckErr;
     firstLoad = false;
-
     return this;
   }
 
-  /**
-   *
-   * Returns reference to this so it can be used in a stream.
-  **/
+  /// Returns reference to this so it can be used in a stream.
   typeof(this) setSubData(size_t offset, size_t size, void* data) {
-    bind();
-    
-    version (__OPENGL__)
-      glBufferSubData(target, offset, size, data);
-    
-    debug GfxEngine.runtimeCheckErr();
+    bind;
+    glBufferSubData(target, offset, size, data);
+    debug GfxEngine.runtimeCheckErr;
     return this;
   }
 
-  /**
-   *
-   * Returns reference to this so it can be used in a stream.
-  **/
+  /// Returns reference to this so it can be used in a stream.
   typeof(this) getSubData(size_t offset, size_t size, void* data) {
-    bind();
-
-    version (__OPENGL__)
-      glGetBufferSubData(target, offset, size, data);
-    
-    debug GfxEngine.runtimeCheckErr();
+    bind;
+    glGetBufferSubData(target, offset, size, data);
+    debug GfxEngine.runtimeCheckErr;
     return this;
   }
 
-  /**
-   * Return the buffer number of bytes.
-  **/
+  /// Return the buffer number of bytes.
   ubyte[] getBytes() {
     auto buff = new ubyte[size];
     getSubData(0, size, buff.ptr);
     return buff;
   }
 
-  /**
-   * Bind the buffer into video memory.
-   * Returns reference to this so it can be used in a stream.
-  **/
+  /// Bind the buffer into video memory.
+  /// Returns reference to this so it can be used in a stream.
   typeof(this) bind() {
-    version (__OPENGL__)
-      glBindBuffer(target, buffer);
-   
-    debug GfxEngine.runtimeCheckErr();
+    glBindBuffer(target, handle);
+    debug GfxEngine.runtimeCheckErr;
     return this;
   }
 
-  /**
-   * Unbind the buffer from video memory.
-   * Returns reference to this so it can be used in a stream.
-  **/
+  /// Unbind the buffer from video memory.
+  /// Returns reference to this so it can be used in a stream.
   typeof(this) unbind() {
-    version (__OPENGL__)
-      glBindBuffer(target, 0);
+    glBindBuffer(target, 0);
     return this;
-  }
-
-  /**
-   * Returns wrapped video resource handle.
-  **/
-  uint getHandle() pure nothrow const {
-    return buffer;
   }
 }

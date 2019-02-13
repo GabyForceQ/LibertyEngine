@@ -61,28 +61,28 @@ final class BMPImage : Image {
   /**
    *
   **/
-  uint getSize() pure nothrow const {
+  uint getSize()   const {
     return header.size;
   }
 
   /**
    * Retursn image width in pixels.
   **/
-  uint getWidth() pure nothrow const {
+  uint getWidth()   const {
     return header.width;
   }
 
   /**
    * Retursn image height in pixels.
   **/
-  uint getHeight() pure nothrow const {
+  uint getHeight()   const {
     return header.height;
   }
 
   /**
    *
   **/
-  float getRGBPixelColor(int x, int y) pure nothrow {
+  float getRGBPixelColor(int x, int y)   {
     const ubyte b = pixelData[header.width * y * 4 + x * 4 + 0];
     const ubyte g = pixelData[header.width * y * 4 + x * 4 + 1];
     const ubyte r = pixelData[header.width * y * 4 + x * 4 + 2];
@@ -93,7 +93,7 @@ final class BMPImage : Image {
   /**
    *
   **/
-  Color4 getRGBAPixel(int x, int y) pure nothrow {
+  Color4 getRGBAPixel(int x, int y)   {
     const ubyte b = pixelData[header.width * y * 4 + x * 4 + 0];
     const ubyte g = pixelData[header.width * y * 4 + x * 4 + 1];
     const ubyte r = pixelData[header.width * y * 4 + x * 4 + 2];
@@ -104,7 +104,7 @@ final class BMPImage : Image {
   /**
    *
   **/
-  ubyte[] getData() pure nothrow {
+  ubyte[] getData()   {
     return data;
   }
 }

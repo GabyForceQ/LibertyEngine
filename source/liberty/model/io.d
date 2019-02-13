@@ -15,52 +15,48 @@ import liberty.graphics.buffer;
  *
 **/
 final abstract class ModelIO {
-  /**
-   * Load a raw model into memory using vertex data.
-   * Returns newly created raw model.
-  **/
+  /// Load a raw model into memory using vertex data.
+  /// Returns newly created raw model.
   static RawModel loadRawModel(VERTEX)(VERTEX[] data) {
     // Create vertex array object for the model    
-    GfxVertexArray vao = GfxVertexArray.createArray();
-    vao.appendToVAOs(vao.getHandle());
+    GfxVertexArray vao = GfxVertexArray.createArray;
+    vao.appendToVAOs(vao.handle);
 
     // Create vertex buffer object for the model
     GfxBuffer vbo = GfxBuffer.createBuffer(GfxBufferTarget.ARRAY, GfxDataUsage.STATIC_DRAW, data);    
-    vbo.appendToVBOs(vbo.getHandle());
+    vbo.appendToVBOs(vbo.handle);
 
     // Bind vertex attribute pointer
-    VERTEX.bindAttributePointer();
+    VERTEX.bindAttributePointer;
     
     // Unbind vertex buffer object
-    vbo.unbind();
+    vbo.unbind;
 
     // Unbind vertex array object
-    vao.unbind();
+    vao.unbind;
 
-    return RawModel(vao.getHandle(), data.length, false);
+    return RawModel(vao.handle, data.length, false);
   }
 
-  /**
-   * Load a raw model into memory using vertex data and indices.
-   * Indices are stored into the internal vertex buffer object static array.
-   * Returns newly created raw model.
-  **/
+  /// Load a raw model into memory using vertex data and indices.
+  /// Indices are stored into the internal vertex buffer object static array.
+  /// Returns newly created raw model.
   static RawModel loadRawModel(VERTEX)(VERTEX[] data, uint[] indices) {
     // Create vertex array object for the model
     GfxVertexArray vao = GfxVertexArray.createArray();
-    vao.appendToVAOs(vao.getHandle());
+    vao.appendToVAOs(vao.handle);
 
     // Create vertex buffer object for the model
     GfxBuffer vbo = GfxBuffer.createBuffer(GfxBufferTarget.ARRAY, GfxDataUsage.STATIC_DRAW, data);
-    vbo.appendToVBOs(vbo.getHandle());
+    vbo.appendToVBOs(vbo.handle);
 
     // Create element buffer object for the model
     // This shouldn't be unbinded
     GfxBuffer ebo = GfxBuffer.createBuffer(GfxBufferTarget.ELEMENT_ARRAY, GfxDataUsage.STATIC_DRAW, indices);
-    ebo.appendToVBOs(ebo.getHandle());
+    ebo.appendToVBOs(ebo.handle);
 
     // Bind vertex attribute pointer
-    VERTEX.bindAttributePointer();
+    VERTEX.bindAttributePointer;
     
     // Unbind vertex buffer object
     vbo.unbind();
@@ -68,7 +64,7 @@ final abstract class ModelIO {
     // Unbind vertex array object
     vao.unbind();
     
-    return RawModel(vao.getHandle(), indices.length, true);
+    return RawModel(vao.handle, indices.length, true);
   }
 
   /**

@@ -31,54 +31,53 @@ package(liberty) class EventManager {
   }
 
   extern (C) static void mouseCallback(GLFWwindow* window, double xPos, double yPos) nothrow {
-    if (firstMouse) {
+    try {
+      if (firstMouse) {
+        lastX = xPos;
+        lastY = yPos;
+        firstMouse = false;
+      }
+
+      const xOffset = xPos - lastX;
+      const yOffset = lastY - yPos;
+
+      Input
+        .getMouse()
+        .setPreviousPostion(Vector2F(lastX, lastY))
+        .setPosition(Vector2F(xPos, yPos));
+
       lastX = xPos;
       lastY = yPos;
-      firstMouse = false;
-    }
 
-    float xOffset = xPos - lastX;
-    float yOffset = lastY - yPos;
-
-    Input
-      .getMouse()
-      .setPreviousPostion(Vector2F(lastX, lastY))
-      .setPosition(Vector2F(xPos, yPos));
-
-    lastX = xPos;
-    lastY = yPos;
-
-    try {
-      CoreEngine
-        .getScene()
-        .getActiveCamera()
-        .processMouseMovement(xOffset, yOffset);
+      CoreEngine.scene.camera.processMouseMovement(xOffset, yOffset);
     } catch (Exception e) {}
   }
 
   extern (C) static void joystickCallback(int joy, int event) nothrow {
-    if (event == GLFW_CONNECTED) {
-      Input
-        .getJoystick()
-        .setConnected(true)
-        .processButtons();
-    } else if (event == GLFW_DISCONNECTED)
-      Input
-        .getJoystick()
-        .setConnected(false);
+    try {
+      if (event == GLFW_CONNECTED) {
+        Input
+          .getJoystick()
+          .setConnected(true)
+          .processButtons();
+      } else if (event == GLFW_DISCONNECTED)
+        Input
+          .getJoystick()
+          .setConnected(false);
+      }
+    catch (Exception e) {}
   }
 
   extern (C) static void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) nothrow {
     try {
-      CoreEngine
-        .getScene()
-        .getActiveCamera()
-        .processMouseScroll(yOffset);
+      CoreEngine.scene.camera.processMouseScroll(yOffset);
     } catch (Exception e) {}
   }
 
   extern (C) static void frameBufferResizeCallback(GLFWwindow* window, int width, int height) nothrow {
-    GfxEngine.resizeFrameBufferViewport(width, height);
+    try {
+      GfxEngine.resizeFrameBufferViewport(width, height);
+    } catch (Exception e) {}
   }
 
   static void updateLastMousePosition() {

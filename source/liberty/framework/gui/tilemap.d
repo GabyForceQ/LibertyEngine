@@ -50,7 +50,7 @@ final class TileMap : Widget {
   /**
    *
   **/
-  TileMap setZIndex(int index) pure nothrow {
+  TileMap setZIndex(int index)   {
     foreach (tile; tiles)
       tile.setZIndex(index);
     
@@ -78,19 +78,19 @@ final class TileMap : Widget {
     Vector2I scale = Vector2I(64, 64), Vector2I spaceBetween = Vector2I.zero)
   do {
     this.dimension = dimension;
-    getComponent!Transform
+    component!Transform
       .setLocation(Vector3F(startLocation.x, startLocation.y, 0.0f));
 
     foreach (i; 0..dimension.x)
       foreach (j; 0..dimension.y) {
-        tiles ~= new Button(getId ~ "_Tile_" ~ i.to!string ~ "_" ~ j.to!string, getGui);
+        tiles ~= new Button(id ~ "_Tile_" ~ i.to!string ~ "_" ~ j.to!string, getGui);
         
         tiles[$ - 1]
           .setIndex(i, j)
-          .getComponent!Transform
+          .component!Transform
           .setLocation(
-            i * (scale.x + spaceBetween.x) + getComponent!Transform.getLocation.x,
-            -j * (scale.y + spaceBetween.y) - getComponent!Transform.getLocation.y,
+            i * (scale.x + spaceBetween.x) + component!Transform.getLocation.x,
+            -j * (scale.y + spaceBetween.y) - component!Transform.getLocation.y,
             0.0f)
           .setScale(Vector3F(scale.x / 2.0f, scale.y / 2.0f, 1.0f));
       }
@@ -101,7 +101,7 @@ final class TileMap : Widget {
   /**
    *
   **/
-  Button[] getTiles() pure nothrow {
+  Button[] getTiles()   {
     return tiles;
   }
 
@@ -122,7 +122,7 @@ final class TileMap : Widget {
   /**
    *
   **/
-  Vector2I getDimension() pure nothrow {
+  Vector2I getDimension()   {
     return dimension;
   }
 
@@ -130,7 +130,7 @@ final class TileMap : Widget {
     /**
      *
     **/
-    mixin("TileMap create" ~ member ~ "Event() pure nothrow {"
+    mixin("TileMap create" ~ member ~ "Event()   {"
       ~ "foreach (i; 0..dimension.x * dimension.y)"
       ~ "eventMap" ~ member ~ "~= tuple(tiles[i], Event." ~ member ~ ");"
       ~ "return this; }");
@@ -139,6 +139,6 @@ final class TileMap : Widget {
     /**
      *
     **/
-    mixin("Tuple!(Button, Event)[] get" ~ member ~ "Event() pure nothrow"
+    mixin("Tuple!(Button, Event)[] get" ~ member ~ "Event()  "
       ~ "{ return eventMap" ~ member ~ "; }");
 }

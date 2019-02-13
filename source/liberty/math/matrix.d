@@ -44,7 +44,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	}
 
   static if (R == 4 && C == 4) {
-    void setTranslation(string op = "=")(Vector3!T translation) pure nothrow
+    void setTranslation(string op = "=")(Vector3!T translation)  
     if (op == "=" || op == "+=" || op == "-=")
     do {
       mixin("c[0][3] " ~ op ~ " translation.x;");
@@ -52,7 +52,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
       mixin("c[2][3] " ~ op ~ " translation.z;");
     }
 
-    void setScale(string op = "=")(Vector3!T scale) pure nothrow
+    void setScale(string op = "=")(Vector3!T scale)  
     if (op == "=" || op == "+=" || op == "-=")
     do {
       mixin("c[0][0] " ~ op ~ " scale.x;");
@@ -63,7 +63,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 
 
 	///
-	this(U...)(U values) pure nothrow {
+	this(U...)(U values)   {
 		import std.meta : allSatisfy;
 		import std.traits : isAssignable;
 		enum bool isAsgn(U) = isAssignable!(T, U);
@@ -80,7 +80,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		}
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		// Create a matrix using all values.
 		const matrix1 = Matrix!(int, 2)(1, 2, 3, 4);
 		assert(matrix1.v == [1, 2, /**/ 3, 4]);
@@ -92,7 +92,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		assert(matrix3.v == [0, 0, /**/ 0, 0]);
 	}
 	/// Construct a matrix from columns.
-	static Matrix fromColumns(ColumnType[] columns) pure nothrow
+	static Matrix fromColumns(ColumnType[] columns)  
 	in {
 		assert(columns.length == C);
 	} do {
@@ -101,11 +101,11 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		// todo
 	}
 	/// Construct a matrix from rows.
-	static Matrix fromRows(RowType[] rows) pure nothrow
+	static Matrix fromRows(RowType[] rows)  
 	in {
 		assert(rows.length == R);
 	} do {
@@ -114,13 +114,13 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		auto row = Vector!(double, 2)(2.0, 4.5);
 		const matrix = Matrix!(double, 2).fromRows([row, row]);
 		assert(matrix.v == [2.0, 4.5, /**/ 2.0, 4.5]);
 	}
 	/// Returns an identity matrix.
-	static Matrix identity() pure nothrow {
+	static Matrix identity()   {
 		Matrix ret = void;
 		static foreach (i; 0 .. R) {
 			static foreach (j; 0 .. C) {
@@ -134,12 +134,12 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		const matrix = Matrix!(uint, 3).identity();
 		assert(matrix.v == [1, 0, 0, /**/ 0, 1, 0, /**/ 0, 0, 1]);
 	}
 	/// Returns a constant matrix.
-	static Matrix constant(U)(U x) pure nothrow {
+	static Matrix constant(U)(U x)   {
 		Matrix ret = void;
 		static foreach (i; 0 .. R * C) {
 			ret.v[i] = cast(T)x;
@@ -147,12 +147,12 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		const matrix = Matrix!(int, 2, 3).constant(7);
 		assert(matrix.v == [7, 7, 7, /**/ 7, 7, 7]);
 	}
 	///
-	ColumnType column(int j) pure nothrow const {
+	ColumnType column(int j)   const {
 		ColumnType ret = void;
 		static foreach (i; 0..R) {
 			ret.v[i] = c[i][j];
@@ -160,7 +160,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	Matrix opBinary(string op)(T fprimitive) pure nothrow const if (op == "*") {
+	Matrix opBinary(string op)(T fprimitive)   const if (op == "*") {
 		Matrix ret = void;
 		static foreach (i; 0..R) {
 			static foreach (j; 0..C) {
@@ -170,13 +170,13 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		const m1 = Matrix2I(3);
 		const m2 = m1 * 4;
 		assert(m2.v == [12, 12, /**/ 12, 12]);
 	}
 	///
-	ColumnType opBinary(string op)(RowType x) pure nothrow const if (op == "*") {
+	ColumnType opBinary(string op)(RowType x)   const if (op == "*") {
 		ColumnType ret = void;
 		static foreach (i; 0..R) {
 			T sum = 0;
@@ -188,7 +188,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	auto opBinary(string op, U)(U x) pure nothrow const if (isMatrixInstance!U && (U.rowCount == C) && (op == "*")) {
+	auto opBinary(string op, U)(U x)   const if (isMatrixInstance!U && (U.rowCount == C) && (op == "*")) {
 		Matrix!(T, R, U.columnCount) ret = void;
 		T sum = 0;
 		static foreach (i; 0..R) {
@@ -203,14 +203,14 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		auto m1 = Matrix2I(2, 5, /**/ -1, 2);
 		auto m2 = Matrix2x3I(3, 3, -2, /**/ 3, 4, 3);
 		auto m3 = m1 * m2;
 		assert(m3.v == [21, 26, 11, /**/ 3, 5, 8]);
 	}
 	///
-	Matrix opBinary(string op, U)(U rhs) pure nothrow const if (op == "+" || op == "-") {
+	Matrix opBinary(string op, U)(U rhs)   const if (op == "+" || op == "-") {
 		Matrix ret = void;
 		static if (is (U : Matrix)) {
 			static foreach (i; 0..R) {
@@ -226,7 +226,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		const m1 = Matrix2I(1, 3, /**/ -1, 4);
 		const m2 = Matrix2I(5, 2, /**/ 1, 0);
 		const m3 = m1 + m2;
@@ -235,7 +235,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		assert(m4.v == [-6, -4, /**/ -8, -3]);
 	}
 	///
-	ref Matrix opOpAssign(string op, U)(U rhs) pure nothrow {
+	ref Matrix opOpAssign(string op, U)(U rhs)   {
 		static if (is(U : Matrix) || is(U : T)) {
 			mixin("this = this " ~ op ~ " rhs;");
 		} else {
@@ -246,7 +246,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return this;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		auto m1 = Matrix2I(1, 3, /**/ -1, 4);
 		const m2 = Matrix2I(5, 2, /**/ 1, 0);
 		m1 += m2;
@@ -255,7 +255,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		assert(m1.v == [4, 3, /**/ -2, 2]);
 	}
 	///
-	Matrix opUnary(string op)() pure nothrow const if (op == "+" || op == "-" || op == "~" || op == "!") {
+	Matrix opUnary(string op)()   const if (op == "+" || op == "-" || op == "~" || op == "!") {
 		Matrix ret = void;
 		static foreach (i; 0..R * C) {
 			mixin("ret.v[i] = " ~ op ~ "v[i];");
@@ -263,7 +263,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		const m1 = Matrix2I(1, 3, /**/ -1, 0);
 		assert((+m1).v == [1, 3, /**/ -1, 0]);
 		assert((-m1).v == [-1, -3, /**/ 1, 0]);
@@ -273,7 +273,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		//assert((!m2).v == [false, false, /**/ true, true]);
 	}
 	///
-	U opCast(U)() pure nothrow const if (isMatrixInstance!U && U.rowCount == rowCount && U.columnCount == columnCount) {
+	U opCast(U)()   const if (isMatrixInstance!U && U.rowCount == rowCount && U.columnCount == columnCount) {
 		U ret = U.identity();
 		enum min_r = R < U.rowCount ? R : U.rowCount;
 		enum min_c = C < U.columnCount ? C : U.columnCount;
@@ -285,13 +285,13 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		auto m1 = Matrix2F(3.2f, 4.5f, /**/ 3.8f, -7.2f);
 		Matrix2I m2 = cast(Matrix2I)m1;
 		assert(m2.v == [3, 4, /**/ 3, -7]);
 	}
 	///
-	bool opEquals(U)(U rhs) pure nothrow const {
+	bool opEquals(U)(U rhs)   const {
 		static if (is(U : Matrix)) {
 			static foreach (i; 0..R * C) {
 				if (v[i] != rhs.v[i]) {
@@ -312,7 +312,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return true;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		const m1 = Matrix2I(6, 3, /**/ -1, 0);
 		const m2 = Matrix2I(6, 3, /**/ -1, 0);
 		const m3 = Matrix2I(1, 4, /**/ -1, 7);
@@ -323,17 +323,17 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		assert(m4 != -3);
 	}
 	/// Returns a pointer to content.
-	inout(T)* ptr() pure nothrow inout {
+	inout(T)* ptr()   inout {
 		return v.ptr;
 	}
 	static if (isFloatingPoint!T && R == 2 && C == 2) {
 		/// Returns inverse of matrix 2x2.
-		Matrix inverse() pure nothrow const {
+		Matrix inverse()   const {
 			T invDet = 1 / (c[0][0] * c[1][1] - c[0][1] * c[1][0]);
 			return Matrix(c[1][1] * invDet, -c[0][1] * invDet, -c[1][0] * invDet, c[0][0] * invDet);
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 			import std.math : approxEqual;
 			auto m1 = Matrix2D(2.0, 3.0, /**/ -1.0, 5.0);
 			auto m2 = m1.inverse();
@@ -345,7 +345,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 	}
 	static if (isFloatingPoint!T && R == 3 && C == 3) {
 		/// Returns inverse of matrix 3x3.
-		Matrix inverse() pure nothrow const {
+		Matrix inverse()   const {
 			const T det = c[0][0] * (c[1][1] * c[2][2] - c[2][1] * c[1][2])
         - c[0][1] * (c[1][0] * c[2][2] - c[1][2] * c[2][0]) 
         + c[0][2] * (c[1][0] * c[2][1] - c[1][1] * c[2][0]);
@@ -363,12 +363,12 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			return ret;
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 	}
 	static if (isFloatingPoint!T && R == 4 && C == 4) {
 		/// Returns inverse of matrix 4x4.
-		Matrix inverse() pure nothrow const {
+		Matrix inverse()   const {
 			const T det2_01_01 = c[0][0] * c[1][1] - c[0][1] * c[1][0];
 			const T det2_01_02 = c[0][0] * c[1][2] - c[0][2] * c[1][0];
 			const T det2_01_03 = c[0][0] * c[1][3] - c[0][3] * c[1][0];
@@ -425,11 +425,11 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			return ret;
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 	}
 	/// Returns transposed matrix.
-	Matrix!(T, C, R) transposed() pure nothrow const {
+	Matrix!(T, C, R) transposed()   const {
 		Matrix!(T, C, R) ret = void;
 		static foreach (i; 0..C) {
 			static foreach (j; 0..R) {
@@ -439,13 +439,13 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		return ret;
 	}
 	///
-	pure nothrow unittest {
+	  unittest {
 		auto m1 = Matrix2I(4, 5, /**/ -1, 0);
 		assert(m1.transposed().v == [4, -1, /**/ 5, 0]);
 	}
 	static if (isSquare && R > 2) {
 		/// Makes a diagonal matrix from a vector.
-		static Matrix diag(Vector!(T, R) v) pure nothrow {
+		static Matrix diag(Vector!(T, R) v)   {
 			Matrix ret = void;
 			static foreach (i; 0..R) {
 				static foreach (j; 0..C) {
@@ -455,16 +455,16 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			return ret;
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 			const v1 = Vector!(int, 3)(4, 5, -1);
 			const m1 = Matrix!(int, 3).diag(v1);
 			assert(m1.v == [4, 0, 0, /**/ 0, 5, 0, /**/ 0, 0, -1]);
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 		/// Make a translation matrix.
-		static Matrix translation(Vector!(T, R-1) v) pure nothrow {
+		static Matrix translation(Vector!(T, R-1) v)   {
 			Matrix ret = identity();
 			static foreach (i; 0..R - 1) {
 				ret.c[i][C - 1] += v.v[i];
@@ -472,10 +472,10 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			return ret;
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 		/// Make a scaling matrix.
-		static Matrix scaling(Vector!(T, R-1) v) pure nothrow {
+		static Matrix scaling(Vector!(T, R-1) v)   {
 			Matrix ret = identity();
 			static foreach (i; 0..R - 1) {
 				ret.c[i][i] = v.v[i];
@@ -483,12 +483,12 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			return ret;
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 	}
 	static if (isSquare && (R == 3 || R == 4) && isFloatingPoint!T) {
 		///
-		static Matrix rotateAxis(int i, int j)(T angle) pure nothrow {
+		static Matrix rotateAxis(int i, int j)(T angle)   {
 			import liberty.math.functions : sin, cos;
 			Matrix ret = identity();
 			const T cosa = cos(angle);
@@ -500,7 +500,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			return ret;
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 		/// Returns rotation matrix along axis X.
 		alias rotateXAxix = rotateAxis!(1, 2);
@@ -509,35 +509,35 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		/// Returns rotation matrix along axis Z.
 		alias rotateZAxis = rotateAxis!(0, 1);
 		/// In-place rotation by (v, 1)
-		void rotate(T angle, Vector!(T, 3) axis) pure nothrow {
+		void rotate(T angle, Vector!(T, 3) axis)   {
 			this = rotation(angle, axis, this);
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 		///
-		void rotateX(T angle) pure nothrow {
+		void rotateX(T angle)   {
 			this = rotation(angle, Vector!(T, 3)(1, 0, 0), this);
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 		///
-		void rotateY(T angle) pure nothrow {
+		void rotateY(T angle)   {
 			this = rotation(angle, Vector!(T, 3)(0, 1, 0), this);
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 		///
-		void rotateZ(T angle) pure nothrow {
+		void rotateZ(T angle)   {
 			this = rotation(angle, Vector!(T, 3)(0, 0, 1), this);
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 		///
-		static Matrix rotation(T angle, Vector!(T, 3) axis, Matrix m = identity()) pure nothrow {
+		static Matrix rotation(T angle, Vector!(T, 3) axis, Matrix m = identity())   {
 			import liberty.math.functions : sin, cos;
 			Matrix ret = m;
 			const T c = cos(angle);
@@ -562,7 +562,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			return ret;
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 	}
 	static if (isSquare && R == 4 && isFloatingPoint!T) {
@@ -578,7 +578,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			return Vector4!T(x, y, z, w);
 		}
 		///
-		//static Matrix orthographic(T left, T right, T bottom, T top) pure nothrow {
+		//static Matrix orthographic(T left, T right, T bottom, T top)   {
 		//  return Matrix(
 		//    (2) / (right - left), 0, 0, 0,
 		//    0, (2) / (top - bottom), 0, 0,
@@ -588,10 +588,10 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 		//}
 
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 		/// Returns perspective projection.
-		static Matrix perspective(T FOVInRadians, T width, T height, T zNear, T zFar) pure nothrow {
+		static Matrix perspective(T FOVInRadians, T width, T height, T zNear, T zFar)   {
 			import liberty.math.functions : tan;
 			T f = 1 / tan(FOVInRadians / 2);
 			T d = 1 / (zNear - zFar);
@@ -603,10 +603,10 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
       );
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 		/// Returns lookAt projection.
-		static Matrix lookAt(Vector!(T, 3) eye, Vector!(T, 3) target, Vector!(T, 3) up) pure nothrow {
+		static Matrix lookAt(Vector!(T, 3) eye, Vector!(T, 3) target, Vector!(T, 3) up)   {
 			import liberty.math.vector : dot, cross;
 			Vector!(T, 3) Z = (eye - target).normalized();
 			Vector!(T, 3) X = cross(-up, Z).normalized();
@@ -632,7 +632,7 @@ struct Matrix(T, ubyte R, ubyte C = R) if (R >= 2 && R <= 4 && C >= 2 && C <= 4)
 			);
 		}
 		///
-		pure nothrow unittest {
+		  unittest {
 		}
 	}
 }
@@ -737,7 +737,7 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 	///
 	alias MatrixType = Matrix!(T, R, R);
 	/// Creates a matrix stack.
-	this(size_t depth = 32) nothrow
+	this(size_t depth = 32) 
 	in {
 		assert(depth > 0);
 	} do {
@@ -759,12 +759,12 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 		}
 	}
 	///
-	void loadIdentity() pure nothrow {
+	void loadIdentity()   {
 		_matrices[_top] = MatrixType.identity();
 		_invMatrices[_top] = MatrixType.identity();
 	}
 	///
-	void push() pure nothrow {
+	void push()   {
 		if(_top + 1 >= _depth) {
 			assert(false, "Matrix stack is full!");
 		}
@@ -773,58 +773,58 @@ final class MatrixStack(int R, T) if (R == 3 || R == 4) {
 		_top++;
 	}
 	/// Replacement for $(D glPopMatrix).
-	void pop() pure nothrow {
+	void pop()   {
 		if (_top <= 0) {
 			assert(false, "Matrix stack is empty!");
 		}
 		_top--;
 	}
 	///
-	MatrixType top() pure const nothrow {
+	MatrixType top()  const  {
 		return _matrices[_top];
 	}
 	///
-	MatrixType invTop() pure const nothrow {
+	MatrixType invTop()  const  {
 		return _invMatrices[_top];
 	}
 	///
-	void top(MatrixType m) pure nothrow {
+	void top(MatrixType m)   {
 		_matrices[_top] = m;
 		_invMatrices[_top] = m.inverse();
 	}
 	///
-	void mult(MatrixType m) pure nothrow {
+	void mult(MatrixType m)   {
 		mult(m, m.inverse());
 	}
 	///
-	void mult(MatrixType m, MatrixType invM) pure nothrow {
+	void mult(MatrixType m, MatrixType invM)   {
 		_matrices[_top] = _matrices[_top] * m;
 		_invMatrices[_top] = invM *_invMatrices[_top];
 	}
 	///
-	void translate(Vector!(T, R-1) v) pure nothrow {
+	void translate(Vector!(T, R-1) v)   {
 		mult(MatrixType.translation(v), MatrixType.translation(-v));
 	}
 	///
-	void scale(Vector!(T, R-1) v) pure nothrow {
+	void scale(Vector!(T, R-1) v)   {
 		mult(MatrixType.scaling(v), MatrixType.scaling(1 / v));
 	}
 	static if (R == 4) {
 		///
-		void rotate(T angle, Vector!(T, 3) axis) pure nothrow {
+		void rotate(T angle, Vector!(T, 3) axis)   {
 			MatrixType rot = MatrixType.rotation(angle, axis);
 			mult(rot, rot.transposed());
 		}
 		///
-		void perspective(T FOVInRadians, T width, T height, T zNear, T zFar) pure nothrow {
+		void perspective(T FOVInRadians, T width, T height, T zNear, T zFar)   {
 			mult(MatrixType.perspective(FOVInRadians, width, height, zNear, zFar));
 		}
 		///
-		//void orthographic(T left, T right, T bottom, T top, T near, T far) pure nothrow {
+		//void orthographic(T left, T right, T bottom, T top, T near, T far)   {
 		//	mult(MatrixType.orthographic(left, right, bottom, top, near, far));
 		//}
 		///
-		void lookAt(Vector!(T, 3) eye, Vector!(T, 3) target, Vector!(T, 3) up) pure nothrow {
+		void lookAt(Vector!(T, 3) eye, Vector!(T, 3) target, Vector!(T, 3) up)   {
 			mult(MatrixType.lookAt(eye, target, up));
 		}
 	}

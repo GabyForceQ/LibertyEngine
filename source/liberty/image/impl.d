@@ -23,28 +23,28 @@ abstract class Image {
    * Returns the number of channels that image has.
    * For example, if image has 4 channels it returns 3.
   **/
-  uint getChannelCount() pure nothrow const {
+  uint getChannelCount()   const {
     return channelCount;
   }
 
   /**
    *
   **/
-  uint getBithDepth() pure nothrow const {
+  uint getBithDepth()   const {
     return bitDepth;
   }
 
   /**
    *
   **/
-  uint getBitsPerChannel() pure nothrow const {
+  uint getBitsPerChannel()   const {
     return bytesPerChannel;
   }
 
   /**
    *
   **/
-  ubyte[] getPixelData() pure nothrow {
+  ubyte[] getPixelData()   {
     return pixelData;
   }
 }

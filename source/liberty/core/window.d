@@ -82,21 +82,21 @@ final class Window {
   /**
    * Returns window width.
   **/
-  int getWidth() pure nothrow const {
+  int getWidth()   const {
     return width;
   }
 
   /**
    * Returns window height.
   **/
-  int getHeight() pure nothrow const {
+  int getHeight()   const {
     return height;
   }
 
   /**
    * Returns handle to this window.
   **/
-  GLFWwindow* getHandle() pure nothrow {
+  GLFWwindow* getHandle()   {
     return handle;
   }
 
@@ -148,7 +148,7 @@ final class Window {
   /**
    * Returns true if window is in fullscreen mode.
   **/
-  bool isFullscreen() pure nothrow const {
+  bool isFullscreen()   const {
     return fullscreen;
   }
 
@@ -163,7 +163,7 @@ final class Window {
    * Set window title.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setTitle(string title) nothrow {
+  typeof(this) setTitle(string title)  {
     this.title = title;
     glfwSetWindowTitle(handle, title.toStringz);
     return this;
@@ -172,7 +172,7 @@ final class Window {
   /**
    * Returns window title.
   **/
-  string getTitle() pure nothrow const {
+  string getTitle()   const {
     return title;
   }
 }

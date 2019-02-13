@@ -22,28 +22,28 @@ version (D_InlineAsm_X86) {
 /**
  * Convert from radians to degrees.
 **/
-T degrees(T)(T x) pure nothrow if (!isIntegral!T) {
+T degrees(T)(T x)   if (!isIntegral!T) {
   return x * (180 / PI);
 }
 
 /**
  * Convert from degrees to radians.
 **/
-T radians(T)(T x) pure nothrow if (!isIntegral!T) {
+T radians(T)(T x)   if (!isIntegral!T) {
   return x * (PI / 180);
 }
 
 /**
  * Linear interpolation.
 **/
-S lerp(S, T)(S a, S b, T t) pure nothrow if (is(typeof(t * b + (1 - t) * a) : S)) {
+S lerp(S, T)(S a, S b, T t)   if (is(typeof(t * b + (1 - t) * a) : S)) {
   return t * b + (1 - t) * a;
 }
 
 /**
  * Clamp x in [min, max].
 **/
-T clamp(T)(T x, T min, T max) pure nothrow {
+T clamp(T)(T x, T min, T max)   {
   if (x < min) {
     return min;
   } else if (x > max) {
@@ -55,49 +55,49 @@ T clamp(T)(T x, T min, T max) pure nothrow {
 /**
  * Integer truncation.
 **/
-long ltrunc(real x) nothrow {
+long ltrunc(real x)  {
   return cast(long)(trunc(x));
 }
 
 /**
  * Integer flooring.
 **/
-long lfloor(real x) nothrow {
+long lfloor(real x)  {
   return cast(long)(floor(x));
 }
 
 /**
  * Returns fractional part of x.
 **/
-T fract(T)(real x) nothrow {
+T fract(T)(real x)  {
   return x - lfloor(x);
 }
 
 /**
  * Safe asin. Input clamped to [-1, 1].
 **/
-T safeAsin(T)(T x) pure nothrow {
+T safeAsin(T)(T x)   {
 	return asin(clamp!T(x, -1, 1));
 }
 
 /**
  * Safe acos. Input clamped to [-1, 1].
 **/
-T safeAcos(T)(T x) pure nothrow {
+T safeAcos(T)(T x)   {
 	return acos(clamp!T(x, -1, 1));
 }
 
 /**
  * If x < edge => 0.0 is returned, otherwise 1.0 is returned.
 **/
-T step(T)(T edge, T x) pure nothrow {
+T step(T)(T edge, T x)   {
 	return (x < edge) ? 0 : 1;
 }
 
 /**
  *
 **/
-T smoothStep(T)(T a, T b, T t) pure nothrow {
+T smoothStep(T)(T a, T b, T t)   {
 	if (t <= a) {
 		return 0;
 	} else if (t >= b) {
@@ -110,7 +110,7 @@ T smoothStep(T)(T a, T b, T t) pure nothrow {
 /**
  * Returns true of i is a power of 2.
 **/
-bool isPowerOf2(T)(T i) pure nothrow if (isIntegral!T)
+bool isPowerOf2(T)(T i)   if (isIntegral!T)
 in {
 	assert(i >= 0);
 } do {
@@ -120,7 +120,7 @@ in {
 /**
  * Integer log2.
 **/
-int ilog2(T)(T i) nothrow if (isIntegral!T)
+int ilog2(T)(T i)  if (isIntegral!T)
 in {
 	assert(i > 0);
 	assert(isPowerOf2(i));
@@ -136,7 +136,7 @@ in {
 /**
  * Computes next power of 2.
 **/
-int nextPowerOf2(int i) pure nothrow
+int nextPowerOf2(int i)  
 out(result) {
 	assert(isPowerOf2(result));
 } do {
@@ -153,7 +153,7 @@ out(result) {
 /**
  * Computes next power of 2.
 **/
-long nextPowerOf2(long i) pure nothrow
+long nextPowerOf2(long i)  
 out(result) {
 	assert(isPowerOf2(result));
 } do {
@@ -171,7 +171,7 @@ out(result) {
 /**
  * Computes sin(x)/x accurately.
 **/
-T sinOverX(T)(T x) pure nothrow {
+T sinOverX(T)(T x)   {
 	if (1 + x * x == 1) {
 		return 1;
 	}
@@ -182,7 +182,7 @@ T sinOverX(T)(T x) pure nothrow {
  * Signed integer modulo a/b where the remainder is guaranteed to be in [0..b], even if a is negative.
  * Only supports positive dividers.
 **/
-T moduloWrap(T)(T a, T b) pure nothrow if (isSigned!T)
+T moduloWrap(T)(T a, T b)   if (isSigned!T)
 in {
 	assert(b > 0);
 } do {
@@ -200,7 +200,7 @@ in {
 /**
  *
 **/
-pure nothrow unittest {
+  unittest {
 	assert(nextPowerOf2(3) == 4);
 	assert(nextPowerOf2(21) == 32);
 	assert(nextPowerOf2(1000) == 1024);
@@ -209,11 +209,11 @@ pure nothrow unittest {
 /**
  * SSE approximation of reciprocal square root.
 **/
-T inverseSqrt(T)(T x) pure nothrow if (isFloatingPoint!T) {
+T inverseSqrt(T)(T x)   if (isFloatingPoint!T) {
 	version(AsmX86) {
 		static if (is(T == float)) {
 			float result;
-			asm pure nothrow {
+			asm   {
 				movss XMM0, x;
 				rsqrtss XMM0, XMM0;
 				movss result, XMM0;
@@ -230,7 +230,7 @@ T inverseSqrt(T)(T x) pure nothrow if (isFloatingPoint!T) {
 /**
  *
 **/
-pure nothrow unittest {
+  unittest {
 	assert(abs(inverseSqrt!float(1) - 1) < 1e-3 );
 	assert(abs(inverseSqrt!double(1) - 1) < 1e-3 );
 }

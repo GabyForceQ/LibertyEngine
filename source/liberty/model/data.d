@@ -8,23 +8,13 @@
 **/
 module liberty.model.data;
 
-/**
- * Data structure for $(D Model) class.
- * You should load it only using method $(D ModelIO.loadRawModel).
-**/
+/// Data structure for $(D Model) class.
+/// You should load it only using method $(D ModelIO.loadRawModel).
 struct RawModel {
-  /**
-   * Vertex array object's ID.
-  **/
+  /// Vertex array object's ID.
   uint vaoID;
-  
-  /**
-   * Number of vertices.
-  **/
+  ///Number of vertices.
   size_t vertexCount;
-  
-  /**
-   * The model draw option.
-  **/
+  /// The model draw option.
   bool useIndices;
 }

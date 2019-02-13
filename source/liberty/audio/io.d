@@ -103,7 +103,7 @@ final abstract class AudioIO {
     return buffer;
   }
 
-  private static bool isWAVFormat(in char[16] bytes) nothrow {
+  private static bool isWAVFormat(in char[16] bytes)  {
     return
       bytes[0x00] == 'R' &&
       bytes[0x01] == 'I' &&
@@ -119,7 +119,7 @@ final abstract class AudioIO {
       bytes[0x0F] == ' ';
   }
 
-  private static bool hasWAVData(in char[4] bytes) nothrow {
+  private static bool hasWAVData(in char[4] bytes)  {
     return
       bytes[0x00] == 'd' &&
       bytes[0x01] == 'a' &&

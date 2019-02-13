@@ -8,8 +8,7 @@
 **/
 module liberty.graphics.shader.renderer;
 
-version (__OPENGL__)
-  import bindbc.opengl;
+import bindbc.opengl;
 
 import liberty.logger.impl;
 import liberty.graphics.texture.constants;
@@ -20,16 +19,8 @@ import liberty.model.impl;
  * See $(D GfxShader) class.
 **/
 abstract class ShaderRenderer {
-  protected {
-    int attributeCount;
-  }
-
-  /**
-   * Returns the number of attributes used by the shader.
-  **/
-  int getAttributeCount() pure nothrow const {
-    return attributeCount;
-  }
+  ///
+  int attributeCount;
 
   /**
    * Enable vertex attribute array.
@@ -37,10 +28,8 @@ abstract class ShaderRenderer {
   **/
   R enableVertexAttributeArray(this R)(int vaoID) {
     glBindVertexArray(vaoID);
-
     foreach (i; 0..attributeCount)
       glEnableVertexAttribArray(i);
-
     return cast(R)this;
   }
 
@@ -51,9 +40,7 @@ abstract class ShaderRenderer {
   R disableVertexAttributeArray(this R)() {
     foreach (i; 0..attributeCount)
       glDisableVertexAttribArray(i);
-    
     glBindVertexArray(0);
-
     return cast(R)this;
   }
 
@@ -64,9 +51,9 @@ abstract class ShaderRenderer {
    * Returns reference to this so it can be used in a stream.
   **/
   R render(this R)(Model model) {
-    enableVertexAttributeArray(model.getRawModel.vaoID);
+    enableVertexAttributeArray(model.rawModel.vaoID);
 
-    loop0: foreach (i; 0..model.getMaterials.length) {
+    loop0: foreach (i; 0..model.materials.length) {
       switch (i) {
         case 0: glActiveTexture(GL_TEXTURE0); break;
         case 1: glActiveTexture(GL_TEXTURE1); break;
@@ -76,7 +63,7 @@ abstract class ShaderRenderer {
         default: break loop0;
       }
 
-      const texture = model.getMaterials[i].getTexture;
+      const texture = model.materials[i].getTexture;
       final switch (texture.getType) with (TextureType) {
         case NONE: Logger.error("Cannot bind none texture.", typeof(this).stringof); break;
         case TEX_2D: glBindTexture(GL_TEXTURE_2D, texture.getId); break;
@@ -86,7 +73,7 @@ abstract class ShaderRenderer {
 
     model.draw;
 
-    loop1: foreach (i; 0..model.getMaterials.length) {
+    loop1: foreach (i; 0..model.materials.length) {
       switch (i) {
         case 0: glActiveTexture(GL_TEXTURE0); break;
         case 1: glActiveTexture(GL_TEXTURE1); break;
@@ -96,7 +83,7 @@ abstract class ShaderRenderer {
         default: break loop1;
       }
 
-      const texture = model.getMaterials[i].getTexture;
+      const texture = model.materials[i].getTexture;
       final switch (texture.getType) with (TextureType) {
         case NONE: Logger.error("Cannot unbind none texture.", typeof(this).stringof); break;
         case TEX_2D: glBindTexture(GL_TEXTURE_2D, 0); break;
@@ -104,8 +91,7 @@ abstract class ShaderRenderer {
       }
     }
 
-    disableVertexAttributeArray();
-
+    disableVertexAttributeArray;
     return cast(R)this;
   }
 }

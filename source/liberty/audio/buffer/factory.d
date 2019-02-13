@@ -32,7 +32,7 @@ interface IAudioBufferFactory {
   /**
    *
   **/
-  static void release() nothrow {
+  static void release()  {
     alDeleteBuffers(buffers.length, buffers.ptr);
   }
 }                                              

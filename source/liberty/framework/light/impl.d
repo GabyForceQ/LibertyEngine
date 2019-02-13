@@ -40,13 +40,13 @@ final class Light : Entity {
     super(id);
     register;
 
-    getComponent!Transform
+    component!Transform
       .setLocation(0.0f, 200.0f, 0.0f);
     
     index = this.numberOfLights;
     numberOfLights++;
 
-    scene.addLight(this);
+    scene.lightMap[id] = this;
   }
 
   ~this() {
@@ -57,7 +57,7 @@ final class Light : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setColor(Vector3F color) pure nothrow {
+  typeof(this) setColor(Vector3F color)   {
     this.color = color;
     return this;
   }
@@ -65,7 +65,7 @@ final class Light : Entity {
   /**
    *
   **/
-  Vector3F getColor() pure nothrow const {
+  Vector3F getColor()   const {
     return color;
   }
 
@@ -73,7 +73,7 @@ final class Light : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setAttenuation(Vector3F attenuation) pure nothrow {
+  typeof(this) setAttenuation(Vector3F attenuation)   {
     this.attenuation = attenuation;
     return this;
   }
@@ -81,14 +81,14 @@ final class Light : Entity {
   /**
    *
   **/
-  Vector3F getAttenuation() pure nothrow const {
+  Vector3F getAttenuation()   const {
     return attenuation;
   }
 
   /**
    *
   **/
-  uint getIndex() pure nothrow const {
+  uint getIndex()   const {
     return index;
   }
 
@@ -106,7 +106,7 @@ final class Light : Entity {
       Shader
         .getOrCreate(shaderId)
         .getProgram
-        .loadUniform("uLightPosition[" ~ index.to!string ~ "]", getComponent!Transform.getLocation)
+        .loadUniform("uLightPosition[" ~ index.to!string ~ "]", component!Transform.getLocation)
         .loadUniform("uLightColor[" ~ index.to!string ~ "]", color)
         .loadUniform("uLightAttenuation[" ~ index.to!string ~ "]", attenuation)
         .loadUniform("uShineDamper", 1.0f)

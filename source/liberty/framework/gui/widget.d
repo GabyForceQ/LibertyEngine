@@ -43,7 +43,7 @@ class Widget : Entity {
   /**
    *
   **/
-  final Gui getGui() pure nothrow {
+  final Gui getGui()   {
     return gui;
   }
 
@@ -51,7 +51,7 @@ class Widget : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setIndex(int x, int y) pure nothrow {
+  typeof(this) setIndex(int x, int y)   {
     return setIndex(Vector2I(x, y));
   }
 
@@ -59,7 +59,7 @@ class Widget : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setIndex(Vector2I value) pure nothrow {
+  typeof(this) setIndex(Vector2I value)   {
     index = value;
     return this;
   }
@@ -67,7 +67,7 @@ class Widget : Entity {
   /**
    *
   **/
-  final Vector2I getIndex() pure nothrow {
+  final Vector2I getIndex()   {
     return index;
   }
 
@@ -86,7 +86,7 @@ class Widget : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  final typeof(this) setZIndex(int value) pure nothrow {
+  final typeof(this) setZIndex(int value)   {
     zIndex = value;
     return this;
   }
@@ -94,7 +94,7 @@ class Widget : Entity {
   /**
    *
   **/
-  final int getZIndex() pure nothrow const {
+  final int getZIndex()   const {
     return zIndex;
   }
 

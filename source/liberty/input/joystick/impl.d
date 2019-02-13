@@ -26,7 +26,7 @@ final class Joystick {
   /**
    *
   **/
-  this() nothrow {
+  this()  {
     const int present1 = glfwJoystickPresent(JoystickNumber.NO_1);
     if (present1)
       connected = true;
@@ -37,14 +37,14 @@ final class Joystick {
   /**
    * Returns true if joystick button was just pressed in an event loop.
   **/
-  bool isButtonDown(JoystickButton button) pure nothrow const {
+  bool isButtonDown(JoystickButton button)   const {
     return isButtonHold(button) && !buttonsState[button];
   }
 
   /**
    * Returns true if joystick button was just released in an event loop.
   **/
-  bool isButtonUp(JoystickButton button) pure nothrow const {
+  bool isButtonUp(JoystickButton button)   const {
     return !isButtonHold(button) && buttonsState[button];
   }
 
@@ -52,21 +52,21 @@ final class Joystick {
    * Returns true if joystick button is still pressed in an event loop.
    * Use case: shooting something.
   **/
-  bool isButtonHold(return JoystickButton button) pure nothrow const {
+  bool isButtonHold(JoystickButton button)   const {
     return connected ? pButtons[button] == GLFW_PRESS : false;
   }
 
   /**
    * Returns true if joystick button has no input action in an event loop.
   **/
-  bool isButtonNone(JoystickButton button) pure nothrow const {
+  bool isButtonNone(JoystickButton button)   const {
     return connected ? pButtons[button] == GLFW_RELEASE : false;
   }
 
   /**
    *
   **/
-  bool isUnfolding(JoystickButton button, JoystickAction action) pure nothrow const {
+  bool isUnfolding(JoystickButton button, JoystickAction action)   const {
     final switch (action) with (JoystickAction) {
       case NONE:
         return isButtonNone(button);
@@ -82,11 +82,11 @@ final class Joystick {
   /**
    * Returns true if joystick is connected.
   **/
-  bool isConnected() pure nothrow const {
+  bool isConnected()   const {
     return connected;
   }
 
-  package(liberty.input) void update() nothrow {
+  package(liberty.input) void update()  {
     if (connected)
       static foreach (i; 0..JOYSTICK_BUTTONS)
         buttonsState[i] = isButtonHold(cast(JoystickButton)i);
@@ -94,13 +94,13 @@ final class Joystick {
     processButtons();
   }
 
-  package(liberty.input) Joystick processButtons() nothrow {
+  package(liberty.input) Joystick processButtons()  {
     int count;
     pButtons = glfwGetJoystickButtons(JoystickNumber.NO_1, &count);
     return this;
   }
 
-  package(liberty.input) Joystick setConnected(bool value) pure nothrow {
+  package(liberty.input) Joystick setConnected(bool value)   {
     connected = value;
     return this;
   }

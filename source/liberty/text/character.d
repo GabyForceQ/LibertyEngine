@@ -62,42 +62,42 @@ final class Character {
   /**
    * Returns the ASCII value of the character.
   **/
-  int getASCIIValue() pure nothrow const {
+  int getASCIIValue()   const {
     return id;
   }
 
   /**
    * Returns the character texture coordinates.
   **/
-  Vector2F getTexCoords() pure nothrow const {
+  Vector2F getTexCoords()   const {
     return texCoords;
   }
 
   /**
    * Returns the character maximum texture coordinates.
   **/
-  Vector2F getMaxTexCoords() pure nothrow const {
+  Vector2F getMaxTexCoords()   const {
     return maxTexCoords;
   }
 
   /**
    * Returns the character offset.
   **/
-  Vector2F getOffset() pure nothrow const {
+  Vector2F getOffset()   const {
     return offset;
   }
 
   /**
    * Returns the dimension of the character's quad in screen space.
   **/
-  Vector2F getSize() pure nothrow const {
+  Vector2F getSize()   const {
     return size;
   }
 
   /**
    * Returns how far in pixels the cursor should advance after adding this character.
   **/
-  Vector2F getAdvance() pure nothrow const {
+  Vector2F getAdvance()   const {
     return advance;
   }
 }

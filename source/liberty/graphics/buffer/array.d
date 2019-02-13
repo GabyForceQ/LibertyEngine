@@ -8,61 +8,36 @@
 **/
 module liberty.graphics.buffer.array;
 
-version (__OPENGL__)
-  import bindbc.opengl;
-
+import bindbc.opengl;
 import liberty.graphics.buffer.factory;
 import liberty.graphics.engine;
 
-/**
- * Vertex array object class.
-**/
+/// Vertex array object class.
 final class GfxVertexArray : IGfxBufferFactory {
-  private {
-    uint handle;
-  }
+  ///
+  uint handle;
 
-  /**
-   * Create a vertex array object.
-  **/
+  /// Create a vertex array object.
   this(bool shouldBind = true) {
-    version (__OPENGL__)
-      glGenVertexArrays(1, &handle);
-    
-    debug GfxEngine.runtimeCheckErr();
-    
+    glGenVertexArrays(1, &handle);
+    debug GfxEngine.runtimeCheckErr;
     if (shouldBind)
-      bind();
+      bind;
   }
 
-  /**
-   * Bind this vertex array object.
-   * Returns reference to this so it can be used in a stream.
-  **/
+  /// Bind this vertex array object.
+  /// Returns reference to this so it can be used in a stream.
   typeof(this) bind() {
-    version (__OPENGL__)
-      glBindVertexArray(handle);
-    
-    debug GfxEngine.runtimeCheckErr();
+    glBindVertexArray(handle);
+    debug GfxEngine.runtimeCheckErr;
     return this;
   }
 
-  /**
-   * Unbind this vertex array object.
-   * Returns reference to this so it can be used in a stream.
-  **/
+  /// Unbind this vertex array object.
+  /// Returns reference to this so it can be used in a stream.
   typeof(this) unbind() {
-    version (__OPENGL__)
-      glBindVertexArray(0);
-    
-    debug GfxEngine.runtimeCheckErr();
+    glBindVertexArray(0); 
+    debug GfxEngine.runtimeCheckErr;
     return this;
-  }
-
-  /**
-   * Returns wrapped video resource handle.
-  **/
-  uint getHandle() pure nothrow const {
-    return handle;
   }
 }

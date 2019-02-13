@@ -30,7 +30,7 @@ final class World {
    * Divide exp height fog color by value using world.setExpHeightFogColor!"/="(r, g, b).
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setExpHeightFogColor(string op = "=")(float r, float g, float b) pure nothrow
+  typeof(this) setExpHeightFogColor(string op = "=")(float r, float g, float b)  
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     return setExpHeightFogColor!op(Vector3F(r, g, b));
@@ -45,7 +45,7 @@ final class World {
    * Divide exp height fog color by value using world.setExpHeightFogColor!"/="(vector3).
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setExpHeightFogColor(string op = "=")(Vector3F expHeightFogColor) pure nothrow {
+  typeof(this) setExpHeightFogColor(string op = "=")(Vector3F expHeightFogColor)   {
     mixin("this.expHeightFogColor " ~ op ~ " expHeightFogColor;");
     return this;
   }
@@ -53,7 +53,7 @@ final class World {
   /**
    * Returns the exponential height fog color.
   **/
-  Vector3F getExpHeightFogColor() pure nothrow const {
+  Vector3F getExpHeightFogColor()   const {
     return expHeightFogColor;
   }
 
@@ -61,7 +61,7 @@ final class World {
    * Set exp height fog color to default value $(D WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR).
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setDefaultExpHeightFogColor() pure nothrow {
+  typeof(this) setDefaultExpHeightFogColor()   {
     expHeightFogColor = WORLD_DEFAULT_EXP_HEIGHT_FOG_COLOR;
     return this;
   }
@@ -75,7 +75,7 @@ final class World {
    * Divide kill-z by value using world.setKillZ!"/="(value).
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setKillZ(string op = "=")(float value) pure nothrow
+  typeof(this) setKillZ(string op = "=")(float value)  
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=")
   do {
     mixin("killZ " ~ op ~ " value;");
@@ -84,7 +84,7 @@ final class World {
   /**
    * Returns the kill-z value.
   **/
-  float getKillZ() pure nothrow const {
+  float getKillZ()   const {
     return killZ;
   }
 
@@ -92,7 +92,7 @@ final class World {
    * Set kill-z to default value $(D WORLD_DEFUALT_KILL_Z).
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setDefaultKillZ() pure nothrow {
+  typeof(this) setDefaultKillZ()   {
     killZ = WORLD_DEFUALT_KILL_Z;
     return this;
   }
@@ -101,7 +101,7 @@ final class World {
    * Disable kill-z using value $(D WORLD_NO_KILL_Z).
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setNoKillZ() pure nothrow {
+  typeof(this) setNoKillZ()   {
     killZ = WORLD_NO_KILL_Z;
     return this;
   }

@@ -23,39 +23,39 @@ abstract class Collider {
     bool static_;
   }
 
-  final Collider setMass(float value) pure nothrow {
+  final Collider setMass(float value)   {
     mass = value;
     return this;
   }
 
-  final float getMass() pure nothrow const {
+  final float getMass()   const {
     return mass;
   }
 
-  final Collider setLayer(ulong value) pure nothrow {
+  final Collider setLayer(ulong value)   {
     layer = value;
     return this;
   }
 
-  final float getLayer() pure nothrow const {
+  final float getLayer()   const {
     return layer;
   }
 
-  final Collider setTriggered(bool value) pure nothrow {
+  final Collider setTriggered(bool value)   {
     triggered = value;
     return this;
   }
 
-  final float getTriggered() pure nothrow const {
+  final float getTriggered()   const {
     return triggered;
   }
 
-  final Collider setStatic(bool value) pure nothrow {
+  final Collider setStatic(bool value)   {
     static_ = value;
     return this;
   }
 
-  final float getStatic() pure nothrow const {
+  final float getStatic()   const {
     return static_;
   }
 }

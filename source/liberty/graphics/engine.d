@@ -8,8 +8,7 @@
 **/
 module liberty.graphics.engine;
 
-version (__OPENGL__)
-  import bindbc.opengl;
+import bindbc.opengl;
 
 import liberty.math.vector;
 import liberty.core.engine;
@@ -19,37 +18,22 @@ import liberty.graphics.constants;
 
 import liberty.graphics.backend.impl;
 
-/**
- * Graphics engine base class.
-**/
+/// Graphics engine base class.
 final abstract class GfxEngine {
-  private {
-    static GfxBackend backend;
-  }
+  ///
+  static GfxBackend backend;
 
-  /**
-   * Initialize graphics engine by creating the backend.
-  **/
+  /// Initialize graphics engine by creating the backend.  
   static void initialize() {
     backend = GfxBackend.createBackend();
   }
-
-  /**
-   * Returns graphics backend.
-  **/
-  static GfxBackend getBackend() nothrow {
-    return backend;
-  }
-
-  /**
-   * Resize the frame buffer viewport.
-   * If backend is not created then it will generate a warning message.
-  **/
-  static void resizeFrameBufferViewport(int width, int height) nothrow {
+  
+  /// Resize the frame buffer viewport.
+  /// If backend is not created then it will generate a warning message.
+  static void resizeFrameBufferViewport(int width, int height)  {
     try {
       if (backend !is null) {
-        version (__OPENGL__)
-          glViewport(0, 0, width, height);
+        glViewport(0, 0, width, height);
       } else
         Logger.warning(
           "You are trying to resize frame buffer viewport without a backend",
@@ -58,82 +42,62 @@ final abstract class GfxEngine {
     } catch (Exception e) {}
   }
 
-  /**
-   *
-  **/
+  ///
   debug static void runtimeCheckErr() {
-    version (__OPENGL__) {
-      immutable GLint er = glGetError();
-      if (er != GL_NO_ERROR) {
-        string getErrorString = getErrorString(er);
-        flushErrors;
-        Logger.error(getErrorString, typeof(this).stringof);
-      }
+    immutable GLint er = glGetError();
+
+    if (er != GL_NO_ERROR) {
+      string getErrorString = getErrorString(er);
+      flushErrors;
+      Logger.error(getErrorString, typeof(this).stringof);
     }
   }
 
-  /**
-   *
-  **/
+  ///
   debug static bool runtimeCheckWarn() {
-    version (__OPENGL__) {
-      immutable GLint er = glGetError();
-      if (er != GL_NO_ERROR) {
-        string getErrorString = getErrorString(er);
-        flushErrors;
-        Logger.warning(getErrorString, typeof(this).stringof);
-        return false;
-      }
-      return true;
+    immutable GLint er = glGetError();
+    
+    if (er != GL_NO_ERROR) {
+      string getErrorString = getErrorString(er);
+      flushErrors;
+      Logger.warning(getErrorString, typeof(this).stringof);
+      return false;
     }
-    else
-      return true;
+
+    return true;
   }
 
+  ///
   static const(char)[] getString(uint name) {
     import std.string : fromStringz;
     
-    version (__OPENGL__)
-      const(char)* sZ = glGetString(name);
-    else
-      const(char)* sZ = "";
+    const(char)* sZ = glGetString(name);
+    debug runtimeCheckErr;
     
-    debug runtimeCheckErr();
-    
-    return (sZ is null)
-      ? "(unknown)"
-      : sZ.fromStringz;
+    return (sZ is null) ? "(unknown)" : sZ.fromStringz;
   }
 
+  ///
   static const(char)[] getString(uint name, uint index) {
     import std.string : fromStringz;
 
-    version (__OPENGL__)
-      const(char)* sZ = glGetStringi(name, index);
-    else
-      const(char)* sZ = "";
-    
-    debug runtimeCheckErr();
-    
-    return (sZ is null)
-      ? "(unknown)"
-      : sZ.fromStringz;
+    const(char)* sZ = glGetStringi(name, index);
+    debug runtimeCheckErr;
+
+    return (sZ is null) ? "(unknown)" : sZ.fromStringz;
   }
 
+  ///
   static const(char)[] getVersionString() {
-    version (__OPENGL__)
-      return getString(GL_VERSION);
-    else
-      return "";
+    return getString(GL_VERSION);
   }
 
+  ///
   static const(char)[] getVendorString() {
-    version (__OPENGL__)
-      return getString(GL_VENDOR);
-    else
-      return "";
+    return getString(GL_VENDOR);
   }
 
+  ///
   static GfxVendor getVendor() {
     import std.algorithm.searching : canFind;
     
@@ -148,63 +112,49 @@ final abstract class GfxEngine {
     return GfxVendor.UNKNOWN;
   }
 
+  ///
   static const(char)[] getRendererString() {
-    version (__OPENGL__)
-      return getString(GL_RENDERER);
-    else
-      return "";
+    return getString(GL_RENDERER);
   }
 
+  ///
   static const(char)[] getShadingVersionString() {
-    version (__OPENGL__)
-      return getString(GL_SHADING_LANGUAGE_VERSION);
-    else
-      return "";
+    return getString(GL_SHADING_LANGUAGE_VERSION);
   }
 
+  ///
   static int getInt(uint pname) {
-    version (__OPENGL__) {
-      GLint param;
-      glGetIntegerv(pname, &param);
-      debug runtimeCheckErr();
-      return param;
-    }
-    else
-      return 0;
+    GLint param;
+    glGetIntegerv(pname, &param);
+    debug runtimeCheckErr;
+    return param;
   }
 
+  ///
   static float getFloat(uint pname) {
-    version (__OPENGL__) {
-      GLfloat res;
-      glGetFloatv(pname, &res);
-      debug runtimeCheckErr();
-      return res;
+    GLfloat res;
+    glGetFloatv(pname, &res);
+    debug runtimeCheckErr;
+    return res;
+  }
+
+  private static string getErrorString(int er)  {
+    switch (er) {
+      case GL_NO_ERROR: return "GL_NO_ERROR";
+      case GL_INVALID_ENUM: return "GL_INVALID_ENUM";
+      case GL_INVALID_VALUE: return "GL_INVALID_VALUE";
+      case GL_INVALID_OPERATION: return "GL_INVALID_OPERATION";
+      case GL_OUT_OF_MEMORY: return "GL_OUT_OF_MEMORY";
+      default: return "Unknown OpenGL error";
     }
-    else
-      return 0;
   }
 
-  private static string getErrorString(int er) nothrow {
-    version (__OPENGL__)
-      switch (er) {
-        case GL_NO_ERROR: return "GL_NO_ERROR";
-        case GL_INVALID_ENUM: return "GL_INVALID_ENUM";
-        case GL_INVALID_VALUE: return "GL_INVALID_VALUE";
-        case GL_INVALID_OPERATION: return "GL_INVALID_OPERATION";
-        case GL_OUT_OF_MEMORY: return "GL_OUT_OF_MEMORY";
-        default: return "Unknown OpenGL error";
-      }
-    else
-      return "";
-  }
-
-  private static void flushErrors() nothrow {
+  private static void flushErrors()  {
     int timeout;
-    while (++timeout <= 5)
-      version (__OPENGL__) {
-        immutable GLint r = glGetError();
-        if (r == GL_NO_ERROR)
-          break;
-      }
+    while (++timeout <= 5) {
+      immutable r = glGetError();
+      if (r == GL_NO_ERROR)
+        break;
+    }
   }
 }

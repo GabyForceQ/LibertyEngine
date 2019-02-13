@@ -70,14 +70,14 @@ final class TileSet {
   /**
    *
   **/
-  Material getTile(int x, int y) pure nothrow {
+  Material getTile(int x, int y)   {
     return getTile(Vector2I(x, y));
   }
 
   /**
    *
   **/
-  Material getTile(Vector2I index) pure nothrow {
+  Material getTile(Vector2I index)   {
     return materials[index.x][index.y];
   }
 }

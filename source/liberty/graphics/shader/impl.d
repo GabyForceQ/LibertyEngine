@@ -22,7 +22,6 @@ import liberty.scene.services;
 **/
 final class Shader : IShaderFactory, IRenderable {
   private {
-    string id;
     string vertexCode;
     string fragmentCode;
 
@@ -39,6 +38,9 @@ final class Shader : IShaderFactory, IRenderable {
     bool viewMatrixEnabled;
   }
 
+  ///
+  string id;
+
   /**
    * Create a new shader program with empty map and id.
   **/
@@ -48,17 +50,10 @@ final class Shader : IShaderFactory, IRenderable {
   }
 
   /**
-   * Returns shader id.
-  **/
-  string getId() pure nothrow const {
-    return id;
-  }
-
-  /**
    * Add vertex code.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addVertexCode(string code) pure nothrow {
+  typeof(this) addVertexCode(string code)   {
     vertexCode = GFX_SHADER_CORE_VERSION ~ code;
     return this;
   }
@@ -67,7 +62,7 @@ final class Shader : IShaderFactory, IRenderable {
    * Add fragment code.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addFragmentCode(string code) pure nothrow {
+  typeof(this) addFragmentCode(string code)   {
     fragmentCode = GFX_SHADER_CORE_VERSION ~ code;
     return this;
   }
@@ -75,14 +70,14 @@ final class Shader : IShaderFactory, IRenderable {
   /**
    * Returns true if vertex code exists.
   **/
-  bool hasVertexProgram() pure nothrow const {
+  bool hasVertexProgram()   const {
     return vertexCode != "";
   }
 
   /**
    * Returns true if fragement code exists.
   **/
-  bool hasFragmentProgram() pure nothrow const {
+  bool hasFragmentProgram()   const {
     return fragmentCode != "";
   }
 
@@ -116,7 +111,7 @@ final class Shader : IShaderFactory, IRenderable {
   /**
    * Returns the shader program from the map.
   **/
-  ShaderProgram getProgram() pure nothrow {
+  ShaderProgram getProgram()   {
     return program;
   }
 
@@ -124,8 +119,8 @@ final class Shader : IShaderFactory, IRenderable {
    * Register a entity to the renderer.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) registerEntity(Entity entity) pure nothrow {
-    map[entity.getId] = entity;
+  typeof(this) registerEntity(Entity entity)   {
+    map[entity.id] = entity;
     return this;
   }
 
@@ -133,8 +128,8 @@ final class Shader : IShaderFactory, IRenderable {
    * Remove the given entity from the map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) removeEntity(Entity entity) pure nothrow {
-    map.remove(entity.getId);
+  typeof(this) removeEntity(Entity entity)   {
+    map.remove(entity.id);
     return this;
   }
 
@@ -142,7 +137,7 @@ final class Shader : IShaderFactory, IRenderable {
    * Remove the entity that has the given id from the map.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) removeEntityById(string id) pure nothrow {
+  typeof(this) removeEntityById(string id)   {
     map.remove(id);
     return this;
   }
@@ -150,14 +145,14 @@ final class Shader : IShaderFactory, IRenderable {
   /**
    * Returns all entities in the map.
   **/
-  Entity[string] getMap() pure nothrow {
+  Entity[string] getMap()   {
     return map;
   }
 
   /**
    * Returns the entity in the map that has the given id.
   **/
-  Entity getEntityById(string id) pure nothrow {
+  Entity getEntityById(string id)   {
     return map[id];
   }
 
@@ -166,7 +161,7 @@ final class Shader : IShaderFactory, IRenderable {
    * If this is not null, then globalRender and perEntityRender are useless.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addCustomRenderMethod(void delegate(ShaderProgram, typeof(this) self) dg) pure nothrow {
+  typeof(this) addCustomRenderMethod(void delegate(ShaderProgram, typeof(this) self) dg)   {
     onCustomRender = dg;
     return this;
   }
@@ -175,7 +170,7 @@ final class Shader : IShaderFactory, IRenderable {
    * Add global render delegate so it can be called every render tick once for all map entities.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addGlobalRenderMethod(void delegate(ShaderProgram) dg) pure nothrow {
+  typeof(this) addGlobalRenderMethod(void delegate(ShaderProgram) dg)   {
     onGlobalRender = dg;
     return this;
   }
@@ -184,7 +179,7 @@ final class Shader : IShaderFactory, IRenderable {
    * Add per entity render delegate so it can be called every render tick for every map entity.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addPerEntityRenderMethod(void delegate(ShaderProgram) dg) pure nothrow {
+  typeof(this) addPerEntityRenderMethod(void delegate(ShaderProgram) dg)   {
     onPerEntityRender = dg;
     return this;
   }
@@ -193,7 +188,7 @@ final class Shader : IShaderFactory, IRenderable {
    * Set if view matrix is enabled on this shader.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setViewMatrixEnabled(bool enabled = true) pure nothrow {
+  typeof(this) setViewMatrixEnabled(bool enabled = true)   {
     viewMatrixEnabled = enabled;
     return this;
   }
@@ -201,7 +196,7 @@ final class Shader : IShaderFactory, IRenderable {
   /**
    * Returns true if view matrix is enabled on this shader.
   **/
-  bool isViewMatrixEnabled() pure nothrow const {
+  bool isViewMatrixEnabled()   const {
     return viewMatrixEnabled;
   }
 
@@ -212,20 +207,20 @@ final class Shader : IShaderFactory, IRenderable {
     if (onCustomRender !is null)
       onCustomRender(program, this);
     else {
-      auto camera = scene.getActiveCamera;
+      auto camera = scene.camera;
 
       program
         .bind
-        .loadUniform("uProjectionMatrix", camera.getProjectionMatrix);
+        .loadUniform("uProjectionMatrix", camera.projectionMatrix);
 
       if (viewMatrixEnabled)
-        program.loadUniform("uViewMatrix", camera.getViewMatrix);
+        program.loadUniform("uViewMatrix", camera.viewMatrix);
 
       if (onGlobalRender !is null)
         onGlobalRender(program);
       
       foreach (entity; map)
-        if (entity.getVisibility == Visibility.Visible)
+        if (entity.visibility == Visibility.Visible)
           render(entity);
 
       program.unbind;
@@ -235,10 +230,10 @@ final class Shader : IShaderFactory, IRenderable {
   private void render(Entity entity) 
   in (entity !is null, "You cannot render a null scene entity.")
   do {
-    auto model = entity.getModel;
+    auto model = entity.model;
 
     if (model !is null) {
-      program.loadUniform("uModelMatrix", entity.getComponent!Transform.getModelMatrix);
+      program.loadUniform("uModelMatrix", entity.component!Transform.getModelMatrix);
 
       if (onPerEntityRender !is null)
         onPerEntityRender(program);

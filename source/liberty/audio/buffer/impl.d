@@ -24,7 +24,7 @@ final class AudioBuffer : IAudioBufferFactory {
   /**
    *
   **/
-  this(int size = 1) nothrow {
+  this(int size = 1)  {
     alGenBuffers(size, &buffer);
     this.size = size;
   }
@@ -32,7 +32,7 @@ final class AudioBuffer : IAudioBufferFactory {
   /**
    *
   **/
-  void setListenerData() nothrow {
+  void setListenerData()  {
     alListener3f(AL_POSITION, 0, 0, 0);
     alListener3f(AL_VELOCITY, 0, 0, 0);
   }
@@ -40,7 +40,7 @@ final class AudioBuffer : IAudioBufferFactory {
   /**
    *
   **/
-  uint getHandle() pure nothrow const {
+  uint getHandle()   const {
     return buffer;
   }
 }

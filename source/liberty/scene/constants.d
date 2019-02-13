@@ -8,25 +8,15 @@
 **/
 module liberty.scene.constants;
 
-/**
- * Visibility state for an element.
-**/
+/// Visibility state for an element.
 enum Visibility : byte {
-  /**
-   * The element is rendering.
-   * Its physics is processing.
-  **/
+  /// The element is rendering.
+  /// Its physics is processing.
   Visible = 0x00,
-
-  /**
-   * The element is not rendering.
-   * Its physics is processing.
-  **/
+  /// The element is not rendering.
+  /// Its physics is processing.
   Hidden = 0x01,
-
-  /**
-   * The element is not rendering.
-   * Its physics is not processing.
-  **/
+  /// The element is not rendering.
+  /// Its physics is not processing.
   Collapsed = 0x02
 }

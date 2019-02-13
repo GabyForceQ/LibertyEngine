@@ -45,14 +45,14 @@ final class InputProfiler {
   /**
    *
   **/
-  this(string id) pure nothrow {
+  this(string id)   {
     this.id = id;
   }
 
   /**
    *
   **/
-  string getId() pure nothrow const {
+  string getId()   const {
     return id;
   }
 
@@ -174,14 +174,14 @@ final class InputProfiler {
   /**
    *
   **/
-  InputDeviceType getLastDeviceUsed() pure nothrow {
+  InputDeviceType getLastDeviceUsed()   {
     return lastDeviceUsed;
   }
 
   /**
    *
   **/
-  InputProfiler setWarningsEnabled(bool enabled = true) pure nothrow {
+  InputProfiler setWarningsEnabled(bool enabled = true)   {
     warnings = enabled;
     return this;
   }
@@ -189,7 +189,7 @@ final class InputProfiler {
   /**
    *
   **/
-  bool areWarningsEnabled() pure nothrow const {
+  bool areWarningsEnabled()   const {
     return warnings;
   }
 }

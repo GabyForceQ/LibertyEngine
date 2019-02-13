@@ -29,9 +29,11 @@ import liberty.graphics.buffer.factory;
 final abstract class CoreEngine {
   private {
     static EngineState engineState = EngineState.None;
-    static Scene scene;
     static bool vsync;
   }
+
+  ///
+  static Scene scene;
 
   /**
    * Initialize core engine features.
@@ -89,15 +91,12 @@ final abstract class CoreEngine {
 
       switch (engineState) with (EngineState) {
         case Running:
-          scene.update();
-          scene
-            .getActiveCamera()
-            .getPreset()
-            .runImplicit(scene.getActiveCamera());
+          scene.update;
+          scene.camera.preset.runImplicitProcess(scene.camera);
 
           //Input
           //  .getMousePicker()
-          //  .update(scene.getActiveCamera(), scene.getTree().getChild!Terrain("DemoTerrain"));
+          //  .update(scene.camera(), scene.getTree().getChild!Terrain("DemoTerrain"));
 
           break;
         case Paused:
@@ -108,21 +107,17 @@ final abstract class CoreEngine {
       }
 
       // Clear the screen
-      GfxEngine
-        .getBackend()
-        .clearScreen();
+      GfxEngine.backend.clearScreen;
       
       // Render to the screen
-      CoreEngine
-        .getScene()
-        .render();
+      CoreEngine.scene.render;
       
-      glfwSwapBuffers(Platform.getWindow().getHandle());
+      glfwSwapBuffers(Platform.getWindow.getHandle);
 
-      if (Platform.getWindow().shouldClose())
+      if (Platform.getWindow.shouldClose)
         changeState(EngineState.ShouldQuit);
 
-      EventManager.updateLastMousePosition();
+      EventManager.updateLastMousePosition;
     }
 
     // Main loop ended so engine shutdowns
@@ -168,20 +163,6 @@ final abstract class CoreEngine {
   }
 
   /**
-   * Load a new scene into the window viewport.
-  **/
-  static void loadScene(Scene scene) nothrow {
-    this.scene = scene;
-  }
-
-  /**
-   * Returns current scene.
-  **/
-  static Scene getScene() nothrow {
-    return scene;
-  }
-
-  /**
    *
   **/
   static void enableVSync() {
@@ -200,7 +181,7 @@ final abstract class CoreEngine {
   /**
    *
   **/
-  static bool isVSyncEnabled() nothrow {
+  static bool isVSyncEnabled()  {
     return vsync;
   }
 

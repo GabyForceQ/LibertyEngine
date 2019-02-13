@@ -8,49 +8,32 @@
 **/
 module liberty.graphics.factory;
 
-version (__OPENGL__)
-  import bindbc.opengl;
-
+import bindbc.opengl;
 import liberty.graphics.buffer.array;
 import liberty.graphics.buffer.constants;
 import liberty.graphics.buffer.impl;
 import liberty.graphics.constants;
 
-/**
- * Graphics renderer factory interface is implemented and used by models.
-**/
+/// Graphics renderer factory interface is implemented and used by models.
 interface IGfxRendererFactory {
-  /**
-   *
-  **/
+  ///
   static void drawElements(GfxDrawMode drawMode, GfxVectorType type, size_t count) {
-    version (__OPENGL__) {
-      GLenum _drawMode, _type;
-
-      final switch (drawMode) with (GfxDrawMode) {
-        case TRIANGLES: _drawMode = GL_TRIANGLES;
-      }
-
-      final switch (type) with (GfxVectorType) {
-        case UINT: _type = GL_UNSIGNED_INT;
-      }
-      
-      glDrawElements(_drawMode, cast(int)count, _type, null);
+    GLenum _drawMode, _type;
+    final switch (drawMode) with (GfxDrawMode) {
+      case TRIANGLES: _drawMode = GL_TRIANGLES;
     }
+    final switch (type) with (GfxVectorType) {
+      case UINT: _type = GL_UNSIGNED_INT;
+    }
+    glDrawElements(_drawMode, cast(int)count, _type, null);
   }
 
-  /**
-   *
-  **/
+  ///
   static void drawArrays(GfxDrawMode drawMode, size_t count) {
-    version (__OPENGL__) {
-      GLenum _drawMode;
-
-      final switch (drawMode) with (GfxDrawMode) {
-        case TRIANGLES: _drawMode = GL_TRIANGLES;
-      }
-      
-      glDrawArrays(_drawMode, 0, cast(int)count);
+    GLenum _drawMode;
+    final switch (drawMode) with (GfxDrawMode) {
+      case TRIANGLES: _drawMode = GL_TRIANGLES;
     }
+    glDrawArrays(_drawMode, 0, cast(int)count);
   }
 }

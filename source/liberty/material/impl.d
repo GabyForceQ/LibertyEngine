@@ -47,14 +47,14 @@ final class Material : IDefaultMaterialsFactory {
   /**
    *
   **/
-  void setTexture(Texture texture) pure nothrow {
+  void setTexture(Texture texture)   {
     this.texture = texture;
   }
 
   /**
    *
   **/
-  Texture getTexture() pure nothrow {
+  Texture getTexture()   {
     return texture;
   }
 }

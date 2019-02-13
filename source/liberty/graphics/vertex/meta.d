@@ -8,16 +8,11 @@
 **/
 module liberty.graphics.vertex.meta;
 
-version (__OPENGL__)
-  import bindbc.opengl;
+import bindbc.opengl;
 
-/**
- *
-**/
+///
 mixin template GfxVertexSpec() {
-  /**
-   *
-  **/
+  ///
   static void bindAttributePointer() {
     static vec(N)(N n) { 
       return "Vector!(float, cast(ubyte)" ~ n ~ "u)";
@@ -31,15 +26,10 @@ mixin template GfxVertexSpec() {
   }
 }
 
-/**
- *
-**/
+///
 interface IGfxVertexFactory {
-  /**
-   *
-  **/
+  ///
   static void bindAttributePointer(VERTEX)(int i, int j, void* offset) {
-    version (__OPENGL__)
-      glVertexAttribPointer(i, j, GL_FLOAT, GL_FALSE, VERTEX.sizeof, offset);
+    glVertexAttribPointer(i, j, GL_FLOAT, GL_FALSE, VERTEX.sizeof, offset);
   }
 }

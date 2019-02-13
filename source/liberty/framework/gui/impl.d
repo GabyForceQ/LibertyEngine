@@ -67,28 +67,28 @@ abstract class Gui : Entity {
             program.bind;
 
             foreach (node; self.getMap)
-              if (node.getVisibility == Visibility.Visible) {
+              if (node.visibility == Visibility.Visible) {
                 (cast(Gui)node).updateProjection(program);
                 foreach (widget; (cast(Gui)node).getRootCanvas.getWidgets) {
                   if (widget.getZIndex == 0) {
-                    if (widget.getVisibility == Visibility.Visible) {
-                      if (widget.getModel !is null)
+                    if (widget.visibility == Visibility.Visible) {
+                      if (widget.model !is null)
                         program
                           .loadUniform("uZIndex", 0)
-                          .loadUniform("uModelMatrix", widget.getComponent!Transform.getModelMatrix)
-                          .render(widget.getModel);
+                          .loadUniform("uModelMatrix", widget.component!Transform.getModelMatrix)
+                          .render(widget.model);
                     }
                   }
                 }
                 // FILTER Z INDEX FOR NOW WITH ONLY 0 AND 1 --> BUG
                 foreach (widget; (cast(Gui)node).getRootCanvas.getWidgets) {
                   if (widget.getZIndex == 1) {
-                    if (widget.getVisibility == Visibility.Visible) {
-                      if (widget.getModel !is null)
+                    if (widget.visibility == Visibility.Visible) {
+                      if (widget.model !is null)
                         program
                           .loadUniform("uZIndex", 1)
-                          .loadUniform("uModelMatrix", widget.getComponent!Transform.getModelMatrix)
-                          .render(widget.getModel);
+                          .loadUniform("uModelMatrix", widget.component!Transform.getModelMatrix)
+                          .render(widget.model);
                     }
                   }
                 }
@@ -99,7 +99,7 @@ abstract class Gui : Entity {
       });
 
     shader.registerEntity(this);
-    scene.addShader(shader);
+    scene.shaderMap[shader.id] = shader;
     
     rootCanvas = new Canvas("RootCanvas" ~ id, this);
     updateProjection(shader.getProgram);
@@ -131,7 +131,7 @@ abstract class Gui : Entity {
   /**
    * Returns the projection matrix.
   **/
-  Matrix4F getProjectionMatrix() pure nothrow const {
+  Matrix4F getProjectionMatrix()   const {
     return projectionMatrix;
   }
 
@@ -145,7 +145,7 @@ abstract class Gui : Entity {
   /**
    *
   **/
-  final Canvas getRootCanvas() pure nothrow {
+  final Canvas getRootCanvas()   {
     return rootCanvas;
   }
 
@@ -207,14 +207,14 @@ abstract class Gui : Entity {
   /**
    * Returns the action map for user interface elements.
   **/
-  final Action!Widget[string] getActionMap() pure nothrow {
+  final Action!Widget[string] getActionMap()   {
     return actionMap;
   }
 
   /**
    * Returns an action by given id for user interface elements.
   **/
-  final Action!Widget getAction(string name) pure nothrow {
+  final Action!Widget getAction(string name)   {
     return actionMap[name];
   }
 
@@ -222,7 +222,7 @@ abstract class Gui : Entity {
    * Keep window aspect ratio the same.
    * Returns reference to this so it can be used in a stream.
   **/
-  final typeof(this) setFixedProjectionEnabled(bool enabled = true) pure nothrow {
+  final typeof(this) setFixedProjectionEnabled(bool enabled = true)   {
     fixedProjectionEnabled = enabled;
     return this;
   }
@@ -230,7 +230,7 @@ abstract class Gui : Entity {
   /**
    * Returns true if fixed projection is enabled.
   **/
-  final bool isFixedProjectionEnabled() pure nothrow const {
+  final bool isFixedProjectionEnabled()   const {
     return fixedProjectionEnabled;
   }
 }

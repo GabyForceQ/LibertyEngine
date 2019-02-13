@@ -8,14 +8,10 @@
 **/
 module liberty.scene.component;
 
-/**
- *
-**/
+///
 interface IComponent {}
 
-/**
- *
-**/
+///
 enum ComponentType : string {
   Transform = "Transform"
 }

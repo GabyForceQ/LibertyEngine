@@ -32,33 +32,33 @@ abstract class SceneIO : ISerializable {
   **/
   static void serialize(Scene scene) {
     // Open the file
-    auto file = File(scene.getRelativePath, "w");
+    auto file = File(scene.relativePath, "w");
     scope(exit) file.close;
 
-    file.writeln("id: " ~ scene.getId);
+    file.writeln("id: " ~ scene.id);
 
-    foreach (Primitive entity; cast(Primitive[string])scene.getShaderById("Primitive").getMap) {
+    foreach (Primitive entity; cast(Primitive[string])scene.shaderMap["Primitive"].getMap) {
       file.writeln(
         "Primitive: { " ~
-          "id: " ~ entity.getId ~
+          "id: " ~ entity.id ~
           "transform: [ " ~
-            "location: " ~ entity.getComponent!Transform.getLocation.toString ~ 
+            "location: " ~ entity.component!Transform.getLocation.toString ~ 
         " ] }"
       );
     }
 
-    foreach (Terrain entity; cast(Terrain[string])scene.getShaderById("Terrain").getMap) {
+    foreach (Terrain entity; cast(Terrain[string])scene.shaderMap["Terrain"].getMap) {
       file.writeln(
         "Terrain: { " ~
-          "id: " ~ entity.getId ~
+          "id: " ~ entity.id ~
           " , size: " ~ entity.getSize.to!string ~
           " , maxHeight " ~ entity.getMaxHeight.to!string ~
           " , materials: [ " ~
-            entity.getModel.getMaterials[0].getTexture.getRelativePath ~
-            " , " ~ entity.getModel.getMaterials[1].getTexture.getRelativePath ~
-            " , " ~ entity.getModel.getMaterials[2].getTexture.getRelativePath ~
-            " , " ~ entity.getModel.getMaterials[3].getTexture.getRelativePath ~
-            " , " ~ entity.getModel.getMaterials[4].getTexture.getRelativePath ~
+            entity.model.materials[0].getTexture.getRelativePath ~
+            " , " ~ entity.model.materials[1].getTexture.getRelativePath ~
+            " , " ~ entity.model.materials[2].getTexture.getRelativePath ~
+            " , " ~ entity.model.materials[3].getTexture.getRelativePath ~
+            " , " ~ entity.model.materials[4].getTexture.getRelativePath ~
         " ] }"
       );
     }
@@ -71,10 +71,10 @@ abstract class SceneIO : ISerializable {
       );
     }*/
 
-    foreach (Light entity; cast(Light[string])scene.getShaderById("Light").getMap) {
+    foreach (Light entity; cast(Light[string])scene.shaderMap["Light"].getMap) {
       file.writeln(
         "Light: { " ~
-          "id: " ~ entity.getId ~
+          "id: " ~ entity.id ~
         " }"
       );
     }
@@ -85,7 +85,7 @@ abstract class SceneIO : ISerializable {
   **/
   static void deserialize(Scene scene) {
     // Open the file
-    auto file = File(scene.getRelativePath);
+    auto file = File(scene.relativePath);
     scope(exit) file.close;
 
     // Read the file and build scene

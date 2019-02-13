@@ -51,7 +51,7 @@ final class InputActionBinding {
   /**
    *
   **/
-  string getId() pure nothrow const {
+  string getId()   const {
     return id;
   }
 
@@ -107,7 +107,7 @@ final class InputAxisBinding {
   /**
    *
   **/
-  string getId() pure nothrow const {
+  string getId()   const {
     return id;
   }
 }

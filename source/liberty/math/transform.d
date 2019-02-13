@@ -40,7 +40,7 @@ final class Transform : IComponent {
   /**
    *
   **/
-  this(Entity parent) pure nothrow {
+  this(Entity parent)   {
     this.parent = parent;
   }
 
@@ -149,7 +149,7 @@ final class Transform : IComponent {
    * Rotate object specifying the rotation angle and rotation coordinates using scalars x, y and z.
    * Returns reference to this so it can be used in a stream.
   **/
-	//Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) pure
+	//Transform setRotation(string op = "=")(float angle, float rotX, float rotY, float rotZ) 
   //if (op == "=" || op == "+=" || op == "-=")
   //do {
 	//	return setRotation!op(angle, Vector3F(rotX, rotY, rotZ));
@@ -159,13 +159,13 @@ final class Transform : IComponent {
    * Rotate object specifying the rotation angle and a vector of three scalars for x, y and z.
    * Returns reference to this so it can be used in a stream.
   **/
-	//Transform setRotation(string op = "=")(float angle, Vector3F rotation) pure
+	//Transform setRotation(string op = "=")(float angle, Vector3F rotation) 
   //if (op == "=" || op == "+=" || op == "-=")
   //do {  
   //  return this;
 	//}
 
-  /*Transform setRotation(string op = "=")(Matrix3F rotation) pure
+  /*Transform setRotation(string op = "=")(Matrix3F rotation) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     mixin("tempModelMatrix.c[0][0] " ~ op ~ " rotation.c[0][0];");
@@ -185,7 +185,7 @@ final class Transform : IComponent {
    * Rotate object specifying the rotation angle for pitch axis.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform rotatePitch(string op = "=")(float angle) pure
+	Transform rotatePitch(string op = "=")(float angle) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     mixin("rotation.x " ~ op ~ " angle;");
@@ -199,7 +199,7 @@ final class Transform : IComponent {
    * Rotate object specifying the rotation angle for yaw axis.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform rotateYaw(string op = "=")(float angle) pure
+	Transform rotateYaw(string op = "=")(float angle) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     mixin("rotation.y " ~ op ~ " angle;");
@@ -213,7 +213,7 @@ final class Transform : IComponent {
    * Rotate object specifying the rotation angle for roll axis.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform rotateRoll(string op = "=")(float angle) pure
+	Transform rotateRoll(string op = "=")(float angle) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     mixin("rotation.z " ~ op ~ " angle;");
@@ -227,7 +227,7 @@ final class Transform : IComponent {
    * Scale object using same value for x, y and z coordinates.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setScale(string op = "=")(float value) pure
+	Transform setScale(string op = "=")(float value) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     return setScale!op(Vector3F(value, value, value));
@@ -237,7 +237,7 @@ final class Transform : IComponent {
    * Scale object using x, y and z scalars for coordinates.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setScale(string op = "=")(float x, float y, float z) pure
+	Transform setScale(string op = "=")(float x, float y, float z) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     return setScale!op(Vector3F(x, y, z));
@@ -247,7 +247,7 @@ final class Transform : IComponent {
    * Scale object using a vector with x, y and z scalars for coordinates.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setScale(string op = "=")(Vector3F scale) pure
+	Transform setScale(string op = "=")(Vector3F scale) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
 		mixin("tempModelMatrix.c[0][0] " ~ op ~ " scale.x;");
@@ -262,7 +262,7 @@ final class Transform : IComponent {
    * Scale object on x axis.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setScaleX(string op = "=")(float value) pure
+	Transform setScaleX(string op = "=")(float value) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
 		mixin("tempModelMatrix.c[0][0] " ~ op ~ " value;");
@@ -275,7 +275,7 @@ final class Transform : IComponent {
    * Scale object on y axis.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setScaleY(string op = "=")(float value) pure
+	Transform setScaleY(string op = "=")(float value) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
 		mixin("tempModelMatrix.c[1][1] " ~ op ~ " value;");
@@ -288,7 +288,7 @@ final class Transform : IComponent {
    * Scale object on z axis.
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setScaleZ(string op = "=")(float value) pure
+	Transform setScaleZ(string op = "=")(float value) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
 		mixin("tempModelMatrix.c[2][2] " ~ op ~ " value;");
@@ -300,28 +300,28 @@ final class Transform : IComponent {
   /**
    * Returns object location in relative space.
   **/
-	ref const(Vector3F) getLocation() pure nothrow const {
+	ref const(Vector3F) getLocation()   const {
 		return location;
 	}
   
   /**
    * Returns object rotation in relative space.
   **/
-	ref const(Vector3F) getRotation() pure nothrow const {
+	ref const(Vector3F) getRotation()   const {
 		return rotation;
 	}
   
   /**
    * Returns object scale in relative space.
   **/
-	ref const(Vector3F) getScale() pure nothrow const {
+	ref const(Vector3F) getScale()   const {
 		return scale;
 	}
 
   /**
    *
   **/
-  Transform setPivot(string op = "=")(float x, float y, float z) pure
+  Transform setPivot(string op = "=")(float x, float y, float z) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     return setPivot!op(Vector3F(x, y, z));
@@ -331,7 +331,7 @@ final class Transform : IComponent {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  Transform setPivot(string op = "=")(Vector3F pivot) pure
+  Transform setPivot(string op = "=")(Vector3F pivot) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     mixin("this.pivot " ~ op ~ " pivot;");
@@ -343,7 +343,7 @@ final class Transform : IComponent {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setPivotX(string op = "=")(float value) pure
+	Transform setPivotX(string op = "=")(float value) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     mixin("pivot.x " ~ op ~ " value;");
@@ -355,7 +355,7 @@ final class Transform : IComponent {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setPivotY(string op = "=")(float value) pure
+	Transform setPivotY(string op = "=")(float value) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     mixin("pivot.y " ~ op ~ " value;");
@@ -367,7 +367,7 @@ final class Transform : IComponent {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-	Transform setPivotZ(string op = "=")(float value) pure
+	Transform setPivotZ(string op = "=")(float value) 
   if (op == "=" || op == "+=" || op == "-=")
   do {
     mixin("pivot.z " ~ op ~ " value;");
@@ -378,25 +378,25 @@ final class Transform : IComponent {
   /**
    *
   **/
-  ref const(Vector3F) getPivot() pure nothrow const {
+  ref const(Vector3F) getPivot()   const {
     return pivot;
   }
   
   /**
    * Returns model matrix for the object representation.
   **/
-	ref const(Matrix4F) getModelMatrix() pure nothrow const {
+	ref const(Matrix4F) getModelMatrix()   const {
 		return modelMatrix;
 	}
  
   /**
    *
   **/
-  Entity getParent() pure nothrow {
+  Entity getParent()   {
     return parent;
   }
 
-  private void updateModelMatrix() pure nothrow {
+  private void updateModelMatrix()   {
     modelMatrix = tempModelMatrix;
     modelMatrix.c[0][3] += pivot.x;
     modelMatrix.c[1][3] -= pivot.y;

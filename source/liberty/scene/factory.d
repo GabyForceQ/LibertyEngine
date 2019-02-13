@@ -23,7 +23,7 @@ interface ISceneFactory {
     auto res = new Scene("DefaultScene");
     
     if (relativePath != "") {
-      res.setRelativePath(relativePath);
+      res.relativePath = relativePath;
       SceneIO.deserialize(res);
     }
     

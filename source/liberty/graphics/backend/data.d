@@ -10,75 +10,37 @@ module liberty.graphics.backend.data;
 
 import liberty.math.vector;
 
-/**
- *
-**/
+///
 struct GfxBackendInfo {
-  /**
-   *
-  **/
+  ///
   string[] extensions;
-
-  /**
-   *
-  **/
+  ///
   int majorVersion;
-
-  /**
-   *
-  **/
+  ///
   int minorVersion;
-
-  /**
-   *
-  **/
+  ///
   int maxColorAttachments;
 }
 
-/**
- *
-**/
+///
 struct GfxBackendOptions {
-  /**
-   *
-  **/
+  ///
   Color4 backColor;
-
-  /**
-   *
-  **/
+  ///
   bool wireframeEnabled;
-
-  /**
-   *
-  **/
+  ///
   bool depthTestEnabled;
-
-  /**
-   *
-  **/
+  ///
   bool stencilTestEnabled;
-
-  /**
-   *
-  **/
+  ///
   bool textureEnabled;
-
-  /**
-   *
-  **/
+  ///
   bool cullingEnabled;
-
-  /**
-   *
-  **/
+  ///
   bool alphaBlendEnabled;
-
-  /**
-   * 0.0f - disabled or not supported by the machine.
-   * 4.0f - x4.
-   * 8.0f - x8.
-   * 16.0f - x16.
-  **/
+  ///0.0f - disabled or not supported by the machine.
+  ///4.0f - x4.
+  ///8.0f - x8.
+  ///16.0f - x16.
   float anisotropicFiltering;
 }

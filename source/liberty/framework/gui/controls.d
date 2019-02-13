@@ -38,20 +38,20 @@ final class Canvas : Widget {
   /**
    * Returns the widgets map.
   **/
-  Widget[string] getWidgets() pure nothrow {
+  Widget[string] getWidgets()   {
     return widgets;
   }
 
   /**
    * Returns a widget by given id
   **/
-  Widget getWidget(string id) pure nothrow {
+  Widget getWidget(string id)   {
     return widgets[id];
   }
 
   package typeof(this) addWidget(Widget widget) {
     // Add a new widget to the canvas
-    widgets[widget.getId] = widget;
+    widgets[widget.id] = widget;
 
     // Returns reference to this and can be used in a stream
     return this;
@@ -65,7 +65,7 @@ final class CustomControl(alias E) : Widget {
   mixin WidgetEventProps!(E);
 
   mixin WidgetConstructor!(q{
-    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+    model = new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]);
   });
 
   mixin WidgetUpdate;
@@ -87,7 +87,7 @@ final class Button : Widget {
   ]);
 
   mixin WidgetConstructor!(q{
-    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+    model = new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]);
   });
 
   mixin WidgetUpdate;
@@ -102,7 +102,7 @@ final class CustomButton(alias E) : Widget {
   ] ~ E);
 
   mixin WidgetConstructor!(q{
-    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+    model = new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]);
   });
 
   mixin WidgetUpdate;
@@ -129,7 +129,7 @@ final class CheckBox : Widget {
   ]);
 
   mixin WidgetConstructor!(q{
-    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+    model = new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]);
   });
 
   mixin WidgetUpdate;
@@ -147,7 +147,7 @@ final class CustomCheckBox(alias E) : Widget {
   ] ~ E);
 
   mixin WidgetConstructor!(q{
-    setModel(new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]));
+    model = new Model(ModelIO.loadRawModel(uiSquareVertices, uiSquareIndices), [Material.getDefault()]);
   });
   
   mixin WidgetUpdate;

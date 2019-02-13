@@ -49,7 +49,7 @@ final class BSPCube : BSPVolume {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(Material material = Material.getDefault()) {
-    setModel(new Model(ModelIO.loadRawModel(cubeVertices), [material]));
+    model = new Model(ModelIO.loadRawModel(cubeVertices), [material]);
     return this;
   }
 }
@@ -73,7 +73,7 @@ final class BSPPyramid : BSPVolume {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(Material material = Material.getDefault()) {
-    setModel(new Model(ModelIO.loadRawModel(pyramidVertices), [material]));
+    model = new Model(ModelIO.loadRawModel(pyramidVertices), [material]);
     return this;
   }
 }
@@ -97,7 +97,7 @@ final class BSPSquare : BSPVolume {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(Material material = Material.getDefault()) {
-    setModel(new Model(ModelIO.loadRawModel(squareVertices, squareIndices), [material]));
+    model = new Model(ModelIO.loadRawModel(squareVertices, squareIndices), [material]);
     return this;
   }
 }
@@ -121,7 +121,7 @@ final class BSPTriangle : BSPVolume {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(Material material = Material.getDefault()) {
-    setModel(new Model(ModelIO.loadRawModel(triangleVertices, triangleIndices), [material]));
+    model = new Model(ModelIO.loadRawModel(triangleVertices, triangleIndices), [material]);
     return this;
   }
 }

@@ -105,11 +105,11 @@ final abstract class ImageIO {
     return null;
   }
 
-  private static bool isBMPFormat(in char[2] bytes) nothrow {
+  private static bool isBMPFormat(in char[2] bytes)  {
     return bytes[0] == 'B' && bytes[1] == 'M';
   }
 
-  private static bool isPNGFormat(in char[8] bytes) nothrow {
+  private static bool isPNGFormat(in char[8] bytes)  {
     return
       cast(ubyte)bytes[0] == 137 &&
       cast(ubyte)bytes[1] == 80 &&

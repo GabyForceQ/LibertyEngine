@@ -41,7 +41,7 @@ final class SkyBox : Entity {
           .setViewMatrixEnabled(false)
           .addGlobalRenderMethod((program) {
             // Make it unreachable
-            Matrix4F newViewMatrix = scene.getActiveCamera.getViewMatrix;
+            Matrix4F newViewMatrix = scene.camera.viewMatrix;
             newViewMatrix.c[0][3] = 0;
             newViewMatrix.c[1][3] = 0;
             newViewMatrix.c[2][3] = 0;
@@ -49,13 +49,13 @@ final class SkyBox : Entity {
             program
               .loadUniform("uFadeLowerLimit", 0.0f)
               .loadUniform("uFadeUpperLimit", 30.0f)
-              .loadUniform("uFogColor", scene.getWorld.getExpHeightFogColor)
+              .loadUniform("uFogColor", scene.world.getExpHeightFogColor)
               .loadUniform("uViewMatrix", newViewMatrix);
           });
       });
     
     shader.registerEntity(this);
-    scene.addShader(shader);
+    scene.shaderMap[shader.id] = shader;
   }
 
   /**
@@ -63,7 +63,7 @@ final class SkyBox : Entity {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) build(Material material) {
-    setModel(new Model(ModelIO.loadRawModel(skyBoxVertices), [material]));
+    model = new Model(ModelIO.loadRawModel(skyBoxVertices), [material]);
     return this;
   }
 }

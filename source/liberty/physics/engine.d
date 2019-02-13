@@ -19,7 +19,7 @@ final class PxEngine {
   /**
    *
   **/
-  static bool isRunning() nothrow {
+  static bool isRunning()  {
     return running;
   }
 

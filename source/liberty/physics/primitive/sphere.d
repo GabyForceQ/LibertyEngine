@@ -17,16 +17,16 @@ class SphereCollider {
     float radius;
   }
 
-  this(Vector3F center, float radius) pure nothrow {
+  this(Vector3F center, float radius)   {
     this.center = center;
     this.radius = radius;
   }
 
-  Vector3F getCenter() pure nothrow {
+  Vector3F getCenter()   {
     return center;
   }
 
-  float getRadius() pure nothrow const {
+  float getRadius()   const {
     return radius;
   }
 

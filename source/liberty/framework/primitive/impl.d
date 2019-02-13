@@ -31,15 +31,15 @@ abstract class Primitive : Entity {
       .getOrCreate("Primitive", (shader) {
         shader
           .addGlobalRenderMethod((program) {
-            program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
+            program.loadUniform("uSkyColor", scene.world.getExpHeightFogColor);
           })
           .addPerEntityRenderMethod((program) {
-            program.loadUniform("uUseFakeLighting", model.isFakeLightingEnabled);
+            program.loadUniform("uUseFakeLighting", model.fakeLightingEnabled);
           });
       });
 
     shader.registerEntity(this);
-    scene.addShader(shader);
+    scene.shaderMap[shader.id] = shader;
   }
 }
 

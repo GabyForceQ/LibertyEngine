@@ -12,13 +12,9 @@ import bindbc.openal;
 
 import liberty.logger.impl;
 
-/**
- *
-**/
+///
 final abstract class AudioBackend {
-  /**
-   * It loads the OpenAL 1.1 shared library.
-  **/
+  /// It loads the OpenAL 1.1 shared library.
   static void initialize() {
     Logger.info("Start creating audio backend", typeof(this).stringof);
 

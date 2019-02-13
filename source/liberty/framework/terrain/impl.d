@@ -60,7 +60,7 @@ final class Terrain : Entity {
       .getOrCreate("Terrain", (shader) {
         shader
           .addGlobalRenderMethod((program) {
-            program.loadUniform("uSkyColor", scene.getWorld.getExpHeightFogColor);
+            program.loadUniform("uSkyColor", scene.world.getExpHeightFogColor);
           })
           .addPerEntityRenderMethod((program) {
             program.loadUniform("uTexCoordMultiplier", getTexCoordMultiplier);
@@ -68,7 +68,7 @@ final class Terrain : Entity {
       });
     
     shader.registerEntity(this);
-    scene.addShader(shader);
+    scene.shaderMap[shader.id] = shader;
   }
 
   ~this() {
@@ -91,7 +91,7 @@ final class Terrain : Entity {
     
     generateTerrain("res/textures/heightMap.bmp");
     
-    getComponent!Transform
+    component!Transform
       .setLocation(-size / 2.0f, 0.0f, -size / 2.0f);
     
     texCoordMultiplier = size;
@@ -102,7 +102,7 @@ final class Terrain : Entity {
   /**
    *
   **/
-  Vector2F getTexCoordMultiplier() pure nothrow const {
+  Vector2F getTexCoordMultiplier()   const {
     return texCoordMultiplier;
   }
 
@@ -110,7 +110,7 @@ final class Terrain : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setTexCoordMultiplier(Vector2F multiplier) pure nothrow {
+  typeof(this) setTexCoordMultiplier(Vector2F multiplier)   {
     texCoordMultiplier = multiplier;
     return this;
   }
@@ -119,7 +119,7 @@ final class Terrain : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setTexCoordMultiplier(float x, float y) pure nothrow {
+  typeof(this) setTexCoordMultiplier(float x, float y)   {
     texCoordMultiplier = Vector2F(x, y);
     return this;
   }
@@ -128,7 +128,7 @@ final class Terrain : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) increaseTexCoordMultiplier(Vector2F multiplier) pure nothrow {
+  typeof(this) increaseTexCoordMultiplier(Vector2F multiplier)   {
     texCoordMultiplier += multiplier;
     return this;
   }
@@ -137,7 +137,7 @@ final class Terrain : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) increaseTexCoordMultiplier(float x, float y) pure nothrow {
+  typeof(this) increaseTexCoordMultiplier(float x, float y)   {
     texCoordMultiplier += Vector2F(x, y);
     return this;
   }
@@ -146,7 +146,7 @@ final class Terrain : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) decreaseTexCoordMultiplier(Vector2F multiplier) pure nothrow {
+  typeof(this) decreaseTexCoordMultiplier(Vector2F multiplier)   {
     texCoordMultiplier -= multiplier;
     return this;
   }
@@ -155,7 +155,7 @@ final class Terrain : Entity {
    *
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) decreaseTexCoordMultiplier(float x, float y) pure nothrow {
+  typeof(this) decreaseTexCoordMultiplier(float x, float y)   {
     texCoordMultiplier -= Vector2F(x, y);
     return this;
   }
@@ -164,8 +164,8 @@ final class Terrain : Entity {
    *
   **/
   float getHeight(float worldX, float worldZ) {
-    const float terrainX = worldX - getComponent!Transform.getLocation.x;
-    const float terrainZ = worldZ - getComponent!Transform.getLocation.z;
+    const float terrainX = worldX - component!Transform.getLocation.x;
+    const float terrainZ = worldZ - component!Transform.getLocation.z;
 
     const int heightLen = vertexCount - 1;
     const float gridSqareSize = size / cast(float)heightLen;
@@ -251,7 +251,7 @@ final class Terrain : Entity {
       }
     }
 
-    setModel(new Model(ModelIO.loadRawModel(vertices, indices), materials));
+    model = new Model(ModelIO.loadRawModel(vertices, indices), materials);
   }
 
   private float getHeight(int x, int y, BMPImage image) {
@@ -281,14 +281,14 @@ final class Terrain : Entity {
   /**
    *
   **/
-  float getSize() pure nothrow const {
+  float getSize()   const {
     return size;
   }
 
   /**
    *
   **/
-  float getMaxHeight() pure nothrow const {
+  float getMaxHeight()   const {
     return maxHeight;
   }
 }

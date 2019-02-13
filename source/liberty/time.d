@@ -25,14 +25,14 @@ final abstract class Time {
   /**
    * Returns current time ticks in milliseconds.
   **/
-  static float getTime() nothrow {
+  static float getTime()  {
     return glfwGetTime();
   }
 
   /**
    * Returns delta time.
   **/
-  static float getDelta() nothrow {
+  static float getDelta()  {
     return delta;
   }
 
@@ -46,7 +46,7 @@ final abstract class Time {
   /**
    * Returns last frame time.
   **/
-  static float getLastFrame() nothrow {
+  static float getLastFrame()  {
     return lastFrame;
   }
 
@@ -60,7 +60,7 @@ final abstract class Time {
   /**
    * Returns elapsed time.
   **/
-  static float getElapsed() nothrow {
+  static float getElapsed()  {
     return elapsed;
   }
 
@@ -71,7 +71,7 @@ final abstract class Time {
     return elapsed.to!string;
   }
 
-  package static void processTime() nothrow {
+  package static void processTime()  {
     // Time should be porcessed every single frame
     elapsed = getTime();
     delta = elapsed - lastFrame;

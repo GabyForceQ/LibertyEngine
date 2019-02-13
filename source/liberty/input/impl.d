@@ -44,28 +44,28 @@ final abstract class Input {
   /**
    * Returns reference to keyboard.
   **/
-  static Keyboard getKeyboard() nothrow {
+  static Keyboard getKeyboard()  {
     return keyboard;
   }
 
   /**
    * Returns reference to mouse.
   **/
-  static Mouse getMouse() nothrow {
+  static Mouse getMouse()  {
     return mouse;
   }
 
   /**
    * Returns reference to joystick.
   **/
-  static Joystick getJoystick() nothrow {
+  static Joystick getJoystick()  {
     return joystick;
   }
 
   /**
    * Returns reference to mouse picker.
   **/
-  static MousePicker getMousePicker() nothrow {
+  static MousePicker getMousePicker()  {
     return mousePicker;
   }
 
@@ -84,7 +84,7 @@ final abstract class Input {
   /**
    *
   **/
-  static InputProfiler createProfile(string id) nothrow {
+  static InputProfiler createProfile(string id)  {
     profilerMap[id] = new InputProfiler(id);
     return profilerMap[id];
   }
@@ -101,7 +101,7 @@ final abstract class Input {
   /**
    *
   **/
-  static InputProfiler getProfile(string id) nothrow {
+  static InputProfiler getProfile(string id)  {
     return profilerMap[id];
   }
 

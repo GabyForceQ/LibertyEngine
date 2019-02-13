@@ -22,7 +22,7 @@ enum isVector(T) = is(T : Vector!U, U...);
 /**
  *
 **/
-pure nothrow unittest {
+  unittest {
   static assert(isVector!Vector2F);
   static assert(isVector!Vector3I);
   static assert(isVector!(Vector4!uint));
@@ -37,7 +37,7 @@ alias DimensionType(T : Vector!U, U...) = U[0];
 /**
  *
 **/
-pure nothrow unittest {
+  unittest {
   static assert(is(DimensionType!Vector2F == float));
   static assert(is(DimensionType!Vector3D == double));
   static assert(is(DimensionType!Vector4U == uint));
@@ -67,7 +67,7 @@ alias DimensionType(T : Box!U, U...) = U[0];
 /**
  *
 **/
-pure nothrow unittest {
+  unittest {
 	static assert(is(DimensionType!Box2F == float));
 	static assert(is(DimensionType!Box3D == double));
 }
@@ -80,7 +80,7 @@ enum isBox(T) = is(T : Box!U, U...);
 /**
  *
 **/
-pure nothrow unittest {
+  unittest {
 	static assert(isBox!Box2F);
 	static assert(isBox!Box3I);
 	static assert(isBox!(Box!(double, 2)));
@@ -190,7 +190,7 @@ alias DimensionType(T : Frustum!U, U) = U;
 /**
  *
 **/
-pure nothrow unittest {
+  unittest {
 	static assert(is(DimensionType!Segment2I == int));
 	static assert(is(DimensionType!Triangle3F == float));
 	static assert(is(DimensionType!Sphere2D == double));

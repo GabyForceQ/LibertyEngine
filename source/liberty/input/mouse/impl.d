@@ -30,14 +30,14 @@ final class Mouse {
   /**
    * Returns true if mouse button was just pressed in an event loop.
   **/
-  bool isButtonDown(MouseButton button) nothrow {
+  bool isButtonDown(MouseButton button)  {
     return isButtonHold(button) && !buttonsState[button];
   }
 
   /**
    * Returns true if mouse button was just released in an event loop.
   **/
-  bool isButtonUp(MouseButton button) nothrow {
+  bool isButtonUp(MouseButton button)  {
     return !isButtonHold(button) && buttonsState[button];
   }
 
@@ -45,21 +45,21 @@ final class Mouse {
    * Returns true if mouse button is still pressed in an event loop.
    * Use case: shooting something.
   **/
-  bool isButtonHold(MouseButton button) nothrow {
+  bool isButtonHold(MouseButton button)  {
     return glfwGetMouseButton(Platform.getWindow().getHandle(), button) == GLFW_PRESS;
   }
 
   /**
    * Returns true if mouse button has no input action in an event loop.
   **/
-  bool isButtonNone(MouseButton button) nothrow {
+  bool isButtonNone(MouseButton button)  {
     return glfwGetMouseButton(Platform.getWindow().getHandle(), button) == GLFW_RELEASE;
   }
 
   /**
    *
   **/
-  bool isUnfolding(MouseButton button, MouseAction action) nothrow {
+  bool isUnfolding(MouseButton button, MouseAction action)  {
     final switch (action) with (MouseAction) {
       case NONE:
         return isButtonNone(button);
@@ -76,7 +76,7 @@ final class Mouse {
    * Returns a 2d vector containing mouse position in the current window.
    * You can choose what window to test with the given argument.
   **/
-  Vector2F getPostion(Window window = Platform.getWindow()) nothrow {
+  Vector2F getPostion(Window window = Platform.getWindow())  {
     double x, y;
     glfwGetCursorPos(window.getHandle(), &x, &y);
     return Vector2F(cast(float)x, cast(float)y);
@@ -85,84 +85,84 @@ final class Mouse {
   /**
    * Returns a 2d vector containing previous mouse position.
   **/
-  Vector2F getPreviousPostion() pure nothrow {
+  Vector2F getPreviousPostion()   {
     return previousPosition;
   }
 
   /**
    * Returns a 2d vector containing last mouse position.
   **/
-  Vector2F getLastPostion() pure nothrow {
+  Vector2F getLastPostion()   {
     return lastPosition;
   }
 
   /**
    * Returns true if mouse cursor is moving left.
   **/
-  bool isMovingLeft() pure nothrow const {
+  bool isMovingLeft()   const {
     return lastPosition.x > position.x;
   }
 
   /**
    * Returns true if mouse cursor is moving right.
   **/
-  bool isMovingRight() pure nothrow const {
+  bool isMovingRight()   const {
     return lastPosition.x < position.x;
   }
 
   /**
    * Returns true if mouse cursor is moving up.
   **/
-  bool isMovingUp() pure nothrow const {
+  bool isMovingUp()   const {
     return lastPosition.y > position.y;
   }
 
   /**
    * Returns true if mouse cursor is moving down.
   **/
-  bool isMovingDown() pure nothrow const {
+  bool isMovingDown()   const {
     return lastPosition.y < position.y;
   }
 
   /**
    * Returns true if mouse cursor is moving.
   **/
-  bool isMoving() pure nothrow const {
+  bool isMoving()   const {
     return lastPosition != position;
   }
 
   /**
    * Returns true if mouse cursor is staying.
   **/
-  bool isStaying() pure nothrow const {
+  bool isStaying()   const {
     return lastPosition == position;
   }
 
   /**
    * Returns true if mouse cursor was moving left.
   **/
-  bool wasMovingLeft() pure nothrow const {
+  bool wasMovingLeft()   const {
     return previousPosition.x > position.x;
   }
 
   /**
    * Returns true if mouse cursor was moving right.
   **/
-  bool wasMovingRight() pure nothrow const {
+  bool wasMovingRight()   const {
     return previousPosition.x < position.x;
   }
 
   /**
    * Returns true if mouse cursor was moving up.
   **/
-  bool wasMovingUp() pure nothrow const {
+  bool wasMovingUp()   const {
     return previousPosition.y > position.y;
   }
 
   /**
    * Returns true if mouse cursor was moving down.
   **/
-  bool wasMovingDown() pure nothrow const {
+  bool wasMovingDown()   const {
     return previousPosition.y < position.y;
   }
 
@@ -170,7 +170,7 @@ final class Mouse {
    * Set current cursor type.
    * For available options see $(D CursorType).
   **/
-  void setCursorType(CursorType cursorType, Window window = Platform.getWindow()) nothrow {
+  void setCursorType(CursorType cursorType, Window window = Platform.getWindow())  {
     glfwSetInputMode(window.getHandle(), GLFW_CURSOR, cursorType);
     this.cursorType = cursorType;
   }
@@ -179,26 +179,26 @@ final class Mouse {
    * Returns the type of the cursor.
    * For available returned values see $(D CursorType).
   **/
-  CursorType getCursorType() pure nothrow {
+  CursorType getCursorType()   {
     return cursorType;
   }
 
-  package(liberty.input) void update() nothrow {
+  package(liberty.input) void update()  {
     static foreach (i; 0..MOUSE_BUTTONS)
       buttonsState[i] = isButtonHold(cast(MouseButton)i);
   }
 
-  package(liberty.input) Mouse setPosition(Vector2F position) pure nothrow {
+  package(liberty.input) Mouse setPosition(Vector2F position)   {
     this.position = position;
     return this;
   }
 
-  package(liberty.input) Mouse setPreviousPostion(Vector2F position) pure nothrow {
+  package(liberty.input) Mouse setPreviousPostion(Vector2F position)   {
     previousPosition = position;
     return this;
   }
 
-  package(liberty.input) Mouse setLastPosition(Vector2F position) pure nothrow {
+  package(liberty.input) Mouse setLastPosition(Vector2F position)   {
     lastPosition = position;
     return this;
   }

@@ -8,9 +8,7 @@
 **/
 module liberty.graphics.texture.io;
 
-version (__OPENGL__)
-  import bindbc.opengl;
-
+import bindbc.opengl;
 import liberty.graphics.engine;
 import liberty.graphics.texture.cache;
 import liberty.graphics.texture.constants;
@@ -58,30 +56,27 @@ final abstract class TextureIO {
     texture.generateTextures();
     texture.bind(TextureType.TEX_2D);
 
-    version (__OPENGL__) {
-      glTexImage2D(
-        GL_TEXTURE_2D, 
-        0, 
-        GL_RGBA,
-        image.getWidth(),
-        image.getHeight(),
-        0,
-        GL_BGRA,
-        GL_UNSIGNED_BYTE,
-        cast(ubyte*)image.getPixelData()
-      );
+    glTexImage2D(
+      GL_TEXTURE_2D, 
+      0, 
+      GL_RGBA,
+      image.getWidth(),
+      image.getHeight(),
+      0,
+      GL_BGRA,
+      GL_UNSIGNED_BYTE,
+      cast(ubyte*)image.getPixelData()
+    );
 
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
-      // Set anisotropic filtering
-      const anisotropicAmount = GfxEngine.getBackend.getOptions.anisotropicFiltering;
-      if (anisotropicAmount)
-        glTexParameterf(GL_TEXTURE_2D, 0x84FE, anisotropicAmount);
-
-    }
+    // Set anisotropic filtering
+    const anisotropicAmount = GfxEngine.backend.getOptions.anisotropicFiltering;
+    if (anisotropicAmount)
+      glTexParameterf(GL_TEXTURE_2D, 0x84FE, anisotropicAmount);
 
     texture
       .setLODBias(0.2f)
@@ -101,31 +96,29 @@ final abstract class TextureIO {
     // Generate OpenGL texture
     texture.generateTextures();
 
-    version (__OPENGL__) {
-      texture.bind(TextureType.TEX_2D);
+    texture.bind(TextureType.TEX_2D);
 
-      glTexImage2D(
-        GL_TEXTURE_2D, 
-        0, 
-        GL_RGBA,
-        image.getWidth(),
-        image.getHeight(),
-        0,
-        GL_BGRA,
-        GL_UNSIGNED_BYTE,
-        cast(ubyte*)image.getPixelData()
-      );
+    glTexImage2D(
+      GL_TEXTURE_2D, 
+      0, 
+      GL_RGBA,
+      image.getWidth(),
+      image.getHeight(),
+      0,
+      GL_BGRA,
+      GL_UNSIGNED_BYTE,
+      cast(ubyte*)image.getPixelData()
+    );
 
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-      
-      texture
-        .setLODBias(-0.4f)
-        .generateMipmap()
-        .unbind();
-    }
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    
+    texture
+      .setLODBias(-0.4f)
+      .generateMipmap()
+      .unbind();
 
     // Set Texture width and height
     texture.setExtent(image.getWidth(), image.getHeight());
@@ -148,27 +141,24 @@ final abstract class TextureIO {
       // Load texture form file
       images[i] = cast(BMPImage)ImageIO.loadImage(resourcesPath[i]);
 
-      version (__OPENGL__)
-        glTexImage2D(
-          GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
-          0, 
-          GL_RGBA,
-          images[i].getWidth(),
-          images[i].getHeight(),
-          0,
-          GL_BGRA,
-          GL_UNSIGNED_BYTE,
-          cast(ubyte*)images[i].getPixelData()
-        );
+      glTexImage2D(
+        GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
+        0, 
+        GL_RGBA,
+        images[i].getWidth(),
+        images[i].getHeight(),
+        0,
+        GL_BGRA,
+        GL_UNSIGNED_BYTE,
+        cast(ubyte*)images[i].getPixelData()
+      );
     }
 
-    version (__OPENGL__) {
-      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-      glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-    }
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
     texture
       .setLODBias(-0.4f)

@@ -25,7 +25,7 @@ final class Word {
    * $(D_PARAM fontSize):
    *    - the font size of the text which this word is in.
   **/
-  this(float fontSize) pure nothrow {
+  this(float fontSize)   {
     this.fontSize = fontSize;
   }
 
@@ -36,7 +36,7 @@ final class Word {
    *    - the character to be added.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) addCharacter(Character character) pure nothrow {
+  typeof(this) addCharacter(Character character)   {
     characters ~= character;
     width += character.getAdvance().x * fontSize;
     return this;
@@ -45,14 +45,14 @@ final class Word {
   /**
    * Returns the list of characters in the word.
   **/
-  Character[] getCharacters() pure nothrow {
+  Character[] getCharacters()   {
     return characters;
   }
 
   /**
    * Returns the width of the word relative to screen size.
   **/
-  float getWidth() pure nothrow const {
+  float getWidth()   const {
     return width;
   }
 }

@@ -33,7 +33,7 @@ class RigidBody {
   /**
    *
   **/
-  this(Entity entity, Terrain terrain) pure nothrow {
+  this(Entity entity, Terrain terrain)   {
     this.entity = entity;
     this.terrain = terrain;
   }
@@ -45,8 +45,8 @@ class RigidBody {
     const float deltaTime = Time.getDelta;
     upSpeed += gravity * deltaTime;
 
-    entity.getComponent!Transform.setLocationY!"+="(upSpeed * deltaTime);
-    const Vector3F worldPos = entity.getComponent!Transform.getLocation;
+    entity.component!Transform.setLocationY!"+="(upSpeed * deltaTime);
+    const Vector3F worldPos = entity.component!Transform.getLocation;
 
     const float terrainHeight = terrain.getHeight(worldPos.x, worldPos.z);
 
@@ -55,7 +55,7 @@ class RigidBody {
     if (worldPos.y < terrainHeight) {
       onGround = true;
       upSpeed = 0;
-      entity.getComponent!Transform.setLocationY(terrainHeight);
+      entity.component!Transform.setLocationY(terrainHeight);
     }
 
     return this;

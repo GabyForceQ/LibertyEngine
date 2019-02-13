@@ -8,9 +8,7 @@
 **/
 module liberty.graphics.texture.impl;
 
-version (__OPENGL__)
-  import bindbc.opengl;
-
+import bindbc.opengl;
 import liberty.logger.impl;
 import liberty.graphics.texture.constants;
 
@@ -45,9 +43,7 @@ final class Texture {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) generateTextures() {
-    version (__OPENGL__)
-      glGenTextures(1, &id);
-
+    glGenTextures(1, &id);
     return this;
   }
 
@@ -56,9 +52,7 @@ final class Texture {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) deleteTextures() {
-    version (__OPENGL__)
-      glDeleteTextures(1, &id);
-
+    glDeleteTextures(1, &id);
     return this;
   }
 
@@ -67,18 +61,17 @@ final class Texture {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) bind(TextureType type) {
-    version (__OPENGL__)
-      final switch (type) with (TextureType) {
-        case NONE:
-          Logger.error("Cannot bind NONE to texture.", typeof(this).stringof);
-          break;
-        case TEX_2D:
-          glBindTexture(GL_TEXTURE_2D, id);
-          break;
-        case CUBE_MAP:
-          glBindTexture(GL_TEXTURE_CUBE_MAP, id);
-          break;
-      }
+    final switch (type) with (TextureType) {
+      case NONE:
+        Logger.error("Cannot bind NONE to texture.", typeof(this).stringof);
+        break;
+      case TEX_2D:
+        glBindTexture(GL_TEXTURE_2D, id);
+        break;
+      case CUBE_MAP:
+        glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+        break;
+    }
 
     this.type = type;
     isBind = true;
@@ -110,14 +103,14 @@ final class Texture {
   /**
    * Returns texture unique id.
   **/
-  uint getId() pure nothrow const {
+  uint getId()   const {
     return id;
   }
 
   /**
    * Returns the relative texure path.
   **/
-  string getRelativePath() pure nothrow const {
+  string getRelativePath()   const {
     return path;
   }
 
@@ -125,7 +118,7 @@ final class Texture {
    * Set both width and height of texture.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setExtent(uint width, uint height) pure nothrow {
+  typeof(this) setExtent(uint width, uint height)   {
     this.width = width;
     this.height = height;
     return this;
@@ -135,7 +128,7 @@ final class Texture {
    * Set the texture width.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setWidth(uint width) pure nothrow {
+  typeof(this) setWidth(uint width)   {
     this.width = width;
     return this;
   }
@@ -143,7 +136,7 @@ final class Texture {
   /**
    * Returns texture width.
   **/
-  uint getWidth() pure nothrow const {
+  uint getWidth()   const {
     return width;
   }
 
@@ -151,7 +144,7 @@ final class Texture {
    * Set the texture height.
    * Returns reference to this so it can be used in a stream.
   **/
-  typeof(this) setHeight(uint height) pure nothrow {
+  typeof(this) setHeight(uint height)   {
     this.height = height;
     return this;
   }
@@ -159,7 +152,7 @@ final class Texture {
   /**
    * Returns texture height.
   **/
-  uint getHeight() pure nothrow const {
+  uint getHeight()   const {
     return height;
   }
 
@@ -168,9 +161,7 @@ final class Texture {
    * Returns reference to this so it can be used in a stream.
   **/
   typeof(this) generateMipmap() {
-    version (__OPENGL__)
-      glGenerateMipmap(GL_TEXTURE_2D);
-      
+    glGenerateMipmap(GL_TEXTURE_2D);      
     return this;
   }
 
@@ -182,23 +173,18 @@ final class Texture {
   if (op == "=" || op == "+=" || op == "-=" || op == "*=" || op == "/=" || op == "%=") {
     mixin("lodBias " ~ op ~ " value;");
     const bindUnbind = !isBind; 
-
     if (bindUnbind)
       bind(type);
-
-    version (__OPENGL__)
-      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, lodBias);
-
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, lodBias);
     if (bindUnbind)
-      unbind();
-
+      unbind;
     return this;
   }
 
   /**
    * Returns the texture level of detail bias.
   **/
-  float getLODBias() pure nothrow const {
+  float getLODBias()   const {
     return lodBias;
   }
 
@@ -206,11 +192,11 @@ final class Texture {
    * Returns the type of the texture.
    * For available options see $(D TextureType).
   **/
-  TextureType getType() pure nothrow const {
+  TextureType getType()   const {
     return type;
   }
 
-  package void setRealtivePath(string path) pure nothrow {
+  package void setRealtivePath(string path)   {
     this.path = path;
   }
 }

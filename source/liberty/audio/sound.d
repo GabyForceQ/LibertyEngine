@@ -24,7 +24,7 @@ final class SoundTrack {
   /**
    *
   **/
-  this(int size = 1) nothrow {
+  this(int size = 1)  {
     alGenSources(size, &sourceId);
     this.size = size;
 
@@ -44,7 +44,7 @@ final class SoundTrack {
   /**
    *
   **/
-  void release() nothrow {
+  void release()  {
     alDeleteSources(size, &sourceId);
   }
 }

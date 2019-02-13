@@ -84,7 +84,7 @@ final abstract class Platform {
   /**
    * Get current platform window.
   **/
-  static Window getWindow() nothrow {
+  static Window getWindow()  {
     return window;
   }
 }

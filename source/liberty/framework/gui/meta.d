@@ -14,7 +14,7 @@ import liberty.framework.gui.widget;
  *
 **/
 mixin template WidgetEventProps(alias event, string options = "default") {
-  static string[] getEventArrayString() pure nothrow {
+  static string[] getEventArrayString()   {
     return event;
   }
 
@@ -35,7 +35,7 @@ mixin template WidgetEventProps(alias event, string options = "default") {
       static if (_CheckUncheck) {
         bool checked;
         
-        public bool isChecked() pure nothrow const {
+        public bool isChecked()   const {
           return checked;
         }
       }
@@ -63,14 +63,14 @@ mixin template WidgetEventProps(alias event, string options = "default") {
       /**
       *
       **/
-      mixin("typeof(this) setOn" ~ member ~ "(void delegate(Widget, Event) on" ~ member ~ ") pure nothrow {" ~
+      mixin("typeof(this) setOn" ~ member ~ "(void delegate(Widget, Event) on" ~ member ~ ")   {" ~
         "this.on" ~ member ~ " = on" ~ member ~ "; return this; }");
 
       static if (member != "Update")
         /**
         *
         **/
-        mixin("bool hasOn" ~ member ~ "() pure nothrow const {" ~
+        mixin("bool hasOn" ~ member ~ "()   const {" ~
           "return on" ~ member ~ " !is null; }");
     }
     

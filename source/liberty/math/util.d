@@ -12,7 +12,7 @@ final abstract class MathUtils {
    * Returns orthographic projection.
   **/
   static Matrix4!T getOrthographicMatrixFrom(T)
-  (T left, T right, T bottom, T top, T near, T far) pure nothrow
+  (T left, T right, T bottom, T top, T near, T far)  
   if (isFloatingPoint!T) 
   do {
     T dx = right - left;
